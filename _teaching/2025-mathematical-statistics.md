@@ -31,12 +31,13 @@ Rigorous mathematical treatment of statistical theory covering probability found
 
 ---
 
-### Topic 2: Probability Theory *(Coming Soon)*
+### Topic 2: Probability Theory
 **Content**: Probability axioms, sample spaces, conditional probability, independence, Bayes' theorem
 
 **[🚀 Axioms of Probability](/lectures/math-stat-1/02-axioms_of_probability/index.html)**
+{: .btn .btn--primary}
 
-*Interactive lecture in development*
+*Interactive presentation with probability theory fundamentals*
 
 ---
 
