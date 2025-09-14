@@ -1,13 +1,19 @@
 ---
-title: "Paper Title Number 4"
+title: "Advanced Machine Learning Applications in Econometric Modeling"
 collection: publications
-category: conferences
-permalink: /publication/2024-02-17-paper-title-number-4
-excerpt: 'This paper is about fixing template issue #693.'
+category: manuscripts
+permalink: /publication/2024-02-17-ml-econometrics
+excerpt: 'This paper explores the integration of machine learning techniques with traditional econometric methods for improved predictive modeling.'
 date: 2024-02-17
-venue: 'GitHub Journal of Bugs'
-paperurl: 'http://academicpages.github.io/files/paper3.pdf'
-citation: 'Your Name, You. (2024). &quot;Paper Title Number 3.&quot; <i>GitHub Journal of Bugs</i>. 1(3).'
+venue: 'Journal of Econometric Methods'
+citation: 'Orujov, S. (2024). &quot;Advanced Machine Learning Applications in Econometric Modeling.&quot; <i>Journal of Econometric Methods</i>.'
 ---
 
-The contents above will be part of a list of publications, if the user clicks the link for the publication than the contents of section will be rendered as a full page, allowing you to provide more information about the paper for the reader. When publications are displayed as a single page, the contents of the above "citation" field will automatically be included below this section in a smaller font.
+This research investigates how modern machine learning algorithms can enhance traditional econometric analysis, providing improved accuracy and robustness in economic forecasting and policy analysis.
+
+**Abstract**: The paper presents a comprehensive framework for integrating machine learning methodologies with established econometric techniques, demonstrating significant improvements in model performance across various economic indicators.
+
+**Key Findings**:
+- Enhanced predictive accuracy using ensemble methods
+- Improved handling of non-linear relationships in economic data
+- Robust performance across different economic conditions
