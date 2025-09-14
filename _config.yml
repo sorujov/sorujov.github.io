@@ -121,12 +121,12 @@ facebook:
   username               :
   app_id                 :
   publisher              :
-og_image                 :
+og_image                 : "/images/profile.jpg"  # Added this to ensure open graph shows your image
 og_description           :
 social:
   type                   : Person
   name                   : "Samir Orujov"
-  links:                 # Add your public social/profile links as an array if you want (e.g., ["https://linkedin.com/in/yourname", ...])
+  links                  : # Add your public social/profile links as an array if you want (e.g., ["https://linkedin.com/in/yourname", ...])
 
 analytics:
   provider               : "false"
@@ -201,6 +201,13 @@ collections:
     permalink: /:collection/:path/
 
 defaults:
+  # Added this to ensure the homepage shows author profile
+  - scope:
+      path: ""
+      type: home
+    values:
+      layout: single
+      author_profile: true
   - scope:
       path: ""
       type: posts
@@ -248,6 +255,12 @@ defaults:
       layout: talk
       author_profile: true
       share: true
+  # Added this to specifically target index.html
+  - scope:
+      path: "index.html"
+    values:
+      layout: single
+      author_profile: true
 
 sass:
   sass_dir: _sass
