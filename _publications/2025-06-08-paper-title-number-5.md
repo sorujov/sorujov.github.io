@@ -1,13 +1,21 @@
 ---
-title: "Paper Title Number 5, with math $$E=mc^2$$"
+title: "Statistical Learning in High-Dimensional Time Series (Forthcoming)"
 collection: publications
-category: conferences
-permalink: /publication/2024-02-17-paper-title-number-4
-excerpt: 'This paper is about a famous math equation, $$E=mc^2$$'
-date: 2024-02-17
-venue: 'GitHub Journal of Bugs'
-paperurl: 'http://academicpages.github.io/files/paper3.pdf'
-citation: 'Your Name, You. (2024). &quot;Paper Title Number 3.&quot; <i>GitHub Journal of Bugs</i>. 1(3).'
+category: manuscripts
+permalink: /publication/2025-06-statistical-learning
+excerpt: 'This paper develops novel statistical learning methods for high-dimensional time series data with applications to financial markets.'
+date: 2025-06-08
+venue: 'Journal of Statistical Learning (Under Review)'
+citation: 'Orujov, S. (2025). &quot;Statistical Learning in High-Dimensional Time Series.&quot; <i>Journal of Statistical Learning</i>. (Under Review)'
 ---
 
-Using [MathJax](https://www.mathjax.org/) in the description is supported - $$E=mc^2$$ - however, the use must be mindful that the default delimiters are `$$...$$` and `\\[...\\]` which differs from the `$...$` that is typically expected.
+This work presents a comprehensive framework for statistical learning in high-dimensional time series environments, addressing the curse of dimensionality through innovative regularization techniques and ensemble methods.
+
+**Abstract**: The paper introduces a novel approach to handle high-dimensional time series data by combining dimensionality reduction techniques with advanced statistical learning algorithms, demonstrating superior performance in financial forecasting applications.
+
+**Key Innovations**:
+- Adaptive regularization for time-varying parameters
+- Ensemble methods for high-dimensional forecasting
+- Theoretical convergence guarantees under mild conditions
+
+*Note: This paper is currently under review.*

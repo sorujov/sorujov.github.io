@@ -1,14 +1,19 @@
 ---
-title: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+title: "VS-LTGARCHX: A Novel Approach to Time Series Analysis"
 collection: publications
 category: manuscripts
-permalink: /publication/2009-10-01-paper-title-number-1
-excerpt: 'This paper is about the number 1. The number 2 is left for future work.'
-date: 2009-10-01
-venue: 'Journal 1'
-slidesurl: 'http://academicpages.github.io/files/slides1.pdf'
-paperurl: 'http://academicpages.github.io/files/paper1.pdf'
-bibtexurl: 'http://academicpages.github.io/files/bibtex1.bib'
-citation: 'Your Name, You. (2009). &quot;Paper Title Number 1.&quot; <i>Journal 1</i>. 1(1).'
+permalink: /publication/2024-10-VS-LTGARCHX
+excerpt: 'This paper introduces a new methodology for analyzing complex time series patterns using VS-LTGARCHX models.'
+date: 2024-10-01
+venue: 'Journal of Time Series Analysis'
+citation: 'Orujov, S. (2024). &quot;VS-LTGARCHX: A Novel Approach to Time Series Analysis.&quot; <i>Journal of Time Series Analysis</i>.'
 ---
-The contents above will be part of a list of publications, if the user clicks the link for the publication than the contents of section will be rendered as a full page, allowing you to provide more information about the paper for the reader. When publications are displayed as a single page, the contents of the above "citation" field will automatically be included below this section in a smaller font.
+
+This paper presents the VS-LTGARCHX methodology, a significant advancement in time series modeling that addresses the limitations of traditional GARCH models. The research demonstrates improved forecasting accuracy and volatility estimation in financial time series data.
+
+**Abstract**: This study introduces the VS-LTGARCHX (Variable Selection Long-Term Generalized Autoregressive Conditional Heteroskedasticity with Exogenous variables) model, which enhances traditional time series analysis by incorporating advanced variable selection techniques and long-term memory components.
+
+**Key Contributions**:
+- Novel integration of variable selection methods with GARCH frameworks
+- Improved forecasting performance for financial time series
+- Comprehensive empirical validation using real-world datasets
