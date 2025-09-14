@@ -18,27 +18,26 @@ Rigorous mathematical treatment of statistical theory covering probability found
 * Hypothesis Testing Theory
 * Bayesian Statistics Introduction
 
-## Interactive Lecture Materials
+## 📚 Interactive Lecture Series
 
-### Combinatorial Analysis: The Art of Counting
-**[📊 View Interactive Lecture](/assets/teaching/mathstat1/index.html)**
+**[🎯 Access All Interactive Lectures](/teaching/math-stat-1-lectures/)**
+{: .btn .btn--primary .btn--large}
 
-This interactive presentation covers fundamental concepts in combinatorial analysis, an essential foundation for probability theory. Features include:
+This course features a comprehensive series of interactive presentations designed to enhance understanding through:
 
-- **30 Interactive Slides** with mathematical visualizations
-- **Built-in Calculators** for permutations and combinations
-- **Quiz Questions** with instant feedback  
-- **Timer and Navigation Controls** for self-paced learning
-- **Full Mathematical Notation** using MathJax
+- **Visual Learning**: Mathematical concepts illustrated with interactive elements
+- **Self-Paced Study**: Navigate through content at your own speed  
+- **Built-in Assessment**: Quizzes and exercises with immediate feedback
+- **Practical Tools**: Integrated calculators for complex computations
 
-**Topics Covered:**
-- Fundamental Principle of Counting
-- Permutations and Combinations
-- Arrangements with Repetition
-- Binomial and Multinomial Coefficients
-- Problem-Solving Strategies
+### Currently Available:
+- **Lecture 1**: Combinatorial Analysis (30 interactive slides)
 
-*Note: Best viewed in fullscreen mode for optimal mathematical display*
+### In Development:
+- Probability Theory and Axioms
+- Random Variables and Distributions
+- Sampling Theory and Central Limit Theorem
+- Estimation Theory and Hypothesis Testing
 
 ## Mathematical Prerequisites:
 Calculus III, Linear Algebra, and Real Analysis. Course emphasizes mathematical proofs and theoretical understanding of statistical concepts.
