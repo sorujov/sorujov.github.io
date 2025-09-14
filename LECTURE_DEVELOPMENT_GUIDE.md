@@ -3,14 +3,14 @@
 ## 📁 Directory Structure
 
 ```
-assets/teaching/math-stat-1/
-├── lecture-01-combinatorics/     # ✅ Completed
+lectures/math-stat-1/
+├── 01-combinatorics/             # ✅ Completed
 │   ├── index.html
 │   ├── app.js
 │   ├── style.css
 │   └── print-styles.css
-├── lecture-02-probability/       # 📝 Next to add
-├── lecture-03-random-variables/  # 📝 Future
+├── 02-probability/               # 📝 Next to add
+├── 03-random-variables/          # 📝 Future
 └── ...
 ```
 
@@ -19,12 +19,12 @@ assets/teaching/math-stat-1/
 ### Step 1: Create Directory Structure
 ```bash
 # Create new lecture directory
-mkdir "assets/teaching/math-stat-1/lecture-XX-[topic-name]/"
-cd "assets/teaching/math-stat-1/lecture-XX-[topic-name]/"
+mkdir "lectures/math-stat-1/XX-[topic-name]/"
+cd "lectures/math-stat-1/XX-[topic-name]/"
 ```
 
 ### Step 2: Copy Template Files
-Copy these files from `lecture-01-combinatorics` as templates:
+Copy these files from `01-combinatorics` as templates:
 - `index.html` - Main presentation structure
 - `app.js` - Interactive functionality  
 - `style.css` - Styling (usually consistent)
@@ -47,7 +47,7 @@ In `app.js`:
 ### Step 5: Update Master Lecture List
 Edit `_pages/math-stat-1-lectures.md`:
 1. Add new lecture entry under appropriate unit
-2. Update the launch button link
+2. Update the launch button link: `/lectures/math-stat-1/XX-[topic]/index.html`
 3. List topics covered
 4. Update "Last Updated" date
 
