@@ -9,52 +9,50 @@ redirect_from:
 
 About Me
 ======
-I am an Assistant Professor of Mathematics and Statistics at ADA University, specializing in time series analysis, econometrics, and machine learning. My research focuses on developing advanced statistical methods and their applications to real-world problems.
+I am an Assistant Professor of Mathematics and Statistics at ADA University in Baku, Azerbaijan, specializing in time series analysis, econometrics, and machine learning. My research focuses on developing advanced statistical methods and their applications to real-world problems, with particular emphasis on economic and financial data analysis.
 
 ## Research Interests
-- Time Series Analysis
-- Econometrics
-- Machine Learning
-- Statistical Modeling
-- Python and R Programming
+- **Time Series Analysis**: Developing advanced models for temporal data patterns
+- **Econometrics**: Statistical methods for economic data analysis
+- **Machine Learning**: Applying ML techniques to statistical problems
+- **Financial Statistics**: Statistical modeling for financial markets
+- **Computational Statistics**: Python and R programming for statistical analysis
 
-## Current Position
-**Assistant Professor** at ADA University, Baku, Azerbaijan
+## Current Research Focus
+My work involves bridging the gap between theoretical statistics and practical applications. I'm particularly interested in:
 
-I am passionate about bridging the gap between theoretical statistics and practical applications, particularly in economic and financial data analysis. My work involves developing innovative approaches to understanding complex temporal patterns in data.
+- **GARCH Models**: Developing extensions to volatility modeling
+- **Machine Learning in Finance**: Applying modern ML techniques to financial time series
+- **Statistical Software Development**: Creating tools for practical statistical analysis
+- **Educational Technology**: Developing interactive learning materials for statistics education
 
-## Teaching Philosophy
-I believe in making complex statistical concepts accessible and engaging for students, emphasizing both theoretical understanding and practical implementation using modern computational tools.
+## Teaching & Education
+I am passionate about making complex statistical concepts accessible and engaging for students. My teaching philosophy emphasizes both theoretical understanding and practical implementation using modern computational tools.
 
-Getting started
-======
-1. Register a GitHub account if you don't have one and confirm your e-mail (required!)
-1. Fork [this template](https://github.com/academicpages/academicpages.github.io) by clicking the "Use this template" button in the top right. 
-1. Go to the repository's settings (rightmost item in the tabs that start with "Code", should be below "Unwatch"). Rename the repository "[your GitHub username].github.io", which will also be your website's URL.
-1. Set site-wide configuration and create content & metadata (see below -- also see [this set of diffs](http://archive.is/3TPas) showing what files were changed to set up [an example site](https://getorg-testacct.github.io) for a user with the username "getorg-testacct")
-1. Upload any files (like PDFs, .zip files, etc.) to the files/ directory. They will appear at https://[your GitHub username].github.io/files/example.pdf.  
-1. Check status by going to the repository settings, in the "GitHub pages" section
+### Interactive Course Materials
+I develop interactive lecture presentations that combine mathematical theory with hands-on calculations, visualizations, and real-time examples. Currently offering:
 
-Site-wide configuration
-------
-The main configuration file for the site is in the base directory in [_config.yml](https://github.com/academicpages/academicpages.github.io/blob/master/_config.yml), which defines the content in the sidebars and other site-wide features. You will need to replace the default variables with ones about yourself and your site's github repository. The configuration file for the top menu is in [_data/navigation.yml](https://github.com/academicpages/academicpages.github.io/blob/master/_data/navigation.yml). For example, if you don't have a portfolio or blog posts, you can remove those items from that navigation.yml file to remove them from the header. 
+- **Mathematical Statistics**: Interactive lectures covering probability foundations, distributions, and inference
+- **Applied Econometrics**: Practical approaches to economic data analysis
+- **Time Series Analysis**: From basic concepts to advanced modeling techniques
 
-Create content & metadata
-------
-For site content, there is one Markdown file for each type of content, which are stored in directories like _publications, _talks, _posts, _teaching, or _pages. For example, each talk is a Markdown file in the [_talks directory](https://github.com/academicpages/academicpages.github.io/tree/master/_talks). At the top of each Markdown file is structured data in YAML about the talk, which the theme will parse to do lots of cool stuff. The same structured data about a talk is used to generate the list of talks on the [Talks page](https://academicpages.github.io/talks), each [individual page](https://academicpages.github.io/talks/2012-03-01-talk-1) for specific talks, the talks section for the [CV page](https://academicpages.github.io/cv), and the [map of places you've given a talk](https://academicpages.github.io/talkmap.html) (if you run this [python file](https://github.com/academicpages/academicpages.github.io/blob/master/talkmap.py) or [Jupyter notebook](https://github.com/academicpages/academicpages.github.io/blob/master/talkmap.ipynb), which creates the HTML for the map based on the contents of the _talks directory).
+## Academic Background
+- **Current Position**: Assistant Professor, ADA University (2022-present)
+- **Specialization**: Mathematics and Statistics with focus on time series and econometrics
+- **Location**: Baku, Azerbaijan
 
-**Markdown generator**
+## Technical Expertise
+- **Programming Languages**: Python, R, MATLAB
+- **Statistical Software**: Stata, EViews, SPSS
+- **Web Technologies**: HTML/CSS/JavaScript for educational content
+- **Tools**: Git, LaTeX, Jupyter Notebooks
 
-The repository includes [a set of Jupyter notebooks](https://github.com/academicpages/academicpages.github.io/tree/master/markdown_generator
-) that converts a CSV containing structured data about talks or presentations into individual Markdown files that will be properly formatted for the Academic Pages template. The sample CSVs in that directory are the ones I used to create my own personal website at stuartgeiger.com. My usual workflow is that I keep a spreadsheet of my publications and talks, then run the code in these notebooks to generate the Markdown files, then commit and push them to the GitHub repository.
+## Contact Information
+- **Email**: [sorujov@ada.edu.az](mailto:sorujov@ada.edu.az)
+- **Institution**: ADA University, School of Business
+- **GitHub**: [sorujov](https://github.com/sorujov)
+- **Website**: [https://sorujov.github.io](https://sorujov.github.io)
 
-How to edit your site's GitHub repository
-------
-Many people use a git client to create files on their local computer and then push them to GitHub's servers. If you are not familiar with git, you can directly edit these configuration and Markdown files directly in the github.com interface. Navigate to a file (like [this one](https://github.com/academicpages/academicpages.github.io/blob/master/_talks/2012-03-01-talk-1.md) and click the pencil icon in the top right of the content preview (to the right of the "Raw | Blame | History" buttons). You can delete a file by clicking the trashcan icon to the right of the pencil icon. You can also create new files or upload files by navigating to a directory and clicking the "Create new file" or "Upload files" buttons. 
+---
 
-Example: editing a Markdown file for a talk
-![Editing a Markdown file for a talk](/images/editing-talk.png)
-
-For more info
-------
-More info about configuring Academic Pages can be found in [the guide](https://academicpages.github.io/markdown/), the [growing wiki](https://github.com/academicpages/academicpages.github.io/wiki), and you can always [ask a question on GitHub](https://github.com/academicpages/academicpages.github.io/discussions). The [guides for the Minimal Mistakes theme](https://mmistakes.github.io/minimal-mistakes/docs/configuration/) (which this theme was forked from) might also be helpful.
+*This portfolio showcases my research, teaching materials, and contributions to the field of statistics and econometrics. Feel free to explore my interactive lectures, publications, and ongoing projects.*
