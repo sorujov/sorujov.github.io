@@ -1,62 +1,57 @@
-# Mathematical Statistics Interactive Lectures - Development Guide
+# How to Add New Interactive Lectures
 
-## 📁 Directory Structure
+## Quick Start Guide
 
+### Directory Structure
 ```
 lectures/math-stat-1/
-├── 01-combinatorics/             # ✅ Completed
-│   ├── index.html
-│   ├── app.js
-│   ├── style.css
-│   └── print-styles.css
-├── 02-probability/               # 📝 Next to add
-├── 03-random-variables/          # 📝 Future
-└── ...
+├── 01-combinatorics/     ✅ Complete
+├── 02-[your-topic]/      📝 Next lecture
+├── 03-[your-topic]/      📝 Future
+└── _template/            � Copy this for new lectures
 ```
 
-## 🛠️ How to Add a New Interactive Lecture
+### Adding a New Lecture (3 Steps)
 
-### Step 1: Create Directory Structure
+#### Step 1: Copy Template
 ```bash
-# Create new lecture directory
-mkdir "lectures/math-stat-1/XX-[topic-name]/"
-cd "lectures/math-stat-1/XX-[topic-name]/"
+# Copy the template directory
+cp -r "lectures/math-stat-1/_template" "lectures/math-stat-1/02-probability"
 ```
 
-### Step 2: Copy Template Files
-Copy these files from `01-combinatorics` as templates:
-- `index.html` - Main presentation structure
-- `app.js` - Interactive functionality  
-- `style.css` - Styling (usually consistent)
-- `print-styles.css` - Print formatting
+#### Step 2: Edit Content
+Edit these files in your new directory:
+- **`index.html`** - Replace slide content with your material
+- **`app.js`** - Update quiz answers and slide count
+- Keep `style.css` and `print-styles.css` unchanged
 
-### Step 3: Update HTML Content
-In `index.html`:
-1. Update `<title>` tag
-2. Update presenter information
-3. Replace slide content (keep the slide structure)
-4. Update slide counter total: `<span id="totalSlides">XX</span>`
+#### Step 3: Update Master Page
+In `_pages/math-stat-1-lectures.md`, add:
+```markdown
+### Lecture 2: Your Topic Name
+**[🚀 Launch Interactive Lecture](/lectures/math-stat-1/02-your-topic/index.html)**
+{: .btn .btn--primary .btn--large}
+```
 
-### Step 4: Update JavaScript
-In `app.js`:
-1. Update class name and constructor
-2. Update `totalSlides` count
-3. Modify quiz answers if applicable
-4. Update any topic-specific interactive elements
-
-### Step 5: Update Master Lecture List
-Edit `_pages/math-stat-1-lectures.md`:
-1. Add new lecture entry under appropriate unit
-2. Update the launch button link: `/lectures/math-stat-1/XX-[topic]/index.html`
-3. List topics covered
-4. Update "Last Updated" date
-
-### Step 6: Test and Deploy
+#### Step 4: Deploy
 ```bash
 git add -A
-git commit -m "Add Lecture XX: [Topic Name] to Mathematical Statistics"
+git commit -m "Add Lecture 2: Your Topic"
 git push origin master
 ```
+
+## Template Files
+- `index.html` - Main presentation structure  
+- `app.js` - Interactive functionality
+- `style.css` - Consistent styling
+- `print-styles.css` - Print formatting
+
+## Key URLs
+- Course page: `/teaching/2022-mathematical-statistics`
+- Lecture hub: `/teaching/math-stat-1-lectures/`
+- Individual lecture: `/lectures/math-stat-1/XX-topic/index.html`
+
+That's it! The system is designed to be simple and systematic.
 
 ## 📋 Lecture Template Checklist
 

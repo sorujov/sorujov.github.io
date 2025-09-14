@@ -9,115 +9,62 @@ author_profile: true
 
 # Mathematical Statistics I - Interactive Lecture Series
 
-A comprehensive series of interactive presentations covering fundamental concepts in mathematical statistics, designed for undergraduate students at ADA University.
-
----
-
-## 📚 Course Overview
-
-**Course**: Mathematical Statistics (MATH 315)  
+**Course**: MATH 315 - Mathematical Statistics  
 **Instructor**: Dr. Samir Orujov  
 **Department**: Mathematics and Statistics, ADA University  
-**Level**: Undergraduate  
 
 ---
 
-## 🎯 Interactive Lectures
+## Available Lectures
 
-### Unit 1: Probability Foundations
-
-#### Lecture 1: Combinatorial Analysis
+### Lecture 1: Combinatorial Analysis
 **[🚀 Launch Interactive Lecture](/lectures/math-stat-1/01-combinatorics/index.html)**
-{: .btn .btn--primary}
+{: .btn .btn--primary .btn--large}
 
-**Topics Covered:**
-- Fundamental Counting Principle
-- Permutations and Arrangements
-- Combinations and Selection
-- Arrangements with Repetition
-- Binomial and Multinomial Coefficients
-
-**Interactive Features:** 30 slides, built-in calculators, quizzes, mathematical visualizations
+**Topics:** Counting principles, permutations, combinations, arrangements with repetition  
+**Features:** 30 interactive slides, built-in calculators, quizzes, mathematical visualizations  
+**Duration:** Self-paced (approximately 45-60 minutes)
 
 ---
 
-### Unit 2: Probability Theory *(Coming Soon)*
+## Adding New Lectures
 
-#### Lecture 2: Probability Axioms and Properties
-*Interactive lecture in development*
+To add a new lecture, follow this simple process:
 
-**Planned Topics:**
-- Probability Space and Sample Space
-- Axioms of Probability
-- Conditional Probability
-- Independence
+### 1. Create Lecture Directory
+```bash
+# Copy the template
+cp -r "lectures/math-stat-1/_template" "lectures/math-stat-1/02-your-topic"
+```
 
----
+### 2. Edit Content
+- Update `index.html` with your slides
+- Modify `app.js` for interactive elements
+- Keep `style.css` and `print-styles.css` as-is
 
-#### Lecture 3: Random Variables
-*Interactive lecture in development*
+### 3. Add to This Page
+Add a new lecture entry above with the format:
+```markdown
+### Lecture X: Your Topic
+**[🚀 Launch Interactive Lecture](/lectures/math-stat-1/0X-your-topic/index.html)**
+{: .btn .btn--primary .btn--large}
+```
 
-**Planned Topics:**
-- Discrete and Continuous Random Variables
-- Probability Mass and Density Functions
-- Cumulative Distribution Functions
-- Expectation and Variance
-
----
-
-### Unit 3: Distributions *(Coming Soon)*
-
-#### Lecture 4: Common Discrete Distributions
-*Interactive lecture in development*
-
-#### Lecture 5: Common Continuous Distributions
-*Interactive lecture in development*
+### 4. Deploy
+```bash
+git add -A
+git commit -m "Add Lecture X: Your Topic"
+git push origin master
+```
 
 ---
 
-### Unit 4: Sampling and Estimation *(Coming Soon)*
-
-#### Lecture 6: Sampling Distributions
-*Interactive lecture in development*
-
-#### Lecture 7: Central Limit Theorem
-*Interactive lecture in development*
-
-#### Lecture 8: Point Estimation
-*Interactive lecture in development*
-
-#### Lecture 9: Interval Estimation
-*Interactive lecture in development*
+## Technical Notes
+- **Fullscreen**: Press F11 for optimal viewing
+- **Navigation**: Arrow keys or buttons
+- **Requirements**: Modern browser with JavaScript enabled
+- **Printing**: All lectures include print-friendly styles
 
 ---
 
-### Unit 5: Hypothesis Testing *(Coming Soon)*
-
-#### Lecture 10: Fundamentals of Hypothesis Testing
-*Interactive lecture in development*
-
----
-
-## 📋 How to Use These Lectures
-
-1. **Fullscreen Mode**: Press F11 for optimal viewing experience
-2. **Navigation**: Use arrow keys or navigation buttons
-3. **Interactive Elements**: Engage with calculators and quizzes
-4. **Self-Paced**: Take your time with each concept
-5. **Print Support**: All lectures are print-friendly for note-taking
-
-## 🔧 Technical Requirements
-
-- Modern web browser (Chrome, Firefox, Safari, Edge)
-- JavaScript enabled
-- Internet connection for MathJax mathematical rendering
-- Optional: External keyboard for better navigation
-
-## 📞 Support
-
-For technical issues or questions about the content, contact:
-**Dr. Samir Orujov** - [sorujov@ada.edu.az](mailto:sorujov@ada.edu.az)
-
----
-
-*Last Updated: September 15, 2025*
+*For questions: [sorujov@ada.edu.az](mailto:sorujov@ada.edu.az)*
