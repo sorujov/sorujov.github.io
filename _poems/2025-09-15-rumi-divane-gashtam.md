@@ -13,20 +13,17 @@ excerpt: "بیا کز عشق تو دیوانه گشتم و گر شهری بود�
 *Jalal ad-Din Rumi'nin məşhur qəzəlindən tərcümə*
 
 ## Orijinal Farsca Mətn:
-بیا کز عشق تو دیوانه گشتم  
-و گر شهری بودم ویرانه گشتم
+بیا کز عشقِ تو دیوانه گشتم
+وگر شهری بُدَم، ویرانه گشتم
 
-ز این عشق از خانمان خویشتن برآمدم  
-ز این عشق درد همخانه گشتم
+ز عشق تو ز خان و مان بریدم
+به دردِ عشق تو همخانه گشتم
 
-تو را ندیده اگر طفل بودم  
-رسیده دیده مردانه گشتم
-
-همی خوانم حکایت عاشقان را  
-خود اندر عشق تو افسانه گشتم
-
-چو دیدم جان ما اقراب‌اند  
-چه بود اقراب بیگانه گشتم
+چُنان کاهل بودم کان را نگویم
+چو دیدم رویِ تو، مردانه گشتم
+ 
+چو خویشِ جان خود جان تو دیدم
+چو خویشِ جان خود جان تو
 
 ---
 
@@ -36,12 +33,12 @@ excerpt: "بیا کز عشق تو دیوانه گشتم و گر شهری بود�
 **Əgər şəhriydimsə, viranə oldum.**
 
 **Bu eşqlə öz xanimanımdan çıxıb,**  
-**Bu eşqin dərdinə həmxanə oldum.**
+**Bu eşqin dərdiylə həmxanə oldum.**
 
-**Səni görməzdən öncə bir uşaqdım,**  
-**Yetişdim, gördükdə mərdanə oldum.**
+**Səni görməzdən əvvəl bir uşaqdım,**  
+**Yetişdim, gördükdə mərdanə oldum.** 
 
-**Oxurkən hey dastanın aşiqlərin,**  
+**Oxurkən əfsanəsin aşiqlərin,**  
 **Özüm də eşqində əfsanə oldum.**
 
 **Görüncə kim ruhumuz əqrəbadır,**  
