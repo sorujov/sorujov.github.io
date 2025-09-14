@@ -45,12 +45,3 @@ Nəsib eylə fəğət cənnət səfasından Hüseynin.
 Xatırla mində bir qismin cəfasından Hüseynin.
 
 ---
-
-*Bu qəzəl İmam Hüseynin Kərbəla faciəsinin mənəvi dərinliyini, onun şəhadətinin bəşəriyyət üçün daimi dərs olmasını və Yezidçiliyə qarşı duruşun əbədi dəyərini ifadə edir. Hər beyt həqiqət uğrunda şəhadətin şərəfini və zalımların axırının necə olacağını xatırladır.*
-
-**Əsas mövzular:**
-- İmam Hüseynin şəhadətinin əbədi təsiri
-- Haqq-batil mübarizəsində duruş
-- Yezidçiliyə qarşı mənəvi müqavimət  
-- Şəhadətin mənəvi dəyəri və mükafatı
-- Kərbəla hadisəsindən götürülən dərslər

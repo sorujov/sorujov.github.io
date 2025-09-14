@@ -61,5 +61,3 @@ Bütün sevgiləri, ağlamaqları,
 Basdırıb gəlirsən çay kənarında.
 
 ---
-
-*Bu şeir gecənin səssizliyində, təbiətlə ünsiyyətdə olan insanın daxili dünyasını, həsrətlərini və müasir həyatın sərtliyinə qarşı duyduğu ehtiyacı əks etdirir. Çay kənarı burada həm coğrafi məkan, həm də ruhani sığınacaq kimi təqdim olunur.*
