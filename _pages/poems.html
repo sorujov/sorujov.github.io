@@ -1,0 +1,184 @@
+---
+layout: archive
+title: "Poetry"
+permalink: /poems/
+author_profile: true
+---
+
+<div class="poetry-intro">
+  <h2>Literary Works</h2>
+  <p>Beyond mathematics and statistics, I find expression through poetry. Here you'll find my original works in Azerbaijani and my translations of classical Persian poetry, particularly the mystical verses of Rumi and other Sufi masters.</p>
+</div>
+
+<style>
+.poetry-intro {
+  margin-bottom: 2em;
+  padding: 1.5em;
+  background: #f8f9fa;
+  border-left: 4px solid #3498db;
+  border-radius: 5px;
+}
+
+.poetry-section {
+  margin: 2em 0;
+}
+
+.poetry-section h3 {
+  color: #2c3e50;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 0.5em;
+  margin-bottom: 1em;
+}
+
+.poem-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5em;
+  margin: 1.5em 0;
+}
+
+.poem-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1.5em;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.poem-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.poem-title {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+  color: #2c3e50;
+}
+
+.poem-meta {
+  font-size: 0.9em;
+  color: #666;
+  margin-bottom: 1em;
+  font-style: italic;
+}
+
+.poem-excerpt {
+  line-height: 1.6;
+  margin-bottom: 1em;
+}
+
+.poem-language {
+  display: inline-block;
+  background: #3498db;
+  color: white;
+  padding: 0.2em 0.6em;
+  border-radius: 15px;
+  font-size: 0.8em;
+  margin-right: 0.5em;
+}
+
+.poem-type {
+  display: inline-block;
+  background: #e74c3c;
+  color: white;
+  padding: 0.2em 0.6em;
+  border-radius: 15px;
+  font-size: 0.8em;
+}
+
+.read-more {
+  color: #3498db;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.read-more:hover {
+  text-decoration: underline;
+}
+</style>
+
+<div class="poetry-section">
+  <h3>🌸 Original Azerbaijani Poetry</h3>
+  <p>My original poems written in Azerbaijani, exploring themes of nature, love, mathematics, and the human experience.</p>
+  
+  <div class="poem-grid">
+    {% assign azeri_poems = site.poems | where: "language", "azerbaijani" | where: "type", "original" %}
+    {% for poem in azeri_poems %}
+      <div class="poem-card">
+        <div class="poem-title">{{ poem.title }}</div>
+        <div class="poem-meta">
+          <span class="poem-language">Azerbaijani</span>
+          <span class="poem-type">Original</span>
+        </div>
+        {% if poem.date %}
+          <div class="poem-meta">{{ poem.date | date: "%B %Y" }}</div>
+        {% endif %}
+        {% if poem.excerpt %}
+          <div class="poem-excerpt">{{ poem.excerpt | strip_html | truncate: 150 }}</div>
+        {% endif %}
+        <a href="{{ poem.url | relative_url }}" class="read-more">Read Full Poem →</a>
+      </div>
+    {% endfor %}
+    
+    {% if azeri_poems.size == 0 %}
+      <div class="poem-card">
+        <div class="poem-title">Coming Soon</div>
+        <div class="poem-meta">
+          <span class="poem-language">Azerbaijani</span>
+          <span class="poem-type">Original</span>
+        </div>
+        <div class="poem-excerpt">Original Azerbaijani poetry will be added soon. Stay tuned for works exploring the intersection of mathematical beauty and poetic expression.</div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<div class="poetry-section">
+  <h3>🌙 Persian Poetry Translations</h3>
+  <p>My translations of classical Persian poetry, particularly the mystical verses of Rumi and other Sufi masters, bridging cultures through the universal language of poetry.</p>
+  
+  <div class="poem-grid">
+    {% assign persian_translations = site.poems | where: "language", "persian" | where: "type", "translation" %}
+    {% for poem in persian_translations %}
+      <div class="poem-card">
+        <div class="poem-title">{{ poem.title }}</div>
+        <div class="poem-meta">
+          <span class="poem-language">Persian → Azerbaijani</span>
+          <span class="poem-type">Translation</span>
+        </div>
+        {% if poem.original_author %}
+          <div class="poem-meta">Original by {{ poem.original_author }}</div>
+        {% endif %}
+        {% if poem.excerpt %}
+          <div class="poem-excerpt">{{ poem.excerpt | strip_html | truncate: 150 }}</div>
+        {% endif %}
+        <a href="{{ poem.url | relative_url }}" class="read-more">Read Translation →</a>
+      </div>
+    {% endfor %}
+    
+    {% if persian_translations.size == 0 %}
+      <div class="poem-card">
+        <div class="poem-title">Rumi Translations - Coming Soon</div>
+        <div class="poem-meta">
+          <span class="poem-language">Persian → Azerbaijani</span>
+          <span class="poem-type">Translation</span>
+        </div>
+        <div class="poem-excerpt">Translations of Rumi and other classical Persian poets will be featured here, bringing the wisdom and beauty of Sufi poetry to Azerbaijani readers.</div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<div class="poetry-section">
+  <h3>📚 About My Translation Work</h3>
+  <div style="background: #f8f9fa; padding: 1.5em; border-radius: 8px; margin-top: 1em;">
+    <p><strong>Translation Philosophy:</strong> In translating classical Persian poetry, particularly the works of Rumi and other Sufi masters, I strive to preserve both the spiritual essence and the lyrical beauty of the original verses while making them accessible to Azerbaijani readers.</p>
+    
+    <p><strong>Cultural Bridge:</strong> These translations serve as a bridge between the rich Persian literary tradition and contemporary Azerbaijani culture, honoring our shared historical and cultural connections.</p>
+    
+    <p><strong>Academic Approach:</strong> Each translation includes notes on the original context, historical background, and the challenges of conveying mystical concepts across languages and centuries.</p>
+  </div>
+</div>
