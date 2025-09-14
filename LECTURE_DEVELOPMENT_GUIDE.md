@@ -25,18 +25,44 @@ Edit these files in your new directory:
 - **`app.js`** - Update quiz answers and slide count
 - Keep `style.css` and `print-styles.css` unchanged
 
-#### Step 3: Update Master Page
-In `_pages/math-stat-1-lectures.md`, add:
+# How to Add New Interactive Lectures
+
+## Quick Start Guide
+
+### Directory Structure
+```
+lectures/math-stat-1/
+├── 01-combinatorics/     ✅ Complete
+├── 02-[your-topic]/      📝 Next lecture
+├── 03-[your-topic]/      📝 Future
+└── _template/            📋 Copy this for new lectures
+```
+
+### Adding a New Lecture (3 Steps)
+
+#### Step 1: Copy Template
+```bash
+# Copy the template directory
+cp -r "lectures/math-stat-1/_template" "lectures/math-stat-1/02-probability"
+```
+
+#### Step 2: Edit Content
+Edit these files in your new directory:
+- **`index.html`** - Replace slide content with your material
+- **`app.js`** - Update quiz answers and slide count
+- Keep `style.css` and `print-styles.css` unchanged
+
+#### Step 3: Update Course Page
+In `_teaching/2022-mathematical-statistics.md`, find the relevant topic and add:
 ```markdown
-### Lecture 2: Your Topic Name
-**[🚀 Launch Interactive Lecture](/lectures/math-stat-1/02-your-topic/index.html)**
-{: .btn .btn--primary .btn--large}
+**[🚀 Interactive Lecture: Your Topic](/lectures/math-stat-1/02-your-topic/index.html)**
+{: .btn .btn--primary}
 ```
 
 #### Step 4: Deploy
 ```bash
 git add -A
-git commit -m "Add Lecture 2: Your Topic"
+git commit -m "Add Interactive Lecture: Your Topic"
 git push origin master
 ```
 
@@ -47,7 +73,10 @@ git push origin master
 - `print-styles.css` - Print formatting
 
 ## Key URLs
-- Course page: `/teaching/2022-mathematical-statistics`
+- Course page: `/teaching/2022-mathematical-statistics` (shows all content)
+- Individual lecture: `/lectures/math-stat-1/XX-topic/index.html`
+
+The system is designed to be simple: one course page with all topics and their corresponding interactive lectures integrated directly.
 - Lecture hub: `/teaching/math-stat-1-lectures/`
 - Individual lecture: `/lectures/math-stat-1/XX-topic/index.html`
 
