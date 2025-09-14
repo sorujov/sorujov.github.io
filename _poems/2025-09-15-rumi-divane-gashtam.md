@@ -45,14 +45,6 @@ excerpt: "بیا کز عشق تو دیوانه گشتم و گر شهری بود�
 **Özüm də eşqində əfsanə oldum.**
 
 **Görüncə kim ruhumuz əqrəbadır,**  
-**Nə varsa əqrəba, biganə oldum.**
+**Qohum, həm dosta biganə oldum.**
 
 ---
-
-**Tərcüməçinin qeydi:** Bu Rumi'nin ən məşhur qəzəllərindən biridir. Hər beyt eşqin insanı necə dəyişdirdiyini, onu əvvəlki halından tamamilə başqa bir varlığa çevirdiyini göstərir. "Divanə olmaq" burada ağıl itkisi deyil, eşqin verdiyi yüksək mənəvi hal deməkdir. Son beytin mənası odur ki, bütün ruhlara qardaş baxanda, dünyəvi qohumluq əlaqələri mənasızlaşır.
-
-**Orijinal dil:** Farsca  
-**Tərcümə tarixi:** Sentyabr 2025  
-**Mövzu:** İlahi eşq və onun transformasiya gücü
-
-*Bu tərcümədə həm orijinal mənanı saxlamaq, həm də Azərbaycan şeirinin ahəng və melodiyasını verməyə çalışmışam. Rumi'nin bu qəzəli eşqin insanı tamamilə dəyişdirən gücündən bəhs edir.*
