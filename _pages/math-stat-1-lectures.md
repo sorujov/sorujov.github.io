@@ -27,7 +27,7 @@ A comprehensive series of interactive presentations covering fundamental concept
 ### Unit 1: Probability Foundations
 
 #### Lecture 1: Combinatorial Analysis
-**[🚀 Launch Interactive Lecture](/assets/teaching/math-stat-1/lecture-01-combinatorics/index.html)**
+**[🚀 Launch Interactive Lecture](/lectures/math-stat-1/01-combinatorics/index.html)**
 {: .btn .btn--primary}
 
 **Topics Covered:**
