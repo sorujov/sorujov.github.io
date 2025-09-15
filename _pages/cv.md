@@ -115,13 +115,12 @@ Publications
 
 ## Conference Presentations
 
-6. **Orujov, S.** "The Impact of SMEs on Economic Growth of Azerbaijani Economy: Endogeneity and Latent Instrumental Variable," *International Conference on Economic Research*, Alanya, Turkey, October 2019.
+1. **Orujov, S.** "The Impact of SMEs on Economic Growth of Azerbaijani Economy: Endogeneity and Latent Instrumental Variable," *International Conference on Economic Research*, Alanya, Turkey, October 2019.
 
-7. **Orujov, S.** "The Effect of SMEs on Economic Growth of Azerbaijan: How to Solve Reverse Causality?" *III. International Management and Social Sciences Congress*, Turkey, October 2019.
+2. **Orujov, S.** "The Effect of SMEs on Economic Growth of Azerbaijan: How to Solve Reverse Causality?" *III. International Management and Social Sciences Congress*, Turkey, October 2019.
 
-8. **Orujov, S.** "SME and Economic Growth in Post-Soviet Countries: Current Situation and Future Perspectives," *XII International Scientific-Practical Conference: Information, Analysis, Forecast – Strategic Levers of Effective State Management*, Ukraine, January 2019.
+3. **Orujov, S.** "SME and Economic Growth in Post-Soviet Countries: Current Situation and Future Perspectives," *XII International Scientific-Practical Conference: Information, Analysis, Forecast – Strategic Levers of Effective State Management*, Ukraine, January 2019.
 
-9. **Orujov, S.** "The Republican Scientific Conference on Modern Problems of University Science and Education," *Western Caspian University*, Baku, Azerbaijan, November 2022.
 
 **Additional Publications:**
   <ul>{% for post in site.publications reversed %}
