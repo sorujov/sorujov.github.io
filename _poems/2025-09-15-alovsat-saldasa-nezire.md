@@ -55,14 +55,14 @@ Gedib o dağların saf havasını,
 Gedər zirvələrin yolu ətəkdən,  
 Arı əl çəkərmi baldan, pətəkdən,  
 Töküb bu şəhərin daşın ətəkdən,  
-Dağlarda alaqı tikəm bir qədər.  
+Dağlarda alaçıq tikəm bir qədər.  
 
 Ustad, pis şey yoxdur bu təklik kimi,  
 Axı xoşbəxt edər də, təklik kimi?  
 Ovçudan yayınan bir kəklik kimi,  
 Xınalı daşlarda səkəm bir qədər.  
 
-Dəma harda çatar bu ömrün sonu,  
+Demə harda çatar bu ömrün sonu,  
 Şıltaq oyna sən bu şıltaq oyunu,  
 Allah nə yazıbsa, yaşarsan onu,  
 Nə artıq yaşarsan, nə kəm bir qədər  
