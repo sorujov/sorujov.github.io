@@ -13,56 +13,43 @@ Welcome to my photo gallery. Here you can find photos from academic events, conf
 
 ---
 
-## Academic & Professional
+## Personal & Travel Photos
 
 <div class="photo-gallery">
   <div class="photo-item">
-    <img src="/images/academic/conference1.jpg" alt="Academic Conference" style="width: 300px; height: 200px; object-fit: cover; margin: 10px; border-radius: 8px;">
-    <p><em>Academic Conference - [Add description here]</em></p>
+    <img src="/images/personal/IMG_0289.JPEG" alt="Personal Photo 1" style="width: 300px; height: 200px; object-fit: cover; margin: 10px; border-radius: 8px;">
+    <p><em>Personal moments</em></p>
   </div>
   
   <div class="photo-item">
-    <img src="/images/academic/teaching.jpg" alt="Teaching" style="width: 300px; height: 200px; object-fit: cover; margin: 10px; border-radius: 8px;">
-    <p><em>Teaching at ADA University - [Add description here]</em></p>
+    <img src="/images/personal/IMG_0290.JPEG" alt="Personal Photo 2" style="width: 300px; height: 200px; object-fit: cover; margin: 10px; border-radius: 8px;">
+    <p><em>Life memories</em></p>
+  </div>
+  
+  <div class="photo-item">
+    <img src="/images/personal/IMG_0291.JPEG" alt="Personal Photo 3" style="width: 300px; height: 200px; object-fit: cover; margin: 10px; border-radius: 8px;">
+    <p><em>Personal experiences</em></p>
+  </div>
+  
+  <div class="photo-item">
+    <img src="/images/personal/IMG_0335.JPEG" alt="Personal Photo 4" style="width: 300px; height: 200px; object-fit: cover; margin: 10px; border-radius: 8px;">
+    <p><em>Captured moments</em></p>
+  </div>
+  
+  <div class="photo-item">
+    <img src="/images/personal/IMG_0339.JPEG" alt="Personal Photo 5" style="width: 300px; height: 200px; object-fit: cover; margin: 10px; border-radius: 8px;">
+    <p><em>Special times</em></p>
+  </div>
+  
+  <div class="photo-item">
+    <img src="/images/personal/IMG_0353.JPEG" alt="Personal Photo 6" style="width: 300px; height: 200px; object-fit: cover; margin: 10px; border-radius: 8px;">
+    <p><em>Life journey</em></p>
   </div>
 </div>
 
 ---
 
-## Travel & Personal
-
-<div class="photo-gallery">
-  <div class="photo-item">
-    <img src="/images/personal/travel1.jpg" alt="Travel Photo" style="width: 300px; height: 200px; object-fit: cover; margin: 10px; border-radius: 8px;">
-    <p><em>Travel memories - [Add description here]</em></p>
-  </div>
-  
-  <div class="photo-item">
-    <img src="/images/personal/nature.jpg" alt="Nature" style="width: 300px; height: 200px; object-fit: cover; margin: 10px; border-radius: 8px;">
-    <p><em>Nature photography - [Add description here]</em></p>
-  </div>
-</div>
-
----
-
-## Instructions for Adding Photos
-
-To add your own photos:
-
-1. **Upload photos** to the appropriate folders:
-   - Academic/Professional photos: `images/academic/`
-   - Personal/Travel photos: `images/personal/`
-   - General photos: `images/`
-
-2. **Update the HTML above** by:
-   - Replacing the `src="/images/..."` paths with your actual photo filenames
-   - Adding descriptive `alt` text for accessibility
-   - Updating the captions with meaningful descriptions
-
-3. **Photo recommendations**:
-   - Use high-quality images (at least 1200px wide for best results)
-   - Common formats: JPG, PNG, WebP
-   - Keep file sizes reasonable (under 2MB each for faster loading)
+*You can add more photos by uploading them to the `images/personal/` or `images/academic/` directories and updating this page.*
 
 ---
 
