@@ -99,10 +99,29 @@ Technical Skills
 Publications
 ======
 
-**Journal Articles:**
-* "VS-LTGARCHX: A Flexible Variable Selection in Log-TGARCHX Models," *Journal of Time Series Econometrics*, 2024.
-* "Azərbaycanda kiçik və orta sahibkarlığın vəziyyəti və təsnifat meyarlarının qiymətləndirilməsi," *AMEA-nın Xəbərləri (İqtisadiyyat seriyası)*, July 2019.
-* "Econometric assessment of the effect of small and medium enterprises on economic development," *Russia: Information and Innovations Journal*, January 2019.
+## Peer-Reviewed Journal Articles
+
+1. **Orujov, S.** "VS-LTGARCHX: A Flexible Subset Selection for Volatility Modeling," *Journal of Time Series Econometrics*, November 2024. **[Scopus Indexed]**
+
+## Regional Publications
+
+2. **Orujov, S.** "Azərbaycanda kiçik və orta sahibkarlığın vəziyyəti və təsnifat meyarlarının qiymətləndirilməsi," *AMEA-nın Xəbərləri (İqtisadiyyat seriyası)*, July 2019.
+
+3. **Orujov, S.** "Econometric assessment of the effect of small and medium enterprises on economic development," *Russia: Information and Innovations*, January 2019.
+
+4. **Orujov, S.** "Kiçik və orta sahibkarlığın iqtisadi sektorlara təsirinin ölçülməsinin nəzəri əsasları," *Azərbaycan Dövlət İqtisad Universitetinin Elmi Xəbərləri*, January 2019.
+
+5. **Orujov, S.** "Fama-French 3-Factor Model: Advantages and Limitations," *Journals of Baku Engineering University*, January 2017.
+
+## Conference Presentations
+
+6. **Orujov, S.** "The Impact of SMEs on Economic Growth of Azerbaijani Economy: Endogeneity and Latent Instrumental Variable," *International Conference on Economic Research*, Alanya, Turkey, October 2019.
+
+7. **Orujov, S.** "The Effect of SMEs on Economic Growth of Azerbaijan: How to Solve Reverse Causality?" *III. International Management and Social Sciences Congress*, Turkey, October 2019.
+
+8. **Orujov, S.** "SME and Economic Growth in Post-Soviet Countries: Current Situation and Future Perspectives," *XII International Scientific-Practical Conference: Information, Analysis, Forecast – Strategic Levers of Effective State Management*, Ukraine, January 2019.
+
+9. **Orujov, S.** "The Republican Scientific Conference on Modern Problems of University Science and Education," *Western Caspian University*, Baku, Azerbaijan, November 2022.
 
 **Additional Publications:**
   <ul>{% for post in site.publications reversed %}
