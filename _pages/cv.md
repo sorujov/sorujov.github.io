@@ -11,39 +11,49 @@ redirect_from:
 
 Education
 ======
-* Ph.D in Statistics, [University Name], [Year] 
-* M.S. in Mathematics, [University Name], [Year]
-* B.S. in Mathematics, [University Name], [Year]
+* Ph.D in Mathematics and Statistics, ADA University, Azerbaijan (In Progress)
+* M.S. in Mathematics, ADA University, Azerbaijan
+* B.S. in Mathematics, ADA University, Azerbaijan
 
 Work Experience
 ======
-* Current: Assistant Professor of Mathematics and Statistics
-  * ADA University, Baku, Azerbaijan
-  * Duties include: Teaching, research in time series analysis and econometrics
-  * Research focus: Statistical modeling, machine learning applications
+* September 2022 - Present: Assistant Professor of Mathematics and Statistics
+  * ADA University, School of Business, Baku, Azerbaijan
+  * Duties include: Teaching undergraduate and graduate courses in mathematics and statistics
+  * Research focus: Time series analysis, econometrics, GARCH models, machine learning applications
+  * Developed interactive educational technology combining theory with hands-on applications
 
 Research Interests
 ======
-* Time Series Analysis
-* Econometrics
-* Machine Learning
-* Statistical Modeling
-* Computational Statistics
+* Time Series Analysis and Econometrics
+* GARCH Models and Volatility Modeling
+* Machine Learning Applications in Finance
+* Statistical Modeling and Computational Statistics
+* Educational Technology Development
 
 Technical Skills
 ======
 * Programming Languages
   * Python (Advanced)
-  * R (Advanced)
-  * SQL
+  * R (Advanced) 
+  * MATLAB (Advanced)
+  * SQL (Intermediate)
 * Statistical Software
-  * STATA
-  * SPSS
-  * SAS
-* Machine Learning
-  * Scikit-learn
-  * TensorFlow
-  * PyTorch
+  * Stata (Advanced)
+  * EViews (Advanced)
+  * SPSS (Advanced)
+  * SAS (Intermediate)
+* Web Technologies
+  * HTML/CSS
+  * JavaScript
+  * Jekyll
+  * Git
+* Specialized Areas
+  * Time Series Analysis
+  * GARCH Modeling
+  * Financial Econometrics
+  * Machine Learning (Scikit-learn, TensorFlow)
+  * Educational Software Development
 
 Publications
 ======
@@ -65,8 +75,17 @@ Teaching
   
 Professional Memberships
 ======
-* [Professional organizations as listed in CV]
+* Member of relevant academic and professional statistical organizations
 
-Awards and Honors
+Languages
 ======
-* [Awards and honors from CV]
+* Azerbaijani (Native)
+* English (Fluent)
+
+Contact Information
+======
+* Email: sorujov@ada.edu.az
+* Website: https://sorujov.github.io
+* ORCID ID: 0009-0004-9708-2109
+* LinkedIn: https://linkedin.com/in/samir-orujov-231765288
+* GitHub: https://github.com/sorujov
