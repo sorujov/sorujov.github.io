@@ -1,16 +1,16 @@
 ---
-title: "Gəl Ey Kim, Eşqində Divanə Oldum (Rumi'den tərcümə)"
+title: "Gəl Ey Kim, Eşqində Divanə Oldum (Rumi'dən tərcümə)"
 collection: poems
 permalink: /poems/rumi-divane-gashtam/
 language: "persian"
 type: "translation"
-original_author: "Jalal ad-Din Rumi"
+original_author: "Mövlanə Cəlaləddin Rumi"
 date: 2025-09-15
 excerpt: "بیا کز عشق تو دیوانه گشتم و گر شهری بودم ویرانه گشتم..."
 ---
 
 # Gəl Ey Kim, Eşqində Divanə Oldum
-*Jalal ad-Din Rumi'nin məşhur qəzəlindən tərcümə*
+
 
 ## Orijinal Farsca Mətn:
 بیا کز عشقِ تو دیوانه گشتم
