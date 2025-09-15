@@ -49,7 +49,6 @@ Welcome to my photo gallery. Here you can find photos from academic events, conf
 
 ---
 
-*You can add more photos by uploading them to the `images/personal/` or `images/academic/` directories and updating this page.*
 
 ---
 
