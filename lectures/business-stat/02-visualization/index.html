@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Organizing Data - Interactive Slides</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js" defer></script>
+    <script src="app.js" defer></script>
 </head>
 <body>
     <div class="presentation-container">
@@ -231,7 +233,7 @@
                             <div class="feedback hidden" id="feedback3"></div>
                         </div>
                     </div>
-                    <button class="btn btn--primary check-all-btn" onclick="checkAllClassifications()">Check All Answers</button>
+                    <button class="btn btn--primary check-all-btn" id="checkAllBtn" onclick="checkAllClassifications()">Check All Answers</button>
                 </div>
             </div>
         </div>
@@ -321,8 +323,8 @@
                             <canvas id="pieChart" width="400" height="400"></canvas>
                         </div>
                         <div class="chart-controls">
-                            <button class="btn btn--secondary" onclick="animatePieChart()">Animate Chart</button>
-                            <button class="btn btn--secondary" onclick="togglePieLabels()">Toggle Labels</button>
+                            <button class="btn btn--secondary" id="animatePieBtn" onclick="animatePieChart()">Animate Chart</button>
+                            <button class="btn btn--secondary" id="togglePieLabelsBtn" onclick="togglePieLabels()">Toggle Labels</button>
                         </div>
                     </div>
                 </div>
@@ -369,7 +371,7 @@
                             <canvas id="barChart" width="500" height="400"></canvas>
                         </div>
                         <div class="chart-controls">
-                            <button class="btn btn--secondary" onclick="animateBarChart()">Animate Chart</button>
+                            <button class="btn btn--secondary" id="animateBarBtn" onclick="animateBarChart()">Animate Chart</button>
                             <button class="btn btn--secondary" onclick="switchBarOrientation()">Switch Orientation</button>
                         </div>
                     </div>
@@ -455,11 +457,11 @@
                             <canvas id="histogramChart" width="600" height="400"></canvas>
                         </div>
                         <div class="histogram-controls">
-                            <button class="btn btn--secondary" onclick="buildHistogram()">Build Histogram</button>
+                            <button class="btn btn--secondary" id="buildHistogramBtn" onclick="buildHistogram()">Build Histogram</button>
                             <button class="btn btn--secondary" onclick="toggleHistogramType()">Toggle Type</button>
                             <div class="bin-control">
                                 <label>Number of Bins:</label>
-                                <input type="range" id="binSlider" min="5" max="15" value="7" onchange="updateBins()">
+                                <input type="range" id="binSlider" min="5" max="15" value="7" oninput="updateBins()">
                                 <span id="binValue">7</span>
                             </div>
                         </div>
@@ -499,8 +501,8 @@
                             <svg id="dotplotSVG" width="700" height="300"></svg>
                         </div>
                         <div class="dotplot-controls">
-                            <button class="btn btn--secondary" onclick="animateDotplot()">Animate Dotplot</button>
-                            <button class="btn btn--secondary" onclick="highlightOutliers()">Highlight Outliers</button>
+                            <button class="btn btn--secondary" id="animateDotplotBtn" onclick="animateDotplot()">Animate Dotplot</button>
+                            <button class="btn btn--secondary" id="highlightOutliersBtn" onclick="highlightOutliers()">Highlight Outliers</button>
                         </div>
                     </div>
                 </div>
@@ -1275,6 +1277,5 @@
         <div class="dot" data-slide="42"></div>
     </div>
 
-    <script src="app.js"></script>
 </body>
 </html>
