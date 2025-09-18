@@ -167,6 +167,8 @@ class OrganizingDataPresentation {
     if (n === 11) this.initializeHistogramChart();
     if (n === 12) this.initializeDotplot();
     if (n === 13) this.initializeStemLeaf();
+    if (n === 14) this.initializeShapeGenerator();
+    if (n === 15) this.initializeSkewnessAnalyzer();
     if (n === 16) this.initializeHouseholdChart();
     if (n === 17) this.initializeMisleadingCharts();
     if (n === 22) this.initializeBillionairesAnalysis();
@@ -451,6 +453,291 @@ class OrganizingDataPresentation {
       btn?.click();
     });
   }
+
+  // Shape Generator Functions
+  generateShape() {
+    const peakSelect = document.getElementById('peakSelect');
+    const shapeSelect = document.getElementById('shapeSelect');
+    const canvas = document.getElementById('shapeCanvas');
+    
+    if (!canvas || !peakSelect || !shapeSelect) return;
+    
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    
+    // Clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    const width = canvas.width;
+    const height = canvas.height;
+    const peaks = parseInt(peakSelect.value) || 1;
+    const shapeType = shapeSelect.value || 'normal';
+    
+    // Set up drawing
+    ctx.strokeStyle = '#148F77';
+    ctx.fillStyle = 'rgba(20, 143, 119, 0.3)';
+    ctx.lineWidth = 3;
+    
+    // Generate shape based on selection
+    this.drawDistributionShape(ctx, width, height, peaks, shapeType);
+  }
+
+  drawDistributionShape(ctx, width, height, peaks, shapeType) {
+    const padding = 40;
+    const graphWidth = width - (padding * 2);
+    const graphHeight = height - (padding * 2);
+    
+    ctx.beginPath();
+    ctx.moveTo(padding, height - padding);
+    
+    if (shapeType === 'normal') {
+      this.drawNormalDistribution(ctx, padding, graphWidth, graphHeight, height, peaks);
+    } else if (shapeType === 'uniform') {
+      this.drawUniformDistribution(ctx, padding, graphWidth, graphHeight, height);
+    } else if (shapeType === 'exponential') {
+      this.drawExponentialDistribution(ctx, padding, graphWidth, graphHeight, height);
+    }
+    
+    ctx.lineTo(width - padding, height - padding);
+    ctx.stroke();
+    
+    // Fill area under curve
+    ctx.globalAlpha = 0.3;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+
+  drawNormalDistribution(ctx, padding, graphWidth, graphHeight, height, peaks) {
+    const points = 200;
+    const peakSpacing = graphWidth / (peaks + 1);
+    
+    for (let i = 0; i <= points; i++) {
+      const x = padding + (i / points) * graphWidth;
+      let y = height - padding;
+      
+      // Calculate combined height from all peaks
+      for (let peak = 1; peak <= peaks; peak++) {
+        const peakCenter = padding + (peak * peakSpacing);
+        const distance = Math.abs(x - peakCenter);
+        const sigma = peakSpacing / 4; // Standard deviation
+        const peakHeight = Math.exp(-(distance * distance) / (2 * sigma * sigma));
+        y -= (peakHeight * graphHeight * 0.8) / peaks;
+      }
+      
+      if (i === 0) {
+        ctx.moveTo(x, y);
+      } else {
+        ctx.lineTo(x, y);
+      }
+    }
+  }
+
+  drawUniformDistribution(ctx, padding, graphWidth, graphHeight, height) {
+    const uniformHeight = height - padding - (graphHeight * 0.6);
+    ctx.lineTo(padding, uniformHeight);
+    ctx.lineTo(padding + graphWidth, uniformHeight);
+  }
+
+  drawExponentialDistribution(ctx, padding, graphWidth, graphHeight, height) {
+    const points = 100;
+    for (let i = 0; i <= points; i++) {
+      const x = padding + (i / points) * graphWidth;
+      const t = i / points * 3; // Scale for exponential
+      const expValue = Math.exp(-t * 2);
+      const y = height - padding - (expValue * graphHeight * 0.8);
+      
+      if (i === 0) {
+        ctx.moveTo(x, y);
+      } else {
+        ctx.lineTo(x, y);
+      }
+    }
+  }
+
+  // Initialize shape generator
+  initializeShapeGenerator() {
+    // Set initial values and generate first shape
+    const peakSelect = document.getElementById('peakSelect');
+    const shapeSelect = document.getElementById('shapeSelect');
+    
+    if (peakSelect) peakSelect.value = '1';
+    if (shapeSelect) shapeSelect.value = 'normal';
+    
+    // Generate initial shape
+    setTimeout(() => this.generateShape(), 100);
+  }
+
+  // Skewness Functions
+  updateSkewness() {
+    const slider = document.getElementById('skewSlider');
+    const valueDisplay = document.getElementById('skewValue');
+    const canvas = document.getElementById('skewCanvas');
+    
+    if (!slider || !valueDisplay || !canvas) {
+      console.log('Skewness elements not found');
+      return;
+    }
+    
+    const skewValue = parseFloat(slider.value) || 0;
+    
+    // Update display text with proper formatting
+    let skewText = skewValue.toFixed(1);
+    if (skewValue === 0) skewText += ' (Symmetric)';
+    else if (skewValue > 0) skewText += ' (Right Skewed)';
+    else skewText += ' (Left Skewed)';
+    
+    valueDisplay.textContent = skewText;
+    
+    // Draw the distribution with improved algorithm
+    this.drawSkewedDistribution(canvas, skewValue);
+    
+    console.log('Skewness updated:', skewValue);
+  }
+
+  drawSkewedDistribution(canvas, skewValue) {
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    
+    // Clear canvas with white background
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    const width = canvas.width;
+    const height = canvas.height;
+    const padding = 40;
+    const graphWidth = width - (2 * padding);
+    const graphHeight = height - (2 * padding);
+    
+    // Set up drawing styles
+    ctx.strokeStyle = '#148F77';
+    ctx.fillStyle = 'rgba(20, 143, 119, 0.3)';
+    ctx.lineWidth = 3;
+    
+    // Draw axes
+    ctx.beginPath();
+    ctx.strokeStyle = '#666666';
+    ctx.lineWidth = 1;
+    
+    // X-axis
+    ctx.moveTo(padding, height - padding);
+    ctx.lineTo(width - padding, height - padding);
+    
+    // Y-axis
+    ctx.moveTo(padding, height - padding);
+    ctx.lineTo(padding, padding);
+    ctx.stroke();
+    
+    // Draw the skewed distribution curve
+    ctx.beginPath();
+    ctx.strokeStyle = '#148F77';
+    ctx.lineWidth = 3;
+    
+    const points = 200;
+    const pathPoints = [];
+    
+    for (let i = 0; i <= points; i++) {
+      const t = (i / points - 0.5) * 8; // Range from -4 to 4
+      
+      // Generate skewed normal distribution using better math
+      let y;
+      const normalValue = Math.exp(-(t * t) / 2); // Standard normal
+      
+      if (Math.abs(skewValue) < 0.1) {
+        // Nearly symmetric
+        y = normalValue;
+      } else {
+        // Apply skewness transformation
+        const alpha = skewValue * 2; // Amplify skewness effect
+        y = normalValue * (1 + skewValue * this.sign(t) * Math.abs(t) * 0.5);
+        y = Math.max(0.01, y); // Ensure positive values
+      }
+      
+      const x = padding + (i / points) * graphWidth;
+      const yPos = height - padding - (y * graphHeight * 0.7);
+      
+      pathPoints.push({ x, y: yPos });
+      
+      if (i === 0) {
+        ctx.moveTo(x, height - padding);
+        ctx.lineTo(x, yPos);
+      } else {
+        ctx.lineTo(x, yPos);
+      }
+    }
+    
+    // Complete the path for filling
+    ctx.lineTo(width - padding, height - padding);
+    ctx.closePath();
+    
+    // Draw and fill
+    ctx.globalAlpha = 0.3;
+    ctx.fill();
+    ctx.globalAlpha = 1.0;
+    ctx.stroke();
+    
+    // Add labels
+    ctx.fillStyle = '#333333';
+    ctx.font = '12px Arial';
+    ctx.textAlign = 'center';
+    
+    // X-axis label
+    ctx.fillText('Values', width / 2, height - 10);
+    
+    // Y-axis label
+    ctx.save();
+    ctx.translate(15, height / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText('Frequency', 0, 0);
+    ctx.restore();
+    
+    // Skewness indicator
+    ctx.fillStyle = '#148F77';
+    ctx.font = 'bold 14px Arial';
+    ctx.textAlign = 'right';
+    ctx.fillText(`Skewness: ${skewValue.toFixed(1)}`, width - padding, padding + 20);
+  }
+
+  // Helper function for skewness calculation
+  sign(x) {
+    return x > 0 ? 1 : x < 0 ? -1 : 0;
+  }
+
+  // Initialize skewness analyzer  
+  initializeSkewnessAnalyzer() {
+    console.log('Initializing skewness analyzer...');
+    
+    const slider = document.getElementById('skewSlider');
+    const canvas = document.getElementById('skewCanvas');
+    
+    if (!slider || !canvas) {
+      console.warn('Skewness elements not found');
+      return;
+    }
+    
+    // Remove any existing event listeners
+    slider.oninput = null;
+    slider.onchange = null;
+    
+    // Add fresh event listeners
+    slider.addEventListener('input', (e) => {
+      console.log('Slider input event:', e.target.value);
+      this.updateSkewness();
+    });
+    slider.addEventListener('change', (e) => {
+      console.log('Slider change event:', e.target.value);
+      this.updateSkewness();
+    });
+    
+    // Set initial value
+    slider.value = '0';
+    
+    // Force initial draw with delay to ensure DOM is ready
+    setTimeout(() => {
+      this.updateSkewness();
+    }, 150);
+    
+    console.log('Skewness analyzer initialized with event listeners');
+  }
 }
 
 // Global wrappers to support inline onclick
@@ -464,6 +751,14 @@ function updateBins(){ presentation?.updateBins(); }
 function animateDotplot(){ presentation?.animateDotplot(); }
 function highlightOutliers(){ presentation?.highlightOutliers(); }
 function checkAllClassifications(){ presentation?.checkAllClassifications(); }
+function generateShape(){ presentation?.generateShape(); }
+function updateSkewness() { 
+  if (presentation && presentation.updateSkewness) {
+    presentation.updateSkewness();
+  } else {
+    console.warn('Presentation or updateSkewness not available');
+  }
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   presentation = new OrganizingDataPresentation();
