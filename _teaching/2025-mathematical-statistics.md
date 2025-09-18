@@ -64,7 +64,7 @@ Rigorous mathematical treatment of statistical theory tailored for Economics and
 **Content**: Combinations, Multinomial Coefficients, applications to portfolio theory  
 **Reading**: Ross, Chapter 1: Sections 1.3-1.4
 
-**[🚀 Combinations & Multinomial Applications](/lectures/math-stat-1/02-combinations/index.html)**
+**[🚀 Combinations & Multinomial Applications](/lectures/math-stat-1/01-combinatorics/index.html)**
 {: .btn .btn--primary}
 
 *Financial portfolio combinations with interactive calculators*
@@ -77,7 +77,7 @@ Rigorous mathematical treatment of statistical theory tailored for Economics and
 **Content**: Sample Space and Events, Axioms of Probability, economic event modeling  
 **Reading**: Ross, Chapter 2: Sections 2.1-2.2
 
-**[🚀 Axioms of Probability](/lectures/math-stat-1/03-axioms_of_probability/index.html)**
+**[🚀 Axioms of Probability](/lectures/math-stat-1/02-axioms_of_probability/index.html)**
 {: .btn .btn--primary}
 
 *Interactive presentation with probability theory fundamentals and economic examples*
@@ -88,7 +88,7 @@ Rigorous mathematical treatment of statistical theory tailored for Economics and
 **Content**: Simple Propositions, Sample Spaces Having Equally Likely Outcomes  
 **Reading**: Ross, Chapter 2: Sections 2.3-2.4
 
-**[🚀 Equal Probability & Market Applications](/lectures/math-stat-1/04-equal-likelihood/index.html)**
+**[🚀 Equal Probability & Market Applications](/lectures/math-stat-1/02-axioms_of_probability/index.html)**
 {: .btn .btn--primary}
 
 *Market scenario modeling with equal probability assumptions*
