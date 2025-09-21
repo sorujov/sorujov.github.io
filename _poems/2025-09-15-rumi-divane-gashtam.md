@@ -51,8 +51,44 @@ excerpt: "بیا کز عشق تو دیوانه گشتم و گر شهری بود�
 **Görüncə kim ruhumuz əqrəbadır,**  
 **Qohum, həm dosta biganə oldum.**
 
-**🎵 Musiqi ilə dinləyin / Listen with Music:**  
-[https://www.youtube.com/watch?v=NQQIEUDe6Qo&list=RDNQQIEUDe6Qo&start_radio=1](Music)
+---
 
+## 🎵 Musiqi ilə dinləyin / Listen with Music
+
+<div class="youtube-container">
+  <iframe width="560" height="315" 
+          src="https://www.youtube.com/embed/NQQIEUDe6Qo" 
+          title="Rumi Poetry with Music" 
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          allowfullscreen>
+  </iframe>
+</div>
+
+<style>
+.youtube-container {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  margin: 20px 0;
+}
+
+.youtube-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+@media (max-width: 768px) {
+  .youtube-container {
+    padding-bottom: 56.25%;
+  }
+}
+</style>
 
 ---
