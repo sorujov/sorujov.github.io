@@ -1,4 +1,4 @@
----
+<!-- ---
 title: "Kərbəla Qəzəli"
 collection: poems
 permalink: /poems/kerbela-qezeli/
@@ -44,4 +44,4 @@ Nəsib eylə fəğət cənnət səfasından Hüseynin.
 Əgər bədbəxlik üz versə sənə, Samir, nə vaxtsa,  
 Xatırla mində bir qismin cəfasından Hüseynin.
 
----
+--- -->
