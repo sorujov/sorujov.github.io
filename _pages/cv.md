@@ -154,7 +154,7 @@ Languages
 Contact Information
 ======
 * Email: sorujov@ada.edu.az
-* Phone: +994 51 317 1988
+* Phone: +994 51 xxx xx xx
 * Address: Baku, Azerbaijan AZ1069
 * Website: https://sorujov.github.io
 * ORCID ID: 0009-0004-9708-2109

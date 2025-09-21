@@ -31,6 +31,12 @@ The research combines:
 
 The methodology has been implemented in both R and Python, with comprehensive documentation and examples available for practitioners.
 
+**GitHub Repository**: [Log-TGARCHX-Subset-Selection](https://github.com/sorujov/Log-TGARCHX-Subset-Selection.git)
+
 ## Publications
 
 This research has resulted in peer-reviewed publications and conference presentations, contributing to the broader econometrics literature.
+
+**Preprint**: [HAL Science Archive](https://hal.science/hal-04283159/document)
+
+**Published Paper**: [Journal of Time Series Econometrics - De Gruyter](https://www.degruyterbrill.com/document/doi/10.1515/jtse-2023-0035/html?srsltid=AfmBOorc-0jTKn4uCRtfzlhVerEziRKnqIFpSv5AuDjvEX1Ml3itr4WZ)
