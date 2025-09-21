@@ -6,7 +6,7 @@ language: "azerbaijani"
 type: "original"
 original_author: "Əlövsət Saldaş (referenced)"
 date: 2025-09-15
-excerpt: "Ustadın şeiri ilə mənim nəzirəm - dərdə u qəm bir qədər, zökəm bir qədər..."
+excerpt: "Ustadın şeiri ilə mənim nəzirəm - dərd u qəm bir qədər, zökəm bir qədər..."
 ---
 
 # Əlövsət Saldaşa Nəzirə
@@ -23,7 +23,7 @@ Bu qədər doğmanın içində yadam.
 Doldur o qəlyanı bəri ver, qadam,  
 Yanan ciyərimə çəkim bir qədər.  
 
-Gedib genişməli baş da tapılmır,  
+Gedib genəşməli baş da tapılmır,  
 Başlıq qalmayıbdı başda, tapılmır...  
 Mən deyən sanballı daş da tapılmır,  
 Götürəm başıma tökəm bir qədər.  
@@ -34,7 +34,7 @@ Hərdən görünürəm gözə - görürsən,
 Hərdən qeyb oluram, təkəm bir qədər.  
 
 Mən Əlövsət baba, Əlövsət dədə,  
-Bir daş ünvanım var Ələsətdə də...  
+Bir daş ünvanım var Əlövsətdə də...  
 Görkəmdə cılızam, arığam, dədə,  
 Kəlmədə salğarlı, kökəm bir qədər.  
 
@@ -45,7 +45,7 @@ Kəlmədə salğarlı, kökəm bir qədər.
 Həkim ürəyimi təftiş eylədi,  
 Dost, yarı yanımdan tərxis eylədi,  
 Sonda mərəzimi təşxis eylədi:  
-Dərdə u qəm bir qədər, zökəm bir qədər.  
+Dərd u qəm bir qədər, zökəm bir qədər.  
 
 Sevmədim şəhərin ab-havasını,  
 Zəhərə oxşatdım lap havasını,  
@@ -58,7 +58,7 @@ Töküb bu şəhərin daşın ətəkdən,
 Dağlarda alaçıq tikəm bir qədər.  
 
 Ustad, pis şey yoxdur bu təklik kimi,  
-Axı xoşbəxt edər də, təklik kimi?  
+Axı xoşbəxt edər de, təklik kimi?  
 Ovçudan yayınan bir kəklik kimi,  
 Xınalı daşlarda səkəm bir qədər.  
 
@@ -74,4 +74,4 @@ Daş sözdən bir qala dikəm bir qədər.
 
 ---
 
-*Bu şeir Azərbaycan ədəbiyyatının böyük şairi Əlövsət Saldaşın məşhur şeirinə nəzirə olaraq yazılmışdır. Nəzirə - klassik Şərq ədəbiyyatında bir şairin başqa şairin şeirinə cavab olaraq, eyni vəzn və qafiyə sxemi ilə yazdığı şeir növüdür.*
+*Bu şeir şair Əlövsət Saldaşın məşhur şeirinə nəzirə olaraq yazılmışdır. Nəzirə - klassik Şərq ədəbiyyatında bir şairin başqa şairin şeirinə cavab olaraq, eyni vəzn və qafiyə sxemi ilə yazdığı şeir növüdür.*
