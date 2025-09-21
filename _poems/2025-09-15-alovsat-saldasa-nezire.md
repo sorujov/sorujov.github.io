@@ -74,4 +74,4 @@ Daş sözdən bir qala dikəm bir qədər.
 
 ---
 
-*Bu şeir şair Əlövsət Saldaşın məşhur şeirinə nəzirə olaraq yazılmışdır. Nəzirə - klassik Şərq ədəbiyyatında bir şairin başqa şairin şeirinə cavab olaraq, eyni vəzn və qafiyə sxemi ilə yazdığı şeir növüdür.*
+*Bu şeir şair Əlövsət Saldaşın şeirinə nəzirə olaraq yazılmışdır. Nəzirə - klassik Şərq ədəbiyyatında bir şairin başqa şairin şeirinə cavab olaraq, eyni vəzn və qafiyə sxemi ilə yazdığı şeir növüdür.*
