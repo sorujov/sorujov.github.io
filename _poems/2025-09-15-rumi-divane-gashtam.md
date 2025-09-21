@@ -1,13 +1,5 @@
 ---
-title: "Gəl Ey Kim, Eşqində Divanə Oldum (Rum**Görüncə kim ruhumuz əqrəbadır,**  
-**Qohum, həm dosta biganə oldum.**
-
----
-
-**🎵 Musiqi ilə dinləyin / Listen with Music:**  
-[https://www.youtube.com/watch?v=NQQIEUDe6Qo&list=RDNQQIEUDe6Qo&start_radio=1](https://www.youtube.com/watch?v=NQQIEUDe6Qo&list=RDNQQIEUDe6Qo&start_radio=1)
-
---- tərcümə)"
+title: "Gəl Ey Kim, Eşqində Divanə Oldum (Rumi'dən tərcümə)"
 collection: poems
 permalink: /poems/rumi-divane-gashtam/
 language: "persian"
@@ -59,5 +51,6 @@ excerpt: "بیا کز عشق تو دیوانه گشتم و گر شهری بود�
 **Görüncə kim ruhumuz əqrəbadır,**  
 **Qohum, həm dosta biganə oldum.**
 
-https://www.youtube.com/watch?v=NQQIEUDe6Qo&list=RDNQQIEUDe6Qo&start_radio=1]
+**🎵 Musiqi ilə dinləyin / Listen with Music:**  
+[https://www.youtube.com/watch?v=NQQIEUDe6Qo&list=RDNQQIEUDe6Qo&start_radio=1](https://www.youtube.com/watch?v=NQQIEUDe6Qo&list=RDNQQIEUDe6Qo&start_radio=1)
 ---
