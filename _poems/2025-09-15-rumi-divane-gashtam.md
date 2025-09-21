@@ -32,7 +32,7 @@ excerpt: "بیا کز عشق تو دیوانه گشتم و گر شهری بود�
 
 چو خویشِ جان خود جان تو
 
----
+
 
 ## Azərbaycan Türkcəsinə Tərcümə:
 
@@ -52,5 +52,7 @@ excerpt: "بیا کز عشق تو دیوانه گشتم و گر شهری بود�
 **Qohum, həm dosta biganə oldum.**
 
 **🎵 Musiqi ilə dinləyin / Listen with Music:**  
-[https://www.youtube.com/watch?v=NQQIEUDe6Qo&list=RDNQQIEUDe6Qo&start_radio=1](https://www.youtube.com/watch?v=NQQIEUDe6Qo&list=RDNQQIEUDe6Qo&start_radio=1)
+[https://www.youtube.com/watch?v=NQQIEUDe6Qo&list=RDNQQIEUDe6Qo&start_radio=1](Music)
+
+
 ---
