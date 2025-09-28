@@ -1,0 +1,323 @@
+<!DOCTYPE html><!DOCTYPE html>
+
+<html lang="en"><html lang="en">
+
+<head><head>
+
+    <meta charset="UTF-8">    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sample Spaces and Events - Mathematical Statistics</title>    <title>Mathematical Statistics: Sample Spaces and Events</title>
+
+    <style>    <link rel="stylesheet" href="style.css">
+
+        body {</head>
+
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;<body>
+
+            max-width: 800px;    <div class="presentation-container">
+
+            margin: 0 auto;        <!-- Header Controls -->
+
+            padding: 40px 20px;        <header class="presentation-header">
+
+            background-color: #f8f9fa;            <div class="header-controls">
+
+            color: #333;                <button class="btn btn--sm btn--outline" id="fullscreenBtn" type="button">📺 Fullscreen</button>
+
+            line-height: 1.6;                <div class="slide-counter">
+
+        }                    <span id="currentSlide">1</span> / <span id="totalSlides">25</span>
+
+                        </div>
+
+        .header {                <div class="timer" id="timer" style="display: none;">
+
+            text-align: center;                    ⏱️ <span id="timerDisplay">00:00</span>
+
+            margin-bottom: 40px;                </div>
+
+            padding: 30px;            </div>
+
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);        </header>
+
+            color: white;
+
+            border-radius: 10px;        <!-- Main Presentation Area -->
+
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);        <main class="presentation-main">
+
+        }            <div class="slide-container" id="slideContainer">
+
+                        <!-- Slides will be dynamically generated -->
+
+        h1 {            </div>
+
+            margin: 0 0 10px 0;        </main>
+
+            font-size: 2.5rem;
+
+            font-weight: 700;        <!-- Navigation Controls -->
+
+        }        <nav class="presentation-nav">
+
+                    <button class="btn btn--primary nav-btn" id="prevBtn" type="button">← Previous</button>
+
+        .subtitle {            
+
+            font-size: 1.2rem;            <div class="slide-dots" id="slideDots">
+
+            opacity: 0.9;                <!-- Dots will be dynamically generated -->
+
+            margin: 0;            </div>
+
+        }            
+
+                    <button class="btn btn--primary nav-btn" id="nextBtn" type="button">Next →</button>
+
+        .content {        </nav>
+
+            background: white;    </div>
+
+            padding: 30px;
+
+            border-radius: 10px;    <!-- Modal for Activities -->
+
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);    <div class="modal hidden" id="activityModal">
+
+            margin-bottom: 30px;        <div class="modal-content">
+
+        }            <div class="modal-header">
+
+                        <h3 id="modalTitle">Activity</h3>
+
+        .pdf-links {                <button class="modal-close" id="modalClose" type="button">×</button>
+
+            display: grid;            </div>
+
+            gap: 20px;            <div class="modal-body" id="modalBody">
+
+            margin-top: 30px;                <!-- Activity content -->
+
+        }            </div>
+
+                    <div class="modal-footer">
+
+        .pdf-item {                <button class="btn btn--secondary" id="modalCancel" type="button">Cancel</button>
+
+            display: flex;                <button class="btn btn--primary" id="modalAction" type="button">Start Activity</button>
+
+            align-items: center;            </div>
+
+            padding: 20px;        </div>
+
+            background: #f8f9ff;    </div>
+
+            border: 2px solid #667eea;
+
+            border-radius: 10px;    <!-- Modal for Quiz -->
+
+            text-decoration: none;    <div class="modal hidden" id="quizModal">
+
+            color: #333;        <div class="modal-content quiz-modal-content">
+
+            transition: all 0.3s ease;            <div class="modal-header">
+
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);                <h3 id="quizTitle">Quiz</h3>
+
+        }                <button class="modal-close" id="quizClose" type="button">×</button>
+
+                    </div>
+
+        .pdf-item:hover {            <div class="modal-body" id="quizBody">
+
+            background: #667eea;                <!-- Quiz content -->
+
+            color: white;            </div>
+
+            transform: translateY(-2px);        </div>
+
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);    </div>
+
+        }
+
+            <script src="app.js"></script>
+
+        .pdf-icon {    <script>
+
+            font-size: 2rem;        // Debug and error handling
+
+            margin-right: 20px;        window.addEventListener('load', () => {
+
+            min-width: 60px;            console.log('Window loaded');
+
+            text-align: center;            
+
+        }            // Check if app initialized
+
+                    setTimeout(() => {
+
+        .pdf-info h3 {                if (!window.app) {
+
+            margin: 0 0 5px 0;                    console.error('App failed to initialize');
+
+            font-size: 1.3rem;                    document.body.innerHTML = `
+
+            font-weight: 600;                        <div style="display: flex; align-items: center; justify-content: center; height: 100vh; flex-direction: column; font-family: Arial, sans-serif;">
+
+        }                            <h1 style="color: #dc3545;">Presentation Loading Error</h1>
+
+                                    <p>There was an error loading the presentation. Please refresh the page.</p>
+
+        .pdf-info p {                            <button onclick="location.reload()" style="padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Refresh Page</button>
+
+            margin: 0;                        </div>
+
+            opacity: 0.8;                    `;
+
+            font-size: 0.95rem;                } else {
+
+        }                    console.log('✅ App loaded successfully');
+
+                        }
+
+        .pdf-size {            }, 1000);
+
+            margin-left: auto;        });
+
+            font-size: 0.9rem;        
+
+            opacity: 0.7;        // Global error handler
+
+            font-weight: 500;        window.addEventListener('error', (e) => {
+
+        }            console.error('Global error:', e.error);
+
+                });
+
+        .back-link {    </script>
+
+            display: inline-block;</body>
+
+            margin-top: 30px;</html>
+            padding: 10px 20px;
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+        
+        .back-link:hover {
+            background: #5a6268;
+        }
+        
+        .description {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .description h3 {
+            margin-top: 0;
+            color: #1976d2;
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                padding: 20px 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .pdf-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .pdf-icon {
+                margin: 0 0 15px 0;
+            }
+            
+            .pdf-size {
+                margin: 10px 0 0 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Sample Spaces and Events</h1>
+        <p class="subtitle">Mathematical Statistics - Lecture Materials</p>
+    </div>
+
+    <div class="content">
+        <div class="description">
+            <h3>📚 About These Materials</h3>
+            <p>This section contains comprehensive PDF resources on sample spaces and events, covering fundamental concepts in probability theory and mathematical statistics.</p>
+        </div>
+
+        <h2>📄 Available PDF Resources</h2>
+        
+        <div class="pdf-links">
+            <a href="Sample_Spaces_Having_Equally_Likely_Outcomes.pdf" class="pdf-item" target="_blank">
+                <div class="pdf-icon">📊</div>
+                <div class="pdf-info">
+                    <h3>Sample Spaces Having Equally Likely Outcomes</h3>
+                    <p>Detailed explanation of sample spaces with equal probability outcomes, including examples and applications</p>
+                </div>
+                <div class="pdf-size">~600 KB</div>
+            </a>
+            
+            <a href="Sample_Space_and_Events (1).pdf" class="pdf-item" target="_blank">
+                <div class="pdf-icon">🎯</div>
+                <div class="pdf-info">
+                    <h3>Sample Space and Events</h3>
+                    <p>Comprehensive guide to understanding sample spaces, events, and their relationships in probability theory</p>
+                </div>
+                <div class="pdf-size">~370 KB</div>
+            </a>
+        </div>
+
+        <div class="description" style="background: #f3e5f5; border-left-color: #9c27b0;">
+            <h3>💡 How to Use These Materials</h3>
+            <ul>
+                <li><strong>Click on any PDF</strong> to open it in a new tab</li>
+                <li><strong>Right-click and "Save As"</strong> to download for offline use</li>
+                <li><strong>Use alongside lectures</strong> for comprehensive understanding</li>
+                <li><strong>Refer back</strong> when working on assignments and practice problems</li>
+            </ul>
+        </div>
+    </div>
+
+    <a href="../" class="back-link">← Back to Mathematical Statistics</a>
+
+    <script>
+        // Add some interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            // Track PDF clicks for analytics (if needed)
+            const pdfLinks = document.querySelectorAll('.pdf-item');
+            pdfLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const fileName = this.href.split('/').pop();
+                    console.log('PDF accessed:', fileName);
+                    
+                    // Optional: Add a small loading indicator
+                    const icon = this.querySelector('.pdf-icon');
+                    const originalIcon = icon.textContent;
+                    icon.textContent = '⏳';
+                    
+                    setTimeout(() => {
+                        icon.textContent = originalIcon;
+                    }, 1000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

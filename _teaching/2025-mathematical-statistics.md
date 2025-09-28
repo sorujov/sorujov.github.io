@@ -50,48 +50,32 @@ Rigorous mathematical treatment of statistical theory tailored for Economics and
 ## Unit 1: Combinatorial Foundations
 
 ### Topic 1: Basic Counting Principles
-**Content**: The Basic Principle of Counting, Permutations with applications to economic scenarios  
-**Reading**: Ross, Chapter 1: Sections 1.1-1.2
+**Content**: The Basic Principle of Counting, Permutations, Combinations, Multinomial Coefficients
+**Reading**: Ross, Chapter 1
 
 **[🚀 Combinatorial Analysis Fundamentals](/lectures/math-stat-1/01-combinatorics/index.html)**
 {: .btn .btn--primary}
 
 *Interactive presentation with counting calculators and economic applications*
+---
+
+## Unit 2: Axioms of Probability
+
+### Topic 3: Sample Spaces and Events
+**Content**: Sample Space and Events, Event Operations, Equally Likely Outcomes  
+**Reading**: Ross, Chapter 2: Sections 2.1-2.3
+
+**[🚀 Sample Spaces & Events](/lectures/math-stat-1/03-sample_spaces/index.html)**
+{: .btn .btn--primary}
 
 ---
 
-### Topic 2: Advanced Counting Methods
-**Content**: Combinations, Multinomial Coefficients, applications to portfolio theory  
-**Reading**: Ross, Chapter 1: Sections 1.3-1.4
+### Topic 4: Axioms of Probability
+**Content**: Axioms of Probability, Simple Propositions, economic event modeling  
+**Reading**: Ross, Chapter 2: Sections 2.2-2.4
 
-**[🚀 Combinations & Multinomial Applications](/lectures/math-stat-1/01-combinatorics/index.html)**
+**[🚀 Axioms of Probability](/lectures/math-stat-1/03-01-equally_likely_outcome/sample_spaces_equally_likely_outcomes.html)**
 {: .btn .btn--primary}
-
-*Financial portfolio combinations with interactive calculators*
-
----
-
-## Unit 2: Probability Theory
-
-### Topic 3: Axioms of Probability
-**Content**: Sample Space and Events, Axioms of Probability, economic event modeling  
-**Reading**: Ross, Chapter 2: Sections 2.1-2.2
-
-**[🚀 Axioms of Probability](/lectures/math-stat-1/02-axioms_of_probability/index.html)**
-{: .btn .btn--primary}
-
-*Interactive presentation with probability theory fundamentals and economic examples*
-
----
-
-### Topic 4: Equal Likelihood & Simple Propositions
-**Content**: Simple Propositions, Sample Spaces Having Equally Likely Outcomes  
-**Reading**: Ross, Chapter 2: Sections 2.3-2.4
-
-**[🚀 Equal Probability & Market Applications](/lectures/math-stat-1/02-axioms_of_probability/index.html)**
-{: .btn .btn--primary}
-
-*Market scenario modeling with equal probability assumptions*
 
 ---
 
