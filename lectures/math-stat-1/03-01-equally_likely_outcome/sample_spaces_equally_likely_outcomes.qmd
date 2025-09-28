@@ -1,0 +1,2565 @@
+---
+title: "Probability Theory"
+subtitle: "Sample Space With Equally Likely Outcomes"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: default
+    logo: ADA.png
+    footer: "Mathematical Statistics - ADA"
+    slide-number: true
+    menu: true
+    width: 1280
+    height: 720
+    margin: 0.04
+    min-scale: 0.2
+    max-scale: 2.0
+    transition: slide
+    transition-speed: fast
+    highlight-style: tango
+    code-fold: true
+    embed-resources: false
+    incremental: false
+    controls: true
+    progress: true
+    history: true
+    center: false
+    touch: true
+    keyboard: true
+    overview: true
+    help: true
+    pause: true
+    preload-iframes: true
+    auto-animate: false
+    auto-stretch: false
+    include-in-header:
+      - text: |
+          <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+          <style>
+          /* Base Variables */
+          :root {
+            --color-white: rgba(255, 255, 255, 1);
+            --color-cream-50: rgba(252, 252, 249, 1);
+            --color-cream-100: rgba(255, 255, 253, 1);
+            --color-gray-200: rgba(245, 245, 245, 1);
+            --color-gray-300: rgba(167, 169, 169, 1);
+            --color-slate-500: rgba(98, 108, 113, 1);
+            --color-brown-600: rgba(94, 82, 64, 1);
+            --color-charcoal-700: rgba(31, 33, 33, 1);
+            --color-teal-300: rgba(50, 184, 198, 1);
+            --color-teal-400: rgba(45, 166, 178, 1);
+            --color-teal-500: rgba(33, 128, 141, 1);
+            --color-teal-600: rgba(29, 116, 128, 1);
+            --color-teal-700: rgba(26, 104, 115, 1);
+            --color-orange-400: rgba(230, 129, 97, 1);
+            --font-family-sans-serif: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+          }
+
+          /* Main presentation styles */
+          .reveal {
+            font-family: var(--font-family-sans-serif);
+            font-size: 1.75rem;
+            font-weight: 400;
+            color: var(--color-charcoal-700);
+            background-color: var(--color-cream-50);
+          }
+
+          .reveal .slides {
+            text-align: left;
+          }
+
+          .reveal .slides section {
+            padding: 1.5rem;
+            background: var(--color-white);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin: 0.5rem;
+          }
+
+          /* Text Elements */
+          .reveal p, .reveal li {
+            font-size: 1.4rem;
+            line-height: 1.6;
+          }
+
+          .reveal p {
+            margin: 0.5rem 0;
+          }
+
+          .reveal li {
+            margin: 0.25rem 0;
+          }
+
+          /* Headers */
+          .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+            font-family: var(--font-family-sans-serif);
+            font-weight: 600;
+            color: var(--color-teal-600);
+          }
+
+          .reveal h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+          .reveal h2 { font-size: 2rem; margin-bottom: 0.8rem; }
+          .reveal h3 { font-size: 1.6rem; margin-bottom: 0.6rem; }
+          .reveal h4 { font-size: 1.4rem; margin-bottom: 0.6rem; }
+
+          /* Text Styling */
+          .reveal strong {
+            color: var(--color-teal-700);
+            font-weight: 600;
+          }
+
+          .reveal em {
+            color: var(--color-orange-400);
+            font-style: normal;
+            font-weight: 500;
+          }
+
+          /* Lists */
+          .reveal ul, .reveal ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+          }
+
+          .reveal li {
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+          }
+
+          /* Code */
+          .reveal code {
+            background-color: var(--color-gray-200);
+            color: var(--color-brown-600);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 1rem;
+          }
+
+          .reveal pre code {
+            background-color: var(--color-gray-200);
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            line-height: 1.4;
+          }
+
+          .reveal pre {
+            font-size: 1rem;
+            line-height: 1.4;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow: auto;
+          }
+
+          /* Tables */
+          .reveal table {
+            margin: 1rem 0;
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 1.2rem;
+          }
+
+          .reveal th, .reveal td {
+            padding: 0.5rem;
+            border: 1px solid var(--color-gray-300);
+            text-align: left;
+          }
+
+          .reveal th {
+            background-color: var(--color-teal-500);
+            color: var(--color-white);
+            font-weight: 600;
+          }
+
+          .reveal tr:nth-child(even) {
+            background-color: var(--color-gray-200);
+          }
+
+          /* Callouts */
+          .callout {
+            border-left: 4px solid;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            background-color: rgba(255, 255, 255, 0.7);
+          }
+
+          .callout-note {
+            border-left-color: var(--color-teal-500);
+            background-color: rgba(33, 128, 141, 0.1);
+          }
+
+          .callout-tip {
+            border-left-color: var(--color-orange-400);
+            background-color: rgba(230, 129, 97, 0.1);
+          }
+
+          .callout-warning {
+            border-left-color: #fbbf24;
+            background-color: rgba(251, 191, 36, 0.1);
+          }
+
+          .callout-important {
+            border-left-color: #ef4444;
+            background-color: rgba(239, 68, 68, 0.1);
+          }
+
+          .callout .callout-title {
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            font-size: 1.1em;
+          }
+
+          /* Fragments */
+          .reveal .fragment {
+            opacity: 0.3;
+          }
+
+          .reveal .fragment.visible {
+            opacity: 1;
+          }
+
+          .reveal .fragment.fade-in {
+            opacity: 0;
+          }
+
+          .reveal .fragment.fade-in.visible {
+            opacity: 1;
+          }
+
+          /* Columns */
+          .columns {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+          }
+
+          .column {
+            flex: 1;
+          }
+
+          /* Special classes */
+          .center {
+            text-align: center !important;
+          }
+
+          .smaller {
+            font-size: 0.85em;
+          }
+
+          .larger {
+            font-size: 1.15em;
+          }
+
+          .tiny {
+            font-size: 0.7em;
+          }
+
+          .small {
+            font-size: 0.9em;
+          }
+
+          .big {
+            font-size: 1.3em;
+          }
+
+          .huge {
+            font-size: 1.6em;
+          }
+
+          /* Definition lists */
+          .reveal dt {
+            font-weight: 600;
+            color: var(--color-teal-600);
+            margin-top: 1rem;
+          }
+
+          .reveal dd {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--color-slate-500);
+          }
+
+          /* Theorem environments */
+          .theorem {
+            background: linear-gradient(135deg, rgba(33, 128, 141, 0.1), rgba(50, 184, 198, 0.1));
+            border: 2px solid var(--color-teal-400);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+          }
+
+          .theorem::before {
+            content: "Theorem";
+            font-weight: 700;
+            color: var(--color-teal-600);
+            display: block;
+            margin-bottom: 0.5rem;
+          }
+
+          /* Navigation */
+          .reveal .controls {
+            color: var(--color-teal-600);
+          }
+
+          .reveal .progress {
+            color: var(--color-teal-600);
+          }
+
+          .reveal .slide-number {
+            color: var(--color-slate-500);
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 4px;
+            padding: 0.25rem 0.5rem;
+          }
+
+          /* Footer */
+          .reveal .slide-footer {
+            background-color: var(--color-teal-600);
+            color: var(--color-white);
+            padding: 0.5rem 1rem;
+            font-size: 0.8em;
+          }
+
+          /* Incremental lists */
+          .reveal .incremental > * {
+            opacity: 0.3;
+          }
+
+          .reveal .incremental > .visible {
+            opacity: 1;
+          }
+
+          /* Interactive elements */
+          .reveal button, .reveal .btn {
+            font-size: 1.2rem;
+            padding: 0.5rem 1rem;
+            min-height: 2.5rem;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 0.25rem;
+          }
+
+          .reveal input, .reveal textarea, .reveal select {
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            min-height: 2.5rem;
+            border-radius: 4px;
+            border: 2px solid var(--color-gray-300);
+          }
+
+          /* Custom styles for this presentation */
+          .large-text { font-size: 1.4em; }
+          .highlight { background-color: #ffff99; }
+          .example { border-left: 4px solid #28a745; padding-left: 20px; margin: 10px 0; }
+          .homework { border-left: 4px solid #dc3545; padding-left: 20px; margin: 10px 0; }
+          .interactive-demo { border: 2px dashed #6c757d; padding: 15px; margin: 15px 0; }
+
+          /* Math */
+          .reveal .MathJax {
+            font-size: 1.1em !important;
+          }
+          </style>
+jupyter: python3
+---
+
+## [Learning Objectives]{.r-fit-text style="font-size: 50px"} {.center}
+
+
+::: columns
+::: {.column width="50%" style="font-size: 40px"}
+
+🎯 **Equally Likely Outcomes**
+
+:   Understand the concept of equiprobable sample spaces
+
+📊 **Classical Probability**
+
+:   Apply the classical definition of probability
+
+🎲 **Dice & Card Problems**
+
+:   Solve probability problems involving dice and cards
+:::
+
+::: {.column width="50%" style="font-size: 40px"}
+
+🔄 **Combinatorics**
+
+:   Use combinations and permutations in probability
+
+📐 **Complex Applications**
+
+:   Master poker hands, birthday problems, and matching problems
+
+🎪 **Interactive Demos**
+
+:   Visualize probability concepts through animations
+:::
+:::
+
+------------------------------------------------------------------------
+
+## [Course Overview]{.r-fit-text style="font-size: 50px"}{.center}
+
+::: columns
+::: {.column width="50%" style="font-size: 40px !important;"}
+
+Core Concepts
+
+:   🎯 **Equally Likely Outcomes**
+
+Classical Problems
+
+:   🎲 **Classical Examples**
+
+Card Games
+
+:   🃏 **Poker Hands**
+:::
+
+::: {.column width="50%" style="font-size: 40px !important;"}
+
+Paradoxes
+
+:   🎂 **Birthday Problem**
+
+Advanced Topics
+
+:   🧩 **Complex Applications**
+
+Tools
+
+:   💻 **Interactive Demos**
+:::
+:::
+
+------------------------------------------------------------------------
+
+## [What if All Outcomes Are Equally Likely?]{.r-fit-text style="font-size: 30px"}{.center}
+
+::: callout-important
+## [Fundamental Question]{style="font-size: 40px !important"}
+
+[What if we assume that all outcomes of an experiment are **equally likely** to occur?]{style="font-size: 30px !important"}
+:::
+
+::: fragment
+[**Example 1:** Consider an experiment whose sample space $S$ is a finite set: $$S = \{1, 2, \ldots, N\}$$]{style="font-size: 30px !important"}
+
+If we assume: $$P(\{1\}) = P(\{2\}) = \cdots = P(\{N\})$$
+:::
+
+::: fragment
+Then by Axioms 2 and 3, we get: $$P(\{i\}) = \frac{1}{N} \quad \text{for } i = 1, 2, \ldots, N$$
+:::
+
+------------------------------------------------------------------------
+
+## Classical Definition of Probability {.center}
+
+::: theorem
+**Proposition 1 (Classical Probability)**
+
+If all outcomes of an experiment are equally likely to occur, then:
+
+$$P(E) = \frac{\text{number of outcomes in } E}{\text{number of outcomes in } S}$$
+
+where $E$ is any event and $S$ is the sample space.
+:::
+
+::: fragment
+This is the **classical** or **equiprobable** definition of probability.
+:::
+
+------------------------------------------------------------------------
+
+## Interactive Demo: Coin Flips {.smaller}
+
+::: interactive-demo
+**Demonstration:** Let's see how probability stabilizes with equally likely outcomes
+
+```{=html}
+<div id="coin-flip-demo">
+  <p>Click to flip coins and observe how probability approaches 0.5:</p>
+  <button onclick="flipCoin()" style="padding: 10px 20px; font-size: 16px; margin: 10px;">Flip Coin</button>
+  <button onclick="resetFlips()" style="padding: 10px 20px; font-size: 16px; margin: 10px;">Reset</button>
+  <div id="flip-results" style="margin: 20px 0; font-size: 18px;"></div>
+  <div id="flip-count" style="font-size: 16px;"></div>
+</div>
+
+<script>
+let heads = 0;
+let totalFlips = 0;
+
+function flipCoin() {
+  const result = Math.random() < 0.5 ? 'H' : 'T';
+  totalFlips++;
+  if (result === 'H') heads++;
+
+  const probability = heads / totalFlips;
+  document.getElementById('flip-results').innerHTML = 
+    `Last flip: <strong>${result}</strong> | P(Heads) = ${probability.toFixed(4)}`;
+  document.getElementById('flip-count').innerHTML = 
+    `Heads: ${heads} | Total: ${totalFlips}`;
+}
+
+function resetFlips() {
+  heads = 0;
+  totalFlips = 0;
+  document.getElementById('flip-results').innerHTML = '';
+  document.getElementById('flip-count').innerHTML = '';
+}
+</script>
+```
+:::
+
+------------------------------------------------------------------------
+
+## Interactive Demo: Coin Flips with Chart {.smaller}
+
+::: interactive-demo
+**Demonstration:** Let's visualize how probability converges with a live chart
+
+```{=html}
+<div id="coin-flip-demo2" style="display: flex; align-items: flex-start; gap: 30px; background: #f6f8fa; padding: 28px; border-radius: 18px; box-shadow: 0px 4px 18px #d6d6d655;">
+
+  <!-- Controls Section -->
+  <div style="flex: 0 0 320px; min-width: 280px;">
+    <p style="font-size: 18px; margin-bottom: 12px; color: #1f2329; line-height: 1.3;">Flip coins and observe how probability approaches 0.5:</p>
+    
+    <!-- Manual Controls -->
+    <div style="margin-bottom: 15px;">
+      <h4 style="font-size: 15px; margin-bottom: 6px; color: #1f2329;">Manual Mode:</h4>
+      <button onclick="flipCoin2()" style="padding: 10px 24px; font-size: 16px; background: #235aa6; color: #fff; border: none; border-radius: 6px; margin: 2px 0; cursor: pointer; transition: background 0.2s;">Flip Coin</button>
+    </div>
+
+    <!-- Automatic Controls -->
+    <div style="margin-bottom: 15px; padding: 10px; background: #e8f4f8; border-radius: 6px;">
+      <h4 style="font-size: 15px; margin-bottom: 6px; color: #1f2329;">Auto Mode:</h4>
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+        <label style="font-size: 13px; color: #626a73;">Flips:</label>
+        <input type="number" id="auto-flips" value="100" min="10" max="1000" step="10" style="width: 55px; padding: 3px; font-size: 12px;">
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+        <label style="font-size: 13px; color: #626a73;">Speed:</label>
+        <select id="auto-speed" style="padding: 3px; font-size: 12px;">
+          <option value="10">Very Fast</option>
+          <option value="50" selected>Fast</option>
+          <option value="100">Normal</option>
+          <option value="200">Slow</option>
+        </select>
+      </div>
+      <button id="auto-btn" onclick="toggleAutoFlip()" style="padding: 8px 16px; font-size: 14px; background: #28a745; color: #fff; border: none; border-radius: 5px; cursor: pointer; transition: background 0.2s;">Start Auto</button>
+    </div>
+
+    <!-- Reset Button -->
+    <button onclick="resetFlips2()" style="padding: 10px 24px; font-size: 16px; background: #b2b6c4; color: #fff; border: none; border-radius: 6px; margin: 2px 0 12px 0; cursor: pointer; transition: background 0.2s;">Reset All</button>
+    
+    <!-- Results Display -->
+    <div id="flip-results2" style="margin: 12px 0; font-size: 17px; color: #1f2329; line-height: 1.3;"></div>
+    <div id="flip-count2" style="font-size: 15px; color: #626a73; line-height: 1.3;"></div>
+  </div>
+
+  <!-- Chart section (wider, improved visuals) -->
+  <div style="flex: 1 1 500px; display: flex; justify-content: flex-end;">
+    <canvas id="probabilityChart" width="650" height="400" style="background: #fff; border-radius: 12px; box-shadow: 0px 0px 14px #d6d6d6;"></canvas>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+let heads2 = 0;
+let totalFlips2 = 0;
+let autoInterval = null;
+let isAutoRunning = false;
+let autoFlipsRemaining = 0;
+
+// Initialize the Chart.js line chart:
+const ctx2 = document.getElementById('probabilityChart').getContext('2d');
+const probabilityChart = new Chart(ctx2, {
+    type: 'line',
+    data: {
+        labels: [],
+        datasets: [
+          {
+            label: 'P(Heads)',
+            data: [],
+            borderColor: 'rgb(68,114,196)',
+            backgroundColor: 'rgba(68,114,196,0.08)',
+            tension: 0.2,
+            pointRadius: 0,
+            borderWidth: 3
+          },
+          {
+            label: 'Target (0.5)',
+            data: [],
+            borderColor: 'rgb(255,99,132)',
+            borderDash: [4,6],
+            pointRadius: 0,
+            borderWidth: 2
+          }
+        ]
+    },
+    options: {
+        responsive: false,
+        maintainAspectRatio: false,
+        aspectRatio: 1.7,
+        plugins: {
+            legend: { 
+              display: true,
+              labels: {
+                font: {
+                  size: 14
+                }
+              }
+            },
+            title: { 
+              display: true, 
+              text: 'Probability Convergence: P(Heads) as flips increase',
+              font: {
+                size: 16,
+                weight: 'bold'
+              },
+              color: '#1f2329'
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                min: 0, max: 1,
+                title: { 
+                  display: true, 
+                  text: 'Probability',
+                  font: {
+                    size: 14,
+                    weight: 'bold'
+                  }
+                },
+                ticks: {
+                  font: {
+                    size: 12
+                  }
+                }
+            },
+            x: {
+                title: { 
+                  display: true, 
+                  text: 'Number of Flips',
+                  font: {
+                    size: 14,
+                    weight: 'bold'
+                  }
+                },
+                ticks: {
+                  font: {
+                    size: 12
+                  }
+                }
+            }
+        }
+    }
+});
+
+// Add hover effects to buttons after DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+  // Manual flip button hover
+  const manualBtn = document.querySelector('button[onclick="flipCoin2()"]');
+  if (manualBtn) {
+    manualBtn.addEventListener('mouseenter', function() {
+      this.style.background = '#1e4a8c';
+    });
+    manualBtn.addEventListener('mouseleave', function() {
+      this.style.background = '#235aa6';
+    });
+  }
+
+  // Reset button hover  
+  const resetBtn = document.querySelector('button[onclick="resetFlips2()"]');
+  if (resetBtn) {
+    resetBtn.addEventListener('mouseenter', function() {
+      this.style.background = '#9ca3ae';
+    });
+    resetBtn.addEventListener('mouseleave', function() {
+      this.style.background = '#b2b6c4';
+    });
+  }
+
+  // Auto button hover
+  const autoBtn = document.getElementById('auto-btn');
+  if (autoBtn) {
+    autoBtn.addEventListener('mouseenter', function() {
+      if (!isAutoRunning) {
+        this.style.background = '#218838';
+      } else {
+        this.style.background = '#c82333';
+      }
+    });
+    autoBtn.addEventListener('mouseleave', function() {
+      if (!isAutoRunning) {
+        this.style.background = '#28a745';
+      } else {
+        this.style.background = '#dc3545';
+      }
+    });
+  }
+});
+
+function flipCoin2() {
+  const result = Math.random() < 0.5 ? 'H' : 'T';
+  totalFlips2++;
+  if (result === 'H') heads2++;
+
+  const probability = heads2 / totalFlips2;
+
+  probabilityChart.data.labels.push(totalFlips2);
+  probabilityChart.data.datasets[0].data.push(probability);
+  probabilityChart.data.datasets[1].data.push(0.5);
+
+  if (probabilityChart.data.labels.length > 50) {
+    probabilityChart.data.labels.shift();
+    probabilityChart.data.datasets[0].data.shift();
+    probabilityChart.data.datasets[1].data.shift();
+  }
+  probabilityChart.update('none');
+
+  document.getElementById('flip-results2').innerHTML = 
+    `Last flip: <strong style="color: ${result === 'H' ? '#235aa6' : '#e74c3c'};">${result}</strong> &nbsp;|&nbsp; P(Heads) = <strong>${probability.toFixed(4)}</strong>`;
+  document.getElementById('flip-count2').innerHTML = 
+    `Heads: <strong>${heads2}</strong> &nbsp;|&nbsp; Total: <strong>${totalFlips2}</strong>${autoFlipsRemaining > 0 ? ` &nbsp;|&nbsp; Remaining: <strong>${autoFlipsRemaining}</strong>` : ''}`;
+}
+
+function toggleAutoFlip() {
+  console.log('toggleAutoFlip called, isAutoRunning:', isAutoRunning); // Debug log
+  const autoBtn = document.getElementById('auto-btn');
+  
+  if (!autoBtn) {
+    console.error('Auto button not found!');
+    return;
+  }
+  
+  if (isAutoRunning) {
+    // Stop auto flipping
+    console.log('Stopping auto flip');
+    clearInterval(autoInterval);
+    isAutoRunning = false;
+    autoFlipsRemaining = 0;
+    autoBtn.textContent = 'Start Auto';
+    autoBtn.style.background = '#28a745';
+    
+    // Re-enable controls
+    const autoFlipsInput = document.getElementById('auto-flips');
+    const autoSpeedSelect = document.getElementById('auto-speed');
+    if (autoFlipsInput) autoFlipsInput.disabled = false;
+    if (autoSpeedSelect) autoSpeedSelect.disabled = false;
+  } else {
+    // Start auto flipping
+    console.log('Starting auto flip');
+    const autoFlipsInput = document.getElementById('auto-flips');
+    const autoSpeedSelect = document.getElementById('auto-speed');
+    
+    if (!autoFlipsInput || !autoSpeedSelect) {
+      console.error('Auto controls not found!');
+      return;
+    }
+    
+    const numFlips = parseInt(autoFlipsInput.value) || 100;
+    const speed = parseInt(autoSpeedSelect.value) || 50;
+    
+    console.log('Auto settings:', numFlips, 'flips at', speed, 'ms interval');
+    
+    autoFlipsRemaining = numFlips;
+    isAutoRunning = true;
+    autoBtn.textContent = 'Stop Auto';
+    autoBtn.style.background = '#dc3545';
+    
+    // Disable controls during auto run
+    autoFlipsInput.disabled = true;
+    autoSpeedSelect.disabled = true;
+    
+    autoInterval = setInterval(() => {
+      flipCoin2();
+      autoFlipsRemaining--;
+      
+      if (autoFlipsRemaining <= 0) {
+        console.log('Auto flip complete');
+        toggleAutoFlip(); // Stop when done
+      }
+    }, speed);
+  }
+}
+
+function resetFlips2() {
+  // Stop auto flipping if running
+  if (isAutoRunning) {
+    toggleAutoFlip();
+  }
+  
+  heads2 = 0;
+  totalFlips2 = 0;
+  autoFlipsRemaining = 0;
+  probabilityChart.data.labels = [];
+  probabilityChart.data.datasets[0].data = [];
+  probabilityChart.data.datasets[1].data = [];
+  probabilityChart.update();
+  document.getElementById('flip-results2').innerHTML = '';
+  document.getElementById('flip-count2').innerHTML = '';
+  
+  // Re-enable controls
+  document.getElementById('auto-flips').disabled = false;
+  document.getElementById('auto-speed').disabled = false;
+}
+</script>
+```
+:::
+
+------------------------------------------------------------------------
+
+## Think-Pair-Share Activity 1 {.smaller}
+
+::: callout-tip
+## Dice Rolling Experiment
+
+**Prompt:** Two dice are rolled. What is the probability that the sum of the upturned faces will equal 7?
+
+**Think Time:** 3 minutes\
+**Pair Time:** 4 minutes\
+**Share Prompt:** How did you count the favorable outcomes?
+:::
+
+::: {.fragment .fade-in}
+::: example
+**Solution:** - Sample space: $S = \{(i,j) : i,j = 1,2,3,4,5,6\}$, so $|S| = 36$ - Event $E = \{(1,6), (2,5), (3,4), (4,3), (5,2), (6,1)\}$, so $|E| = 6$ - Therefore: $P(E) = \frac{6}{36} = \frac{1}{6}$
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Interactive Dice Simulation {.smaller}
+
+::: interactive-demo
+**Simulation:** Roll two dice and observe sum frequency distribution
+
+```{=html}
+<div id="dice-demo" style="display: flex; align-items: flex-start; gap: 25px; background: #f6f8fa; padding: 22px; border-radius: 15px; box-shadow: 0px 4px 16px #d6d6d655;">
+
+  <!-- Controls Section -->
+  <div style="flex: 0 0 320px; min-width: 280px;">
+    <p style="font-size: 17px; margin-bottom: 10px; color: #1f2329; line-height: 1.2;">Roll dice and observe sum frequency distribution:</p>
+    
+    <!-- Manual Controls -->
+    <div style="margin-bottom: 12px;">
+      <h4 style="font-size: 14px; margin-bottom: 5px; color: #1f2329;">Manual Mode:</h4>
+      <button onclick="rollDice3()" style="padding: 9px 22px; font-size: 15px; background: #e74c3c; color: #fff; border: none; border-radius: 6px; margin: 2px 0; cursor: pointer; transition: background 0.2s;">Roll Dice</button>
+    </div>
+
+    <!-- Automatic Controls -->
+    <div style="margin-bottom: 12px; padding: 8px; background: #fdf2f2; border-radius: 6px;">
+      <h4 style="font-size: 14px; margin-bottom: 5px; color: #1f2329;">Auto Mode:</h4>
+      <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+        <label style="font-size: 12px; color: #626a73;">Rolls:</label>
+        <input type="number" id="auto-dice-rolls" value="100" min="10" max="1000" step="10" style="width: 50px; padding: 2px; font-size: 12px;">
+      </div>
+      <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+        <label style="font-size: 12px; color: #626a73;">Speed:</label>
+        <select id="auto-dice-speed" style="padding: 2px; font-size: 12px;">
+          <option value="10">Very Fast</option>
+          <option value="50" selected>Fast</option>
+          <option value="100">Normal</option>
+          <option value="200">Slow</option>
+        </select>
+      </div>
+      <button id="auto-dice-btn" onclick="toggleAutoDice()" style="padding: 7px 14px; font-size: 13px; background: #e74c3c; color: #fff; border: none; border-radius: 5px; cursor: pointer; transition: background 0.2s;">Start Auto</button>
+    </div>
+
+    <!-- Reset Button -->
+    <button onclick="resetDice3()" style="padding: 9px 22px; font-size: 15px; background: #b2b6c4; color: #fff; border: none; border-radius: 6px; margin: 2px 0 10px 0; cursor: pointer; transition: background 0.2s;">Reset All</button>
+    
+    <!-- Results Display -->
+    <div id="dice-result3" style="margin: 10px 0; font-size: 16px; color: #1f2329; line-height: 1.2;"></div>
+    <div id="dice-count3" style="font-size: 14px; color: #626a73; line-height: 1.2;"></div>
+  </div>
+
+  <!-- Chart section (wider, improved visuals) -->
+  <div style="flex: 1 1 500px; display: flex; justify-content: flex-end;">
+    <canvas id="diceFrequencyChart" width="650" height="420" style="background: #fff; border-radius: 12px; box-shadow: 0px 0px 14px #d6d6d6;"></canvas>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+let diceCounts3 = {};
+let totalRolls3 = 0;
+let autoDiceInterval = null;
+let isAutoDiceRunning = false;
+let autoDiceRollsRemaining = 0;
+
+// Initialize all sum counts to 0
+for (let i = 2; i <= 12; i++) {
+  diceCounts3[i] = 0;
+}
+
+// Initialize the Chart.js bar chart:
+const ctxDice = document.getElementById('diceFrequencyChart').getContext('2d');
+const diceFrequencyChart = new Chart(ctxDice, {
+    type: 'bar',
+    data: {
+        labels: ['2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+        datasets: [
+          {
+            label: 'Frequency',
+            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            backgroundColor: 'rgba(231, 76, 60, 0.7)',
+            borderColor: 'rgb(231, 76, 60)',
+            borderWidth: 2
+          },
+          {
+            label: 'Expected (Theoretical)',
+            data: [1/36, 2/36, 3/36, 4/36, 5/36, 6/36, 5/36, 4/36, 3/36, 2/36, 1/36],
+            type: 'line',
+            borderColor: 'rgb(52, 152, 219)',
+            backgroundColor: 'rgba(52, 152, 219, 0.1)',
+            borderWidth: 3,
+            pointRadius: 4,
+            pointBackgroundColor: 'rgb(52, 152, 219)',
+            fill: false
+          }
+        ]
+    },
+    options: {
+        responsive: false,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { 
+              display: true,
+              labels: {
+                font: {
+                  size: 14
+                }
+              }
+            },
+            title: { 
+              display: true, 
+              text: 'Dice Sum Frequency Distribution',
+              font: {
+                size: 16,
+                weight: 'bold'
+              },
+              color: '#1f2329'
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                min: 0, max: 0.3,
+                title: { 
+                  display: true, 
+                  text: 'Probability',
+                  font: {
+                    size: 14,
+                    weight: 'bold'
+                  }
+                },
+                ticks: {
+                  font: {
+                    size: 12
+                  }
+                }
+            },
+            x: {
+                title: { 
+                  display: true, 
+                  text: 'Sum of Dice',
+                  font: {
+                    size: 14,
+                    weight: 'bold'
+                  }
+                },
+                ticks: {
+                  font: {
+                    size: 12
+                  }
+                }
+            }
+        }
+    }
+});
+
+// Add hover effects to dice buttons after DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+  // Manual roll button hover
+  const manualDiceBtn = document.querySelector('button[onclick="rollDice3()"]');
+  if (manualDiceBtn) {
+    manualDiceBtn.addEventListener('mouseenter', function() {
+      this.style.background = '#c0392b';
+    });
+    manualDiceBtn.addEventListener('mouseleave', function() {
+      this.style.background = '#e74c3c';
+    });
+  }
+
+  // Reset button hover  
+  const resetDiceBtn = document.querySelector('button[onclick="resetDice3()"]');
+  if (resetDiceBtn) {
+    resetDiceBtn.addEventListener('mouseenter', function() {
+      this.style.background = '#9ca3ae';
+    });
+    resetDiceBtn.addEventListener('mouseleave', function() {
+      this.style.background = '#b2b6c4';
+    });
+  }
+
+  // Auto button hover
+  const autoDiceBtn = document.getElementById('auto-dice-btn');
+  if (autoDiceBtn) {
+    autoDiceBtn.addEventListener('mouseenter', function() {
+      if (!isAutoDiceRunning) {
+        this.style.background = '#c0392b';
+      } else {
+        this.style.background = '#a93226';
+      }
+    });
+    autoDiceBtn.addEventListener('mouseleave', function() {
+      if (!isAutoDiceRunning) {
+        this.style.background = '#e74c3c';
+      } else {
+        this.style.background = '#dc3545';
+      }
+    });
+  }
+});
+
+function rollDice3() {
+  const die1 = Math.floor(Math.random() * 6) + 1;
+  const die2 = Math.floor(Math.random() * 6) + 1;
+  const sum = die1 + die2;
+
+  totalRolls3++;
+  diceCounts3[sum]++;
+
+  // Update chart data
+  const frequencies = [];
+  for (let i = 2; i <= 12; i++) {
+    frequencies.push(diceCounts3[i] / totalRolls3);
+  }
+  diceFrequencyChart.data.datasets[0].data = frequencies;
+  diceFrequencyChart.update('none');
+
+  document.getElementById('dice-result3').innerHTML = 
+    `Last roll: <strong style="color: #e74c3c;">(${die1}, ${die2})</strong> &nbsp;|&nbsp; Sum: <strong>${sum}</strong>`;
+  document.getElementById('dice-count3').innerHTML = 
+    `Total Rolls: <strong>${totalRolls3}</strong>${autoDiceRollsRemaining > 0 ? ` &nbsp;|&nbsp; Remaining: <strong>${autoDiceRollsRemaining}</strong>` : ''}`;
+}
+
+function toggleAutoDice() {
+  const autoDiceBtn = document.getElementById('auto-dice-btn');
+  
+  if (!autoDiceBtn) {
+    console.error('Auto dice button not found!');
+    return;
+  }
+  
+  if (isAutoDiceRunning) {
+    // Stop auto rolling
+    clearInterval(autoDiceInterval);
+    isAutoDiceRunning = false;
+    autoDiceRollsRemaining = 0;
+    autoDiceBtn.textContent = 'Start Auto';
+    autoDiceBtn.style.background = '#e74c3c';
+    
+    // Re-enable controls
+    const autoRollsInput = document.getElementById('auto-dice-rolls');
+    const autoSpeedSelect = document.getElementById('auto-dice-speed');
+    if (autoRollsInput) autoRollsInput.disabled = false;
+    if (autoSpeedSelect) autoSpeedSelect.disabled = false;
+  } else {
+    // Start auto rolling
+    const autoRollsInput = document.getElementById('auto-dice-rolls');
+    const autoSpeedSelect = document.getElementById('auto-dice-speed');
+    
+    if (!autoRollsInput || !autoSpeedSelect) {
+      console.error('Auto dice controls not found!');
+      return;
+    }
+    
+    const numRolls = parseInt(autoRollsInput.value) || 100;
+    const speed = parseInt(autoSpeedSelect.value) || 50;
+    
+    autoDiceRollsRemaining = numRolls;
+    isAutoDiceRunning = true;
+    autoDiceBtn.textContent = 'Stop Auto';
+    autoDiceBtn.style.background = '#dc3545';
+    
+    // Disable controls during auto run
+    autoRollsInput.disabled = true;
+    autoSpeedSelect.disabled = true;
+    
+    autoDiceInterval = setInterval(() => {
+      rollDice3();
+      autoDiceRollsRemaining--;
+      
+      if (autoDiceRollsRemaining <= 0) {
+        toggleAutoDice(); // Stop when done
+      }
+    }, speed);
+  }
+}
+
+function resetDice3() {
+  // Stop auto rolling if running
+  if (isAutoDiceRunning) {
+    toggleAutoDice();
+  }
+  
+  // Reset all counts
+  for (let i = 2; i <= 12; i++) {
+    diceCounts3[i] = 0;
+  }
+  totalRolls3 = 0;
+  autoDiceRollsRemaining = 0;
+  
+  // Reset chart
+  diceFrequencyChart.data.datasets[0].data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  diceFrequencyChart.update();
+  
+  document.getElementById('dice-result3').innerHTML = '';
+  document.getElementById('dice-count3').innerHTML = '';
+  
+  // Re-enable controls
+  document.getElementById('auto-dice-rolls').disabled = false;
+  document.getElementById('auto-dice-speed').disabled = false;
+}
+</script>
+```
+:::
+
+------------------------------------------------------------------------
+
+## Example: Ball Drawing Problem {.smaller}
+
+::: example
+**Example 3:** If 3 balls are "randomly drawn" from a bowl containing 6 white and 5 black balls, what is the probability that one ball is white and the other two are black?
+:::
+
+::: fragment
+**Solution:** - Total ways to choose 3 balls from 11: $\binom{11}{3} = \frac{11!}{3! \cdot 8!} = 165$ - Ways to choose 1 white from 6 and 2 black from 5: $\binom{6}{1} \times \binom{5}{2} = 6 \times 10 = 60$ - Therefore: $P(\text{1 white, 2 black}) = \frac{60}{165} = \frac{4}{11}$
+:::
+
+------------------------------------------------------------------------
+
+## Interactive Ball Drawing Demo {.smaller}
+
+::: interactive-demo
+**Simulation:** Draw 3 balls from 6 white + 5 black balls and observe probability convergence
+
+```{=html}
+<div id="ball-demo" style="display: flex; align-items: flex-start; gap: 25px; background: #f6f8fa; padding: 22px; border-radius: 15px; box-shadow: 0px 4px 16px #d6d6d655;">
+
+  <!-- Controls Section -->
+  <div style="flex: 0 0 320px; min-width: 280px;">
+    <p style="font-size: 17px; margin-bottom: 10px; color: #1f2329; line-height: 1.2;">Draw 3 balls and observe probability of 1 White + 2 Black:</p>
+    
+    <!-- Manual Controls -->
+    <div style="margin-bottom: 12px;">
+      <h4 style="font-size: 14px; margin-bottom: 5px; color: #1f2329;">Manual Mode:</h4>
+      <button onclick="drawBalls4()" style="padding: 9px 22px; font-size: 15px; background: #8e44ad; color: #fff; border: none; border-radius: 6px; margin: 2px 0; cursor: pointer; transition: background 0.2s;">Draw 3 Balls</button>
+    </div>
+
+    <!-- Automatic Controls -->
+    <div style="margin-bottom: 12px; padding: 8px; background: #faf5ff; border-radius: 6px;">
+      <h4 style="font-size: 14px; margin-bottom: 5px; color: #1f2329;">Auto Mode:</h4>
+      <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+        <label style="font-size: 12px; color: #626a73;">Draws:</label>
+        <input type="number" id="auto-ball-draws" value="100" min="10" max="1000" step="10" style="width: 50px; padding: 2px; font-size: 12px;">
+      </div>
+      <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+        <label style="font-size: 12px; color: #626a73;">Speed:</label>
+        <select id="auto-ball-speed" style="padding: 2px; font-size: 12px;">
+          <option value="10">Very Fast</option>
+          <option value="50" selected>Fast</option>
+          <option value="100">Normal</option>
+          <option value="200">Slow</option>
+        </select>
+      </div>
+      <button id="auto-ball-btn" onclick="toggleAutoBalls()" style="padding: 7px 14px; font-size: 13px; background: #8e44ad; color: #fff; border: none; border-radius: 5px; cursor: pointer; transition: background 0.2s;">Start Auto</button>
+    </div>
+
+    <!-- Reset Button -->
+    <button onclick="resetBalls4()" style="padding: 9px 22px; font-size: 15px; background: #b2b6c4; color: #fff; border: none; border-radius: 6px; margin: 2px 0 10px 0; cursor: pointer; transition: background 0.2s;">Reset All</button>
+    
+    <!-- Results Display -->
+    <div id="ball-result4" style="margin: 10px 0; font-size: 16px; color: #1f2329; line-height: 1.2;"></div>
+    <div id="ball-count4" style="font-size: 14px; color: #626a73; line-height: 1.2;"></div>
+    <div id="ball-probability4" style="margin: 8px 0; font-size: 15px; color: #8e44ad; font-weight: bold; line-height: 1.2;"></div>
+  </div>
+
+  <!-- Chart section (wider, improved visuals) -->
+  <div style="flex: 1 1 500px; display: flex; justify-content: flex-end;">
+    <canvas id="ballProbabilityChart" width="650" height="420" style="background: #fff; border-radius: 12px; box-shadow: 0px 0px 14px #d6d6d6;"></canvas>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+let ballDraws4 = 0;
+let oneWhiteTwoBlack4 = 0;
+let autoBallInterval = null;
+let isAutoBallRunning = false;
+let autoBallDrawsRemaining = 0;
+
+// Initialize the Chart.js line chart for ball drawing:
+const ctxBall = document.getElementById('ballProbabilityChart').getContext('2d');
+const ballProbabilityChart = new Chart(ctxBall, {
+    type: 'line',
+    data: {
+        labels: [],
+        datasets: [
+          {
+            label: 'P(1W + 2B) - Experimental',
+            data: [],
+            borderColor: 'rgb(142, 68, 173)',
+            backgroundColor: 'rgba(142, 68, 173, 0.08)',
+            tension: 0.2,
+            pointRadius: 0,
+            borderWidth: 3
+          },
+          {
+            label: 'Theoretical (4/11 ≈ 0.364)',
+            data: [],
+            borderColor: 'rgb(39, 174, 96)',
+            borderDash: [4,6],
+            pointRadius: 0,
+            borderWidth: 2
+          }
+        ]
+    },
+    options: {
+        responsive: false,
+        maintainAspectRatio: false,
+        aspectRatio: 1.7,
+        plugins: {
+            legend: { 
+              display: true,
+              labels: {
+                font: {
+                  size: 14
+                }
+              }
+            },
+            title: { 
+              display: true, 
+              text: 'Probability Convergence: P(1 White + 2 Black) vs Draws',
+              font: {
+                size: 16,
+                weight: 'bold'
+              },
+              color: '#1f2329'
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                min: 0, max: 1,
+                title: { 
+                  display: true, 
+                  text: 'Probability',
+                  font: {
+                    size: 14,
+                    weight: 'bold'
+                  }
+                },
+                ticks: {
+                  font: {
+                    size: 12
+                  }
+                }
+            },
+            x: {
+                title: { 
+                  display: true, 
+                  text: 'Number of Draws',
+                  font: {
+                    size: 14,
+                    weight: 'bold'
+                  }
+                },
+                ticks: {
+                  font: {
+                    size: 12
+                  }
+                }
+            }
+        }
+    }
+});
+
+// Add hover effects to ball buttons after DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+  // Manual draw button hover
+  const manualBallBtn = document.querySelector('button[onclick="drawBalls4()"]');
+  if (manualBallBtn) {
+    manualBallBtn.addEventListener('mouseenter', function() {
+      this.style.background = '#7d3c98';
+    });
+    manualBallBtn.addEventListener('mouseleave', function() {
+      this.style.background = '#8e44ad';
+    });
+  }
+
+  // Reset button hover  
+  const resetBallBtn = document.querySelector('button[onclick="resetBalls4()"]');
+  if (resetBallBtn) {
+    resetBallBtn.addEventListener('mouseenter', function() {
+      this.style.background = '#9ca3ae';
+    });
+    resetBallBtn.addEventListener('mouseleave', function() {
+      this.style.background = '#b2b6c4';
+    });
+  }
+
+  // Auto button hover
+  const autoBallBtn = document.getElementById('auto-ball-btn');
+  if (autoBallBtn) {
+    autoBallBtn.addEventListener('mouseenter', function() {
+      if (!isAutoBallRunning) {
+        this.style.background = '#7d3c98';
+      } else {
+        this.style.background = '#c82333';
+      }
+    });
+    autoBallBtn.addEventListener('mouseleave', function() {
+      if (!isAutoBallRunning) {
+        this.style.background = '#8e44ad';
+      } else {
+        this.style.background = '#dc3545';
+      }
+    });
+  }
+});
+
+function drawBalls4() {
+  // Create array with 6 white (W) and 5 black (B) balls
+  let balls = ['W','W','W','W','W','W','B','B','B','B','B'];
+
+  // Shuffle and draw 3 balls
+  for (let i = balls.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [balls[i], balls[j]] = [balls[j], balls[i]];
+  }
+
+  let drawn = balls.slice(0, 3);
+  let whiteCount = drawn.filter(ball => ball === 'W').length;
+  let blackCount = drawn.filter(ball => ball === 'B').length;
+
+  ballDraws4++;
+  if (whiteCount === 1 && blackCount === 2) {
+    oneWhiteTwoBlack4++;
+  }
+
+  const probability = oneWhiteTwoBlack4 / ballDraws4;
+  const theoretical = 4/11;
+
+  // Update chart data
+  ballProbabilityChart.data.labels.push(ballDraws4);
+  ballProbabilityChart.data.datasets[0].data.push(probability);
+  ballProbabilityChart.data.datasets[1].data.push(theoretical);
+
+  if (ballProbabilityChart.data.labels.length > 50) {
+    ballProbabilityChart.data.labels.shift();
+    ballProbabilityChart.data.datasets[0].data.shift();
+    ballProbabilityChart.data.datasets[1].data.shift();
+  }
+  ballProbabilityChart.update('none');
+
+  // Color code the drawn balls
+  const coloredBalls = drawn.map(ball => 
+    ball === 'W' ? `<span style="color: #3498db; font-weight: bold;">W</span>` : 
+                   `<span style="color: #2c3e50; font-weight: bold;">B</span>`
+  );
+
+  document.getElementById('ball-result4').innerHTML = 
+    `Drew: [${coloredBalls.join(', ')}] &nbsp;|&nbsp; W: <strong>${whiteCount}</strong>, B: <strong>${blackCount}</strong> ${whiteCount === 1 && blackCount === 2 ? '<span style="color: #27ae60;">✓</span>' : '<span style="color: #e74c3c;">✗</span>'}`;
+  
+  document.getElementById('ball-count4').innerHTML = 
+    `Total Draws: <strong>${ballDraws4}</strong> &nbsp;|&nbsp; Success: <strong>${oneWhiteTwoBlack4}</strong>${autoBallDrawsRemaining > 0 ? ` &nbsp;|&nbsp; Remaining: <strong>${autoBallDrawsRemaining}</strong>` : ''}`;
+
+  document.getElementById('ball-probability4').innerHTML = 
+    `Experimental: <strong>${probability.toFixed(4)}</strong> &nbsp;|&nbsp; Theoretical: <strong>${theoretical.toFixed(4)}</strong>`;
+}
+
+function toggleAutoBalls() {
+  const autoBallBtn = document.getElementById('auto-ball-btn');
+  
+  if (!autoBallBtn) {
+    console.error('Auto ball button not found!');
+    return;
+  }
+  
+  if (isAutoBallRunning) {
+    // Stop auto drawing
+    clearInterval(autoBallInterval);
+    isAutoBallRunning = false;
+    autoBallDrawsRemaining = 0;
+    autoBallBtn.textContent = 'Start Auto';
+    autoBallBtn.style.background = '#8e44ad';
+    
+    // Re-enable controls
+    const autoDrawsInput = document.getElementById('auto-ball-draws');
+    const autoSpeedSelect = document.getElementById('auto-ball-speed');
+    if (autoDrawsInput) autoDrawsInput.disabled = false;
+    if (autoSpeedSelect) autoSpeedSelect.disabled = false;
+  } else {
+    // Start auto drawing
+    const autoDrawsInput = document.getElementById('auto-ball-draws');
+    const autoSpeedSelect = document.getElementById('auto-ball-speed');
+    
+    if (!autoDrawsInput || !autoSpeedSelect) {
+      console.error('Auto ball controls not found!');
+      return;
+    }
+    
+    const numDraws = parseInt(autoDrawsInput.value) || 100;
+    const speed = parseInt(autoSpeedSelect.value) || 50;
+    
+    autoBallDrawsRemaining = numDraws;
+    isAutoBallRunning = true;
+    autoBallBtn.textContent = 'Stop Auto';
+    autoBallBtn.style.background = '#dc3545';
+    
+    // Disable controls during auto run
+    autoDrawsInput.disabled = true;
+    autoSpeedSelect.disabled = true;
+    
+    autoBallInterval = setInterval(() => {
+      drawBalls4();
+      autoBallDrawsRemaining--;
+      
+      if (autoBallDrawsRemaining <= 0) {
+        toggleAutoBalls(); // Stop when done
+      }
+    }, speed);
+  }
+}
+
+function resetBalls4() {
+  // Stop auto drawing if running
+  if (isAutoBallRunning) {
+    toggleAutoBalls();
+  }
+  
+  ballDraws4 = 0;
+  oneWhiteTwoBlack4 = 0;
+  autoBallDrawsRemaining = 0;
+  
+  // Reset chart
+  ballProbabilityChart.data.labels = [];
+  ballProbabilityChart.data.datasets[0].data = [];
+  ballProbabilityChart.data.datasets[1].data = [];
+  ballProbabilityChart.update();
+  
+  document.getElementById('ball-result4').innerHTML = '';
+  document.getElementById('ball-count4').innerHTML = '';
+  document.getElementById('ball-probability4').innerHTML = '';
+  
+  // Re-enable controls
+  document.getElementById('auto-ball-draws').disabled = false;
+  document.getElementById('auto-ball-speed').disabled = false;
+}
+</script>
+```
+:::
+
+------------------------------------------------------------------------
+
+## Unrelated Couples Problem {.smaller}
+
+::: example
+**Example 4:** Suppose 5 people are randomly selected from a group of 20 individuals consisting of 10 married couples. What is the probability that all 5 chosen are unrelated (no two are married to each other)?
+:::
+
+::: fragment
+**Solution:** - Total ways to choose 5 from 20: $\binom{20}{5}$ - Ways to choose 5 unrelated people: Choose 5 couples × Choose 1 person from each couple - $\binom{10}{5} \times 2^5 = 252 \times 32 = 8,064$ - Therefore: $P(\text{all unrelated}) = \frac{8,064}{\binom{20}{5}} = \frac{8,064}{15,504} = \frac{8}{15}$
+:::
+
+------------------------------------------------------------------------
+
+## Interactive Demo: Married Couples Selection {.smaller}
+
+::: interactive-demo
+**Demonstration:** Visualize how selecting unrelated people affects probability
+
+```{=html}
+<div id="couples-demo" style="display: flex; align-items: flex-start; gap: 25px; background: #f6f8fa; padding: 22px; border-radius: 15px; box-shadow: 0px 4px 16px #d6d6d655;">
+
+  <!-- Controls Section -->
+  <div style="flex: 0 0 350px; min-width: 320px;">
+    <p style="font-size: 17px; margin-bottom: 12px; color: #1f2329; line-height: 1.3;">Select 5 people randomly and see if they're all unrelated:</p>
+    
+    <!-- Manual Controls -->
+    <div style="margin-bottom: 15px;">
+      <h4 style="font-size: 14px; margin-bottom: 8px; color: #1f2329;">Manual Selection:</h4>
+      <button onclick="selectPeopleCouples()" style="padding: 10px 24px; font-size: 15px; background: #3498db; color: #fff; border: none; border-radius: 6px; margin: 3px 0; cursor: pointer; transition: background 0.2s;">Select 5 People</button>
+    </div>
+
+    <!-- Automatic Controls -->
+    <div style="margin-bottom: 15px; padding: 10px; background: #e8f4fd; border-radius: 6px;">
+      <h4 style="font-size: 14px; margin-bottom: 8px; color: #1f2329;">Auto Simulation:</h4>
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+        <label style="font-size: 12px; color: #626a73;">Trials:</label>
+        <input type="number" id="auto-couples-trials" value="100" min="10" max="1000" step="10" style="width: 55px; padding: 3px; font-size: 12px;">
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+        <label style="font-size: 12px; color: #626a73;">Speed:</label>
+        <select id="auto-couples-speed" style="padding: 3px; font-size: 12px;">
+          <option value="20">Very Fast</option>
+          <option value="100" selected>Fast</option>
+          <option value="200">Normal</option>
+          <option value="400">Slow</option>
+        </select>
+      </div>
+      <button id="auto-couples-btn" onclick="toggleAutoCouples()" style="padding: 8px 16px; font-size: 13px; background: #3498db; color: #fff; border: none; border-radius: 5px; cursor: pointer; transition: background 0.2s;">Start Auto</button>
+    </div>
+
+    <!-- Reset Button -->
+    <button onclick="resetCouplesSimulation()" style="padding: 10px 24px; font-size: 15px; background: #95a5a6; color: #fff; border: none; border-radius: 6px; margin: 3px 0 15px 0; cursor: pointer; transition: background 0.2s;">Reset All</button>
+    
+    <!-- Current Selection Display -->
+    <div id="current-selection" style="margin: 12px 0; font-size: 15px; color: #1f2329; line-height: 1.3; padding: 8px; background: #fff; border-radius: 6px; min-height: 60px;"></div>
+    
+    <!-- Results Display -->
+    <div id="simulation-results" style="font-size: 14px; color: #626a73; line-height: 1.3;"></div>
+  </div>
+
+  <!-- Visualization Section -->
+  <div style="flex: 1 1 500px;">
+    <!-- People Grid -->
+    <div style="background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0px 2px 8px #e0e0e0; margin-bottom: 15px;">
+      <h4 style="font-size: 16px; margin-bottom: 10px; text-align: center; color: #1f2329;">20 People (10 Married Couples)</h4>
+      <div id="people-grid" style="display: grid; grid-template-columns: repeat(10, 1fr); gap: 8px; justify-items: center;"></div>
+    </div>
+    
+    <!-- Chart -->
+    <div style="display: flex; justify-content: center;">
+      <canvas id="couplesChart" width="500" height="300" style="background: #fff; border-radius: 10px; box-shadow: 0px 2px 8px #e0e0e0;"></canvas>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// Couples demo - using completely unique namespace
+window.couplesDemo = {
+  totalTrials: 0,
+  successfulTrials: 0,
+  currentSelection: [],
+  isAutoRunning: false,
+  autoInterval: null,
+  autoTrialsRemaining: 0,
+  couples: [],
+  couplesChart: null,
+  
+  colors: ['#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6', 
+           '#1abc9c', '#34495e', '#e67e22', '#27ae60', '#8e44ad'],
+
+  init: function() {
+    console.log('Initializing couples demo...');
+    
+    // Create couples data
+    for (let i = 0; i < 10; i++) {
+      this.couples.push({
+        id: i * 2,
+        coupleId: i,
+        gender: 'M',
+        color: this.colors[i],
+        selected: false
+      });
+      this.couples.push({
+        id: i * 2 + 1,
+        coupleId: i,
+        gender: 'F', 
+        color: this.colors[i],
+        selected: false
+      });
+    }
+
+    // Initialize chart
+    this.initChart();
+    
+    // Initialize people grid
+    this.initializePeopleGrid();
+    
+    console.log('Couples demo initialized successfully!');
+  },
+
+  initChart: function() {
+    const canvas = document.getElementById('couplesChart');
+    if (!canvas) {
+      console.error('Canvas element not found!');
+      return;
+    }
+    
+    const ctx = canvas.getContext('2d');
+    this.couplesChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [
+              {
+                label: 'Observed Probability',
+                data: [],
+                borderColor: '#3498db',
+                backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                tension: 0.3,
+                pointRadius: 2,
+                pointBackgroundColor: '#3498db'
+              },
+              {
+                label: 'Theoretical (8/15 ≈ 0.533)',
+                data: [],
+                borderColor: '#e74c3c',
+                borderDash: [5, 5],
+                pointRadius: 0,
+                fill: false
+              }
+            ]
+        },
+        options: {
+            responsive: false,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { 
+                  display: true,
+                  labels: { font: { size: 12 } }
+                },
+                title: { 
+                  display: true, 
+                  text: 'Probability Convergence: All 5 Unrelated',
+                  font: { size: 14, weight: 'bold' }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    min: 0, max: 1,
+                    title: { 
+                      display: true, 
+                      text: 'Probability',
+                      font: { size: 12, weight: 'bold' }
+                    },
+                    ticks: { font: { size: 11 } }
+                },
+                x: {
+                    title: { 
+                      display: true, 
+                      text: 'Number of Trials',
+                      font: { size: 12, weight: 'bold' }
+                    },
+                    ticks: { font: { size: 11 } }
+                }
+            }
+        }
+    });
+  },
+
+  initializePeopleGrid: function() {
+    const grid = document.getElementById('people-grid');
+    if (!grid) {
+      console.error('People grid element not found!');
+      return;
+    }
+    
+    grid.innerHTML = '';
+    
+    for (let i = 0; i < 10; i++) {
+      const coupleDiv = document.createElement('div');
+      coupleDiv.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 4px;';
+      
+      const male = this.couples[i * 2];
+      const female = this.couples[i * 2 + 1];
+      
+      const maleDiv = this.createPersonDiv(male);
+      const femaleDiv = this.createPersonDiv(female);
+      
+      coupleDiv.appendChild(maleDiv);
+      coupleDiv.appendChild(femaleDiv);
+      grid.appendChild(coupleDiv);
+    }
+  },
+
+  createPersonDiv: function(person) {
+    const div = document.createElement('div');
+    div.style.cssText = `
+      width: 28px; height: 28px; border-radius: 50%; 
+      background: ${person.color}; 
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: bold; color: white;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+    `;
+    div.textContent = person.gender;
+    div.id = `person-${person.id}`;
+    return div;
+  },
+
+  updatePeopleDisplay: function() {
+    this.couples.forEach(person => {
+      const div = document.getElementById(`person-${person.id}`);
+      if (div) {
+        if (person.selected) {
+          div.style.border = '3px solid #2c3e50';
+          div.style.transform = 'scale(1.1)';
+          div.style.boxShadow = '0px 0px 8px rgba(44, 62, 80, 0.6)';
+        } else {
+          div.style.border = '2px solid transparent';
+          div.style.transform = 'scale(1)';
+          div.style.boxShadow = 'none';
+        }
+      }
+    });
+  },
+
+  selectPeople: function() {
+    console.log('Selecting people...');
+    
+    // Reset previous selection
+    this.couples.forEach(p => p.selected = false);
+    
+    // Randomly select 5 people
+    const shuffled = [...this.couples].sort(() => 0.5 - Math.random());
+    this.currentSelection = shuffled.slice(0, 5);
+    this.currentSelection.forEach(p => p.selected = true);
+    
+    // Check if all are unrelated
+    const coupleIds = this.currentSelection.map(p => p.coupleId);
+    const uniqueCoupleIds = new Set(coupleIds);
+    const allUnrelated = uniqueCoupleIds.size === 5;
+    
+    this.totalTrials++;
+    if (allUnrelated) this.successfulTrials++;
+    
+    this.updatePeopleDisplay();
+    this.updateResults(allUnrelated);
+    this.updateChart();
+    
+    console.log(`Trial ${this.totalTrials}: ${allUnrelated ? 'Success' : 'Failed'}`);
+  },
+
+  updateResults: function(allUnrelated) {
+    const selectionText = this.currentSelection
+      .map(p => `${p.gender}${p.coupleId + 1}`)
+      .join(', ');
+    
+    const currentSelectionEl = document.getElementById('current-selection');
+    if (currentSelectionEl) {
+      currentSelectionEl.innerHTML = `
+        <strong>Selected:</strong> ${selectionText}<br>
+        <strong>Result:</strong> <span style="color: ${allUnrelated ? '#27ae60' : '#e74c3c'}; font-weight: bold;">
+          ${allUnrelated ? '✓ All Unrelated' : '✗ Contains Married Couple'}
+        </span>
+      `;
+    }
+    
+    const observedProb = this.totalTrials > 0 ? (this.successfulTrials / this.totalTrials) : 0;
+    const simulationResultsEl = document.getElementById('simulation-results');
+    if (simulationResultsEl) {
+      simulationResultsEl.innerHTML = `
+        <strong>Trials:</strong> ${this.totalTrials} | <strong>Successes:</strong> ${this.successfulTrials}<br>
+        <strong>Observed Probability:</strong> ${observedProb.toFixed(4)} | <strong>Theoretical:</strong> 0.5333
+        ${this.autoTrialsRemaining > 0 ? `<br><strong>Remaining:</strong> ${this.autoTrialsRemaining}` : ''}
+      `;
+    }
+  },
+
+  updateChart: function() {
+    if (!this.couplesChart) return;
+    
+    const observedProb = this.successfulTrials / this.totalTrials;
+    const theoretical = 8/15; // 0.5333...
+    
+    this.couplesChart.data.labels.push(this.totalTrials);
+    this.couplesChart.data.datasets[0].data.push(observedProb);
+    this.couplesChart.data.datasets[1].data.push(theoretical);
+    
+    // Keep only last 100 points
+    if (this.couplesChart.data.labels.length > 100) {
+      this.couplesChart.data.labels.shift();
+      this.couplesChart.data.datasets[0].data.shift();
+      this.couplesChart.data.datasets[1].data.shift();
+    }
+    
+    this.couplesChart.update('none');
+  },
+
+  toggleAuto: function() {
+    const autoBtn = document.getElementById('auto-couples-btn');
+    
+    if (this.isAutoRunning) {
+      // Stop auto simulation
+      clearInterval(this.autoInterval);
+      this.isAutoRunning = false;
+      this.autoTrialsRemaining = 0;
+      if (autoBtn) {
+        autoBtn.textContent = 'Start Auto';
+        autoBtn.style.background = '#3498db';
+      }
+      
+      const trialsInput = document.getElementById('auto-couples-trials');
+      const speedSelect = document.getElementById('auto-couples-speed');
+      if (trialsInput) trialsInput.disabled = false;
+      if (speedSelect) speedSelect.disabled = false;
+    } else {
+      // Start auto simulation
+      const trialsInput = document.getElementById('auto-couples-trials');
+      const speedSelect = document.getElementById('auto-couples-speed');
+      
+      const numTrials = trialsInput ? parseInt(trialsInput.value) || 100 : 100;
+      const speed = speedSelect ? parseInt(speedSelect.value) || 100 : 100;
+      
+      this.autoTrialsRemaining = numTrials;
+      this.isAutoRunning = true;
+      if (autoBtn) {
+        autoBtn.textContent = 'Stop Auto';
+        autoBtn.style.background = '#e74c3c';
+      }
+      
+      if (trialsInput) trialsInput.disabled = true;
+      if (speedSelect) speedSelect.disabled = true;
+      
+      this.autoInterval = setInterval(() => {
+        this.selectPeople();
+        this.autoTrialsRemaining--;
+        
+        if (this.autoTrialsRemaining <= 0) {
+          this.toggleAuto();
+        }
+      }, speed);
+    }
+  },
+
+  reset: function() {
+    if (this.isAutoRunning) this.toggleAuto();
+    
+    this.totalTrials = 0;
+    this.successfulTrials = 0;
+    this.autoTrialsRemaining = 0;
+    
+    this.couples.forEach(p => p.selected = false);
+    this.updatePeopleDisplay();
+    
+    if (this.couplesChart) {
+      this.couplesChart.data.labels = [];
+      this.couplesChart.data.datasets[0].data = [];
+      this.couplesChart.data.datasets[1].data = [];
+      this.couplesChart.update();
+    }
+    
+    const currentSelectionEl = document.getElementById('current-selection');
+    const simulationResultsEl = document.getElementById('simulation-results');
+    if (currentSelectionEl) currentSelectionEl.innerHTML = '';
+    if (simulationResultsEl) simulationResultsEl.innerHTML = '';
+  }
+};
+
+// Global functions for button onclick handlers
+function selectPeopleCouples() {
+  window.couplesDemo.selectPeople();
+}
+
+function toggleAutoCouples() {
+  window.couplesDemo.toggleAuto();
+}
+
+function resetCouplesSimulation() {
+  window.couplesDemo.reset();
+}
+
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+  // Small delay to ensure all elements are loaded
+  setTimeout(function() {
+    if (typeof Chart !== 'undefined') {
+      window.couplesDemo.init();
+    } else {
+      console.error('Chart.js not loaded!');
+    }
+  }, 500);
+});
+</script>
+```
+:::
+
+## Key Insights from the Animation
+
+The interactive demo above illustrates several important concepts about this combinatorial probability problem:
+
+### Visual Learning Elements
+
+-   **Coupled Visualization**: Each married couple shares the same color, making it easy to spot when both partners are selected
+-   **Real-time Feedback**: Immediate indication whether the selection contains any married couples\
+-   **Convergence Demonstration**: The probability chart shows how observed results approach the theoretical value of 8/15 ≈ 0.533
+
+### Mathematical Intuition
+
+The animation helps build intuition for why the probability is 8/15:
+
+1.  **Total Possibilities**: There are $\binom{20}{5} = 15,504$ ways to choose 5 people from 20
+2.  **Favorable Outcomes**: To get all unrelated people, we must:
+    -   Choose 5 different couples: $\binom{10}{5} = 252$ ways\
+    -   Pick one person from each chosen couple: $2^5 = 32$ ways
+    -   Total favorable: $252 \times 32 = 8,064$
+3.  **Final Probability**: $\frac{8,064}{15,504} = \frac{8}{15} \approx 0.5333$
+
+### Interactive Features
+
+-   **Manual Selection**: Click to see individual random selections and their outcomes
+-   **Automated Simulation**: Run multiple trials quickly to observe probability convergence
+-   **Speed Control**: Adjust simulation speed to match learning pace
+-   **Visual Feedback**: Color-coded couples and selection highlighting
+
+------------------------------------------------------------------------
+
+## Homework Problems {.smaller}
+
+::: homework
+**Example 5 (HW):** A committee of 5 is to be selected from a group of 6 men and 9 women. If the selection is made randomly, what is the probability that the committee consists of 3 men and 2 women?
+
+**Hint:** Use combinations to count favorable outcomes.
+:::
+
+::: homework
+**Example 6 (HW):** An urn contains n balls, one of which is special. If k of these balls are withdrawn one at a time, with each selection being equally likely to be any of the balls that remain at the time, what is the probability that the special ball is chosen?
+
+**Hint:** Think about the symmetry of the problem.
+:::
+
+------------------------------------------------------------------------
+
+## Poker Hands: Straight {.smaller}
+
+::: example
+**Example 8:** A poker hand consists of 5 cards. If the cards have distinct consecutive values and are not all of the same suit, we say that the hand is a **straight**. What is the probability that one is dealt a straight?
+:::
+
+::: fragment
+**Solution:** - Total possible hands: $\binom{52}{5} = 2,598,960$ - Number of straights: 10 possible sequences (A-2-3-4-5 through 10-J-Q-K-A) - Each sequence: $4^5$ ways to choose suits minus 4 straight flushes = $1024 - 4 = 1020$ - Total straights: $10 \times 1020 = 10,200$ - Therefore: $P(\text{straight}) = \frac{10,200}{2,598,960} \approx 0.0039$
+:::
+
+------------------------------------------------------------------------
+
+## Homework: Full House {.smaller}
+
+::: homework
+**Example 9 (HW):** A 5-card poker hand is said to be a **full house** if it consists of 3 cards of the same denomination and 2 other cards of the same denomination (different from the first). What is the probability that one is dealt a full house?
+
+**Hint:** - Choose the denomination for the triple: 13 ways - Choose 3 cards from that denomination: $\binom{4}{3}$ ways\
+- Choose the denomination for the pair: 12 ways - Choose 2 cards from that denomination: $\binom{4}{2}$ ways
+:::
+
+------------------------------------------------------------------------
+
+## Bridge Problem {.smaller}
+
+::: homework
+**Example 10 (HW):** In the game of bridge, the entire deck of 52 cards is dealt out to 4 players. What is the probability that:
+
+a)  One of the players receives all 13 spades?
+b)  Each player receives 1 ace?
+
+**Think-Pair-Share:** Discuss the difference in complexity between parts (a) and (b).
+:::
+
+::: fragment
+::: callout-tip
+## Think-Pair-Share Activity
+
+**Prompt:** Which part seems harder to calculate and why?
+
+**Time:** 3 minutes to think, 5 minutes to discuss
+:::
+:::
+
+------------------------------------------------------------------------
+
+## The Birthday Problem {.smaller}
+
+::: example
+**Example 11:** If n people are present in a room, what is the probability that no two of them celebrate their birthday on the same day of the year? How large need n be so that this probability is less than 1/2?
+:::
+
+::: fragment
+**Solution:** - Probability of no shared birthdays: $P(n) = \frac{365!}{(365-n)! \cdot 365^n}$ - Equivalently: $P(n) = \frac{365}{365} \times \frac{364}{365} \times \frac{363}{365} \times \cdots \times \frac{365-n+1}{365}$ - For $n = 23$: $P(23) \approx 0.493 < 0.5$
+:::
+
+------------------------------------------------------------------------
+
+## Interactive Birthday Simulation {.smaller}
+
+::: interactive-demo
+**Simulation:** Test the birthday paradox with random groups
+
+```{=html}
+<div id="birthday-demo">
+  <label>Group size: <input type="number" id="group-size" value="23" min="2" max="50" style="width: 60px;"></label>
+  <button onclick="simulateBirthdays()" style="padding: 10px 20px; font-size: 16px; margin: 10px;">Run Simulation</button>
+  <button onclick="resetBirthdays()" style="padding: 10px 20px; font-size: 16px; margin: 10px;">Reset</button>
+  <div id="birthday-result" style="margin: 20px 0; font-size: 18px;"></div>
+  <div id="birthday-stats" style="font-size: 14px; margin-top: 20px;"></div>
+</div>
+
+<script>
+let birthdayTrials = 0;
+let birthdayMatches = 0;
+
+function simulateBirthdays() {
+  const n = parseInt(document.getElementById('group-size').value);
+  let birthdays = [];
+
+  // Generate n random birthdays (1-365)
+  for (let i = 0; i < n; i++) {
+    birthdays.push(Math.floor(Math.random() * 365) + 1);
+  }
+
+  // Check for duplicates
+  let hasDuplicate = false;
+  for (let i = 0; i < birthdays.length - 1; i++) {
+    for (let j = i + 1; j < birthdays.length; j++) {
+      if (birthdays[i] === birthdays[j]) {
+        hasDuplicate = true;
+        break;
+      }
+    }
+    if (hasDuplicate) break;
+  }
+
+  birthdayTrials++;
+  if (hasDuplicate) birthdayMatches++;
+
+  document.getElementById('birthday-result').innerHTML = 
+    `Group of ${n}: ${hasDuplicate ? '<strong style="color: red;">MATCH!</strong>' : '<strong style="color: green;">No match</strong>'}`;
+
+  const probability = (birthdayMatches / birthdayTrials).toFixed(4);
+
+  // Calculate theoretical probability for comparison
+  let theoretical = 1;
+  for (let i = 0; i < n; i++) {
+    theoretical *= (365 - i) / 365;
+  }
+  theoretical = (1 - theoretical).toFixed(4);
+
+  document.getElementById('birthday-stats').innerHTML = 
+    `<strong>Results after ${birthdayTrials} trials:</strong><br>
+    Matches: ${birthdayMatches}<br>
+    Experimental P(match) = ${probability}<br>
+    Theoretical P(match) = ${theoretical}`;
+}
+
+function resetBirthdays() {
+  birthdayTrials = 0;
+  birthdayMatches = 0;
+  document.getElementById('birthday-result').innerHTML = '';
+  document.getElementById('birthday-stats').innerHTML = '';
+}
+</script>
+```
+:::
+
+------------------------------------------------------------------------
+
+## Football Team Roommates {.smaller}
+
+::: example
+**Example 13:** A football team consists of 20 offensive and 20 defensive players. The players are to be paired in groups of 2 for roommates. If the pairing is done at random, what is the probability that there are no offensive-defensive roommate pairs?
+:::
+
+::: fragment
+**Solution:** This is equivalent to a **perfect matching** problem. - Total ways to pair 40 players: $\frac{40!}{2^{20} \times 20!}$ - Ways with no offensive-defensive pairs: $\frac{20!}{2^{10} \times 10!} \times \frac{20!}{2^{10} \times 10!}$
+:::
+
+::: fragment
+::: callout-note
+**Stirling Approximation:** For large n: $n! \approx \sqrt{2\pi n} \left(\frac{n}{e}\right)^n$
+:::
+:::
+
+------------------------------------------------------------------------
+
+## The Matching Problem {.smaller}
+
+::: example
+**Example 15 (The matching problem):** Suppose that each of N men at a party throws his hat into the center of the room. The hats are first mixed up, and then each man randomly selects a hat. What is the probability that none of the men selects his own hat?
+:::
+
+::: fragment
+**Solution:** This is the famous **derangement** problem. - Total permutations: $N!$ - Number of derangements: $D_N = N! \sum_{k=0}^{N} \frac{(-1)^k}{k!}$ - For large N: $P(\text{no matches}) \approx \frac{1}{e} \approx 0.368$
+:::
+
+------------------------------------------------------------------------
+
+## Interactive Matching Demo {.smaller}
+
+::: interactive-demo
+**Simulation:** Test the matching problem with different group sizes
+
+```{=html}
+<div id="matching-demo">
+  <label>Number of people: <input type="number" id="people-count" value="10" min="3" max="20" style="width: 60px;"></label>
+  <button onclick="simulateMatching()" style="padding: 10px 20px; font-size: 16px; margin: 10px;">Run Simulation</button>
+  <button onclick="resetMatching()" style="padding: 10px 20px; font-size: 16px; margin: 10px;">Reset</button>
+  <div id="matching-result" style="margin: 20px 0; font-size: 18px;"></div>
+  <div id="matching-stats" style="font-size: 14px; margin-top: 20px;"></div>
+</div>
+
+<script>
+let matchingTrials = 0;
+let noMatches = 0;
+
+function simulateMatching() {
+  const n = parseInt(document.getElementById('people-count').value);
+
+  // Create array [0, 1, 2, ..., n-1] representing original hat owners
+  let hats = Array.from({length: n}, (_, i) => i);
+
+  // Shuffle the array to simulate random hat selection
+  for (let i = hats.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [hats[i], hats[j]] = [hats[j], hats[i]];
+  }
+
+  // Check for matches (person i gets hat i)
+  let matches = 0;
+  for (let i = 0; i < n; i++) {
+    if (hats[i] === i) matches++;
+  }
+
+  matchingTrials++;
+  if (matches === 0) noMatches++;
+
+  document.getElementById('matching-result').innerHTML = 
+    `${n} people: ${matches} matches | ${matches === 0 ? '<strong style="color: green;">No matches!</strong>' : 'Some matches'}`;
+
+  const probability = (noMatches / matchingTrials).toFixed(4);
+  const theoretical = (1/Math.E).toFixed(4);
+
+  document.getElementById('matching-stats').innerHTML = 
+    `<strong>Results after ${matchingTrials} trials:</strong><br>
+    No matches: ${noMatches} times<br>
+    Experimental P(no matches) = ${probability}<br>
+    Theoretical P(no matches) ≈ ${theoretical}`;
+}
+
+function resetMatching() {
+  matchingTrials = 0;
+  noMatches = 0;
+  document.getElementById('matching-result').innerHTML = '';
+  document.getElementById('matching-stats').innerHTML = '';
+}
+</script>
+```
+:::
+
+------------------------------------------------------------------------
+
+## Sequences and Limits {.smaller}
+
+::: fragment
+**Definition 2:** A sequence of events $\{E_n, n \geq 1\}$ is an **increasing sequence** if: $$E_1 \subset E_2 \subset E_3 \subset \ldots \subset E_n \subset E_{n+1} \subset \ldots$$
+:::
+
+::: fragment
+**Definition 3:** A sequence of events $\{E_n, n \geq 1\}$ is a **decreasing sequence** if: $$E_1 \supset E_2 \supset E_3 \supset \ldots \supset E_n \supset E_{n+1} \supset \ldots$$
+:::
+
+::: fragment
+::: example
+**Example 18:** Consider $E_n = \{z \in \mathbb{Z} | 2^n \text{ divides } z\}$. Then $\{E_n, n \geq 1\}$ is a decreasing sequence.
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Limits of Sequences {.smaller}
+
+::: fragment
+**Definition 4:** If $\{E_n, n \geq 1\}$ is an increasing sequence, then: $$\lim_{n \to \infty} E_n := \bigcup_{i=1}^{\infty} E_i$$
+:::
+
+::: fragment
+**Definition 5:** If $\{E_n, n \geq 1\}$ is a decreasing sequence, then: $$\lim_{n \to \infty} E_n := \bigcap_{i=1}^{\infty} E_i$$
+:::
+
+------------------------------------------------------------------------
+
+## Continuity of Probability {.center}
+
+::: theorem
+**Proposition 2 (Continuity of Probability)**
+
+If $\{E_n, n \geq 1\}$ is either an increasing or decreasing sequence of events, then:
+
+$$\lim_{n \to \infty} P(E_n) = P\left(\lim_{n \to \infty} E_n\right)$$
+:::
+
+::: fragment
+**Remark 1:** If $\{E_n, n \geq 1\}$ is decreasing, then $\{E_n^c, n \geq 1\}$ is increasing.
+:::
+
+------------------------------------------------------------------------
+
+## The Infinite Ball Paradox {.smaller}
+
+::: example
+**Example 19:** We have an infinitely large box and infinite balls numbered 1, 2, 3, ...
+
+**Process:** - Put balls 1-10 in box, remove ball 10 - Put balls 11-20 in box, remove ball 20\
+- Continue indefinitely...
+
+**Question:** How many balls are in the box at the end?
+:::
+
+::: fragment
+::: callout-important
+## Think-Pair-Share Activity
+
+**Prompt:** What's your intuition? Will there be infinitely many balls, or some finite number, or zero balls?
+
+**Time:** 5 minutes to discuss with a partner
+:::
+:::
+
+------------------------------------------------------------------------
+
+## More Infinite Ball Problems {.smaller}
+
+::: homework
+**Example 20 (HW):** Same setup, but now remove ball 1 in the first step, ball 2 in the second step, etc. How many balls remain?
+:::
+
+::: homework
+**Example 21 (HW):** Same setup, but whenever a ball is withdrawn, it's randomly selected from those present. How many balls remain on average?
+:::
+
+::: fragment
+These problems illustrate the subtleties of infinite processes and limiting behavior!
+:::
+
+------------------------------------------------------------------------
+
+## Group Problem-Solving Activity {.smaller}
+
+::: callout-important
+## Sports Club Problem
+
+**Example 14:** A total of 36 members play tennis, 28 play squash, and 18 play badminton. Furthermore, 22 play both tennis and squash, 12 play both tennis and badminton, 9 play both squash and badminton, and 4 play all three sports.
+
+**Tasks (15 minutes):** 1. Draw a Venn diagram 2. How many play at least one sport? 3. How many play exactly two sports? 4. What's the probability a randomly selected member plays tennis given they play squash?
+
+**Groups:** 4-5 students each
+:::
+
+------------------------------------------------------------------------
+
+## Interactive Venn Diagram Tool {.tiny}
+
+::: {.interactive-demo style="font-size: 0.75em;"}
+**Sports Club Analysis:** Tennis (T), Squash (S), Badminton (B)
+
+```{=html}
+<div style="display: flex; gap: 10px; align-items: flex-start; justify-content: center; max-width: 100%;">
+  <!-- Enhanced Visual Representation -->
+  <div style="text-align: center; flex-shrink: 0;">
+    <div style="position: relative; width: 280px; height: 160px; margin: 0 auto;">
+      <div id="tennis-circle" style="position: absolute; top: 5px; left: 70px; width: 140px; height: 80px; border: 3px solid #ff6384; border-radius: 50px; background: rgba(255,99,132,0.15); transition: all 0.3s ease;"></div>
+      <div id="squash-circle" style="position: absolute; top: 40px; left: 25px; width: 140px; height: 80px; border: 3px solid #36a2eb; border-radius: 50px; background: rgba(54,162,235,0.15); transition: all 0.3s ease;"></div>
+      <div id="badminton-circle" style="position: absolute; top: 40px; left: 115px; width: 140px; height: 80px; border: 3px solid #4bc0c0; border-radius: 50px; background: rgba(75,192,192,0.15); transition: all 0.3s ease;"></div>
+      
+      <div style="position: absolute; top: 0px; left: 125px; font-weight: bold; color: #ff6384; font-size: 12px;">T</div>
+      <div style="position: absolute; top: 45px; left: 50px; font-weight: bold; color: #36a2eb; font-size: 12px;">S</div>
+      <div style="position: absolute; top: 45px; left: 200px; font-weight: bold; color: #4bc0c0; font-size: 12px;">B</div>
+      
+      <!-- Region Values with conditional display -->
+      <div id="tennis-only-display" style="position: absolute; top: 25px; left: 130px; font-weight: bold; font-size: 14px; color: #ff6384;">6</div>
+      <div id="squash-only-display" style="position: absolute; top: 90px; left: 50px; font-weight: bold; font-size: 14px; color: #36a2eb;">1</div>
+      <div id="badminton-only-display" style="position: absolute; top: 90px; left: 200px; font-weight: bold; font-size: 14px; color: #4bc0c0;">1</div>
+      <div id="ts-only-display" style="position: absolute; top: 60px; left: 90px; font-weight: bold; font-size: 14px; color: #9966ff;">18</div>
+      <div id="tb-only-display" style="position: absolute; top: 60px; left: 170px; font-weight: bold; font-size: 14px; color: #ff9f40;">8</div>
+      <div id="sb-only-display" style="position: absolute; top: 110px; left: 125px; font-weight: bold; font-size: 14px; color: #c0392b;">5</div>
+      <div id="center-val" style="position: absolute; top: 75px; left: 130px; font-weight: bold; font-size: 16px; color: #dc3545; text-shadow: 1px 1px 2px white;">4</div>
+    </div>
+    <div id="totals-display" style="margin-top: 10px; padding: 8px; background: #f8f9fa; border-radius: 4px; font-size: 0.9em; font-weight: bold;"></div>
+  </div>
+
+  <!-- Compact Two-Column Controls -->
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.8em; flex-shrink: 1; min-width: 0;">
+    <!-- Left Column -->
+    <div style="display: grid; grid-template-columns: auto 50px 25px; gap: 3px; align-items: center;">
+      <span>T only:</span><input type="range" id="tennis-only" min="0" max="30" value="6" oninput="updateVenn()" style="width: 50px;"><span id="tennis-only-val" style="color: #ff6384; font-weight: bold;">6</span>
+      <span>S only:</span><input type="range" id="squash-only" min="0" max="30" value="1" oninput="updateVenn()" style="width: 50px;"><span id="squash-only-val" style="color: #36a2eb; font-weight: bold;">1</span>
+      <span>B only:</span><input type="range" id="badminton-only" min="0" max="30" value="1" oninput="updateVenn()" style="width: 50px;"><span id="badminton-only-val" style="color: #4bc0c0; font-weight: bold;">1</span>
+      <span>All:</span><input type="range" id="all-three" min="0" max="30" value="4" oninput="updateVenn()" style="width: 50px;"><span id="all-three-val" style="color: #dc3545; font-weight: bold;">4</span>
+    </div>
+    <!-- Right Column -->
+    <div style="display: grid; grid-template-columns: auto 50px 25px; gap: 3px; align-items: center;">
+      <span>T∩S:</span><input type="range" id="ts-only" min="0" max="30" value="18" oninput="updateVenn()" style="width: 50px;"><span id="ts-only-val" style="color: #9966ff; font-weight: bold;">18</span>
+      <span>T∩B:</span><input type="range" id="tb-only" min="0" max="30" value="8" oninput="updateVenn()" style="width: 50px;"><span id="tb-only-val" style="color: #ff9f40; font-weight: bold;">8</span>
+      <span>S∩B:</span><input type="range" id="sb-only" min="0" max="30" value="5" oninput="updateVenn()" style="width: 50px;"><span id="sb-only-val" style="color: #c0392b; font-weight: bold;">5</span>
+      <span></span><span></span><span></span> <!-- Spacer -->
+    </div>
+  </div>
+</div>
+
+<div style="text-align: center; margin: 8px 0;">
+  <button onclick="setSportsClubValues()" style="padding: 3px 8px; font-size: 0.75em; background: #007bff; color: white; border: none; border-radius: 3px; margin: 0 3px;">📊 Example</button>
+  <button onclick="clearVennValues()" style="padding: 3px 8px; font-size: 0.75em; background: #6c757d; color: white; border: none; border-radius: 3px; margin: 0 3px;">🗑️ Clear</button>
+</div>
+
+<script>
+function updateVenn() {
+  const tennisOnly = parseInt(document.getElementById('tennis-only').value);
+  const squashOnly = parseInt(document.getElementById('squash-only').value);
+  const badmintonOnly = parseInt(document.getElementById('badminton-only').value);
+  const tsOnly = parseInt(document.getElementById('ts-only').value);
+  const tbOnly = parseInt(document.getElementById('tb-only').value);
+  const sbOnly = parseInt(document.getElementById('sb-only').value);
+  const allThree = parseInt(document.getElementById('all-three').value);
+
+  // Update slider values
+  document.getElementById('tennis-only-val').textContent = tennisOnly;
+  document.getElementById('squash-only-val').textContent = squashOnly;
+  document.getElementById('badminton-only-val').textContent = badmintonOnly;
+  document.getElementById('ts-only-val').textContent = tsOnly;
+  document.getElementById('tb-only-val').textContent = tbOnly;
+  document.getElementById('sb-only-val').textContent = sbOnly;
+  document.getElementById('all-three-val').textContent = allThree;
+  
+  // Update diagram region displays
+  document.getElementById('tennis-only-display').textContent = tennisOnly;
+  document.getElementById('squash-only-display').textContent = squashOnly;
+  document.getElementById('badminton-only-display').textContent = badmintonOnly;
+  document.getElementById('ts-only-display').textContent = tsOnly;
+  document.getElementById('tb-only-display').textContent = tbOnly;
+  document.getElementById('sb-only-display').textContent = sbOnly;
+  document.getElementById('center-val').textContent = allThree;
+
+  // Calculate totals
+  const total = tennisOnly + squashOnly + badmintonOnly + tsOnly + tbOnly + sbOnly + allThree;
+  const tennisTotal = tennisOnly + tsOnly + tbOnly + allThree;
+  const squashTotal = squashOnly + tsOnly + sbOnly + allThree;
+  const badmintonTotal = badmintonOnly + tbOnly + sbOnly + allThree;
+
+  // Hide/show values based on whether they are 0
+  const elements = [
+    {id: 'tennis-only-display', value: tennisOnly},
+    {id: 'squash-only-display', value: squashOnly},
+    {id: 'badminton-only-display', value: badmintonOnly},
+    {id: 'ts-only-display', value: tsOnly},
+    {id: 'tb-only-display', value: tbOnly},
+    {id: 'sb-only-display', value: sbOnly},
+    {id: 'center-val', value: allThree}
+  ];
+  
+  elements.forEach(({id, value}) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.style.display = value > 0 ? 'block' : 'none';
+    }
+  });
+
+  // Update circle sizes and visibility based on totals
+  const baseSize = 100;
+  const maxSize = 160;
+  const sizeFactor = (maxSize - baseSize) / 40;
+
+  const tennisSize = Math.max(baseSize, baseSize + (tennisTotal * sizeFactor));
+  const squashSize = Math.max(baseSize, baseSize + (squashTotal * sizeFactor));
+  const badmintonSize = Math.max(baseSize, baseSize + (badmintonTotal * sizeFactor));
+
+  // Update circle styles with conditional visibility
+  const tennisCircle = document.getElementById('tennis-circle');
+  const squashCircle = document.getElementById('squash-circle');
+  const badmintonCircle = document.getElementById('badminton-circle');
+
+  if (tennisCircle) {
+    tennisCircle.style.width = `${tennisSize}px`;
+    tennisCircle.style.height = `${tennisSize/2}px`;
+    tennisCircle.style.borderWidth = `${Math.max(2, tennisTotal/8)}px`;
+    tennisCircle.style.opacity = tennisTotal > 0 ? '1' : '0.3';
+  }
+  
+  if (squashCircle) {
+    squashCircle.style.width = `${squashSize}px`;
+    squashCircle.style.height = `${squashSize/2}px`;
+    squashCircle.style.borderWidth = `${Math.max(2, squashTotal/8)}px`;
+    squashCircle.style.opacity = squashTotal > 0 ? '1' : '0.3';
+  }
+  
+  if (badmintonCircle) {
+    badmintonCircle.style.width = `${badmintonSize}px`;
+    badmintonCircle.style.height = `${badmintonSize/2}px`;
+    badmintonCircle.style.borderWidth = `${Math.max(2, badmintonTotal/8)}px`;
+    badmintonCircle.style.opacity = badmintonTotal > 0 ? '1' : '0.3';
+  }
+
+  // Update totals display
+  document.getElementById('totals-display').innerHTML = 
+    `🎾 Tennis: <strong>${tennisTotal}</strong> | 🏸 Squash: <strong>${squashTotal}</strong> | 🏓 Badminton: <strong>${badmintonTotal}</strong><br>👥 Total Members: <strong style="color: #dc3545; font-size: 1.2em;">${total}</strong>`;
+}
+
+function setSportsClubValues() {
+  document.getElementById('all-three').value = 4;
+  document.getElementById('ts-only').value = 18;
+  document.getElementById('tb-only').value = 8;
+  document.getElementById('sb-only').value = 5;
+  document.getElementById('tennis-only').value = 6;
+  document.getElementById('squash-only').value = 1;
+  document.getElementById('badminton-only').value = 1;
+  updateVenn();
+}
+
+function clearVennValues() {
+  ['all-three', 'ts-only', 'tb-only', 'sb-only', 'tennis-only', 'squash-only', 'badminton-only'].forEach(id => {
+    document.getElementById(id).value = 0;
+  });
+  updateVenn();
+}
+
+document.addEventListener('DOMContentLoaded', setSportsClubValues);
+</script>
+```
+**Goal:** Understand \|T ∪ S ∪ B\| = 43 members play at least one sport
+:::
+
+------------------------------------------------------------------------
+
+## Key Formulas Summary {.smaller}
+
+| Concept                      | Formula                                               | Application             |
+|---------------------|---------------------|------------------------------|
+| **Classical Probability**    | $P(E) = \frac{|E|}{|S|}$                              | Equally likely outcomes |
+| **Combinations**             | $\binom{n}{k} = \frac{n!}{k!(n-k)!}$                  | Selecting k from n      |
+| **Permutations**             | $P(n,k) = \frac{n!}{(n-k)!}$                          | Arranging k from n      |
+| **Birthday Problem**         | $P(n) = \prod_{i=0}^{n-1} \frac{365-i}{365}$          | No shared birthdays     |
+| **Derangements**             | $D_n = n! \sum_{k=0}^{n} \frac{(-1)^k}{k!}$           | No matches              |
+| **Stirling's Approximation** | $n! \approx \sqrt{2\pi n} \left(\frac{n}{e}\right)^n$ | Large factorials        |
+
+------------------------------------------------------------------------
+
+## Interactive Quiz Challenge {.smaller}
+
+::: callout-warning
+## Quick Fire Questions
+
+**Round 1:** What's the probability of getting exactly one head in three coin flips?
+
+A. 1/8 B. 3/8 C. 1/2 D. 5/8
+
+**Round 2:** In a class of 30 students, what's the approximate probability that at least two share a birthday?
+
+A. 0.3 B. 0.5 C. 0.7 D. 0.9
+:::
+
+::: fragment
+**Answers:** 1. B. 3/8 (outcomes: HTT, THT, TTH out of 8 total) 2. C. 0.7 (birthday paradox - quite high!)
+:::
+
+------------------------------------------------------------------------
+
+## Real-World Applications {.smaller}
+
+::: columns
+::: {.column width="33%"}
+
+**Quality Control**
+
+:   Sampling products to estimate defect rates using classical probability principles.
+
+**Medical Testing**
+
+:   Calculating false positive rates when test results are equiprobable.
+:::
+
+::: {.column width="33%"}
+
+**Cryptography**
+
+:   Birthday attacks exploit the birthday paradox to find hash collisions.
+
+**Sports Analytics**
+
+:   Calculating probabilities of various game outcomes and player statistics.
+:::
+
+::: {.column width="33%"}
+
+**Risk Assessment**
+
+:   Evaluating unlikely but catastrophic events using extreme probability calculations.
+
+**Network Security**
+
+:   Analyzing the probability of random password matches or system failures.
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Take-Home Messages {.smaller}
+
+::: callout-tip
+## Key Insights
+
+1.  **Equiprobable outcomes** make probability calculations straightforward using counting principles
+
+2.  **The birthday paradox** shows our intuition about probability can be misleading
+
+3.  **Combinatorics** (combinations and permutations) are essential tools for complex probability problems
+
+4.  **Interactive simulations** help verify theoretical calculations and build intuition
+
+5.  **Real-world applications** are everywhere - from card games to cryptography
+:::
+
+------------------------------------------------------------------------
+
+## Mastery Check {.smaller}
+
+::: callout-note
+## Self-Assessment Checklist
+
+Rate your confidence level (1-5) for each skill:
+
+-   [ ] Apply classical probability formula (Essential)
+-   [ ] Use combinations and permutations correctly (Essential)
+-   [ ] Solve dice and card problems (Essential)
+-   [ ] Understand the birthday paradox (Proficient)
+-   [ ] Analyze poker hand probabilities (Proficient)
+-   [ ] Work with infinite processes and limits (Advanced)
+-   [ ] Apply probability to real-world scenarios (Advanced)
+:::
+
+------------------------------------------------------------------------
+
+## Thank You & Questions {.center}
+
+### Summary
+
+Today we explored **equally likely outcomes** and their applications through: - 🎲 Interactive simulations and visualizations - 🃏 Classic probability problems (poker, birthdays, matching) - 📊 Combinatorial analysis and counting principles - 🧮 Hands-on problem-solving activities
+
+### Next Steps
+
+-   Practice with the interactive tools at home
+-   Work through the homework problems
+-   Explore probability simulations in R or Python
+-   Prepare for next lecture on conditional probability
+
+### Questions?
+
+Let's discuss these fascinating probability phenomena!
+
+**Next Lecture:** Conditional Probability and Independence
