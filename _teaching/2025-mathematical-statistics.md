@@ -64,7 +64,7 @@ Rigorous mathematical treatment of statistical theory tailored for Economics and
 **Content**: Sample Space and Events, Event Operations, Equally Likely Outcomes  
 **Reading**: Ross, Chapter 2: Sections 2.1-2.3
 
-**[🚀 Introduction to Probability](lectures\math-stat-1\03-sample_spaces\improved_merged_probability_lecture.html)**
+**[🚀 Introduction to Probability](lectures/math-stat-1/03-sample_space/improved_merged_probability_lecture.html)**
 {: .btn .btn--primary}
 
 ---
