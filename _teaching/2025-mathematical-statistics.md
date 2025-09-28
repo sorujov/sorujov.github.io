@@ -65,16 +65,16 @@ Rigorous mathematical treatment of statistical theory tailored for Economics and
 **Content**: Sample Space and Events, Event Operations, Equally Likely Outcomes  
 **Reading**: Ross, Chapter 2: Sections 2.1-2.3
 
-**[🚀 Sample Spaces & Events](/lectures/math-stat-1/03-sample_spaces/index.html)**
+**[🚀 Introduction to Probability and Its Axioms](/lectures/math-stat-1/03-sample_spaces/index.html)**
 {: .btn .btn--primary}
 
 ---
 
 ### Topic 4: Axioms of Probability
-**Content**: Axioms of Probability, Simple Propositions, economic event modeling  
+**Content**: Axioms of Probability, Simple Propositions
 **Reading**: Ross, Chapter 2: Sections 2.2-2.4
 
-**[🚀 Axioms of Probability](/lectures/math-stat-1/03-01-equally_likely_outcome/sample_spaces_equally_likely_outcomes.html)**
+**[🚀 Sample Spaces With Equally Likely Outcomes](/lectures/math-stat-1/03-01-equally_likely_outcome/sample_spaces_equally_likely_outcomes.html)**
 {: .btn .btn--primary}
 
 ---
