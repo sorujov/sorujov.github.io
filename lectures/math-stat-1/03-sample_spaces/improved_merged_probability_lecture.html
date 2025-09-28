@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="improved_merged_probability_lecture_files/libs/clipboard/clipboard.min.js"></script>
+<script src="improved_merged_probability_lecture_files/libs/quarto-html/tabby.min.js"></script>
+<script src="improved_merged_probability_lecture_files/libs/quarto-html/popper.min.js"></script>
+<script src="improved_merged_probability_lecture_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="improved_merged_probability_lecture_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="improved_merged_probability_lecture_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="improved_merged_probability_lecture_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="improved_merged_probability_lecture_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.3.450">
+
+  <meta name="author" content="Samir Orujov, PhD">
+  <meta name="dcterms.date" content="2025-09-28">
+  <title>Mathematical Statistics: Sample Spaces and Set Operations</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="improved_merged_probability_lecture_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="improved_merged_probability_lecture_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="improved_merged_probability_lecture_files/libs/revealjs/dist/theme/quarto.css">
+  <link href="improved_merged_probability_lecture_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="improved_merged_probability_lecture_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="improved_merged_probability_lecture_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="improved_merged_probability_lecture_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+
+  .callout {
+    margin-top: 1em;
+    margin-bottom: 1em;  
+    border-radius: .25rem;
+  }
+
+  .callout.callout-style-simple { 
+    padding: 0em 0.5em;
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+    display: flex;
+  }
+
+  .callout.callout-style-default {
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+  }
+
+  .callout .callout-body-container {
+    flex-grow: 1;
+  }
+
+  .callout.callout-style-simple .callout-body {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-style-default .callout-body {
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-titled.callout-style-simple .callout-body {
+    margin-top: 0.2em;
+  }
+
+  .callout:not(.callout-titled) .callout-body {
+      display: flex;
+  }
+
+  .callout:not(.no-icon).callout-titled.callout-style-simple .callout-content {
+    padding-left: 1.6em;
+  }
+
+  .callout.callout-titled .callout-header {
+    padding-top: 0.2em;
+    margin-bottom: -0.2em;
+  }
+
+  .callout.callout-titled .callout-title  p {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+    
+  .callout.callout-titled.callout-style-simple .callout-content  p {
+    margin-top: 0;
+  }
+
+  .callout.callout-titled.callout-style-default .callout-content  p {
+    margin-top: 0.7em;
+  }
+
+  .callout.callout-style-simple div.callout-title {
+    border-bottom: none;
+    font-size: .9rem;
+    font-weight: 600;
+    opacity: 75%;
+  }
+
+  .callout.callout-style-default  div.callout-title {
+    border-bottom: none;
+    font-weight: 600;
+    opacity: 85%;
+    font-size: 0.9rem;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-default div.callout-content {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-simple .callout-icon::before {
+    height: 1rem;
+    width: 1rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+  }
+
+  .callout.callout-style-default .callout-icon::before {
+    height: 0.9rem;
+    width: 0.9rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 0.9rem 0.9rem;
+  }
+
+  .callout-title {
+    display: flex
+  }
+    
+  .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  .callout.no-icon::before {
+    display: none !important;
+  }
+
+  .callout.callout-titled .callout-body > .callout-content > :last-child {
+    margin-bottom: 0.5rem;
+  }
+
+  .callout.callout-titled .callout-icon::before {
+    margin-top: .5rem;
+    padding-right: .5rem;
+  }
+
+  .callout:not(.callout-titled) .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  /* Callout Types */
+
+  div.callout-note {
+    border-left-color: #4582ec !important;
+  }
+
+  div.callout-note .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEU0lEQVRYCcVXTWhcVRQ+586kSUMMxkyaElstCto2SIhitS5Ek8xUKV2poatCcVHtUlFQk8mbaaziwpWgglJwVaquitBOfhQXFlqlzSJpFSpIYyXNjBNiTCck7x2/8/LeNDOZxDuEkgOXe++553zfefee+/OYLOXFk3+1LLrRdiO81yNqZ6K9cG0P3MeFaMIQjXssE8Z1JzLO9ls20MBZX7oG8w9GxB0goaPrW5aNMp1yOZIa7Wv6o2ykpLtmAPs/vrG14Z+6d4jpbSKuhdcSyq9wGMPXjonwmESXrriLzFGOdDBLB8Y6MNYBu0dRokSygMA/mrun8MGFN3behm6VVAwg4WR3i6FvYK1T7MHo9BK7ydH+1uurECoouk5MPRyVSBrBHMYwVobG2aOXM07sWrn5qgB60rc6mcwIDJtQrnrEr44kmy+UO9r0u9O5/YbkS9juQckLed3DyW2XV/qWBBB3ptvI8EUY3I9p/67OW+g967TNr3Sotn3IuVlfMLVnsBwH4fsnebJvyGm5GeIUA3jljERmrv49SizPYuq+z7c2H/jlGC+Ghhupn/hcapqmcudB9jwJ/3jvnvu6vu5lVzF1fXyZuZZ7U8nRmVzytvT+H3kilYvH09mLWrQdwFSsFEsxFVs5fK7A0g8gMZjbif4ACpKbjv7gNGaD8bUrlk8x+KRflttr22JEMRUbTUwwDQScyzPgedQHZT0xnx7ujw2jfVfExwYHwOsDTjLdJ2ebmeQIlJ7neo41s/DrsL3kl+W2lWvAga0tR3zueGr6GL78M3ifH0rGXrBC2aAR8uYcIA5gwV8zIE8onoh8u0Fca/ciF7j1uOzEnqcIm59sEXoGc0+z6+H45V1CvAvHcD7THztu669cnp+L0okAeIc6zjbM/24LgGM1gZk7jnRu1aQWoU9sfUOuhrmtaPIO3YY1KLLWZaEO5TKUbMY5zx8W9UJ6elpLwKXbsaZ4EFl7B4bMtDv0iRipKoDQT2sNQI9b1utXFdYisi+wzZ/ri/1m7QfDgEuvgUUEIJPq3DhX/5DWNqIXDOweC2wvIR90Oq3lDpdMIgD2r0dXvGdsEW5H6x6HLRJYU7C69VefO1x8Gde1ZFSJLfWS1jbCnhtOPxmpfv2LXOA2Xk2tvnwKKPFuZ/oRmwBwqRQDcKNeVQkYcOjtWVBuM/JuYw5b6isojIkYxyYAFn5K7ZBF10fea52y8QltAg6jnMqNHFBmGkQ1j+U43HMi2xMar1Nv0zGsf1s8nUsmUtPOOrbFIR8bHFDMB5zL13Gmr/kGlCkUzedTzzmzsaJXhYawnA3UmARpiYj5ooJZiUoxFRtK3X6pgNPv+IZVPcnwbOl6f+aBaO1CNvPW9n9LmCp01nuSaTRF2YxHqZ8DYQT6WsXT+RD6eUztwYLZ8rM+rcPxamv1VQzFUkzFXvkiVrySGQgJNvXHJAxiU3/NwiC03rSf05VBaPtu/Z7/B8Yn/w7eguloAAAAAElFTkSuQmCC');
+  }
+
+  div.callout-note.callout-style-default .callout-title {
+    background-color: #dae6fb
+  }
+
+  div.callout-important {
+    border-left-color: #d9534f !important;
+  }
+
+  div.callout-important .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEKklEQVRYCcVXTWhcVRS+575MJym48A+hSRFr00ySRQhURRfd2HYjk2SSTokuBCkU2o0LoSKKraKIBTcuFCoidGFD08nkBzdREbpQ1EDNIv8qSGMFUboImMSZd4/f9zJv8ibJMC8xJQfO3HPPPef7zrvvvnvviIkpC9nsw0UttFunbUhpFzFtarSd6WJkStVMw5xyVqYTvkwfzuf/5FgtkVoB0729j1rjXwThS7Vio+Mo6DNnvLfahoZ+i/o32lULuJ3NNiz7q6+pyAUkJaFF6JwaM2lUJlV0MlnQn5aTRbEu0SEqHUa0A4AdiGuB1kFXRfVyg5d87+Dg4DL6m2TLAub60ilj7A1Ec4odSAc8X95sHh7+ZRPCFo6Fnp7HfU/fBng/hi10CjCnWnJjsxvDNxWw0NfV6Rv5GgP3I3jGWXumdTD/3cbEOP2ZbOZp69yniG3FQ9z1jD7bnBu9Fc2tKGC2q+uAJOQHBDRiZX1x36o7fWBs7J9ownbtO+n0/qWkvW7UPIfc37WgT6ZGR++EOJyeQDSb9UB+DZ1G6DdLDzyS+b/kBCYGsYgJbSQHuThGKRcw5xdeQf8YdNHsc6ePXrlSYMBuSIAFTGAtQo+VuALo4BX83N190NWZWbynBjhOHsmNfFWLeL6v+ynsA58zDvvAC8j5PkbOcXCMg2PZFk3q8MjI7WAG/Dp9AwP7jdGBOOQkAvlFUB+irtm16I1Zw9YBcpGTGXYmk3kQIC/Cds55l+iMI3jqhjAuaoe+am2Jw5GT3Nbz3CkE12NavmzN5+erJW7046n/CH1RO/RVa8lBLozXk9uqykkGAyRXLWlLv5jyp4RFsG5vGVzpDLnIjTWgnRy2Rr+tDKvRc7Y8AyZq10jj8DqXdnIRNtFZb+t/ZRtXcDiVnzpqx8mPcDWxgARUqx0W1QB9MeUZiNrV4qP+Ehc+BpNgATsTX8ozYKL2NtFYAHc84fG7ndxUPr+AR/iQSns7uSUufAymwDOb2+NjK27lEFocm/EE2WpyIy/Hi66MWuMKJn8RvxIcj87IM5Vh9663ziW36kR0HNenXuxmfaD8JC7tfKbrhFr7LiZCrMjrzTeGx+PmkosrkNzW94ObzwocJ7A1HokLolY+AvkTiD/q1H0cN48c5EL8Crkttsa/AXQVDmutfyku0E7jShx49XqV3MFK8IryDhYVbj7Sj2P2eBxwcXoe8T8idsKKPRcnZw1b+slFTubwUwhktrfnAt7J++jwQtLZcm3sr9LQrjRzz6cfMv9aLvgmnAGvpoaGLxM4mAEaLV7iAzQ3oU0IvD5x9ix3yF2RAAuYAOO2f7PEFWCXZ4C9Pb2UsgDeVnFSpbFK7/IWu7TPTvBqzbGdCHOJQSxiEjt6IyZmxQyEJHv6xyQsYk//moVFsN2zP6fRImjfq7/n/wFDguUQFNEwugAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-important.callout-style-default .callout-title {
+    background-color: #f7dddc
+  }
+
+  div.callout-warning {
+    border-left-color: #f0ad4e !important;
+  }
+
+  div.callout-warning .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAETklEQVRYCeVWW2gcVRg+58yaTUnizqbipZeX4uWhBEniBaoUX1Ioze52t7sRq6APio9V9MEaoWlVsFasRq0gltaAPuxms8lu0gcviE/FFOstVbSIxgcv6SU7EZqmdc7v9+9mJtNks51NTUH84ed889/PP+cmxP+d5FIbMJmNbpREu4WUkiTtCicKny0l1pIKmBzovF2S+hIJHX8iEu3hZJ5lNZGqyRrGSIQpq15AzF28jgpeY6yk6GVdrfFqdrD6Iw+QlB8g0YS2g7dyQmXM/IDhBhT0UCiRf59lfqmmDvzRt6kByV/m4JjtzuaujMUM2c5Z2d6JdKrRb3K2q6mA+oYVz8JnDdKPmmNthzkAk/lN63sYPgevrguc72aZX/L9C6x09GYyxBgCX4NlvyGUHOKELlm5rXeR1kchuChJt4SSwyddZRXgvwMGvYo4QSlk3/zkHD8UHxwVJA6zjZZqP8v8kK8OWLnIZtLyCAJagYC4rTGW/9Pqj92N/c+LUaAj27movwbi19tk/whRCIE7Q9vyI6yvRpftAKVTdUjOW40X3h5OXsKCdmFcx0xlLJoSuQngnrJe7Kcjm4OMq9FlC7CMmScQANuNvjfP3PjGXDBaUQmbp296S5L4DrpbrHN1T87ZVEZVCzg1FF0Ft+dKrlLukI+/c9ENo+TvlTDbYFvuKPtQ9+l052rXrgKoWkDAFnvh0wTOmYn8R5f4k/jN/fZiCM1tQx9jQQ4ANhqG4hiL0qIFTGViG9DKB7GYzgubnpofgYRwO+DFjh0Zin2m4b/97EDkXkc+f6xYAPX0KK2I/7fUQuwzuwo/L3AkcjugPNixC8cHf0FyPjWlItmLxWw4Ou9YsQCr5fijMGoD/zpdRy95HRysyXA74MWOnscpO4j2y3HAVisw85hX5+AFBRSHt4ShfLFkIMXTqyKFc46xdzQM6XbAi702a7sy04J0+feReMFKp5q9esYLCqAZYw/k14E/xcLLsFElaornTuJB0svMuJINy8xkIYuL+xPAlWRceH6+HX7THJ0djLUom46zREu7tTkxwmf/FdOZ/sh6Q8qvEAiHpm4PJ4a/doJe0gH1t+aHRgCzOvBvJedEK5OFE5jpm4AGP2a8Dxe3gGJ/pAutug9Gp6he92CsSsWBaEcxGx0FHytmIpuqGkOpldqNYQK8cSoXvd+xLxXADw0kf6UkJNFtdo5MOgaLjiQOQHcn+A6h5NuL2s0qsC2LOM75PcF3yr5STuBSAcGG+meA14K/CI21HcS4LBT6tv0QAh8Dr5l93AhZzG5ZJ4VxAqdZUEl9z7WJ4aN+svMvwHHL21UKTd1mqvChH7/Za5xzXBBKrUcB0TQ+Ulgkfbi/H/YT5EptrGzsEK7tR1B7ln9BBwckYfMiuSqklSznIuoIIOM42MQO+QnduCoFCI0bpkzjCjddHPN/F+2Yu+sd9bKNpVwHhbS3LluK/0zgfwD0xYI5dXuzlQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-warning.callout-style-default .callout-title {
+    background-color: #fcefdc
+  }
+
+  div.callout-tip {
+    border-left-color: #02b875 !important;
+  }
+
+  div.callout-tip .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAADr0lEQVRYCe1XTWgTQRj9ZjZV8a9SPIkKgj8I1bMHsUWrqYLVg4Ue6v9BwZOxSYsIerFao7UiUryIqJcqgtpimhbBXoSCVxUFe9CTiogUrUp2Pt+3aUI2u5vdNh4dmMzOzHvvezuz8xNFM0mjnbXaNu1MvFWRXkXEyE6aYOYJpdW4IXuA4r0fo8qqSMDBU0v1HJUgVieAXxzCsdE/YJTdFcVIZQNMyhruOMJKXYFoLfIfIvVIMWdsrd+Rpd86ZmyzzjJmLStqRn0v8lzkb4rVIXvnpScOJuAn2ACC65FkPzEdEy4TPWRLJ2h7z4cArXzzaOdKlbOvKKX25Wl00jSnrwVxAg3o4dRxhO13RBSdNvH0xSARv3adTXbBdTf64IWO2vH0LT+cv4GR1DJt+DUItaQogeBX/chhbTBxEiZ6gftlDNXTrvT7co4ub5A6gp9HIcHvzTa46OS5fBeP87Qm0fQkr4FsYgVQ7Qg+ZayaDg9jhg1GkWj8RG6lkeSacrrHgDaxdoBiZPg+NXV/KifMuB6//JmYH4CntVEHy/keA6x4h4CU5oFy8GzrBS18cLJMXcljAKB6INjWsRcuZBWVaS3GDrqB7rdapVIeA+isQ57Eev9eCqzqOa81CY05VLd6SamW2wA2H3SiTbnbSxmzfp7WtKZkqy4mdyAlGx7ennghYf8voqp9cLSgKdqNfa6RdRsAAkPwRuJZNbpByn+RrJi1RXTwdi8RQF6ymDwGMAtZ6TVE+4uoKh+MYkcLsT0Hk8eAienbiGdjJHZTpmNjlbFJNKDVAp2fJlYju6IreQxQ08UJDNYdoLSl6AadO+fFuCQqVMB1NJwPm69T04Wv5WhfcWyfXQB+wXRs1pt+nCknRa0LVzSA/2B+a9+zQJadb7IyyV24YAxKp2Jqs3emZTuNnKxsah+uabKbMk7CbTgJx/zIgQYErIeTKRQ9yD9wxVof5YolPHqaWo7TD6tJlh7jQnK5z2n3+fGdggIOx2kaa2YI9QWarc5Ce1ipNWMKeSG4DysFF52KBmTNMmn5HqCFkwy34rDg05gDwgH3bBi+sgFhN/e8QvRn8kbamCOhgrZ9GJhFDgfcMHzFb6BAtjKpFhzTjwv1KCVuxHvCbsSiEz4CANnj84cwHdFXAbAOJ4LTSAawGWFn5tDhLMYz6nWeU2wJfIhmIJBefcd/A5FWQWGgrWzyORZ3Q6HuV+Jf0Bj+BTX69fm1zWgK7By1YTXchFDORywnfQ7GpzOo6S+qECrsx2ifVQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-tip.callout-style-default .callout-title {
+    background-color: #ccf1e3
+  }
+
+  div.callout-caution {
+    border-left-color: #fd7e14 !important;
+  }
+
+  div.callout-caution .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAACV0lEQVRYCdVWzWoUQRCuqp2ICBLJXgITZL1EfQDBW/bkzUMUD7klD+ATSHBEfAIfQO+iXsWDxJsHL96EHAwhgzlkg8nBg25XWb0zIb0zs9muYYWkoKeru+vn664fBqElyZNuyh167NXJ8Ut8McjbmEraKHkd7uAnAFku+VWdb3reSmRV8PKSLfZ0Gjn3a6Xlcq9YGb6tADjn+lUfTXtVmaZ1KwBIvFI11rRXlWlatwIAAv2asaa9mlB9wwygiDX26qaw1yYPzFXg2N1GgG0FMF8Oj+VIx7E/03lHx8UhvYyNZLN7BwSPgekXXLribw7w5/c8EF+DBK5idvDVYtEEwMeYefjjLAdEyQ3M9nfOkgnPTEkYU+sxMq0BxNR6jExrAI31H1rzvLEfRIdgcv1XEdj6QTQAS2wtstEALLG1yEZ3QhH6oDX7ExBSFEkFINXH98NTrme5IOaaA7kIfiu2L8A3qhH9zRbukdCqdsA98TdElyeMe5BI8Rs2xHRIsoTSSVFfCFCWGPn9XHb4cdobRIWABNf0add9jakDjQJpJ1bTXOJXnnRXHRf+dNL1ZV1MBRCXhMbaHqGI1JkKIL7+i8uffuP6wVQAzO7+qVEbF6NbS0LJureYcWXUUhH66nLR5rYmva+2tjRFtojkM2aD76HEGAD3tPtKM309FJg5j/K682ywcWJ3PASCcycH/22u+Bh7Aa0ehM2Fu4z0SAE81HF9RkB21c5bEn4Dzw+/qNOyXr3DCTQDMBOdhi4nAgiFDGCinIa2owCEChUwD8qzd03PG+qdW/4fDzjUMcE1ZpIAAAAASUVORK5CYII=');
+  }
+
+  div.callout-caution.callout-style-default .callout-title {
+    background-color: #ffe5d0
+  }
+
+  </style>
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <style>
+  .reveal .slides section .fragment.highlight-red,
+  .reveal .slides section .fragment.highlight-current-red,
+  .reveal .slides section .fragment.highlight-green,
+  .reveal .slides section .fragment.highlight-current-green,
+  .reveal .slides section .fragment.highlight-blue,
+  .reveal .slides section .fragment.highlight-current-blue {
+      opacity: 1;
+      visibility: inherit;
+  }
+  .interactive-demo {
+      border: 2px solid #007acc;
+      border-radius: 10px;
+      padding: 15px;
+      background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+      margin: 15px 0;
+  }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Mathematical Statistics: Sample Spaces and Set Operations</h1>
+  <p class="subtitle">Interactive Probability Theory Lecture</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Samir Orujov, PhD 
+</div>
+        <p class="quarto-title-affiliation">
+            ADA University, School of Business
+          </p>
+        <p class="quarto-title-affiliation">
+            Information Communication Technologies Agency, Statistics Unit
+          </p>
+    </div>
+</div>
+
+  <p class="date">2025-09-28</p>
+</section>
+<section id="learning-objectives" class="slide level2 center">
+<h2><span class="r-fit-text" style="font-size: 50px">Learning Objectives</span></h2>
+<div class="columns">
+<div class="column" style="font-size: 40px">
+<dl>
+<dt>🎯 <strong>Sample Spaces</strong></dt>
+<dd>
+Understand and identify sample spaces for various experiments
+</dd>
+<dt>📊 <strong>Event Operations</strong></dt>
+<dd>
+Define and work with events as subsets of sample spaces
+</dd>
+<dt>🔄 <strong>Set Operations</strong></dt>
+<dd>
+Apply union, intersection, and complement operations
+</dd>
+</dl>
+</div><div class="column" style="font-size: 40px">
+<dl>
+<dt>📐 <strong>Algebraic Rules</strong></dt>
+<dd>
+Master algebraic rules and DeMorgan’s laws for events
+</dd>
+<dt>🎪 <strong>Interactive Demos</strong></dt>
+<dd>
+Visualize probability concepts through animations
+</dd>
+<dt>🧠 <strong>Problem Solving</strong></dt>
+<dd>
+Apply concepts to real-world scenarios
+</dd>
+</dl>
+</div>
+</div>
+</section>
+<section id="course-overview" class="slide level2 center">
+<h2><span class="r-fit-text" style="font-size: 50px">Course Overview</span></h2>
+<div class="columns">
+<div class="column" style="font-size: 40px !important;">
+<dl>
+<dt><strong>Foundation</strong></dt>
+<dd>
+🎯 <strong>Sample Spaces</strong>
+</dd>
+<dt><strong>Core Concepts</strong></dt>
+<dd>
+📊 <strong>Events &amp; Operations</strong>
+</dd>
+<dt><strong>Visual Learning</strong></dt>
+<dd>
+🎨 <strong>Interactive Venn Diagrams</strong>
+</dd>
+</dl>
+</div><div class="column" style="font-size: 40px !important;">
+<dl>
+<dt><strong>Mathematical Laws</strong></dt>
+<dd>
+📐 <strong>DeMorgan’s Theorems</strong>
+</dd>
+<dt><strong>Applications</strong></dt>
+<dd>
+🧩 <strong>Real-World Problems</strong>
+</dd>
+<dt><strong>Assessment</strong></dt>
+<dd>
+💻 <strong>Interactive Quizzes</strong>
+</dd>
+</dl>
+</div>
+</div>
+</section>
+<section id="what-is-a-sample-space" class="slide level2 center">
+<h2><span class="r-fit-text" style="font-size: 40px">What is a Sample Space?</span></h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span style="font-size: 40px !important">Fundamental Definition</span></strong></p>
+</div>
+<div class="callout-content">
+<p><span style="font-size: 30px !important">The <strong>sample space</strong> is the set of ALL possible outcomes of an experiment, denoted by <span class="math inline">\(S\)</span>.</span></p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><span style="font-size: 30px !important"><strong>Key Properties:</strong></span></p>
+<ul>
+<li>Contains <strong>every</strong> possible outcome</li>
+<li>Outcomes are <strong>mutually exclusive</strong><br>
+</li>
+<li>Exactly <strong>one</strong> outcome occurs per experiment</li>
+</ul>
+</div>
+<div class="fragment">
+<p><span style="font-size: 30px !important"><strong>Mathematical Notation:</strong></span> <span class="math display">\[S = \{s_1, s_2, s_3, \ldots\} \text{ or } S = \{s : \text{condition}\}\]</span></p>
+</div>
+</section>
+<section id="interactive-sample-space-builder" class="slide level2 smaller">
+<h2>Interactive Sample Space Builder</h2>
+<div class="interactive-demo">
+<p><strong>Demonstration:</strong> Build sample spaces step by step!</p>
+<div style="margin: 20px 0;">
+<label for="experiment-select" style="font-weight: bold;">Choose an experiment:</label>
+<select id="experiment-select" style="padding: 8px; margin: 10px; border: 1px solid #ccc; border-radius: 4px;">
+  <option value="coin_flip">Single Coin Flip</option>
+  <option value="die_roll">Single Die Roll</option>
+  <option value="two_coins">Two Coin Flips</option>
+  <option value="card_suit">Draw Card (Suit Only)</option>
+</select>
+</div>
+
+<div id="sample-space-display" style="padding: 20px; border: 2px solid #007acc; border-radius: 10px; background: #f0f8ff; margin: 15px 0;">
+  <h4 id="space-title">Sample Space S = {H, T}</h4>
+  <p id="space-count"><strong>Total outcomes:</strong> 2</p>
+  <div id="outcomes-container" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
+    <span style="padding: 8px 12px; background: #007acc; color: white; border-radius: 5px; font-weight: bold;">H</span>
+    <span style="padding: 8px 12px; background: #007acc; color: white; border-radius: 5px; font-weight: bold;">T</span>
+  </div>
+</div>
+
+<script>
+const experimentSelect = document.getElementById('experiment-select');
+const spaceTitle = document.getElementById('space-title');
+const spaceCount = document.getElementById('space-count');
+const outcomesContainer = document.getElementById('outcomes-container');
+
+const sampleSpaces = {
+  coin_flip: ['H', 'T'],
+  die_roll: ['1', '2', '3', '4', '5', '6'],
+  two_coins: ['HH', 'HT', 'TH', 'TT'],
+  card_suit: ['♠', '♥', '♦', '♣']
+};
+
+experimentSelect.addEventListener('change', function() {
+  const outcomes = sampleSpaces[this.value];
+  spaceTitle.textContent = `Sample Space S = {${outcomes.join(', ')}}`;
+  spaceCount.innerHTML = `<strong>Total outcomes:</strong> ${outcomes.length}`;
+
+  outcomesContainer.innerHTML = outcomes.map(outcome => 
+    `<span style="padding: 8px 12px; background: #007acc; color: white; border-radius: 5px; font-weight: bold;">${outcome}</span>`
+  ).join('');
+});
+</script>
+</div>
+</section>
+<section id="sample-space-examples" class="slide level2 center">
+<h2><span class="r-fit-text" style="font-size: 40px">Sample Space Examples</span></h2>
+<div class="columns">
+<div class="column" style="font-size: 30px !important;">
+<p><strong>Discrete Examples:</strong></p>
+<p><span style="font-size: 25px !important"><strong>Rolling a die:</strong></span> <span class="math display">\[S = \{1, 2, 3, 4, 5, 6\}\]</span></p>
+<p><span style="font-size: 25px !important"><strong>Two coin flips:</strong></span><br>
+<span class="math display">\[S = \{HH, HT, TH, TT\}\]</span></p>
+<p><span style="font-size: 25px !important"><strong>Drawing a card (suit):</strong></span> <span class="math display">\[S = \{♠, ♥, ♦, ♣\}\]</span></p>
+</div><div class="column" style="font-size: 30px !important;">
+<p><strong>Continuous Examples:</strong></p>
+<p><span style="font-size: 25px !important"><strong>Temperature measurement:</strong></span> <span class="math display">\[S = \{x : x \in \mathbb{R}, x ≥ -273.15\}\]</span></p>
+<p><span style="font-size: 25px !important"><strong>Time until failure:</strong></span> <span class="math display">\[S = \{t : t ≥ 0\}\]</span></p>
+<p><span style="font-size: 25px !important"><strong>Stock price:</strong></span> <span class="math display">\[S = \{p : p &gt; 0\}\]</span></p>
+</div>
+</div>
+</section>
+<section id="live-coin-flip-simulation" class="slide level2 smaller">
+<h2>Live Coin Flip Simulation</h2>
+<div class="interactive-demo">
+<p><strong>Demonstration:</strong> Watch the Law of Large Numbers in action!</p>
+<div style="margin: 20px 0;">
+<label for="num-flips" style="font-weight: bold;">Number of flips:</label>
+<input type="range" id="num-flips" min="1" max="100" value="10" style="margin: 0 10px;">
+<span id="flip-count">10</span>
+<button id="flip-button" style="padding: 10px 20px; background: #007acc; color: white; border: none; border-radius: 5px; margin-left: 15px; cursor: pointer;">Flip Coins!</button>
+</div>
+
+<div id="coin-results" style="padding: 15px; background: #f9f9f9; border-radius: 8px; margin: 10px 0; min-height: 100px;">
+<h4>Click "Flip Coins!" to start simulation</h4>
+</div>
+
+<script>
+const numFlipsSlider = document.getElementById('num-flips');
+const flipCountDisplay = document.getElementById('flip-count');
+const flipButton = document.getElementById('flip-button');
+const coinResults = document.getElementById('coin-results');
+
+numFlipsSlider.addEventListener('input', function() {
+  flipCountDisplay.textContent = this.value;
+});
+
+flipButton.addEventListener('click', function() {
+  const numFlips = parseInt(numFlipsSlider.value);
+  const results = Array.from({length: numFlips}, () => Math.random() < 0.5 ? 'H' : 'T');
+
+  const heads = results.filter(x => x === 'H').length;
+  const tails = results.filter(x => x === 'T').length;
+  const proportion = (heads / numFlips).toFixed(3);
+
+  coinResults.innerHTML = `
+    <h4>Simulation Results:</h4>
+    <div style="font-family: monospace; font-size: 18px; line-height: 1.5; max-width: 100%; overflow-wrap: break-word; margin: 10px 0;">
+      ${results.join(' ')}
+    </div>
+    <p><strong>Heads:</strong> ${heads} | <strong>Tails:</strong> ${tails}</p>
+    <p><strong>Proportion of Heads:</strong> ${proportion}</p>
+    <p style="color: ${Math.abs(proportion - 0.5) < 0.1 ? '#28a745' : '#dc3545'}; font-weight: bold;">
+      ${Math.abs(proportion - 0.5) < 0.1 ? '✓ Close to theoretical 0.5!' : 'Try more flips for convergence'}
+    </p>
+  `;
+});
+</script>
+</div>
+</section>
+<section id="events---definition" class="slide level2 center">
+<h2><span class="r-fit-text" style="font-size: 40px">Events - Definition</span></h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span style="font-size: 40px !important">Key Definitions</span></strong></p>
+</div>
+<div class="callout-content">
+<p><span style="font-size: 30px !important"><strong>Event</strong>: A subset of the sample space.</span></p>
+<p><span style="font-size: 30px !important"><strong>Elementary Event</strong>: An event consisting of exactly one outcome.</span></p>
+<p><span style="font-size: 30px !important"><strong>Event Occurrence</strong>: An event occurs if the experimental outcome belongs to that event.</span></p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><span style="font-size: 30px !important"><strong>Mathematical Notation:</strong></span></p>
+<ul>
+<li>Events denoted by capital letters: <span class="math inline">\(A, B, C, \ldots\)</span><br>
+</li>
+<li><span class="math inline">\(A \subseteq S\)</span> (A is a subset of S)</li>
+<li><span class="math inline">\(A = \{s_i : s_i \text{ satisfies condition}\}\)</span></li>
+</ul>
+</div>
+</section>
+<section id="event-examples" class="slide level2 center">
+<h2><span class="r-fit-text" style="font-size: 40px">Event Examples</span></h2>
+<div class="columns">
+<div class="column" style="font-size: 25px !important;">
+<p><span style="font-size: 28px !important"><strong>Die Rolling Example:</strong></span></p>
+<p><span class="math inline">\(S = \{1,2,3,4,5,6\}\)</span></p>
+<ul>
+<li><span class="math inline">\(A = \{2,4,6\}\)</span> (even numbers)</li>
+<li><span class="math inline">\(B = \{1,3,5\}\)</span> (odd numbers)<br>
+</li>
+<li><span class="math inline">\(C = \{1\}\)</span> (rolling one)</li>
+<li><span class="math inline">\(D = \{5,6\}\)</span> (five or higher)</li>
+</ul>
+</div><div class="column" style="font-size: 25px !important;">
+<p><span style="font-size: 28px !important"><strong>Two Coins Example:</strong></span></p>
+<p><span class="math inline">\(S = \{HH, HT, TH, TT\}\)</span></p>
+<ul>
+<li><span class="math inline">\(E = \{HH, HT, TH\}\)</span> (at least one head)</li>
+<li><span class="math inline">\(F = \{HH\}\)</span> (both heads)</li>
+<li><span class="math inline">\(G = \{HT, TH\}\)</span> (exactly one head)</li>
+<li><span class="math inline">\(H = \{TT\}\)</span> (both tails)</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="two-dice-visualization" class="slide level2 smaller">
+<h2>Two Dice Visualization</h2>
+<div class="interactive-demo">
+<p><strong>Demonstration:</strong> Explore two-dice sample space interactively</p>
+
+<div style="margin: 20px 0;">
+<label for="highlight-sum" style="font-weight: bold;">Highlight sum:</label>
+<input type="range" id="highlight-sum" min="2" max="12" value="7" style="margin: 0 10px;">
+<span id="sum-value">7</span>
+</div>
+
+<div id="dice-table-container" style="margin: 20px 0;">
+
+<table id="dice-table" data-quarto-postprocess="true" style="border-collapse: collapse; margin: auto;">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="padding: 8px; border: 1px solid #ccc; background: #f0f0f0">Die 2 \ Die 1</th>
+<th data-quarto-table-cell-role="th" style="padding: 8px; border: 1px solid #ccc; background: #f0f0f0">1</th>
+<th data-quarto-table-cell-role="th" style="padding: 8px; border: 1px solid #ccc; background: #f0f0f0">2</th>
+<th data-quarto-table-cell-role="th" style="padding: 8px; border: 1px solid #ccc; background: #f0f0f0">3</th>
+<th data-quarto-table-cell-role="th" style="padding: 8px; border: 1px solid #ccc; background: #f0f0f0">4</th>
+<th data-quarto-table-cell-role="th" style="padding: 8px; border: 1px solid #ccc; background: #f0f0f0">5</th>
+<th data-quarto-table-cell-role="th" style="padding: 8px; border: 1px solid #ccc; background: #f0f0f0">6</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+
+
+</div>
+
+<p id="sum-info" style="text-align: center; margin-top: 15px; font-weight: bold;">
+Event "Sum = 7" has 6 favorable outcomes.
+</p>
+
+<script>
+const highlightSumSlider = document.getElementById('highlight-sum');
+const sumValueDisplay = document.getElementById('sum-value');
+const diceTable = document.getElementById('dice-table');
+const sumInfo = document.getElementById('sum-info');
+
+function updateDiceTable() {
+  const targetSum = parseInt(highlightSumSlider.value);
+  sumValueDisplay.textContent = targetSum;
+
+  const tbody = diceTable.querySelector('tbody');
+  tbody.innerHTML = '';
+
+  let favorableCount = 0;
+
+  for(let j = 1; j <= 6; j++) {
+    const row = document.createElement('tr');
+    const header = document.createElement('th');
+    header.textContent = j;
+    header.style.cssText = 'padding: 8px; border: 1px solid #ccc; background: #f0f0f0;';
+    row.appendChild(header);
+
+    for(let i = 1; i <= 6; i++) {
+      const cell = document.createElement('td');
+      const sum = i + j;
+      const isHighlighted = sum === targetSum;
+
+      if(isHighlighted) favorableCount++;
+
+      cell.innerHTML = `(${i},${j})<br/><small>Sum: ${sum}</small>`;
+      cell.style.cssText = `padding: 8px; border: 1px solid #ccc; text-align: center; 
+        background: ${isHighlighted ? '#ffeb3b' : '#f9f9f9'}; 
+        font-weight: ${isHighlighted ? 'bold' : 'normal'};`;
+
+      row.appendChild(cell);
+    }
+    tbody.appendChild(row);
+  }
+
+  sumInfo.innerHTML = `Event "Sum = ${targetSum}" has <strong>${favorableCount}</strong> favorable outcomes.`;
+}
+
+highlightSumSlider.addEventListener('input', updateDiceTable);
+updateDiceTable(); // Initialize
+</script>
+</div>
+</section>
+<section id="union-and-intersection" class="slide level2 center">
+<h2><span class="r-fit-text" style="font-size: 40px">Union and Intersection</span></h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span style="font-size: 40px !important">Key Operations</span></strong></p>
+</div>
+<div class="callout-content">
+<p><span style="font-size: 30px !important"><strong>Union (<span class="math inline">\(A \cup B\)</span>)</strong>: Outcomes in <strong>either</strong> <span class="math inline">\(A\)</span> <strong>or</strong> <span class="math inline">\(B\)</span> (or both).</span></p>
+<p><span style="font-size: 30px !important"><strong>Intersection (<span class="math inline">\(A \cap B\)</span>)</strong>: Outcomes <strong>both</strong> in <span class="math inline">\(A\)</span> <strong>and</strong> in <span class="math inline">\(B\)</span>.</span></p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><span style="font-size: 30px !important"><strong>Mathematical Definitions:</strong></span></p>
+<ul>
+<li><span class="math inline">\(A \cup B = \{s : s \in A \text{ or } s \in B\}\)</span></li>
+<li><span class="math inline">\(A \cap B = \{s : s \in A \text{ and } s \in B\}\)</span></li>
+<li>If <span class="math inline">\(A \cap B = \emptyset\)</span>, then <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are <strong>disjoint</strong></li>
+</ul>
+</div>
+</section>
+<section id="interactive-venn-diagrams" class="slide level2 smaller">
+<h2>Interactive Venn Diagrams</h2>
+<div class="interactive-demo">
+<p><strong>Demonstration:</strong> Visualize set operations with custom sets</p>
+<div style="margin: 20px 0;">
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+<div>
+  <label for="set-A" style="font-weight: bold;">Set A:</label>
+  <input type="text" id="set-A" value="1,2,3,4" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+</div>
+<div>
+  <label for="set-B" style="font-weight: bold;">Set B:</label>  
+  <input type="text" id="set-B" value="3,4,5,6" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+</div>
+<div>
+  <label for="operation" style="font-weight: bold;">Operation:</label>
+  <select id="operation" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+    <option value="union">A ∪ B (Union)</option>
+    <option value="intersection">A ∩ B (Intersection)</option>
+    <option value="complement_A">Aᶜ (Complement of A)</option>
+    <option value="complement_B">Bᶜ (Complement of B)</option>
+    <option value="difference">A - B (Difference)</option>
+  </select>
+</div>
+</div>
+</div>
+
+<div id="venn-result" style="padding: 20px; background: #f8f9fa; border-radius: 10px; margin: 15px 0;">
+<h4>Set Operation Results</h4>
+<div style="display: flex; justify-content: space-around; align-items: center; margin: 20px 0;">
+  <div style="text-align: center;">
+    <div style="width: 120px; height: 120px; border: 3px solid #007acc; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(0,122,204,0.1); margin: 10px auto;">
+      <div style="font-weight: bold; color: #007acc;" id="set-A-display">A<br>{1,2,3,4}</div>
+    </div>
+  </div>
+  <div style="text-align: center;">
+    <div style="width: 120px; height: 120px; border: 3px solid #dc3545; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(220,53,69,0.1); margin: 10px auto;">
+      <div style="font-weight: bold; color: #dc3545;" id="set-B-display">B<br>{3,4,5,6}</div>
+    </div>
+  </div>
+</div>
+<div style="text-align: center; padding: 15px; background: white; border-radius: 5px; border: 2px solid #28a745;">
+  <h4 style="color: #28a745; margin: 0;" id="operation-result">A ∪ B = {1, 2, 3, 4, 5, 6}</h4>
+</div>
+<p style="text-align: center; margin-top: 10px; font-size: 14px; color: #666;" id="universe-display">
+  <strong>Universe:</strong> {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+</p>
+</div>
+
+<script>
+const setAInput = document.getElementById('set-A');
+const setBInput = document.getElementById('set-B');
+const operationSelect = document.getElementById('operation');
+const setADisplay = document.getElementById('set-A-display');
+const setBDisplay = document.getElementById('set-B-display');
+const operationResult = document.getElementById('operation-result');
+const universeDisplay = document.getElementById('universe-display');
+
+function updateVennDiagram() {
+  const A = setAInput.value.split(',').map(x => x.trim()).filter(x => x);
+  const B = setBInput.value.split(',').map(x => x.trim()).filter(x => x);
+  const universe = [...new Set([...A, ...B, '0', '7', '8', '9'])].sort();
+
+  setADisplay.innerHTML = `A<br/>{${A.join(',')}}`;
+  setBDisplay.innerHTML = `B<br/>{${B.join(',')}}`;
+  universeDisplay.innerHTML = `<strong>Universe:</strong> {${universe.join(', ')}}`;
+
+  let result = [];
+  let resultLabel = "";
+
+  switch(operationSelect.value) {
+    case 'union':
+      result = [...new Set([...A, ...B])];
+      resultLabel = `A ∪ B = {${result.join(', ')}}`;
+      break;
+    case 'intersection':
+      result = A.filter(x => B.includes(x));
+      resultLabel = `A ∩ B = {${result.join(', ')}}`;
+      break;
+    case 'complement_A':
+      result = universe.filter(x => !A.includes(x));
+      resultLabel = `Aᶜ = {${result.join(', ')}}`;
+      break;
+    case 'complement_B':
+      result = universe.filter(x => !B.includes(x));
+      resultLabel = `Bᶜ = {${result.join(', ')}}`;
+      break;
+    case 'difference':
+      result = A.filter(x => !B.includes(x));
+      resultLabel = `A - B = {${result.join(', ')}}`;
+      break;
+  }
+
+  operationResult.textContent = resultLabel;
+}
+
+setAInput.addEventListener('input', updateVennDiagram);
+setBInput.addEventListener('input', updateVennDiagram);
+operationSelect.addEventListener('change', updateVennDiagram);
+</script>
+</div>
+</section>
+<section id="complement-disjoint-events" class="slide level2 center">
+<h2><span class="r-fit-text" style="font-size: 40px">Complement &amp; Disjoint Events</span></h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span style="font-size: 40px !important">Essential Concepts</span></strong></p>
+</div>
+<div class="callout-content">
+<p><span style="font-size: 30px !important"><strong>Complement (<span class="math inline">\(A^c\)</span>)</strong>: All outcomes in <span class="math inline">\(S\)</span> that are NOT in <span class="math inline">\(A\)</span>.</span></p>
+<p><span style="font-size: 30px !important"><strong>Disjoint Events</strong>: <span class="math inline">\(A \cap B = \emptyset\)</span> (cannot occur simultaneously).</span></p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><span style="font-size: 30px !important"><strong>Key Properties:</strong></span></p>
+<ul>
+<li><span class="math inline">\(A \cup A^c = S\)</span> (universal set)</li>
+<li><span class="math inline">\(A \cap A^c = \emptyset\)</span> (empty set)<br>
+</li>
+<li><span class="math inline">\((A^c)^c = A\)</span> (double complement)</li>
+<li>If disjoint: <span class="math inline">\(P(A \cup B) = P(A) + P(B)\)</span></li>
+</ul>
+</div>
+</section>
+<section id="demorgans-laws" class="slide level2 center">
+<h2><span class="r-fit-text" style="font-size: 40px">DeMorgan’s Laws</span></h2>
+<div class="theorem">
+<p><strong>DeMorgan’s Laws</strong></p>
+<p>For any collection of events <span class="math inline">\(\{E_i\}\)</span>:</p>
+<p><span class="math display">\[(\bigcup_{i=1}^n E_i)^c = \bigcap_{i=1}^n E_i^c\]</span></p>
+<p><span class="math display">\[(\bigcap_{i=1}^n E_i)^c = \bigcup_{i=1}^n E_i^c\]</span></p>
+<p>In words: “The complement of a union equals the intersection of complements”</p>
+</div>
+</section>
+<section id="interactive-demorgans-verification" class="slide level2 smaller">
+<h2>Interactive DeMorgan’s Verification</h2>
+<div class="interactive-demo">
+<p><strong>Demonstration:</strong> Verify DeMorgan’s Laws with custom sets</p>
+<div style="margin: 20px 0;">
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+<div>
+  <label for="demo-A" style="font-weight: bold;">Set A:</label>
+  <input type="text" id="demo-A" value="1,2,3" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+</div>
+<div>
+  <label for="demo-B" style="font-weight: bold;">Set B:</label>
+  <input type="text" id="demo-B" value="2,3,4" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+</div>
+<div>
+  <label for="demo-universe" style="font-weight: bold;">Universe S:</label>
+  <input type="text" id="demo-universe" value="1,2,3,4,5" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+</div>
+</div>
+</div>
+
+<div id="demorgans-result" style="padding: 20px; background: #f8f9fa; border-radius: 10px;">
+<h4>DeMorgan's Law Verification</h4>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+  <div id="law1-result" style="padding: 15px; background: white; border-radius: 8px; border: 2px solid #007acc;">
+    <h5>First Law: (A ∪ B)ᶜ = Aᶜ ∩ Bᶜ</h5>
+    <div id="law1-content"></div>
+  </div>
+
+  <div id="law2-result" style="padding: 15px; background: white; border-radius: 8px; border: 2px solid #dc3545;">
+    <h5>Second Law: (A ∩ B)ᶜ = Aᶜ ∪ Bᶜ</h5>
+    <div id="law2-content"></div>
+  </div>
+</div>
+</div>
+
+<script>
+const demoA = document.getElementById('demo-A');
+const demoB = document.getElementById('demo-B');
+const demoUniverse = document.getElementById('demo-universe');
+const law1Content = document.getElementById('law1-content');
+const law2Content = document.getElementById('law2-content');
+
+function updateDeMorgans() {
+  const A = demoA.value.split(',').map(x => x.trim()).filter(x => x);
+  const B = demoB.value.split(',').map(x => x.trim()).filter(x => x);
+  const S = demoUniverse.value.split(',').map(x => x.trim()).filter(x => x);
+
+  // Calculate operations
+  const unionAB = [...new Set([...A, ...B])];
+  const intersectAB = A.filter(x => B.includes(x));
+
+  const complementUnion = S.filter(x => !unionAB.includes(x));
+  const complementA = S.filter(x => !A.includes(x));
+  const complementB = S.filter(x => !B.includes(x));
+  const intersectComplements = complementA.filter(x => complementB.includes(x));
+
+  const complementIntersect = S.filter(x => !intersectAB.includes(x));
+  const unionComplements = [...new Set([...complementA, ...complementB])];
+
+  // Law 1 verification
+  const law1Equal = JSON.stringify(complementUnion.sort()) === JSON.stringify(intersectComplements.sort());
+  law1Content.innerHTML = `
+    <p><strong>A ∪ B =</strong> {${unionAB.join(', ')}}</p>
+    <p><strong>(A ∪ B)ᶜ =</strong> {${complementUnion.join(', ')}}</p>
+    <hr/>
+    <p><strong>Aᶜ =</strong> {${complementA.join(', ')}}</p>
+    <p><strong>Bᶜ =</strong> {${complementB.join(', ')}}</p>
+    <p><strong>Aᶜ ∩ Bᶜ =</strong> {${intersectComplements.join(', ')}}</p>
+    <p style="color: ${law1Equal ? '#28a745' : '#dc3545'}; font-weight: bold;">
+      ${law1Equal ? '✓ EQUAL - Law verified!' : '✗ NOT EQUAL - Check inputs'}
+    </p>
+  `;
+
+  // Law 2 verification  
+  const law2Equal = JSON.stringify(complementIntersect.sort()) === JSON.stringify(unionComplements.sort());
+  law2Content.innerHTML = `
+    <p><strong>A ∩ B =</strong> {${intersectAB.join(', ')}}</p>
+    <p><strong>(A ∩ B)ᶜ =</strong> {${complementIntersect.join(', ')}}</p>
+    <hr/>
+    <p><strong>Aᶜ =</strong> {${complementA.join(', ')}}</p>
+    <p><strong>Bᶜ =</strong> {${complementB.join(', ')}}</p>
+    <p><strong>Aᶜ ∪ Bᶜ =</strong> {${unionComplements.join(', ')}}</p>
+    <p style="color: ${law2Equal ? '#28a745' : '#dc3545'}; font-weight: bold;">
+      ${law2Equal ? '✓ EQUAL - Law verified!' : '✗ NOT EQUAL - Check inputs'}
+    </p>
+  `;
+}
+
+demoA.addEventListener('input', updateDeMorgans);
+demoB.addEventListener('input', updateDeMorgans);
+demoUniverse.addEventListener('input', updateDeMorgans);
+updateDeMorgans(); // Initialize
+</script>
+</div>
+</section>
+<section id="think-pair-share-activity" class="slide level2 smaller">
+<h2>Think-Pair-Share Activity</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span style="font-size: 35px !important">Group Activity</span></strong></p>
+</div>
+<div class="callout-content">
+<p><span style="font-size: 25px !important"><strong>Time:</strong> 5 minutes total (2 min thinking + 3 min discussion)</span></p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><span style="font-size: 30px !important"><strong>Prompt:</strong> Consider your daily commute to university. Define:</span></p>
+<ol type="1">
+<li>The <strong>sample space</strong> of possible transportation methods</li>
+<li>Two <strong>events</strong> that could be <strong>disjoint</strong></li>
+<li>Two <strong>events</strong> that have a <strong>non-empty intersection</strong></li>
+<li>The <strong>complement</strong> of “arriving on time”</li>
+</ol>
+</div>
+<div class="fragment">
+<p><span style="font-size: 30px !important"><strong>Discussion Questions:</strong></span></p>
+<ul>
+<li>Are your sample space outcomes <strong>equally likely</strong>?</li>
+<li>Can you apply <strong>DeMorgan’s laws</strong> to your events?</li>
+<li>What <strong>real-world factors</strong> affect event probabilities?</li>
+</ul>
+</div>
+</section>
+<section id="law-of-large-numbers-demo" class="slide level2 smaller">
+<h2>Law of Large Numbers Demo</h2>
+<div class="interactive-demo">
+<p><strong>Demonstration:</strong> Watch probability converge to theoretical values</p>
+<div style="margin: 20px 0;">
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+<div>
+  <label for="prob-experiment" style="font-weight: bold;">Experiment:</label>
+  <select id="prob-experiment" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+    <option value="coin">Coin Flip (P(H) = 0.5)</option>
+    <option value="die">Die Roll (P(6) = 1/6)</option>
+    <option value="dice_sum">Two Dice Sum=7 (P = 1/6)</option>
+  </select>
+</div>
+<div>
+  <label for="max-trials" style="font-weight: bold;">Max trials:</label>
+  <input type="range" id="max-trials" min="10" max="500" value="100" style="width: 80%;">
+  <span id="trial-count">100</span>
+</div>
+<div>
+  <button id="animate-convergence" style="width: 100%; padding: 10px; background: #007acc; color: white; border: none; border-radius: 5px; cursor: pointer;">Start Animation</button>
+</div>
+</div>
+</div>
+
+<div id="convergence-display" style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin: 15px 0; min-height: 200px;">
+<canvas id="convergence-canvas" width="600" height="300" style="border: 1px solid #ccc; width: 100%; max-width: 600px;"></canvas>
+<div id="convergence-stats" style="margin-top: 15px; text-align: center;"></div>
+</div>
+
+<script>
+const probExperiment = document.getElementById('prob-experiment');
+const maxTrialsSlider = document.getElementById('max-trials');
+const trialCountDisplay = document.getElementById('trial-count');
+const animateButton = document.getElementById('animate-convergence');
+const canvas = document.getElementById('convergence-canvas');
+const ctx = canvas.getContext('2d');
+const statsDiv = document.getElementById('convergence-stats');
+
+maxTrialsSlider.addEventListener('input', function() {
+  trialCountDisplay.textContent = this.value;
+});
+
+animateButton.addEventListener('click', function() {
+  const maxTrials = parseInt(maxTrialsSlider.value);
+  let theoreticalProb;
+  let experimentName;
+
+  switch(probExperiment.value) {
+    case 'coin':
+      theoreticalProb = 0.5;
+      experimentName = 'Heads';
+      break;
+    case 'die':
+      theoreticalProb = 1/6;
+      experimentName = 'Rolling 6';
+      break;
+    case 'dice_sum':
+      theoreticalProb = 1/6;
+      experimentName = 'Sum = 7';
+      break;
+  }
+
+  // Generate data
+  const results = [];
+  let successes = 0;
+
+  for(let i = 1; i <= maxTrials; i++) {
+    let success = false;
+
+    switch(probExperiment.value) {
+      case 'coin':
+        success = Math.random() < 0.5;
+        break;
+      case 'die':
+        success = Math.floor(Math.random() * 6) + 1 === 6;
+        break;
+      case 'dice_sum':
+        const die1 = Math.floor(Math.random() * 6) + 1;
+        const die2 = Math.floor(Math.random() * 6) + 1;
+        success = die1 + die2 === 7;
+        break;
+    }
+
+    if(success) successes++;
+    results.push({trial: i, frequency: successes/i});
+  }
+
+  // Draw chart
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Draw axes
+  ctx.strokeStyle = '#333';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(50, canvas.height - 50);
+  ctx.lineTo(canvas.width - 20, canvas.height - 50);
+  ctx.moveTo(50, 20);
+  ctx.lineTo(50, canvas.height - 50);
+  ctx.stroke();
+
+  // Draw theoretical line
+  ctx.strokeStyle = '#dc3545';
+  ctx.lineWidth = 3;
+  ctx.setLineDash([5, 5]);
+  ctx.beginPath();
+  const theoreticalY = canvas.height - 50 - (theoreticalProb * (canvas.height - 70));
+  ctx.moveTo(50, theoreticalY);
+  ctx.lineTo(canvas.width - 20, theoreticalY);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Draw frequency line
+  ctx.strokeStyle = '#007acc';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+
+  const xScale = (canvas.width - 70) / maxTrials;
+  const yScale = canvas.height - 70;
+
+  results.forEach((point, index) => {
+    const x = 50 + point.trial * xScale;
+    const y = canvas.height - 50 - (point.frequency * yScale);
+
+    if(index === 0) {
+      ctx.moveTo(x, y);
+    } else {
+      ctx.lineTo(x, y);
+    }
+  });
+
+  ctx.stroke();
+
+  // Add labels
+  ctx.fillStyle = '#333';
+  ctx.font = '12px Arial';
+  ctx.fillText('Trials', canvas.width/2 - 20, canvas.height - 5);
+
+  ctx.save();
+  ctx.translate(15, canvas.height/2);
+  ctx.rotate(-Math.PI/2);
+  ctx.fillText('Probability', -50, 0);
+  ctx.restore();
+
+  // Update stats
+  const finalFreq = results[results.length-1].frequency;
+  const difference = Math.abs(finalFreq - theoreticalProb);
+
+  statsDiv.innerHTML = `
+    <p><strong>Experiment:</strong> ${experimentName}</p>
+    <p><strong>Theoretical Probability:</strong> ${theoreticalProb.toFixed(3)}</p>
+    <p><strong>Final Observed Frequency:</strong> ${finalFreq.toFixed(3)}</p>
+    <p style="color: ${difference < 0.05 ? '#28a745' : difference < 0.1 ? '#ffc107' : '#dc3545'};">
+      <strong>Difference:</strong> ${difference.toFixed(3)} 
+      ${difference < 0.05 ? '(Excellent!)' : difference < 0.1 ? '(Good)' : '(Try more trials)'}
+    </p>
+  `;
+});
+</script>
+</div>
+</section>
+<section id="quiz-time" class="slide level2 smaller">
+<h2>Quiz Time! 🧠</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><span style="font-size: 25px !important"><strong>Question 1:</strong> Sample space for three coins?</span></p>
+<p>A. <span class="math inline">\(\{H, T\}\)</span><br>
+B. <span class="math inline">\(\{0, 1, 2, 3\}\)</span><br>
+C. <span class="math inline">\(\{HHH, HHT, ..., TTT\}\)</span><br>
+D. <span class="math inline">\(\{3H, 2H1T, 1H2T, 3T\}\)</span></p>
+<div class="fragment highlight-green">
+<p><strong>Answer: C</strong> - All 8 possible sequences</p>
+</div>
+</div><div class="column" style="width:50%;">
+<p><span style="font-size: 25px !important"><strong>Question 2:</strong> If <span class="math inline">\(A = \{1,2,3\}\)</span>, <span class="math inline">\(B = \{3,4,5\}\)</span>, then <span class="math inline">\(A \cap B = ?\)</span></span></p>
+<p>A. <span class="math inline">\(\{1,2,3,4,5\}\)</span><br>
+B. <span class="math inline">\(\{3\}\)</span><br>
+C. <span class="math inline">\(\{1,2,4,5\}\)</span><br>
+D. <span class="math inline">\(\emptyset\)</span></p>
+<div class="fragment highlight-green">
+<p><strong>Answer: B</strong> - Only element 3 is in both sets</p>
+</div>
+</div>
+</div>
+</section>
+<section id="complex-application-challenge" class="slide level2 smaller">
+<h2>Complex Application Challenge 🚀</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span style="font-size: 35px !important">Real-World Scenario</span></strong></p>
+</div>
+<div class="callout-content">
+<p><span style="font-size: 25px !important">A tech company surveys employees about satisfaction across three areas: <strong>Work-Life Balance (W)</strong>, <strong>Management (M)</strong>, and <strong>Career Growth (C)</strong>.</span></p>
+</div>
+</div>
+</div>
+<p><span style="font-size: 30px !important"><strong>Your Analysis Tasks:</strong></span></p>
+<ol type="1">
+<li><strong>Define</strong> the sample space for this three-dimensional survey</li>
+<li><strong>Express</strong> “satisfied with at least two areas” using set notation<br>
+</li>
+<li><strong>Interpret</strong> <span class="math inline">\((W \cup M \cup C)^c\)</span> in business context</li>
+<li><strong>Apply</strong> DeMorgan’s law to find employees dissatisfied with all three</li>
+</ol>
+<div class="fragment">
+<p><span style="font-size: 25px !important"><strong>Advanced Question:</strong> If 40% are satisfied with work-life balance, 35% with management, 45% with career growth, and 15% with all three, can you find the percentage satisfied with exactly one area?</span></p>
+</div>
+</section>
+<section id="key-concepts-summary" class="slide level2 smaller">
+<h2>Key Concepts Summary</h2>
+<table>
+<colgroup>
+<col style="width: 23%">
+<col style="width: 28%">
+<col style="width: 25%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>Concept</strong></th>
+<th style="text-align: left;"><strong>Definition</strong></th>
+<th style="text-align: left;"><strong>Notation</strong></th>
+<th style="text-align: left;"><strong>Example</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Sample Space</td>
+<td style="text-align: left;">All possible outcomes</td>
+<td style="text-align: left;"><span class="math inline">\(S\)</span></td>
+<td style="text-align: left;">Coin: <span class="math inline">\(\{H,T\}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Event</td>
+<td style="text-align: left;">Subset of sample space</td>
+<td style="text-align: left;"><span class="math inline">\(A \subseteq S\)</span></td>
+<td style="text-align: left;">Even die: <span class="math inline">\(\{2,4,6\}\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Union</td>
+<td style="text-align: left;">Either event occurs</td>
+<td style="text-align: left;"><span class="math inline">\(A \cup B\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\{1,2\} \cup \{2,3\} = \{1,2,3\}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Intersection</td>
+<td style="text-align: left;">Both events occur</td>
+<td style="text-align: left;"><span class="math inline">\(A \cap B\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\{1,2\} \cap \{2,3\} = \{2\}\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Complement</td>
+<td style="text-align: left;">Event does not occur</td>
+<td style="text-align: left;"><span class="math inline">\(A^c\)</span></td>
+<td style="text-align: left;">If <span class="math inline">\(A=\{1,2\}\)</span>, then <span class="math inline">\(A^c=\{3,4,5,6\}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Disjoint</td>
+<td style="text-align: left;">No common outcomes</td>
+<td style="text-align: left;"><span class="math inline">\(A \cap B = \emptyset\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\{1,2\} \cap \{3,4\} = \emptyset\)</span></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="self-assessment-checklist" class="slide level2 smaller">
+<h2>Self-Assessment Checklist ✅</h2>
+<p><span style="font-size: 30px !important"><strong>Rate your confidence (1-5 scale):</strong></span></p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>□ <strong>Sample Space Construction</strong> <strong>(1-5)</strong></p>
+<p>□ <strong>Event Definition &amp; Notation</strong> <strong>(1-5)</strong></p>
+<p>□ <strong>Union &amp; Intersection</strong> <strong>(1-5)</strong></p>
+<p>□ <strong>Complement Operations</strong> <strong>(1-5)</strong></p>
+</div><div class="column" style="width:50%;">
+<p>□ <strong>DeMorgan’s Laws</strong> <strong>(1-5)</strong></p>
+<p>□ <strong>Real-World Applications</strong> <strong>(1-5)</strong></p>
+<p>□ <strong>Interactive Problem Solving</strong> <strong>(1-5)</strong></p>
+<p>□ <strong>Mathematical Communication</strong> <strong>(1-5)</strong></p>
+</div>
+</div>
+<div class="fragment">
+<p><span style="font-size: 30px !important"><strong>Reflection Questions:</strong></span> - Which interactive demo helped you most? - What real-world example can you create using today’s concepts? - How would you explain set operations to a friend?</p>
+</div>
+</section>
+<section id="practice-problems" class="slide level2 smaller">
+<h2>Practice Problems 📝</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><span style="font-size: 25px !important"><strong>Problem 1: Card Drawing</strong></span></p>
+<p>From a standard deck, define: - <span class="math inline">\(A\)</span> = drawing a red card<br>
+- <span class="math inline">\(B\)</span> = drawing a face card - Find <span class="math inline">\(A \cup B\)</span>, <span class="math inline">\(A \cap B\)</span>, <span class="math inline">\(A^c\)</span></p>
+<p><span style="font-size: 25px !important"><strong>Problem 2: Student Groups</strong></span></p>
+<p>In a class of 30 students: - 18 study Math, 15 study Physics<br>
+- 8 study both subjects - How many study neither?</p>
+</div><div class="column" style="width:50%;">
+<p><span style="font-size: 25px !important"><strong>Problem 3: DeMorgan Application</strong></span></p>
+<p>Verify: <span class="math inline">\((A \cup B \cup C)^c = A^c \cap B^c \cap C^c\)</span> for <span class="math inline">\(A=\{1,2\}\)</span>, <span class="math inline">\(B=\{2,3\}\)</span>, <span class="math inline">\(C=\{3,4\}\)</span></p>
+<p><span style="font-size: 25px !important"><strong>Problem 4: Sample Space Design</strong></span></p>
+<p>Design a probability experiment related to your field of study. Define the sample space and three meaningful events.</p>
+</div>
+</div>
+</section>
+<section id="next-steps-preview" class="slide level2 smaller">
+<h2>Next Steps &amp; Preview 🎯</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span style="font-size: 35px !important">Today’s Achievements</span></strong></p>
+</div>
+<div class="callout-content">
+<p>✅ <strong>Mastered</strong> sample space construction and event definition<br>
+✅ <strong>Applied</strong> set operations through interactive visualization<br>
+✅ <strong>Verified</strong> DeMorgan’s laws with concrete examples<br>
+✅ <strong>Connected</strong> abstract concepts to real-world scenarios<br>
+✅ <strong>Practiced</strong> mathematical communication and notation</p>
+</div>
+</div>
+</div>
+<p><span style="font-size: 30px !important"><strong>Next Lecture Preview:</strong></span></p>
+<p>🎲 <strong>Classical Definition of Probability</strong><br>
+📊 <strong>Equally Likely Outcomes</strong><br>
+🎮 <strong>Advanced Counting Techniques</strong><br>
+🃏 <strong>Combinatorial Applications</strong></p>
+</section>
+<section id="questions-discussion" class="slide level2 center">
+<h2><span class="r-fit-text" style="font-size: 50px">Questions &amp; Discussion</span></h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><span style="font-size: 30px !important"><strong>Contact Information:</strong></span></p>
+<p>📧 <strong>Email:</strong> sorujov@ada.edu.az<br>
+🏢 <strong>Office:</strong> Room 301<br>
+⏰ <strong>Hours:</strong> MW 2-4 PM<br>
+💻 <strong>Course Site:</strong> <a href="https://ada-stats.netlify.app">ada-stats.netlify.app</a></p>
+</div><div class="column" style="width:50%;">
+<p><span style="font-size: 30px !important"><strong>Interactive Resources:</strong></span></p>
+<p>📱 <strong>Mobile-Friendly Demos</strong><br>
+💾 <strong>Downloadable Notebooks</strong><br>
+🎥 <strong>Recorded Explanations</strong><br>
+📚 <strong>Additional Practice Problems</strong></p>
+</div>
+</div>
+</section>
+<section id="thank-you" class="slide level2 center" data-background-color="#667eea">
+<h2><span class="r-fit-text" style="font-size: 60px">Thank You!</span></h2>
+<div class="r-fit-text" style="color: white;">
+<p><strong>Mathematical Statistics</strong></p>
+<p><em>Sample Spaces &amp; Set Operations</em></p>
+<p><strong>Samir Orujov, PhD</strong><br>
+<em>ADA University</em></p>
+<p><em>“Mathematics is not about numbers, equations, computations, or algorithms: it is about understanding.”</em> - William Paul Thurston</p>
+</div>
+<p><img src="ADA.png" class="slide-logo"></p>
+<div class="footer footer-default">
+<p>Mathematical Statistics - ADA</p>
+</div>
+</section>
+    </div>
+  </div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="improved_merged_probability_lecture_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="improved_merged_probability_lecture_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="improved_merged_probability_lecture_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="improved_merged_probability_lecture_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="improved_merged_probability_lecture_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="improved_merged_probability_lecture_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="improved_merged_probability_lecture_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="improved_merged_probability_lecture_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="improved_merged_probability_lecture_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="improved_merged_probability_lecture_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': false,
+'smaller': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: true,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'fast',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 720,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 4.0e-2,
+
+        // Bounds for smallest/largest possible scale to apply to content
+        minScale: 0.2,
+
+        maxScale: 2,
+
+        math: {
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+      const toggleBodyColorMode = (bsSheetEl) => {
+        const mode = bsSheetEl.getAttribute("data-mode");
+        const bodyEl = window.document.querySelector("body");
+        if (mode === "dark") {
+          bodyEl.classList.add("quarto-dark");
+          bodyEl.classList.remove("quarto-light");
+        } else {
+          bodyEl.classList.add("quarto-light");
+          bodyEl.classList.remove("quarto-dark");
+        }
+      }
+      const toggleBodyColorPrimary = () => {
+        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+        if (bsSheetEl) {
+          toggleBodyColorMode(bsSheetEl);
+        }
+      }
+      toggleBodyColorPrimary();  
+      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+      tabsets.forEach(function(tabset) {
+        const tabby = new Tabby('#' + tabset.id);
+      });
+      const isCodeAnnotation = (el) => {
+        for (const clz of el.classList) {
+          if (clz.startsWith('code-annotation-')) {                     
+            return true;
+          }
+        }
+        return false;
+      }
+      const clipboard = new window.ClipboardJS('.code-copy-button', {
+        text: function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+      });
+      clipboard.on('success', function(e) {
+        // button target
+        const button = e.trigger;
+        // don't keep focus
+        button.blur();
+        // flash "checked"
+        button.classList.add('code-copy-button-checked');
+        var currentTitle = button.getAttribute("title");
+        button.setAttribute("title", "Copied!");
+        let tooltip;
+        if (window.bootstrap) {
+          button.setAttribute("data-bs-toggle", "tooltip");
+          button.setAttribute("data-bs-placement", "left");
+          button.setAttribute("data-bs-title", "Copied!");
+          tooltip = new bootstrap.Tooltip(button, 
+            { trigger: "manual", 
+              customClass: "code-copy-button-tooltip",
+              offset: [0, -8]});
+          tooltip.show();    
+        }
+        setTimeout(function() {
+          if (tooltip) {
+            tooltip.hide();
+            button.removeAttribute("data-bs-title");
+            button.removeAttribute("data-bs-toggle");
+            button.removeAttribute("data-bs-placement");
+          }
+          button.setAttribute("title", currentTitle);
+          button.classList.remove('code-copy-button-checked');
+        }, 1000);
+        // clear code selection
+        e.clearSelection();
+      });
+      function tippyHover(el, contentFn) {
+        const config = {
+          allowHTML: true,
+          content: contentFn,
+          maxWidth: 500,
+          delay: 100,
+          arrow: false,
+          appendTo: function(el) {
+              return el.closest('section.slide') || el.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        };
+          config['offset'] = [0,0];
+          config['maxWidth'] = 700;
+        window.tippy(el, config); 
+      }
+      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+      for (var i=0; i<noterefs.length; i++) {
+        const ref = noterefs[i];
+        tippyHover(ref, function() {
+          // use id or data attribute instead here
+          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+          try { href = new URL(href).hash; } catch {}
+          const id = href.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          return note.innerHTML;
+        });
+      }
+      const findCites = (el) => {
+        const parentEl = el.parentElement;
+        if (parentEl) {
+          const cites = parentEl.dataset.cites;
+          if (cites) {
+            return {
+              el,
+              cites: cites.split(' ')
+            };
+          } else {
+            return findCites(el.parentElement)
+          }
+        } else {
+          return undefined;
+        }
+      };
+      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+      for (var i=0; i<bibliorefs.length; i++) {
+        const ref = bibliorefs[i];
+        const citeInfo = findCites(ref);
+        if (citeInfo) {
+          tippyHover(citeInfo.el, function() {
+            var popup = window.document.createElement('div');
+            citeInfo.cites.forEach(function(cite) {
+              var citeDiv = window.document.createElement('div');
+              citeDiv.classList.add('hanging-indent');
+              citeDiv.classList.add('csl-entry');
+              var biblioDiv = window.document.getElementById('ref-' + cite);
+              if (biblioDiv) {
+                citeDiv.innerHTML = biblioDiv.innerHTML;
+              }
+              popup.appendChild(citeDiv);
+            });
+            return popup.innerHTML;
+          });
+        }
+      }
+    });
+    </script>
+    
+
+</body></html>

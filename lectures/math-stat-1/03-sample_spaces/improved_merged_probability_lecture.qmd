@@ -1,0 +1,1058 @@
+---
+title: "Mathematical Statistics: Sample Spaces and Set Operations"
+subtitle: "Interactive Probability Theory Lecture"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"  
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: default
+    logo: ADA.png
+    footer: "Mathematical Statistics - ADA"
+    slide-number: true
+    menu: true
+    width: 1280
+    height: 720
+    margin: 0.04
+    min-scale: 0.2
+    max-scale: 2.0
+    transition: slide
+    transition-speed: fast
+    highlight-style: tango
+    code-fold: true
+    embed-resources: false
+    incremental: false
+    controls: true
+    progress: true
+    history: true
+    center: false
+    touch: true
+    keyboard: true
+    overview: true
+    help: true
+    pause: true
+    preload-iframes: true
+    auto-animate: false
+    auto-stretch: false
+    include-in-header:
+      - text: |
+          <style>
+          .reveal .slides section .fragment.highlight-red,
+          .reveal .slides section .fragment.highlight-current-red,
+          .reveal .slides section .fragment.highlight-green,
+          .reveal .slides section .fragment.highlight-current-green,
+          .reveal .slides section .fragment.highlight-blue,
+          .reveal .slides section .fragment.highlight-current-blue {
+              opacity: 1;
+              visibility: inherit;
+          }
+          .interactive-demo {
+              border: 2px solid #007acc;
+              border-radius: 10px;
+              padding: 15px;
+              background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+              margin: 15px 0;
+          }
+          </style>
+jupyter: python3
+---
+
+## [Learning Objectives]{.r-fit-text style="font-size: 50px"} {.center}
+
+::: columns
+::: {.column width="50%" style="font-size: 40px"}
+🎯 **Sample Spaces**
+: Understand and identify sample spaces for various experiments
+
+📊 **Event Operations** 
+: Define and work with events as subsets of sample spaces
+
+🔄 **Set Operations**
+: Apply union, intersection, and complement operations
+:::
+
+::: {.column width="50%" style="font-size: 40px"}  
+📐 **Algebraic Rules**
+: Master algebraic rules and DeMorgan's laws for events
+
+🎪 **Interactive Demos**
+: Visualize probability concepts through animations
+
+🧠 **Problem Solving**
+: Apply concepts to real-world scenarios
+:::
+:::
+
+------------------------------------------------------------------------
+
+## [Course Overview]{.r-fit-text style="font-size: 50px"}{.center}
+
+::: columns
+::: {.column width="50%" style="font-size: 40px !important;"}
+**Foundation**
+: 🎯 **Sample Spaces**
+
+**Core Concepts** 
+: 📊 **Events & Operations**
+
+**Visual Learning**
+: 🎨 **Interactive Venn Diagrams**
+:::
+
+::: {.column width="50%" style="font-size: 40px !important;"}
+**Mathematical Laws**
+: 📐 **DeMorgan's Theorems**
+
+**Applications**
+: 🧩 **Real-World Problems**  
+
+**Assessment**
+: 💻 **Interactive Quizzes**
+:::
+:::
+
+------------------------------------------------------------------------
+
+## [What is a Sample Space?]{.r-fit-text style="font-size: 40px"}{.center}
+
+::: callout-important
+## [Fundamental Definition]{style="font-size: 40px !important"}
+[The **sample space** is the set of ALL possible outcomes of an experiment, denoted by $S$.]{style="font-size: 30px !important"}
+:::
+
+::: fragment
+[**Key Properties:**]{style="font-size: 30px !important"}
+
+- Contains **every** possible outcome
+- Outcomes are **mutually exclusive**  
+- Exactly **one** outcome occurs per experiment
+:::
+
+::: fragment
+[**Mathematical Notation:**]{style="font-size: 30px !important"}
+$$S = \{s_1, s_2, s_3, \ldots\} \text{ or } S = \{s : \text{condition}\}$$
+:::
+
+------------------------------------------------------------------------
+
+## Interactive Sample Space Builder {.smaller}
+
+::: interactive-demo
+**Demonstration:** Build sample spaces step by step!
+
+```{=html}
+<div style="margin: 20px 0;">
+<label for="experiment-select" style="font-weight: bold;">Choose an experiment:</label>
+<select id="experiment-select" style="padding: 8px; margin: 10px; border: 1px solid #ccc; border-radius: 4px;">
+  <option value="coin_flip">Single Coin Flip</option>
+  <option value="die_roll">Single Die Roll</option>
+  <option value="two_coins">Two Coin Flips</option>
+  <option value="card_suit">Draw Card (Suit Only)</option>
+</select>
+</div>
+
+<div id="sample-space-display" style="padding: 20px; border: 2px solid #007acc; border-radius: 10px; background: #f0f8ff; margin: 15px 0;">
+  <h4 id="space-title">Sample Space S = {H, T}</h4>
+  <p id="space-count"><strong>Total outcomes:</strong> 2</p>
+  <div id="outcomes-container" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
+    <span style="padding: 8px 12px; background: #007acc; color: white; border-radius: 5px; font-weight: bold;">H</span>
+    <span style="padding: 8px 12px; background: #007acc; color: white; border-radius: 5px; font-weight: bold;">T</span>
+  </div>
+</div>
+
+<script>
+const experimentSelect = document.getElementById('experiment-select');
+const spaceTitle = document.getElementById('space-title');
+const spaceCount = document.getElementById('space-count');
+const outcomesContainer = document.getElementById('outcomes-container');
+
+const sampleSpaces = {
+  coin_flip: ['H', 'T'],
+  die_roll: ['1', '2', '3', '4', '5', '6'],
+  two_coins: ['HH', 'HT', 'TH', 'TT'],
+  card_suit: ['♠', '♥', '♦', '♣']
+};
+
+experimentSelect.addEventListener('change', function() {
+  const outcomes = sampleSpaces[this.value];
+  spaceTitle.textContent = `Sample Space S = {${outcomes.join(', ')}}`;
+  spaceCount.innerHTML = `<strong>Total outcomes:</strong> ${outcomes.length}`;
+
+  outcomesContainer.innerHTML = outcomes.map(outcome => 
+    `<span style="padding: 8px 12px; background: #007acc; color: white; border-radius: 5px; font-weight: bold;">${outcome}</span>`
+  ).join('');
+});
+</script>
+```
+:::
+
+------------------------------------------------------------------------
+
+## [Sample Space Examples]{.r-fit-text style="font-size: 40px"}{.center}
+
+::: columns
+::: {.column width="50%" style="font-size: 30px !important;"}
+**Discrete Examples:**
+
+[**Rolling a die:**]{style="font-size: 25px !important"}
+$$S = \{1, 2, 3, 4, 5, 6\}$$
+
+[**Two coin flips:**]{style="font-size: 25px !important"}  
+$$S = \{HH, HT, TH, TT\}$$
+
+[**Drawing a card (suit):**]{style="font-size: 25px !important"}
+$$S = \{♠, ♥, ♦, ♣\}$$
+:::
+
+::: {.column width="50%" style="font-size: 30px !important;"}
+**Continuous Examples:**
+
+[**Temperature measurement:**]{style="font-size: 25px !important"}
+$$S = \{x : x \in \mathbb{R}, x ≥ -273.15\}$$
+
+[**Time until failure:**]{style="font-size: 25px !important"}
+$$S = \{t : t ≥ 0\}$$
+
+[**Stock price:**]{style="font-size: 25px !important"}
+$$S = \{p : p > 0\}$$
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Live Coin Flip Simulation {.smaller}
+
+::: interactive-demo
+**Demonstration:** Watch the Law of Large Numbers in action!
+
+```{=html}
+<div style="margin: 20px 0;">
+<label for="num-flips" style="font-weight: bold;">Number of flips:</label>
+<input type="range" id="num-flips" min="1" max="100" value="10" style="margin: 0 10px;">
+<span id="flip-count">10</span>
+<button id="flip-button" style="padding: 10px 20px; background: #007acc; color: white; border: none; border-radius: 5px; margin-left: 15px; cursor: pointer;">Flip Coins!</button>
+</div>
+
+<div id="coin-results" style="padding: 15px; background: #f9f9f9; border-radius: 8px; margin: 10px 0; min-height: 100px;">
+<h4>Click "Flip Coins!" to start simulation</h4>
+</div>
+
+<script>
+const numFlipsSlider = document.getElementById('num-flips');
+const flipCountDisplay = document.getElementById('flip-count');
+const flipButton = document.getElementById('flip-button');
+const coinResults = document.getElementById('coin-results');
+
+numFlipsSlider.addEventListener('input', function() {
+  flipCountDisplay.textContent = this.value;
+});
+
+flipButton.addEventListener('click', function() {
+  const numFlips = parseInt(numFlipsSlider.value);
+  const results = Array.from({length: numFlips}, () => Math.random() < 0.5 ? 'H' : 'T');
+
+  const heads = results.filter(x => x === 'H').length;
+  const tails = results.filter(x => x === 'T').length;
+  const proportion = (heads / numFlips).toFixed(3);
+
+  coinResults.innerHTML = `
+    <h4>Simulation Results:</h4>
+    <div style="font-family: monospace; font-size: 18px; line-height: 1.5; max-width: 100%; overflow-wrap: break-word; margin: 10px 0;">
+      ${results.join(' ')}
+    </div>
+    <p><strong>Heads:</strong> ${heads} | <strong>Tails:</strong> ${tails}</p>
+    <p><strong>Proportion of Heads:</strong> ${proportion}</p>
+    <p style="color: ${Math.abs(proportion - 0.5) < 0.1 ? '#28a745' : '#dc3545'}; font-weight: bold;">
+      ${Math.abs(proportion - 0.5) < 0.1 ? '✓ Close to theoretical 0.5!' : 'Try more flips for convergence'}
+    </p>
+  `;
+});
+</script>
+```
+:::
+
+------------------------------------------------------------------------
+
+## [Events - Definition]{.r-fit-text style="font-size: 40px"}{.center}
+
+::: callout-important
+## [Key Definitions]{style="font-size: 40px !important"}
+
+[**Event**: A subset of the sample space.]{style="font-size: 30px !important"}
+
+[**Elementary Event**: An event consisting of exactly one outcome.]{style="font-size: 30px !important"}
+
+[**Event Occurrence**: An event occurs if the experimental outcome belongs to that event.]{style="font-size: 30px !important"}
+:::
+
+::: fragment
+[**Mathematical Notation:**]{style="font-size: 30px !important"}
+
+- Events denoted by capital letters: $A, B, C, \ldots$  
+- $A \subseteq S$ (A is a subset of S)
+- $A = \{s_i : s_i \text{ satisfies condition}\}$
+:::
+
+------------------------------------------------------------------------
+
+## [Event Examples]{.r-fit-text style="font-size: 40px"}{.center}
+
+::: columns
+::: {.column width="50%" style="font-size: 25px !important;"}
+[**Die Rolling Example:**]{style="font-size: 28px !important"}
+
+$S = \{1,2,3,4,5,6\}$
+
+- $A = \{2,4,6\}$ (even numbers)
+- $B = \{1,3,5\}$ (odd numbers)  
+- $C = \{1\}$ (rolling one)
+- $D = \{5,6\}$ (five or higher)
+:::
+
+::: {.column width="50%" style="font-size: 25px !important;"}
+[**Two Coins Example:**]{style="font-size: 28px !important"}
+
+$S = \{HH, HT, TH, TT\}$
+
+- $E = \{HH, HT, TH\}$ (at least one head)
+- $F = \{HH\}$ (both heads)
+- $G = \{HT, TH\}$ (exactly one head)
+- $H = \{TT\}$ (both tails)
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Two Dice Visualization {.smaller}
+
+::: interactive-demo
+**Demonstration:** Explore two-dice sample space interactively
+
+```{=html}
+<div style="margin: 20px 0;">
+<label for="highlight-sum" style="font-weight: bold;">Highlight sum:</label>
+<input type="range" id="highlight-sum" min="2" max="12" value="7" style="margin: 0 10px;">
+<span id="sum-value">7</span>
+</div>
+
+<div id="dice-table-container" style="margin: 20px 0;">
+<table id="dice-table" style="border-collapse: collapse; margin: auto;">
+<thead>
+<tr><th style="padding: 8px; border: 1px solid #ccc; background: #f0f0f0;">Die 2 \ Die 1</th>
+<th style="padding: 8px; border: 1px solid #ccc; background: #f0f0f0;">1</th>
+<th style="padding: 8px; border: 1px solid #ccc; background: #f0f0f0;">2</th>
+<th style="padding: 8px; border: 1px solid #ccc; background: #f0f0f0;">3</th>
+<th style="padding: 8px; border: 1px solid #ccc; background: #f0f0f0;">4</th>
+<th style="padding: 8px; border: 1px solid #ccc; background: #f0f0f0;">5</th>
+<th style="padding: 8px; border: 1px solid #ccc; background: #f0f0f0;">6</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+
+<p id="sum-info" style="text-align: center; margin-top: 15px; font-weight: bold;">
+Event "Sum = 7" has 6 favorable outcomes.
+</p>
+
+<script>
+const highlightSumSlider = document.getElementById('highlight-sum');
+const sumValueDisplay = document.getElementById('sum-value');
+const diceTable = document.getElementById('dice-table');
+const sumInfo = document.getElementById('sum-info');
+
+function updateDiceTable() {
+  const targetSum = parseInt(highlightSumSlider.value);
+  sumValueDisplay.textContent = targetSum;
+
+  const tbody = diceTable.querySelector('tbody');
+  tbody.innerHTML = '';
+
+  let favorableCount = 0;
+
+  for(let j = 1; j <= 6; j++) {
+    const row = document.createElement('tr');
+    const header = document.createElement('th');
+    header.textContent = j;
+    header.style.cssText = 'padding: 8px; border: 1px solid #ccc; background: #f0f0f0;';
+    row.appendChild(header);
+
+    for(let i = 1; i <= 6; i++) {
+      const cell = document.createElement('td');
+      const sum = i + j;
+      const isHighlighted = sum === targetSum;
+
+      if(isHighlighted) favorableCount++;
+
+      cell.innerHTML = `(${i},${j})<br/><small>Sum: ${sum}</small>`;
+      cell.style.cssText = `padding: 8px; border: 1px solid #ccc; text-align: center; 
+        background: ${isHighlighted ? '#ffeb3b' : '#f9f9f9'}; 
+        font-weight: ${isHighlighted ? 'bold' : 'normal'};`;
+
+      row.appendChild(cell);
+    }
+    tbody.appendChild(row);
+  }
+
+  sumInfo.innerHTML = `Event "Sum = ${targetSum}" has <strong>${favorableCount}</strong> favorable outcomes.`;
+}
+
+highlightSumSlider.addEventListener('input', updateDiceTable);
+updateDiceTable(); // Initialize
+</script>
+```
+:::
+
+------------------------------------------------------------------------
+
+## [Union and Intersection]{.r-fit-text style="font-size: 40px"}{.center}
+
+::: callout-important
+## [Key Operations]{style="font-size: 40px !important"}
+
+[**Union ($A \cup B$)**: Outcomes in **either** $A$ **or** $B$ (or both).]{style="font-size: 30px !important"}
+
+[**Intersection ($A \cap B$)**: Outcomes **both** in $A$ **and** in $B$.]{style="font-size: 30px !important"}
+:::
+
+::: fragment
+[**Mathematical Definitions:**]{style="font-size: 30px !important"}
+
+- $A \cup B = \{s : s \in A \text{ or } s \in B\}$
+- $A \cap B = \{s : s \in A \text{ and } s \in B\}$
+- If $A \cap B = \emptyset$, then $A$ and $B$ are **disjoint**
+:::
+
+------------------------------------------------------------------------
+
+## Interactive Venn Diagrams {.smaller}
+
+::: interactive-demo
+**Demonstration:** Visualize set operations with custom sets
+
+```{=html}
+<div style="margin: 20px 0;">
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+<div>
+  <label for="set-A" style="font-weight: bold;">Set A:</label>
+  <input type="text" id="set-A" value="1,2,3,4" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+</div>
+<div>
+  <label for="set-B" style="font-weight: bold;">Set B:</label>  
+  <input type="text" id="set-B" value="3,4,5,6" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+</div>
+<div>
+  <label for="operation" style="font-weight: bold;">Operation:</label>
+  <select id="operation" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+    <option value="union">A ∪ B (Union)</option>
+    <option value="intersection">A ∩ B (Intersection)</option>
+    <option value="complement_A">Aᶜ (Complement of A)</option>
+    <option value="complement_B">Bᶜ (Complement of B)</option>
+    <option value="difference">A - B (Difference)</option>
+  </select>
+</div>
+</div>
+</div>
+
+<div id="venn-result" style="padding: 20px; background: #f8f9fa; border-radius: 10px; margin: 15px 0;">
+<h4>Set Operation Results</h4>
+<div style="display: flex; justify-content: space-around; align-items: center; margin: 20px 0;">
+  <div style="text-align: center;">
+    <div style="width: 120px; height: 120px; border: 3px solid #007acc; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(0,122,204,0.1); margin: 10px auto;">
+      <div style="font-weight: bold; color: #007acc;" id="set-A-display">A<br/>{1,2,3,4}</div>
+    </div>
+  </div>
+  <div style="text-align: center;">
+    <div style="width: 120px; height: 120px; border: 3px solid #dc3545; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(220,53,69,0.1); margin: 10px auto;">
+      <div style="font-weight: bold; color: #dc3545;" id="set-B-display">B<br/>{3,4,5,6}</div>
+    </div>
+  </div>
+</div>
+<div style="text-align: center; padding: 15px; background: white; border-radius: 5px; border: 2px solid #28a745;">
+  <h4 style="color: #28a745; margin: 0;" id="operation-result">A ∪ B = {1, 2, 3, 4, 5, 6}</h4>
+</div>
+<p style="text-align: center; margin-top: 10px; font-size: 14px; color: #666;" id="universe-display">
+  <strong>Universe:</strong> {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+</p>
+</div>
+
+<script>
+const setAInput = document.getElementById('set-A');
+const setBInput = document.getElementById('set-B');
+const operationSelect = document.getElementById('operation');
+const setADisplay = document.getElementById('set-A-display');
+const setBDisplay = document.getElementById('set-B-display');
+const operationResult = document.getElementById('operation-result');
+const universeDisplay = document.getElementById('universe-display');
+
+function updateVennDiagram() {
+  const A = setAInput.value.split(',').map(x => x.trim()).filter(x => x);
+  const B = setBInput.value.split(',').map(x => x.trim()).filter(x => x);
+  const universe = [...new Set([...A, ...B, '0', '7', '8', '9'])].sort();
+
+  setADisplay.innerHTML = `A<br/>{${A.join(',')}}`;
+  setBDisplay.innerHTML = `B<br/>{${B.join(',')}}`;
+  universeDisplay.innerHTML = `<strong>Universe:</strong> {${universe.join(', ')}}`;
+
+  let result = [];
+  let resultLabel = "";
+
+  switch(operationSelect.value) {
+    case 'union':
+      result = [...new Set([...A, ...B])];
+      resultLabel = `A ∪ B = {${result.join(', ')}}`;
+      break;
+    case 'intersection':
+      result = A.filter(x => B.includes(x));
+      resultLabel = `A ∩ B = {${result.join(', ')}}`;
+      break;
+    case 'complement_A':
+      result = universe.filter(x => !A.includes(x));
+      resultLabel = `Aᶜ = {${result.join(', ')}}`;
+      break;
+    case 'complement_B':
+      result = universe.filter(x => !B.includes(x));
+      resultLabel = `Bᶜ = {${result.join(', ')}}`;
+      break;
+    case 'difference':
+      result = A.filter(x => !B.includes(x));
+      resultLabel = `A - B = {${result.join(', ')}}`;
+      break;
+  }
+
+  operationResult.textContent = resultLabel;
+}
+
+setAInput.addEventListener('input', updateVennDiagram);
+setBInput.addEventListener('input', updateVennDiagram);
+operationSelect.addEventListener('change', updateVennDiagram);
+</script>
+```
+:::
+
+------------------------------------------------------------------------
+
+## [Complement & Disjoint Events]{.r-fit-text style="font-size: 40px"}{.center}
+
+::: callout-important  
+## [Essential Concepts]{style="font-size: 40px !important"}
+
+[**Complement ($A^c$)**: All outcomes in $S$ that are NOT in $A$.]{style="font-size: 30px !important"}
+
+[**Disjoint Events**: $A \cap B = \emptyset$ (cannot occur simultaneously).]{style="font-size: 30px !important"}
+:::
+
+::: fragment
+[**Key Properties:**]{style="font-size: 30px !important"}
+
+- $A \cup A^c = S$ (universal set)
+- $A \cap A^c = \emptyset$ (empty set)  
+- $(A^c)^c = A$ (double complement)
+- If disjoint: $P(A \cup B) = P(A) + P(B)$
+:::
+
+------------------------------------------------------------------------
+
+## [DeMorgan's Laws]{.r-fit-text style="font-size: 40px"}{.center}
+
+::: theorem
+**DeMorgan's Laws**
+
+For any collection of events $\{E_i\}$:
+
+$$(\bigcup_{i=1}^n E_i)^c = \bigcap_{i=1}^n E_i^c$$
+
+$$(\bigcap_{i=1}^n E_i)^c = \bigcup_{i=1}^n E_i^c$$
+
+In words: "The complement of a union equals the intersection of complements"
+:::
+
+------------------------------------------------------------------------
+
+## Interactive DeMorgan's Verification {.smaller}
+
+::: interactive-demo
+**Demonstration:** Verify DeMorgan's Laws with custom sets
+
+```{=html}
+<div style="margin: 20px 0;">
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+<div>
+  <label for="demo-A" style="font-weight: bold;">Set A:</label>
+  <input type="text" id="demo-A" value="1,2,3" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+</div>
+<div>
+  <label for="demo-B" style="font-weight: bold;">Set B:</label>
+  <input type="text" id="demo-B" value="2,3,4" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+</div>
+<div>
+  <label for="demo-universe" style="font-weight: bold;">Universe S:</label>
+  <input type="text" id="demo-universe" value="1,2,3,4,5" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+</div>
+</div>
+</div>
+
+<div id="demorgans-result" style="padding: 20px; background: #f8f9fa; border-radius: 10px;">
+<h4>DeMorgan's Law Verification</h4>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+  <div id="law1-result" style="padding: 15px; background: white; border-radius: 8px; border: 2px solid #007acc;">
+    <h5>First Law: (A ∪ B)ᶜ = Aᶜ ∩ Bᶜ</h5>
+    <div id="law1-content"></div>
+  </div>
+
+  <div id="law2-result" style="padding: 15px; background: white; border-radius: 8px; border: 2px solid #dc3545;">
+    <h5>Second Law: (A ∩ B)ᶜ = Aᶜ ∪ Bᶜ</h5>
+    <div id="law2-content"></div>
+  </div>
+</div>
+</div>
+
+<script>
+const demoA = document.getElementById('demo-A');
+const demoB = document.getElementById('demo-B');
+const demoUniverse = document.getElementById('demo-universe');
+const law1Content = document.getElementById('law1-content');
+const law2Content = document.getElementById('law2-content');
+
+function updateDeMorgans() {
+  const A = demoA.value.split(',').map(x => x.trim()).filter(x => x);
+  const B = demoB.value.split(',').map(x => x.trim()).filter(x => x);
+  const S = demoUniverse.value.split(',').map(x => x.trim()).filter(x => x);
+
+  // Calculate operations
+  const unionAB = [...new Set([...A, ...B])];
+  const intersectAB = A.filter(x => B.includes(x));
+
+  const complementUnion = S.filter(x => !unionAB.includes(x));
+  const complementA = S.filter(x => !A.includes(x));
+  const complementB = S.filter(x => !B.includes(x));
+  const intersectComplements = complementA.filter(x => complementB.includes(x));
+
+  const complementIntersect = S.filter(x => !intersectAB.includes(x));
+  const unionComplements = [...new Set([...complementA, ...complementB])];
+
+  // Law 1 verification
+  const law1Equal = JSON.stringify(complementUnion.sort()) === JSON.stringify(intersectComplements.sort());
+  law1Content.innerHTML = `
+    <p><strong>A ∪ B =</strong> {${unionAB.join(', ')}}</p>
+    <p><strong>(A ∪ B)ᶜ =</strong> {${complementUnion.join(', ')}}</p>
+    <hr/>
+    <p><strong>Aᶜ =</strong> {${complementA.join(', ')}}</p>
+    <p><strong>Bᶜ =</strong> {${complementB.join(', ')}}</p>
+    <p><strong>Aᶜ ∩ Bᶜ =</strong> {${intersectComplements.join(', ')}}</p>
+    <p style="color: ${law1Equal ? '#28a745' : '#dc3545'}; font-weight: bold;">
+      ${law1Equal ? '✓ EQUAL - Law verified!' : '✗ NOT EQUAL - Check inputs'}
+    </p>
+  `;
+
+  // Law 2 verification  
+  const law2Equal = JSON.stringify(complementIntersect.sort()) === JSON.stringify(unionComplements.sort());
+  law2Content.innerHTML = `
+    <p><strong>A ∩ B =</strong> {${intersectAB.join(', ')}}</p>
+    <p><strong>(A ∩ B)ᶜ =</strong> {${complementIntersect.join(', ')}}</p>
+    <hr/>
+    <p><strong>Aᶜ =</strong> {${complementA.join(', ')}}</p>
+    <p><strong>Bᶜ =</strong> {${complementB.join(', ')}}</p>
+    <p><strong>Aᶜ ∪ Bᶜ =</strong> {${unionComplements.join(', ')}}</p>
+    <p style="color: ${law2Equal ? '#28a745' : '#dc3545'}; font-weight: bold;">
+      ${law2Equal ? '✓ EQUAL - Law verified!' : '✗ NOT EQUAL - Check inputs'}
+    </p>
+  `;
+}
+
+demoA.addEventListener('input', updateDeMorgans);
+demoB.addEventListener('input', updateDeMorgans);
+demoUniverse.addEventListener('input', updateDeMorgans);
+updateDeMorgans(); // Initialize
+</script>
+```
+:::
+
+------------------------------------------------------------------------
+
+## Think-Pair-Share Activity {.smaller}
+
+::: callout-tip
+## [Group Activity]{style="font-size: 35px !important"}
+[**Time:** 5 minutes total (2 min thinking + 3 min discussion)]{style="font-size: 25px !important"}
+:::
+
+::: fragment
+[**Prompt:** Consider your daily commute to university. Define:]{style="font-size: 30px !important"}
+
+1. The **sample space** of possible transportation methods
+2. Two **events** that could be **disjoint** 
+3. Two **events** that have a **non-empty intersection**
+4. The **complement** of "arriving on time"
+:::
+
+::: fragment
+[**Discussion Questions:**]{style="font-size: 30px !important"}
+
+- Are your sample space outcomes **equally likely**?
+- Can you apply **DeMorgan's laws** to your events?
+- What **real-world factors** affect event probabilities?
+:::
+
+------------------------------------------------------------------------
+
+## Law of Large Numbers Demo {.smaller}
+
+::: interactive-demo
+**Demonstration:** Watch probability converge to theoretical values
+
+```{=html}
+<div style="margin: 20px 0;">
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+<div>
+  <label for="prob-experiment" style="font-weight: bold;">Experiment:</label>
+  <select id="prob-experiment" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+    <option value="coin">Coin Flip (P(H) = 0.5)</option>
+    <option value="die">Die Roll (P(6) = 1/6)</option>
+    <option value="dice_sum">Two Dice Sum=7 (P = 1/6)</option>
+  </select>
+</div>
+<div>
+  <label for="max-trials" style="font-weight: bold;">Max trials:</label>
+  <input type="range" id="max-trials" min="10" max="500" value="100" style="width: 80%;">
+  <span id="trial-count">100</span>
+</div>
+<div>
+  <button id="animate-convergence" style="width: 100%; padding: 10px; background: #007acc; color: white; border: none; border-radius: 5px; cursor: pointer;">Start Animation</button>
+</div>
+</div>
+</div>
+
+<div id="convergence-display" style="padding: 20px; background: #f9f9f9; border-radius: 8px; margin: 15px 0; min-height: 200px;">
+<canvas id="convergence-canvas" width="600" height="300" style="border: 1px solid #ccc; width: 100%; max-width: 600px;"></canvas>
+<div id="convergence-stats" style="margin-top: 15px; text-align: center;"></div>
+</div>
+
+<script>
+const probExperiment = document.getElementById('prob-experiment');
+const maxTrialsSlider = document.getElementById('max-trials');
+const trialCountDisplay = document.getElementById('trial-count');
+const animateButton = document.getElementById('animate-convergence');
+const canvas = document.getElementById('convergence-canvas');
+const ctx = canvas.getContext('2d');
+const statsDiv = document.getElementById('convergence-stats');
+
+maxTrialsSlider.addEventListener('input', function() {
+  trialCountDisplay.textContent = this.value;
+});
+
+animateButton.addEventListener('click', function() {
+  const maxTrials = parseInt(maxTrialsSlider.value);
+  let theoreticalProb;
+  let experimentName;
+
+  switch(probExperiment.value) {
+    case 'coin':
+      theoreticalProb = 0.5;
+      experimentName = 'Heads';
+      break;
+    case 'die':
+      theoreticalProb = 1/6;
+      experimentName = 'Rolling 6';
+      break;
+    case 'dice_sum':
+      theoreticalProb = 1/6;
+      experimentName = 'Sum = 7';
+      break;
+  }
+
+  // Generate data
+  const results = [];
+  let successes = 0;
+
+  for(let i = 1; i <= maxTrials; i++) {
+    let success = false;
+
+    switch(probExperiment.value) {
+      case 'coin':
+        success = Math.random() < 0.5;
+        break;
+      case 'die':
+        success = Math.floor(Math.random() * 6) + 1 === 6;
+        break;
+      case 'dice_sum':
+        const die1 = Math.floor(Math.random() * 6) + 1;
+        const die2 = Math.floor(Math.random() * 6) + 1;
+        success = die1 + die2 === 7;
+        break;
+    }
+
+    if(success) successes++;
+    results.push({trial: i, frequency: successes/i});
+  }
+
+  // Draw chart
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Draw axes
+  ctx.strokeStyle = '#333';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(50, canvas.height - 50);
+  ctx.lineTo(canvas.width - 20, canvas.height - 50);
+  ctx.moveTo(50, 20);
+  ctx.lineTo(50, canvas.height - 50);
+  ctx.stroke();
+
+  // Draw theoretical line
+  ctx.strokeStyle = '#dc3545';
+  ctx.lineWidth = 3;
+  ctx.setLineDash([5, 5]);
+  ctx.beginPath();
+  const theoreticalY = canvas.height - 50 - (theoreticalProb * (canvas.height - 70));
+  ctx.moveTo(50, theoreticalY);
+  ctx.lineTo(canvas.width - 20, theoreticalY);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Draw frequency line
+  ctx.strokeStyle = '#007acc';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+
+  const xScale = (canvas.width - 70) / maxTrials;
+  const yScale = canvas.height - 70;
+
+  results.forEach((point, index) => {
+    const x = 50 + point.trial * xScale;
+    const y = canvas.height - 50 - (point.frequency * yScale);
+
+    if(index === 0) {
+      ctx.moveTo(x, y);
+    } else {
+      ctx.lineTo(x, y);
+    }
+  });
+
+  ctx.stroke();
+
+  // Add labels
+  ctx.fillStyle = '#333';
+  ctx.font = '12px Arial';
+  ctx.fillText('Trials', canvas.width/2 - 20, canvas.height - 5);
+
+  ctx.save();
+  ctx.translate(15, canvas.height/2);
+  ctx.rotate(-Math.PI/2);
+  ctx.fillText('Probability', -50, 0);
+  ctx.restore();
+
+  // Update stats
+  const finalFreq = results[results.length-1].frequency;
+  const difference = Math.abs(finalFreq - theoreticalProb);
+
+  statsDiv.innerHTML = `
+    <p><strong>Experiment:</strong> ${experimentName}</p>
+    <p><strong>Theoretical Probability:</strong> ${theoreticalProb.toFixed(3)}</p>
+    <p><strong>Final Observed Frequency:</strong> ${finalFreq.toFixed(3)}</p>
+    <p style="color: ${difference < 0.05 ? '#28a745' : difference < 0.1 ? '#ffc107' : '#dc3545'};">
+      <strong>Difference:</strong> ${difference.toFixed(3)} 
+      ${difference < 0.05 ? '(Excellent!)' : difference < 0.1 ? '(Good)' : '(Try more trials)'}
+    </p>
+  `;
+});
+</script>
+```
+:::
+
+------------------------------------------------------------------------
+
+## Quiz Time! 🧠 {.smaller}
+
+::: columns
+::: {.column width="50%"}
+[**Question 1:** Sample space for three coins?]{style="font-size: 25px !important"}
+
+A. $\{H, T\}$  
+B. $\{0, 1, 2, 3\}$  
+C. $\{HHH, HHT, ..., TTT\}$  
+D. $\{3H, 2H1T, 1H2T, 3T\}$
+
+::: {.fragment .highlight-green}
+**Answer: C** - All 8 possible sequences
+:::
+:::
+
+::: {.column width="50%"}
+[**Question 2:** If $A = \{1,2,3\}$, $B = \{3,4,5\}$, then $A \cap B = ?$]{style="font-size: 25px !important"}
+
+A. $\{1,2,3,4,5\}$  
+B. $\{3\}$  
+C. $\{1,2,4,5\}$  
+D. $\emptyset$
+
+::: {.fragment .highlight-green}
+**Answer: B** - Only element 3 is in both sets
+:::
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Complex Application Challenge 🚀 {.smaller}
+
+::: callout-note
+## [Real-World Scenario]{style="font-size: 35px !important"}
+[A tech company surveys employees about satisfaction across three areas: **Work-Life Balance (W)**, **Management (M)**, and **Career Growth (C)**.]{style="font-size: 25px !important"}
+:::
+
+[**Your Analysis Tasks:**]{style="font-size: 30px !important"}
+
+1. **Define** the sample space for this three-dimensional survey
+2. **Express** "satisfied with at least two areas" using set notation  
+3. **Interpret** $(W \cup M \cup C)^c$ in business context
+4. **Apply** DeMorgan's law to find employees dissatisfied with all three
+
+::: {.fragment}
+[**Advanced Question:** If 40% are satisfied with work-life balance, 35% with management, 45% with career growth, and 15% with all three, can you find the percentage satisfied with exactly one area?]{style="font-size: 25px !important"}
+:::
+
+------------------------------------------------------------------------
+
+## Key Concepts Summary {.smaller}
+
+| **Concept** | **Definition** | **Notation** | **Example** |
+|:------------|:---------------|:-------------|:------------|
+| Sample Space | All possible outcomes | $S$ | Coin: $\{H,T\}$ |
+| Event | Subset of sample space | $A \subseteq S$ | Even die: $\{2,4,6\}$ |
+| Union | Either event occurs | $A \cup B$ | $\{1,2\} \cup \{2,3\} = \{1,2,3\}$ |
+| Intersection | Both events occur | $A \cap B$ | $\{1,2\} \cap \{2,3\} = \{2\}$ |
+| Complement | Event does not occur | $A^c$ | If $A=\{1,2\}$, then $A^c=\{3,4,5,6\}$ |
+| Disjoint | No common outcomes | $A \cap B = \emptyset$ | $\{1,2\} \cap \{3,4\} = \emptyset$ |
+
+------------------------------------------------------------------------
+
+## Self-Assessment Checklist ✅ {.smaller}
+
+[**Rate your confidence (1-5 scale):**]{style="font-size: 30px !important"}
+
+::: columns
+::: {.column width="50%"}
+□ **Sample Space Construction** __(1-5)__
+
+□ **Event Definition & Notation** __(1-5)__
+
+□ **Union & Intersection** __(1-5)__
+
+□ **Complement Operations** __(1-5)__
+:::
+
+::: {.column width="50%"}
+□ **DeMorgan's Laws** __(1-5)__
+
+□ **Real-World Applications** __(1-5)__
+
+□ **Interactive Problem Solving** __(1-5)__
+
+□ **Mathematical Communication** __(1-5)__
+:::
+:::
+
+::: fragment
+[**Reflection Questions:**]{style="font-size: 30px !important"}
+- Which interactive demo helped you most?
+- What real-world example can you create using today's concepts?
+- How would you explain set operations to a friend?
+:::
+
+------------------------------------------------------------------------
+
+## Practice Problems 📝 {.smaller}
+
+::: columns
+::: {.column width="50%"}
+[**Problem 1: Card Drawing**]{style="font-size: 25px !important"}
+
+From a standard deck, define:
+- $A$ = drawing a red card  
+- $B$ = drawing a face card
+- Find $A \cup B$, $A \cap B$, $A^c$
+
+[**Problem 2: Student Groups**]{style="font-size: 25px !important"}
+
+In a class of 30 students:
+- 18 study Math, 15 study Physics  
+- 8 study both subjects
+- How many study neither?
+:::
+
+::: {.column width="50%"}
+[**Problem 3: DeMorgan Application**]{style="font-size: 25px !important"}
+
+Verify: $(A \cup B \cup C)^c = A^c \cap B^c \cap C^c$ 
+for $A=\{1,2\}$, $B=\{2,3\}$, $C=\{3,4\}$
+
+[**Problem 4: Sample Space Design**]{style="font-size: 25px !important"}
+
+Design a probability experiment related to your field of study. Define the sample space and three meaningful events.
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Next Steps & Preview 🎯 {.smaller}
+
+::: callout-important
+## [Today's Achievements]{style="font-size: 35px !important"}
+
+✅ **Mastered** sample space construction and event definition  
+✅ **Applied** set operations through interactive visualization  
+✅ **Verified** DeMorgan's laws with concrete examples  
+✅ **Connected** abstract concepts to real-world scenarios  
+✅ **Practiced** mathematical communication and notation
+:::
+
+[**Next Lecture Preview:**]{style="font-size: 30px !important"}
+
+🎲 **Classical Definition of Probability**  
+📊 **Equally Likely Outcomes**  
+🎮 **Advanced Counting Techniques**  
+🃏 **Combinatorial Applications**
+
+------------------------------------------------------------------------
+
+## [Questions & Discussion]{.r-fit-text style="font-size: 50px"} {.center}
+
+::: columns
+::: {.column width="50%"}
+[**Contact Information:**]{style="font-size: 30px !important"}
+
+📧 **Email:** sorujov@ada.edu.az  
+🏢 **Office:** Room 301  
+⏰ **Hours:** MW 2-4 PM  
+💻 **Course Site:** [ada-stats.netlify.app](https://ada-stats.netlify.app)
+:::
+
+::: {.column width="50%"}
+[**Interactive Resources:**]{style="font-size: 30px !important"}
+
+📱 **Mobile-Friendly Demos**  
+💾 **Downloadable Notebooks**  
+🎥 **Recorded Explanations**  
+📚 **Additional Practice Problems**
+:::
+:::
+
+------------------------------------------------------------------------
+
+## [Thank You!]{.r-fit-text style="font-size: 60px"} {.center background-color="#667eea"}
+
+::: {.r-fit-text style="color: white;"}
+**Mathematical Statistics**
+
+*Sample Spaces & Set Operations*
+
+**Samir Orujov, PhD**  
+*ADA University*
+
+*"Mathematics is not about numbers, equations, computations, or algorithms: it is about understanding."* - William Paul Thurston
+:::
