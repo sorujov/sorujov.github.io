@@ -56,22 +56,21 @@ Rigorous mathematical treatment of statistical theory tailored for Economics and
 **[🚀 Combinatorial Analysis Fundamentals](/lectures/math-stat-1/01-combinatorics/index.html)**
 {: .btn .btn--primary}
 
-*Interactive presentation with counting calculators and economic applications*
 ---
 
 ## Unit 2: Axioms of Probability
 
-### Topic 3: Sample Spaces and Events
+### Topic 3: Introduction To Probability. Sample Spaces and Events.
 **Content**: Sample Space and Events, Event Operations, Equally Likely Outcomes  
 **Reading**: Ross, Chapter 2: Sections 2.1-2.3
 
-**[🚀 Introduction to Probability and Its Axioms](/lectures/math-stat-1/03-sample_spaces/index.html)**
+**[🚀 Introduction to Probability](lectures\math-stat-1\03-sample_spaces\improved_merged_probability_lecture.html)**
 {: .btn .btn--primary}
 
 ---
 
-### Topic 4: Axioms of Probability
-**Content**: Axioms of Probability, Simple Propositions
+### Topic 4: Sample Spaces with Equally Likely Outcomes
+**Content**: Sample spaces with equally likely outcomes, Axioms of Probability, Simple Propositions
 **Reading**: Ross, Chapter 2: Sections 2.2-2.4
 
 **[🚀 Sample Spaces With Equally Likely Outcomes](/lectures/math-stat-1/03-01-equally_likely_outcome/sample_spaces_equally_likely_outcomes.html)**
