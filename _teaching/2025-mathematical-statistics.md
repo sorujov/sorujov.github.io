@@ -78,6 +78,8 @@ Rigorous mathematical treatment of statistical theory tailored for Economics and
 
 ---
 
+# Unit 3: Conditional Probability & Independence
+
 ### Topic 5: Conditional Probability & Independence
 **Content**: Conditional Probabilities, Bayes' Formula, Independent Events  
 **Reading**: Ross, Chapter 3: Sections 3.1-3.3
@@ -85,7 +87,12 @@ Rigorous mathematical treatment of statistical theory tailored for Economics and
 **[🚀 Conditional Probability & Bayes' Theorem](/lectures/math-stat-1/03-conditional_probability/conditional_probability_slides_fixed.html)**
 {: .btn .btn--primary}
 
-*Financial decision-making under uncertainty with Bayesian applications*
+### Topic 6: Independence of Events
+**Content**: Independent Events, Properties of Independence
+**Reading**: Ross, Chapter 3: Sections 3.4-3.5
+
+**[🚀 Independence of Events](/lectures/math-stat-1/03-independent_events/independent_events.html)**
+{: .btn .btn--primary}
 
 ---
 
