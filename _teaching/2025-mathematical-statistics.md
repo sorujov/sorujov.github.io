@@ -97,6 +97,7 @@ Rigorous mathematical treatment of statistical theory tailored for Economics and
 ### Bayes Theorem & Economic Applications
 **Content**: Bayes' Theorem, Economic Applications of Conditional Probability and Independence
 **Reading**: Ross, Chapter 3: Section 3.6
+
 **[🚀 Bayes Theorem & Economic Applications](/lectures/math-stat-1/03-Bayes_Formula/bayes_formula.html)**
 {: .btn .btn--primary}
 
