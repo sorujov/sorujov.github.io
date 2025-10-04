@@ -82,7 +82,7 @@ Rigorous mathematical treatment of statistical theory tailored for Economics and
 **Content**: Conditional Probabilities, Bayes' Formula, Independent Events  
 **Reading**: Ross, Chapter 3: Sections 3.1-3.3
 
-**[🚀 Conditional Probability & Bayes' Theorem](/lectures/math-stat-1/05-conditional-probability/index.html)**
+**[🚀 Conditional Probability & Bayes' Theorem](lectures/math-stat-1/03-conditional_probability/conditional_probability_slides_fixed.html)**
 {: .btn .btn--primary}
 
 *Financial decision-making under uncertainty with Bayesian applications*
