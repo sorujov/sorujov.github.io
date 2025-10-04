@@ -87,14 +87,14 @@ Rigorous mathematical treatment of statistical theory tailored for Economics and
 **[🚀 Conditional Probability ](/lectures/math-stat-1/03-conditional_probability/conditional_probability_slides_fixed.html)**
 {: .btn .btn--primary}
 
-### Topic 6: Independence of Events
+### Topic 5: Independence of Events
 **Content**: Independent Events, Properties of Independence
 **Reading**: Ross, Chapter 3: Sections 3.4-3.5
 
 **[🚀 Independence of Events](/lectures/math-stat-1/03-independent_events/independent_events.html)**
 {: .btn .btn--primary}
 
-### Bayes Theorem & Economic Applications
+### Topic 6: Bayes Theorem & Economic Applications
 **Content**: Bayes' Theorem, Economic Applications of Conditional Probability and Independence
 **Reading**: Ross, Chapter 3: Section 3.6
 
@@ -103,20 +103,18 @@ Rigorous mathematical treatment of statistical theory tailored for Economics and
 
 ---
 
-## Unit 3: Discrete Random Variables
+## Unit 4: Discrete Random Variables
 
-### Topic 6: Discrete Probability Distributions
+### Topic 7: Discrete Probability Distributions
 **Content**: Probability Distribution for Discrete Random Variables, Expected Value  
 **Reading**: Wackerly et al., Chapter 3: Sections 3.1-3.3
 
 **[🚀 Discrete Random Variables](/lectures/math-stat-1/06-discrete-rv/index.html)**
 {: .btn .btn--primary}
 
-*Economic applications of discrete probability with expectation calculations*
-
 ---
 
-### Topic 7: Binomial Distribution
+### Topic 8: Binomial Distribution
 **Content**: The Binomial Probability Distribution, financial success modeling  
 **Reading**: Wackerly et al., Chapter 3: Section 3.4
 
@@ -149,7 +147,7 @@ Rigorous mathematical treatment of statistical theory tailored for Economics and
 
 ---
 
-## Unit 4: Continuous Random Variables
+## Unit 5: Continuous Random Variables
 
 ### Topic 10: Continuous Probability Distributions
 **Content**: Probability Distribution for Continuous Random Variables, density functions  
