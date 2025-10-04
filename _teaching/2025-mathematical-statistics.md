@@ -60,7 +60,7 @@ Rigorous mathematical treatment of statistical theory tailored for Economics and
 
 ## Unit 2: Axioms of Probability
 
-### Topic 3: Introduction To Probability. Sample Spaces and Events.
+### Topic 2: Introduction To Probability. Sample Spaces and Events.
 **Content**: Sample Space and Events, Event Operations, Equally Likely Outcomes  
 **Reading**: Ross, Chapter 2: Sections 2.1-2.3
 
@@ -69,7 +69,7 @@ Rigorous mathematical treatment of statistical theory tailored for Economics and
 
 ---
 
-### Topic 4: Sample Spaces with Equally Likely Outcomes
+### Topic 3: Sample Spaces with Equally Likely Outcomes
 **Content**: Sample spaces with equally likely outcomes, Axioms of Probability, Simple Propositions
 **Reading**: Ross, Chapter 2: Sections 2.2-2.4
 
@@ -80,11 +80,11 @@ Rigorous mathematical treatment of statistical theory tailored for Economics and
 
 # Unit 3: Conditional Probability & Independence
 
-### Topic 5: Conditional Probability & Independence
-**Content**: Conditional Probabilities, Bayes' Formula, Independent Events  
+### Topic 4: Conditional Probability 
+**Content**: Conditional Probabilities  
 **Reading**: Ross, Chapter 3: Sections 3.1-3.3
 
-**[🚀 Conditional Probability & Bayes' Theorem](/lectures/math-stat-1/03-conditional_probability/conditional_probability_slides_fixed.html)**
+**[🚀 Conditional Probability ](/lectures/math-stat-1/03-conditional_probability/conditional_probability_slides_fixed.html)**
 {: .btn .btn--primary}
 
 ### Topic 6: Independence of Events
@@ -92,6 +92,12 @@ Rigorous mathematical treatment of statistical theory tailored for Economics and
 **Reading**: Ross, Chapter 3: Sections 3.4-3.5
 
 **[🚀 Independence of Events](/lectures/math-stat-1/03-independent_events/independent_events.html)**
+{: .btn .btn--primary}
+
+### Bayes Theorem & Economic Applications
+**Content**: Bayes' Theorem, Economic Applications of Conditional Probability and Independence
+**Reading**: Ross, Chapter 3: Section 3.6
+**[🚀 Bayes Theorem & Economic Applications](/lectures/math-stat-1/03-Bayes_Formula/bayes_formula.html)**
 {: .btn .btn--primary}
 
 ---
