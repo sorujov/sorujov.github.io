@@ -149,11 +149,11 @@ location: "Baku, Azerbaijan"
     </div>
     
     <div class="video-lecture-section">
-      <h4>🎥 Video Lecture: Independence of Events</h4>
+      <h4>🎥 Video Lecture: Axioms of Probability. Introduction. </h4>
       <div class="youtube-container">
         <iframe width="560" height="315" 
-                src="https://youtu.be/A9Ic_PKBOac?si=JF-isj6B5antooOb" 
-                title="Independence of Events - Mathematical Statistics" 
+                src="https://www.youtube.com/embed/A9Ic_PKBOac" 
+                title="Axioms of Probability - Mathematical Statistics" 
                 frameborder="0" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                 allowfullscreen>
