@@ -261,12 +261,6 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/03-independent_events/independent_events.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        � Problem Set (Coming Soon)
-      </div>
-      <!-- <a href="#" class="btn btn--video">
-        🎥 Video Lecture
-      </a> -->
     </div>
     
     <div class="problem-sets">
