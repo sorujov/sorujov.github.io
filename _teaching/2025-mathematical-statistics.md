@@ -235,7 +235,7 @@ location: "Baku, Azerbaijan"
     
     <div class="video-lecture-section">
       <h4>🎥 Video Lecture: Independence of Events</h4>
-      <div class="video-container">
+      <div class="youtube-container">
         <iframe width="100%" height="200" 
                 src="https://www.youtube.com/embed/PCvFl3NNeZY" 
                 title="Independence of Events - Mathematical Statistics" 
@@ -445,6 +445,25 @@ location: "Baku, Azerbaijan"
   60% {
     transform: translateY(-5px);
   }
+}
+
+.youtube-container {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  height: 0;
+  padding-bottom: 28.125%; /* 16:9 aspect ratio scaled down - results in ~200px height */
+  margin: 15px auto;
+}
+
+.youtube-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
 .video-container,
