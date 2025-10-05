@@ -109,11 +109,14 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/01-combinatorics/index.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
-      </div>
       <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
         🎥 Video Lecture (Coming Soon)
+      </div>
+    </div>
+    
+    <div class="problem-sets">
+      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
+        📝 Problem Set (Coming Soon)
       </div>
     </div>
     
@@ -149,9 +152,15 @@ location: "Baku, Azerbaijan"
       <!-- <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
         🎥 Video Lecture
       </div> -->
-      <a href="/lectures/math-stat-1/03-sample_spaces/" class="btn btn--pdf">
+      <!-- <a href="/lectures/math-stat-1/03-sample_spaces/" class="btn btn--pdf">
         � PDF Resources
-      </a>
+      </a> -->
+    </div>
+    
+    <div class="problem-sets">
+      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
+        📝 Problem Set (Coming Soon)
+      </div>
     </div>
     
     <div class="video-lecture-section">
@@ -182,11 +191,14 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/03-01-equally_likely_outcome/sample_spaces_equally_likely_outcomes.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
-      </div>
       <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
         🎥 Video Lecture (Coming Soon)
+      </div>
+    </div>
+    
+    <div class="problem-sets">
+      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
+        📝 Problem Set (Coming Soon)
       </div>
     </div>
     
@@ -216,11 +228,14 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/03-conditional_probability/conditional_probability_slides_fixed.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
-      </div>
       <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
         🎥 Video Lecture (Coming Soon)
+      </div>
+    </div>
+    
+    <div class="problem-sets">
+      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
+        📝 Problem Set (Coming Soon)
       </div>
     </div>
     
@@ -254,6 +269,12 @@ location: "Baku, Azerbaijan"
       </a> -->
     </div>
     
+    <div class="problem-sets">
+      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
+        📝 Problem Set (Coming Soon)
+      </div>
+    </div>
+    
     <div class="video-lecture-section">
       <h4>🎥 Video Lecture: Independence of Events</h4>
       <div class="youtube-container">
@@ -282,11 +303,14 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/03-Bayes_Formula/bayes_formula.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
-      </div>
       <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
         🎥 Video Lecture (Coming Soon)
+      </div>
+    </div>
+    
+    <div class="problem-sets">
+      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
+        📝 Problem Set (Coming Soon)
       </div>
     </div>
     
@@ -383,6 +407,17 @@ location: "Baku, Azerbaijan"
   gap: 1rem;
   flex-wrap: wrap;
   margin-bottom: 1rem;
+}
+
+.problem-sets {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+  background: #f0f8ff;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #b3d9ff;
 }
 
 .btn {
@@ -692,11 +727,14 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/06-discrete-rv/index.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
-      </div>
       <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
         🎥 Video Lecture (Coming Soon)
+      </div>
+    </div>
+    
+    <div class="problem-sets">
+      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
+        📝 Problem Set (Coming Soon)
       </div>
     </div>
     
@@ -722,11 +760,14 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/07-binomial/index.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
-      </div>
       <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
         🎥 Video Lecture (Coming Soon)
+      </div>
+    </div>
+    
+    <div class="problem-sets">
+      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
+        📝 Problem Set (Coming Soon)
       </div>
     </div>
     
@@ -752,11 +793,14 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/08-poisson-mgf/index.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
-      </div>
       <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
         🎥 Video Lecture (Coming Soon)
+      </div>
+    </div>
+    
+    <div class="problem-sets">
+      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
+        📝 Problem Set (Coming Soon)
       </div>
     </div>
     
@@ -782,11 +826,14 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/09-tchebysheff-discrete/index.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
-      </div>
       <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
         🎥 Video Lecture (Coming Soon)
+      </div>
+    </div>
+    
+    <div class="problem-sets">
+      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
+        📝 Problem Set (Coming Soon)
       </div>
     </div>
     
@@ -816,11 +863,14 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/10-continuous-rv/index.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
-      </div>
       <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
         🎥 Video Lecture (Coming Soon)
+      </div>
+    </div>
+    
+    <div class="problem-sets">
+      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
+        📝 Problem Set (Coming Soon)
       </div>
     </div>
     
@@ -846,11 +896,14 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/11-uniform-expected/index.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
-      </div>
       <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
         🎥 Video Lecture (Coming Soon)
+      </div>
+    </div>
+    
+    <div class="problem-sets">
+      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
+        📝 Problem Set (Coming Soon)
       </div>
     </div>
     
@@ -876,11 +929,14 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/12-normal-gamma/index.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
-      </div>
       <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
         🎥 Video Lecture (Coming Soon)
+      </div>
+    </div>
+    
+    <div class="problem-sets">
+      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
+        📝 Problem Set (Coming Soon)
       </div>
     </div>
     
@@ -906,11 +962,14 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/13-tchebysheff-continuous/index.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
-      </div>
       <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
         🎥 Video Lecture (Coming Soon)
+      </div>
+    </div>
+    
+    <div class="problem-sets">
+      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
+        📝 Problem Set (Coming Soon)
       </div>
     </div>
     
@@ -940,11 +999,14 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/14-multivariate/index.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
-      </div>
       <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
         🎥 Video Lecture (Coming Soon)
+      </div>
+    </div>
+    
+    <div class="problem-sets">
+      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
+        📝 Problem Set (Coming Soon)
       </div>
     </div>
     
@@ -970,11 +1032,14 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/15-independence-covariance/index.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
-      </div>
       <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
         🎥 Video Lecture (Coming Soon)
+      </div>
+    </div>
+    
+    <div class="problem-sets">
+      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
+        📝 Problem Set (Coming Soon)
       </div>
     </div>
     
