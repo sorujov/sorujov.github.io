@@ -34,8 +34,8 @@ location: "Baku, Azerbaijan"
     </div>
   </div>
   
-  **Prerequisites**: Calculus II (MATH 1202)  
-  **Schedule**: Wednesdays and Saturdays  
+  <strong>Prerequisites</strong>: Calculus II (MATH 1202)  
+  <strong>Schedule</strong>: Wednesdays and Saturdays  
   - Class 10462: 10:00-11:15 AM, Room D207
   - Class 10463: 11:30-12:45 PM, Rooms A210 & A109
 
@@ -235,8 +235,8 @@ location: "Baku, Azerbaijan"
     
     <div class="video-lecture-section">
       <h4>🎥 Video Lecture: Independence of Events</h4>
-      <div class="youtube-container">
-        <iframe width="100%" height="315" 
+      <div class="video-container">
+        <iframe width="100%" height="200" 
                 src="https://www.youtube.com/embed/YOUR_VIDEO_ID_HERE" 
                 title="Independence of Events - Mathematical Statistics" 
                 frameborder="0" 
@@ -278,21 +278,7 @@ location: "Baku, Azerbaijan"
 
 ## � Musiqi ilə dinləyin / Listen with Music
 
-<div class="music-section">
-  <div class="music-header">
-    <span class="music-icon">🎼</span>
-    <h4>Rumi Poetry with Ambient Music</h4>
-  </div>
-  <div class="youtube-container">
-    <iframe width="100" height="50" 
-            src="https://youtu.be/PCvFl3NNeZY" 
-            title="Rumi Poetry with Music" 
-            frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-            allowfullscreen>
-    </iframe>
-  </div>
-</div>
+
 
 <style>
 /* Course Page Styling */
@@ -461,23 +447,37 @@ location: "Baku, Azerbaijan"
   }
 }
 
-.youtube-container {
-  position: relative;
+.video-container,
+.video-placeholder {
   width: 100%;
-  height: 0;
-  padding-bottom: 56.25%;
-  margin: 20px auto;
-  max-width: 560px;
+  max-width: 500px;
+  margin: 15px auto;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-.youtube-container iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
+.video-container iframe {
   width: 100%;
-  height: 100%;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  height: 200px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.video-placeholder {
+  height: 200px;
+  background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 2px dashed #ccc;
+  color: #666;
+}
+
+.video-placeholder i {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .objectives-grid {
@@ -1002,21 +1002,6 @@ location: "Baku, Azerbaijan"
   </div>
 </div>
 
-<div class="music-section">
-  <h2 class="section-header">🎼 Musiqi İl'dinlýin</h2>
-  
-  <div class="music-card">
-    <div class="music-content">
-      <div class="music-icon">🎼</div>
-      <div class="music-text">
-        <h3>Mathematical Harmony</h3>
-        <p><em>Mathematical harmony emerges when we understand that probability and music share the same underlying patterns - both are expressions of mathematical beauty that connect our analytical minds to our creative souls.</em></p>
-        <a href="#music-playlist" class="btn btn--primary">🎵 Explore Mathematical Music</a>
-      </div>
-    </div>
-  </div>
-</div>
-
 <style>
 /* Enhanced Assessment Section */
 .assessment-section {
@@ -1203,45 +1188,6 @@ location: "Baku, Azerbaijan"
   line-height: 1.4;
 }
 
-/* Music Section */
-.music-section {
-  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
-  padding: 2rem;
-  border-radius: 15px;
-  margin: 2rem 0;
-}
-
-.music-card {
-  background: rgba(255, 255, 255, 0.2);
-  padding: 2rem;
-  border-radius: 12px;
-  backdrop-filter: blur(10px);
-}
-
-.music-content {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-}
-
-.music-icon {
-  font-size: 3rem;
-  color: #8e44ad;
-}
-
-.music-text h3 {
-  color: #2c3e50;
-  margin-bottom: 0.8rem;
-  font-size: 1.4rem;
-}
-
-.music-text p {
-  color: #34495e;
-  line-height: 1.6;
-  margin-bottom: 1rem;
-  font-style: italic;
-}
-
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
   .timeline-grid,
@@ -1251,15 +1197,9 @@ location: "Baku, Azerbaijan"
     grid-template-columns: 1fr;
   }
   
-  .music-content {
-    flex-direction: column;
-    text-align: center;
-  }
-  
   .assessment-section,
   .literature-section,
-  .technical-section,
-  .music-section {
+  .technical-section {
     padding: 1.5rem;
   }
 }
