@@ -149,11 +149,17 @@ location: "Baku, Azerbaijan"
     </div>
     
     <div class="video-lecture-section">
-      <div class="video-placeholder">
-        <i>🎬</i>
-        <p><strong>Video Lecture Coming Soon</strong></p>
-        <p>Introduction to probability theory and sample space concepts</p>
+      <h4>🎥 Video Lecture: Independence of Events</h4>
+      <div class="youtube-container">
+        <iframe width="560" height="315" 
+                src="https://youtu.be/A9Ic_PKBOac?si=JF-isj6B5antooOb" 
+                title="Independence of Events - Mathematical Statistics" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowfullscreen>
+        </iframe>
       </div>
+      <p><em>Simple xplanation of probability axioms and birthday paradox.</em></p>
     </div>
   </div>
 
@@ -276,7 +282,6 @@ location: "Baku, Azerbaijan"
   </div>
 </div>
 
-## � Musiqi ilə dinləyin / Listen with Music
 
 
 
