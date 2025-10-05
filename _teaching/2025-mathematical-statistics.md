@@ -114,6 +114,18 @@ location: "Baku, Azerbaijan"
       </div>
     </div>
     
+    <div class="homework-section">
+      <h4>📝 Problem Set & Solutions</h4>
+      <div class="homework-placeholder">
+        <div class="homework-icon">📄</div>
+        <p><strong>Problem Set Coming Soon</strong></p>
+        <p>Practice problems with detailed solutions for combinatorial principles</p>
+        <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
+          📥 Download PDF (Coming Soon)
+        </div>
+      </div>
+    </div>
+    
     <div class="video-lecture-section">
       <div class="video-placeholder">
         <i>🎬</i>
@@ -140,12 +152,24 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/03-sample_spaces/improved_merged_probability_lecture.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
-        🎥 Video Lecture (Coming Soon)
-      </div>
+      <!-- <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
+        🎥 Video Lecture
+      </div> -->
       <a href="/lectures/math-stat-1/03-sample_spaces/" class="btn btn--pdf">
         📄 PDF Resources
       </a>
+    </div>
+    
+    <div class="homework-section">
+      <h4>📝 Problem Set & Solutions</h4>
+      <div class="homework-placeholder">
+        <div class="homework-icon">📄</div>
+        <p><strong>Problem Set Coming Soon</strong></p>
+        <p>Practice problems with solutions on sample spaces and probability axioms</p>
+        <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
+          📥 Download PDF (Coming Soon)
+        </div>
+      </div>
     </div>
     
     <div class="video-lecture-section">
@@ -181,6 +205,18 @@ location: "Baku, Azerbaijan"
       </div>
     </div>
     
+    <div class="homework-section">
+      <h4>📝 Problem Set & Solutions</h4>
+      <div class="homework-placeholder">
+        <div class="homework-icon">📄</div>
+        <p><strong>Problem Set Coming Soon</strong></p>
+        <p>Practice problems with solutions on equally likely outcomes</p>
+        <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
+          📥 Download PDF (Coming Soon)
+        </div>
+      </div>
+    </div>
+    
     <div class="video-lecture-section">
       <div class="video-placeholder">
         <i>🎬</i>
@@ -212,6 +248,18 @@ location: "Baku, Azerbaijan"
       </div>
     </div>
     
+    <div class="homework-section">
+      <h4>📝 Problem Set & Solutions</h4>
+      <div class="homework-placeholder">
+        <div class="homework-icon">📄</div>
+        <p><strong>Problem Set Coming Soon</strong></p>
+        <p>Practice problems with solutions on conditional probability</p>
+        <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
+          📥 Download PDF (Coming Soon)
+        </div>
+      </div>
+    </div>
+    
     <div class="video-lecture-section">
       <div class="video-placeholder">
         <i>🎬</i>
@@ -234,9 +282,21 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/03-independent_events/independent_events.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <a href="#" class="btn btn--video">
+      <!-- <a href="#" class="btn btn--video">
         🎥 Video Lecture
-      </a>
+      </a> -->
+    </div>
+    
+    <div class="homework-section">
+      <h4>📝 Problem Set & Solutions</h4>
+      <div class="homework-placeholder">
+        <div class="homework-icon">📄</div>
+        <p><strong>Problem Set Coming Soon</strong></p>
+        <p>Practice problems with solutions on independence of events</p>
+        <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
+          📥 Download PDF (Coming Soon)
+        </div>
+      </div>
     </div>
     
     <div class="video-lecture-section">
@@ -269,6 +329,18 @@ location: "Baku, Azerbaijan"
       </a>
       <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
         🎥 Video Lecture (Coming Soon)
+      </div>
+    </div>
+    
+    <div class="homework-section">
+      <h4>📝 Problem Set & Solutions</h4>
+      <div class="homework-placeholder">
+        <div class="homework-icon">📄</div>
+        <p><strong>Problem Set Coming Soon</strong></p>
+        <p>Practice problems with solutions on Bayes' theorem and applications</p>
+        <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
+          📥 Download PDF (Coming Soon)
+        </div>
       </div>
     </div>
     
@@ -501,6 +573,59 @@ location: "Baku, Azerbaijan"
 .video-placeholder i {
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
+}
+
+/* Homework Section Styling */
+.homework-section {
+  background: #f0f8ff;
+  border: 1px solid #b3d9ff;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.homework-section h4 {
+  color: #0066cc;
+  margin-bottom: 0.8rem;
+}
+
+.homework-placeholder {
+  background: #ffffff;
+  border: 2px dashed #b3d9ff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  color: #555;
+}
+
+.homework-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: #0066cc;
+}
+
+.homework-placeholder p {
+  margin: 0.3rem 0;
+}
+
+.homework-placeholder p:first-of-type {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.btn--homework {
+  background: linear-gradient(45deg, #0066cc, #0052a3);
+  color: white;
+  box-shadow: 0 4px 15px rgba(0,102,204,0.3);
+  margin-top: 1rem;
+}
+
+.btn--homework:hover:not([style*="cursor: not-allowed"]) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,102,204,0.4);
+  color: white;
+  text-decoration: none;
 }
 
 .objectives-grid {
