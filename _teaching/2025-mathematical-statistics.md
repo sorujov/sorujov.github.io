@@ -94,50 +94,47 @@ location: "Baku, Azerbaijan"
 # 📚 Course Topics & Interactive Lectures
 
 <div class="unit-section">
-  <details class="unit-dropdown">
-    <summary class="unit-header">Unit 1: Combinatorial Foundations</summary>
-    <div class="unit-content">
-      <div class="topic-item">
-      <h3 class="topic-title">Topic 1: Basic Counting Principles</h3>
-      <div class="topic-content">
-        <strong>Content:</strong> The Basic Principle of Counting, Permutations, Combinations, Multinomial Coefficients
-      </div>
-      <div class="topic-reading">
-        📖 <strong>Reading:</strong> Ross, Chapter 1
-      </div>
-      
-      <div class="lecture-buttons">
-        <a href="/lectures/math-stat-1/01-combinatorics/index.html" class="btn btn--primary">
-          🚀 Interactive Lecture
-        </a>
-        <a href="/downloads/stat2311-homework-1.pdf" class="btn btn--primary">
-          📄 Homework PDF (Coming Soon)
-        </a>
-      </div>
+  <h2 class="unit-header">Unit 1: Combinatorial Foundations</h2>
+  
+  <div class="topic-item">
+    <h3 class="topic-title">Topic 1: Basic Counting Principles</h3>
+    <div class="topic-content">
+      <strong>Content:</strong> The Basic Principle of Counting, Permutations, Combinations, Multinomial Coefficients
+    </div>
+    <div class="topic-reading">
+      📖 <strong>Reading:</strong> Ross, Chapter 1
+    </div>
     
-      
-      <div class="video-lecture-section">
-        <h4>🎥 Combinatorial Analysis. </h4>
-        <div class="youtube-container">
-          <iframe width="560" height="315"
-                  src="https://www.youtube.com/embed/Be0EPmcaWZk"
-                  title="Combinatorial Analysis - Mathematical Statistics"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowfullscreen>
-           </iframe>
-          <p><em> Business Related Explanation of Combinatorial Analysis</em></p>
-        </div>
+    <div class="lecture-buttons">
+      <a href="/lectures/math-stat-1/01-combinatorics/index.html" class="btn btn--primary">
+        🚀 Interactive Lecture
+      </a>
+      <a href="/downloads/stat2311-homework-1.pdf" class="btn btn--primary">
+        📄 Homework PDF (Coming Soon)
+      </a>
+    </div>
+  
+    
+    <div class="video-lecture-section">
+      <h4>🎥 Combinatorial Analysis. </h4>
+      <div class="youtube-container">
+        <iframe width="560" height="315"
+                src="https://www.youtube.com/embed/Be0EPmcaWZk"
+                title="Combinatorial Analysis - Mathematical Statistics"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen>
+         </iframe>
+        <p><em> Business Related Explanation of Combinatorial Analysis</em></p>
       </div>
     </div>
-  </details>
+  </div>
 </div>
 
 <div class="unit-section">
-  <details class="unit-dropdown">
-    <summary class="unit-header">Unit 2: Axioms of Probability</summary>
-    <div class="unit-content">
-    <div class="topic-item">
+  <h2 class="unit-header">Unit 2: Axioms of Probability</h2>
+  
+  <div class="topic-item">
     <h3 class="topic-title">Topic 2: Introduction To Probability. Sample Spaces and Events</h3>
     <div class="topic-content">
       <strong>Content:</strong> Sample Space and Events, Event Operations, Equally Likely Outcomes
@@ -201,13 +198,11 @@ location: "Baku, Azerbaijan"
       </div>
       <p><em>Equally Likely Outcomes. Business Related Explanation.</em></p>
     </div>
-  </details>
+  </div>
 </div>
 
 <div class="unit-section">
-  <details class="unit-dropdown">
-    <summary class="unit-header">Unit 3: Conditional Probability & Independence</summary>
-    <div class="unit-content">
+  <h2 class="unit-header">Unit 3: Conditional Probability & Independence</h2>
   
   <div class="topic-item">
     <h3 class="topic-title">Topic 4: Conditional Probability</h3>
@@ -299,42 +294,13 @@ location: "Baku, Azerbaijan"
         <p>Bayes' theorem applications in economic decision making</p>
       </div>
     </div>
-  </details>
+  </div>
 </div>
 
-<div class="unit-section">
-  <details class="unit-dropdown">
-    <summary class="unit-header">Unit 4: Discrete Random Variables</summary>
-    <div class="unit-content">
-/* Simple Dropdown Styles */
-.unit-dropdown {
-  margin-bottom: 0;
-}
 
-.unit-dropdown summary {
-  cursor: pointer;
-  outline: none;
-  list-style: none;
-}
 
-.unit-dropdown summary::-webkit-details-marker {
-  display: none;
-}
 
-.unit-dropdown summary::before {
-  content: '▶';
-  margin-right: 0.5rem;
-  transition: transform 0.2s;
-}
-
-.unit-dropdown[open] summary::before {
-  transform: rotate(90deg);
-}
-
-.unit-content {
-  padding-top: 1rem;
-}
-
+<style>
 /* Course Page Styling */
 .course-header {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -712,7 +678,8 @@ location: "Baku, Azerbaijan"
 </style>
 
 
-
+<div class="unit-section">
+  <h2 class="unit-header">Unit 4: Discrete Random Variables</h2>
   
   <div class="topic-item">
     <h3 class="topic-title">Topic 7: Discrete Probability Distributions</h3>
@@ -825,14 +792,11 @@ location: "Baku, Azerbaijan"
         <p>Risk bounds and probability inequalities in finance</p>
       </div>
     </div>
-  </details>
+  </div>
 </div>
 
 <div class="unit-section">
-  <details class="unit-dropdown">
-    <summary class="unit-header">Unit 5: Continuous Random Variables</summary>
-    <div class="unit-content">
-  <div class="accordion-content">
+  <h2 class="unit-header">Unit 5: Continuous Random Variables</h2>
   
   <div class="topic-item">
     <h3 class="topic-title">Topic 11: Continuous Probability Distributions</h3>
@@ -949,15 +913,10 @@ location: "Baku, Azerbaijan"
       </div>
     </div>
   </div>
-    </div>
-  </div>
-  </details>
 </div>
 
 <div class="unit-section">
-  <details class="unit-dropdown">
-    <summary class="unit-header">Unit 6: Multivariate Distributions</summary>
-    <div class="unit-content">
+  <h2 class="unit-header">Unit 6: Multivariate Distributions</h2>
   
   <div class="topic-item">
     <h3 class="topic-title">Topic 15: Multivariate Probability Theory</h3>
@@ -1358,5 +1317,3 @@ location: "Baku, Azerbaijan"
   }
 }
 </style>
-
-<!-- Simple HTML5 details/summary dropdown - no JavaScript needed -->
