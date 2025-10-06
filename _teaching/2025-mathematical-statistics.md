@@ -109,15 +109,19 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/01-combinatorics/index.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
+      <a href="/downloads/stat2311-homework-1.pdf" class="btn btn--primary">
+        📄 Homework PDF
+      </a>
     </div>
     
     <div class="problem-sets">
       <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
+        
       </div>
     </div>
     
     <div class="video-lecture-section">
+      <h4>🎥 Video Lecture: Combinatorial Analysis. </h4>
       <div class="youtube-container">
         <iframe width="560" height="315"
                 src="https://www.youtube.com/embed/Be0EPmcaWZk"
@@ -126,7 +130,7 @@ location: "Baku, Azerbaijan"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowfullscreen>
          </iframe>
-        <p>Business Related Explanation of Combinatorial Analysis</p>
+        <p><em> Business Related Explanation of Combinatorial Analysis</em></p>
       </div>
     </div>
   </div>
