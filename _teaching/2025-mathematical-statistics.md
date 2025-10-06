@@ -109,9 +109,6 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/01-combinatorics/index.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
-        🎥 Video Lecture (Coming Soon)
-      </div>
     </div>
     
     <div class="problem-sets">
@@ -121,10 +118,15 @@ location: "Baku, Azerbaijan"
     </div>
     
     <div class="video-lecture-section">
-      <div class="video-placeholder">
-        <i>🎬</i>
-        <p><strong>Video Lecture Coming Soon</strong></p>
-        <p>Comprehensive explanation of combinatorial analysis fundamentals</p>
+      <div class="youtube-container">
+        <iframe width="560" height="315"
+                src="https://www.youtube.com/embed/Be0EPmcaWZk"
+                title="Combinatorial Analysis - Mathematical Statistics"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen>
+         </iframe>
+        <p>Business Related Explanation of Combinatorial Analysis</p>
       </div>
     </div>
   </div>
@@ -146,15 +148,6 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/03-sample_spaces/improved_merged_probability_lecture.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
-      </div>
-      <!-- <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
-        🎥 Video Lecture
-      </div> -->
-      <!-- <a href="/lectures/math-stat-1/03-sample_spaces/" class="btn btn--pdf">
-        � PDF Resources
-      </a> -->
     </div>
     
     <div class="problem-sets">
@@ -191,9 +184,6 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/03-01-equally_likely_outcome/sample_spaces_equally_likely_outcomes.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
-        🎥 Video Lecture (Coming Soon)
-      </div>
     </div>
     
     <div class="problem-sets">
