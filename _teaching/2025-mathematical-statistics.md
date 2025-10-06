@@ -116,7 +116,7 @@ location: "Baku, Azerbaijan"
   
     
     <div class="video-lecture-section">
-      <h4>🎥 Video Lecture: Combinatorial Analysis. </h4>
+      <h4>🎥 Combinatorial Analysis. </h4>
       <div class="youtube-container">
         <iframe width="560" height="315"
                 src="https://www.youtube.com/embed/Be0EPmcaWZk"
@@ -153,7 +153,7 @@ location: "Baku, Azerbaijan"
     </div>
 
     <div class="video-lecture-section">
-      <h4>🎥 Video Lecture: Axioms of Probability. Introduction. </h4>
+      <h4>🎥 Axioms of Probability. Introduction. </h4>
       <div class="youtube-container">
         <iframe width="560" height="315" 
                 src="https://www.youtube.com/embed/A9Ic_PKBOac" 
@@ -223,6 +223,7 @@ location: "Baku, Azerbaijan"
     </div>
 
     <div class="video-lecture-section">
+      <h4>🎥 Conditional Probability</h4>
         <div class="youtube-container">
           <iframe width="560" height="315" 
                   src="https://youtube.com/embed/_f7KLxkdQQQ" 
@@ -231,7 +232,7 @@ location: "Baku, Azerbaijan"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                   allowfullscreen>
           </iframe>
-          <p><em>Business Related Explanation of Conditional Probability and its applications in Economics and Finance.</em></p>
+          <p><em>Conditional Probability and some applications in Economics and Finance.</em></p>
     </div>
   </div>
 
@@ -254,7 +255,7 @@ location: "Baku, Azerbaijan"
     </div>
         
     <div class="video-lecture-section">
-      <h4>🎥 Video Lecture: Independence of Events</h4>
+      <h4>🎥 Independence of Events</h4>
       <div class="youtube-container">
         <iframe width="560" height="315" 
                 src="https://www.youtube.com/embed/PCvFl3NNeZY" 
