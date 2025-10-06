@@ -676,7 +676,6 @@ location: "Baku, Azerbaijan"
 }
 </style>
 
----
 
 <div class="unit-section">
   <h2 class="unit-header">Unit 4: Discrete Random Variables</h2>
