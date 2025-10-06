@@ -94,12 +94,10 @@ location: "Baku, Azerbaijan"
 # 📚 Course Topics & Interactive Lectures
 
 <div class="unit-section">
-  <div class="unit-header accordion-header" onclick="toggleAccordion(this)">
-    <h2>Unit 1: Combinatorial Foundations</h2>
-    <span class="accordion-icon">▼</span>
-  </div>
-  <div class="accordion-content">
-    <div class="topic-item">
+  <details class="unit-dropdown">
+    <summary class="unit-header">Unit 1: Combinatorial Foundations</summary>
+    <div class="unit-content">
+      <div class="topic-item">
       <h3 class="topic-title">Topic 1: Basic Counting Principles</h3>
       <div class="topic-content">
         <strong>Content:</strong> The Basic Principle of Counting, Permutations, Combinations, Multinomial Coefficients
@@ -132,15 +130,13 @@ location: "Baku, Azerbaijan"
         </div>
       </div>
     </div>
-  </div>
+  </details>
 </div>
 
 <div class="unit-section">
-  <div class="unit-header accordion-header" onclick="toggleAccordion(this)">
-    <h2>Unit 2: Axioms of Probability</h2>
-    <span class="accordion-icon">▼</span>
-  </div>
-  <div class="accordion-content">
+  <details class="unit-dropdown">
+    <summary class="unit-header">Unit 2: Axioms of Probability</summary>
+    <div class="unit-content">
     <div class="topic-item">
     <h3 class="topic-title">Topic 2: Introduction To Probability. Sample Spaces and Events</h3>
     <div class="topic-content">
@@ -205,15 +201,13 @@ location: "Baku, Azerbaijan"
       </div>
       <p><em>Equally Likely Outcomes. Business Related Explanation.</em></p>
     </div>
-  </div>
+  </details>
 </div>
 
 <div class="unit-section">
-  <div class="unit-header accordion-header" onclick="toggleAccordion(this)">
-    <h2>Unit 3: Conditional Probability & Independence</h2>
-    <span class="accordion-icon">▼</span>
-  </div>
-  <div class="accordion-content">
+  <details class="unit-dropdown">
+    <summary class="unit-header">Unit 3: Conditional Probability & Independence</summary>
+    <div class="unit-content">
   
   <div class="topic-item">
     <h3 class="topic-title">Topic 4: Conditional Probability</h3>
@@ -305,52 +299,40 @@ location: "Baku, Azerbaijan"
         <p>Bayes' theorem applications in economic decision making</p>
       </div>
     </div>
-  </div>
+  </details>
 </div>
 
 <div class="unit-section">
-  <div class="unit-header accordion-header" onclick="toggleAccordion(this)">
-    <h2>Unit 4: Discrete Random Variables</h2>
-    <span class="accordion-icon">▼</span>
-  </div>
-  <div class="accordion-content">
-/* Accordion Styles */
-.accordion-header {
+  <details class="unit-dropdown">
+    <summary class="unit-header">Unit 4: Discrete Random Variables</summary>
+    <div class="unit-content">
+/* Simple Dropdown Styles */
+.unit-dropdown {
+  margin-bottom: 0;
+}
+
+.unit-dropdown summary {
   cursor: pointer;
-  position: relative;
-  transition: all 0.3s ease;
-  user-select: none;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  outline: none;
+  list-style: none;
 }
 
-.accordion-header:hover {
-  background: linear-gradient(45deg, #20c997, #17a085);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+.unit-dropdown summary::-webkit-details-marker {
+  display: none;
 }
 
-.accordion-icon {
-  font-size: 1.2rem;
-  transition: transform 0.3s ease;
-  margin-right: 1rem;
+.unit-dropdown summary::before {
+  content: '▶';
+  margin-right: 0.5rem;
+  transition: transform 0.2s;
 }
 
-.accordion-header.active .accordion-icon {
-  transform: rotate(180deg);
+.unit-dropdown[open] summary::before {
+  transform: rotate(90deg);
 }
 
-.accordion-content {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s ease-out;
-  background: white;
-}
-
-.accordion-content.active {
-  max-height: 5000px; /* Large enough to accommodate content */
-  transition: max-height 0.5s ease-in;
+.unit-content {
+  padding-top: 1rem;
 }
 
 /* Course Page Styling */
@@ -843,14 +825,13 @@ location: "Baku, Azerbaijan"
         <p>Risk bounds and probability inequalities in finance</p>
       </div>
     </div>
-  </div>
+  </details>
 </div>
 
 <div class="unit-section">
-  <div class="unit-header accordion-header" onclick="toggleAccordion(this)">
-    <h2>Unit 5: Continuous Random Variables</h2>
-    <span class="accordion-icon">▼</span>
-  </div>
+  <details class="unit-dropdown">
+    <summary class="unit-header">Unit 5: Continuous Random Variables</summary>
+    <div class="unit-content">
   <div class="accordion-content">
   
   <div class="topic-item">
@@ -970,14 +951,13 @@ location: "Baku, Azerbaijan"
   </div>
     </div>
   </div>
+  </details>
 </div>
 
 <div class="unit-section">
-  <div class="unit-header accordion-header" onclick="toggleAccordion(this)">
-    <h2>Unit 6: Multivariate Distributions</h2>
-    <span class="accordion-icon">▼</span>
-  </div>
-  <div class="accordion-content">
+  <details class="unit-dropdown">
+    <summary class="unit-header">Unit 6: Multivariate Distributions</summary>
+    <div class="unit-content">
   
   <div class="topic-item">
     <h3 class="topic-title">Topic 15: Multivariate Probability Theory</h3>
@@ -1379,27 +1359,4 @@ location: "Baku, Azerbaijan"
 }
 </style>
 
-<script>
-function toggleAccordion(element) {
-  const content = element.nextElementSibling;
-  const icon = element.querySelector('.accordion-icon');
-  
-  // Toggle active class on header
-  element.classList.toggle('active');
-  
-  // Toggle content visibility
-  if (content.classList.contains('active')) {
-    content.classList.remove('active');
-  } else {
-    content.classList.add('active');
-  }
-}
-
-// Initialize first unit as open by default
-document.addEventListener('DOMContentLoaded', function() {
-  const firstAccordion = document.querySelector('.accordion-header');
-  if (firstAccordion) {
-    toggleAccordion(firstAccordion);
-  }
-});
-</script>
+<!-- Simple HTML5 details/summary dropdown - no JavaScript needed -->
