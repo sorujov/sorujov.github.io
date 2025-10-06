@@ -223,11 +223,15 @@ location: "Baku, Azerbaijan"
     </div>
 
     <div class="video-lecture-section">
-      <div class="video-placeholder">
-        <i>🎬</i>
-        <p><strong>Video Lecture Coming Soon</strong></p>
-        <p>Understanding conditional probability and its applications</p>
-      </div>
+        <div class="youtube-container">
+          <iframe width="560" height="315" 
+                  src="https://youtube.com/embed/_f7KLxkdQQQ" 
+                  title="Conditional Probability - Mathematical Statistics" 
+                  frameborder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                  allowfullscreen>
+          </iframe>
+          <p><em>Business Related Explanation of Conditional Probability and its applications in Economics and Finance.</em></p>
     </div>
   </div>
 
