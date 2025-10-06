@@ -94,47 +94,54 @@ location: "Baku, Azerbaijan"
 # 📚 Course Topics & Interactive Lectures
 
 <div class="unit-section">
-  <h2 class="unit-header">Unit 1: Combinatorial Foundations</h2>
-  
-  <div class="topic-item">
-    <h3 class="topic-title">Topic 1: Basic Counting Principles</h3>
-    <div class="topic-content">
-      <strong>Content:</strong> The Basic Principle of Counting, Permutations, Combinations, Multinomial Coefficients
-    </div>
-    <div class="topic-reading">
-      📖 <strong>Reading:</strong> Ross, Chapter 1
-    </div>
+  <div class="unit-header accordion-header" onclick="toggleAccordion(this)">
+    <h2>Unit 1: Combinatorial Foundations</h2>
+    <span class="accordion-icon">▼</span>
+  </div>
+  <div class="accordion-content">
+    <div class="topic-item">
+      <h3 class="topic-title">Topic 1: Basic Counting Principles</h3>
+      <div class="topic-content">
+        <strong>Content:</strong> The Basic Principle of Counting, Permutations, Combinations, Multinomial Coefficients
+      </div>
+      <div class="topic-reading">
+        📖 <strong>Reading:</strong> Ross, Chapter 1
+      </div>
+      
+      <div class="lecture-buttons">
+        <a href="/lectures/math-stat-1/01-combinatorics/index.html" class="btn btn--primary">
+          🚀 Interactive Lecture
+        </a>
+        <a href="/downloads/stat2311-homework-1.pdf" class="btn btn--primary">
+          📄 Homework PDF (Coming Soon)
+        </a>
+      </div>
     
-    <div class="lecture-buttons">
-      <a href="/lectures/math-stat-1/01-combinatorics/index.html" class="btn btn--primary">
-        🚀 Interactive Lecture
-      </a>
-      <a href="/downloads/stat2311-homework-1.pdf" class="btn btn--primary">
-        📄 Homework PDF (Coming Soon)
-      </a>
-    </div>
-  
-    
-    <div class="video-lecture-section">
-      <h4>🎥 Combinatorial Analysis. </h4>
-      <div class="youtube-container">
-        <iframe width="560" height="315"
-                src="https://www.youtube.com/embed/Be0EPmcaWZk"
-                title="Combinatorial Analysis - Mathematical Statistics"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen>
-         </iframe>
-        <p><em> Business Related Explanation of Combinatorial Analysis</em></p>
+      
+      <div class="video-lecture-section">
+        <h4>🎥 Combinatorial Analysis. </h4>
+        <div class="youtube-container">
+          <iframe width="560" height="315"
+                  src="https://www.youtube.com/embed/Be0EPmcaWZk"
+                  title="Combinatorial Analysis - Mathematical Statistics"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen>
+           </iframe>
+          <p><em> Business Related Explanation of Combinatorial Analysis</em></p>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
 <div class="unit-section">
-  <h2 class="unit-header">Unit 2: Axioms of Probability</h2>
-  
-  <div class="topic-item">
+  <div class="unit-header accordion-header" onclick="toggleAccordion(this)">
+    <h2>Unit 2: Axioms of Probability</h2>
+    <span class="accordion-icon">▼</span>
+  </div>
+  <div class="accordion-content">
+    <div class="topic-item">
     <h3 class="topic-title">Topic 2: Introduction To Probability. Sample Spaces and Events</h3>
     <div class="topic-content">
       <strong>Content:</strong> Sample Space and Events, Event Operations, Equally Likely Outcomes
@@ -202,7 +209,11 @@ location: "Baku, Azerbaijan"
 </div>
 
 <div class="unit-section">
-  <h2 class="unit-header">Unit 3: Conditional Probability & Independence</h2>
+  <div class="unit-header accordion-header" onclick="toggleAccordion(this)">
+    <h2>Unit 3: Conditional Probability & Independence</h2>
+    <span class="accordion-icon">▼</span>
+  </div>
+  <div class="accordion-content">
   
   <div class="topic-item">
     <h3 class="topic-title">Topic 4: Conditional Probability</h3>
@@ -297,10 +308,51 @@ location: "Baku, Azerbaijan"
   </div>
 </div>
 
+<div class="unit-section">
+  <div class="unit-header accordion-header" onclick="toggleAccordion(this)">
+    <h2>Unit 4: Discrete Random Variables</h2>
+    <span class="accordion-icon">▼</span>
+  </div>
+  <div class="accordion-content">
+/* Accordion Styles */
+.accordion-header {
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+  user-select: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
+.accordion-header:hover {
+  background: linear-gradient(45deg, #20c997, #17a085);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
 
+.accordion-icon {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+  margin-right: 1rem;
+}
 
-<style>
+.accordion-header.active .accordion-icon {
+  transform: rotate(180deg);
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease-out;
+  background: white;
+}
+
+.accordion-content.active {
+  max-height: 5000px; /* Large enough to accommodate content */
+  transition: max-height 0.5s ease-in;
+}
+
 /* Course Page Styling */
 .course-header {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -678,8 +730,7 @@ location: "Baku, Azerbaijan"
 </style>
 
 
-<div class="unit-section">
-  <h2 class="unit-header">Unit 4: Discrete Random Variables</h2>
+
   
   <div class="topic-item">
     <h3 class="topic-title">Topic 7: Discrete Probability Distributions</h3>
@@ -796,7 +847,11 @@ location: "Baku, Azerbaijan"
 </div>
 
 <div class="unit-section">
-  <h2 class="unit-header">Unit 5: Continuous Random Variables</h2>
+  <div class="unit-header accordion-header" onclick="toggleAccordion(this)">
+    <h2>Unit 5: Continuous Random Variables</h2>
+    <span class="accordion-icon">▼</span>
+  </div>
+  <div class="accordion-content">
   
   <div class="topic-item">
     <h3 class="topic-title">Topic 11: Continuous Probability Distributions</h3>
@@ -913,10 +968,16 @@ location: "Baku, Azerbaijan"
       </div>
     </div>
   </div>
+    </div>
+  </div>
 </div>
 
 <div class="unit-section">
-  <h2 class="unit-header">Unit 6: Multivariate Distributions</h2>
+  <div class="unit-header accordion-header" onclick="toggleAccordion(this)">
+    <h2>Unit 6: Multivariate Distributions</h2>
+    <span class="accordion-icon">▼</span>
+  </div>
+  <div class="accordion-content">
   
   <div class="topic-item">
     <h3 class="topic-title">Topic 15: Multivariate Probability Theory</h3>
@@ -1317,3 +1378,28 @@ location: "Baku, Azerbaijan"
   }
 }
 </style>
+
+<script>
+function toggleAccordion(element) {
+  const content = element.nextElementSibling;
+  const icon = element.querySelector('.accordion-icon');
+  
+  // Toggle active class on header
+  element.classList.toggle('active');
+  
+  // Toggle content visibility
+  if (content.classList.contains('active')) {
+    content.classList.remove('active');
+  } else {
+    content.classList.add('active');
+  }
+}
+
+// Initialize first unit as open by default
+document.addEventListener('DOMContentLoaded', function() {
+  const firstAccordion = document.querySelector('.accordion-header');
+  if (firstAccordion) {
+    toggleAccordion(firstAccordion);
+  }
+});
+</script>
