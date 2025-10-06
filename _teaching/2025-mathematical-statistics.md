@@ -110,14 +110,8 @@ location: "Baku, Azerbaijan"
         🚀 Interactive Lecture
       </a>
       <a href="/downloads/stat2311-homework-1.pdf" class="btn btn--primary">
-        📄 Homework PDF
+        📄 Homework PDF (Coming Soon)
       </a>
-    </div>
-    
-    <div class="problem-sets">
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        
-      </div>
     </div>
     
     <div class="video-lecture-section">
