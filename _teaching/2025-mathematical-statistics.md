@@ -678,11 +678,6 @@ location: "Baku, Azerbaijan"
 
 ---
 
-**[🚀 Bayes Theorem & Economic Applications](/lectures/math-stat-1/03-Bayes_Formula/bayes_formula.html)**
-{: .btn .btn--primary}
-
----
-
 <div class="unit-section">
   <h2 class="unit-header">Unit 4: Discrete Random Variables</h2>
   
