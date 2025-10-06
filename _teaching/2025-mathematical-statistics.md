@@ -203,11 +203,17 @@ location: "Baku, Azerbaijan"
     </div>
     
     <div class="video-lecture-section">
-      <div class="video-placeholder">
-        <i>🎬</i>
-        <p><strong>Video Lecture Coming Soon</strong></p>
-        <p>Detailed analysis of equally likely outcomes and probability axioms</p>
+      <h4>🎥 Sample Spaces With Equally Likely Outcomes. </h4>
+      <div class="youtube-container">
+        <iframe width="560" height="315" 
+                src="https://www.youtube.com/embed/oaXv-0vbLng" 
+                title="Equally Likely Outcomes - Mathematical Statistics" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowfullscreen>
+        </iframe>
       </div>
+      <p><em>Equally Likely Outcomes. Business Related Explanation.</em></p>
     </div>
   </div>
 </div>
