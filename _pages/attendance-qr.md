@@ -24,34 +24,48 @@ classes: wide
 </div>
 
 <script>
-(function() {
+document.addEventListener('DOMContentLoaded', function() {
   'use strict';
+  
+  console.log('DOM ready, starting QR system...');
   
   var QR_REFRESH_MS = 30000;
   var CLASS_ID = 'STAT2311-F25';
   var qrContainer = document.getElementById('qr-container');
   var statusEl = document.getElementById('qr-status');
   
+  if (!qrContainer || !statusEl) {
+    console.error('Required elements not found');
+    return;
+  }
+  
   function waitForLib(callback) {
-    console.log('Checking for qrcodegen...', typeof qrcodegen);
-    if (typeof qrcodegen !== 'undefined') {
-      console.log('qrcodegen found!', qrcodegen);
-      callback();
-    } else {
-      console.log('qrcodegen not found, retrying...');
-      setTimeout(function() { waitForLib(callback); }, 100);
+    var attempts = 0;
+    function check() {
+      attempts++;
+      console.log('Checking for qrcodegen, attempt', attempts, '- type:', typeof qrcodegen);
+      
+      if (typeof qrcodegen !== 'undefined' && qrcodegen.QrCode) {
+        console.log('✅ qrcodegen found!', qrcodegen);
+        callback();
+      } else if (attempts < 50) { // Wait up to 5 seconds
+        setTimeout(check, 100);
+      } else {
+        console.error('❌ qrcodegen library failed to load after 5 seconds');
+        statusEl.textContent = '❌ Library failed to load';
+        statusEl.style.color = '#dc3545';
+      }
     }
+    check();
   }
   
   function drawQR(text) {
     try {
-      console.log('Attempting to create QR with qrcodegen:', qrcodegen);
-      console.log('QrCode available:', qrcodegen.QrCode);
-      console.log('Ecc available:', qrcodegen.QrCode.Ecc);
+      console.log('Creating QR for:', text);
       
       // Create QR Code using Nayuki's qrcodegen library
       var qr = qrcodegen.QrCode.encodeText(text, qrcodegen.QrCode.Ecc.HIGH);
-      console.log('QR created successfully, size:', qr.size);
+      console.log('✅ QR created, size:', qr.size);
       
       // Render as SVG
       var cellSize = 8;
@@ -102,11 +116,10 @@ classes: wide
       var token = btoa(timestamp + '-' + CLASS_ID);
       var url = location.origin + '/attend/math-stat-1/?tok=' + encodeURIComponent(token);
       
-      console.log('Generating QR:', url);
-      
       if (drawQR(url)) {
         statusEl.textContent = '✓ QR Updated - ' + new Date().toLocaleTimeString();
         statusEl.style.color = '#28a745';
+        console.log('✅ QR refreshed successfully');
       } else {
         statusEl.textContent = '⚠ Generation failed';
         statusEl.style.color = '#dc3545';
@@ -115,15 +128,22 @@ classes: wide
     } catch (e) {
       statusEl.textContent = '⚠ Error: ' + e.message;
       statusEl.style.color = '#dc3545';
-      console.error(e);
+      console.error('Refresh error:', e);
     }
   }
   
   // Wait for library, then start
   waitForLib(function() {
-    console.log('Nayuki QR library loaded successfully');
-    refreshQR();
-    setInterval(refreshQR, QR_REFRESH_MS);
+    console.log('✅ Nayuki QR library loaded successfully');
+    statusEl.textContent = 'Generating first QR...';
+    statusEl.style.color = '#667eea';
+    
+    // Generate first QR
+    setTimeout(function() {
+      refreshQR();
+      // Set up interval for refreshing
+      setInterval(refreshQR, QR_REFRESH_MS);
+    }, 100);
   });
-})();
+});
 </script>
