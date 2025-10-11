@@ -24,43 +24,60 @@ classes: wide
 </div>
 
 <script>
-const QR_REFRESH_MS = 30000; // 30 seconds
-const CLASS_ID = 'STAT2311-F25'; // Change per class/semester
-const BACKEND_MINT_URL = 'YOUR_BACKEND_MINT_ENDPOINT?class=' + CLASS_ID;
-
-const qrEl = document.getElementById('qr');
-const statusEl = document.getElementById('qr-status');
-let qr = null;
-
-async function refreshQR() {
-  try {
-    // For testing without backend, generate a simple token
-    const token = btoa(Date.now() + '-' + CLASS_ID);
-    
-    // Replace with actual backend call:
-    // const r = await fetch(BACKEND_MINT_URL, { credentials: 'omit' });
-    // const data = await r.json();
-    // const token = data.token;
-    
-    const url = `${location.origin}/attend/math-stat-1/?tok=${encodeURIComponent(token)}`;
-    
-    if (!qr) {
-      qr = new QRCode(qrEl, { width: 256, height: 256 });
-    }
-    qr.clear();
-    qr.makeCode(url);
-    statusEl.textContent = '✓ QR Updated - ' + new Date().toLocaleTimeString();
-  } catch (e) {
-    statusEl.textContent = '⚠ Error updating QR';
-    console.error(e);
+// Wait for page to fully load and QRCode library
+window.addEventListener('load', function() {
+  console.log('Page loaded, checking QRCode library...');
+  
+  const QR_REFRESH_MS = 30000; // 30 seconds
+  const CLASS_ID = 'STAT2311-F25';
+  
+  const qrEl = document.getElementById('qr');
+  const statusEl = document.getElementById('qr-status');
+  let qr = null;
+  
+  // Check if QRCode is available
+  if (typeof QRCode === 'undefined') {
+    statusEl.textContent = '⚠ QR library not loaded. Check console for errors.';
+    console.error('QRCode library not found. Make sure qrcode.min.js is loaded.');
+    return;
   }
-}
-
-// Initial load and refresh interval
-if (typeof QRCode !== 'undefined') {
+  
+  console.log('QRCode library found!');
+  
+  function refreshQR() {
+    try {
+      // Generate simple token for testing
+      const timestamp = Date.now();
+      const token = btoa(timestamp + '-' + CLASS_ID);
+      
+      const url = `${location.origin}/attend/math-stat-1/?tok=${encodeURIComponent(token)}`;
+      
+      console.log('Generating QR for:', url);
+      
+      if (!qr) {
+        qr = new QRCode(qrEl, { 
+          width: 256, 
+          height: 256,
+          colorDark: "#000000",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.H
+        });
+      }
+      qr.clear();
+      qr.makeCode(url);
+      
+      statusEl.textContent = '✓ QR Updated - ' + new Date().toLocaleTimeString();
+      console.log('QR code generated successfully');
+    } catch (e) {
+      statusEl.textContent = '⚠ Error generating QR';
+      console.error('QR generation error:', e);
+    }
+  }
+  
+  // Initial generation
   refreshQR();
+  
+  // Refresh every 30 seconds
   setInterval(refreshQR, QR_REFRESH_MS);
-} else {
-  statusEl.textContent = '⚠ QR library not loaded';
-}
+});
 </script>
