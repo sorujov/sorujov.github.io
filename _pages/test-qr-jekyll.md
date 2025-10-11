@@ -20,7 +20,7 @@ classes: wide
 </div>
 
 <script>
-(function() {
+document.addEventListener('DOMContentLoaded', function() {
   'use strict';
   
   var qrContainer = document.getElementById('qr-container');
@@ -29,28 +29,46 @@ classes: wide
   
   function debug(msg) {
     console.log(msg);
-    debugEl.innerHTML += msg + '<br>';
+    if (debugEl) {
+      debugEl.innerHTML += msg + '<br>';
+    }
   }
   
   debug('Script started');
   debug('Current URL: ' + window.location.href);
   
   function waitForLib(callback) {
-    debug('Checking for qrcodegen... ' + typeof qrcodegen);
-    if (typeof qrcodegen !== 'undefined') {
-      debug('✅ qrcodegen found!');
-      debug('QrCode available: ' + (qrcodegen.QrCode ? 'YES' : 'NO'));
-      debug('Ecc available: ' + (qrcodegen.QrCode && qrcodegen.QrCode.Ecc ? 'YES' : 'NO'));
-      callback();
-    } else {
-      debug('❌ qrcodegen not found, retrying...');
-      setTimeout(function() { waitForLib(callback); }, 100);
+    var attempts = 0;
+    function check() {
+      attempts++;
+      debug('Checking for qrcodegen... attempt ' + attempts + ' - type: ' + typeof qrcodegen);
+      if (typeof qrcodegen !== 'undefined') {
+        debug('✅ qrcodegen found!');
+        debug('QrCode available: ' + (qrcodegen.QrCode ? 'YES' : 'NO'));
+        debug('Ecc available: ' + (qrcodegen.QrCode && qrcodegen.QrCode.Ecc ? 'YES' : 'NO'));
+        callback();
+      } else if (attempts < 50) {
+        setTimeout(check, 100);
+      } else {
+        debug('❌ qrcodegen not found after 5 seconds');
+        if (statusEl) {
+          statusEl.textContent = '❌ Library failed to load';
+          statusEl.style.color = '#dc3545';
+        }
+      }
     }
+    check();
   }
   
+  // Create global testQR function
   window.testQR = function() {
     debug('=== Testing QR Generation ===');
     try {
+      if (typeof qrcodegen === 'undefined') {
+        debug('❌ qrcodegen not available');
+        return;
+      }
+      
       var testUrl = 'https://sorujov.github.io/attend/math-stat-1/?tok=' + btoa(Date.now() + '-STAT2311-F25');
       debug('Test URL: ' + testUrl);
       
@@ -89,17 +107,23 @@ classes: wide
         }
       }
       
-      qrContainer.innerHTML = '';
-      qrContainer.appendChild(svg);
+      if (qrContainer) {
+        qrContainer.innerHTML = '';
+        qrContainer.appendChild(svg);
+      }
       
-      statusEl.textContent = '✅ QR Generated Successfully!';
-      statusEl.style.color = '#28a745';
+      if (statusEl) {
+        statusEl.textContent = '✅ QR Generated Successfully!';
+        statusEl.style.color = '#28a745';
+      }
       debug('✅ SVG rendered successfully');
       
     } catch (e) {
       debug('❌ ERROR: ' + e.message);
-      statusEl.textContent = '❌ Error: ' + e.message;
-      statusEl.style.color = '#dc3545';
+      if (statusEl) {
+        statusEl.textContent = '❌ Error: ' + e.message;
+        statusEl.style.color = '#dc3545';
+      }
     }
   };
   
@@ -108,9 +132,11 @@ classes: wide
     debug('Checking for script after 1 second...');
     waitForLib(function() {
       debug('✅ Library ready!');
-      statusEl.textContent = 'Library loaded! Click button to test.';
-      statusEl.style.color = '#28a745';
+      if (statusEl) {
+        statusEl.textContent = 'Library loaded! Click button to test.';
+        statusEl.style.color = '#28a745';
+      }
     });
   }, 1000);
-})();
+});
 </script>
