@@ -13,6 +13,14 @@ location: "Baku, Azerbaijan"
   <p>Rigorous mathematical treatment of statistical theory tailored for Economics and Finance students, covering probability foundations, random variables, and distribution theory with applications to economic and financial data analysis.</p>
 </div>
 
+<div class="attendance-section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; text-align: center;">
+  <h3>📱 Class Attendance System</h3>
+  <p>Dynamic QR code-based attendance for all class sessions</p>
+  <a href="/attendance/math-stat-1/" class="btn" style="background: white; color: #667eea; padding: 0.8rem 2rem; border-radius: 25px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 10px;">
+    🚀 Open Attendance QR
+  </a>
+</div>
+
 <div class="course-info">
   <h2>📋 Course Information</h2>
   <div class="assessment-grid">
