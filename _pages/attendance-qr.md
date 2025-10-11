@@ -24,9 +24,9 @@ classes: wide
 </div>
 
 <script>
-// Wait for page to fully load and QRCode library
+// Wait for page to fully load and QRious library
 window.addEventListener('load', function() {
-  console.log('Page loaded, checking QRCode library...');
+  console.log('Page loaded, checking QRious library...');
   
   const QR_REFRESH_MS = 30000; // 30 seconds
   const CLASS_ID = 'STAT2311-F25';
@@ -35,14 +35,14 @@ window.addEventListener('load', function() {
   const statusEl = document.getElementById('qr-status');
   let qr = null;
   
-  // Check if QRCode is available
-  if (typeof QRCode === 'undefined') {
-    statusEl.textContent = '⚠ QR library not loaded. Check console for errors.';
-    console.error('QRCode library not found. Make sure qrcode.min.js is loaded.');
+  // Check if QRious library is available
+  if (typeof QRious === 'undefined') {
+    statusEl.textContent = '⚠ QRious library not loaded. Check console for errors.';
+    console.error('QRious library not found. Make sure qrious.min.js is loaded.');
     return;
   }
   
-  console.log('QRCode library found!');
+  console.log('QRious library found!');
   
   function refreshQR() {
     try {
@@ -54,17 +54,21 @@ window.addEventListener('load', function() {
       
       console.log('Generating QR for:', url);
       
-      if (!qr) {
-        qr = new QRCode(qrEl, { 
-          width: 256, 
-          height: 256,
-          colorDark: "#000000",
-          colorLight: "#ffffff",
-          correctLevel: QRCode.CorrectLevel.H
-        });
-      }
-      qr.clear();
-      qr.makeCode(url);
+      // Clear previous QR and create new one
+      qrEl.innerHTML = '';
+      
+      // Create canvas element for QRious
+      const canvas = document.createElement('canvas');
+      qrEl.appendChild(canvas);
+      
+      qr = new QRious({
+        element: canvas,
+        size: 256,
+        level: 'H',
+        background: 'white',
+        foreground: 'black',
+        value: url
+      });
       
       statusEl.textContent = '✓ QR Updated - ' + new Date().toLocaleTimeString();
       console.log('QR code generated successfully');
