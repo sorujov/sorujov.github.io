@@ -7,7 +7,7 @@ classes: wide
 
 <div style="max-width: 500px; margin: 2rem auto; text-align: center;">
   <h2>📊 Confirm Your Attendance</h2>
-  <p>Course: Mathematical Statistics I</p>
+  <p>Course: Mathematical Statistics I (STAT 2311)</p>
   
   <button id="checkin" style="
     background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
@@ -20,7 +20,8 @@ classes: wide
     cursor: pointer;
     box-shadow: 0 4px 15px rgba(102,126,234,0.3);
     margin: 20px 0;
-  ">
+    transition: transform 0.2s;
+  " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
     ✓ Confirm Attendance
   </button>
   
