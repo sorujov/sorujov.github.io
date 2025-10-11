@@ -33,17 +33,25 @@ classes: wide
   var statusEl = document.getElementById('qr-status');
   
   function waitForLib(callback) {
+    console.log('Checking for qrcodegen...', typeof qrcodegen);
     if (typeof qrcodegen !== 'undefined') {
+      console.log('qrcodegen found!', qrcodegen);
       callback();
     } else {
+      console.log('qrcodegen not found, retrying...');
       setTimeout(function() { waitForLib(callback); }, 100);
     }
   }
   
   function drawQR(text) {
     try {
+      console.log('Attempting to create QR with qrcodegen:', qrcodegen);
+      console.log('QrCode available:', qrcodegen.QrCode);
+      console.log('Ecc available:', qrcodegen.QrCode.Ecc);
+      
       // Create QR Code using Nayuki's qrcodegen library
       var qr = qrcodegen.QrCode.encodeText(text, qrcodegen.QrCode.Ecc.HIGH);
+      console.log('QR created successfully, size:', qr.size);
       
       // Render as SVG
       var cellSize = 8;
