@@ -41,16 +41,14 @@ document.addEventListener('DOMContentLoaded', function() {
     var attempts = 0;
     function check() {
       attempts++;
-      debug('Checking for qrcodegen... attempt ' + attempts + ' - type: ' + typeof qrcodegen);
-      if (typeof qrcodegen !== 'undefined') {
-        debug('✅ qrcodegen found!');
-        debug('QrCode available: ' + (qrcodegen.QrCode ? 'YES' : 'NO'));
-        debug('Ecc available: ' + (qrcodegen.QrCode && qrcodegen.QrCode.Ecc ? 'YES' : 'NO'));
+      debug('Checking for QRious... attempt ' + attempts + ' - type: ' + typeof QRious);
+      if (typeof QRious !== 'undefined') {
+        debug('✅ QRious found!');
         callback();
       } else if (attempts < 50) {
         setTimeout(check, 100);
       } else {
-        debug('❌ qrcodegen not found after 5 seconds');
+        debug('❌ QRious not found after 5 seconds');
         if (statusEl) {
           statusEl.textContent = '❌ Library failed to load';
           statusEl.style.color = '#dc3545';
@@ -64,59 +62,37 @@ document.addEventListener('DOMContentLoaded', function() {
   window.testQR = function() {
     debug('=== Testing QR Generation ===');
     try {
-      if (typeof qrcodegen === 'undefined') {
-        debug('❌ qrcodegen not available');
+      if (typeof QRious === 'undefined') {
+        debug('❌ QRious not available');
         return;
       }
       
       var testUrl = 'https://sorujov.github.io/attend/math-stat-1/?tok=' + btoa(Date.now() + '-STAT2311-F25');
       debug('Test URL: ' + testUrl);
       
-      var qr = qrcodegen.QrCode.encodeText(testUrl, qrcodegen.QrCode.Ecc.HIGH);
-      debug('✅ QR created successfully, size: ' + qr.size);
+      // Create canvas element
+      var canvas = document.createElement('canvas');
       
-      // Simple rendering
-      var cellSize = 8;
-      var border = 4;
-      var size = qr.size;
-      var totalSize = (size + border * 2) * cellSize;
+      // Create QR Code using QRious
+      var qr = new QRious({
+        element: canvas,
+        value: testUrl,
+        size: 256,
+        level: 'H'
+      });
       
-      var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      svg.setAttribute('width', totalSize);
-      svg.setAttribute('height', totalSize);
-      
-      // White background
-      var bg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-      bg.setAttribute('width', totalSize);
-      bg.setAttribute('height', totalSize);
-      bg.setAttribute('fill', '#ffffff');
-      svg.appendChild(bg);
-      
-      // Draw modules
-      for (var y = 0; y < size; y++) {
-        for (var x = 0; x < size; x++) {
-          if (qr.getModule(x, y)) {
-            var rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-            rect.setAttribute('x', (x + border) * cellSize);
-            rect.setAttribute('y', (y + border) * cellSize);
-            rect.setAttribute('width', cellSize);
-            rect.setAttribute('height', cellSize);
-            rect.setAttribute('fill', '#000000');
-            svg.appendChild(rect);
-          }
-        }
-      }
+      debug('✅ QR created successfully');
       
       if (qrContainer) {
         qrContainer.innerHTML = '';
-        qrContainer.appendChild(svg);
+        qrContainer.appendChild(canvas);
       }
       
       if (statusEl) {
         statusEl.textContent = '✅ QR Generated Successfully!';
         statusEl.style.color = '#28a745';
       }
-      debug('✅ SVG rendered successfully');
+      debug('✅ Canvas rendered successfully');
       
     } catch (e) {
       debug('❌ ERROR: ' + e.message);

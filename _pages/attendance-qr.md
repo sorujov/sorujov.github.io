@@ -43,15 +43,15 @@ document.addEventListener('DOMContentLoaded', function() {
     var attempts = 0;
     function check() {
       attempts++;
-      console.log('Checking for qrcodegen, attempt', attempts, '- type:', typeof qrcodegen);
+      console.log('Checking for QRious library, attempt', attempts, '- type:', typeof QRious);
       
-      if (typeof qrcodegen !== 'undefined' && qrcodegen.QrCode) {
-        console.log('✅ qrcodegen found!', qrcodegen);
+      if (typeof QRious !== 'undefined') {
+        console.log('✅ QRious found!', QRious);
         callback();
       } else if (attempts < 50) { // Wait up to 5 seconds
         setTimeout(check, 100);
       } else {
-        console.error('❌ qrcodegen library failed to load after 5 seconds');
+        console.error('❌ QRious library failed to load after 5 seconds');
         statusEl.textContent = '❌ Library failed to load';
         statusEl.style.color = '#dc3545';
       }
@@ -61,47 +61,23 @@ document.addEventListener('DOMContentLoaded', function() {
   
   function drawQR(text) {
     try {
-      console.log('Creating QR for:', text);
+      console.log('Creating QR with QRious for:', text);
       
-      // Create QR Code using Nayuki's qrcodegen library
-      var qr = qrcodegen.QrCode.encodeText(text, qrcodegen.QrCode.Ecc.HIGH);
-      console.log('✅ QR created, size:', qr.size);
+      // Create canvas element
+      var canvas = document.createElement('canvas');
       
-      // Render as SVG
-      var cellSize = 8;
-      var border = 4;
-      var size = qr.size;
-      var totalSize = (size + border * 2) * cellSize;
+      // Create QR Code using QRious library
+      var qr = new QRious({
+        element: canvas,
+        value: text,
+        size: 256,
+        level: 'H'
+      });
       
-      var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      svg.setAttribute('width', totalSize);
-      svg.setAttribute('height', totalSize);
-      svg.setAttribute('viewBox', '0 0 ' + totalSize + ' ' + totalSize);
-      
-      // White background
-      var bg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-      bg.setAttribute('width', totalSize);
-      bg.setAttribute('height', totalSize);
-      bg.setAttribute('fill', '#ffffff');
-      svg.appendChild(bg);
-      
-      // Draw QR modules
-      for (var y = 0; y < size; y++) {
-        for (var x = 0; x < size; x++) {
-          if (qr.getModule(x, y)) {
-            var rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-            rect.setAttribute('x', ((x + border) * cellSize).toString());
-            rect.setAttribute('y', ((y + border) * cellSize).toString());
-            rect.setAttribute('width', cellSize.toString());
-            rect.setAttribute('height', cellSize.toString());
-            rect.setAttribute('fill', '#000000');
-            svg.appendChild(rect);
-          }
-        }
-      }
+      console.log('✅ QR created successfully');
       
       qrContainer.innerHTML = '';
-      qrContainer.appendChild(svg);
+      qrContainer.appendChild(canvas);
       return true;
       
     } catch (e) {
