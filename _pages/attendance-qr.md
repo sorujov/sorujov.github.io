@@ -33,7 +33,7 @@ classes: wide
   var statusEl = document.getElementById('qr-status');
   
   function waitForLib(callback) {
-    if (typeof qrcode !== 'undefined') {
+    if (typeof qrcodegen !== 'undefined') {
       callback();
     } else {
       setTimeout(function() { waitForLib(callback); }, 100);
@@ -42,15 +42,13 @@ classes: wide
   
   function drawQR(text) {
     try {
-      // Create QR Code using qrcode-generator library
-      var qr = qrcode(0, 'H'); // Type 0 (auto-detect), High error correction
-      qr.addData(text);
-      qr.make();
+      // Create QR Code using Nayuki's qrcodegen library
+      var qr = qrcodegen.QrCode.encodeText(text, qrcodegen.QrCode.Ecc.HIGH);
       
       // Render as SVG
       var cellSize = 8;
       var border = 4;
-      var size = qr.getModuleCount();
+      var size = qr.size;
       var totalSize = (size + border * 2) * cellSize;
       
       var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -68,7 +66,7 @@ classes: wide
       // Draw QR modules
       for (var y = 0; y < size; y++) {
         for (var x = 0; x < size; x++) {
-          if (qr.isDark(y, x)) {
+          if (qr.getModule(x, y)) {
             var rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
             rect.setAttribute('x', ((x + border) * cellSize).toString());
             rect.setAttribute('y', ((y + border) * cellSize).toString());
@@ -115,7 +113,7 @@ classes: wide
   
   // Wait for library, then start
   waitForLib(function() {
-    console.log('QR library loaded successfully');
+    console.log('Nayuki QR library loaded successfully');
     refreshQR();
     setInterval(refreshQR, QR_REFRESH_MS);
   });
