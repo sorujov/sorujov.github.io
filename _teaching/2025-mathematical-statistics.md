@@ -117,22 +117,23 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/01-combinatorics/index.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
-        🎥 Video Lecture (Coming Soon)
-      </div>
+      <a href="/downloads/stat2311-homework-1.pdf" class="btn btn--primary">
+        📄 Homework PDF (Coming Soon)
+      </a>
     </div>
-    
-    <div class="problem-sets">
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
-      </div>
-    </div>
+  
     
     <div class="video-lecture-section">
-      <div class="video-placeholder">
-        <i>🎬</i>
-        <p><strong>Video Lecture Coming Soon</strong></p>
-        <p>Comprehensive explanation of combinatorial analysis fundamentals</p>
+      <h4>🎥 Combinatorial Analysis. </h4>
+      <div class="youtube-container">
+        <iframe width="560" height="315"
+                src="https://www.youtube.com/embed/Be0EPmcaWZk"
+                title="Combinatorial Analysis - Mathematical Statistics"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen>
+         </iframe>
+        <p><em> Business Related Explanation of Combinatorial Analysis</em></p>
       </div>
     </div>
   </div>
@@ -154,25 +155,13 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/03-sample_spaces/improved_merged_probability_lecture.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
-      </div>
-      <!-- <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
-        🎥 Video Lecture
-      </div> -->
-      <!-- <a href="/lectures/math-stat-1/03-sample_spaces/" class="btn btn--pdf">
-        � PDF Resources
-      </a> -->
+      <a href="/downloads/stat2311-homework-2.pdf" class="btn btn--primary">
+        📄 Homework PDF (Coming Soon)
+      </a>
     </div>
-    
-    <div class="problem-sets">
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
-      </div>
-    </div>
-    
+
     <div class="video-lecture-section">
-      <h4>🎥 Video Lecture: Axioms of Probability. Introduction. </h4>
+      <h4>🎥 Axioms of Probability. Introduction. </h4>
       <div class="youtube-container">
         <iframe width="560" height="315" 
                 src="https://www.youtube.com/embed/A9Ic_PKBOac" 
@@ -199,23 +188,23 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/03-01-equally_likely_outcome/sample_spaces_equally_likely_outcomes.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
-        🎥 Video Lecture (Coming Soon)
-      </div>
+      <a href="/downloads/stat2311-homework-2.pdf" class="btn btn--primary">
+        📄 Homework PDF (Coming Soon)
+      </a>
     </div>
-    
-    <div class="problem-sets">
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
-      </div>
-    </div>
-    
+
     <div class="video-lecture-section">
-      <div class="video-placeholder">
-        <i>🎬</i>
-        <p><strong>Video Lecture Coming Soon</strong></p>
-        <p>Detailed analysis of equally likely outcomes and probability axioms</p>
+      <h4>🎥 Sample Spaces With Equally Likely Outcomes. </h4>
+      <div class="youtube-container">
+        <iframe width="560" height="315" 
+                src="https://www.youtube.com/embed/oaXv-0vbLng" 
+                title="Equally Likely Outcomes - Mathematical Statistics" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowfullscreen>
+        </iframe>
       </div>
+      <p><em>Equally Likely Outcomes. Business Related Explanation.</em></p>
     </div>
   </div>
 </div>
@@ -236,23 +225,22 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/03-conditional_probability/conditional_probability_slides_fixed.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
-        🎥 Video Lecture (Coming Soon)
-      </div>
+      <a href="/downloads/stat2311-homework-3.pdf" class="btn btn--primary">
+        📄 Homework PDF (Coming Soon)
+      </a>
     </div>
-    
-    <div class="problem-sets">
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
-      </div>
-    </div>
-    
+
     <div class="video-lecture-section">
-      <div class="video-placeholder">
-        <i>🎬</i>
-        <p><strong>Video Lecture Coming Soon</strong></p>
-        <p>Understanding conditional probability and its applications</p>
-      </div>
+      <h4>🎥 Conditional Probability</h4>
+        <div class="youtube-container">
+          <iframe width="560" height="315" 
+                  src="https://youtube.com/embed/_f7KLxkdQQQ" 
+                  title="Conditional Probability - Mathematical Statistics" 
+                  frameborder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                  allowfullscreen>
+          </iframe>
+          <p><em>Conditional Probability and some applications in Economics and Finance.</em></p>
     </div>
   </div>
 
@@ -269,16 +257,13 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/03-independent_events/independent_events.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
+      <a href="/downloads/stat2311-homework-3.pdf" class="btn btn--primary">
+        📄 Homework PDF (Coming Soon)
+      </a>
     </div>
-    
-    <div class="problem-sets">
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
-      </div>
-    </div>
-    
+        
     <div class="video-lecture-section">
-      <h4>🎥 Video Lecture: Independence of Events</h4>
+      <h4>🎥 Independence of Events</h4>
       <div class="youtube-container">
         <iframe width="560" height="315" 
                 src="https://www.youtube.com/embed/PCvFl3NNeZY" 
@@ -305,15 +290,9 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/03-Bayes_Formula/bayes_formula.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
-        🎥 Video Lecture (Coming Soon)
-      </div>
-    </div>
-    
-    <div class="problem-sets">
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
-      </div>
+      <a href="/downloads/stat2311-homework-3.pdf" class="btn btn--primary">
+        📄 Homework PDF (Coming Soon)
+      </a>
     </div>
     
     <div class="video-lecture-section">
@@ -706,12 +685,6 @@ location: "Baku, Azerbaijan"
 }
 </style>
 
----
-
-**[🚀 Bayes Theorem & Economic Applications](/lectures/math-stat-1/03-Bayes_Formula/bayes_formula.html)**
-{: .btn .btn--primary}
-
----
 
 <div class="unit-section">
   <h2 class="unit-header">Unit 4: Discrete Random Variables</h2>
@@ -729,15 +702,9 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/06-discrete-rv/index.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
-        🎥 Video Lecture (Coming Soon)
-      </div>
-    </div>
-    
-    <div class="problem-sets">
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
-      </div>
+      <a href="/downloads/stat2311-homework-4.pdf" class="btn btn--primary">
+        📄 Homework PDF (Coming Soon)
+      </a>
     </div>
     
     <div class="video-lecture-section">
@@ -762,16 +729,11 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/07-binomial/index.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
-        🎥 Video Lecture (Coming Soon)
-      </div>
-    </div>
-    
-    <div class="problem-sets">
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
-      </div>
-    </div>
+      <a href="/downloads/stat2311-homework-4.pdf" class="btn btn--primary">
+        📄 Homework PDF (Coming Soon)
+      </a>
+    </div> 
+
     
     <div class="video-lecture-section">
       <div class="video-placeholder">
@@ -795,16 +757,12 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/08-poisson-mgf/index.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
-        🎥 Video Lecture (Coming Soon)
-      </div>
+      <a href="/downloads/stat2311-homework-4.pdf" class="btn btn--primary">
+        📄 Homework PDF (Coming Soon)
+      </a>
     </div>
     
-    <div class="problem-sets">
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
-      </div>
-    </div>
+
     
     <div class="video-lecture-section">
       <div class="video-placeholder">
@@ -828,16 +786,12 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/09-tchebysheff-discrete/index.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
-        🎥 Video Lecture (Coming Soon)
-      </div>
+      <a href="/downloads/stat2311-homework-4.pdf" class="btn btn--primary">
+        📄 Homework PDF (Coming Soon)
+      </a>
     </div>
     
-    <div class="problem-sets">
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
-      </div>
-    </div>
+
     
     <div class="video-lecture-section">
       <div class="video-placeholder">
@@ -865,16 +819,12 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/10-continuous-rv/index.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
-        🎥 Video Lecture (Coming Soon)
-      </div>
+      <a href="/downloads/stat2311-homework-5.pdf" class="btn btn--primary">
+        📄 Homework PDF (Coming Soon)
+      </a>
     </div>
     
-    <div class="problem-sets">
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
-      </div>
-    </div>
+
     
     <div class="video-lecture-section">
       <div class="video-placeholder">
@@ -898,16 +848,12 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/11-uniform-expected/index.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
-        🎥 Video Lecture (Coming Soon)
-      </div>
+      <a href="/downloads/stat2311-homework-5.pdf" class="btn btn--primary">
+        📄 Homework PDF (Coming Soon)
+      </a>
     </div>
     
-    <div class="problem-sets">
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
-      </div>
-    </div>
+
     
     <div class="video-lecture-section">
       <div class="video-placeholder">
@@ -931,16 +877,12 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/12-normal-gamma/index.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
-        🎥 Video Lecture (Coming Soon)
-      </div>
+      <a href="/downloads/stat2311-homework-5.pdf" class="btn btn--primary">
+        📄 Homework PDF (Coming Soon)
+      </a>
     </div>
     
-    <div class="problem-sets">
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
-      </div>
-    </div>
+
     
     <div class="video-lecture-section">
       <div class="video-placeholder">
@@ -964,16 +906,12 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/13-tchebysheff-continuous/index.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
-        🎥 Video Lecture (Coming Soon)
-      </div>
+      <a href="/downloads/stat2311-homework-5.pdf" class="btn btn--primary">
+        📄 Homework PDF (Coming Soon)
+      </a>
     </div>
     
-    <div class="problem-sets">
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
-      </div>
-    </div>
+
     
     <div class="video-lecture-section">
       <div class="video-placeholder">
@@ -1001,16 +939,12 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/14-multivariate/index.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
-        🎥 Video Lecture (Coming Soon)
-      </div>
+      <a href="/downloads/stat2311-homework-5.pdf" class="btn btn--primary">
+        📄 Homework PDF (Coming Soon)
+      </a>
     </div>
     
-    <div class="problem-sets">
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
-      </div>
-    </div>
+
     
     <div class="video-lecture-section">
       <div class="video-placeholder">
@@ -1034,16 +968,12 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/15-independence-covariance/index.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <div class="btn btn--video" style="opacity: 0.6; cursor: not-allowed;">
-        🎥 Video Lecture (Coming Soon)
-      </div>
+      <a href="/downloads/stat2311-homework-5.pdf" class="btn btn--primary">
+        📄 Homework PDF (Coming Soon)
+      </a>
     </div>
     
-    <div class="problem-sets">
-      <div class="btn btn--homework" style="opacity: 0.6; cursor: not-allowed;">
-        📝 Problem Set (Coming Soon)
-      </div>
-    </div>
+
     
     <div class="video-lecture-section">
       <div class="video-placeholder">
