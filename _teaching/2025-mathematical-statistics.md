@@ -6,7 +6,7 @@ author:
     affiliations:
       - name: "ADA University, School of Business"
       - name: "Information Communication Technologies Agency, Statistics Unit"
-date: today
+date: 2025-10-18
 format:
   revealjs:
     theme: default

@@ -86,6 +86,7 @@ revealjs-plugins:
 In your own words, what does "statistics" mean to you? How do you use it in daily life?
 
 <button onclick="startTimer(60, 'think-timer-1')" style="background: #667eea; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px;">⏱️ Start 1 Min Timer</button>
+<button onclick="pauseTimer('think-timer-1')" style="background: #f39c12; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px; margin-left: 10px;">⏸️ Pause/Resume</button>
 <div id="think-timer-1" style="font-size: 2em; color: #667eea; font-weight: bold; margin-top: 10px;"></div>
 :::
 
@@ -94,6 +95,7 @@ In your own words, what does "statistics" mean to you? How do you use it in dail
 Share your definition with a neighbor. Find common themes.
 
 <button onclick="startTimer(120, 'pair-timer-1')" style="background: #f093fb; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px;">⏱️ Start 2 Min Timer</button>
+<button onclick="pauseTimer('pair-timer-1')" style="background: #f39c12; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px; margin-left: 10px;">⏸️ Pause/Resume</button>
 <div id="pair-timer-1" style="font-size: 2em; color: #f093fb; font-weight: bold; margin-top: 10px;"></div>
 :::
 
@@ -440,6 +442,7 @@ Hence, every sampling procedure must be **clearly described** if we wish to make
 You need to survey 100 students from a university of 10,000 students. What methods could you use? Which would give a random sample?
 
 <button onclick="startTimer(60, 'think-timer-2')" style="background: #667eea; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px;">⏱️ Start 1 Min Timer</button>
+<button onclick="pauseTimer('think-timer-2')" style="background: #f39c12; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px; margin-left: 10px;">⏸️ Pause/Resume</button>
 <div id="think-timer-2" style="font-size: 2em; color: #667eea; font-weight: bold; margin-top: 10px;"></div>
 :::
 
@@ -448,6 +451,7 @@ You need to survey 100 students from a university of 10,000 students. What metho
 Discuss potential biases in different sampling methods.
 
 <button onclick="startTimer(120, 'pair-timer-2')" style="background: #f093fb; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px;">⏱️ Start 2 Min Timer</button>
+<button onclick="pauseTimer('pair-timer-2')" style="background: #f39c12; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px; margin-left: 10px;">⏸️ Pause/Resume</button>
 <div id="pair-timer-2" style="font-size: 2em; color: #f093fb; font-weight: bold; margin-top: 10px;"></div>
 :::
 
@@ -922,7 +926,6 @@ Review the concept of weighted averages and summation notation.
 ```{=html}
 <script>
 function startTimer(duration, elementId) {
-    let timer = duration;
     const display = document.getElementById(elementId);
     
     // Clear any existing interval
@@ -930,24 +933,45 @@ function startTimer(duration, elementId) {
         clearInterval(display.intervalId);
     }
     
+    // Reset pause state and store initial duration
+    display.isPaused = false;
+    display.remainingTime = duration;
+    
     display.intervalId = setInterval(function () {
-        const minutes = parseInt(timer / 60, 10);
-        const seconds = parseInt(timer % 60, 10);
+        if (!display.isPaused) {
+            const minutes = parseInt(display.remainingTime / 60, 10);
+            const seconds = parseInt(display.remainingTime % 60, 10);
 
-        const displayMinutes = minutes < 10 ? "0" + minutes : minutes;
-        const displaySeconds = seconds < 10 ? "0" + seconds : seconds;
+            const displayMinutes = minutes < 10 ? "0" + minutes : minutes;
+            const displaySeconds = seconds < 10 ? "0" + seconds : seconds;
 
-        display.textContent = displayMinutes + ":" + displaySeconds;
+            display.textContent = displayMinutes + ":" + displaySeconds;
 
-        if (--timer < 0) {
-            clearInterval(display.intervalId);
-            display.textContent = "⏰ Time's up!";
-            display.style.color = "#e74c3c";
-            
-            // Optional: play a sound or show alert
-            // alert("Time's up!");
+            if (--display.remainingTime < 0) {
+                clearInterval(display.intervalId);
+                display.textContent = "⏰ Time's up!";
+                display.style.color = "#e74c3c";
+                
+                // Optional: play a sound or show alert
+                // alert("Time's up!");
+            }
         }
     }, 1000);
+}
+
+function pauseTimer(elementId) {
+    const display = document.getElementById(elementId);
+    
+    if (display.intervalId) {
+        display.isPaused = !display.isPaused;
+        
+        // Visual feedback for pause state
+        if (display.isPaused) {
+            display.style.opacity = "0.6";
+        } else {
+            display.style.opacity = "1";
+        }
+    }
 }
 </script>
 ```
