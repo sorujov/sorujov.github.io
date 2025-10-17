@@ -699,7 +699,7 @@ location: "Baku, Azerbaijan"
     </div>
     
     <div class="lecture-buttons">
-      <a href="lectures\math-stat-1\04-discrete-random-variables\discrete_random_variables.html" class="btn btn--primary">
+      <a href="\lectures\math-stat-1\04-discrete-random-variables\discrete_random_variables.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
       <a href="/downloads/stat2311-homework-4.pdf" class="btn btn--primary">
