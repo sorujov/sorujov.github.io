@@ -1,0 +1,953 @@
+---
+title: "Discrete Random Variables"
+subtitle: "Mathematical Statistics"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: default
+    logo: ADA.png
+    transition: slide
+    slide-number: true
+    chalkboard: true
+    controls: true
+    navigation-mode: vertical
+    width: 1280
+    height: 720
+    footer: "Mathematical Statistics - Discrete Random Variables"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+---
+
+```{=html}
+<style>
+  .reveal h2 {
+    font-size: 1.8em;
+  }
+  .reveal h3 {
+    font-size: 1.4em;
+  }
+  .fragment.highlight-current-blue .visible.current-fragment {
+    color: #1f77b4;
+    font-weight: bold;
+  }
+</style>
+```
+
+## Overview {.center}
+
+:::: {.columns}
+
+::: {.column width="50%"}
+### Today's Journey
+- 📚 What is Statistics?
+- 🎲 Random Variables
+- 📊 Discrete Random Variables
+- 📈 Probability Distributions
+:::
+
+::: {.column width="50%"}
+### Learning Objectives
+- ✅ Understand the role of statistics
+- 🔢 Define random variables
+- 🎯 Work with discrete distributions
+- 🧮 Apply probability functions
+:::
+
+::::
+
+---
+
+## Think-Pair-Share: What is Statistics? {.center}
+
+::: {.fragment .fade-in}
+**🤔 Think (1 minute):**
+In your own words, what does "statistics" mean to you? How do you use it in daily life?
+
+<button onclick="startTimer(60, 'think-timer-1')" style="background: #667eea; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px;">⏱️ Start 1 Min Timer</button>
+<div id="think-timer-1" style="font-size: 2em; color: #667eea; font-weight: bold; margin-top: 10px;"></div>
+:::
+
+::: {.fragment .fade-in}
+**👥 Pair (2 minutes):**
+Share your definition with a neighbor. Find common themes.
+
+<button onclick="startTimer(120, 'pair-timer-1')" style="background: #f093fb; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px;">⏱️ Start 2 Min Timer</button>
+<div id="pair-timer-1" style="font-size: 2em; color: #f093fb; font-weight: bold; margin-top: 10px;"></div>
+:::
+
+::: {.fragment .fade-in}
+**🗣️ Share:**
+Let's hear some definitions before we explore formal ones!
+:::
+
+---
+
+## Definitions of Statistics {.center}
+
+::: {.callout-note icon=false}
+## Webster's New Collegiate Dictionary
+
+"A branch of mathematics dealing with the **collection, analysis, interpretation, and presentation** of masses of numerical data."
+:::
+
+::: {.fragment .fade-in}
+::: {.callout-note icon=false}
+## Stuart and Ord (1991)
+
+"The branch of the scientific method which deals with the **data obtained by counting or measuring** the properties of populations."
+:::
+:::
+
+---
+
+## Definitions of Statistics (cont.) {.center}
+
+::: {.callout-note icon=false}
+## Rice (1995)
+
+"Essentially concerned with **procedures for analyzing data**, especially data that in some vague sense have a **random character**."
+:::
+
+::: {.fragment .fade-in}
+::: {.callout-tip icon=false}
+## Key Insight
+All definitions emphasize **data** and **uncertainty**! 🎲
+:::
+:::
+
+---
+
+## Definitions of Statistics (cont.) {.center}
+
+::: {.callout-note icon=false}
+## Freund and Walpole (1987)
+
+Statistics encompasses "the science of basing **inferences on observed data** and the entire problem of making **decisions in the face of uncertainty**."
+:::
+
+::: {.fragment .fade-in}
+::: {.callout-note icon=false}
+## Mood, Graybill, and Boes (1974)
+
+Statistics is "the **technology of the scientific method**" and is concerned with:
+
+1. The design of experiments and investigations
+2. Statistical inference
+:::
+:::
+
+---
+
+## The Core Objective {.center}
+
+::: {.callout-important}
+## Central Goal of Statistics
+
+The objective of statistics is to make an **inference about a population** based on information contained in a **sample** from that population and to provide an associated **measure of goodness** for the inference.
+:::
+
+::: {.fragment .fade-in}
+```{=html}
+<div style="text-align: center; margin-top: 30px;">
+<svg width="800" height="200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Population -->
+  <ellipse cx="150" cy="100" rx="120" ry="80" fill="#e3f2fd" stroke="#1976d2" stroke-width="3"/>
+  <text x="150" y="95" text-anchor="middle" font-size="20" font-weight="bold" fill="#1565c0">Population</text>
+  <text x="150" y="120" text-anchor="middle" font-size="16" fill="#0d47a1">(N elements)</text>
+
+  <!-- Arrow -->
+  <path d="M 270 100 L 420 100" stroke="#f57c00" stroke-width="4" fill="none" marker-end="url(#arrowhead)"/>
+  <text x="345" y="85" text-anchor="middle" font-size="18" font-weight="bold" fill="#e65100">Sample</text>
+
+  <!-- Sample -->
+  <ellipse cx="520" cy="100" rx="100" ry="60" fill="#fff3e0" stroke="#f57c00" stroke-width="3"/>
+  <text x="520" y="95" text-anchor="middle" font-size="20" font-weight="bold" fill="#e65100">Sample</text>
+  <text x="520" y="120" text-anchor="middle" font-size="16" fill="#bf360c">(n elements)</text>
+
+  <!-- Arrow back -->
+  <path d="M 420 130 L 270 130" stroke="#388e3c" stroke-width="4" fill="none" marker-end="url(#arrowhead2)"/>
+  <text x="345" y="160" text-anchor="middle" font-size="18" font-weight="bold" fill="#1b5e20">Inference</text>
+
+  <!-- Arrow definitions -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#f57c00" />
+    </marker>
+    <marker id="arrowhead2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#388e3c" />
+    </marker>
+  </defs>
+</svg>
+</div>
+```
+:::
+
+---
+
+## Random Variable: Foundation {.center}
+
+::: {.callout-important}
+## Definition 1: Random Variable
+
+A **random variable** is a **real-valued function** for which the domain is a **sample space**.
+:::
+
+::: {.fragment .fade-in}
+**In simple terms:** A random variable assigns a numerical value to each outcome in a sample space.
+
+$$Y: S \rightarrow \mathbb{R}$$
+:::
+
+---
+
+## Random Variables in Economics & Finance {.center}
+
+
+:::{style="font-size: 38px"}
+::: columns 
+::: {.column width="50%"}
+::: {.fragment .fade-in}
+**Economic Applications:**
+
+- 📊 Number of unemployed individuals in a region
+- 💰 Number of customers entering a bank per hour
+- 📉 Number of quarters until recession
+- 🏢 Number of firms defaulting on loans in a year
+:::
+:::
+
+::: {.column width="50%"}
+::: {.fragment .fade-in}
+**Financial Applications:**
+
+- 📈 Number of days stock price increases in a month
+- 💵 Number of dividend payments in a year
+- 🎲 Number of trading days with losses
+- 🏦 Number of loan applications approved
+:::
+:::
+:::
+:::
+
+---
+
+## Example 1: Investment Returns {.center}
+
+::: {.callout-note icon=false}
+## Problem Setup
+
+An investor evaluates **two stocks** and decides to invest in one. Based on market analysis:
+- Probability both perform well: 0.25
+- Probability exactly one performs well: 0.50
+- Probability neither performs well: 0.25
+
+Let $Y$ equal the **number of stocks that perform well**.
+
+**Tasks:**
+
+1. Identify the sample space
+2. Assign values of $Y$ to each outcome
+3. Find the probability distribution
+:::
+
+---
+
+## Example 1: Solution {.center}
+
+::: {.fragment .fade-in fragment-index=1}
+**Step 1: Sample Space**
+
+$$S = \{BB, BG, GB, GG\}$$
+where B = bad performance, G = good performance
+:::
+
+::: {.fragment .fade-in fragment-index=2}
+**Step 2: Probability Distribution**
+
+| $Y$ | Sample Points | $P(Y = y)$ |
+|:-------:|:-------------:|:--------------:|
+| 0       | {BB}          | 0.25            |
+| 1       | {BG, GB}      | 0.50            |
+| 2       | {GG}          | 0.25            |
+:::
+
+---
+
+## Example 1 (Alternative): Coin Toss {.center}
+
+::: {.callout-note icon=false}
+## Problem Setup
+
+Consider an experiment as **tossing two coins** and observing the results. Let $Y$ equal the **number of heads** obtained.
+
+**Tasks:**
+
+1. Identify the sample points in $S$
+2. Assign a value of $Y$ to each sample point
+3. Identify the sample points associated with each value of $Y$
+:::
+
+---
+
+## Example 1 (Alternative): Solution {.center}
+
+::: {.fragment .fade-in fragment-index=1}
+**Step 1: Sample Space**
+
+$S = \{HH, HT, TH, TT\}$
+:::
+
+::: {.fragment .fade-in fragment-index=2}
+**Step 2: Assign Values**
+
+| Sample Point | $Y$ (Number of Heads) |
+|:------------:|:-------------------------:|
+| HH           | 2                         |
+| HT           | 1                         |
+| TH           | 1                         |
+| TT           | 0                         |
+:::
+
+---
+
+## Example 1: Solution (cont.) {.center .smaller}
+
+::: {.fragment .fade-in fragment-index=3}
+**Step 3: Values of Random Variable**
+
+| $Y$ | Sample Points | $P(Y = y)$ |
+|:-------:|:-------------:|:--------------:|
+| 0       | {TT}          | 1/4            |
+| 1       | {HT, TH}      | 2/4 = 1/2      |
+| 2       | {HH}          | 1/4            |
+:::
+
+::: {.fragment .fade-in fragment-index=4}
+**Visualization:**
+
+```{=html}
+<div style="text-align: center; margin-top: 20px;">
+<svg width="700" height="250" xmlns="http://www.w3.org/2000/svg">
+  <!-- Bar chart -->
+  <rect x="100" y="160" width="80" height="60" fill="#4caf50" opacity="0.8"/>
+  <rect x="250" y="40" width="80" height="180" fill="#2196f3" opacity="0.8"/>
+  <rect x="400" y="160" width="80" height="60" fill="#ff9800" opacity="0.8"/>
+
+  <!-- Values -->
+  <text x="140" y="240" text-anchor="middle" font-size="18" font-weight="bold">Y = 0</text>
+  <text x="290" y="240" text-anchor="middle" font-size="18" font-weight="bold">Y = 1</text>
+  <text x="440" y="240" text-anchor="middle" font-size="18" font-weight="bold">Y = 2</text>
+
+  <!-- Probabilities -->
+  <text x="140" y="195" text-anchor="middle" font-size="16" font-weight="bold" fill="white">1/4</text>
+  <text x="290" y="135" text-anchor="middle" font-size="16" font-weight="bold" fill="white">1/2</text>
+  <text x="440" y="195" text-anchor="middle" font-size="16" font-weight="bold" fill="white">1/4</text>
+
+  <!-- Axes -->
+  <line x1="50" y1="220" x2="550" y2="220" stroke="black" stroke-width="2"/>
+  <line x1="50" y1="20" x2="50" y2="220" stroke="black" stroke-width="2"/>
+
+  <!-- Y-axis label -->
+  <text x="20" y="120" text-anchor="middle" font-size="16" font-weight="bold" transform="rotate(-90, 20, 120)">Probability</text>
+  <text x="300" y="270" text-anchor="middle" font-size="16" font-weight="bold">Number of Heads</text>
+</svg>
+</div>
+```
+:::
+
+---
+
+## Key Insight {.center}
+
+::: {.callout-tip}
+## Remark 1
+
+$P(Y = y)$ is the **sum of the probabilities** of the sample points that are assigned the value $y$.
+:::
+
+::: {.fragment .fade-in}
+**Example:**
+
+$$P(Y = 1) = P(\{HT\}) + P(\{TH\}) = \frac{1}{4} + \frac{1}{4} = \frac{1}{2}$$
+:::
+
+---
+
+## 🎯 Understanding Check: Three Coins {.quiz-question}
+
+If we toss **three coins**, how many possible values can the random variable "number of heads" take?
+
+- 2 values
+- 3 values
+- [4 values]{.correct data-explanation="Correct! With three coins, you can get 0, 1, 2, or 3 heads - that's 4 distinct values. ✅"}
+- 8 values
+
+---
+
+## Random Sampling {.center}
+
+::: {.callout-important}
+## Definition 2: Random Sample
+
+Let $N$ and $n$ represent the numbers of elements in the **population** and **sample**, respectively.
+
+If the sampling is conducted in such a way that each of the $\binom{N}{n}$ samples has an **equal probability** of being selected, the sampling is said to be **random**, and the result is said to be a **random sample**.
+:::
+
+---
+
+## Random Sampling: Importance {.center}
+
+::: {.callout-tip}
+## Remark 2
+
+The method of sampling, known as the **design of an experiment**, affects both:
+
+1. The **quantity of information** in a sample
+2. The **probability** of observing a specific sample result
+
+Hence, every sampling procedure must be **clearly described** if we wish to make valid inferences from sample to population.
+:::
+
+---
+
+## Think-Pair-Share: Sampling Methods {.center}
+
+::: {.fragment .fade-in}
+**🤔 Think (1 minute):**
+You need to survey 100 students from a university of 10,000 students. What methods could you use? Which would give a random sample?
+
+<button onclick="startTimer(60, 'think-timer-2')" style="background: #667eea; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px;">⏱️ Start 1 Min Timer</button>
+<div id="think-timer-2" style="font-size: 2em; color: #667eea; font-weight: bold; margin-top: 10px;"></div>
+:::
+
+::: {.fragment .fade-in}
+**👥 Pair (2 minutes):**
+Discuss potential biases in different sampling methods.
+
+<button onclick="startTimer(120, 'pair-timer-2')" style="background: #f093fb; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px;">⏱️ Start 2 Min Timer</button>
+<div id="pair-timer-2" style="font-size: 2em; color: #f093fb; font-weight: bold; margin-top: 10px;"></div>
+:::
+
+::: {.fragment .fade-in}
+**🗣️ Share:**
+What are the pros and cons of each method?
+:::
+
+---
+
+## Discrete Random Variable {.center}
+
+::: {.callout-important}
+## Definition 3: Discrete Random Variable
+
+A random variable $Y$ is said to be **discrete** if it can assume only a **finite** or **countably infinite** number of distinct values.
+:::
+
+::: {.fragment .fade-in}
+**Examples in Finance/Economics:**
+
+- Number of defaults in a loan portfolio (finite)
+- Number of trades executed per day (finite but large)
+- Number of customers served until first complaint (countably infinite)
+- Number of economic shocks in a year (finite)
+- Number of dividend payments in a year (finite)
+:::
+
+---
+
+## Notation {.center}
+
+::: {.callout-note}
+## Standard Notation
+
+- $Y$ : random variable (capital letter)
+- $y$ : particular value (lowercase letter)
+- $(Y = y)$ : the set of all points in $S$ assigned the value $y$ by the random variable $Y$
+- $P(Y = y)$ : the probability that $Y$ takes on the value $y$
+:::
+
+---
+
+## Probability Function {.center}
+
+::: {.callout-important}
+## Definition 4: Probability Function
+
+The probability that $Y$ takes on the value $y$, $P(Y = y)$, is defined as the **sum of the probabilities** of all sample points in $S$ that are assigned the value $y$.
+
+We will sometimes denote $P(Y = y)$ by $p(y)$, which is called **probability function** for $Y$.
+:::
+
+::: {.fragment .fade-in}
+$$p(y) = P(Y = y) = \sum_{\omega \in S: Y(\omega) = y} P(\{\omega\})$$
+:::
+
+---
+
+## Probability Distribution {.center}
+
+::: {.callout-important}
+## Definition 5: Probability Distribution
+
+The **probability distribution** for a discrete variable $Y$ can be represented by a **formula**, a **table**, or a **graph** that provides $p(y) = P(Y = y)$ for all $y$.
+:::
+
+::: {.fragment .fade-in}
+**Three Representations:**
+
+1. **Formula:** $p(y) = \frac{1}{6}$ for $y = 1, 2, 3, 4, 5, 6$ (fair die)
+2. **Table:** Listing all $y$ values with their probabilities
+3. **Graph:** Bar chart showing probability distribution
+:::
+
+---
+
+## Example 2: Worker Selection {.center}
+
+::: {.callout-note icon=false}
+## Problem Setup
+
+A supervisor in a manufacturing plant has **three men** and **three women** working for him. He wants to choose **two workers** for a special job.
+
+Not wishing to show any biases in his selection, he decides to select the two workers **at random**.
+
+Let $Y$ denote the **number of women** in his selection.
+
+**Task:** Find the probability distribution for $Y$.
+:::
+
+---
+
+## Example 2: Solution - Setup {.center}
+
+::: {.fragment .fade-in fragment-index=1}
+**Step 1: Identify Possible Values**
+
+$Y$ can take values: 0, 1, or 2 (number of women selected)
+:::
+
+::: {.fragment .fade-in fragment-index=2}
+**Step 2: Total Number of Ways to Select 2 Workers**
+
+Total workers = 6 (3 men + 3 women)
+
+$$\text{Total ways} = \binom{6}{2} = \frac{6!}{2!(6-2)!} = \frac{6 \times 5}{2 \times 1} = 15$$
+:::
+
+---
+
+## Example 2: Solution - Calculations {.center .smaller}
+
+::: {.fragment .fade-in fragment-index=1}
+**Case 1: $Y = 0$ (no women, 2 men)**
+
+$$P(Y = 0) = \frac{\binom{3}{2} \times \binom{3}{0}}{\binom{6}{2}} = \frac{3 \times 1}{15} = \frac{3}{15} = \frac{1}{5}$$
+:::
+
+::: {.fragment .fade-in fragment-index=2}
+**Case 2: $Y = 1$ (1 woman, 1 man)**
+
+$$P(Y = 1) = \frac{\binom{3}{1} \times \binom{3}{1}}{\binom{6}{2}} = \frac{3 \times 3}{15} = \frac{9}{15} = \frac{3}{5}$$
+:::
+
+::: {.fragment .fade-in fragment-index=3}
+**Case 3: $Y = 2$ (2 women, no men)**
+
+$$P(Y = 2) = \frac{\binom{3}{2} \times \binom{3}{0}}{\binom{6}{2}} = \frac{3 \times 1}{15} = \frac{3}{15} = \frac{1}{5}$$
+:::
+
+---
+
+## Example 2: Probability Distribution {.center}
+
+::: {.fragment .fade-in fragment-index=1}
+**Table Representation:**
+
+| $y$ | $p(y) = P(Y = y)$ |
+|:-------:|:---------------------:|
+| 0       | 1/5 = 0.20            |
+| 1       | 3/5 = 0.60            |
+| 2       | 1/5 = 0.20            |
+| **Sum** | **1.00**              |
+:::
+
+::: {.fragment .fade-in fragment-index=2}
+**Verification:** $\frac{1}{5} + \frac{3}{5} + \frac{1}{5} = \frac{5}{5} = 1$ ✅
+:::
+
+---
+
+## Example 2: Visual Distribution {.center}
+
+```{=html}
+<div style="text-align: center; margin-top: 20px;">
+<svg width="700" height="300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Title -->
+  <text x="350" y="25" text-anchor="middle" font-size="20" font-weight="bold">Probability Distribution of Women Selected</text>
+
+  <!-- Bar chart -->
+  <rect x="100" y="120" width="100" height="80" fill="#e91e63" opacity="0.8"/>
+  <rect x="280" y="40" width="100" height="160" fill="#9c27b0" opacity="0.8"/>
+  <rect x="460" y="120" width="100" height="80" fill="#673ab7" opacity="0.8"/>
+
+  <!-- Values -->
+  <text x="150" y="230" text-anchor="middle" font-size="18" font-weight="bold">Y = 0</text>
+  <text x="330" y="230" text-anchor="middle" font-size="18" font-weight="bold">Y = 1</text>
+  <text x="510" y="230" text-anchor="middle" font-size="18" font-weight="bold">Y = 2</text>
+
+  <!-- Probabilities -->
+  <text x="150" y="165" text-anchor="middle" font-size="16" font-weight="bold" fill="white">0.20</text>
+  <text x="330" y="125" text-anchor="middle" font-size="16" font-weight="bold" fill="white">0.60</text>
+  <text x="510" y="165" text-anchor="middle" font-size="16" font-weight="bold" fill="white">0.20</text>
+
+  <!-- Axes -->
+  <line x1="50" y1="200" x2="620" y2="200" stroke="black" stroke-width="2"/>
+  <line x1="50" y1="30" x2="50" y2="200" stroke="black" stroke-width="2"/>
+
+  <!-- Y-axis labels -->
+  <text x="40" y="205" text-anchor="end" font-size="14">0.0</text>
+  <text x="40" y="165" text-anchor="end" font-size="14">0.2</text>
+  <text x="40" y="125" text-anchor="end" font-size="14">0.4</text>
+  <text x="40" y="85" text-anchor="end" font-size="14">0.6</text>
+  <text x="40" y="45" text-anchor="end" font-size="14">0.8</text>
+
+  <!-- Axis labels -->
+  <text x="20" y="120" text-anchor="middle" font-size="16" font-weight="bold" transform="rotate(-90, 20, 120)">Probability</text>
+  <text x="335" y="260" text-anchor="middle" font-size="16" font-weight="bold">Number of Women</text>
+</svg>
+</div>
+```
+
+---
+
+## Properties of Probability Distributions {.center}
+
+::: {.callout-important}
+## Theorem 1: Fundamental Properties
+
+For any discrete probability distribution, the following must be **true**:
+
+1. $0 \leq p(y) \leq 1$ for all $y$
+
+2. $\sum_{y} p(y) = 1$
+
+where the summation is over all values of $y$ with **nonzero probability**.
+:::
+
+::: {.fragment .fade-in}
+**Why are these important?**
+
+- Property 1: Probabilities must be between 0 and 1
+- Property 2: The total probability across all outcomes must equal 1 (certainty)
+:::
+
+---
+
+## Group Activity: Verify Properties {.center}
+
+::: {.callout-note icon=false}
+## Activity (3 minutes)
+
+In small groups, verify that **Example 2** (worker selection) satisfies both properties of Theorem 1.
+
+**Check:**
+
+1. Is $0 \leq p(y) \leq 1$ for all $y$?
+2. Does $\sum_{y} p(y) = 1$?
+:::
+
+::: {.fragment .fade-in}
+**Solution:**
+
+1. $p(0) = 0.20$, $p(1) = 0.60$, $p(2) = 0.20$ — all between 0 and 1 ✅
+2. $0.20 + 0.60 + 0.20 = 1.00$ ✅
+:::
+
+---
+
+## Practice Problem: Portfolio Risk {.center}
+
+::: {.callout-note icon=false}
+## Your Turn!
+
+An investment portfolio contains **4 high-risk** and **2 low-risk** assets. A portfolio manager randomly selects **3 assets** for quarterly review.
+
+Let $Y$ = number of high-risk assets selected.
+
+**Tasks:**
+
+1. What are the possible values of $Y$?
+2. Find $P(Y = y)$ for each value
+3. Verify Theorem 1
+:::
+
+---
+
+## Practice Problem: Solution Setup {.center .smaller}
+
+::: {.fragment .fade-in fragment-index=1}
+**Step 1: Possible Values**
+
+$Y$ can be: 1, 2, or 3 (need at least 1 high-risk since only 2 low-risk assets)
+:::
+
+::: {.fragment .fade-in fragment-index=2}
+**Step 2: Total Ways to Select 3 from 6**
+
+$$\binom{6}{3} = \frac{6!}{3!3!} = 20$$
+:::
+
+---
+
+## Practice Problem: Solution {.center .smaller}
+
+::: {.fragment .fade-in fragment-index=1}
+**Case 1: $Y = 1$ (1 high-risk, 2 low-risk)**
+
+$$P(Y = 1) = \frac{\binom{4}{1} \times \binom{2}{2}}{\binom{6}{3}} = \frac{4 \times 1}{20} = \frac{4}{20} = 0.20$$
+:::
+
+::: {.fragment .fade-in fragment-index=2}
+**Case 2: $Y = 2$ (2 high-risk, 1 low-risk)**
+
+$$P(Y = 2) = \frac{\binom{4}{2} \times \binom{2}{1}}{\binom{6}{3}} = \frac{6 \times 2}{20} = \frac{12}{20} = 0.60$$
+:::
+
+::: {.fragment .fade-in fragment-index=3}
+**Case 3: $Y = 3$ (3 high-risk, 0 low-risk)**
+
+$$P(Y = 3) = \frac{\binom{4}{3} \times \binom{2}{0}}{\binom{6}{3}} = \frac{4 \times 1}{20} = \frac{4}{20} = 0.20$$
+:::
+
+---
+
+## Practice Problem: Distribution {.center}
+
+| $y$ | $p(y)$ |
+|:-------:|:----------:|
+| 1       | 0.20       |
+| 2       | 0.60       |
+| 3       | 0.20       |
+| **Sum** | **1.00**   |
+
+::: {.fragment .fade-in}
+**Verification:**
+
+1. All probabilities $\in [0,1]$ ✅
+2. Sum = 0.20 + 0.60 + 0.20 = 1.00 ✅
+:::
+
+---
+
+## 📊 Interactive Quiz: Valid Probability Distribution {.quiz-question}
+
+Which of the following could be a valid probability distribution for a discrete random variable $Y$?
+
+- $P(Y=1) = 0.3, P(Y=2) = 0.5, P(Y=3) = 0.3$
+- [$P(Y=1) = 0.2, P(Y=2) = 0.5, P(Y=3) = 0.3$]{.correct data-explanation="Correct! This satisfies both properties: all probabilities are between 0 and 1 (Property 1), and they sum to 1.0 (0.2 + 0.5 + 0.3 = 1.0). ✅"}
+- $P(Y=1) = -0.1, P(Y=2) = 0.6, P(Y=3) = 0.5$
+- $P(Y=1) = 0.4, P(Y=2) = 0.4, P(Y=3) = 0.4$
+
+---
+
+## Applications in Economics & Finance {.center}
+
+::: {.callout-tip}
+## Why Discrete Random Variables Matter
+
+**Economics:**
+
+- Labor market analysis (employment status)
+- Consumer choice models (number of purchases)
+- Market structure (number of firms)
+- Policy evaluation (number of beneficiaries)
+
+**Finance:**
+
+- Risk management (number of defaults)
+- Portfolio optimization (asset allocation)
+- Derivative pricing (binomial trees)
+- Credit scoring (risk categories)
+:::
+
+---
+
+## Key Takeaways {.center}
+
+::: {.callout-tip}
+## Summary
+
+1. **Statistics** is about making inferences from samples to populations
+
+2. **Random variables** map sample space outcomes to numerical values
+
+3. **Discrete random variables** take finite or countably infinite values
+
+4. **Probability distributions** must satisfy:
+   - $0 \leq p(y) \leq 1$ for all $y$
+   - $\sum_{y} p(y) = 1$
+
+5. Applications span economics, finance, and business decision-making
+:::
+
+---
+
+## Homework Problems {.center}
+
+::: {.callout-note icon=false}
+## Problem 1: Exchange Rate Analysis
+
+A currency can move Up, Down, or Unchanged daily. Historical data shows: P(Up)=0.4, P(Down)=0.3, P(Unchanged)=0.3. 
+
+Let $Y$ = number of "Up" days in 2 trading days.
+
+a) Find the probability distribution of $Y$
+b) What is the most likely outcome?
+c) Verify properties of probability distributions
+:::
+
+---
+
+## Homework Problems (cont.) {.center}
+
+::: {.callout-note icon=false}
+## Problem 2: Loan Portfolio
+
+A bank's portfolio has 6 loans: 4 are performing well, 2 are underperforming. A regulator randomly audits 3 loans.
+
+Let $Y$ = number of underperforming loans in the audit.
+
+a) Find $P(Y = y)$ for all values
+b) What is $P(Y \geq 1)$?
+c) Graph the probability distribution
+:::
+
+---
+
+## Homework Problems (cont.) {.center}
+
+::: {.callout-note icon=false}
+## Problem 3: Financial Transaction Model
+
+Consider the probability function:
+
+$$p(y) = \begin{cases}
+cy^2 & \text{for } y = 1, 2, 3 \\
+0 & \text{otherwise}
+\end{cases}$$
+
+a) Find $c$ that makes this valid
+b) Calculate $P(Y \leq 2)$
+c) Calculate $P(Y > 1)$
+d) Interpret $Y$ in a financial context (e.g., number of high-value transactions)
+:::
+
+---
+
+## Homework Solution Hints {.center}
+
+::: {.fragment .fade-in}
+**Problem 1 Hint:**
+
+List all possible outcomes for 2 days: (U,U), (U,D), (U,N), etc. Calculate probability for each outcome using independence.
+:::
+
+::: {.fragment .fade-in}
+**Problem 2 Hint:**
+
+Use hypergeometric probability: $P(Y=y) = \frac{\binom{2}{y}\binom{4}{3-y}}{\binom{6}{3}}$
+:::
+
+::: {.fragment .fade-in}
+**Problem 3 Hint:**
+
+Use property $\sum_{y=1}^{3} cy^2 = 1$ to solve for $c$. Then $c(1^2 + 2^2 + 3^2) = c(14) = 1$.
+:::
+
+---
+
+## Next Class Preview {.center}
+
+::: {.callout-note icon=false}
+## Coming Up Next
+
+- **Expected Value** and **Variance** of discrete random variables
+- **Common discrete distributions:** Binomial, Poisson, Geometric
+- **Applications** to real-world problems
+
+**Preparation:**
+Review the concept of weighted averages and summation notation.
+:::
+
+---
+
+
+## Questions? {.center}
+
+::: {.r-fit-text style="font-size: 60px;"}
+
+**Thank you!**
+
+:::
+
+**Office Hours:** By appointment via email
+
+**Contact:** [sorujov@ada.edu.az](mailto:sorujov@ada.edu.az)
+
+---
+
+```{=html}
+<script>
+function startTimer(duration, elementId) {
+    let timer = duration;
+    const display = document.getElementById(elementId);
+    
+    // Clear any existing interval
+    if (display.intervalId) {
+        clearInterval(display.intervalId);
+    }
+    
+    display.intervalId = setInterval(function () {
+        const minutes = parseInt(timer / 60, 10);
+        const seconds = parseInt(timer % 60, 10);
+
+        const displayMinutes = minutes < 10 ? "0" + minutes : minutes;
+        const displaySeconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = displayMinutes + ":" + displaySeconds;
+
+        if (--timer < 0) {
+            clearInterval(display.intervalId);
+            display.textContent = "⏰ Time's up!";
+            display.style.color = "#e74c3c";
+            
+            // Optional: play a sound or show alert
+            // alert("Time's up!");
+        }
+    }, 1000);
+}
+</script>
+```
