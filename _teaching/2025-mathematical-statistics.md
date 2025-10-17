@@ -47,7 +47,7 @@ revealjs-plugins:
 #### Samir Orujov, PhD
 #### ADA University, School of Business
 #### Information Communication Technologies Agency, Statistics Unit
-#### today
+#### October 18, 2025
 
 ---
 
