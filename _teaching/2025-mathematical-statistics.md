@@ -296,17 +296,53 @@ location: "Baku, Azerbaijan"
     </div>
     
     <div class="video-lecture-section">
-      <div class="video-placeholder">
-        <i>🎬</i>
-        <p><strong>Video Lecture Coming Soon</strong></p>
-        <p>Bayes' theorem applications in economic decision making</p>
+      <h4>🎥 Bayes Theorem </h4>
+      <div class="youtube-container">
+        <iframe width="560" height="315" 
+                src="https://www.youtube.com/embed/C_HoS_qSBJA" 
+                title="Bayes Theorem - Mathematical Statistics" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowfullscreen>
+        </iframe>
       </div>
+      <p><em>Bayes' theorem and its practical applications in economics and finance.</em></p>
     </div>
   </div>
 </div>
 
 
 
+<div class="unit-section">
+  <h2 class="unit-header">Unit 4: Discrete Random Variables</h2>
+  
+  <div class="topic-item">
+    <h3 class="topic-title">Topic 7: Discrete Probability Distributions</h3>
+    <div class="topic-content">
+      <strong>Content:</strong> Probability Distribution for Discrete Random Variables, Expected Value
+    </div>
+    <div class="topic-reading">
+      📖 <strong>Reading:</strong> Wackerly et al., Chapter 3: Sections 3.1-3.3
+    </div>
+    
+    <div class="lecture-buttons">
+      <a href="/lectures/math-stat-1/04-discrete-random-variables/discrete_random_variables.html" class="btn btn--primary">
+        🚀 Interactive Lecture
+      </a>
+      <a href="/downloads/stat2311-homework-4.pdf" class="btn btn--primary">
+        📄 Homework PDF (Coming Soon)
+      </a>
+    </div>
+    
+    <div class="video-lecture-section">
+      <div class="video-placeholder">
+        <i>🎬</i>
+        <p><strong>Video Lecture Coming Soon</strong></p>
+        <p>Bayes' theorem applications in economic decision making</p>
+      </div>
+    </div>
+    </div>
+  </div>
 
 <style>
 /* Course Page Styling */
@@ -686,35 +722,6 @@ location: "Baku, Azerbaijan"
 </style>
 
 
-<div class="unit-section">
-  <h2 class="unit-header">Unit 4: Discrete Random Variables</h2>
-  
-  <div class="topic-item">
-    <h3 class="topic-title">Topic 7: Discrete Probability Distributions</h3>
-    <div class="topic-content">
-      <strong>Content:</strong> Probability Distribution for Discrete Random Variables, Expected Value
-    </div>
-    <div class="topic-reading">
-      📖 <strong>Reading:</strong> Wackerly et al., Chapter 3: Sections 3.1-3.3
-    </div>
-    
-    <div class="lecture-buttons">
-      <a href="/lectures/math-stat-1/04-discrete-random-variables/discrete_random_variables.html" class="btn btn--primary">
-        🚀 Interactive Lecture
-      </a>
-      <a href="/downloads/stat2311-homework-4.pdf" class="btn btn--primary">
-        📄 Homework PDF (Coming Soon)
-      </a>
-    </div>
-    
-    <div class="video-lecture-section">
-      <div class="video-placeholder">
-        <i>🎬</i>
-        <p><strong>Video Lecture Coming Soon</strong></p>
-        <p>Understanding discrete random variables and their distributions</p>
-      </div>
-    </div>
-  </div>
 
   <div class="topic-item">
     <h3 class="topic-title">Topic 8: Binomial Distribution</h3>
