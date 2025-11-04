@@ -1,0 +1,845 @@
+---
+title: "Mathematical Statistics"
+subtitle: "The Binomial Probability Distribution"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: default
+    logo: ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    footer: "Mathematical Statistics - The Binomial Probability Distribution"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+---
+
+```{r setup}
+#| echo: false
+#| message: false
+#| warning: false
+
+# Load required packages
+if (!require("countdown")) {
+  install.packages("countdown")
+  library(countdown)
+}
+```
+
+
+## 🎯 Learning Objectives
+
+::: {style="font-size: 35px"}
+::: {.learning-objectives}
+By the end of this lecture, you will be able to:
+
+- Identify and verify the five properties of binomial experiments in financial and economic contexts
+- Apply the binomial probability formula to calculate probabilities for investment, credit risk, and market scenarios
+- Interpret binomial probability distributions and their parameters in economic applications
+- Compute mean and variance of binomial random variables for financial modeling
+- Use maximum likelihood estimation to estimate success probabilities from sample data
+- Apply binomial models to real-world financial and economic problems
+:::
+:::
+
+## 📋 Overview 
+
+::: {style="font-size:50px"}
+
+::: {.callout-note}
+## <span>📚</span> Topics Covered Today
+
+::: {.incremental}
+- **Binomial Probability Distribution** - Definition and mathematical properties
+- **Binomial Experiments** - Identifying conditions in finance and economics
+- **Probability Calculations** - Using formulas and statistical tables
+- **Mean and Variance** - Expected value and risk measures
+- **Applications** - Portfolio management, credit risk, market analysis
+- **Maximum Likelihood Estimation** - Parameter estimation from data
+:::
+:::
+:::
+
+---
+
+## 📖 Definition: Binomial Experiment {.larger}
+
+::: {.callout-note}
+## <span>📝</span> Definition 1: Binomial Experiment
+
+A **binomial experiment** possesses the following properties:
+
+1. <span style="font-size:1.3em">🔢</span> The experiment consists of a **fixed number**, $n$, of identical trials
+2. <span style="font-size:1.3em">⚖️</span> Each trial results in one of two outcomes: **success** ($S$) or **failure** ($F$)
+3. <span style="font-size:1.3em">🎯</span> The probability of success $p$ **remains constant** from trial to trial, with $q = (1 - p)$
+4. <span style="font-size:1.3em">🔗</span> The trials are **independent** of each other
+5. <span style="font-size:1.3em">📊</span> The random variable $Y$ counts the **number of successes** in $n$ trials
+:::
+
+## 🤔 Think-Pair-Share Activity
+
+::: {.activity-box}
+### <span>💭</span> Activity 1: Identifying Binomial Experiments (3 minutes)
+
+::: {.activity-step}
+**🧠 Think** (1 minute): Consider the following financial scenario individually:
+
+> "A credit analyst reviews 10 loan applications from different borrowers. Each application is either approved or rejected based on credit scores. Historical data shows a 65% approval rate."
+:::
+
+::: {.activity-step}
+**👥 Pair** (1 minute): Discuss with your neighbor - does this meet all five binomial experiment properties?
+:::
+
+
+
+```{r timer-activity1}
+#| echo: false
+countdown::countdown(
+  minutes = 3,
+  seconds = 0,
+  id = "activity1",
+  font_size = "1.5em",
+  top = "-120px",
+  right = "50px",
+  color_running_background = "#31b09e",
+  color_finished_background = "#dc3545",
+  start_immediately = FALSE
+)
+```
+
+::: {.activity-step}
+**🗣️ Share** (1 minute): Groups share their conclusions with the class
+:::
+:::
+
+## 📌 Example 1: Credit Risk Management 
+
+::: {.callout-warning}
+## <span>💳</span> Example 1
+
+A bank's loan portfolio contains **four independent corporate loans**, each with a historical **5% probability of default** over the next year. The risk manager is interested in $Y$, the number of loans that **will default**. Is this a binomial experiment?
+:::
+
+. . .
+
+::: {.callout-note collapse="true"}
+## <span>✅</span> Solution
+
+::: {.columns}
+::: {.column width="50%"}
+Let's verify each property:
+
+- ✅ **Fixed trials**: Four independent loans ($n = 4$)
+- ✅ **Two outcomes**: 
+  - Success ($S$): loan **defaults**
+  - Failure ($F$): loan **does not default**
+- ✅ **Constant probability**: $p = P(S) = 0.05$
+:::
+
+::: {.column width="50%"}
+- ✅ **Independence**: Loans are from different sectors/independent
+- ✅ **Count successes**: $Y$ = number of defaults
+
+**Conclusion**: Yes, this is a binomial experiment! The bank can use binomial distribution to assess portfolio risk.
+:::
+:::
+:::
+
+
+## 📌 Example 2: Market Survey {.larger}
+
+::: {.callout-warning}
+## <span>📊</span> Example 2
+
+An economist surveys **10 randomly selected consumers** from a large population where **40% prefer brand A** over competitors. Let $Y$ be the number who prefer brand A. Does this meet binomial requirements?
+:::
+
+. . .
+
+::: {.callout-important}
+## <span>💡</span> Important Remark
+
+When sampling **without replacement** from a finite population, trials are technically dependent. However:
+
+**Rule of Thumb**: If the sample size is less than **5% of the population** ($n < 0.05N$), the dependency is negligible and we can approximate with the binomial distribution.
+
+For large consumer markets, this condition is easily satisfied!
+:::
+
+
+## 📝 Quiz #1: Identifying Binomial Experiments {.quiz-question}
+
+Which of the following is **NOT** a binomial experiment?
+
+- Monitoring 20 stock trades where each results in profit or loss
+- [Surveying investors until finding 5 who own cryptocurrency]{.correct data-explanation="✅ Correct! This is NOT a binomial experiment because the number of trials is not fixed. We keep surveying until we find 5 crypto owners, which means n is random. This is a negative binomial (or geometric) distribution scenario."}
+- Testing 15 products from a production line for defects
+- Checking 30 loan applications for completeness
+
+```{r timer-quiz1}
+#| echo: false
+countdown::countdown(
+  minutes = 2,
+  seconds = 0,
+  id = "quiz1",
+  font_size = "1.5em",
+  top = "-50px",
+  right = "0px",
+  color_running_background = "#FFE6E6",
+  color_finished_background = "#dc3545",
+  start_immediately = FALSE
+)
+```
+
+---
+
+## 🧮 The Binomial Distribution {.smaller}
+
+::: {.callout-note}
+## <span>📝</span> Definition 2: Binomial Distribution
+
+A random variable $Y$ has a **binomial distribution** based on $n$ trials with success probability $p$ if and only if:
+
+$$
+p(y) = \binom{n}{y}p^yq^{n-y}, \quad y=0,1,2,\dotsc, n \quad \text{and} \quad 0\le p \le 1
+$$
+
+where $q = 1 - p$ and $\binom{n}{y} = \frac{n!}{y!(n-y)!}$
+
+**Notation**: We write $Y \sim \text{Binomial}(n, p)$ or $Y \sim B(n, p)$
+:::
+
+. . .
+
+::: {.callout-tip}
+## <span>💡</span> Binomial Theorem
+
+$$
+(q+p)^n = \binom{n}{0}q^n+\binom{n}{1}pq^{n-1}+\binom{n}{2}p^2q^{n-2}+\cdots+\binom{n}{n}p^n
+$$
+
+Since $p + q = 1$, we have $(q+p)^n = 1$, confirming that $\sum_{y=0}^{n}p(y) = 1$ ✓
+:::
+
+## 🔍 Interactive Exploration
+
+::: {.callout-tip}
+## <span>🌐</span> Explore Binomial Distributions
+
+Visit this interactive applet: [Binomial Distribution Applet](https://homepage.divms.uiowa.edu/~mbognar/applets/bin.html)
+
+**Activity**: Experiment with different parameter values:
+
+- <span style="font-size:1.2em">📊</span> Set $n = 10$, $p = 0.5$ → Symmetric distribution (like a fair coin)
+- <span style="font-size:1.2em">📉</span> Set $n = 10$, $p = 0.1$ → Right-skewed (rare events)
+- <span style="font-size:1.2em">📈</span> Set $n = 10$, $p = 0.9$ → Left-skewed (common events)
+
+**Financial Interpretation**: Observe how changing default probability $p$ affects the distribution shape!
+:::
+
+## 🤔 Think-Pair-Share Activity #2
+
+::: {.activity-box}
+### <span>🧩</span> Activity 2: Understanding the Formula Components (4 minutes)
+
+::: {.activity-step}
+**🧠 Think** (1.5 min): Why do we multiply $\binom{n}{y}$, $p^y$, and $q^{n-y}$ together? What does each component represent in a portfolio of risky assets?
+:::
+
+::: {.activity-step}
+**👥 Pair** (1.5 min): Explain your reasoning to your partner. 
+- What is $\binom{n}{y}$? (Number of ways to select which assets default)
+- What is $p^y$? (Probability those specific assets default)
+- What is $q^{n-y}$? (Probability remaining assets don't default)
+:::
+
+```{r timer-1}
+#| echo: false
+countdown::countdown(
+  minutes = 4,
+  seconds = 0,
+  id = "activity2",
+  font_size = "1.5em",
+  top = "0px",
+  right = "0px",
+  color_running_background = "#31b09e",
+  color_finished_background = "#dc3545",
+  start_immediately = FALSE
+)
+```
+
+::: {.activity-step}
+**🗣️ Share** (1 min): Volunteer pairs share insights with the class
+:::
+:::
+
+
+## 📌 Example 3: Investment Portfolio {.smaller}
+
+::: {.callout-warning}
+## <span>💼</span> Example 3
+
+A venture capital fund invests in **5 startup companies**. Historical data shows that **5% of startups fail** within the first year. Find the probability that **at least one startup fails**.
+:::
+
+. . .
+
+::: {.callout-note collapse="true"}
+## <span>🔢</span> Solution
+
+Let $Y$ = number of failed startups. Then $Y \sim \text{Binomial}(n=5, p=0.05)$.
+
+$$
+P(\text{at least one fails}) = 1 - P(Y = 0)
+$$
+
+$$
+P(Y = 0) = \binom{5}{0}(0.05)^0(0.95)^5 = 1 \times 1 \times (0.95)^5 = 0.774
+$$
+
+Therefore:
+$$
+P(Y \geq 1) = 1 - 0.774 = 0.226
+$$
+
+::: {.key-concept}
+**Interpretation**: There's a **22.6% chance** that at least one startup will fail, despite the individual failure rate being only 5%. This demonstrates the importance of diversification!
+:::
+:::
+
+## 📌 Example 4: Pharmaceutical Investment {.smaller}
+
+::: {.callout-warning}
+## <span>💊</span> Example 4
+
+A pharmaceutical company knows that **30% of experimental drugs** pass clinical trials without their new technology. They claim a new screening method increases success. With the new method, **9 out of 10 drugs passed trials**. If the method were **worthless**, what's $P(Y \geq 9)$?
+:::
+
+. . .
+
+::: {.callout-note collapse="true"}
+## <span>📊</span> Solution Setup
+
+Let $Y$ = number of drugs passing trials. If method is **worthless**: $p = 0.3$, $n = 10$.
+
+We need to find $P(Y \geq 9) = P(Y = 9) + P(Y = 10)$
+:::
+
+## 📌 Example 4: Solution {.smaller}
+
+Probability of exactly **nine successes**:
+
+$$
+P(Y = 9) = \binom{10}{9} (0.3)^9 (0.7)^1 = 10 \times (0.3)^9 \times 0.7 = 0.000138
+$$
+
+. . .
+
+Probability of exactly **ten successes**:
+
+$$
+P(Y = 10) = \binom{10}{10} (0.3)^{10} (0.7)^0 = (0.3)^{10} = 0.000006
+$$
+
+. . .
+
+Therefore:
+$$
+P(Y \geq 9) = 0.000138 + 0.000006 = 0.000144
+$$
+
+. . .
+
+::: {.callout-important}
+## <span>🎯</span> Statistical Interpretation
+If the screening method is **ineffective**, observing 9+ successes has probability **0.0144%** (about 1 in 7,000!). This provides **very strong evidence** that the new screening method is effective. A pharmaceutical company would likely invest in this technology based on such results.
+:::
+
+## 📝 Quiz #2: Calculating Probabilities {.quiz-question}
+
+An investor makes 6 independent trades with 50% probability of profit on each. What is the probability of exactly 4 profitable trades?
+
+**Hint**: Use $n=6$, $p=0.5$, $y=4$ in the binomial formula.
+
+- [0.234]{.correct data-explanation="✅ Correct! Using the binomial formula: P(Y=4) = C(6,4) × (0.5)^4 × (0.5)^2 = 15 × 0.0625 = 0.234 or about 23.4%. This means there's roughly a 1 in 4 chance of getting exactly 4 profitable trades out of 6."}
+- 0.313
+- 0.156
+- 0.500
+
+```{r timer-2}
+#| echo: false
+countdown::countdown(
+  minutes = 3,
+  seconds = 0,
+  id = "quiz2",
+  font_size = "1.5em",
+  bottom = "-50px",
+  left = "0px",
+  color_running_background = "#FFE6E6",
+  color_finished_background = "#dc3545",
+  start_immediately = FALSE
+)
+```
+
+## 📌 Example 5: Using Statistical Tables {.smaller}
+
+::: {.callout-warning}
+## <span>📋</span> Example 5
+
+A bond portfolio contains bonds with **5% default probability**. If the fund holds **20 bonds**, find the probability that **at least four bonds default**.
+:::
+
+. . .
+
+::: {.callout-note collapse="true"}
+## <span>🔢</span> Solution
+
+With $Y \sim \text{Binomial}(n=20, p=0.05)$:
+
+$$
+P(Y\geq 4) = 1 - P(Y\leq 3) = 1 - \sum_{y=0}^3p(y)
+$$
+
+We can calculate each term or use cumulative binomial tables. Using statistical software or tables:
+
+$P(Y \leq 3) \approx 0.9841$
+
+Therefore: 
+$$
+P(Y \geq 4) = 1 - 0.9841 = 0.0159
+$$
+
+**Risk Assessment**: Only about **1.6% chance** of having 4+ defaults, suggesting the portfolio is relatively safe under current assumptions.
+:::
+
+## 📊 Using Binomial Tables
+
+::: {.columns}
+
+::: {.column width="50%"} 
+::: {.callout-tip}
+## <span>📚</span> Cumulative Binomial Tables
+
+Tabulated values represent **cumulative probabilities**:
+$$
+P(Y \leq a) = \sum_{y=0}^{a}p(y)
+$$
+
+**Steps for** $n=20$, $p=0.05$, finding $P(Y \leq 3)$:
+
+1. <span style="font-size:1.2em">➊</span> Locate the section for $n=20$
+2. <span style="font-size:1.2em">➋</span> Find the column for $p=0.05$
+3. <span style="font-size:1.2em">➌</span> Read the cumulative probability at row $y=3$
+:::
+:::
+
+::: {.column width="50%"}
+::: {.key-concept}
+**Modern Approach**: Use statistical software for exact calculations:
+
+- **R**: `pbinom(3, 20, 0.05)` gives $P(Y \leq 3)$
+
+- **Python**: `scipy.stats.binom.cdf(3, 20, 0.05)`
+
+- **Excel**: `=BINOM.DIST(3, 20, 0.05, TRUE)`
+:::
+:::
+:::
+
+
+## 🎯 Key Theorem {.smaller}
+
+::: {.callout-note}
+## <span>📝</span> Theorem 1: Mean and Variance
+
+Let $Y$ be a binomial random variable based on $n$ trials with success probability $p$. Then:
+
+$$
+\mu = E(Y) = np
+$$
+
+$$
+\sigma^2 = V(Y) = npq = np(1-p)
+$$
+
+$$
+\sigma = SD(Y) = \sqrt{npq}
+$$
+
+where $q = 1 - p$.
+:::
+
+. . .
+
+::: {.callout-important}
+## <span>💡</span> Financial Interpretation
+
+- <span style="font-size:1.2em">📊</span> **Expected value** $E(Y) = np$: Expected number of defaults, claims, or successes
+- <span style="font-size:1.2em">📉</span> **Variance** $V(Y) = npq$: Measure of risk/uncertainty; maximum when $p = 0.5$
+- <span style="font-size:1.2em">📐</span> **Standard deviation** $\sigma$: Typical deviation from expected value (used in risk management)
+:::
+
+## 🤔 Group Activity: Portfolio Risk
+
+::: {.activity-box}
+### <span>🏦</span> Activity 3: Understanding Expected Value (5 minutes)
+
+**Scenario**: A bank's credit card portfolio has 1000 accounts, each with 2% monthly default probability.
+
+**Tasks** (in groups of 3-4):
+
+::: {.activity-step}
+**1.** Calculate expected number of defaults per month (1 min)
+:::
+
+::: {.activity-step}
+**2.** Calculate the standard deviation (1 min)
+:::
+
+::: {.activity-step}
+**3.** If portfolio grows to 10,000 accounts, what happens to expected defaults and standard deviation? Does the default probability change? (2 min)
+:::
+
+```{r timer-3}
+#| echo: false
+countdown::countdown(
+  minutes = 5,
+  seconds = 0,
+  id = "activity3",
+  font_size = "1.5em",
+  top = "30px",
+  right = "0px",
+  color_running_background = "#31b09e",
+  color_finished_background = "#dc3545",
+  start_immediately = FALSE
+)
+```
+
+::: {.activity-step}
+**4.** Present your insights and discuss risk implications (1 min/group)
+:::
+:::
+
+
+
+## 📌 Example 6: Market Research {.smaller}
+
+::: {.callout-warning}
+## <span>📊</span> Example 6
+
+A market research firm surveys **20 randomly selected consumers** about a new product. **6 respondents** expressed interest in purchasing. Estimate $p$, the true proportion of the population interested in the product.
+:::
+
+. . .
+
+::: {.callout-note collapse="true"}
+## <span>🔍</span> Solution: Maximum Likelihood Approach
+
+- Let $Y$ = number interested in product (observed $Y = 6$)
+- $Y \sim \text{Binomial}(n=20, p=?)$
+- Likelihood of observing $Y=6$:
+
+$$
+L(p) = P(Y = 6 | p) = \binom{20}{6} p^6 (1 - p)^{14}
+$$
+
+**Question**: What value of $p$ **maximizes** this likelihood?
+:::
+
+## 🎓 Maximum Likelihood Estimation {.smaller}
+
+To maximize $L(p) = \binom{20}{6} p^6 (1 - p)^{14}$:
+
+::: {.incremental}
+- <span style="font-size:1.2em">🎯</span> $\binom{20}{6}$ is constant relative to $p$
+- <span style="font-size:1.2em">📈</span> Since $\ln(x)$ is strictly increasing, maximize log-likelihood instead:
+:::
+
+. . .
+
+$$
+\ln L(p) = \ln\binom{20}{6} + 6\ln(p) + 14\ln(1-p)
+$$
+
+. . .
+
+**Differentiate** with respect to $p$:
+
+$$
+\frac{d\ln L}{dp} = \frac{6}{p} - \frac{14}{1-p}
+$$
+
+## 🔍 Finding the Maximum Likelihood Estimate {.smaller}
+
+Set the derivative equal to zero:
+
+$$
+\frac{6}{p} - \frac{14}{1-p} = 0
+$$
+
+. . .
+
+Multiply both sides by $p(1-p)$:
+
+$$
+6(1-p) - 14p = 0
+$$
+
+$$
+6 - 6p - 14p = 0
+$$
+
+$$
+6 = 20p
+$$
+
+$$
+p = \frac{6}{20} = 0.3
+$$
+
+## ✅ Solution Verification {.smaller}
+
+::: {.callout-note}
+## <span>✓</span> Final Solution
+
+Check the **second derivative**:
+$$
+\frac{d^2\ln L}{dp^2} = -\frac{6}{p^2} - \frac{14}{(1-p)^2}
+$$
+
+This is **always negative** for $0 < p < 1$, confirming a maximum at $p = 6/20$.
+
+**Maximum Likelihood Estimate**:
+$$
+\boxed{\hat{p} = \frac{6}{20} = 0.30 = 30\%}
+$$
+:::
+
+. . .
+
+::: {.callout-important}
+## <span>🎯</span> General Result
+
+For binomial data, the **Maximum Likelihood Estimator (MLE)** is always:
+$$
+\hat{p} = \frac{Y}{n} = \frac{\text{number of successes}}{\text{number of trials}}
+$$
+
+This is simply the **sample proportion** - intuitive and optimal!
+:::
+
+## 📝 Quiz #3: Mean and Variance {.quiz-question}
+
+A loan portfolio has 25 loans, each with 40% default probability (independent). What are $E(Y)$ and $SD(Y)$?
+
+**Hint**: $E(Y) = np$ and $SD(Y) = \sqrt{npq}$
+
+- [$E(Y) = 10$, $SD(Y) = 2.45$]{.correct data-explanation="✅ Correct! Expected value: E(Y) = np = 25(0.4) = 10 defaults on average. Standard deviation: SD(Y) = √(npq) = √(25 × 0.4 × 0.6) = √6 ≈ 2.45. This means we expect about 10 defaults with typical variation of ±2.45 defaults."}
+- $E(Y) = 12$, $SD(Y) = 3.00$
+- $E(Y) = 10$, $SD(Y) = 6.00$
+- $E(Y) = 15$, $SD(Y) = 2.45$
+
+```{r timer-4}
+#| echo: false
+countdown::countdown(
+  minutes = 3,
+  seconds = 0,
+  id = "quiz3",
+  font_size = "1.5em",
+  bottom = "-50px",
+  left = "0px",
+  color_running_background = "#FFE6E6",
+  color_finished_background = "#dc3545",
+  start_immediately = FALSE
+)
+```
+
+---
+
+## 🤔 Think-Pair-Share Activity #3
+
+::: {.activity-box}
+### <span>🏭</span> Activity 4: Quality Control Application (5 minutes)
+
+**Scenario**: A manufacturing company's historical defect rate is 2%. Today's inspection found 5 defects in a sample of 50 products.
+
+::: {.activity-step}
+**🧠 Think** (2 min): Is this evidence that the defect rate has increased? Under $p = 0.02$, what's $E(Y)$?
+:::
+
+::: {.activity-step}
+**👥 Pair** (2 min): Calculate (or estimate) $P(Y \geq 5)$ when $n=50$, $p=0.02$. Use the fact that $E(Y) = 1$. Is 5 unusually high?
+:::
+
+```{r timer-5}
+#| echo: false
+countdown::countdown(
+  minutes = 5,
+  seconds = 0,
+  id = "activity4",
+  font_size = "1.5em",
+  top = "-120px",
+  right = "0px",
+  color_running_background = "#31b09e",
+  color_finished_background = "#dc3545",
+  start_immediately = FALSE
+)
+```
+
+::: {.activity-step}
+**🗣️ Share** (1 min): Present conclusions about whether quality has deteriorated
+:::
+:::
+
+
+
+## 📝 Summary {.smaller}
+
+::: {.summary-box}
+## <span>✅</span> Key Takeaways
+
+**Five Properties of Binomial Experiments:**
+1. <span style="font-size:1.2em">🔢</span> Fixed number of trials $n$
+2. <span style="font-size:1.2em">⚖️</span> Two outcomes: success or failure
+3. <span style="font-size:1.2em">🎯</span> Constant probability $p$
+4. <span style="font-size:1.2em">🔗</span> Independent trials
+5. <span style="font-size:1.2em">📊</span> Count of successes $Y$
+
+**Essential Formulas:**
+$$
+p(y) = \binom{n}{y}p^yq^{n-y}, \quad E(Y) = np, \quad V(Y) = npq, \quad \hat{p}_{\text{MLE}} = \frac{Y}{n}
+$$
+
+**Applications**: Credit risk, portfolio management, quality control, market research, insurance claims
+:::
+
+## 📚 Practice Problems {.smaller}
+
+::: {.callout-tip}
+## <span>📝</span> Homework Problems
+
+1. **💻 Investment Portfolio**: A venture capital fund invests in 10 startups. If 5% typically fail within one year, find:
+   - $P(\text{at most 2 fail})$
+   - Expected failures and standard deviation
+   - Is observing 3 failures unusual?
+
+2. **🏥 Insurance Claims**: An insurance company expects 8% of policyholders to file claims. For 15 randomly selected policies:
+   - Find $P(\text{exactly 2 claims})$
+   - Calculate $E(Y)$ and $SD(Y)$
+   - If 4 file claims, should the company investigate?
+
+3. **📱 Market Research**: Historical data shows 35% of customers convert after seeing an ad. Sample of 20:
+   - Find $P(Y = 7)$
+   - Find $P(Y \geq 10)$
+   - If 12 converted, estimate the new conversion rate using MLE
+
+**Due**: Next class meeting
+:::
+
+## 🌐 Additional Resources {.smaller}
+
+::: {.callout-tip}
+## <span>📖</span> For Further Study
+
+**Interactive Tools:**
+- <span style="font-size:1.1em">🔗</span> [Binomial Distribution Calculator](https://homepage.divms.uiowa.edu/~mbognar/applets/bin.html)
+- <span style="font-size:1.1em">🎓</span> Khan Academy: Binomial Probability
+- <span style="font-size:1.1em">📺</span> StatQuest YouTube: Binomial Distribution
+
+**Statistical Software:**
+- <span style="font-size:1.1em">📊</span> **R**: `dbinom()`, `pbinom()`, `qbinom()`, `rbinom()`
+- <span style="font-size:1.1em">🐍</span> **Python**: `scipy.stats.binom`
+- <span style="font-size:1.1em">📈</span> **Excel**: `=BINOM.DIST()`
+
+**Textbook Reading:**
+- Chapter 3.4: The Binomial Distribution
+- Chapter 3.5: Applications and Examples
+- Review: Expected Value and Variance (Chapter 3.2)
+:::
+
+## 👋 Thank You! {.smaller}
+
+::: {.columns}
+::: {.column width="50%"}
+**📬 Contact Information:**
+
+**Samir Orujov**  
+Assistant Professor  
+School of Business
+ADA University
+
+📧 **Email**: [sorujov@ada.edu.az](mailto:sorujov@ada.edu.az)  
+🏢 **Office**: Main Building, Room TBD  
+⏰ **Office Hours**: By appointment
+:::
+
+::: {.column width="50%"}
+**📅 Next Class:**
+
+- **Topic**: Poisson Distribution
+- **Reading**: Chapter 3.6
+- **Preparation**: Review binomial concepts
+
+**⏰ Reminders:**
+- ✅ Complete all homework problems
+- ✅ Review MLE concept thoroughly
+- ✅ Prepare for quiz next week
+- ✅ Bring calculator to class
+:::
+:::
+
+## ❓ Questions? {.center}
+
+::: {.callout-note}
+## <span>💬</span> Open Discussion (5 minutes)
+
+Feel free to ask questions about:
+
+- <span style="font-size:1.2em">📊</span> Binomial distribution properties and assumptions
+- <span style="font-size:1.2em">🧮</span> Calculating probabilities using formulas or tables
+- <span style="font-size:1.2em">📈</span> Mean and variance interpretations
+- <span style="font-size:1.2em">🎯</span> Maximum likelihood estimation methodology
+- <span style="font-size:1.2em">💼</span> Applications to finance, economics, or your research
+:::
+
+```{r timer-6}
+#| echo: false
+countdown::countdown(
+  minutes = 5,
+  seconds = 0,
+  id = "questions",
+  font_size = "1.5em",
+  top = "10px",
+  right = "50px",
+  color_running_background = "#31b09e",
+  color_finished_background = "#dc3545",
+  start_immediately = TRUE
+)
+```

@@ -733,7 +733,7 @@ location: "Baku, Azerbaijan"
     </div>
     
     <div class="lecture-buttons">
-      <a href="/lectures/math-stat-1/07-binomial/index.html" class="btn btn--primary">
+      <a href="/lectures/math-stat-1/04-Binomial-Distribution/binomial.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
       <a href="/downloads/stat2311-homework-4.pdf" class="btn btn--primary">
