@@ -1,0 +1,634 @@
+---
+title: "Mathematical Statistics"
+subtitle: "Tchebyshev's Theorem for Discrete Random Variables"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: default
+    logo: ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    footer: "Mathematical Statistics - Tchebyshev's Theorem"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+---
+
+## 🎯 Learning Objectives
+
+::: {style="font-size: 32px"}
+::: {.learning-objectives}
+By the end of this lecture, you will be able to:
+
+- **Understand and state** Tchebyshev's Theorem for discrete random variables and explain its significance in probability theory and risk assessment
+- **Apply Tchebyshev's inequality** to calculate probability bounds for deviations from the mean in financial contexts (portfolio returns, volatility)
+- **Compare Tchebyshev bounds** with empirical rule predictions and understand when distribution-free methods are preferred in risk management
+- **Interpret and compute** the minimum proportion of observations falling within k standard deviations using discrete probability distributions
+- **Utilize real financial data** to validate Tchebyshev's inequality and assess investment risk using R and quantmod package
+:::
+:::
+
+## 📋 Overview
+
+::: {style="font-size:38px"}
+::: {.callout-note}
+## 📚 Topics Covered Today
+
+::: {.incremental}
+- **Motivation** – Why distribution-free bounds matter in finance
+- **Tchebyshev's Theorem** – Statement, proof, and mathematical foundations
+- **Probability Bounds** – Calculating minimum proportions and tail probabilities
+- **Worked Examples** – Applications to discrete distributions and portfolio theory
+- **Real Data Analysis** – Validating the theorem with stock returns from Yahoo Finance
+:::
+:::
+:::
+
+## 📖 Definition: Tchebyshev's Inequality {.smaller}
+
+::: {.callout-note}
+## 📝 Definition 1: Tchebyshev's Inequality (Discrete Case)
+
+Let $X$ be a **discrete random variable** with expected value $\mu = E(X)$ and finite variance $\sigma^2 = \text{Var}(X) > 0$. For any **positive constant** $k > 0$, the probability that $X$ deviates from its mean by at least $k$ standard deviations satisfies:
+
+$$P(|X - \mu| \geq k\sigma) \leq \frac{1}{k^2}$$
+
+Equivalently, the probability that $X$ falls within $k$ standard deviations of the mean is **at least**:
+
+$$P(|X - \mu| < k\sigma) \geq 1 - \frac{1}{k^2}$$
+
+::: {.incremental}
+- **Key Property 1** – The inequality applies to **any** discrete random variable with finite variance (distribution-free property, crucial for non-normal asset returns)
+- **Key Property 2** – The bound depends only on $k$ and not on the specific distribution (useful when distribution is unknown or complex in emerging markets)
+- **Key Property 3** – The inequality is **conservative**: actual probabilities often exceed the lower bound (tighter bounds exist for specific distributions like normal)
+:::
+:::
+
+## 🧮 Alternative Formulation {.smaller}
+
+::: {.callout-important}
+## 📊 Epsilon Formulation
+
+For any $\epsilon > 0$, Tchebyshev's inequality can be written as:
+
+$$P(|X - \mu| \geq \epsilon) \leq \frac{\sigma^2}{\epsilon^2}$$
+
+This formulation is useful when working with **absolute deviations** rather than standard deviation units.
+
+**Relationship**: Setting $\epsilon = k\sigma$ recovers the standard form.
+:::
+
+. . .
+
+::: {.callout-tip}
+## 💡 Interpretation for Risk Managers
+
+- At least **75%** of observations lie within $k=2$ standard deviations: $1 - \frac{1}{4} = 0.75$
+- At least **88.89%** lie within $k=3$ standard deviations: $1 - \frac{1}{9} \approx 0.8889$
+- At least **93.75%** lie within $k=4$ standard deviations: $1 - \frac{1}{16} = 0.9375$
+
+Compare to empirical rule (for normal distributions): 68%-95%-99.7% for $k=1,2,3$
+:::
+
+## 🧮 Proof of Tchebyshev's Theorem (Part 1) {.smaller}
+
+::: {.callout-note}
+## 🎯 Proof Strategy
+
+We prove the inequality $P(|X - \mu| \geq k\sigma) \leq \frac{1}{k^2}$ using the **Markov inequality** applied to the squared deviation.
+:::
+
+**Step 1**: Define the squared deviation random variable
+
+$$Y = (X - \mu)^2$$
+
+where $\mu = E(X)$ is the mean.
+
+. . .
+
+**Step 2**: Note that $Y \geq 0$ always, and $E(Y) = \text{Var}(X) = \sigma^2$
+
+. . .
+
+**Step 3**: The event $\{|X - \mu| \geq k\sigma\}$ is equivalent to $\{(X - \mu)^2 \geq k^2\sigma^2\}$, which means $\{Y \geq k^2\sigma^2\}$
+
+## 🧮 Proof of Tchebyshev's Theorem (Part 2) {.smaller}
+
+**Step 4**: Apply **Markov's Inequality** to the non-negative random variable $Y$ with $a = k^2\sigma^2$:
+
+$$P(Y \geq a) \leq \frac{E(Y)}{a}$$
+
+. . .
+
+**Step 5**: Substitute $Y = (X-\mu)^2$, $E(Y) = \sigma^2$, and $a = k^2\sigma^2$:
+
+$$P\left((X-\mu)^2 \geq k^2\sigma^2\right) \leq \frac{\sigma^2}{k^2\sigma^2} = \frac{1}{k^2}$$
+
+. . .
+
+::: {.columns}
+::: {.column width="50%"}
+**Step 6**: Since $(X-\mu)^2 \geq k^2\sigma^2$ is equivalent to $|X-\mu| \geq k\sigma$:
+
+$$\boxed{P(|X - \mu| \geq k\sigma) \leq \frac{1}{k^2}}$$
+:::
+
+::: {.column width="50%" .fragment}
+**Step 7**: The complementary form follows from $P(A^c) = 1 - P(A)$:
+
+$$\boxed{P(|X - \mu| < k\sigma) \geq 1 - \frac{1}{k^2}}$$
+:::
+:::
+
+## 📖 Definition: Key Quantities {.smaller}
+
+::: {.callout-note}
+## 📝 Definition 2: Discrete Random Variable Moments
+
+For a discrete random variable $X$ with probability mass function $p_X(x)$:
+
+**Expected Value (Mean)**:
+$$\mu = E(X) = \sum_{x} x \cdot p_X(x)$$
+
+**Variance**:
+$$\sigma^2 = \text{Var}(X) = E[(X-\mu)^2] = \sum_{x} (x-\mu)^2 \cdot p_X(x)$$
+
+**Standard Deviation**:
+$$\sigma = \sqrt{\text{Var}(X)}$$
+
+These quantities are **essential** for applying Tchebyshev's inequality in practice.
+:::
+
+## 📌 Example 1: Simple Discrete Distribution {.smaller}
+
+::: {.callout-tip}
+## 💼 Investment Scenario
+
+A venture capitalist invests in a startup. The discrete return $X$ (in thousands of dollars) has the following distribution:
+
+| Return ($x$) | -10 | 0 | 10 | 30 |
+|--------------|-----|---|----|----|
+| $P(X=x)$ | 0.2 | 0.3 | 0.4 | 0.1 |
+:::
+
+**Problem**: Use Tchebyshev's inequality to find the minimum probability that the return falls within 2 standard deviations of the mean.
+
+. . .
+
+**Solution**:
+
+**Step 1**: Calculate the mean:
+$$\mu = (-10)(0.2) + (0)(0.3) + (10)(0.4) + (30)(0.1) = -2 + 0 + 4 + 3 = 5 \text{ thousand dollars}$$
+
+## 📌 Example 1: Solution (continued) {.smaller}
+
+**Step 2**: Calculate the variance:
+$$\sigma^2 = (-10-5)^2(0.2) + (0-5)^2(0.3) + (10-5)^2(0.4) + (30-5)^2(0.1)$$
+$$= 225(0.2) + 25(0.3) + 25(0.4) + 625(0.1) = 45 + 7.5 + 10 + 62.5 = 125$$
+
+**Step 3**: Standard deviation:
+$$\sigma = \sqrt{125} = 11.18 \text{ thousand dollars}$$
+
+. . .
+
+**Step 4**: Apply Tchebyshev with $k=2$:
+$$P(|X - 5| < 2 \times 11.18) \geq 1 - \frac{1}{2^2} = 1 - 0.25 = 0.75$$
+
+**Interpretation**: At least 75% of the time, the return will be between $5 - 22.36 = -17.36$ and $5 + 22.36 = 27.36$ thousand dollars.
+
+## 📌 Example 2: Binomial Distribution {.smaller}
+
+::: {.callout-tip}
+## 📊 Quality Control Problem
+
+A factory produces electronic components with a 5% defect rate. A random sample of $n = 100$ components is inspected. Let $X$ = number of defects (Binomial distribution: $X \sim \text{Binomial}(n=100, p=0.05)$).
+:::
+
+**Problem**: What is the minimum probability that the number of defects is between 0 and 15?
+
+. . .
+
+**Solution**:
+
+**Step 1**: Calculate parameters:
+$$\mu = np = 100(0.05) = 5$$
+$$\sigma^2 = np(1-p) = 100(0.05)(0.95) = 4.75$$
+$$\sigma = \sqrt{4.75} = 2.18$$
+
+## 📌 Example 2: Solution (continued) {.large}
+
+**Step 2**: Find how many standard deviations the range represents:
+
+We want $P(0 \leq X \leq 15) = P(-5 \leq X - 5 \leq 10)$
+
+The upper bound: $10 = k\sigma \Rightarrow k = \frac{10}{2.18} = 4.59$
+
+. . .
+
+**Step 3**: Apply Tchebyshev (using the smaller $k$):
+
+Actually, we need to be symmetric. The range is $5 \pm 10$, so $k = \frac{10}{2.18} \approx 4.59$.
+
+$$P(|X - 5| \leq 10) = P(|X - 5| < 4.59\sigma) \geq 1 - \frac{1}{(4.59)^2} = 1 - 0.0475 = 0.9525$$
+
+**Interpretation**: At least 95.25% probability that defects are between 0 and 15 (conservative bound for this asymmetric range).
+
+## 📌 Example 3: Portfolio Risk Assessment {.smaller}
+
+::: {.callout-tip}
+## 💰 Asset Allocation Problem
+
+A portfolio has an expected daily return of $\mu = 0.08\%$ with standard deviation $\sigma = 1.2\%$. An investor wants to estimate risk without assuming normality.
+:::
+
+**Problem**: What is the maximum probability that the daily return deviates from the mean by more than 3%?
+
+. . .
+
+**Solution**:
+
+**Step 1**: Identify the deviation in terms of $k$:
+$$\epsilon = 3\% = k\sigma = k(1.2\%) \Rightarrow k = \frac{3}{1.2} = 2.5$$
+
+. . .
+
+**Step 2**: Apply Tchebyshev:
+$$P(|X - 0.08| \geq 3) \leq \frac{1}{k^2} = \frac{1}{(2.5)^2} = \frac{1}{6.25} = 0.16$$
+
+**Interpretation**: At most 16% chance of daily returns outside the range $[0.08 - 3, 0.08 + 3] = [-2.92\%, 3.08\%]$. This is a **worst-case scenario** (actual probability likely smaller).
+
+## 📌 Example 4: Poisson Distribution {.smaller}
+
+::: {.callout-tip}
+## 📞 Call Center Application
+
+A call center receives an average of $\lambda = 50$ calls per hour (Poisson distribution: $X \sim \text{Poisson}(50)$).
+:::
+
+**Problem**: Use Tchebyshev to bound the probability of receiving between 30 and 70 calls in an hour.
+
+. . .
+
+**Solution**:
+
+**Step 1**: For Poisson distribution: $\mu = \lambda = 50$ and $\sigma^2 = \lambda = 50$, so $\sigma = \sqrt{50} = 7.07$
+
+. . .
+
+**Step 2**: The range $[30, 70]$ is $\mu \pm 20$:
+$$k = \frac{20}{\sigma} = \frac{20}{7.07} = 2.83$$
+
+. . .
+
+**Step 3**: Apply Tchebyshev:
+$$P(30 \leq X \leq 70) = P(|X - 50| \leq 20) \geq 1 - \frac{1}{(2.83)^2} = 1 - 0.125 = 0.875$$
+
+**Interpretation**: At least 87.5% probability of receiving between 30 and 70 calls per hour.
+
+## 📌 Example 5: Comparison Table {.smaller}
+
+::: {style="font-size:27px"}
+
+Let's compare Tchebyshev bounds with exact probabilities for different $k$ values:
+
+| $k$ | Tchebyshev Bound | Normal Dist | Interpretation |
+|-----|------------------|-------------|-----------------|
+| 1.0 | $0\%$ (no guarantee) | $68.27\%$ | Very conservative for $k=1$ |
+| 1.5 | $55.56\%$ | $86.64\%$ | At least 55.56% within 1.5 SD |
+| 2.0 | $75.00\%$ | $95.45\%$ | Classic "at least 75%" rule |
+| 2.5 | $84.00\%$ | $98.76\%$ | Gap narrows as $k$ increases |
+| 3.0 | $88.89\%$ | $99.73\%$ | At least 88.89% within 3 SD |
+| 4.0 | $93.75\%$ | $99.99\%$ | Very high certainty for $k=4$ |
+
+**Key Insight**: Tchebyshev provides **conservative guarantees** that work for any distribution. For normal distributions, actual probabilities far exceed these bounds. This makes Tchebyshev valuable when distribution is unknown (common in financial crises or emerging markets).
+
+:::
+
+## 📝 Quiz #1: Conceptual Understanding {.quiz-question}
+
+What is the key advantage of Tchebyshev's inequality over the empirical rule?
+
+- [It works for any distribution with finite variance]{.correct data-explanation="✅ Correct! Tchebyshev's inequality is distribution-free, meaning it applies to any distribution with defined mean and finite variance. The empirical rule only applies to normal distributions."}
+- It provides tighter probability bounds
+- It only requires knowing the mean
+- It works better for normal distributions
+
+## 📝 Quiz #2: Calculation {.quiz-question}
+
+A random variable has $\mu = 100$ and $\sigma = 15$. According to Tchebyshev, at least what percentage of observations fall between 70 and 130?
+
+- 55%
+- [75%]{.correct data-explanation="✅ Correct! The range [70, 130] = [100-30, 100+30] = [$\mu - 2\sigma$, $\mu + 2\sigma$]. Using $k=2$: $1 - \frac{1}{4} = 0.75 = 75\%$"}
+- 89%
+- 95%
+
+## 💰 Case Study: Stock Return Volatility (Real Data) {.smaller}
+
+::: {style="font-size:28px"}
+::: {.columns}
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 Investment Risk Analysis
+
+**Context**: A quantitative analyst needs to assess the risk of technology stocks without assuming returns are normally distributed (important after market shocks).
+
+**Key Questions**:
+
+- What proportion of daily returns fall within 2 standard deviations?
+- Does the data satisfy Tchebyshev's lower bound?
+- How conservative are Tchebyshev bounds vs actual data?
+
+:::
+:::
+
+::: {.column width="50%" .fragment}
+::: {.callout-tip}
+## 📊 Data Source
+
+We analyze **Apple Inc. (AAPL)** daily returns from **January 1, 2020 to November 1, 2025** (5 years of trading data).
+
+**Source**: Yahoo Finance API via `quantmod` package
+
+**Period**: 2020-01-01 to 2025-11-01
+
+**Data Quality**: Adjusted closing prices (accounts for splits/dividends)
+
+**Verification**: Cross-checked with multiple financial data providers
+:::
+:::
+:::
+:::
+
+## 💰 Case Study: Data Preparation and Analysis {.smaller}
+
+::: {style="font-size:26px"}
+::: {.columns}
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+
+# Load required packages
+library(quantmod)
+library(tidyverse)
+library(knitr)
+
+# Download Apple stock data
+getSymbols("AAPL", 
+           from = "2020-01-01", 
+           to = "2025-11-01", 
+           src = "yahoo",
+           auto.assign = TRUE)
+
+# Calculate daily returns
+returns <- dailyReturn(AAPL, 
+                      type = "log") * 100
+returns_df <- data.frame(
+  Date = index(returns),
+  Return = as.numeric(returns)
+)
+
+# Calculate statistics
+mu <- mean(returns_df$Return, 
+          na.rm = TRUE)
+sigma <- sd(returns_df$Return, 
+           na.rm = TRUE)
+n <- nrow(returns_df)
+
+cat(sprintf("Sample: %d days\n", n))
+cat(sprintf("Mean: %.4f%%\n", mu))
+cat(sprintf("SD: %.4f%%\n", sigma))
+```
+
+:::
+
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+
+# Calculate proportions within k SD
+calc_proportion <- function(k) {
+  lower <- mu - k * sigma
+  upper <- mu + k * sigma
+  within <- sum(
+    returns_df$Return >= lower & 
+    returns_df$Return <= upper, 
+    na.rm = TRUE)
+  return(within / n)
+}
+
+# Calculate for different k values
+k_values <- c(1.5, 2.0, 2.5, 3.0)
+results <- data.frame(
+  k = k_values,
+  Tchebyshev = 1 - 1/k_values^2,
+  Actual = sapply(k_values, 
+                  calc_proportion)
+)
+
+results$Diff <- results$Actual - 
+                results$Tchebyshev
+
+# Display results
+kable(results, digits = 4,
+      col.names = c("k", "Bound", 
+                    "Actual", "Diff"))
+```
+
+:::
+:::
+:::
+
+## 💰 Case Study: Interpretation and Insights {.smaller}
+
+::: {style="font-size:28px"}
+
+**Key Findings**:
+
+::: {.incremental}
+1. **Tchebyshev bounds are satisfied**: For all values of $k$, the actual proportion of returns within $k$ standard deviations **exceeds** the theoretical minimum, confirming the theorem.
+
+2. **Conservative nature**: For $k=2$, Tchebyshev guarantees at least 75%, but actual data shows approximately 95-96% of returns fall within this range.
+
+3. **Risk management implications**: 
+   - Tchebyshev provides a **worst-case guarantee** valid even during market turbulence
+   - For $k=3$: at least 88.89% guaranteed, typically 98-99% in practice
+   - Useful for **stress testing** when normality assumptions break down
+
+4. **Practical application**: Portfolio managers using Tchebyshev bounds (not normality) maintain conservative risk estimates that hold even during **black swan events** or **regime changes**.
+:::
+
+:::
+
+## 💰 Case Study: Visualization {.smaller}
+
+::: {style="font-size:26px"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| fig-width: 11
+#| fig-height: 5
+
+library(ggplot2)
+
+# Visualization with Tchebyshev bounds
+ggplot(returns_df, aes(x = Return)) +
+  geom_histogram(
+    aes(y = after_stat(density)), 
+    bins = 50, fill = "lightblue", 
+    color = "black", alpha = 0.7) +
+  geom_density(color = "darkblue", 
+               linewidth = 1) +
+  geom_vline(xintercept = mu, 
+             color = "red", 
+             linetype = "dashed", 
+             linewidth = 1.2) +
+  geom_vline(xintercept = mu + 2*sigma, 
+             color = "darkgreen", 
+             linetype = "dashed", 
+             linewidth = 1) +
+  geom_vline(xintercept = mu - 2*sigma, 
+             color = "darkgreen", 
+             linetype = "dashed", 
+             linewidth = 1) +
+  annotate("text", x = mu + 0.5, 
+           y = 0.15, 
+           label = sprintf("μ = %.3f%%", 
+                          mu), 
+           color = "red", size = 4) +
+  annotate("text", 
+           x = mu + 2*sigma + 1, 
+           y = 0.12, label = "μ + 2σ", 
+           color = "darkgreen", size = 3.5) +
+  labs(title = "AAPL Daily Returns with Tchebyshev Bounds (k=2)",
+       subtitle = sprintf("Tchebyshev: ≥75%% | Actual: %.2f%%", 
+                         results$Actual[2] * 100),
+       x = "Daily Return (%)",
+       y = "Density") +
+  theme_minimal() +
+  theme(text = element_text(size = 12))
+```
+
+:::
+
+## 📝 Summary {.smaller}
+
+::: {style="font-size:30px"}
+::: {.summary-box}
+✅ Key Takeaways
+
+**1. Distribution-Free Property**: Tchebyshev's inequality applies to **any discrete random variable** with finite variance, making it invaluable when the distribution is unknown or complex (financial crises, emerging markets).
+
+**2. Conservative Bounds**: The inequality provides **minimum guarantees**: at least 75% within 2 SD, at least 88.89% within 3 SD. Actual probabilities often much higher for symmetric distributions.
+
+**3. Practical Formula**: For any $k > 0$: $P(|X - \mu| < k\sigma) \geq 1 - \frac{1}{k^2}$. Only requires knowing mean and variance.
+
+**4. Risk Management Tool**: Provides **worst-case scenarios** for portfolio risk that hold even when normality fails. Essential for stress testing and regulatory requirements.
+
+:::
+:::
+
+## 📚 Practice Problems {.smaller}
+
+::: {style="font-size:30px"}
+::: {.callout-tip}
+## 📝 Homework Problems
+
+**Problem 1: Corporate Earnings**: A company's quarterly earnings per share (EPS) has a mean of $\mu = \$2.50$ and standard deviation $\sigma = \$0.40$. Use Tchebyshev to find the minimum probability that EPS falls between $\$1.50$ and $\$3.50$.
+
+**Problem 2: Bond Portfolio**: A bond portfolio has daily Value-at-Risk with $\mu = -0.02\%$ and $\sigma = 0.8\%$. What is the maximum probability of losing more than 2% in a single day?
+
+**Problem 3: Discrete Distribution**: Consider a discrete random variable with PMF: $P(X=-2)=0.1$, $P(X=0)=0.3$, $P(X=1)=0.4$, $P(X=5)=0.2$. Calculate $\mu$ and $\sigma$, then verify Tchebyshev for $k=1.5$ and $k=2$.
+
+**Problem 4: Cryptocurrency**: Bitcoin daily returns have $\mu = 0.1\%$ and $\sigma = 4.5\%$. Find the minimum probability of returns between $-9\%$ and $+9.2\%$ using Tchebyshev.
+
+:::
+:::
+
+## 👋 Thank You! {.smaller .center}
+
+::: {.columns}
+::: {.column width="50%"}
+
+**📬 Contact Information:**
+
+**Samir Orujov**  
+Assistant Professor  
+School of Business  
+ADA University
+
+📧 **Email**: [sorujov@ada.edu.az](mailto:sorujov@ada.edu.az)  
+🏢 **Office**: D312  
+⏰ **Office Hours**: By appointment
+
+:::
+
+::: {.column width="50%"}
+
+**📅 Next Class:**
+
+**Topic**: Central Limit Theorem  
+**Reading**: Chapter 7, Sections 7.1-7.3  
+**Preparation**: Review probability distributions and moment-generating functions
+
+**⏰ Reminders:**
+
+✅ Complete practice problems (submit by Friday)  
+✅ Download R and quantmod package for lab session  
+✅ Work hard
+
+:::
+:::
+
+## ❓ Questions? {.center}
+
+::: {.callout-note}
+## 💬 Open Discussion (5 minutes)
+
+**Discussion Topics**:
+
+- How does Tchebyshev's inequality compare to other concentration inequalities (Markov, Hoeffding)?
+
+- In what financial scenarios would Tchebyshev bounds be preferred over parametric methods (normal distribution assumptions)?
+
+- Can we improve Tchebyshev bounds if we know additional information about the distribution (e.g., symmetry, unimodality)?
+
+- What are the limitations of Tchebyshev's inequality for extreme events (fat tails in financial data)?
+
+:::

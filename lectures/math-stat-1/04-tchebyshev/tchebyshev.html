@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="tchebyshev_files/libs/clipboard/clipboard.min.js"></script>
+<script src="tchebyshev_files/libs/quarto-html/tabby.min.js"></script>
+<script src="tchebyshev_files/libs/quarto-html/popper.min.js"></script>
+<script src="tchebyshev_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="tchebyshev_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="tchebyshev_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="tchebyshev_files/libs/quarto-html/quarto-syntax-highlighting-e41caad1b6b9b62eb3087831f3b4c651.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.25">
+
+  <meta name="author" content="Samir Orujov, PhD">
+  <meta name="dcterms.date" content="2025-11-10">
+  <title>Mathematical Statistics</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="tchebyshev_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="tchebyshev_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {  background-color: #f8f8f8; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ef2929; } /* Alert */
+    code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #204a87; } /* Attribute */
+    code span.bn { color: #0000cf; } /* BaseN */
+    code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4e9a06; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #8f5902; font-style: italic; } /* Comment */
+    code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+    code span.dt { color: #204a87; } /* DataType */
+    code span.dv { color: #0000cf; } /* DecVal */
+    code span.er { color: #a40000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #0000cf; } /* Float */
+    code span.fu { color: #204a87; font-weight: bold; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+    code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+    code span.ot { color: #8f5902; } /* Other */
+    code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+    code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+    code span.ss { color: #4e9a06; } /* SpecialString */
+    code span.st { color: #4e9a06; } /* String */
+    code span.va { color: #000000; } /* Variable */
+    code span.vs { color: #4e9a06; } /* VerbatimString */
+    code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="tchebyshev_files/libs/revealjs/dist/theme/quarto-180c62c9bcf69a0506044dd7f3253a18.css">
+  <link href="tchebyshev_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="tchebyshev_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="tchebyshev_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="tchebyshev_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="tchebyshev_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="tchebyshev_files/libs/revealjs/plugin/reveal-quiz/quiz.css" rel="stylesheet">
+  <link href="tchebyshev_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Mathematical Statistics</h1>
+  <p class="subtitle">Tchebyshev’s Theorem for Discrete Random Variables</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Samir Orujov, PhD 
+</div>
+        <p class="quarto-title-affiliation">
+            ADA University, School of Business
+          </p>
+        <p class="quarto-title-affiliation">
+            Information Communication Technologies Agency, Statistics Unit
+          </p>
+    </div>
+</div>
+
+  <p class="date">2025-11-10</p>
+</section>
+<section id="learning-objectives" class="slide level2">
+<h2>🎯 Learning Objectives</h2>
+<div style="font-size: 32px">
+<div class="learning-objectives">
+<p>By the end of this lecture, you will be able to:</p>
+<ul>
+<li><strong>Understand and state</strong> Tchebyshev’s Theorem for discrete random variables and explain its significance in probability theory and risk assessment</li>
+<li><strong>Apply Tchebyshev’s inequality</strong> to calculate probability bounds for deviations from the mean in financial contexts (portfolio returns, volatility)</li>
+<li><strong>Compare Tchebyshev bounds</strong> with empirical rule predictions and understand when distribution-free methods are preferred in risk management</li>
+<li><strong>Interpret and compute</strong> the minimum proportion of observations falling within k standard deviations using discrete probability distributions</li>
+<li><strong>Utilize real financial data</strong> to validate Tchebyshev’s inequality and assess investment risk using R and quantmod package</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="overview" class="slide level2">
+<h2>📋 Overview</h2>
+<div style="font-size:38px">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📚 Topics Covered Today</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li class="fragment"><strong>Motivation</strong> – Why distribution-free bounds matter in finance</li>
+<li class="fragment"><strong>Tchebyshev’s Theorem</strong> – Statement, proof, and mathematical foundations</li>
+<li class="fragment"><strong>Probability Bounds</strong> – Calculating minimum proportions and tail probabilities</li>
+<li class="fragment"><strong>Worked Examples</strong> – Applications to discrete distributions and portfolio theory</li>
+<li class="fragment"><strong>Real Data Analysis</strong> – Validating the theorem with stock returns from Yahoo Finance</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="definition-tchebyshevs-inequality" class="slide level2 smaller">
+<h2>📖 Definition: Tchebyshev’s Inequality</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📝 Definition 1: Tchebyshev’s Inequality (Discrete Case)</strong></p>
+</div>
+<div class="callout-content">
+<p>Let <span class="math inline">\(X\)</span> be a <strong>discrete random variable</strong> with expected value <span class="math inline">\(\mu = E(X)\)</span> and finite variance <span class="math inline">\(\sigma^2 = \text{Var}(X) &gt; 0\)</span>. For any <strong>positive constant</strong> <span class="math inline">\(k &gt; 0\)</span>, the probability that <span class="math inline">\(X\)</span> deviates from its mean by at least <span class="math inline">\(k\)</span> standard deviations satisfies:</p>
+<p><span class="math display">\[P(|X - \mu| \geq k\sigma) \leq \frac{1}{k^2}\]</span></p>
+<p>Equivalently, the probability that <span class="math inline">\(X\)</span> falls within <span class="math inline">\(k\)</span> standard deviations of the mean is <strong>at least</strong>:</p>
+<p><span class="math display">\[P(|X - \mu| &lt; k\sigma) \geq 1 - \frac{1}{k^2}\]</span></p>
+<ul>
+<li class="fragment"><strong>Key Property 1</strong> – The inequality applies to <strong>any</strong> discrete random variable with finite variance (distribution-free property, crucial for non-normal asset returns)</li>
+<li class="fragment"><strong>Key Property 2</strong> – The bound depends only on <span class="math inline">\(k\)</span> and not on the specific distribution (useful when distribution is unknown or complex in emerging markets)</li>
+<li class="fragment"><strong>Key Property 3</strong> – The inequality is <strong>conservative</strong>: actual probabilities often exceed the lower bound (tighter bounds exist for specific distributions like normal)</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="alternative-formulation" class="slide level2 smaller">
+<h2>🧮 Alternative Formulation</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 Epsilon Formulation</strong></p>
+</div>
+<div class="callout-content">
+<p>For any <span class="math inline">\(\epsilon &gt; 0\)</span>, Tchebyshev’s inequality can be written as:</p>
+<p><span class="math display">\[P(|X - \mu| \geq \epsilon) \leq \frac{\sigma^2}{\epsilon^2}\]</span></p>
+<p>This formulation is useful when working with <strong>absolute deviations</strong> rather than standard deviation units.</p>
+<p><strong>Relationship</strong>: Setting <span class="math inline">\(\epsilon = k\sigma\)</span> recovers the standard form.</p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>💡 Interpretation for Risk Managers</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>At least <strong>75%</strong> of observations lie within <span class="math inline">\(k=2\)</span> standard deviations: <span class="math inline">\(1 - \frac{1}{4} = 0.75\)</span></li>
+<li>At least <strong>88.89%</strong> lie within <span class="math inline">\(k=3\)</span> standard deviations: <span class="math inline">\(1 - \frac{1}{9} \approx 0.8889\)</span></li>
+<li>At least <strong>93.75%</strong> lie within <span class="math inline">\(k=4\)</span> standard deviations: <span class="math inline">\(1 - \frac{1}{16} = 0.9375\)</span></li>
+</ul>
+<p>Compare to empirical rule (for normal distributions): 68%-95%-99.7% for <span class="math inline">\(k=1,2,3\)</span></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="proof-of-tchebyshevs-theorem-part-1" class="slide level2 smaller">
+<h2>🧮 Proof of Tchebyshev’s Theorem (Part 1)</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>🎯 Proof Strategy</strong></p>
+</div>
+<div class="callout-content">
+<p>We prove the inequality <span class="math inline">\(P(|X - \mu| \geq k\sigma) \leq \frac{1}{k^2}\)</span> using the <strong>Markov inequality</strong> applied to the squared deviation.</p>
+</div>
+</div>
+</div>
+<p><strong>Step 1</strong>: Define the squared deviation random variable</p>
+<p><span class="math display">\[Y = (X - \mu)^2\]</span></p>
+<p>where <span class="math inline">\(\mu = E(X)\)</span> is the mean.</p>
+<div class="fragment">
+<p><strong>Step 2</strong>: Note that <span class="math inline">\(Y \geq 0\)</span> always, and <span class="math inline">\(E(Y) = \text{Var}(X) = \sigma^2\)</span></p>
+</div>
+<div class="fragment">
+<p><strong>Step 3</strong>: The event <span class="math inline">\(\{|X - \mu| \geq k\sigma\}\)</span> is equivalent to <span class="math inline">\(\{(X - \mu)^2 \geq k^2\sigma^2\}\)</span>, which means <span class="math inline">\(\{Y \geq k^2\sigma^2\}\)</span></p>
+</div>
+</section>
+<section id="proof-of-tchebyshevs-theorem-part-2" class="slide level2 smaller">
+<h2>🧮 Proof of Tchebyshev’s Theorem (Part 2)</h2>
+<p><strong>Step 4</strong>: Apply <strong>Markov’s Inequality</strong> to the non-negative random variable <span class="math inline">\(Y\)</span> with <span class="math inline">\(a = k^2\sigma^2\)</span>:</p>
+<p><span class="math display">\[P(Y \geq a) \leq \frac{E(Y)}{a}\]</span></p>
+<div class="fragment">
+<p><strong>Step 5</strong>: Substitute <span class="math inline">\(Y = (X-\mu)^2\)</span>, <span class="math inline">\(E(Y) = \sigma^2\)</span>, and <span class="math inline">\(a = k^2\sigma^2\)</span>:</p>
+<p><span class="math display">\[P\left((X-\mu)^2 \geq k^2\sigma^2\right) \leq \frac{\sigma^2}{k^2\sigma^2} = \frac{1}{k^2}\]</span></p>
+</div>
+<div class="fragment">
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Step 6</strong>: Since <span class="math inline">\((X-\mu)^2 \geq k^2\sigma^2\)</span> is equivalent to <span class="math inline">\(|X-\mu| \geq k\sigma\)</span>:</p>
+<p><span class="math display">\[\boxed{P(|X - \mu| \geq k\sigma) \leq \frac{1}{k^2}}\]</span></p>
+</div><div class="column fragment" style="width:50%;">
+<p><strong>Step 7</strong>: The complementary form follows from <span class="math inline">\(P(A^c) = 1 - P(A)\)</span>:</p>
+<p><span class="math display">\[\boxed{P(|X - \mu| &lt; k\sigma) \geq 1 - \frac{1}{k^2}}\]</span></p>
+</div></div>
+</div>
+</section>
+<section id="definition-key-quantities" class="slide level2 smaller">
+<h2>📖 Definition: Key Quantities</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📝 Definition 2: Discrete Random Variable Moments</strong></p>
+</div>
+<div class="callout-content">
+<p>For a discrete random variable <span class="math inline">\(X\)</span> with probability mass function <span class="math inline">\(p_X(x)\)</span>:</p>
+<p><strong>Expected Value (Mean)</strong>: <span class="math display">\[\mu = E(X) = \sum_{x} x \cdot p_X(x)\]</span></p>
+<p><strong>Variance</strong>: <span class="math display">\[\sigma^2 = \text{Var}(X) = E[(X-\mu)^2] = \sum_{x} (x-\mu)^2 \cdot p_X(x)\]</span></p>
+<p><strong>Standard Deviation</strong>: <span class="math display">\[\sigma = \sqrt{\text{Var}(X)}\]</span></p>
+<p>These quantities are <strong>essential</strong> for applying Tchebyshev’s inequality in practice.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-1-simple-discrete-distribution" class="slide level2 smaller">
+<h2>📌 Example 1: Simple Discrete Distribution</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>💼 Investment Scenario</strong></p>
+</div>
+<div class="callout-content">
+<p>A venture capitalist invests in a startup. The discrete return <span class="math inline">\(X\)</span> (in thousands of dollars) has the following distribution:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Return (<span class="math inline">\(x\)</span>)</th>
+<th>-10</th>
+<th>0</th>
+<th>10</th>
+<th>30</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(P(X=x)\)</span></td>
+<td>0.2</td>
+<td>0.3</td>
+<td>0.4</td>
+<td>0.1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p><strong>Problem</strong>: Use Tchebyshev’s inequality to find the minimum probability that the return falls within 2 standard deviations of the mean.</p>
+<div class="fragment">
+<p><strong>Solution</strong>:</p>
+<p><strong>Step 1</strong>: Calculate the mean: <span class="math display">\[\mu = (-10)(0.2) + (0)(0.3) + (10)(0.4) + (30)(0.1) = -2 + 0 + 4 + 3 = 5 \text{ thousand dollars}\]</span></p>
+</div>
+</section>
+<section id="example-1-solution-continued" class="slide level2 smaller">
+<h2>📌 Example 1: Solution (continued)</h2>
+<p><strong>Step 2</strong>: Calculate the variance: <span class="math display">\[\sigma^2 = (-10-5)^2(0.2) + (0-5)^2(0.3) + (10-5)^2(0.4) + (30-5)^2(0.1)\]</span> <span class="math display">\[= 225(0.2) + 25(0.3) + 25(0.4) + 625(0.1) = 45 + 7.5 + 10 + 62.5 = 125\]</span></p>
+<p><strong>Step 3</strong>: Standard deviation: <span class="math display">\[\sigma = \sqrt{125} = 11.18 \text{ thousand dollars}\]</span></p>
+<div class="fragment">
+<p><strong>Step 4</strong>: Apply Tchebyshev with <span class="math inline">\(k=2\)</span>: <span class="math display">\[P(|X - 5| &lt; 2 \times 11.18) \geq 1 - \frac{1}{2^2} = 1 - 0.25 = 0.75\]</span></p>
+<p><strong>Interpretation</strong>: At least 75% of the time, the return will be between <span class="math inline">\(5 - 22.36 = -17.36\)</span> and <span class="math inline">\(5 + 22.36 = 27.36\)</span> thousand dollars.</p>
+</div>
+</section>
+<section id="example-2-binomial-distribution" class="slide level2 smaller">
+<h2>📌 Example 2: Binomial Distribution</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 Quality Control Problem</strong></p>
+</div>
+<div class="callout-content">
+<p>A factory produces electronic components with a 5% defect rate. A random sample of <span class="math inline">\(n = 100\)</span> components is inspected. Let <span class="math inline">\(X\)</span> = number of defects (Binomial distribution: <span class="math inline">\(X \sim \text{Binomial}(n=100, p=0.05)\)</span>).</p>
+</div>
+</div>
+</div>
+<p><strong>Problem</strong>: What is the minimum probability that the number of defects is between 0 and 15?</p>
+<div class="fragment">
+<p><strong>Solution</strong>:</p>
+<p><strong>Step 1</strong>: Calculate parameters: <span class="math display">\[\mu = np = 100(0.05) = 5\]</span> <span class="math display">\[\sigma^2 = np(1-p) = 100(0.05)(0.95) = 4.75\]</span> <span class="math display">\[\sigma = \sqrt{4.75} = 2.18\]</span></p>
+</div>
+</section>
+<section id="example-2-solution-continued" class="slide level2 large">
+<h2>📌 Example 2: Solution (continued)</h2>
+<p><strong>Step 2</strong>: Find how many standard deviations the range represents:</p>
+<p>We want <span class="math inline">\(P(0 \leq X \leq 15) = P(-5 \leq X - 5 \leq 10)\)</span></p>
+<p>The upper bound: <span class="math inline">\(10 = k\sigma \Rightarrow k = \frac{10}{2.18} = 4.59\)</span></p>
+<div class="fragment">
+<p><strong>Step 3</strong>: Apply Tchebyshev (using the smaller <span class="math inline">\(k\)</span>):</p>
+<p>Actually, we need to be symmetric. The range is <span class="math inline">\(5 \pm 10\)</span>, so <span class="math inline">\(k = \frac{10}{2.18} \approx 4.59\)</span>.</p>
+<p><span class="math display">\[P(|X - 5| \leq 10) = P(|X - 5| &lt; 4.59\sigma) \geq 1 - \frac{1}{(4.59)^2} = 1 - 0.0475 = 0.9525\]</span></p>
+<p><strong>Interpretation</strong>: At least 95.25% probability that defects are between 0 and 15 (conservative bound for this asymmetric range).</p>
+</div>
+</section>
+<section id="example-3-portfolio-risk-assessment" class="slide level2 smaller">
+<h2>📌 Example 3: Portfolio Risk Assessment</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>💰 Asset Allocation Problem</strong></p>
+</div>
+<div class="callout-content">
+<p>A portfolio has an expected daily return of <span class="math inline">\(\mu = 0.08\%\)</span> with standard deviation <span class="math inline">\(\sigma = 1.2\%\)</span>. An investor wants to estimate risk without assuming normality.</p>
+</div>
+</div>
+</div>
+<p><strong>Problem</strong>: What is the maximum probability that the daily return deviates from the mean by more than 3%?</p>
+<div class="fragment">
+<p><strong>Solution</strong>:</p>
+<p><strong>Step 1</strong>: Identify the deviation in terms of <span class="math inline">\(k\)</span>: <span class="math display">\[\epsilon = 3\% = k\sigma = k(1.2\%) \Rightarrow k = \frac{3}{1.2} = 2.5\]</span></p>
+</div>
+<div class="fragment">
+<p><strong>Step 2</strong>: Apply Tchebyshev: <span class="math display">\[P(|X - 0.08| \geq 3) \leq \frac{1}{k^2} = \frac{1}{(2.5)^2} = \frac{1}{6.25} = 0.16\]</span></p>
+<p><strong>Interpretation</strong>: At most 16% chance of daily returns outside the range <span class="math inline">\([0.08 - 3, 0.08 + 3] = [-2.92\%, 3.08\%]\)</span>. This is a <strong>worst-case scenario</strong> (actual probability likely smaller).</p>
+</div>
+</section>
+<section id="example-4-poisson-distribution" class="slide level2 smaller">
+<h2>📌 Example 4: Poisson Distribution</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📞 Call Center Application</strong></p>
+</div>
+<div class="callout-content">
+<p>A call center receives an average of <span class="math inline">\(\lambda = 50\)</span> calls per hour (Poisson distribution: <span class="math inline">\(X \sim \text{Poisson}(50)\)</span>).</p>
+</div>
+</div>
+</div>
+<p><strong>Problem</strong>: Use Tchebyshev to bound the probability of receiving between 30 and 70 calls in an hour.</p>
+<div class="fragment">
+<p><strong>Solution</strong>:</p>
+<p><strong>Step 1</strong>: For Poisson distribution: <span class="math inline">\(\mu = \lambda = 50\)</span> and <span class="math inline">\(\sigma^2 = \lambda = 50\)</span>, so <span class="math inline">\(\sigma = \sqrt{50} = 7.07\)</span></p>
+</div>
+<div class="fragment">
+<p><strong>Step 2</strong>: The range <span class="math inline">\([30, 70]\)</span> is <span class="math inline">\(\mu \pm 20\)</span>: <span class="math display">\[k = \frac{20}{\sigma} = \frac{20}{7.07} = 2.83\]</span></p>
+</div>
+<div class="fragment">
+<p><strong>Step 3</strong>: Apply Tchebyshev: <span class="math display">\[P(30 \leq X \leq 70) = P(|X - 50| \leq 20) \geq 1 - \frac{1}{(2.83)^2} = 1 - 0.125 = 0.875\]</span></p>
+<p><strong>Interpretation</strong>: At least 87.5% probability of receiving between 30 and 70 calls per hour.</p>
+</div>
+</section>
+<section id="example-5-comparison-table" class="slide level2 smaller">
+<h2>📌 Example 5: Comparison Table</h2>
+<div style="font-size:27px">
+<p>Let’s compare Tchebyshev bounds with exact probabilities for different <span class="math inline">\(k\)</span> values:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(k\)</span></th>
+<th>Tchebyshev Bound</th>
+<th>Normal Dist</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1.0</td>
+<td><span class="math inline">\(0\%\)</span> (no guarantee)</td>
+<td><span class="math inline">\(68.27\%\)</span></td>
+<td>Very conservative for <span class="math inline">\(k=1\)</span></td>
+</tr>
+<tr class="even">
+<td>1.5</td>
+<td><span class="math inline">\(55.56\%\)</span></td>
+<td><span class="math inline">\(86.64\%\)</span></td>
+<td>At least 55.56% within 1.5 SD</td>
+</tr>
+<tr class="odd">
+<td>2.0</td>
+<td><span class="math inline">\(75.00\%\)</span></td>
+<td><span class="math inline">\(95.45\%\)</span></td>
+<td>Classic “at least 75%” rule</td>
+</tr>
+<tr class="even">
+<td>2.5</td>
+<td><span class="math inline">\(84.00\%\)</span></td>
+<td><span class="math inline">\(98.76\%\)</span></td>
+<td>Gap narrows as <span class="math inline">\(k\)</span> increases</td>
+</tr>
+<tr class="odd">
+<td>3.0</td>
+<td><span class="math inline">\(88.89\%\)</span></td>
+<td><span class="math inline">\(99.73\%\)</span></td>
+<td>At least 88.89% within 3 SD</td>
+</tr>
+<tr class="even">
+<td>4.0</td>
+<td><span class="math inline">\(93.75\%\)</span></td>
+<td><span class="math inline">\(99.99\%\)</span></td>
+<td>Very high certainty for <span class="math inline">\(k=4\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key Insight</strong>: Tchebyshev provides <strong>conservative guarantees</strong> that work for any distribution. For normal distributions, actual probabilities far exceed these bounds. This makes Tchebyshev valuable when distribution is unknown (common in financial crises or emerging markets).</p>
+</div>
+</section>
+<section id="quiz-1-conceptual-understanding" class="slide level2 quiz-question">
+<h2>📝 Quiz #1: Conceptual Understanding</h2>
+<p>What is the key advantage of Tchebyshev’s inequality over the empirical rule?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Correct! Tchebyshev's inequality is distribution-free, meaning it applies to any distribution with defined mean and finite variance. The empirical rule only applies to normal distributions.">It works for any distribution with finite variance</span></li>
+<li>It provides tighter probability bounds</li>
+<li>It only requires knowing the mean</li>
+<li>It works better for normal distributions</li>
+</ul>
+</section>
+<section id="quiz-2-calculation" class="slide level2 quiz-question">
+<h2>📝 Quiz #2: Calculation</h2>
+<p>A random variable has <span class="math inline">\(\mu = 100\)</span> and <span class="math inline">\(\sigma = 15\)</span>. According to Tchebyshev, at least what percentage of observations fall between 70 and 130?</p>
+<ul>
+<li>55%</li>
+<li><span class="correct" data-explanation="✅ Correct! The range [70, 130] = [100-30, 100+30] = [$\mu - 2\sigma$, $\mu + 2\sigma$]. Using $k=2$: $1 - \frac{1}{4} = 0.75 = 75%$">75%</span></li>
+<li>89%</li>
+<li>95%</li>
+</ul>
+</section>
+<section id="case-study-stock-return-volatility-real-data" class="slide level2 smaller">
+<h2>💰 Case Study: Stock Return Volatility (Real Data)</h2>
+<div style="font-size:28px">
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📈 Investment Risk Analysis</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Context</strong>: A quantitative analyst needs to assess the risk of technology stocks without assuming returns are normally distributed (important after market shocks).</p>
+<p><strong>Key Questions</strong>:</p>
+<ul>
+<li>What proportion of daily returns fall within 2 standard deviations?</li>
+<li>Does the data satisfy Tchebyshev’s lower bound?</li>
+<li>How conservative are Tchebyshev bounds vs actual data?</li>
+</ul>
+</div>
+</div>
+</div>
+</div><div class="column fragment" style="width:50%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 Data Source</strong></p>
+</div>
+<div class="callout-content">
+<p>We analyze <strong>Apple Inc.&nbsp;(AAPL)</strong> daily returns from <strong>January 1, 2020 to November 1, 2025</strong> (5 years of trading data).</p>
+<p><strong>Source</strong>: Yahoo Finance API via <code>quantmod</code> package</p>
+<p><strong>Period</strong>: 2020-01-01 to 2025-11-01</p>
+<p><strong>Data Quality</strong>: Adjusted closing prices (accounts for splits/dividends)</p>
+<p><strong>Verification</strong>: Cross-checked with multiple financial data providers</p>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="case-study-data-preparation-and-analysis" class="slide level2 smaller">
+<h2>💰 Case Study: Data Preparation and Analysis</h2>
+<div style="font-size:26px">
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="co"># Load required packages</span></span>
+<span id="cb1-2"><a href=""></a><span class="fu">library</span>(quantmod)</span>
+<span id="cb1-3"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-4"><a href=""></a><span class="fu">library</span>(knitr)</span>
+<span id="cb1-5"><a href=""></a></span>
+<span id="cb1-6"><a href=""></a><span class="co"># Download Apple stock data</span></span>
+<span id="cb1-7"><a href=""></a><span class="fu">getSymbols</span>(<span class="st">"AAPL"</span>, </span>
+<span id="cb1-8"><a href=""></a>           <span class="at">from =</span> <span class="st">"2020-01-01"</span>, </span>
+<span id="cb1-9"><a href=""></a>           <span class="at">to =</span> <span class="st">"2025-11-01"</span>, </span>
+<span id="cb1-10"><a href=""></a>           <span class="at">src =</span> <span class="st">"yahoo"</span>,</span>
+<span id="cb1-11"><a href=""></a>           <span class="at">auto.assign =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "AAPL"</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="co"># Calculate daily returns</span></span>
+<span id="cb3-2"><a href=""></a>returns <span class="ot">&lt;-</span> <span class="fu">dailyReturn</span>(AAPL, </span>
+<span id="cb3-3"><a href=""></a>                      <span class="at">type =</span> <span class="st">"log"</span>) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb3-4"><a href=""></a>returns_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb3-5"><a href=""></a>  <span class="at">Date =</span> <span class="fu">index</span>(returns),</span>
+<span id="cb3-6"><a href=""></a>  <span class="at">Return =</span> <span class="fu">as.numeric</span>(returns)</span>
+<span id="cb3-7"><a href=""></a>)</span>
+<span id="cb3-8"><a href=""></a></span>
+<span id="cb3-9"><a href=""></a><span class="co"># Calculate statistics</span></span>
+<span id="cb3-10"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="fu">mean</span>(returns_df<span class="sc">$</span>Return, </span>
+<span id="cb3-11"><a href=""></a>          <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-12"><a href=""></a>sigma <span class="ot">&lt;-</span> <span class="fu">sd</span>(returns_df<span class="sc">$</span>Return, </span>
+<span id="cb3-13"><a href=""></a>           <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-14"><a href=""></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(returns_df)</span>
+<span id="cb3-15"><a href=""></a></span>
+<span id="cb3-16"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Sample: %d days</span><span class="sc">\n</span><span class="st">"</span>, n))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sample: 1467 days</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Mean: %.4f%%</span><span class="sc">\n</span><span class="st">"</span>, mu))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Mean: 0.0883%</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"SD: %.4f%%</span><span class="sc">\n</span><span class="st">"</span>, sigma))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>SD: 2.0217%</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="co"># Calculate proportions within k SD</span></span>
+<span id="cb9-2"><a href=""></a>calc_proportion <span class="ot">&lt;-</span> <span class="cf">function</span>(k) {</span>
+<span id="cb9-3"><a href=""></a>  lower <span class="ot">&lt;-</span> mu <span class="sc">-</span> k <span class="sc">*</span> sigma</span>
+<span id="cb9-4"><a href=""></a>  upper <span class="ot">&lt;-</span> mu <span class="sc">+</span> k <span class="sc">*</span> sigma</span>
+<span id="cb9-5"><a href=""></a>  within <span class="ot">&lt;-</span> <span class="fu">sum</span>(</span>
+<span id="cb9-6"><a href=""></a>    returns_df<span class="sc">$</span>Return <span class="sc">&gt;=</span> lower <span class="sc">&amp;</span> </span>
+<span id="cb9-7"><a href=""></a>    returns_df<span class="sc">$</span>Return <span class="sc">&lt;=</span> upper, </span>
+<span id="cb9-8"><a href=""></a>    <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-9"><a href=""></a>  <span class="fu">return</span>(within <span class="sc">/</span> n)</span>
+<span id="cb9-10"><a href=""></a>}</span>
+<span id="cb9-11"><a href=""></a></span>
+<span id="cb9-12"><a href=""></a><span class="co"># Calculate for different k values</span></span>
+<span id="cb9-13"><a href=""></a>k_values <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.5</span>, <span class="fl">2.0</span>, <span class="fl">2.5</span>, <span class="fl">3.0</span>)</span>
+<span id="cb9-14"><a href=""></a>results <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb9-15"><a href=""></a>  <span class="at">k =</span> k_values,</span>
+<span id="cb9-16"><a href=""></a>  <span class="at">Tchebyshev =</span> <span class="dv">1</span> <span class="sc">-</span> <span class="dv">1</span><span class="sc">/</span>k_values<span class="sc">^</span><span class="dv">2</span>,</span>
+<span id="cb9-17"><a href=""></a>  <span class="at">Actual =</span> <span class="fu">sapply</span>(k_values, </span>
+<span id="cb9-18"><a href=""></a>                  calc_proportion)</span>
+<span id="cb9-19"><a href=""></a>)</span>
+<span id="cb9-20"><a href=""></a></span>
+<span id="cb9-21"><a href=""></a>results<span class="sc">$</span>Diff <span class="ot">&lt;-</span> results<span class="sc">$</span>Actual <span class="sc">-</span> </span>
+<span id="cb9-22"><a href=""></a>                results<span class="sc">$</span>Tchebyshev</span>
+<span id="cb9-23"><a href=""></a></span>
+<span id="cb9-24"><a href=""></a><span class="co"># Display results</span></span>
+<span id="cb9-25"><a href=""></a><span class="fu">kable</span>(results, <span class="at">digits =</span> <span class="dv">4</span>,</span>
+<span id="cb9-26"><a href=""></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"k"</span>, <span class="st">"Bound"</span>, </span>
+<span id="cb9-27"><a href=""></a>                    <span class="st">"Actual"</span>, <span class="st">"Diff"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: right;">k</th>
+<th style="text-align: right;">Bound</th>
+<th style="text-align: right;">Actual</th>
+<th style="text-align: right;">Diff</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1.5</td>
+<td style="text-align: right;">0.5556</td>
+<td style="text-align: right;">0.8909</td>
+<td style="text-align: right;">0.3354</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">0.7500</td>
+<td style="text-align: right;">0.9564</td>
+<td style="text-align: right;">0.2064</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2.5</td>
+<td style="text-align: right;">0.8400</td>
+<td style="text-align: right;">0.9775</td>
+<td style="text-align: right;">0.1375</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3.0</td>
+<td style="text-align: right;">0.8889</td>
+<td style="text-align: right;">0.9850</td>
+<td style="text-align: right;">0.0961</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="case-study-interpretation-and-insights" class="slide level2 smaller">
+<h2>💰 Case Study: Interpretation and Insights</h2>
+<div style="font-size:28px">
+<p><strong>Key Findings</strong>:</p>
+<ol type="1">
+<li class="fragment"><p><strong>Tchebyshev bounds are satisfied</strong>: For all values of <span class="math inline">\(k\)</span>, the actual proportion of returns within <span class="math inline">\(k\)</span> standard deviations <strong>exceeds</strong> the theoretical minimum, confirming the theorem.</p></li>
+<li class="fragment"><p><strong>Conservative nature</strong>: For <span class="math inline">\(k=2\)</span>, Tchebyshev guarantees at least 75%, but actual data shows approximately 95-96% of returns fall within this range.</p></li>
+<li class="fragment"><p><strong>Risk management implications</strong>:</p>
+<ul>
+<li class="fragment">Tchebyshev provides a <strong>worst-case guarantee</strong> valid even during market turbulence</li>
+<li class="fragment">For <span class="math inline">\(k=3\)</span>: at least 88.89% guaranteed, typically 98-99% in practice</li>
+<li class="fragment">Useful for <strong>stress testing</strong> when normality assumptions break down</li>
+</ul></li>
+<li class="fragment"><p><strong>Practical application</strong>: Portfolio managers using Tchebyshev bounds (not normality) maintain conservative risk estimates that hold even during <strong>black swan events</strong> or <strong>regime changes</strong>.</p></li>
+</ol>
+</div>
+</section>
+<section id="case-study-visualization" class="slide level2 smaller">
+<h2>💰 Case Study: Visualization</h2>
+<div style="font-size:26px">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb10-2"><a href=""></a></span>
+<span id="cb10-3"><a href=""></a><span class="co"># Visualization with Tchebyshev bounds</span></span>
+<span id="cb10-4"><a href=""></a><span class="fu">ggplot</span>(returns_df, <span class="fu">aes</span>(<span class="at">x =</span> Return)) <span class="sc">+</span></span>
+<span id="cb10-5"><a href=""></a>  <span class="fu">geom_histogram</span>(</span>
+<span id="cb10-6"><a href=""></a>    <span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(density)), </span>
+<span id="cb10-7"><a href=""></a>    <span class="at">bins =</span> <span class="dv">50</span>, <span class="at">fill =</span> <span class="st">"lightblue"</span>, </span>
+<span id="cb10-8"><a href=""></a>    <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb10-9"><a href=""></a>  <span class="fu">geom_density</span>(<span class="at">color =</span> <span class="st">"darkblue"</span>, </span>
+<span id="cb10-10"><a href=""></a>               <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb10-11"><a href=""></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> mu, </span>
+<span id="cb10-12"><a href=""></a>             <span class="at">color =</span> <span class="st">"red"</span>, </span>
+<span id="cb10-13"><a href=""></a>             <span class="at">linetype =</span> <span class="st">"dashed"</span>, </span>
+<span id="cb10-14"><a href=""></a>             <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb10-15"><a href=""></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> mu <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>sigma, </span>
+<span id="cb10-16"><a href=""></a>             <span class="at">color =</span> <span class="st">"darkgreen"</span>, </span>
+<span id="cb10-17"><a href=""></a>             <span class="at">linetype =</span> <span class="st">"dashed"</span>, </span>
+<span id="cb10-18"><a href=""></a>             <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb10-19"><a href=""></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> mu <span class="sc">-</span> <span class="dv">2</span><span class="sc">*</span>sigma, </span>
+<span id="cb10-20"><a href=""></a>             <span class="at">color =</span> <span class="st">"darkgreen"</span>, </span>
+<span id="cb10-21"><a href=""></a>             <span class="at">linetype =</span> <span class="st">"dashed"</span>, </span>
+<span id="cb10-22"><a href=""></a>             <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb10-23"><a href=""></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> mu <span class="sc">+</span> <span class="fl">0.5</span>, </span>
+<span id="cb10-24"><a href=""></a>           <span class="at">y =</span> <span class="fl">0.15</span>, </span>
+<span id="cb10-25"><a href=""></a>           <span class="at">label =</span> <span class="fu">sprintf</span>(<span class="st">"μ = %.3f%%"</span>, </span>
+<span id="cb10-26"><a href=""></a>                          mu), </span>
+<span id="cb10-27"><a href=""></a>           <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb10-28"><a href=""></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, </span>
+<span id="cb10-29"><a href=""></a>           <span class="at">x =</span> mu <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>sigma <span class="sc">+</span> <span class="dv">1</span>, </span>
+<span id="cb10-30"><a href=""></a>           <span class="at">y =</span> <span class="fl">0.12</span>, <span class="at">label =</span> <span class="st">"μ + 2σ"</span>, </span>
+<span id="cb10-31"><a href=""></a>           <span class="at">color =</span> <span class="st">"darkgreen"</span>, <span class="at">size =</span> <span class="fl">3.5</span>) <span class="sc">+</span></span>
+<span id="cb10-32"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"AAPL Daily Returns with Tchebyshev Bounds (k=2)"</span>,</span>
+<span id="cb10-33"><a href=""></a>       <span class="at">subtitle =</span> <span class="fu">sprintf</span>(<span class="st">"Tchebyshev: ≥75%% | Actual: %.2f%%"</span>, </span>
+<span id="cb10-34"><a href=""></a>                         results<span class="sc">$</span>Actual[<span class="dv">2</span>] <span class="sc">*</span> <span class="dv">100</span>),</span>
+<span id="cb10-35"><a href=""></a>       <span class="at">x =</span> <span class="st">"Daily Return (%)"</span>,</span>
+<span id="cb10-36"><a href=""></a>       <span class="at">y =</span> <span class="st">"Density"</span>) <span class="sc">+</span></span>
+<span id="cb10-37"><a href=""></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb10-38"><a href=""></a>  <span class="fu">theme</span>(<span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="tchebyshev_files/figure-revealjs/unnamed-chunk-3-1.png" width="1056"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="summary" class="slide level2 smaller">
+<h2>📝 Summary</h2>
+<div style="font-size:30px">
+<div class="summary-box">
+<p>✅ Key Takeaways</p>
+<p><strong>1. Distribution-Free Property</strong>: Tchebyshev’s inequality applies to <strong>any discrete random variable</strong> with finite variance, making it invaluable when the distribution is unknown or complex (financial crises, emerging markets).</p>
+<p><strong>2. Conservative Bounds</strong>: The inequality provides <strong>minimum guarantees</strong>: at least 75% within 2 SD, at least 88.89% within 3 SD. Actual probabilities often much higher for symmetric distributions.</p>
+<p><strong>3. Practical Formula</strong>: For any <span class="math inline">\(k &gt; 0\)</span>: <span class="math inline">\(P(|X - \mu| &lt; k\sigma) \geq 1 - \frac{1}{k^2}\)</span>. Only requires knowing mean and variance.</p>
+<p><strong>4. Risk Management Tool</strong>: Provides <strong>worst-case scenarios</strong> for portfolio risk that hold even when normality fails. Essential for stress testing and regulatory requirements.</p>
+</div>
+</div>
+</section>
+<section id="practice-problems" class="slide level2 smaller">
+<h2>📚 Practice Problems</h2>
+<div style="font-size:30px">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📝 Homework Problems</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Problem 1: Corporate Earnings</strong>: A company’s quarterly earnings per share (EPS) has a mean of <span class="math inline">\(\mu = \$2.50\)</span> and standard deviation <span class="math inline">\(\sigma = \$0.40\)</span>. Use Tchebyshev to find the minimum probability that EPS falls between <span class="math inline">\(\$1.50\)</span> and <span class="math inline">\(\$3.50\)</span>.</p>
+<p><strong>Problem 2: Bond Portfolio</strong>: A bond portfolio has daily Value-at-Risk with <span class="math inline">\(\mu = -0.02\%\)</span> and <span class="math inline">\(\sigma = 0.8\%\)</span>. What is the maximum probability of losing more than 2% in a single day?</p>
+<p><strong>Problem 3: Discrete Distribution</strong>: Consider a discrete random variable with PMF: <span class="math inline">\(P(X=-2)=0.1\)</span>, <span class="math inline">\(P(X=0)=0.3\)</span>, <span class="math inline">\(P(X=1)=0.4\)</span>, <span class="math inline">\(P(X=5)=0.2\)</span>. Calculate <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span>, then verify Tchebyshev for <span class="math inline">\(k=1.5\)</span> and <span class="math inline">\(k=2\)</span>.</p>
+<p><strong>Problem 4: Cryptocurrency</strong>: Bitcoin daily returns have <span class="math inline">\(\mu = 0.1\%\)</span> and <span class="math inline">\(\sigma = 4.5\%\)</span>. Find the minimum probability of returns between <span class="math inline">\(-9\%\)</span> and <span class="math inline">\(+9.2\%\)</span> using Tchebyshev.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="thank-you" class="slide level2 smaller center">
+<h2>👋 Thank You!</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>📬 Contact Information:</strong></p>
+<p><strong>Samir Orujov</strong><br>
+Assistant Professor<br>
+School of Business<br>
+ADA University</p>
+<p>📧 <strong>Email</strong>: <a href="mailto:sorujov@ada.edu.az">sorujov@ada.edu.az</a><br>
+🏢 <strong>Office</strong>: D312<br>
+⏰ <strong>Office Hours</strong>: By appointment</p>
+</div><div class="column" style="width:50%;">
+<p><strong>📅 Next Class:</strong></p>
+<p><strong>Topic</strong>: Central Limit Theorem<br>
+<strong>Reading</strong>: Chapter 7, Sections 7.1-7.3<br>
+<strong>Preparation</strong>: Review probability distributions and moment-generating functions</p>
+<p><strong>⏰ Reminders:</strong></p>
+<p>✅ Complete practice problems (submit by Friday)<br>
+✅ Download R and quantmod package for lab session<br>
+✅ Work hard</p>
+</div></div>
+</section>
+<section id="questions" class="slide level2 center">
+<h2>❓ Questions?</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>💬 Open Discussion (5 minutes)</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Discussion Topics</strong>:</p>
+<ul>
+<li><p>How does Tchebyshev’s inequality compare to other concentration inequalities (Markov, Hoeffding)?</p></li>
+<li><p>In what financial scenarios would Tchebyshev bounds be preferred over parametric methods (normal distribution assumptions)?</p></li>
+<li><p>Can we improve Tchebyshev bounds if we know additional information about the distribution (e.g., symmetry, unimodality)?</p></li>
+<li><p>What are the limitations of Tchebyshev’s inequality for extreme events (fat tails in financial data)?</p></li>
+</ul>
+</div>
+</div>
+</div>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="ADA.png" class="slide-logo"></p>
+<div class="footer footer-default">
+<p>Mathematical Statistics - Tchebyshev’s Theorem</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="tchebyshev_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="tchebyshev_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="tchebyshev_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="tchebyshev_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="tchebyshev_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="tchebyshev_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="tchebyshev_files/libs/revealjs/plugin/reveal-quiz/quiz.js"></script>
+  <script src="tchebyshev_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="tchebyshev_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="tchebyshev_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="tchebyshev_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="tchebyshev_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'quiz': {"checkKey":"c","resetKey":"r","shuffleKey":"s","allowNumberKeys":true,"disableOnCheck":false,"shuffleOptions":true,"defaultCorrect":"✅ Correct! Well done.","defaultIncorrect":"❌ Not quite. Try again or check the explanation.","includeScore":true,"disableReset":false},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 720,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, RevealQuiz, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+
+    <script>
+
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+
+      // slide changes (different for each slide format).
+
+      (function () {
+
+        // dispatch for htmlwidgets
+
+        function fireSlideEnter() {
+
+          const event = window.document.createEvent("Event");
+
+          event.initEvent("slideenter", true, true);
+
+          window.document.dispatchEvent(event);
+
+        }
+
+    
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+
+          fireSlideEnter();
+
+    
+
+          // dispatch for shiny
+
+          if (window.jQuery) {
+
+            if (previousSlide) {
+
+              window.jQuery(previousSlide).trigger("hidden");
+
+            }
+
+            if (currentSlide) {
+
+              window.jQuery(currentSlide).trigger("shown");
+
+            }
+
+          }
+
+        }
+
+    
+
+        // hookup for slidy
+
+        if (window.w3c_slidy) {
+
+          window.w3c_slidy.add_observer(function (slide_num) {
+
+            // slide_num starts at position 1
+
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+
+          });
+
+        }
+
+    
+
+      })();
+
+    </script>
+
+    
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
