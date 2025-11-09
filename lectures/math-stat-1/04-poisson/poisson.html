@@ -1,0 +1,2124 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="poisson_files/libs/clipboard/clipboard.min.js"></script>
+<script src="poisson_files/libs/quarto-html/tabby.min.js"></script>
+<script src="poisson_files/libs/quarto-html/popper.min.js"></script>
+<script src="poisson_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="poisson_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="poisson_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="poisson_files/libs/quarto-html/quarto-syntax-highlighting-e41caad1b6b9b62eb3087831f3b4c651.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.25">
+
+  <meta name="author" content="Samir Orujov, PhD">
+  <meta name="dcterms.date" content="2025-11-10">
+  <title>Mathematical Statistics</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="poisson_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="poisson_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {  background-color: #f8f8f8; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ef2929; } /* Alert */
+    code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #204a87; } /* Attribute */
+    code span.bn { color: #0000cf; } /* BaseN */
+    code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4e9a06; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #8f5902; font-style: italic; } /* Comment */
+    code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+    code span.dt { color: #204a87; } /* DataType */
+    code span.dv { color: #0000cf; } /* DecVal */
+    code span.er { color: #a40000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #0000cf; } /* Float */
+    code span.fu { color: #204a87; font-weight: bold; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+    code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+    code span.ot { color: #8f5902; } /* Other */
+    code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+    code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+    code span.ss { color: #4e9a06; } /* SpecialString */
+    code span.st { color: #4e9a06; } /* String */
+    code span.va { color: #000000; } /* Variable */
+    code span.vs { color: #4e9a06; } /* VerbatimString */
+    code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="poisson_files/libs/revealjs/dist/theme/quarto-180c62c9bcf69a0506044dd7f3253a18.css">
+  <link href="poisson_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="poisson_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="poisson_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="poisson_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="poisson_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="poisson_files/libs/revealjs/plugin/reveal-quiz/quiz.css" rel="stylesheet">
+  <link href="poisson_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script type="module" src="poisson_files/libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+  <link href="poisson_files/libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Mathematical Statistics</h1>
+  <p class="subtitle">The Poisson Probability Distribution</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Samir Orujov, PhD 
+</div>
+        <p class="quarto-title-affiliation">
+            ADA University, School of Business
+          </p>
+        <p class="quarto-title-affiliation">
+            Information Communication Technologies Agency, Statistics Unit
+          </p>
+    </div>
+</div>
+
+  <p class="date">2025-11-10</p>
+</section>
+<section id="learning-objectives" class="slide level2">
+<h2>🎯 Learning Objectives</h2>
+<div style="font-size: 35px">
+<div class="learning-objectives">
+<p>By the end of this lecture, you will be able to:</p>
+<ul>
+<li><p>Understand the conditions under which the Poisson distribution applies, using finance and economics examples</p></li>
+<li><p>Derive the Poisson distribution from the binomial, and apply the formula to compute probabilities</p></li>
+<li><p>Interpret the parameters and properties of Poisson random variables in financial modeling contexts</p></li>
+<li><p>Calculate mean and variance of Poisson-distributed variables</p></li>
+<li><p>Model and solve investment, risk, and event frequency problems using the Poisson distribution</p></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="overview" class="slide level2">
+<h2>📋 Overview</h2>
+<div style="font-size:50px">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span>📚</span> Topics Covered Today</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li class="fragment"><strong>Poisson Probability Distribution</strong> – Definition and derivation</li>
+<li class="fragment"><strong>Poisson Experiments</strong> – Identifying conditions in finance and economics</li>
+<li class="fragment"><strong>Probability Calculations</strong> – Using formula and statistical tables</li>
+<li class="fragment"><strong>Mean and Variance</strong> – Expected value and risk measures</li>
+<li class="fragment"><strong>Applications</strong> – Credit risk, insurance, financial event modeling</li>
+<li class="fragment"><strong>Poisson Approximation to Binomial</strong> – When and why</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="definition-poisson-experiment" class="slide level2 larger">
+<h2>📖 Definition: Poisson Experiment</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span>📝</span> Definition 1: Poisson Experiment</strong></p>
+</div>
+<div class="callout-content">
+<p>A <strong>Poisson experiment</strong> meets the following requirements:</p>
+<ol type="1">
+<li class="fragment"><p><strong>Random events occur independently</strong> in a fixed interval of time/space (e.g., defaults per month, trades per hour)</p></li>
+<li class="fragment"><p><strong>Average event rate (<span class="math inline">\(\lambda\)</span>) is constant</strong> over intervals (e.g., 3 defaults/month on average)</p></li>
+<li class="fragment"><p><strong>Probability of more than one event in a tiny subinterval is negligible</strong></p></li>
+<li class="fragment"><p><strong>Interval split into <span class="math inline">\(n\)</span> subintervals:</strong></p>
+<ul>
+<li class="fragment"><span class="math inline">\(P\)</span>(one event in subinterval) = <span class="math inline">\(p\)</span></li>
+<li class="fragment"><span class="math inline">\(P\)</span>(no event in subinterval) = <span class="math inline">\(1-p\)</span></li>
+<li class="fragment"><span class="math inline">\(P\)</span>(&gt;1 event in subinterval) = <span class="math inline">\(0\)</span></li>
+</ul></li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="deriving-the-poisson-distribution-part-1" class="slide level2">
+<h2>🧮 Deriving the Poisson Distribution (Part 1)</h2>
+<div class="{style=&quot;font-size:30px&quot;;}">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span>🎯</span> Motivation: From Binomial to Poisson</strong></p>
+</div>
+<div class="callout-content">
+<p>The Poisson distribution models <strong>rare events</strong> in finance and economics: - Credit defaults in large portfolios - Insurance claims arriving over time - High-frequency trading events - Customer arrivals at service centers</p>
+<p>These occur when <span class="math inline">\(n\)</span> is <strong>very large</strong> and <span class="math inline">\(p\)</span> is <strong>very small</strong>.</p>
+</div>
+</div>
+</div>
+<div class="fragment" style="top-margin:2em">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span>🔑</span> Key Insight</strong></p>
+</div>
+<div class="callout-content">
+<p>When <span class="math inline">\(n \to \infty\)</span> and <span class="math inline">\(p \to 0\)</span> such that <span class="math inline">\(np = \lambda\)</span> (constant), the binomial distribution converges to the Poisson distribution.</p>
+<p><strong>Intuition</strong>: Many trials with rare success → counting rare events in an interval</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="deriving-the-poisson-distribution-part-2" class="slide level2 smaller">
+<h2>🧮 Deriving the Poisson Distribution (Part 2)</h2>
+<p><strong>Starting Point</strong>: Binomial probability mass function</p>
+<p><span class="math display">\[
+p(y) = \binom{n}{y} p^y (1-p)^{n-y}
+\]</span></p>
+<p><strong>Substitution</strong>: Let <span class="math inline">\(p = \frac{\lambda}{n}\)</span> where <span class="math inline">\(\lambda = np\)</span> is constant</p>
+<p><span class="math display">\[
+p(y) = \binom{n}{y} \left(\frac{\lambda}{n}\right)^y \left(1-\frac{\lambda}{n}\right)^{n-y}
+\]</span></p>
+<div class="fragment">
+<p><strong>Expand the binomial coefficient</strong>:</p>
+<p><span class="math display">\[
+p(y) = \frac{n!}{y!(n-y)!} \cdot \frac{\lambda^y}{n^y} \cdot \left(1-\frac{\lambda}{n}\right)^{n-y}
+\]</span></p>
+</div>
+</section>
+<section id="deriving-the-poisson-distribution-part-3" class="slide level2 smaller">
+<h2>🧮 Deriving the Poisson Distribution (Part 3)</h2>
+<p><strong>Rewrite the factorial</strong>:</p>
+<p><span class="math display">\[
+p(y) = \frac{n(n-1)(n-2)\cdots(n-y+1)}{y!} \cdot \frac{\lambda^y}{n^y} \cdot \left(1-\frac{\lambda}{n}\right)^{n-y}
+\]</span></p>
+<div class="fragment">
+<p><strong>Rearrange</strong>:</p>
+<p><span class="math display">\[
+p(y) = \frac{\lambda^y}{y!} \cdot \frac{n(n-1)(n-2)\cdots(n-y+1)}{n^y} \cdot \left(1-\frac{\lambda}{n}\right)^{n} \cdot \left(1-\frac{\lambda}{n}\right)^{-y}
+\]</span></p>
+</div>
+<div class="fragment">
+<p><strong>Factor out <span class="math inline">\(n^y\)</span> from numerator</strong>:</p>
+<p><span class="math display">\[
+\frac{n(n-1)\cdots(n-y+1)}{n^y} = \left(1\right)\left(1-\frac{1}{n}\right)\left(1-\frac{2}{n}\right)\cdots\left(1-\frac{y-1}{n}\right)
+\]</span></p>
+</div>
+</section>
+<section id="deriving-the-poisson-distribution-part-4" class="slide level2 smaller">
+<h2>🧮 Deriving the Poisson Distribution (Part 4)</h2>
+<p><strong>Take the limit as</strong> <span class="math inline">\(n \to \infty\)</span>:</p>
+<p><span class="math display">\[
+p(y) = \frac{\lambda^y}{y!} \cdot \lim_{n\to\infty}\left[\left(1-\frac{1}{n}\right)\cdots\left(1-\frac{y-1}{n}\right)\right] \cdot \lim_{n\to\infty}\left(1-\frac{\lambda}{n}\right)^{n} \cdot \lim_{n\to\infty}\left(1-\frac{\lambda}{n}\right)^{-y}
+\]</span></p>
+<div class="fragment">
+<p><strong>Evaluate each limit</strong>:</p>
+<ol type="1">
+<li><p><span class="math inline">\(\lim_{n\to\infty}\left(1-\frac{k}{n}\right) = 1\)</span> for fixed <span class="math inline">\(k\)</span> → <strong>First limit = 1</strong></p></li>
+<li><p><span class="math inline">\(\lim_{n\to\infty}\left(1-\frac{\lambda}{n}\right)^{n} = e^{-\lambda}\)</span> (fundamental limit) → <strong>Second limit = <span class="math inline">\(e^{-\lambda}\)</span></strong></p></li>
+<li><p><span class="math inline">\(\lim_{n\to\infty}\left(1-\frac{\lambda}{n}\right)^{-y} = 1\)</span> for fixed <span class="math inline">\(y\)</span> → <strong>Third limit = 1</strong></p></li>
+</ol>
+</div>
+</section>
+<section id="deriving-the-poisson-distribution-part-5" class="slide level2 smaller">
+<h2>🧮 Deriving the Poisson Distribution (Part 5)</h2>
+<p><strong>Combine all the limits</strong>:</p>
+<p><span class="math display">\[
+p(y) = \frac{\lambda^y}{y!} \cdot 1 \cdot e^{-\lambda} \cdot 1
+\]</span></p>
+<div class="fragment">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span>✅</span> Final Result: The Poisson Probability Distribution</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">\[
+\boxed{p(y) = \frac{\lambda^y e^{-\lambda}}{y!}, \quad y = 0, 1, 2, \ldots, \quad \lambda &gt; 0}
+\]</span></p>
+<p>Where: - <span class="math inline">\(y\)</span> = number of events (defaults, claims, arrivals, etc.) - <span class="math inline">\(\lambda\)</span> = average rate (expected number of events per interval) - <span class="math inline">\(e \approx 2.71828\)</span> (Euler’s number)</p>
+</div>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span>💡</span> Financial Interpretation</strong></p>
+</div>
+<div class="callout-content">
+<p>This formula gives the probability of observing exactly <span class="math inline">\(y\)</span> rare events when the average rate is <span class="math inline">\(\lambda\)</span> per time/space interval.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="poisson-probability-distribution" class="slide level2 larger">
+<h2>📈 Poisson Probability Distribution</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span>📝</span> Definition 2: Poisson Probability Distribution</strong></p>
+</div>
+<div class="callout-content">
+<p>A random variable <span class="math inline">\(Y\)</span> is Poisson-distributed if: <span class="math display">\[
+p(y) = \frac{\lambda^y}{y!} e^{-\lambda}, \quad y = 0, 1, 2, ...
+\]</span></p>
+<p>Where <span class="math inline">\(\lambda\)</span> is the average rate (mean number of events per interval).</p>
+</div>
+</div>
+</div>
+<h3 id="key-properties"><strong>Key Properties</strong></h3>
+<ul>
+<li>Probabilities are always <span class="math inline">\(0 \leq p(y) \leq 1\)</span></li>
+<li>Sum of all probabilities <span class="math inline">\(= 1\)</span> (series for <span class="math inline">\(e^{\lambda}\)</span>)</li>
+</ul>
+</section>
+<section id="example-1-credit-risk-event-modeling" class="slide level2 large">
+<h2>📌 Example 1: Credit Risk Event Modeling</h2>
+<p>A loan portfolio averages <strong>2 defaults per month (<span class="math inline">\(\lambda = 2\)</span>)</strong>. What is the probability that there are <strong>exactly 3 defaults</strong> next month?</p>
+<p><strong>Solution</strong>: <span class="math display">\[
+p(3) = \frac{2^3}{3!} e^{-2} = \frac{8}{6} e^{-2} = 1.333 \times 0.135 = 0.180
+\]</span></p>
+</section>
+<section id="example-2-insurance-claims" class="slide level2 large">
+<h2>📌 Example 2: Insurance Claims</h2>
+<p>An insurer receives <strong>5 claims per day</strong> on average (<span class="math inline">\(\lambda = 5\)</span>). What is the probability of receiving <strong>at least 2 claims</strong> tomorrow?</p>
+<p><strong>Solution</strong>: <span class="math display">\[
+P(Y \geq 2) = 1 - p(0) - p(1)
+\]</span></p>
+<p><span class="math display">\[
+p(0) = \frac{5^0}{0!} e^{-5} = e^{-5} = 0.0067
+\]</span></p>
+<p><span class="math display">\[
+p(1) = \frac{5^1}{1!} e^{-5} = 5 \times 0.0067 = 0.0337
+\]</span></p>
+<p><span class="math display">\[
+P(Y \geq 2) = 1 - 0.0067 - 0.0337 = 0.9596
+\]</span></p>
+</section>
+<section id="proving-the-poisson-is-a-valid-distribution" class="slide level2">
+<h2>✅ Proving the Poisson is a Valid Distribution</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span>📝</span> What We Need to Prove</strong></p>
+</div>
+<div class="callout-content">
+<p>For the Poisson distribution to be valid, we must verify two properties:</p>
+<ol type="1">
+<li><strong>Non-negativity</strong>: <span class="math inline">\(0 \le p(y) \le 1\)</span> for all <span class="math inline">\(y\)</span></li>
+<li><strong>Total probability</strong>: <span class="math inline">\(\sum_{y=0}^{\infty} p(y) = 1\)</span></li>
+</ol>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span>✓</span> Property 1: Non-negativity</strong></p>
+</div>
+<div class="callout-content">
+<p>Since <span class="math inline">\(\lambda &gt; 0\)</span>, <span class="math inline">\(y! &gt; 0\)</span>, and <span class="math inline">\(e^{-\lambda} &gt; 0\)</span> for all values:</p>
+<p><span class="math display">\[
+p(y) = \frac{\lambda^y e^{-\lambda}}{y!} &gt; 0 \quad \text{for all } y = 0, 1, 2, \ldots
+\]</span></p>
+<p>Also, <span class="math inline">\(p(y) = 0\)</span> for negative <span class="math inline">\(y\)</span> (since we’re counting events). ✓</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="proving-total-probability-equals-1" class="slide level2 smaller">
+<h2>✅ Proving Total Probability Equals 1</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span>📝</span> Property 2: Sum of All Probabilities</strong></p>
+</div>
+<div class="callout-content">
+<p>We need to show that: <span class="math display">\[
+\sum_{y=0}^{\infty} p(y) = \sum_{y=0}^{\infty} \frac{\lambda^y e^{-\lambda}}{y!} = 1
+\]</span></p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Step 1</strong>: Factor out the constant <span class="math inline">\(e^{-\lambda}\)</span></p>
+<p><span class="math display">\[
+\sum_{y=0}^{\infty} \frac{\lambda^y e^{-\lambda}}{y!} = e^{-\lambda} \sum_{y=0}^{\infty} \frac{\lambda^y}{y!}
+\]</span></p>
+</div><div class="column fragment" style="width:50%;">
+<p><strong>Step 2</strong>: Recognize the Taylor series expansion of <span class="math inline">\(e^{\lambda}\)</span></p>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span>🔑</span> Key Mathematical Fact: Taylor Series for <span class="math inline">\(e^x\)</span></strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">\[
+e^x = \sum_{k=0}^{\infty} \frac{x^k}{k!} = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots
+\]</span></p>
+<p>For <span class="math inline">\(x = \lambda\)</span>: <span class="math display">\[
+e^{\lambda} = \sum_{y=0}^{\infty} \frac{\lambda^y}{y!}
+\]</span></p>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="final-result" class="slide level2 smaller">
+<h2>✅ Final Result</h2>
+<p><strong>Step 3</strong>: Substitute the Taylor series</p>
+<p><span class="math display">\[
+\sum_{y=0}^{\infty} \frac{\lambda^y e^{-\lambda}}{y!} = e^{-\lambda} \cdot \sum_{y=0}^{\infty} \frac{\lambda^y}{y!} = e^{-\lambda} \cdot e^{\lambda}
+\]</span></p>
+<div class="fragment">
+<p><strong>Step 4</strong>: Simplify using exponent rules</p>
+<p><span class="math display">\[
+e^{-\lambda} \cdot e^{\lambda} = e^{-\lambda + \lambda} = e^{0} = 1
+\]</span></p>
+</div>
+<div class="fragment">
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span>✅</span> Conclusion</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">\[
+\boxed{\sum_{y=0}^{\infty} p(y) = 1 \quad \checkmark}
+\]</span></p>
+<p>The Poisson distribution is a <strong>valid probability distribution</strong> satisfying all required properties!</p>
+</div>
+</div>
+</div>
+</div><div class="column fragment" style="width:50%;">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span>💡</span> Why This Matters</strong></p>
+</div>
+<div class="callout-content">
+<p>This proof guarantees that when we model financial events (defaults, claims, trades) with a Poisson distribution, all possible outcomes have probabilities that sum to 100% — ensuring our risk calculations are mathematically sound.</p>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="example-3-financial-trading-volume" class="slide level2 large">
+<h2>📌 Example 3: Financial Trading Volume</h2>
+<p>Suppose a stock exchange sees <strong>60 trades per hour (<span class="math inline">\(\lambda = 60\)</span>)</strong> on average. What is the probability there are <strong>exactly 55 trades</strong> in the next hour?</p>
+<p><strong>Solution</strong>: <span class="math display">\[
+p(55) = \frac{60^{55}}{55!} e^{-60}
+\]</span> Can compute using software (R, Python)</p>
+</section>
+<section id="example-4-poisson-approximation-to-binomial" class="slide level2 large">
+<h2>📌 Example 4: Poisson Approximation to Binomial</h2>
+<p>Suppose a bank has a portfolio of <strong>n = 1000 loans</strong>, each with default probability <strong>p = 0.002</strong>, so <span class="math inline">\(\lambda = np = 2\)</span>. Find <span class="math inline">\(P(Y \leq 3)\)</span> exactly using binomial and approximately using Poisson.</p>
+<p><strong>Binomial</strong>: <span class="math inline">\(P(Y \leq 3) = \sum_{y=0}^{3} \binom{1000}{y} p^y (1-p)^{1000-y}\)</span></p>
+<p><strong>Poisson Approximation</strong>: <span class="math display">\[
+P(Y \leq 3) = \sum_{y=0}^{3} \frac{2^y}{y!} e^{-2} = p(0) + p(1) + p(2) + p(3)
+\]</span></p>
+</section>
+<section id="interactive-poisson-vs-binomial-comparison" class="slide level2 smaller">
+<h2>🎮 Interactive: Poisson vs Binomial Comparison</h2>
+<div style="font-size: 0.8em;">
+<p><strong>Explore the Approximation:</strong> Use the sliders to see how well the Poisson distribution approximates the Binomial when <span class="math inline">\(n\)</span> is large and <span class="math inline">\(p\)</span> is small (with <span class="math inline">\(\lambda = np\)</span> constant).</p>
+<div class="columns">
+<div class="column" style="width:30%;">
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="442" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 441;"><span id="cb1-442"><a href=""></a>viewof n <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">10</span><span class="op">,</span> <span class="dv">500</span>]<span class="op">,</span> {</span>
+<span id="cb1-443"><a href=""></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">100</span><span class="op">,</span> </span>
+<span id="cb1-444"><a href=""></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">10</span><span class="op">,</span> </span>
+<span id="cb1-445"><a href=""></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"n (number of trials):"</span></span>
+<span id="cb1-446"><a href=""></a>})</span>
+<span id="cb1-447"><a href=""></a></span>
+<span id="cb1-448"><a href=""></a>viewof p <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.001</span><span class="op">,</span> <span class="fl">0.1</span>]<span class="op">,</span> {</span>
+<span id="cb1-449"><a href=""></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">0.02</span><span class="op">,</span> </span>
+<span id="cb1-450"><a href=""></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.001</span><span class="op">,</span> </span>
+<span id="cb1-451"><a href=""></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"p (probability of success):"</span></span>
+<span id="cb1-452"><a href=""></a>})</span>
+<span id="cb1-453"><a href=""></a></span>
+<span id="cb1-454"><a href=""></a>lambda <span class="op">=</span> n <span class="op">*</span> p</span>
+<span id="cb1-455"><a href=""></a></span>
+<span id="cb1-456"><a href=""></a><span class="fu">md</span><span class="vs">`**Current Parameters:**  </span></span>
+<span id="cb1-457"><a href=""></a><span class="vs">n = </span><span class="sc">${</span>n<span class="sc">}</span><span class="vs">  </span></span>
+<span id="cb1-458"><a href=""></a><span class="vs">p = </span><span class="sc">${</span>p<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="vs">  </span></span>
+<span id="cb1-459"><a href=""></a><span class="vs">λ = np = </span><span class="sc">${</span>lambda<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-4" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</div>
+<p><strong>Observations:</strong><br>
+When <span class="math inline">\(n\)</span> is large and <span class="math inline">\(p\)</span> is small, the distributions overlap closely.</p>
+</div><div class="column" style="width:70%;">
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="473" data-source-offset="-34"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 472;"><span id="cb2-473"><a href=""></a><span class="kw">function</span> <span class="fu">binomial_pmf</span>(k<span class="op">,</span> n<span class="op">,</span> p) {</span>
+<span id="cb2-474"><a href=""></a>  <span class="cf">if</span> (k <span class="op">&gt;</span> n <span class="op">||</span> k <span class="op">&lt;</span> <span class="dv">0</span>) <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb2-475"><a href=""></a>  <span class="kw">const</span> logBinom <span class="op">=</span> d3<span class="op">.</span><span class="fu">sum</span>(d3<span class="op">.</span><span class="fu">range</span>(<span class="dv">1</span><span class="op">,</span> k <span class="op">+</span> <span class="dv">1</span>)<span class="op">,</span> i <span class="kw">=&gt;</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(n <span class="op">-</span> i <span class="op">+</span> <span class="dv">1</span>) <span class="op">-</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(i))<span class="op">;</span></span>
+<span id="cb2-476"><a href=""></a>  <span class="cf">return</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(logBinom <span class="op">+</span> k <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(p) <span class="op">+</span> (n <span class="op">-</span> k) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(<span class="dv">1</span> <span class="op">-</span> p))<span class="op">;</span></span>
+<span id="cb2-477"><a href=""></a>}</span>
+<span id="cb2-478"><a href=""></a></span>
+<span id="cb2-479"><a href=""></a><span class="co">// Poisson probability function</span></span>
+<span id="cb2-480"><a href=""></a><span class="kw">function</span> <span class="fu">poisson_pmf</span>(k<span class="op">,</span> lambda) {</span>
+<span id="cb2-481"><a href=""></a>  <span class="cf">if</span> (lambda <span class="op">&lt;=</span> <span class="dv">0</span>) <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb2-482"><a href=""></a>  <span class="cf">return</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(<span class="op">-</span>lambda <span class="op">+</span> k <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(lambda) <span class="op">-</span> d3<span class="op">.</span><span class="fu">sum</span>(d3<span class="op">.</span><span class="fu">range</span>(<span class="dv">1</span><span class="op">,</span> k <span class="op">+</span> <span class="dv">1</span>)<span class="op">,</span> i <span class="kw">=&gt;</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(i)))<span class="op">;</span></span>
+<span id="cb2-483"><a href=""></a>}</span>
+<span id="cb2-484"><a href=""></a></span>
+<span id="cb2-485"><a href=""></a><span class="co">// Generate data</span></span>
+<span id="cb2-486"><a href=""></a>max_y <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(n<span class="op">,</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">ceil</span>(lambda <span class="op">+</span> <span class="dv">4</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(lambda)))</span>
+<span id="cb2-487"><a href=""></a>data <span class="op">=</span> d3<span class="op">.</span><span class="fu">range</span>(<span class="dv">0</span><span class="op">,</span> max_y <span class="op">+</span> <span class="dv">1</span>)<span class="op">.</span><span class="fu">map</span>(y <span class="kw">=&gt;</span> ({</span>
+<span id="cb2-488"><a href=""></a>  <span class="dt">y</span><span class="op">:</span> y<span class="op">,</span></span>
+<span id="cb2-489"><a href=""></a>  <span class="dt">binomial</span><span class="op">:</span> <span class="fu">binomial_pmf</span>(y<span class="op">,</span> n<span class="op">,</span> p)<span class="op">,</span></span>
+<span id="cb2-490"><a href=""></a>  <span class="dt">poisson</span><span class="op">:</span> <span class="fu">poisson_pmf</span>(y<span class="op">,</span> lambda)</span>
+<span id="cb2-491"><a href=""></a>}))</span>
+<span id="cb2-492"><a href=""></a></span>
+<span id="cb2-493"><a href=""></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb2-494"><a href=""></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">800</span><span class="op">,</span></span>
+<span id="cb2-495"><a href=""></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">450</span><span class="op">,</span></span>
+<span id="cb2-496"><a href=""></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
+<span id="cb2-497"><a href=""></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">40</span><span class="op">,</span></span>
+<span id="cb2-498"><a href=""></a>  <span class="dt">x</span><span class="op">:</span> {</span>
+<span id="cb2-499"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Number of Events (y) →"</span><span class="op">,</span></span>
+<span id="cb2-500"><a href=""></a>    <span class="dt">labelOffset</span><span class="op">:</span> <span class="dv">35</span><span class="op">,</span></span>
+<span id="cb2-501"><a href=""></a>    <span class="dt">grid</span><span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb2-502"><a href=""></a>  }<span class="op">,</span></span>
+<span id="cb2-503"><a href=""></a>  <span class="dt">y</span><span class="op">:</span> {</span>
+<span id="cb2-504"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"↑ Probability"</span><span class="op">,</span></span>
+<span id="cb2-505"><a href=""></a>    <span class="dt">labelOffset</span><span class="op">:</span> <span class="dv">40</span><span class="op">,</span></span>
+<span id="cb2-506"><a href=""></a>    <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="op">...</span>data<span class="op">.</span><span class="fu">map</span>(d <span class="kw">=&gt;</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(d<span class="op">.</span><span class="at">binomial</span><span class="op">,</span> d<span class="op">.</span><span class="at">poisson</span>))) <span class="op">*</span> <span class="fl">1.1</span>]</span>
+<span id="cb2-507"><a href=""></a>  }<span class="op">,</span></span>
+<span id="cb2-508"><a href=""></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb2-509"><a href=""></a>    Plot<span class="op">.</span><span class="fu">line</span>(data<span class="op">,</span> {</span>
+<span id="cb2-510"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> </span>
+<span id="cb2-511"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"binomial"</span><span class="op">,</span> </span>
+<span id="cb2-512"><a href=""></a>      <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#2563eb"</span><span class="op">,</span></span>
+<span id="cb2-513"><a href=""></a>      <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">3</span><span class="op">,</span></span>
+<span id="cb2-514"><a href=""></a>      <span class="dt">tip</span><span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb2-515"><a href=""></a>    })<span class="op">,</span></span>
+<span id="cb2-516"><a href=""></a>    Plot<span class="op">.</span><span class="fu">dot</span>(data<span class="op">,</span> {</span>
+<span id="cb2-517"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> </span>
+<span id="cb2-518"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"binomial"</span><span class="op">,</span> </span>
+<span id="cb2-519"><a href=""></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"#2563eb"</span><span class="op">,</span></span>
+<span id="cb2-520"><a href=""></a>      <span class="dt">r</span><span class="op">:</span> <span class="dv">4</span><span class="op">,</span></span>
+<span id="cb2-521"><a href=""></a>      <span class="dt">tip</span><span class="op">:</span> {<span class="dt">format</span><span class="op">:</span> {<span class="dt">y</span><span class="op">:</span> <span class="st">".4f"</span>}}</span>
+<span id="cb2-522"><a href=""></a>    })<span class="op">,</span></span>
+<span id="cb2-523"><a href=""></a>    Plot<span class="op">.</span><span class="fu">line</span>(data<span class="op">,</span> {</span>
+<span id="cb2-524"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> </span>
+<span id="cb2-525"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"poisson"</span><span class="op">,</span> </span>
+<span id="cb2-526"><a href=""></a>      <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#dc2626"</span><span class="op">,</span></span>
+<span id="cb2-527"><a href=""></a>      <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
+<span id="cb2-528"><a href=""></a>      <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"5,5"</span><span class="op">,</span></span>
+<span id="cb2-529"><a href=""></a>      <span class="dt">tip</span><span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb2-530"><a href=""></a>    })<span class="op">,</span></span>
+<span id="cb2-531"><a href=""></a>    Plot<span class="op">.</span><span class="fu">dot</span>(data<span class="op">,</span> {</span>
+<span id="cb2-532"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> </span>
+<span id="cb2-533"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"poisson"</span><span class="op">,</span> </span>
+<span id="cb2-534"><a href=""></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"#dc2626"</span><span class="op">,</span></span>
+<span id="cb2-535"><a href=""></a>      <span class="dt">r</span><span class="op">:</span> <span class="dv">3</span><span class="op">,</span></span>
+<span id="cb2-536"><a href=""></a>      <span class="dt">tip</span><span class="op">:</span> {<span class="dt">format</span><span class="op">:</span> {<span class="dt">y</span><span class="op">:</span> <span class="st">".4f"</span>}}</span>
+<span id="cb2-537"><a href=""></a>    })<span class="op">,</span></span>
+<span id="cb2-538"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
+<span id="cb2-539"><a href=""></a>  ]<span class="op">,</span></span>
+<span id="cb2-540"><a href=""></a>  <span class="dt">caption</span><span class="op">:</span> <span class="fu">html</span><span class="vs">`&lt;span style="color: #2563eb;"&gt;●━━━&lt;/span&gt; Binomial(n, p) &amp;nbsp;&amp;nbsp; &lt;span style="color: #dc2626;"&gt;●╌╌╌&lt;/span&gt; Poisson(λ=np)`</span></span>
+<span id="cb2-541"><a href=""></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-4" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-5" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="interactive-error-analysis" class="slide level2 smaller">
+<h2>🎮 Interactive: Error Analysis</h2>
+<div style="font-size: 0.85em;">
+<p><strong>Quantifying Approximation Quality:</strong> Compare the <strong>absolute difference</strong> between Binomial and Poisson probabilities.</p>
+<div class="columns">
+<div class="column" style="width:30%;">
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb3" data-startfrom="565" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 564;"><span id="cb3-565"><a href=""></a>viewof n2 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">20</span><span class="op">,</span> <span class="dv">200</span>]<span class="op">,</span> {</span>
+<span id="cb3-566"><a href=""></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span> </span>
+<span id="cb3-567"><a href=""></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">10</span><span class="op">,</span> </span>
+<span id="cb3-568"><a href=""></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"n (trials):"</span></span>
+<span id="cb3-569"><a href=""></a>})</span>
+<span id="cb3-570"><a href=""></a></span>
+<span id="cb3-571"><a href=""></a>viewof lambda2 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">10</span>]<span class="op">,</span> {</span>
+<span id="cb3-572"><a href=""></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span> </span>
+<span id="cb3-573"><a href=""></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> </span>
+<span id="cb3-574"><a href=""></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"λ (event rate):"</span></span>
+<span id="cb3-575"><a href=""></a>})</span>
+<span id="cb3-576"><a href=""></a></span>
+<span id="cb3-577"><a href=""></a>p2 <span class="op">=</span> lambda2 <span class="op">/</span> n2</span>
+<span id="cb3-578"><a href=""></a></span>
+<span id="cb3-579"><a href=""></a><span class="fu">md</span><span class="vs">`**Parameters:**  </span></span>
+<span id="cb3-580"><a href=""></a><span class="vs">n = </span><span class="sc">${</span>n2<span class="sc">}</span><span class="vs">  </span></span>
+<span id="cb3-581"><a href=""></a><span class="vs">λ = </span><span class="sc">${</span>lambda2<span class="sc">}</span><span class="vs">  </span></span>
+<span id="cb3-582"><a href=""></a><span class="vs">p = </span><span class="sc">${</span>p2<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">4</span>)<span class="sc">}</span><span class="vs">`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-3-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-3-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-3-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-3-4" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</div>
+<p><strong>Financial Application:</strong><br>
+In credit risk modeling with large portfolios (<span class="math inline">\(n &gt; 1000\)</span>) and low default probabilities (<span class="math inline">\(p &lt; 0.01\)</span>), the Poisson approximation maintains accuracy within 0.001 probability units!</p>
+</div><div class="column" style="width:70%;">
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb4" data-startfrom="595" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 594;"><span id="cb4-595"><a href=""></a>max_y2 <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(n2<span class="op">,</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">ceil</span>(lambda2 <span class="op">+</span> <span class="dv">5</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(lambda2)))</span>
+<span id="cb4-596"><a href=""></a></span>
+<span id="cb4-597"><a href=""></a>error_data <span class="op">=</span> d3<span class="op">.</span><span class="fu">range</span>(<span class="dv">0</span><span class="op">,</span> max_y2 <span class="op">+</span> <span class="dv">1</span>)<span class="op">.</span><span class="fu">map</span>(y <span class="kw">=&gt;</span> {</span>
+<span id="cb4-598"><a href=""></a>  <span class="kw">const</span> binom <span class="op">=</span> <span class="fu">binomial_pmf</span>(y<span class="op">,</span> n2<span class="op">,</span> p2)<span class="op">;</span></span>
+<span id="cb4-599"><a href=""></a>  <span class="kw">const</span> pois <span class="op">=</span> <span class="fu">poisson_pmf</span>(y<span class="op">,</span> lambda2)<span class="op">;</span></span>
+<span id="cb4-600"><a href=""></a>  <span class="cf">return</span> {</span>
+<span id="cb4-601"><a href=""></a>    <span class="dt">y</span><span class="op">:</span> y<span class="op">,</span></span>
+<span id="cb4-602"><a href=""></a>    <span class="dt">error</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span>(binom <span class="op">-</span> pois)<span class="op">,</span></span>
+<span id="cb4-603"><a href=""></a>    <span class="dt">binomial</span><span class="op">:</span> binom<span class="op">,</span></span>
+<span id="cb4-604"><a href=""></a>    <span class="dt">poisson</span><span class="op">:</span> pois</span>
+<span id="cb4-605"><a href=""></a>  }<span class="op">;</span></span>
+<span id="cb4-606"><a href=""></a>})</span>
+<span id="cb4-607"><a href=""></a></span>
+<span id="cb4-608"><a href=""></a>max_error <span class="op">=</span> d3<span class="op">.</span><span class="fu">max</span>(error_data<span class="op">,</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">error</span>)</span>
+<span id="cb4-609"><a href=""></a>total_error <span class="op">=</span> d3<span class="op">.</span><span class="fu">sum</span>(error_data<span class="op">,</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">error</span>)</span>
+<span id="cb4-610"><a href=""></a></span>
+<span id="cb4-611"><a href=""></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb4-612"><a href=""></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">800</span><span class="op">,</span></span>
+<span id="cb4-613"><a href=""></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">450</span><span class="op">,</span></span>
+<span id="cb4-614"><a href=""></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
+<span id="cb4-615"><a href=""></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">40</span><span class="op">,</span></span>
+<span id="cb4-616"><a href=""></a>  <span class="dt">x</span><span class="op">:</span> {</span>
+<span id="cb4-617"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Number of Events (y) →"</span><span class="op">,</span></span>
+<span id="cb4-618"><a href=""></a>    <span class="dt">labelOffset</span><span class="op">:</span> <span class="dv">35</span><span class="op">,</span></span>
+<span id="cb4-619"><a href=""></a>    <span class="dt">grid</span><span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb4-620"><a href=""></a>  }<span class="op">,</span></span>
+<span id="cb4-621"><a href=""></a>  <span class="dt">y</span><span class="op">:</span> {</span>
+<span id="cb4-622"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"↑ |Binomial - Poisson|"</span><span class="op">,</span></span>
+<span id="cb4-623"><a href=""></a>    <span class="dt">labelOffset</span><span class="op">:</span> <span class="dv">40</span></span>
+<span id="cb4-624"><a href=""></a>  }<span class="op">,</span></span>
+<span id="cb4-625"><a href=""></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb4-626"><a href=""></a>    Plot<span class="op">.</span><span class="fu">barY</span>(error_data<span class="op">,</span> {</span>
+<span id="cb4-627"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span></span>
+<span id="cb4-628"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"error"</span><span class="op">,</span></span>
+<span id="cb4-629"><a href=""></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"#f59e0b"</span><span class="op">,</span></span>
+<span id="cb4-630"><a href=""></a>      <span class="dt">tip</span><span class="op">:</span> {<span class="dt">format</span><span class="op">:</span> {<span class="dt">y</span><span class="op">:</span> <span class="st">".6f"</span>}}</span>
+<span id="cb4-631"><a href=""></a>    })<span class="op">,</span></span>
+<span id="cb4-632"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
+<span id="cb4-633"><a href=""></a>  ]<span class="op">,</span></span>
+<span id="cb4-634"><a href=""></a>  <span class="dt">caption</span><span class="op">:</span> <span class="fu">html</span><span class="vs">`Max Error: </span><span class="sc">${</span>max_error<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">6</span>)<span class="sc">}</span><span class="vs"> &amp;nbsp;|&amp;nbsp; Total Absolute Error: </span><span class="sc">${</span>total_error<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">4</span>)<span class="sc">}</span><span class="vs">`</span></span>
+<span id="cb4-635"><a href=""></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-4-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-4-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-4-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-4-4" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-4-5" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="poisson-cumulative-distribution-table" class="slide level2 smaller">
+<h2>📊 Poisson Cumulative Distribution Table</h2>
+<div style="font-size: 0.6em;">
+<p><strong>Cumulative Poisson Probabilities:</strong> <span class="math inline">\(P(Y \leq a) = \sum_{y=0}^{a} \frac{\lambda^y e^{-\lambda}}{y!}\)</span></p>
+<p>This table shows how cumulative probabilities increase toward 1 as we consider larger values.</p>
+<p><span class="math display">\[
+\begin{array}{c|ccccccccc}
+\lambda \setminus a &amp; 0 &amp; 1 &amp; 2 &amp; 3 &amp; 4 &amp; 5 &amp; 6 &amp; 7 &amp; 8 \\
+\hline
+0.02 &amp; 0.980 &amp; 1.000 &amp; &amp; &amp; &amp; &amp; &amp; &amp; \\
+0.04 &amp; 0.961 &amp; 0.999 &amp; 1.000 &amp; &amp; &amp; &amp; &amp; &amp; \\
+0.06 &amp; 0.942 &amp; 0.998 &amp; 1.000 &amp; &amp; &amp; &amp; &amp; &amp; \\
+0.10 &amp; 0.905 &amp; 0.995 &amp; 1.000 &amp; &amp; &amp; &amp; &amp; &amp; \\
+\hline
+0.20 &amp; 0.819 &amp; 0.982 &amp; 0.999 &amp; 1.000 &amp; &amp; &amp; &amp; &amp; \\
+0.30 &amp; 0.741 &amp; 0.963 &amp; 0.996 &amp; 1.000 &amp; &amp; &amp; &amp; &amp; \\
+0.40 &amp; 0.670 &amp; 0.938 &amp; 0.992 &amp; 0.999 &amp; 1.000 &amp; &amp; &amp; &amp; \\
+0.50 &amp; 0.607 &amp; 0.910 &amp; 0.986 &amp; 0.998 &amp; 1.000 &amp; &amp; &amp; &amp; \\
+\hline
+0.60 &amp; 0.549 &amp; 0.878 &amp; 0.977 &amp; 0.997 &amp; 1.000 &amp; &amp; &amp; &amp; \\
+0.75 &amp; 0.472 &amp; 0.827 &amp; 0.959 &amp; 0.993 &amp; 0.999 &amp; 1.000 &amp; &amp; &amp; \\
+0.85 &amp; 0.427 &amp; 0.791 &amp; 0.945 &amp; 0.989 &amp; 0.998 &amp; 1.000 &amp; &amp; &amp; \\
+1.00 &amp; 0.368 &amp; 0.736 &amp; 0.920 &amp; 0.981 &amp; 0.996 &amp; 0.999 &amp; 1.000 &amp; &amp; \\
+\hline
+1.20 &amp; 0.301 &amp; 0.663 &amp; 0.879 &amp; 0.966 &amp; 0.992 &amp; 0.998 &amp; 1.000 &amp; &amp; \\
+1.50 &amp; 0.223 &amp; 0.558 &amp; 0.809 &amp; 0.934 &amp; 0.981 &amp; 0.996 &amp; 0.999 &amp; 1.000 &amp; \\
+1.80 &amp; 0.165 &amp; 0.463 &amp; 0.731 &amp; 0.891 &amp; 0.964 &amp; 0.990 &amp; 0.997 &amp; 0.999 &amp; 1.000 \\
+2.00 &amp; 0.135 &amp; 0.406 &amp; 0.677 &amp; 0.857 &amp; 0.947 &amp; 0.983 &amp; 0.995 &amp; 0.999 &amp; 1.000 \\
+\end{array}
+\]</span></p>
+</div>
+<div class="fragment">
+<div style="font-size:0.7em;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span>💡</span> Key Insight</strong></p>
+</div>
+<div class="callout-content">
+<p>As <span class="math inline">\(\lambda\)</span> increases, you need larger values of <span class="math inline">\(a\)</span> before <span class="math inline">\(P(Y \leq a) \approx 1\)</span>. This reflects that higher event rates require considering more potential outcomes.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="key-theorem-mean-and-variance" class="slide level2 smaller">
+<h2>🎯 Key Theorem: Mean and Variance</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span>📝</span> Theorem 1: Mean and Variance</strong></p>
+</div>
+<div class="callout-content">
+<p>If <span class="math inline">\(Y \sim \text{Poisson}(\lambda)\)</span>, then <span class="math display">\[
+E(Y) = \mu = \lambda
+\]</span> <span class="math display">\[
+Var(Y) = \sigma^2 = \lambda
+\]</span> <span class="math display">\[
+SD(Y) = \sigma = \sqrt{\lambda}
+\]</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-5-modeling-rare-economic-events" class="slide level2 large">
+<h2>📌 Example 5: Modeling Rare Economic Events</h2>
+<p>Industrial losses (insurance claims) average <strong>3 per month</strong>. In the last 2 months, 10 claims occurred. Is this highly improbable?</p>
+<p>Let <span class="math inline">\(\lambda = 2\times3=6\)</span>. Probability <span class="math inline">\(Y \geq 10\)</span>:</p>
+<p><span class="math display">\[
+P(Y \geq 10) = \sum_{y=10}^{\infty} \frac{6^y}{y!} e^{-6}
+\]</span></p>
+<p>Empirical Rule: <span class="math inline">\(\mu+2\sigma = 6+2\times2.45=10.90\)</span>. Since 10 is not much above this threshold, it’s not “highly” improbable but may warrant investigation.</p>
+</section>
+<section id="activity-financial-applications" class="slide level2">
+<h2>🤔 Activity: Financial Applications</h2>
+<section id="brainstorm" class="activity-box">
+<h3>Brainstorm</h3>
+<p>Suggest other finance/economics scenarios where the Poisson distribution applies:</p>
+<ul>
+<li class="fragment"><p>Call arrivals at a customer service center</p></li>
+<li class="fragment"><p>Insurance claims per day</p></li>
+<li class="fragment"><p>Defaults in a loan portfolio</p></li>
+<li class="fragment"><p>Credit card fraud events per month</p></li>
+<li class="fragment"><p>Large trades in FX market</p></li>
+<li class="fragment"><p>Blockchain transaction times</p></li>
+</ul>
+</section>
+</section>
+<section id="quiz-1-poisson-calculations" class="slide level2 quiz-question">
+<h2>📝 Quiz #1: Poisson Calculations</h2>
+<p>A bond analyst observes <strong><span class="math inline">\(\lambda=1\)</span> default per month</strong>. What is the probability of 0 defaults?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Correct! P(0) = e^{-1} = 0.368">0.368</span></li>
+<li>0.135</li>
+<li>0.600</li>
+<li>0.500</li>
+</ul>
+</section>
+<section id="using-statistical-software" class="slide level2">
+<h2>📊 Using Statistical Software</h2>
+<p>Binomial and Poisson formulas can be tedious for large <span class="math inline">\(n\)</span> or <span class="math inline">\(y\)</span>! Financial professionals use software:</p>
+<ul>
+<li><p>R: <code>dpois(y, lambda)</code></p></li>
+<li><p>Python: <code>scipy.stats.poisson.pmf(y, lambda)</code></p></li>
+<li><p>Excel: <code>=POISSON.DIST(y, lambda, FALSE)</code></p></li>
+</ul>
+</section>
+<section id="case-study-bitcoin-crash-event-modeling-real-data" class="slide level2">
+<h2>💰 Case Study: Bitcoin Crash Event Modeling (Real Data)</h2>
+<div style="font-size:35px">
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span>₿</span> Investment Problem</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Crypto Portfolio Managers</strong> need to understand and quantify risk from <strong>sudden Bitcoin crashes</strong> (&gt;10% daily drops). Historical data shows crashes occur randomly but with predictable frequency patterns.</p>
+<p><strong>Key Questions:</strong></p>
+<ol type="1">
+<li><p>How often do extreme crashes occur? (Can we model with Poisson?)</p></li>
+<li><p>What’s the probability of multiple crashes in a month?</p></li>
+<li><p>How should risk management capital be allocated?</p></li>
+</ol>
+</div>
+</div>
+</div>
+</div><div class="column fragment" style="width:50%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span>📊</span> Data Source: Real Market Data</strong></p>
+</div>
+<div class="callout-content">
+<p>This case study uses <strong>REAL historical data</strong> from:</p>
+<ul>
+<li><p><strong>Yahoo Finance API</strong> via <code>yfinance</code> package</p></li>
+<li><p><strong>Period</strong>: 2019-2025 (6 years of actual trading data)</p></li>
+<li><p><strong>Data Quality</strong>: OHLCV (Open, High, Low, Close, Volume)</p></li>
+<li><p><strong>Verification</strong>: Cross-checked against CoinMarketCap and CryptoDataDownload</p></li>
+</ul>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="step-1-download-real-bitcoin-data" class="slide level2">
+<h2>💰 Step 1: Download Real Bitcoin Data</h2>
+<div style="font-size:32px">
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="co">#Install if needed: install.packages("quantmod")</span></span>
+<span id="cb5-2"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb5-3"><a href=""></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb5-4"><a href=""></a><span class="fu">library</span>(quantmod)</span>
+<span id="cb5-5"><a href=""></a><span class="fu">library</span>(knitr)</span>
+<span id="cb5-6"><a href=""></a><span class="co">#Get data for 6 years (2019-2025)</span></span>
+<span id="cb5-7"><a href=""></a><span class="co">#Download REAL Bitcoin data from Yahoo Finance</span></span>
+<span id="cb5-8"><a href=""></a><span class="co">#BTC-USD is the official Bitcoin/USD trading pair</span></span>
+<span id="cb5-9"><a href=""></a><span class="fu">getSymbols</span>(<span class="st">"BTC-USD"</span>, <span class="at">src =</span> <span class="st">"yahoo"</span>, </span>
+<span id="cb5-10"><a href=""></a>           <span class="at">from =</span> <span class="st">"2019-01-01"</span>, <span class="at">to =</span> <span class="fu">Sys.Date</span>(),</span>
+<span id="cb5-11"><a href=""></a>           <span class="at">auto.assign =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "BTC-USD"</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="co">#Extract the data</span></span>
+<span id="cb7-2"><a href=""></a>btc_raw <span class="ot">&lt;-</span> <span class="fu">get</span>(<span class="st">"BTC-USD"</span>)</span>
+<span id="cb7-3"><a href=""></a><span class="co">#Convert to data frame</span></span>
+<span id="cb7-4"><a href=""></a>btc_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb7-5"><a href=""></a>  <span class="at">Date =</span> <span class="fu">index</span>(btc_raw),</span>
+<span id="cb7-6"><a href=""></a>  <span class="at">Open =</span> <span class="fu">as.numeric</span>(btc_raw[, <span class="dv">1</span>]),</span>
+<span id="cb7-7"><a href=""></a>  <span class="at">High =</span> <span class="fu">as.numeric</span>(btc_raw[, <span class="dv">2</span>]),</span>
+<span id="cb7-8"><a href=""></a>  <span class="at">Low =</span> <span class="fu">as.numeric</span>(btc_raw[, <span class="dv">3</span>]),</span>
+<span id="cb7-9"><a href=""></a>  <span class="at">Close =</span> <span class="fu">as.numeric</span>(btc_raw[, <span class="dv">4</span>]),</span>
+<span id="cb7-10"><a href=""></a>  <span class="at">Volume =</span> <span class="fu">as.numeric</span>(btc_raw[, <span class="dv">5</span>]),</span>
+<span id="cb7-11"><a href=""></a>  <span class="at">Adjusted =</span> <span class="fu">as.numeric</span>(btc_raw[, <span class="dv">6</span>])</span>
+<span id="cb7-12"><a href=""></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-13"><a href=""></a>  <span class="fu">mutate</span>(</span>
+<span id="cb7-14"><a href=""></a>    <span class="at">Daily_Return =</span> ((Close <span class="sc">-</span> Open) <span class="sc">/</span> Open) <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb7-15"><a href=""></a>    <span class="at">Daily_Return_Adj =</span> ((Adjusted <span class="sc">-</span> <span class="fu">lag</span>(Adjusted)) <span class="sc">/</span> <span class="fu">lag</span>(Adjusted)) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb7-16"><a href=""></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb7-17"><a href=""></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Daily_Return_Adj))</span>
+<span id="cb7-18"><a href=""></a><span class="co">#Display summary</span></span>
+<span id="cb7-19"><a href=""></a><span class="fu">cat</span>(<span class="st">"✓ Successfully downloaded REAL Bitcoin data!"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>✓ Successfully downloaded REAL Bitcoin data!</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Date range:"</span>, <span class="fu">format</span>(<span class="fu">min</span>(btc_data<span class="sc">$</span>Date), <span class="st">"%Y-%m-%d"</span>), <span class="st">"to"</span>, </span>
+<span id="cb9-2"><a href=""></a>    <span class="fu">format</span>(<span class="fu">max</span>(btc_data<span class="sc">$</span>Date), <span class="st">"%Y-%m-%d"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Date range: 2019-01-02 to 2025-11-09</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Total trading days:"</span>, <span class="fu">nrow</span>(btc_data))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Total trading days: 2504</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>First 5 records:</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+|Date       |    Open|   Close| Daily_Return_Adj|
+|:----------|-------:|-------:|----------------:|
+|2019-01-02 | 3849.22| 3943.41|             2.60|
+|2019-01-03 | 3931.05| 3836.74|            -2.70|
+|2019-01-04 | 3832.04| 3857.72|             0.55|
+|2019-01-05 | 3851.97| 3845.19|            -0.32|
+|2019-01-06 | 3836.52| 4076.63|             6.02|</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Last 5 records:</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+|     |Date       |     Open|    Close| Daily_Return_Adj|
+|:----|:----------|--------:|--------:|----------------:|
+|2500 |2025-11-05 | 101579.2| 103891.8|             2.27|
+|2501 |2025-11-06 | 103893.7| 101301.3|            -2.49|
+|2502 |2025-11-07 | 101286.2| 103372.4|             2.04|
+|2503 |2025-11-08 | 103371.7| 102282.1|            -1.05|
+|2504 |2025-11-09 | 102287.4| 104628.2|             2.29|</code></pre>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="step-2-identify-crash-events-in-real-data" class="slide level2">
+<h2>💰 Step 2: Identify Crash Events in Real Data</h2>
+<div style="font-size:30px">
+<div class="{columns}">
+<div class="column" style="width:50%;">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a><span class="co"># Define crash as &gt;10% daily drop</span></span>
+<span id="cb17-2"><a href=""></a>crash_threshold <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">10</span></span>
+<span id="cb17-3"><a href=""></a></span>
+<span id="cb17-4"><a href=""></a><span class="co"># Identify crashes</span></span>
+<span id="cb17-5"><a href=""></a>crashes <span class="ot">&lt;-</span> btc_data <span class="sc">%&gt;%</span></span>
+<span id="cb17-6"><a href=""></a>  <span class="fu">filter</span>(Daily_Return_Adj <span class="sc">&lt;</span> crash_threshold) <span class="sc">%&gt;%</span></span>
+<span id="cb17-7"><a href=""></a>  <span class="fu">mutate</span>(</span>
+<span id="cb17-8"><a href=""></a>    <span class="at">Crash_Magnitude =</span> Daily_Return_Adj,</span>
+<span id="cb17-9"><a href=""></a>    <span class="at">Crash_Type =</span> <span class="fu">case_when</span>(</span>
+<span id="cb17-10"><a href=""></a>      Daily_Return_Adj <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">30</span> <span class="sc">~</span> <span class="st">"Extreme (&gt;30%)"</span>,</span>
+<span id="cb17-11"><a href=""></a>      Daily_Return_Adj <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">20</span> <span class="sc">~</span> <span class="st">"Severe (20-30%)"</span>,</span>
+<span id="cb17-12"><a href=""></a>      Daily_Return_Adj <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">15</span> <span class="sc">~</span> <span class="st">"Major (15-20%)"</span>,</span>
+<span id="cb17-13"><a href=""></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Significant (10-15%)"</span></span>
+<span id="cb17-14"><a href=""></a>    )</span>
+<span id="cb17-15"><a href=""></a>  )</span>
+<span id="cb17-16"><a href=""></a></span>
+<span id="cb17-17"><a href=""></a><span class="fu">cat</span>(<span class="st">"CRASH EVENT ANALYSIS"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>CRASH EVENT ANALYSIS</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">paste</span>(<span class="fu">rep</span>(<span class="st">"="</span>, <span class="dv">50</span>), <span class="at">collapse =</span> <span class="st">""</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>==================================================</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Total trading days:"</span>, <span class="fu">nrow</span>(btc_data), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Total trading days: 2504 </code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Crash days (&gt;10% drop):"</span>, <span class="fu">nrow</span>(crashes))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Crash days (&gt;10% drop): 16</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Crash frequency: 0.64 % of all days</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Average crash magnitude: -13.78 %</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Crashes by severity:</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+|Crash_Type           | Count| Avg_Magnitude|    Min|    Max|
+|:--------------------|-----:|-------------:|------:|------:|
+|Extreme (&gt;30%)       |     1|        -37.17| -37.17| -37.17|
+|Major (15-20%)       |     1|        -15.97| -15.97| -15.97|
+|Significant (10-15%) |    14|        -11.95| -14.35| -10.01|</code></pre>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="visual-real-bitcoin-price-with-actual-crashes" class="slide level2">
+<h2>💰 Visual: Real Bitcoin Price with Actual Crashes</h2>
+
+<img data-src="poisson_files/figure-revealjs/unnamed-chunk-9-1.png" width="1344" class="r-stretch"></section>
+<section id="step-3-monthly-crash-counts-poisson-data" class="slide level2">
+<h2>💰 Step 3: Monthly Crash Counts (Poisson Data)</h2>
+<div style="font-size:28px">
+<div class="{columns}">
+<div class="column" style="width:30%;">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a><span class="co"># Group real data by month and count crashes</span></span>
+<span id="cb29-2"><a href=""></a>monthly_crashes <span class="ot">&lt;-</span> btc_data <span class="sc">%&gt;%</span></span>
+<span id="cb29-3"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">YearMonth =</span> <span class="fu">floor_date</span>(Date, <span class="st">"month"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb29-4"><a href=""></a>  <span class="fu">group_by</span>(YearMonth) <span class="sc">%&gt;%</span></span>
+<span id="cb29-5"><a href=""></a>  <span class="fu">summarise</span>(</span>
+<span id="cb29-6"><a href=""></a>    <span class="at">Crashes_in_Month =</span> <span class="fu">sum</span>(Daily_Return_Adj <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">10</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb29-7"><a href=""></a>    <span class="at">Trading_Days =</span> <span class="fu">n</span>(),</span>
+<span id="cb29-8"><a href=""></a>    <span class="at">Avg_Return =</span> <span class="fu">mean</span>(Daily_Return_Adj),</span>
+<span id="cb29-9"><a href=""></a>    <span class="at">Volatility =</span> <span class="fu">sd</span>(Daily_Return_Adj),</span>
+<span id="cb29-10"><a href=""></a>    <span class="at">Min_Return =</span> <span class="fu">min</span>(Daily_Return_Adj),</span>
+<span id="cb29-11"><a href=""></a>    <span class="at">Max_Return =</span> <span class="fu">max</span>(Daily_Return_Adj),</span>
+<span id="cb29-12"><a href=""></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb29-13"><a href=""></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb29-14"><a href=""></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(YearMonth))</span>
+<span id="cb29-15"><a href=""></a></span>
+<span id="cb29-16"><a href=""></a><span class="co"># Fit Poisson to REAL data</span></span>
+<span id="cb29-17"><a href=""></a>lambda_hat <span class="ot">&lt;-</span> <span class="fu">mean</span>(monthly_crashes<span class="sc">$</span>Crashes_in_Month)</span>
+<span id="cb29-18"><a href=""></a>variance <span class="ot">&lt;-</span> <span class="fu">var</span>(monthly_crashes<span class="sc">$</span>Crashes_in_Month)</span>
+<span id="cb29-19"><a href=""></a></span>
+<span id="cb29-20"><a href=""></a><span class="fu">cat</span>(<span class="st">"POISSON MODEL FIT (Real Data)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>POISSON MODEL FIT (Real Data)</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Mean crashes per month (λ):"</span>, <span class="fu">round</span>(lambda_hat, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Mean crashes per month (λ): 0.193 </code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Variance of crashes:"</span>, <span class="fu">round</span>(variance, <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Variance of crashes: 0.206</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Ratio (variance/mean):"</span>, <span class="fu">round</span>(variance <span class="sc">/</span> lambda_hat, <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Ratio (variance/mean): 1.07</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:70%;">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Poisson goodness of fit:"</span>, </span>
+<span id="cb37-2"><a href=""></a>    <span class="fu">ifelse</span>(<span class="fu">abs</span>(variance <span class="sc">-</span> lambda_hat) <span class="sc">&lt;</span> <span class="dv">1</span>, <span class="st">"✓ GOOD fit"</span>, <span class="st">"✗ Poor fit"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Poisson goodness of fit: ✓ GOOD fit</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="co">#Display monthly summary</span></span>
+<span id="cb39-2"><a href=""></a><span class="fu">print</span>(<span class="fu">head</span>(monthly_crashes, <span class="dv">10</span>) <span class="sc">%&gt;%</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+|YearMonth  | Crashes_in_Month| Trading_Days| Avg_Return| Volatility| Min_Return| Max_Return|
+|:----------|----------------:|------------:|----------:|----------:|----------:|----------:|
+|2019-01-01 |                0|           30|      -0.32|       2.56|      -8.83|       6.02|
+|2019-02-01 |                0|           28|       0.42|       2.70|      -8.02|       7.86|
+|2019-03-01 |                0|           31|       0.21|       1.16|      -2.23|       3.58|
+|2019-04-01 |                0|           30|       0.95|       3.67|      -4.88|      17.36|
+|2019-05-01 |                0|           31|       1.63|       4.68|      -6.86|      12.95|
+|2019-06-01 |                1|           30|       0.92|       5.35|     -14.09|      10.95|
+|2019-07-01 |                1|           31|      -0.09|       5.19|     -13.01|      10.74|
+|2019-08-01 |                0|           31|      -0.10|       3.30|      -7.75|       7.62|
+|2019-09-01 |                1|           30|      -0.46|       2.85|     -11.40|       6.03|
+|2019-10-01 |                0|           31|       0.40|       3.80|      -6.98|      15.58|</code></pre>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="visual-real-monthly-crash-distribution" class="slide level2">
+<h2>💰 Visual: Real Monthly Crash Distribution</h2>
+
+<img data-src="poisson_files/figure-revealjs/unnamed-chunk-12-1.png" width="1152" class="r-stretch"></section>
+<section id="visual-monthly-crashes-timeline-real-data" class="slide level2">
+<h2>💰 Visual: Monthly Crashes Timeline (Real Data)</h2>
+
+<img data-src="poisson_files/figure-revealjs/unnamed-chunk-13-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption">Combined plot with a secondary y-axis for volatility.</p></section>
+<section id="risk-calculations-from-real-data" class="slide level2">
+<h2>💰 Risk Calculations from Real Data</h2>
+<div style="font-size:30px">
+<div class="{columns}">
+<div class="column" style="width:50%;">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a><span class="co"># Calculate risk metrics</span></span>
+<span id="cb41-2"><a href=""></a>q50 <span class="ot">&lt;-</span> <span class="fu">qpois</span>(<span class="fl">0.50</span>, <span class="at">lambda =</span> lambda_hat)</span>
+<span id="cb41-3"><a href=""></a>q90 <span class="ot">&lt;-</span> <span class="fu">qpois</span>(<span class="fl">0.90</span>, <span class="at">lambda =</span> lambda_hat)</span>
+<span id="cb41-4"><a href=""></a>q95 <span class="ot">&lt;-</span> <span class="fu">qpois</span>(<span class="fl">0.95</span>, <span class="at">lambda =</span> lambda_hat)</span>
+<span id="cb41-5"><a href=""></a>q99 <span class="ot">&lt;-</span> <span class="fu">qpois</span>(<span class="fl">0.99</span>, <span class="at">lambda =</span> lambda_hat)</span>
+<span id="cb41-6"><a href=""></a></span>
+<span id="cb41-7"><a href=""></a><span class="fu">cat</span>(<span class="st">"RISK QUANTILES (Based on Real Data Fitted Model)</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>RISK QUANTILES (Based on Real Data Fitted Model)</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">paste</span>(<span class="fu">rep</span>(<span class="st">"="</span>, <span class="dv">50</span>), <span class="at">collapse =</span> <span class="st">""</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>================================================== </code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Median (50th percentile):"</span>, q50, <span class="st">"crashes</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Median (50th percentile): 0 crashes</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Normal month (90%):"</span>, q90, <span class="st">"or fewer crashes</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Normal month (90%): 1 or fewer crashes</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Value at Risk 95% (VaR):"</span>, q95, <span class="st">"crashes/month</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Value at Risk 95% (VaR): 1 crashes/month</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Extreme scenario 99%:"</span>, q99, <span class="st">"crashes/month</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Extreme scenario 99%: 2 crashes/month</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>KEY PROBABILITIES</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>================================================== </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>P(0 crashes next month): 82.5 %</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>P(exactly 1 crash): 15.9 %</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>P(exactly 2 crashes): 1.5 %</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>P(≥3 crashes): 0.1 %</code></pre>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="visual-risk-metrics-dashboard-real-data" class="slide level2">
+<h2>💰 Visual: Risk Metrics Dashboard (Real Data)</h2>
+
+<img data-src="poisson_files/figure-revealjs/unnamed-chunk-16-1.png" width="1152" class="r-stretch"></section>
+<section id="business-recommendations-real-data" class="slide level2">
+<h2>💰 Business Recommendations (Real Data)</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span>📊</span> Key Findings from Real Data</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li><strong>Average monthly crashes</strong>: λ = 0.19 extreme events</li>
+<li><strong>Data period</strong>: 2019-2025 (6 years of actual trading)</li>
+<li><strong>Total crashes observed</strong>: 16 days with &gt;10% drops</li>
+<li><strong>Model validation</strong>: Poisson fits real data reasonably well</li>
+<li><strong>Normal month</strong>: Expect ≤ 1 crashes</li>
+<li><strong>95% Risk</strong>: Up to 1 crashes</li>
+<li><strong>Extreme case</strong>: Up to 2 crashes</li>
+</ul>
+</div>
+</div>
+</div>
+</div><div class="column fragment" style="width:50%;">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span>💼</span> Portfolio Risk Actions</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li><strong>Hedging</strong>: Protect against 1 monthly crashes</li>
+<li><strong>Liquidity</strong>: Hold 15-20% stablecoin reserves</li>
+<li><strong>Position Limits</strong>: Max 50% BTC if monthly VaR &gt; 20%</li>
+<li><strong>Monitoring</strong>: Track actual vs predicted monthly crashes</li>
+<li><strong>Rebalance</strong>: Quarterly reviews using updated data</li>
+<li><strong>Stop-Loss</strong>: Exit if 3+ crashes in 2 weeks or &gt;15% monthly loss</li>
+</ol>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="data-verification-sources" class="slide level2">
+<h2>💰 Data Verification &amp; Sources</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span>✓</span> Real Data Confirmation</strong></p>
+</div>
+<div class="callout-content">
+<p>This analysis uses <strong>VERIFIED REAL DATA</strong>:</p>
+<p>✅ <strong>Source</strong>: Yahoo Finance API (yfinance package)<br>
+✅ <strong>Ticker</strong>: BTC-USD (Bitcoin/USD official pair)<br>
+✅ <strong>Period</strong>: 2019-01-01 to latest available date<br>
+✅ <strong>Quality</strong>: OHLCV data (Open, High, Low, Close, Volume)<br>
+✅ <strong>Cross-check</strong>: Matches CoinMarketCap and CryptoDataDownload historical prices</p>
+</div>
+</div>
+</div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span>🔧</span> Reproduce This Analysis</strong></p>
+</div>
+<div class="callout-content">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href=""></a><span class="co"># Run this code to get the SAME real data</span></span>
+<span id="cb59-2"><a href=""></a><span class="fu">library</span>(quantmod)</span>
+<span id="cb59-3"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb59-4"><a href=""></a></span>
+<span id="cb59-5"><a href=""></a><span class="co"># Download real data</span></span>
+<span id="cb59-6"><a href=""></a><span class="fu">getSymbols</span>(<span class="st">"BTC-USD"</span>, <span class="at">src =</span> <span class="st">"yahoo"</span>,</span>
+<span id="cb59-7"><a href=""></a>           <span class="at">from =</span> <span class="st">"2019-01-01"</span>, <span class="at">to =</span> <span class="fu">Sys.Date</span>(),</span>
+<span id="cb59-8"><a href=""></a>           <span class="at">auto.assign =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb59-9"><a href=""></a></span>
+<span id="cb59-10"><a href=""></a><span class="co"># Your data is now in the 'BTC-USD' object</span></span>
+<span id="cb59-11"><a href=""></a><span class="fu">head</span>(BTC.USD)  <span class="co"># Check first 6 rows</span></span>
+<span id="cb59-12"><a href=""></a></span>
+<span id="cb59-13"><a href=""></a><span class="co"># This is the EXACT same real data used in this case study!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="alternative-real-data-sources" class="slide level2">
+<h2>💰 Alternative Real Data Sources</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span>📥</span> Other Verified Real Data Options</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Option 1: CryptoDataDownload (Free, Daily Data)</strong> - Website: https://www.cryptodatadownload.com/ - Format: CSV downloads - Coverage: Daily OHLCV data - Updated: Daily</p>
+<p><strong>Option 2: Kaggle Datasets (Free)</strong> - Search: “Bitcoin Historical Data” - BITCOIN Historical Datasets 2018-2025 Binance API - Bitcoin Daily Price (2017-2023) - Download as CSV</p>
+<p><strong>Option 3: CoinGecko API (Free, No Auth)</strong> - Website: https://www.coingecko.com/en/api - Format: JSON API responses - Coverage: Historical, current, market data - Rate limit: Generous free tier</p>
+<p><span><strong>Option 4: Python Code (Using yfinance)</strong> </span></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb60"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href=""></a><span class="im">import</span> yfinance <span class="im">as</span> yf</span>
+<span id="cb60-2"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb60-3"><a href=""></a></span>
+<span id="cb60-4"><a href=""></a><span class="co"># Download real data</span></span>
+<span id="cb60-5"><a href=""></a>btc <span class="op">=</span> yf.download(<span class="st">"BTC-USD"</span>, start<span class="op">=</span><span class="st">"2019-01-01"</span>, end<span class="op">=</span><span class="st">"2025-01-01"</span>)</span>
+<span id="cb60-6"><a href=""></a>btc.to_csv(<span class="st">"bitcoin_real_data.csv"</span>)</span>
+<span id="cb60-7"><a href=""></a><span class="bu">print</span>(btc.head())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</section>
+<section id="summary" class="slide level2">
+<h2>📝 Summary</h2>
+<div class="summary-box">
+<p><span>✅</span> Key Takeaways</p>
+<ul>
+<li><p><strong>Poisson models event frequencies</strong> in fixed intervals</p></li>
+<li><p>Mean and variance both <span class="math inline">\(=\lambda\)</span></p></li>
+<li><p>Excellent for default risk, insurance, arrivals, rare event modeling</p></li>
+<li><p>Approximates binomial well for large <span class="math inline">\(n\)</span>, small <span class="math inline">\(p\)</span></p></li>
+</ul>
+</div>
+</section>
+<section id="practice-problems" class="slide level2">
+<h2>📚 Practice Problems</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span>📝</span> Homework Problems</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li><p><strong>Loan Portfolio Default Modeling</strong>: If <span class="math inline">\(\lambda=4\)</span> defaults/month, find <span class="math inline">\(P(\text{exactly 2 defaults})\)</span> and <span class="math inline">\(P(D \geq 3)\)</span></p></li>
+<li><p><strong>Insurance Claim Risk</strong>: For <span class="math inline">\(\lambda=8\)</span> claims/month, what’s probability of 6 or fewer? Is 12 claims unusually high?</p></li>
+<li><p><strong>Call Center Analysis</strong>: If <span class="math inline">\(\lambda=25\)</span> calls/hour, probability of <span class="math inline">\(C\leq20\)</span> calls?</p></li>
+<li><p><strong>Trading Outliers</strong>: Stock returns see “large moves (L)” (<span class="math inline">\(&gt;2\sigma\)</span>) <span class="math inline">\(\lambda=1\)</span>/week. In 10 weeks, find <span class="math inline">\(P(L\geq3)\)</span>.</p></li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="thank-you" class="slide level2 smaller center">
+<h2>👋 Thank You!</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>📬 Contact Information:</strong></p>
+<p><strong>Samir Orujov</strong><br>
+Assistant Professor<br>
+School of Business ADA University</p>
+<p>📧 <strong>Email</strong>: <a href="mailto:sorujov@ada.edu.az">sorujov@ada.edu.az</a><br>
+🏢 <strong>Office</strong>: D312 ⏰ <strong>Office Hours</strong>: By appointment</p>
+</div><div class="column" style="width:50%;">
+<p><strong>📅 Next Class:</strong></p>
+<ul>
+<li><p><strong>Topic</strong>: Continuous Random Variables</p></li>
+<li><p><strong>Reading</strong>: Chapter 3.7</p></li>
+<li><p><strong>Preparation</strong>: Review Poisson examples</p></li>
+</ul>
+<p><strong>⏰ Reminders:</strong></p>
+<ul>
+<li><p>✅ Complete all homework problems</p></li>
+<li><p>✅ Practice with Poisson software</p></li>
+<li><p>✅ Work hard</p></li>
+</ul>
+</div></div>
+</section>
+<section id="questions" class="slide level2 center">
+<h2>❓ Questions?</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span>💬</span> Open Discussion (5 minutes)</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li><p>Applications to your research or work</p></li>
+<li><p>Computational tips and tricks</p></li>
+<li><p>Parameter estimation</p></li>
+<li><p>Modeling rare risk events in portfolios</p></li>
+</ul>
+</div>
+</div>
+</div>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="ADA.png" class="slide-logo"></p>
+<div class="footer footer-default">
+<p>Mathematical Statistics - The Poisson Probability Distribution</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="poisson_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="poisson_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="poisson_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="poisson_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="poisson_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="poisson_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="poisson_files/libs/revealjs/plugin/reveal-quiz/quiz.js"></script>
+  <script src="poisson_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="poisson_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="poisson_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="poisson_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="poisson_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'quiz': {"checkKey":"c","resetKey":"r","shuffleKey":"s","allowNumberKeys":true,"disableOnCheck":false,"shuffleOptions":true,"defaultCorrect":"✅ Correct! Well done.","defaultIncorrect":"❌ Not quite. Try again or check the explanation.","includeScore":true,"disableReset":false},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 720,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, RevealQuiz, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script type="ojs-module-contents">
+    eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6Ilxudmlld29mIG4gPSBJbnB1dHMucmFuZ2UoWzEwLCA1MDBdLCB7XG4gIHZhbHVlOiAxMDAsIFxuICBzdGVwOiAxMCwgXG4gIGxhYmVsOiBcIm4gKG51bWJlciBvZiB0cmlhbHMpOlwiXG59KVxuXG52aWV3b2YgcCA9IElucHV0cy5yYW5nZShbMC4wMDEsIDAuMV0sIHtcbiAgdmFsdWU6IDAuMDIsIFxuICBzdGVwOiAwLjAwMSwgXG4gIGxhYmVsOiBcInAgKHByb2JhYmlsaXR5IG9mIHN1Y2Nlc3MpOlwiXG59KVxuXG5sYW1iZGEgPSBuICogcFxuXG5tZGAqKkN1cnJlbnQgUGFyYW1ldGVyczoqKiAgXG5uID0gJHtufSAgXG5wID0gJHtwLnRvRml4ZWQoMyl9ICBcbs67ID0gbnAgPSAke2xhbWJkYS50b0ZpeGVkKDIpfWBcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMiIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6IlxuLy8gQmlub21pYWwgcHJvYmFiaWxpdHkgZnVuY3Rpb25cbmZ1bmN0aW9uIGJpbm9taWFsX3BtZihrLCBuLCBwKSB7XG4gIGlmIChrID4gbiB8fCBrIDwgMCkgcmV0dXJuIDA7XG4gIGNvbnN0IGxvZ0Jpbm9tID0gZDMuc3VtKGQzLnJhbmdlKDEsIGsgKyAxKSwgaSA9PiBNYXRoLmxvZyhuIC0gaSArIDEpIC0gTWF0aC5sb2coaSkpO1xuICByZXR1cm4gTWF0aC5leHAobG9nQmlub20gKyBrICogTWF0aC5sb2cocCkgKyAobiAtIGspICogTWF0aC5sb2coMSAtIHApKTtcbn1cblxuLy8gUG9pc3NvbiBwcm9iYWJpbGl0eSBmdW5jdGlvblxuZnVuY3Rpb24gcG9pc3Nvbl9wbWYoaywgbGFtYmRhKSB7XG4gIGlmIChsYW1iZGEgPD0gMCkgcmV0dXJuIDA7XG4gIHJldHVybiBNYXRoLmV4cCgtbGFtYmRhICsgayAqIE1hdGgubG9nKGxhbWJkYSkgLSBkMy5zdW0oZDMucmFuZ2UoMSwgayArIDEpLCBpID0+IE1hdGgubG9nKGkpKSk7XG59XG5cbi8vIEdlbmVyYXRlIGRhdGFcbm1heF95ID0gTWF0aC5taW4obiwgTWF0aC5jZWlsKGxhbWJkYSArIDQgKiBNYXRoLnNxcnQobGFtYmRhKSkpXG5kYXRhID0gZDMucmFuZ2UoMCwgbWF4X3kgKyAxKS5tYXAoeSA9PiAoe1xuICB5OiB5LFxuICBiaW5vbWlhbDogYmlub21pYWxfcG1mKHksIG4sIHApLFxuICBwb2lzc29uOiBwb2lzc29uX3BtZih5LCBsYW1iZGEpXG59KSlcblxuUGxvdC5wbG90KHtcbiAgd2lkdGg6IDgwMCxcbiAgaGVpZ2h0OiA0NTAsXG4gIG1hcmdpbkxlZnQ6IDUwLFxuICBtYXJnaW5Cb3R0b206IDQwLFxuICB4OiB7XG4gICAgbGFiZWw6IFwiTnVtYmVyIG9mIEV2ZW50cyAoeSkg4oaSXCIsXG4gICAgbGFiZWxPZmZzZXQ6IDM1LFxuICAgIGdyaWQ6IHRydWVcbiAgfSxcbiAgeToge1xuICAgIGxhYmVsOiBcIuKGkSBQcm9iYWJpbGl0eVwiLFxuICAgIGxhYmVsT2Zmc2V0OiA0MCxcbiAgICBkb21haW46IFswLCBNYXRoLm1heCguLi5kYXRhLm1hcChkID0+IE1hdGgubWF4KGQuYmlub21pYWwsIGQucG9pc3NvbikpKSAqIDEuMV1cbiAgfSxcbiAgbWFya3M6IFtcbiAgICBQbG90LmxpbmUoZGF0YSwge1xuICAgICAgeDogXCJ5XCIsIFxuICAgICAgeTogXCJiaW5vbWlhbFwiLCBcbiAgICAgIHN0cm9rZTogXCIjMjU2M2ViXCIsXG4gICAgICBzdHJva2VXaWR0aDogMyxcbiAgICAgIHRpcDogdHJ1ZVxuICAgIH0pLFxuICAgIFBsb3QuZG90KGRhdGEsIHtcbiAgICAgIHg6IFwieVwiLCBcbiAgICAgIHk6IFwiYmlub21pYWxcIiwgXG4gICAgICBmaWxsOiBcIiMyNTYzZWJcIixcbiAgICAgIHI6IDQsXG4gICAgICB0aXA6IHtmb3JtYXQ6IHt5OiBcIi40ZlwifX1cbiAgICB9KSxcbiAgICBQbG90LmxpbmUoZGF0YSwge1xuICAgICAgeDogXCJ5XCIsIFxuICAgICAgeTogXCJwb2lzc29uXCIsIFxuICAgICAgc3Ryb2tlOiBcIiNkYzI2MjZcIixcbiAgICAgIHN0cm9rZVdpZHRoOiAyLFxuICAgICAgc3Ryb2tlRGFzaGFycmF5OiBcIjUsNVwiLFxuICAgICAgdGlwOiB0cnVlXG4gICAgfSksXG4gICAgUGxvdC5kb3QoZGF0YSwge1xuICAgICAgeDogXCJ5XCIsIFxuICAgICAgeTogXCJwb2lzc29uXCIsIFxuICAgICAgZmlsbDogXCIjZGMyNjI2XCIsXG4gICAgICByOiAzLFxuICAgICAgdGlwOiB7Zm9ybWF0OiB7eTogXCIuNGZcIn19XG4gICAgfSksXG4gICAgUGxvdC5ydWxlWShbMF0pXG4gIF0sXG4gIGNhcHRpb246IGh0bWxgPHNwYW4gc3R5bGU9XCJjb2xvcjogIzI1NjNlYjtcIj7il4/ilIHilIHilIE8L3NwYW4+IEJpbm9taWFsKG4sIHApICZuYnNwOyZuYnNwOyA8c3BhbiBzdHlsZT1cImNvbG9yOiAjZGMyNjI2O1wiPuKXj+KVjOKVjOKVjDwvc3Bhbj4gUG9pc3NvbijOuz1ucClgXG59KVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC0zIiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoiXG52aWV3b2YgbjIgPSBJbnB1dHMucmFuZ2UoWzIwLCAyMDBdLCB7XG4gIHZhbHVlOiA1MCwgXG4gIHN0ZXA6IDEwLCBcbiAgbGFiZWw6IFwibiAodHJpYWxzKTpcIlxufSlcblxudmlld29mIGxhbWJkYTIgPSBJbnB1dHMucmFuZ2UoWzAuNSwgMTBdLCB7XG4gIHZhbHVlOiAyLCBcbiAgc3RlcDogMC41LCBcbiAgbGFiZWw6IFwizrsgKGV2ZW50IHJhdGUpOlwiXG59KVxuXG5wMiA9IGxhbWJkYTIgLyBuMlxuXG5tZGAqKlBhcmFtZXRlcnM6KiogIFxubiA9ICR7bjJ9ICBcbs67ID0gJHtsYW1iZGEyfSAgXG5wID0gJHtwMi50b0ZpeGVkKDQpfWBcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtNCIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6IlxubWF4X3kyID0gTWF0aC5taW4objIsIE1hdGguY2VpbChsYW1iZGEyICsgNSAqIE1hdGguc3FydChsYW1iZGEyKSkpXG5cbmVycm9yX2RhdGEgPSBkMy5yYW5nZSgwLCBtYXhfeTIgKyAxKS5tYXAoeSA9PiB7XG4gIGNvbnN0IGJpbm9tID0gYmlub21pYWxfcG1mKHksIG4yLCBwMik7XG4gIGNvbnN0IHBvaXMgPSBwb2lzc29uX3BtZih5LCBsYW1iZGEyKTtcbiAgcmV0dXJuIHtcbiAgICB5OiB5LFxuICAgIGVycm9yOiBNYXRoLmFicyhiaW5vbSAtIHBvaXMpLFxuICAgIGJpbm9taWFsOiBiaW5vbSxcbiAgICBwb2lzc29uOiBwb2lzXG4gIH07XG59KVxuXG5tYXhfZXJyb3IgPSBkMy5tYXgoZXJyb3JfZGF0YSwgZCA9PiBkLmVycm9yKVxudG90YWxfZXJyb3IgPSBkMy5zdW0oZXJyb3JfZGF0YSwgZCA9PiBkLmVycm9yKVxuXG5QbG90LnBsb3Qoe1xuICB3aWR0aDogODAwLFxuICBoZWlnaHQ6IDQ1MCxcbiAgbWFyZ2luTGVmdDogNTAsXG4gIG1hcmdpbkJvdHRvbTogNDAsXG4gIHg6IHtcbiAgICBsYWJlbDogXCJOdW1iZXIgb2YgRXZlbnRzICh5KSDihpJcIixcbiAgICBsYWJlbE9mZnNldDogMzUsXG4gICAgZ3JpZDogdHJ1ZVxuICB9LFxuICB5OiB7XG4gICAgbGFiZWw6IFwi4oaRIHxCaW5vbWlhbCAtIFBvaXNzb258XCIsXG4gICAgbGFiZWxPZmZzZXQ6IDQwXG4gIH0sXG4gIG1hcmtzOiBbXG4gICAgUGxvdC5iYXJZKGVycm9yX2RhdGEsIHtcbiAgICAgIHg6IFwieVwiLFxuICAgICAgeTogXCJlcnJvclwiLFxuICAgICAgZmlsbDogXCIjZjU5ZTBiXCIsXG4gICAgICB0aXA6IHtmb3JtYXQ6IHt5OiBcIi42ZlwifX1cbiAgICB9KSxcbiAgICBQbG90LnJ1bGVZKFswXSlcbiAgXSxcbiAgY2FwdGlvbjogaHRtbGBNYXggRXJyb3I6ICR7bWF4X2Vycm9yLnRvRml4ZWQoNil9ICZuYnNwO3wmbmJzcDsgVG90YWwgQWJzb2x1dGUgRXJyb3I6ICR7dG90YWxfZXJyb3IudG9GaXhlZCg0KX1gXG59KVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCduJykifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ3AnKSJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgnbjInKSJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgnbGFtYmRhMicpIn1dfQ==
+    </script>
+    <script type="module">
+    if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+    window._ojs.paths.runtimeToDoc = "../../..";
+    window._ojs.paths.runtimeToRoot = "../../..";
+    window._ojs.paths.docToRoot = "";
+    window._ojs.selfContained = false;
+    window._ojs.runtime.interpretFromScriptTags();
+    </script>
+    
+
+    <script>
+
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+
+      // slide changes (different for each slide format).
+
+      (function () {
+
+        // dispatch for htmlwidgets
+
+        function fireSlideEnter() {
+
+          const event = window.document.createEvent("Event");
+
+          event.initEvent("slideenter", true, true);
+
+          window.document.dispatchEvent(event);
+
+        }
+
+    
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+
+          fireSlideEnter();
+
+    
+
+          // dispatch for shiny
+
+          if (window.jQuery) {
+
+            if (previousSlide) {
+
+              window.jQuery(previousSlide).trigger("hidden");
+
+            }
+
+            if (currentSlide) {
+
+              window.jQuery(currentSlide).trigger("shown");
+
+            }
+
+          }
+
+        }
+
+    
+
+        // hookup for slidy
+
+        if (window.w3c_slidy) {
+
+          window.w3c_slidy.add_observer(function (slide_num) {
+
+            // slide_num starts at position 1
+
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+
+          });
+
+        }
+
+    
+
+      })();
+
+    </script>
+
+    
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

@@ -761,7 +761,7 @@ location: "Baku, Azerbaijan"
     </div>
     
     <div class="lecture-buttons">
-      <a href="/lectures/math-stat-1/08-poisson-mgf/index.html" class="btn btn--primary">
+      <a href="/lectures/math-stat-1/04-poisson/poisson.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
       <a href="/downloads/stat2311-homework-4.pdf" class="btn btn--primary">

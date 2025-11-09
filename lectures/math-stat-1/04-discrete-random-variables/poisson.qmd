@@ -1,0 +1,593 @@
+---
+title: "Mathematical Statistics"
+subtitle: "The Poisson Probability Distribution"
+author:
+  - name: "Ruslan Muslumov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: default
+    logo: assets/ADA.png
+    transition: slide
+    slide-number: true
+    chalkboard: true
+    controls: true
+    navigation-mode: vertical
+    width: 1280
+    height: 720
+    footer: "Mathematical Statistics - The Poisson Probability Distribution"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+revealjs-plugins:
+  - quiz
+---
+
+<style> .center h2 { text-align: center; } .reveal .slide-number { font-size: 0.8em; } .callout { margin-top: 1em; margin-bottom: 1em; } .fragment { margin: 0.5em 0; } .columns { display: flex; gap: 2rem; } </style>
+
+## Overview {.center}
+
+<center>
+![](assets/ADA.png){width="400px"}
+</center>
+
+<br>
+
+### Mathematical Statistics
+#### The Poisson Probability Distribution
+
+<br>
+
+**Samir Orujov, PhD**
+
+ADA University
+
+## Overview {.center}
+
+:::: {.columns}
+::: {.column width="50%"}
+### 📚 Today's Journey
+- The Poisson Probability Distribution
+- Derivation from Binomial Distribution
+- Properties and Validity Proof
+- Poisson Approximation to Binomial
+- Mean and Variance
+- Real-World Applications
+:::
+
+::: {.column width="50%"}
+### 🎯 Learning Objectives
+- ✅ Understand the Poisson distribution definition
+- 🔢 Master the probability mass function
+- 📊 Apply Poisson approximation techniques
+- 🧮 Solve practical problems
+- 📈 Analyze industrial and ecological phenomena
+:::
+::::
+
+## Think-Pair-Share: Random Events {.center}
+
+::: {.fragment .fade-in}
+**🤔 Think (1-2 minutes):**
+
+Consider events that occur randomly over time or space. Can you think of three examples from your daily life where events happen with some average rate but at unpredictable times?
+:::
+
+::: {.fragment .fade-in}
+**👥 Pair (2-3 minutes):**
+
+Share your examples with a partner. Discuss:
+
+- What makes these events "random"?
+- Can you estimate the average rate of occurrence?
+- Are the events independent of each other?
+:::
+
+::: {.fragment .fade-in}
+**🗣️ Share:**
+
+Let's hear a few examples from the class and discuss how they relate to today's topic.
+:::
+
+# The Poisson Probability Distribution
+
+## Definition and Motivation {.center}
+
+::: {.callout-note icon=false}
+## Definition
+
+The **Poisson probability distribution** is a discrete probability distribution that describes the number of events that occur within a **fixed interval of time** or space, given a known average rate of occurrence. It is named after the French mathematician Siméon Denis Poisson.
+:::
+
+::: {.fragment}
+::: {.callout-note icon=false}
+## Description
+
+Split up the time period into \(n\) subintervals so that:
+
+- P(one event happens in a subinterval) = \(p\),
+- P(no event happens in a subinterval) = \(1-p\),
+- P(more than one event happens in a subinterval) = 0
+:::
+:::
+
+::: {.fragment}
+::: {.callout-note icon=false}
+## Remark
+
+Then the total number of events in the given time interval is just the total number of subintervals that contain one event.
+:::
+:::
+
+## Derivation from Binomial Distribution {.center}
+
+Letting \(\lambda = np\) and taking the limit of the binomial probability
+
+\[
+p(y) = \binom{n}{y} p^y(1 - p)^{n-y}
+\]
+
+as \(n \to \infty\), we have
+
+::: {.fragment}
+\[
+\begin{align}
+\lim_{n \to \infty} \binom{n}{y} p^y(1 - p)^{n-y} &= \lim_{n \to \infty} \frac{n(n - 1) \cdots (n - y + 1)}{y!} \left( \frac{\lambda}{n} \right)^y \left(1 - \frac{\lambda}{n}\right)^{n-y}
+\end{align}
+\]
+:::
+
+## Derivation (continued) {.center}
+
+::: {.fragment}
+\[
+\begin{align}
+&= \lim_{n \to \infty} \frac{\lambda^y}{y!} \left(1 - \frac{\lambda}{n}\right)^{n} \frac{n(n - 1) \cdots (n - y + 1)}{n^y} \left(1 - \frac{\lambda}{n}\right)^{-y}
+\end{align}
+\]
+:::
+
+::: {.fragment}
+\[
+\begin{align}
+&= \frac{\lambda^y}{y!} \lim_{n \to \infty} \left(1 - \frac{\lambda}{n}\right)^{n} \cdot \lim_{n \to \infty} \left(1 - \frac{\lambda}{n}\right)^{-y} \cdot \lim_{n\to \infty}\left((1-\frac{1}{n}) \cdots (1 - \frac{y-1}{n})\right)
+\end{align}
+\]
+:::
+
+::: {.fragment}
+\[
+= \boxed{\frac{\lambda^y}{y!} e^{-\lambda}}
+\]
+:::
+
+## Formal Definition {.center}
+
+::: {.callout-note icon=false}
+## Definition
+
+A random variable \(Y\) is said to have a **Poisson distribution** if and only if
+
+\[
+p(y) = \frac{\lambda^y}{y!} e^{-\lambda}, \quad y = 0,1,2,\ldots,\quad \lambda > 0
+\]
+:::
+
+::: {.fragment}
+::: {.callout-tip icon=false}
+## Example
+
+Show that the probabilities assigned by the Poisson probability distribution satisfy the requirements that \(0 \leq p(y) \leq 1\) for all \(y\) and
+
+\[
+\sum_{y}p(y) = 1
+\]
+:::
+:::
+
+## Proof of Validity {.center}
+
+::: {.callout-tip icon=false}
+## Proof
+
+::: {.fragment}
+Because \(\lambda > 0\), it is obvious that \(p(y) > 0\) for \(y = 0, 1, 2, \ldots\), and that \(p(y) = 0\) otherwise.
+:::
+
+::: {.fragment}
+Further,
+
+\[
+\sum_{y=0}^{\infty} p(y) = \sum_{y=0}^{\infty} \frac{\lambda^y}{y!} e^{-\lambda} = e^{-\lambda} \sum_{y=0}^{\infty} \frac{\lambda^y}{y!} = e^{-\lambda} e^{\lambda} = 1
+\]
+:::
+
+::: {.fragment}
+because the infinite sum \(\sum_{y=0}^{\infty} \frac{\lambda^y}{y!}\) is a series expansion of \(e^\lambda\).
+:::
+:::
+
+## ⚡ Quick Check {.center}
+
+::: {.callout-warning icon=false}
+## Question
+
+Before we move to applications, can you identify:
+
+1. What parameter characterizes the Poisson distribution?
+2. What does this parameter represent?
+3. What values can \(Y\) take in a Poisson distribution?
+:::
+
+::: {.fragment}
+::: {.callout-tip icon=false}
+## Answers
+
+1. The parameter \(\lambda\) (lambda)
+2. It represents the **average rate** of events in the given interval
+3. \(Y\) can be \(0, 1, 2, 3, \ldots\) (any non-negative integer)
+:::
+:::
+
+# Applications and Examples
+
+## Example 1: Police Patrol {.center}
+
+::: {.callout-tip icon=false}
+## Example
+
+Suppose that a random system of police patrol is devised so that a patrol officer may visit a given beat location \(Y = 0, 1, 2, 3, \ldots\) times per half-hour period, with each location being visited an average of once per time period. Assume that \(Y\) possesses, approximately, a Poisson probability distribution.
+
+Calculate the probability that the patrol officer will:
+
+- Miss a given location during a half-hour period
+- Visit once
+- Visit twice
+- Visit at least once
+:::
+
+## Solution: Police Patrol (Part 1) {.center}
+
+::: {.callout-tip icon=false}
+## Solution
+
+::: {.fragment}
+For this example, the time period is a half-hour, and the mean number of visits per half-hour interval is \(\lambda = 1\). Then
+
+\[
+p(y) = \frac{e^{-1}}{y!}, \quad y = 0, 1, 2, \ldots
+\]
+:::
+
+::: {.fragment}
+The event that a given location is **missed** in a half-hour period corresponds to \(Y = 0\), and
+
+\[
+P(Y = 0) = p(0) = \frac{e^{-1}}{0!} = e^{-1} \approx 0.368
+\]
+:::
+:::
+
+## Solution: Police Patrol (Part 2) {.center}
+
+::: {.callout-tip icon=false}
+## Solution (continued)
+
+::: {.fragment}
+Similarly,
+
+\[
+p(1) = \frac{e^{-1}}{1!} = e^{-1} \approx 0.368
+\]
+
+and
+
+\[
+p(2) = \frac{e^{-1}}{2!} = \frac{e^{-1}}{2} \approx 0.184
+\]
+:::
+
+::: {.fragment}
+The probability that the location is visited **at least once** is the event \(P(Y \geq 1)\). Then
+
+\[
+P(Y \geq 1) = \sum_{y=1}^{\infty} p(y) = 1 - p(0) = 1 - e^{-1} \approx 0.632
+\]
+:::
+:::
+
+## Example 2: Tree Seedlings {.center}
+
+::: {.callout-tip icon=false}
+## Example
+
+A certain type of tree has seedlings randomly dispersed in a large area, with the mean density of seedlings being approximately **five per square yard**. If a forester randomly locates ten 1-square-yard sampling regions in the area, find the probability that none of the regions will contain seedlings.
+:::
+
+## Solution: Tree Seedlings {.center}
+
+::: {.callout-tip icon=false}
+## Solution
+
+::: {.fragment}
+\(Y\), the number of seedlings per square yard, can be modeled as a Poisson random variable with \(\lambda = 5\). Thus,
+
+\[
+P(Y = 0) = p(0) = \frac{e^{-\lambda}\lambda^0}{0!} = e^{-5} \approx 0.006738
+\]
+:::
+
+::: {.fragment}
+The probability that \(Y = 0\) on **ten independently selected regions** is
+
+\[
+(e^{-5})^{10}
+\]
+
+because the probability of the intersection of independent events is equal to the product of the respective probabilities. The resulting probability is **extremely small**.
+:::
+:::
+
+## 🌍 Real-World Connection {.center}
+
+::: {.callout-tip icon=false}
+## Applications in Nature and Society
+
+The Poisson distribution appears in many contexts:
+
+- **Ecology:** Distribution of organisms in space
+- **Quality Control:** Number of defects in manufacturing
+- **Telecommunications:** Number of calls arriving at a call center
+- **Healthcare:** Number of patients arriving at an emergency room
+- **Physics:** Radioactive decay events
+- **Traffic Engineering:** Number of vehicles passing a point
+:::
+
+# Poisson Approximation to Binomial
+
+## When to Use Poisson Approximation {.center}
+
+::: {.callout-important icon=false}
+## Approximation Conditions
+
+The Poisson distribution can be used to approximate the binomial distribution when:
+
+- \(n\) is **large** (typically \(n \geq 20\))
+- \(p\) is **small** (typically \(p \leq 0.05\))
+- \(\lambda = np\) is **moderate** (typically \(\lambda \leq 10\))
+:::
+
+::: {.fragment}
+::: {.callout-note icon=false}
+## Why It Works
+
+When these conditions hold, the binomial distribution with parameters \(n\) and \(p\) is approximately Poisson with parameter \(\lambda = np\).
+:::
+:::
+
+## Example 3: Binomial Approximation {.center}
+
+::: {.callout-tip icon=false}
+## Example
+
+Suppose that \(Y\) possesses a binomial distribution with \(n = 20\) and \(p = 0.1\). Find the exact value of \(P(Y \leq 3)\) using the table of binomial probabilities, Table: "Binomial Distribution Histograms". Use the following table, to approximate this probability, using a corresponding probability given by the Poisson distribution. Compare the exact and approximate values for \(P(Y \leq 3)\).
+:::
+
+::: {.fragment}
+::: {.callout-note icon=false}
+## Reference Tool
+
+[Poisson Distribution Applet](https://homepage.divms.uiowa.edu/~mbognar/applets/pois.html)
+:::
+:::
+
+## Solution: Approximation Comparison {.center}
+
+::: {.callout-tip icon=false}
+## Solution
+
+::: {.fragment}
+**Exact Binomial Calculation:**
+
+According to Table, the exact value of \(P(Y \leq 3) = 0.867\).
+:::
+
+::: {.fragment}
+**Poisson Approximation:**
+
+If \(W\) is a Poisson-distributed random variable with \(\lambda = np = 20 \times 0.1 = 2\), previous discussions indicate that \(P(Y \leq 3)\) is approximately equal to \(P(W \leq 3)\). Table 3, Appendix 3, gives
+
+\[
+P(W \leq 3) = 0.857
+\]
+:::
+
+::: {.fragment}
+**Comparison:** The Poisson approximation is quite good, yielding a value that differs from the exact value by only **0.01** (about 1% relative error).
+:::
+:::
+
+## Poisson Probability Table {.center}
+
+![Poisson Probabilities Table](assets/Table2.png){width="900px"}
+
+# Mean and Variance
+
+## Theorem: Expected Value and Variance {.center}
+
+::: {.callout-important}
+## Theorem
+
+If \(Y\) is a random variable possessing a Poisson distribution with parameter \(\lambda\), then
+
+\[
+\mu = E(Y) = \lambda \quad \text{and} \quad \sigma^2 = V(Y) = \lambda
+\]
+:::
+
+::: {.fragment}
+::: {.callout-note icon=false}
+## Key Insight
+
+In the Poisson distribution, the **mean equals the variance**. This is a unique property that distinguishes it from other distributions!
+
+- Standard deviation: \(\sigma = \sqrt{\lambda}\)
+- This relationship simplifies many calculations
+:::
+:::
+
+## Example 4: Industrial Accidents {.center}
+
+::: {.callout-tip icon=false}
+## Example
+
+Industrial accidents occur according to a Poisson process with an average of **three accidents per month**. During the last two months, **ten accidents** occurred.
+
+**Questions:**
+
+- Does this number seem highly improbable if the mean number of accidents per month, \(\mu\), is still equal to 3?
+- Does it indicate an increase in the mean number of accidents per month?
+:::
+
+## Solution: Industrial Accidents {.center}
+
+::: {.callout-tip icon=false}
+## Solution
+
+::: {.fragment}
+The number of accidents in two months, \(Y\), has a Poisson probability distribution with mean \(\lambda = 2 \times 3 = 6\). The probability that \(Y\) is as large as 10 is
+
+\[
+P(Y \geq 10) = \sum_{y=10}^{\infty} \frac{6^y e^{-6}}{y!}
+\]
+:::
+
+::: {.fragment}
+By Poisson Distribution Applet or from the theorem:
+
+\[
+\mu = \lambda = 6, \quad \sigma^2 = \lambda = 6, \quad \sigma = \sqrt{6} = 2.45
+\]
+:::
+:::
+
+## Solution: Statistical Interpretation {.center}
+
+::: {.callout-tip icon=false}
+## Solution (continued)
+
+::: {.fragment}
+**The empirical rule** tells us that we should expect \(Y\) to take values in the interval \(\mu \pm 2\sigma\) with a high probability.
+:::
+
+::: {.fragment}
+Notice that:
+
+\[
+\mu + 2\sigma = 6 + (2)(2.45) = 10.90
+\]
+:::
+
+::: {.fragment}
+**Interpretation:** The observed number of accidents, \(Y = 10\), does **not** lie more than \(2\sigma\) from \(\mu\), but it is **close to the boundary**. Thus, the observed result is not highly improbable, but it may be **sufficiently improbable to warrant an investigation**.
+:::
+:::
+
+## Think-Pair-Share: Decision Making {.center}
+
+::: {.fragment .fade-in}
+**🤔 Think (2 minutes):**
+
+You are the safety manager. Based on the analysis showing 10 accidents in 2 months (close to the \(\mu + 2\sigma\) boundary), would you:
+
+- Conclude this is just random variation?
+- Investigate potential safety issues?
+- Set a new monitoring threshold?
+:::
+
+::: {.fragment .fade-in}
+**👥 Pair (3 minutes):**
+
+Discuss with your partner:
+
+- What additional information would you want?
+- At what threshold would you definitely investigate?
+- How would you communicate this to management?
+:::
+
+# Summary and Key Takeaways
+
+## Key Takeaways {.center}
+
+::: {.callout-important}
+## 📝 Summary
+
+:::: {.columns}
+::: {.column width="50%"}
+**Theoretical Foundation:**
+
+1. **PMF:** \(p(y) = \frac{\lambda^y e^{-\lambda}}{y!}\)
+2. **Parameter:** \(\lambda > 0\) (rate parameter)
+3. **Support:** \(y = 0, 1, 2, \ldots\)
+4. **Derived from:** Binomial limit as \(n \to \infty\)
+:::
+
+::: {.column width="50%"}
+**Practical Properties:**
+
+1. **Mean = Variance = \(\lambda\)**
+2. **Approximates binomial** when \(n\) large, \(p\) small
+3. **Models rare events** over time/space
+4. **Independent occurrences** assumption
+:::
+::::
+:::
+
+## Applications Review {.center}
+
+::: {.callout-tip icon=false}
+## 🌟 We Explored
+
+1. **Police patrol patterns** - Rare event modeling
+2. **Ecological distributions** - Spatial patterns in nature
+3. **Binomial approximation** - Computational efficiency
+4. **Industrial accidents** - Statistical decision-making
+:::
+
+::: {.fragment}
+::: {.callout-note icon=false}
+## 📚 Next Steps
+
+- Practice with additional examples
+- Explore the relationship with the exponential distribution
+- Study applications in your field of interest
+- Review the empirical rule for statistical interpretation
+:::
+:::
+
+## Thank You! {.center}
+
+::: {.callout-important}
+## 📧 Questions?
+
+Feel free to reach out during office hours or via email.
+
+**Course Resources:**
+
+- Lecture materials on course website
+- Practice problems available
+- [Poisson Distribution Applet](https://homepage.divms.uiowa.edu/~mbognar/applets/pois.html)
+:::
+
+::: {.fragment}
+### 📖 References
+
+- Wackerly, D., Mendenhall, W., & Scheaffer, R. *Mathematical Statistics with Applications*
+- Online resources: Poisson Distribution Calculator and Visualization Tools
+:::
