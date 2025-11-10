@@ -819,11 +819,17 @@ location: "Baku, Azerbaijan"
 
     
     <div class="video-lecture-section">
-      <div class="video-placeholder">
-        <i>🎬</i>
-        <p><strong>Video Lecture Coming Soon</strong></p>
-        <p>Risk bounds and probability inequalities in finance</p>
+      <h4>🎥 Tchebysheff's Theorem</h4>
+      <div class="youtube-container">
+        <iframe width="560" height="315" 
+                src="https://www.youtube.com/embed/i8lcvi2UtyM" 
+                title="Tchebysheff's Theorem - Mathematical Statistics" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowfullscreen>
+        </iframe>
       </div>
+      <p><em>Risk bounds and probability inequalities in finance.</em></p>
     </div>
   </div>
 

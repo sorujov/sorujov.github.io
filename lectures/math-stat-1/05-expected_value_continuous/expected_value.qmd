@@ -1,18 +1,30 @@
 ---
 title: "Mathematical Statistics"
-subtitle: "The Binomial Probability Distribution"
-author: "Samir Orujov"
+subtitle: "Expected Values for Continuous Random Variables"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
 date: today
 format:
   revealjs:
     theme: default
-    slide-number: true
-    chalkboard: true
-    auto-stretch: false
-    width: 1600
-    height: 900
     logo: ADA.png
-    footer: "Mathematical Statistics - ADA University"
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    footer: "Mathematical Statistics - Expected Values & Uniform Distribution"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
     quiz:
       checkKey: 'c'
       resetKey: 'r'
@@ -22,874 +34,887 @@ format:
       disableReset: false
       shuffleOptions: true
       defaultCorrect: "✅ Correct! Well done."
-      defaultIncorrect: "❌ Not quite. Try again."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
       includeScore: true
-    revealjs-plugins:
-      - quiz
-    css: |
-      /* Custom CSS embedded directly */
-      .reveal h2 {
-        font-size: 1.8em;
-        color: #1976d2;
-      }
-
-      .reveal h3 {
-        font-size: 1.4em;
-        color: #424242;
-      }
-
-      .fragment.highlight-current-blue.visible.current-fragment {
-        color: #1f77b4;
-        font-weight: bold;
-      }
-
-      .callout {
-        margin: 1em 0;
-        padding: 1em;
-        border-radius: 8px;
-      }
-
-      .callout-note {
-        background-color: #e3f2fd;
-        border-left: 5px solid #1976d2;
-      }
-
-      .callout-tip {
-        background-color: #f1f8e9;
-        border-left: 5px solid #689f38;
-      }
-
-      .callout-warning {
-        background-color: #fff3e0;
-        border-left: 5px solid #f57c00;
-      }
-
-      .callout-important {
-        background-color: #fce4ec;
-        border-left: 5px solid #c2185b;
-      }
-
-      .callout-title {
-        font-weight: bold;
-        margin-bottom: 0.5em;
-        font-size: 1.1em;
-      }
-
-      /* Timer styling */
-      .timer-display {
-        font-size: 2em;
-        font-weight: bold;
-        margin: 20px 0;
-        padding: 20px;
-        border-radius: 10px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        text-align: center;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      }
-
-      .timer-controls {
-        margin: 10px 0;
-      }
-
-      .timer-button {
-        background: #667eea;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        margin: 5px;
-        font-size: 1em;
-        transition: all 0.3s ease;
-      }
-
-      .timer-button:hover {
-        background: #5568d3;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      }
-
-      .timer-button.pause {
-        background: #f39c12;
-      }
-
-      .timer-button.reset {
-        background: #e74c3c;
-      }
-
-      /* Activity boxes */
-      .activity-box {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        padding: 20px;
-        border-radius: 10px;
-        margin: 20px 0;
-      }
-
-      .activity-step {
-        margin: 15px 0;
-        padding: 10px;
-        background: rgba(255,255,255,0.1);
-        border-radius: 5px;
-      }
-
-      /* Quiz styling */
-      .quiz-option {
-        padding: 15px;
-        margin: 10px 0;
-        border-radius: 8px;
-        border: 2px solid #e0e0e0;
-        cursor: pointer;
-        transition: all 0.3s ease;
-      }
-
-      .quiz-option:hover {
-        border-color: #667eea;
-        background-color: #f5f5f5;
-      }
-
-      .quiz-option.correct {
-        border-color: #4caf50;
-        background-color: #e8f5e9;
-      }
-
-      .quiz-option.incorrect {
-        border-color: #f44336;
-        background-color: #ffebee;
-      }
-
-      /* Table styling */
-      table {
-        margin: 20px auto;
-        border-collapse: collapse;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      }
-
-      table thead {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-      }
-
-      table th, table td {
-        padding: 12px 15px;
-        border: 1px solid #ddd;
-      }
-
-      table tbody tr:nth-child(even) {
-        background-color: #f9f9f9;
-      }
-
-      table tbody tr:hover {
-        background-color: #f5f5f5;
-      }
-
-      /* Center alignment utilities */
-      .center {
-        text-align: center;
-      }
-
-      .smaller {
-        font-size: 0.9em;
-      }
-
-      /* Columns */
-      .columns {
-        display: flex;
-        gap: 2em;
-      }
-
-      .column {
-        flex: 1;
-      }
-
-      /* Math styling */
-      .math.display {
-        margin: 1em 0;
-        font-size: 1.2em;
-      }
-
-      /* Fragment animations */
-      .fragment {
-        opacity: 0;
-      }
-
-      .fragment.visible {
-        opacity: 1;
-      }
-
-      /* Code blocks */
-      code {
-        background-color: #f5f5f5;
-        padding: 2px 6px;
-        border-radius: 3px;
-        font-family: 'Courier New', monospace;
-      }
-
-      /* Emphasis */
-      strong {
-        color: #1976d2;
-      }
-
-      /* Links */
-      a {
-        color: #1976d2;
-        text-decoration: none;
-      }
-
-      a:hover {
-        text-decoration: underline;
-      }
-
-      /* List styling */
-      ul, ol {
-        line-height: 1.8;
-      }
-
-      /* Incremental lists */
-      .incremental > * {
-        opacity: 0;
-      }
-
-      .incremental > *.visible {
-        opacity: 1;
-      }
+revealjs-plugins:
+  - quiz
 ---
 
+## 🎯 Learning Objectives {.smaller}
+
+::: {style="font-size: 30px"}
+::: {.learning-objectives}
+By the end of this lecture, you will be able to:
+
+- Define and compute expected values for continuous random variables using integration techniques
+
+- Apply theorems on expectations to calculate means and variances for continuous distributions
+
+- Recognize and work with the continuous uniform distribution, including its density function and parameters
+
+- Calculate probabilities for uniformly distributed random variables in business contexts (e.g., service arrival times, waiting times)
+
+- Derive and apply formulas for mean and variance of the uniform distribution in financial and operational scenarios
+:::
+:::
+
+## 📋 Overview {.smaller}
+
+::: {style="font-size:38px"}
+::: {.callout-note}
+## 📚 Topics Covered Today
+
+::: {.incremental}
+- **Expected Values** – Definition and computation for continuous random variables
+- **Expectation Theorems** – Linearity properties and variance calculations
+- **Uniform Distribution** – Definition, parameters, and empirical interpretation
+- **Uniform Applications** – Poisson-arrival conditioning and service time modeling
+- **Statistical Properties** – Mean and variance derivations for uniform distributions
+:::
+:::
+:::
+
+## 📖 Definition: Expected Value {.smaller}
+
+::: {.callout-note}
+## 📝 Definition 1: Expected Value of a Continuous Random Variable
+
+The **expected value** (or mean) of a continuous random variable $Y$ with probability density function $f(y)$ is:
+
+$$\boxed{E(Y) = \int_{-\infty}^{\infty} yf(y) \, dy}$$
+
+provided that the integral exists (i.e., converges absolutely).
+
+::: {.incremental}
+- **Interpretation** – The expected value represents the "center of mass" or long-run average of the distribution
+
+- **Financial Context** – For a continuous return distribution, $E(Y)$ represents the expected return on an investment
+
+- **Existence Condition** – The integral must converge; distributions with "heavy tails" may not have finite expected values
+:::
+:::
+
+## 🧮 Theorem: Expected Value of Functions {.smaller}
+
+::: {.callout-important}
+## Theorem 1: Expectation of Transformed Variables
+
+Let $g(Y)$ be a function of a continuous random variable $Y$ with density $f(y)$. Then:
+
+$$\boxed{E[g(Y)] = \int_{-\infty}^{\infty} g(y) f(y) \, dy}$$
+
+provided the integral exists.
+:::
+
+. . .
+
+**Key Insight:** You do NOT need to find the distribution of $g(Y)$ first – you can compute expectations directly using the original density $f(y)$.
+
+. . .
+
+**Example Applications:**
+
+- $g(Y) = Y^2$ gives $E(Y^2)$, used to compute variance: $V(Y) = E(Y^2) - [E(Y)]^2$
+
+- $g(Y) = e^{tY}$ gives the moment generating function $M(t) = E(e^{tY})$
+
+- $g(Y) = (Y - \mu)^2$ gives variance directly: $V(Y) = E[(Y - \mu)^2]$
+
+## 🧮 Theorem: Properties of Expectations {.smaller}
+
+::: {.callout-important}
+## Theorem 2: Linearity of Expectations
+
+Let $c$ be a constant, and let $g(Y), g_1(Y), g_2(Y), \ldots, g_k(Y)$ be functions of continuous random variable $Y$. Then:
+:::
+
+. . .
+
+**Property 1 (Constant):**
+$$E(c) = c$$
+
+. . .
+
+**Property 2 (Scalar Multiplication):**
+$$E[cg(Y)] = cE[g(Y)]$$
+
+. . .
+
+**Property 3 (Additivity):**
+$$E[g_1(Y) + g_2(Y) + \ldots + g_k(Y)] = E[g_1(Y)] + E[g_2(Y)] + \ldots + E[g_k(Y)]$$
+
+. . .
+
+**Portfolio Application:** If a portfolio consists of $k$ assets with returns $R_1, R_2, \ldots, R_k$ and weights $w_1, w_2, \ldots, w_k$, then the expected portfolio return is $E(R_p) = w_1E(R_1) + w_2E(R_2) + \ldots + w_kE(R_k)$.
+
+## 📌 Example 1: Computing Mean and Variance {.smaller}
+
+::: {style="font-size:28px"}
+**Problem:** A random variable $Y$ has density function:
+$$f(y) = \frac{3}{8}y^2, \quad 0 \leq y \leq 2, \quad f(y) = 0 \text{ elsewhere}$$
+
+Find the mean $\mu = E(Y)$ and variance $\sigma^2 = V(Y)$.
+
+. . .
+
+**Solution (Part 1 - Mean):**
+
+By definition:
+$$E(Y) = \int_{-\infty}^{\infty} y f(y) \, dy = \int_{0}^{2} y \left(\frac{3}{8}y^2\right) \, dy = \frac{3}{8} \int_{0}^{2} y^3 \, dy$$
+
+. . .
+
+$$= \frac{3}{8} \left[\frac{1}{4}y^4\right]_{0}^{2} = \frac{3}{8} \cdot \frac{16}{4} = \frac{3}{8} \cdot 4 = \boxed{1.5}$$
+
+:::
+
+## 📌 Example 1: Computing Mean and Variance (Part 2) {.smaller}
+
+::: {style="font-size:28px"}
+**Solution (Part 2 - Variance):**
+
+First, compute $E(Y^2)$:
+$$E(Y^2) = \int_{-\infty}^{\infty} y^2 f(y) \, dy = \int_{0}^{2} y^2 \left(\frac{3}{8}y^2\right) \, dy = \frac{3}{8} \int_{0}^{2} y^4 \, dy$$
+
+. . .
+
+$$= \frac{3}{8} \left[\frac{1}{5}y^5\right]_{0}^{2} = \frac{3}{8} \cdot \frac{32}{5} = \frac{96}{40} = 2.4$$
+
+. . .
+
+Now apply the variance formula:
+$$\sigma^2 = V(Y) = E(Y^2) - [E(Y)]^2 = 2.4 - (1.5)^2 = 2.4 - 2.25 = \boxed{0.15}$$
+
+. . .
+
+**Interpretation:** The standard deviation is $\sigma = \sqrt{0.15} \approx 0.387$, indicating moderate variability around the mean of 1.5.
+:::
+
+## 📖 Definition: Uniform Distribution {.smaller}
+
+::: {.callout-note}
+## 📝 Definition 2: Continuous Uniform Distribution
+
+If $\theta_1 < \theta_2$, a random variable $Y$ is said to have a **continuous uniform probability distribution** on the interval $(\theta_1, \theta_2)$ if and only if the density function is:
+
+$$\boxed{f(y) = \begin{cases}
+\frac{1}{\theta_2 - \theta_1}, & \text{if } \theta_1 \leq y \leq \theta_2, \\
+0, & \text{elsewhere}
+\end{cases}}$$
+
+**Notation:** $Y \sim \text{Uniform}(\theta_1, \theta_2)$ or $Y \sim U(\theta_1, \theta_2)$
+:::
+
+. . .
+
+::: {.callout-note}
+## 📝 Definition 3: Parameters
+
+The constants that determine the specific form of a density function are called **parameters** of the density function. For the uniform distribution, $\theta_1$ and $\theta_2$ are the parameters.
+:::
+
+## 🎮 Interactive: Visualizing the Uniform Distribution {.smaller}
+
+::: {style="font-size: 0.8em;"}
+
+**Explore the Uniform PDF:** Adjust the interval boundaries to see how the density changes.
+
+::: {.columns}
+
+::: {.column width="30%"}
+
+```{ojs}
+//| echo: false
+
+viewof theta1 = Inputs.range([0, 20], {
+  value: 2, 
+  step: 0.5, 
+  label: "θ₁ (lower bound):"
+})
+
+viewof theta2 = Inputs.range([0, 20], {
+  value: 8, 
+  step: 0.5, 
+  label: "θ₂ (upper bound):"
+})
+
+height_uniform = 1 / (theta2 - theta1)
+
+md`**Current Parameters:**  
+θ₁ = ${theta1}  
+θ₂ = ${theta2}  
+PDF height = ${height_uniform.toFixed(4)}`
+```
+
+**Observations:**  
+As the interval width increases, the PDF height decreases to maintain total probability = 1.
+
+:::
+
+::: {.column width="70%"}
+
+```{ojs}
+//| echo: false
+
+// Generate uniform PDF data
+uniform_data = [
+  {x: theta1 - 1, y: 0},
+  {x: theta1, y: 0},
+  {x: theta1, y: height_uniform},
+  {x: theta2, y: height_uniform},
+  {x: theta2, y: 0},
+  {x: theta2 + 1, y: 0}
+]
+
+// Create shaded area data
+shaded_area = d3.range(theta1, theta2 + 0.01, (theta2 - theta1) / 100).map(x => ({
+  x: x,
+  y: height_uniform
+}))
+
+Plot.plot({
+  width: 800,
+  height: 450,
+  marginLeft: 60,
+  marginBottom: 50,
+  x: {
+    label: "Y",
+    grid: true,
+    domain: [theta1 - 2, theta2 + 2]
+  },
+  y: {
+    label: "f(y)",
+    domain: [0, Math.max(0.5, height_uniform * 1.2)]
+  },
+  marks: [
+    Plot.areaY(shaded_area, {x: "x", y: "y", fill: "steelblue", opacity: 0.3}),
+    Plot.line(uniform_data, {x: "x", y: "y", stroke: "steelblue", strokeWidth: 3}),
+    Plot.ruleY([0]),
+    Plot.text([{x: (theta1 + theta2) / 2, y: height_uniform / 2, label: `Area = 1`}], {
+      x: "x", 
+      y: "y", 
+      text: "label", 
+      fill: "darkblue",
+      fontSize: 16,
+      fontWeight: "bold"
+    })
+  ],
+  caption: html`Uniform PDF with constant density = 1 / (θ₂ - θ₁)`
+})
+```
+
+:::
+:::
+:::
+
+## 📖 Properties of the Uniform Distribution {.smaller}
+
+::: {style="font-size:32px"}
+
+**Key Characteristics:**
+
+- **Constant Density** – The PDF has the same value throughout the interval $[\theta_1, \theta_2]$, representing "complete uncertainty" within the range
+
+- **Equal Probability** – Any subinterval of fixed length has the same probability, regardless of location within $[\theta_1, \theta_2]$
+
+- **Probability Calculation** – For any interval $[a, b] \subseteq [\theta_1, \theta_2]$:
+$$P(a \leq Y \leq b) = \int_{a}^{b} \frac{1}{\theta_2 - \theta_1} dy = \frac{b - a}{\theta_2 - \theta_1}$$
+
+- **Financial Interpretation** – Models scenarios with "equal ignorance" – when all outcomes in a range are equally likely (e.g., random stock selection from a portfolio, uniform price fluctuations within a band)
+
+:::
+
+## 📌 Example 2: Probability with Uniform Distribution {.smaller}
+
+**Problem:** Consider a continuous uniform distribution with parameters $a = 2$ and $b = 8$. What is the probability that the random variable falls within the interval $[4, 6]$?
+
+. . .
+
+**Solution:**
+
+The probability density function is:
+$$f(x; 2, 8) = \frac{1}{8 - 2} = \frac{1}{6} \quad \text{for } 2 \leq x \leq 8$$
+
+. . .
+
+To find $P(4 \leq X \leq 6)$, integrate the PDF over the interval:
+$$P(4 \leq X \leq 6) = \int_{4}^{6} f(x; 2, 8) \, dx = \int_{4}^{6} \frac{1}{6} \, dx$$
+
+. . .
+
+$$= \left[\frac{1}{6}x\right]_{4}^{6} = \frac{6}{6} - \frac{4}{6} = \frac{2}{6} = \boxed{\frac{1}{3}}$$
+
+. . .
+
+**Alternative Method:** Since probability is proportional to length: $P(4 \leq X \leq 6) = \frac{6-4}{8-2} = \frac{2}{6} = \frac{1}{3}$
+
+## 📖 Application: Poisson Process & Uniform Conditioning {.smaller}
+
+::: {.callout-tip}
+## 🎯 Real-World Application
+
+**Context:** In operations research and queueing theory, the arrival of events (customers, phone calls, server requests) often follows a Poisson process.
+
+**Key Result:** If exactly one event occurred in the time interval $(0, t)$ under a Poisson process, then the **actual time of occurrence** is uniformly distributed over $(0, t)$.
+
+**Examples:**
+
+- **Call Centers** – If one customer called during a 60-minute hour, the call time is $\text{Uniform}(0, 60)$
+
+- **Network Traffic** – If one packet arrived in a 100ms window, arrival time is uniformly distributed
+
+- **Service Operations** – Conditional distribution of service completion time given exactly one completion
+:::
+
+## 📌 Example 3: Poisson Arrivals & Uniform Conditioning {.smaller}
+
+**Problem:** Arrivals of customers at a checkout counter follow a Poisson distribution. During a given 30-minute period, exactly one customer arrived. Find the probability that the customer arrived during the last 5 minutes.
+
+. . .
+
+**Solution:**
+
+Given that exactly one arrival occurred in $(0, 30)$, the arrival time $Y$ is uniformly distributed:
+$$Y \sim \text{Uniform}(0, 30)$$
+
+. . .
+
+The probability of arrival in the last 5 minutes $[25, 30]$ is:
+$$P(25 \leq Y \leq 30) = \int_{25}^{30} \frac{1}{30} \, dy = \frac{30 - 25}{30} = \frac{5}{30} = \boxed{\frac{1}{6}}$$
+
+. . .
+
+**Interpretation:** Any 5-minute interval has probability $\frac{1}{6}$ of containing the arrival. The probability is proportional to the interval length: $\frac{5}{30} = \frac{1}{6}$.
+
+## 🧮 Theorem: Mean of Uniform Distribution {.smaller}
+
+::: {.callout-important}
+## Theorem 3: Expected Value of Uniform Distribution
+
+If $\theta_1 < \theta_2$ and $Y \sim \text{Uniform}(\theta_1, \theta_2)$, then:
+
+$$\boxed{\mu = E(Y) = \frac{\theta_1 + \theta_2}{2}}$$
+:::
+
+. . .
+
+**Proof:**
+
+By definition of expected value:
+$$E(Y) = \int_{-\infty}^{\infty} y f(y) \, dy = \int_{\theta_1}^{\theta_2} y \left(\frac{1}{\theta_2 - \theta_1}\right) \, dy$$
+
+. . .
+
+$$= \frac{1}{\theta_2 - \theta_1} \int_{\theta_1}^{\theta_2} y \, dy = \frac{1}{\theta_2 - \theta_1} \left[\frac{1}{2}y^2\right]_{\theta_1}^{\theta_2}$$
+
+. . .
+
+$$= \frac{1}{\theta_2 - \theta_1} \cdot \frac{1}{2}(\theta_2^2 - \theta_1^2) = \frac{\theta_2^2 - \theta_1^2}{2(\theta_2 - \theta_1)}$$
+
+. . .
+
+$$= \frac{(\theta_2 - \theta_1)(\theta_2 + \theta_1)}{2(\theta_2 - \theta_1)} = \boxed{\frac{\theta_1 + \theta_2}{2}}$$
+
+## 🧮 Theorem: Variance of Uniform Distribution {.smaller}
+
+::: {.callout-important}
+## Theorem 4: Variance of Uniform Distribution
+
+If $\theta_1 < \theta_2$ and $Y \sim \text{Uniform}(\theta_1, \theta_2)$, then:
+
+$$\boxed{\sigma^2 = V(Y) = \frac{(\theta_2 - \theta_1)^2}{12}}$$
+:::
+
+. . .
+
+**Proof Strategy:**
+
+1. Compute $E(Y^2) = \int_{\theta_1}^{\theta_2} y^2 \cdot \frac{1}{\theta_2 - \theta_1} \, dy$
+
+. . .
+
+2. Use the formula $V(Y) = E(Y^2) - [E(Y)]^2$
+
+. . .
+
+**Step 1: Calculate $E(Y^2)$**
+$$E(Y^2) = \frac{1}{\theta_2 - \theta_1} \int_{\theta_1}^{\theta_2} y^2 \, dy = \frac{1}{\theta_2 - \theta_1} \left[\frac{1}{3}y^3\right]_{\theta_1}^{\theta_2}$$
+
+. . .
+
+$$= \frac{\theta_2^3 - \theta_1^3}{3(\theta_2 - \theta_1)} = \frac{(\theta_2 - \theta_1)(\theta_2^2 + \theta_2\theta_1 + \theta_1^2)}{3(\theta_2 - \theta_1)} = \frac{\theta_2^2 + \theta_2\theta_1 + \theta_1^2}{3}$$
+
+## 🧮 Variance Proof (Continued) {.smaller}
+
+**Step 2: Apply Variance Formula**
+
+We have:
+$$E(Y^2) = \frac{\theta_2^2 + \theta_2\theta_1 + \theta_1^2}{3}$$
+$$[E(Y)]^2 = \left(\frac{\theta_1 + \theta_2}{2}\right)^2 = \frac{(\theta_1 + \theta_2)^2}{4} = \frac{\theta_1^2 + 2\theta_1\theta_2 + \theta_2^2}{4}$$
+
+. . .
+
+Therefore:
+$$V(Y) = E(Y^2) - [E(Y)]^2 = \frac{\theta_2^2 + \theta_2\theta_1 + \theta_1^2}{3} - \frac{\theta_1^2 + 2\theta_1\theta_2 + \theta_2^2}{4}$$
+
+. . .
+
+Finding common denominator (12):
+$$= \frac{4(\theta_2^2 + \theta_2\theta_1 + \theta_1^2) - 3(\theta_1^2 + 2\theta_1\theta_2 + \theta_2^2)}{12}$$
+
+. . .
+
+$$= \frac{4\theta_2^2 + 4\theta_2\theta_1 + 4\theta_1^2 - 3\theta_1^2 - 6\theta_1\theta_2 - 3\theta_2^2}{12}$$
+
+. . .
+
+$$= \frac{\theta_2^2 - 2\theta_2\theta_1 + \theta_1^2}{12} = \frac{(\theta_2 - \theta_1)^2}{12}$$
+
+## 📌 Example 4: Uniform Distribution Mean & Variance {.smaller}
+
+**Problem:** A stock price is equally likely to take any value between $\$50$ and $\$70$ during a trading session. Model this as a uniform distribution and find:
+
+(a) The expected price
+
+(b) The variance and standard deviation
+
+. . .
+
+**Solution:**
+
+Let $Y \sim \text{Uniform}(50, 70)$ represent the stock price.
+
+. . .
+
+**(a) Expected price:**
+$$\mu = E(Y) = \frac{\theta_1 + \theta_2}{2} = \frac{50 + 70}{2} = \boxed{\$60}$$
+
+. . .
+
+**(b) Variance and standard deviation:**
+$$\sigma^2 = V(Y) = \frac{(\theta_2 - \theta_1)^2}{12} = \frac{(70 - 50)^2}{12} = \frac{400}{12} = \boxed{33.33}$$
+
+$$\sigma = \sqrt{33.33} \approx \boxed{\$5.77}$$
+
+## 🎮 Interactive: Uniform Mean and Variance {.smaller}
+
+::: {style="font-size: 0.8em;"}
+
+**Explore Mean and Variance:** Adjust the uniform distribution parameters to see how they affect the mean and variance.
+
+::: {.columns}
+
+::: {.column width="30%"}
+
+```{ojs}
+//| echo: false
+
+viewof a_unif = Inputs.range([0, 30], {
+  value: 2, 
+  step: 1, 
+  label: "θ₁ (lower):"
+})
+
+viewof b_unif = Inputs.range([0, 30], {
+  value: 18, 
+  step: 1, 
+  label: "θ₂ (upper):"
+})
+
+mean_unif = (a_unif + b_unif) / 2
+var_unif = Math.pow(b_unif - a_unif, 2) / 12
+sd_unif = Math.sqrt(var_unif)
+
+html`<div style="font-size: 14px; line-height: 1.8;">
+  <p><strong>Distribution:</strong><br>
+  Y ~ Uniform(${a_unif}, ${b_unif})</p>
+  
+  <p><strong>Parameters:</strong><br>
+  Mean μ = ${mean_unif.toFixed(2)}<br>
+  Variance σ² = ${var_unif.toFixed(2)}<br>
+  Std Dev σ = ${sd_unif.toFixed(2)}</p>
+  
+  <p><strong>Observation:</strong><br>
+  Variance increases with the square of interval width!</p>
+</div>`
+```
+
+:::
+
+::: {.column width="70%"}
+
+```{ojs}
+//| echo: false
+
+// Generate PDF data with explicit boundaries (like first interactive)
+pdf_height2 = 1 / (b_unif - a_unif)
+
+uniform_pdf_data2 = [
+  {x: a_unif - 5, y: 0},
+  {x: a_unif, y: 0},
+  {x: a_unif, y: pdf_height2},
+  {x: b_unif, y: pdf_height2},
+  {x: b_unif, y: 0},
+  {x: b_unif + 5, y: 0}
+]
+
+// Create shaded area data
+shaded_area2 = d3.range(a_unif, b_unif + 0.01, (b_unif - a_unif) / 100).map(x => ({
+  x: x,
+  y: pdf_height2
+}))
+
+// Markers for mean and standard deviations
+markers2 = [
+  {x: mean_unif, y: pdf_height2 / 2, label: "μ", color: "red"},
+  {x: mean_unif - sd_unif, y: pdf_height2 * 0.7, label: "μ - σ", color: "orange"},
+  {x: mean_unif + sd_unif, y: pdf_height2 * 0.7, label: "μ + σ", color: "orange"}
+]
+
+Plot.plot({
+  width: 800,
+  height: 450,
+  marginLeft: 60,
+  x: {
+    label: "Y",
+    grid: true
+  },
+  y: {
+    label: "Density f(y)",
+    domain: [0, pdf_height2 * 1.3]
+  },
+  marks: [
+    Plot.areaY(shaded_area2, {x: "x", y: "y", fill: "steelblue", opacity: 0.3}),
+    Plot.line(uniform_pdf_data2, {x: "x", y: "y", stroke: "steelblue", strokeWidth: 3}),
+    Plot.ruleX([mean_unif], {stroke: "red", strokeWidth: 2, strokeDasharray: "5,3"}),
+    Plot.ruleX([mean_unif - sd_unif, mean_unif + sd_unif], {stroke: "orange", strokeWidth: 1.5, strokeDasharray: "3,3"}),
+    Plot.dot(markers2, {x: "x", y: "y", fill: "color", r: 6, stroke: "white", strokeWidth: 2}),
+    Plot.text(markers2, {x: "x", y: "y", text: "label", dy: -12, fontSize: 14, fontWeight: "bold"}),
+    Plot.ruleY([0])
+  ],
+  caption: html`<span style="color: red;">━━</span> Mean | <span style="color: orange;">━ ━</span> ± 1 Standard Deviation`
+})
+```
+
+:::
+:::
+:::
+
+## 💰 Case Study: Investment Holding Period Returns (Real Data) {.smaller}
+
+::: {style="font-size:26px"}
+::: {.columns}
+::: {.column width="50%"}
+::: {.callout-note}
+## 📊 Investment Scenario
+
+**Context**: An investor holds a tech stock (AAPL - Apple Inc.) for a short trading period. We analyze the intraday price range to model uncertainty using the uniform distribution.
+
+**Key Questions**:
+
+- What is the expected (average) price during the trading window?
+
+- What is the price variability (standard deviation)?
+
+- What is the probability the price falls within a target range?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 Data Source
+
+We analyze **Apple Inc. (AAPL)** daily trading data from the last 30 trading days.
+
+**Source**: Yahoo Finance API (via quantmod R package)
+
+**Period**: Last 30 trading days from today
+
+**Data Quality**: High-frequency market data (OHLC - Open, High, Low, Close)
+
+**Verification**: Cross-checked with NASDAQ official records
+:::
+:::
+:::
+:::
+
+## 💰 Case Study: Data Analysis & Uniform Modeling {.smaller}
+
+::: {style="font-size:26px"}
+::: {.columns}
+::: {.column width="50%"}
+
 ```{r}
-#| echo: false
+#| echo: true
 #| message: false
 #| warning: false
+#| eval: true
 
-# Load required packages
-if (!require("countdown")) {
-  install.packages("countdown")
-  library(countdown)
-}
+# Load required libraries
+library(quantmod)
+library(dplyr)
+library(lubridate)
+
+# Fetch AAPL data (last 30 days)
+getSymbols("AAPL", src = "yahoo", 
+           from = Sys.Date() - 40, 
+           to = Sys.Date(), auto.assign = TRUE)
+
+# Extract data
+aapl_data <- as.data.frame(AAPL)
+aapl_data$Date <- as.Date(rownames(aapl_data))
+
+# Focus on most recent day
+recent_day <- tail(aapl_data, 1)
+
+# Extract High and Low (range)
+low_price <- as.numeric(recent_day$AAPL.Low)
+high_price <- as.numeric(recent_day$AAPL.High)
+
+cat("Recent Trading Day Analysis\n")
+cat("============================\n")
+cat("Date:", format(recent_day$Date, "%Y-%m-%d"), "\n")
+cat("Low Price: $", round(low_price, 2), "\n")
+cat("High Price: $", round(high_price, 2), "\n")
 ```
 
-## Overview {.smaller}
-
-::: {.incremental}
-- The Binomial Probability Distribution
-- Properties of Binomial Experiments
-- Binomial Probability Formula
-- Mean and Variance
-- Applications and Examples
-- Maximum Likelihood Estimation
 :::
 
-# The Binomial Probability Distribution
-
-## Definition: Binomial Experiment {.smaller}
-
-::: {.callout-note icon=false}
-## Definition 1
-A **binomial experiment** possesses the following properties:
-
-1. The experiment consists of a **fixed number**, \(n\), of identical trials.
-2. Each trial results in one of two outcomes: **success**, \(S\), or **failure**, \(F\).
-3. The probability of success on a single trial is equal to some value \(p\) and **remains the same** from trial to trial. The probability of a failure is equal to \(q = (1 - p)\).
-4. The trials are **independent**.
-5. The random variable of interest is \(Y\), the **number of successes** observed during the \(n\) trials.
-:::
-
-## 🤔 Think-Pair-Share Activity
-
-::: {.activity-box}
-### Activity 1: Identifying Binomial Experiments (3 minutes)
-
-::: {.activity-step}
-**Think** (1 minute): Consider the following scenario individually:
-> "A quality control inspector examines 10 smartphones from a production line. Each phone is classified as defective or non-defective."
-:::
-
-::: {.activity-step}
-**Pair** (1 minute): Discuss with your neighbor - does this meet all binomial experiment properties?
-:::
-
-::: {.activity-step}
-**Share** (1 minute): Groups share their conclusions with the class.
-:::
-:::
+::: {.column width="50%"}
 
 ```{r}
-#| echo: false
-countdown::countdown(
-  minutes = 3,
-  seconds = 0,
-  font_size = "2em",
-  color_running_background = "#31b09e",
-  color_finished_background = "#dc3545"
-)
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+
+# Model as Uniform(low, high)
+# Calculate mean and variance
+mean_price <- (low_price + high_price) / 2
+var_price <- (high_price - low_price)^2 / 12
+sd_price <- sqrt(var_price)
+
+cat("\nUniform Distribution Model\n")
+cat("===========================\n")
+cat("Y ~ Uniform(", round(low_price, 2), 
+    ", ", round(high_price, 2), ")\n\n", sep = "")
+
+cat("Expected Price (μ): $", 
+    round(mean_price, 2), "\n")
+cat("Variance (σ²): ", 
+    round(var_price, 2), "\n")
+cat("Std Deviation (σ): $", 
+    round(sd_price, 2), "\n\n")
+
+# Probability within 1 std dev of mean
+lower_bound <- mean_price - sd_price
+upper_bound <- mean_price + sd_price
+prob_within_1sd <- (upper_bound - lower_bound) / 
+                   (high_price - low_price)
+
+cat("P(μ - σ ≤ Y ≤ μ + σ) = ", 
+    round(prob_within_1sd, 4), "\n")
 ```
 
-## Example 1: Radar Detection System {.smaller}
-
-::: {.callout-warning icon=false}
-## Example 1
-An early-warning detection system for aircraft consists of **four identical radar units** operating independently of one another. Suppose that each has a probability of **0.95** of detecting an intruding aircraft. When an intruding aircraft enters the scene, the random variable of interest is \(Y\), the number of radar units that **do not detect** the plane. Is this a binomial experiment?
-:::
-
-. . .
-
-::: {.callout-note icon=false collapse="true"}
-## Solution
-
-Let's verify each property:
-
-- ✅ The experiment involves **four identical trials** (four radar units).
-- ✅ Each trial results in one of two outcomes:
-  - \(S\) denotes that the aircraft was **not detected**
-  - \(F\) denotes that it **was detected**
-- ✅ \(p = P(S) = P(\text{do not detect}) = 0.05\)
-- ✅ The trials are **independent** because the units operate independently.
-- ✅ The random variable of interest is \(Y\), the number of successes in four trials.
-
-**Conclusion**: Yes, this is a binomial experiment!
-:::
-
-## Example 2: Voter Preference {.smaller}
-
-::: {.callout-warning icon=false}
-## Example 2
-Suppose that **40%** of a large population of registered voters favor candidate Jones. A random sample of \(n = 10\) voters will be selected, and \(Y\), the number favoring Jones, is to be observed. Does this experiment meet the requirements of a binomial experiment?
-:::
-
-. . .
-
-::: {.callout-important icon=false}
-## Remark 1
-In general, if the population is **large** and the sample size is **relatively small**, the conditional probability of success on a later trial given the number of successes on the previous trials will stay approximately the same regardless of the outcomes on previous trials.
-
-**Key principle**: For sampling without replacement, if \(n < 0.05N\) (sample size is less than 5% of population), we can approximate with binomial distribution.
-:::
-
-## 📝 Quick Quiz #1 {.quiz-question}
-
-Which of the following is **NOT** a binomial experiment?
-
-- Flipping a coin 20 times and counting heads
-- [Rolling a die until you get a 6]{.correct data-explanation="✅ Correct! The number of trials is not fixed in this scenario, violating the binomial conditions."}
-- Testing 15 light bulbs and counting defectives
-- Surveying 50 students about whether they own a laptop
-:::
-
-# The Binomial Probability Formula
-
-## The Binomial Distribution {.smaller}
-
-::: {.callout-note icon=false}
-## Definition 2
-A random variable \(Y\) is said to have a **binomial distribution** based on \(n\) trials with success probability \(p\) if and only if 
-
-\[
-p(y) = \binom{n}{y}p^yq^{n-y}, \quad y=0,1,2,\dotsc, n \quad \text{and} \quad 0\le p \le 1.
-\]
-
-where \(q = 1 - p\) and \(\binom{n}{y} = \frac{n!}{y!(n-y)!}\)
-:::
-
-. . .
-
-::: {.callout-tip icon=false}
-## Formula 1: Binomial Theorem
-\[
-(q+p)^n = \binom{n}{0}q^n+\binom{n}{1}pq^{n-1}+\binom{n}{2}p^2q^{n-2}+\cdots+\binom{n}{n}p^n
-\]
-
-Since \(p + q = 1\), we have \((q+p)^n = 1\), which confirms that \(\sum_{y=0}^{n}p(y) = 1\).
-:::
-
-## Interactive Exploration
-
-::: {.callout-tip icon=false}
-## Explore Binomial Distributions
-
-Visit this interactive applet: [Binomial Distribution Applet](https://homepage.divms.uiowa.edu/~mbognar/applets/bin.html)
-
-**Activity**: Experiment with different values of \(n\) and \(p\):
-- Set \(n = 10\), \(p = 0.5\) - What shape do you observe?
-- Set \(n = 10\), \(p = 0.1\) - How does the distribution change?
-- Set \(n = 10\), \(p = 0.9\) - What pattern do you notice?
-:::
-
-## 🤔 Think-Pair-Share Activity #2
-
-::: {.activity-box}
-### Activity 2: Understanding the Formula (4 minutes)
-
-::: {.activity-step}
-**Think** (1.5 minutes): Why do we multiply \(\binom{n}{y}\), \(p^y\), and \(q^{n-y}\) together? What does each component represent?
-:::
-
-::: {.activity-step}
-**Pair** (1.5 minutes): Explain your reasoning to your partner and discuss.
-:::
-
-::: {.activity-step}
-**Share** (1 minute): Volunteer pairs share insights with the class.
 :::
 :::
+:::
+
+## 💰 Case Study: Visualization {.smaller}
 
 ```{r}
-#| echo: false
-countdown::countdown(
-  minutes = 4,
-  seconds = 0,
-  font_size = "2em",
-  color_running_background = "#31b09e",
-  color_finished_background = "#dc3545"
-)
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| fig-width: 11
+#| fig-height: 5
+
+library(ggplot2)
+
+# Create data for uniform PDF
+x_vals <- seq(low_price - 2, high_price + 2, length.out = 1000)
+density_vals <- ifelse(x_vals >= low_price & x_vals <= high_price, 
+                       1/(high_price - low_price), 0)
+plot_data <- data.frame(x = x_vals, density = density_vals)
+
+# Create plot
+ggplot(plot_data, aes(x = x, y = density)) +
+  geom_area(fill = "steelblue", alpha = 0.3) +
+  geom_line(color = "steelblue", size = 1.5) +
+  geom_vline(xintercept = mean_price, color = "red", linetype = "dashed", size = 1.2) +
+  geom_vline(xintercept = c(lower_bound, upper_bound), 
+             color = "orange", linetype = "dotted", size = 1) +
+  annotate("text", x = mean_price, y = max(density_vals) * 0.5, 
+           label = paste0("Mean\n$", round(mean_price, 2)), 
+           color = "red", fontface = "bold", size = 3.5) +
+  annotate("text", x = lower_bound, y = max(density_vals) * 0.8, 
+           label = paste0("μ - σ"), color = "orange", fontface = "bold", size = 3) +
+  annotate("text", x = upper_bound, y = max(density_vals) * 0.8, 
+           label = paste0("μ + σ"), color = "orange", fontface = "bold", size = 3) +
+  labs(title = paste0("Uniform Distribution Model: AAPL Intraday Price (", 
+                      format(recent_day$Date, "%Y-%m-%d"), ")"),
+       subtitle = paste0("Assuming equal likelihood across trading range [$", 
+                        round(low_price, 2), ", $", round(high_price, 2), "]"),
+       x = "Stock Price ($)", y = "Probability Density") +
+  theme_minimal() +
+  theme(plot.title = element_text(face = "bold", size = 14),
+        plot.subtitle = element_text(size = 11),
+        axis.title = element_text(size = 12))
 ```
 
-## Example 3: Defective Fuses {.smaller}
+## 💰 Case Study: Financial Interpretation {.smaller}
 
-::: {.callout-warning icon=false}
-## Example 3
-Suppose that a lot of **5000 electrical fuses** contains **5% defectives**. If a sample of **5 fuses** is tested, find the probability of observing **at least one defective**.
+::: {style="font-size:28px"}
+
+**Key Insights from AAPL Data:**
+
+- **Uniform Assumption**: The model assumes equal likelihood for all prices within the day's range – a simplification suitable for short-term uncertainty analysis
+
+- **Expected Price**: The mean $\mu = \frac{\theta_1 + \theta_2}{2}$ represents the midpoint of the trading range, serving as a central estimate
+
+- **Price Volatility**: The standard deviation $\sigma = \frac{\theta_2 - \theta_1}{2\sqrt{3}} \approx 0.289 \times (\text{Range})$ quantifies intraday price variability
+
+- **Probability Calculations**: For any target price range $[a, b]$ within the day's range, probability is simply $P(a \leq Y \leq b) = \frac{b - a}{\theta_2 - \theta_1}$
+
+**Limitations:**
+
+- Real intraday prices are NOT uniformly distributed (they follow complex patterns)
+
+- This model is most appropriate when we have minimal information beyond the range
+
+- More sophisticated models (e.g., log-normal, jump-diffusion) are used for rigorous financial modeling
+
 :::
 
-. . .
+## 📝 Quiz #1: Expected Value Definition {.quiz-question}
 
-::: {.callout-note icon=false collapse="true"}
-## Solution
+What is the correct formula for the expected value of a continuous random variable $Y$ with density $f(y)$?
 
-Let \(Y\) = number of defectives in the sample. Then \(Y \sim \text{Binomial}(n=5, p=0.05)\).
+- [$E(Y) = \int_{-\infty}^{\infty} yf(y) \, dy$]{.correct data-explanation="✅ Correct! This is the definition of expected value for continuous random variables."}
+- $E(Y) = \int_{-\infty}^{\infty} f(y) \, dy$
+- $E(Y) = \sum y f(y)$
+- $E(Y) = \int_{-\infty}^{\infty} y^2 f(y) \, dy$
 
-\[
-P(\text{at least one defective}) = 1 - P(Y = 0)
-\]
+## 📝 Quiz #2: Uniform Distribution Parameters {.quiz-question}
 
-\[
-P(Y = 0) = \binom{5}{0}(0.05)^0(0.95)^5 = 1 \times 1 \times (0.95)^5 = 0.774
-\]
+For a uniform distribution on the interval $[3, 9]$, what is the value of the probability density function within the interval?
 
-Therefore:
-\[
-P(Y \geq 1) = 1 - 0.774 = 0.226
-\]
+- [$f(y) = \frac{1}{6}$]{.correct data-explanation="✅ Correct! The density is 1 divided by the interval width: 1/(9-3) = 1/6."}
+- $f(y) = \frac{1}{3}$
+- $f(y) = \frac{1}{9}$
+- $f(y) = 6$
 
-**Interpretation**: There is a **22.6% chance** of seeing at least one defective, even though the sample is quite small.
+## 📝 Quiz #3: Mean of Uniform Distribution {.quiz-question}
+
+A random variable $Y$ follows a uniform distribution on $[10, 30]$. What is $E(Y)$?
+
+- [$E(Y) = 20$]{.correct data-explanation="✅ Correct! The mean is the midpoint: (10 + 30)/2 = 20."}
+- $E(Y) = 10$
+- $E(Y) = 15$
+- $E(Y) = 25$
+
+## 📝 Quiz #4: Variance Formula {.quiz-question}
+
+Which formula correctly expresses the variance of a random variable $Y$?
+
+- [$V(Y) = E(Y^2) - [E(Y)]^2$]{.correct data-explanation="✅ Correct! This is the computational formula for variance."}
+- $V(Y) = E(Y)^2 - E(Y^2)$
+- $V(Y) = E(Y^2) + [E(Y)]^2$
+- $V(Y) = [E(Y)]^2$
+
+## 📝 Quiz #5: Uniform Distribution Probability {.quiz-question}
+
+For $Y \sim \text{Uniform}(0, 10)$, what is $P(3 \leq Y \leq 7)$?
+
+- [$P(3 \leq Y \leq 7) = 0.4$]{.correct data-explanation="✅ Correct! Probability equals length ratio: (7-3)/(10-0) = 4/10 = 0.4."}
+- $P(3 \leq Y \leq 7) = 0.3$
+- $P(3 \leq Y \leq 7) = 0.5$
+- $P(3 \leq Y \leq 7) = 0.7$
+
+## 📝 Summary {.smaller}
+
+::: {.summary-box}
+**✅ Key Takeaways**
+
+- **Expected values** for continuous random variables are computed using integration: $E(Y) = \int yf(y)dy$, with linearity properties enabling efficient calculation of means and variances
+
+- **Expectation of functions** $E[g(Y)]$ can be computed directly from the original density without deriving the distribution of $g(Y)$
+
+- The **uniform distribution** $Y \sim \text{Uniform}(\theta_1, \theta_2)$ has constant density $\frac{1}{\theta_2 - \theta_1}$ over its interval, representing complete uncertainty
+
+- **Mean and variance** of uniform distribution are $\mu = \frac{\theta_1 + \theta_2}{2}$ (midpoint) and $\sigma^2 = \frac{(\theta_2 - \theta_1)^2}{12}$
+
+- **Poisson conditioning**: When exactly one event occurs in a Poisson process over $(0, t)$, the occurrence time is uniformly distributed on $(0, t)$
+
+- **Financial applications** include modeling price ranges, arrival times in service operations, and scenarios with equal likelihood across an interval
 :::
 
-## Example 4: Medical Treatment {.smaller}
+## 📚 Practice Problems {.smaller}
 
-::: {.callout-warning icon=false}
-## Example 4
-Experience has shown that **30%** of all persons afflicted by a certain illness recover. A drug company has developed a new medication. **Ten people** with the illness were selected at random and received the medication; **nine recovered** shortly thereafter. Suppose that the medication was absolutely worthless. What is the probability that at least nine of ten receiving the medication will recover?
+::: {.callout-tip}
+## 📝 Homework Problems
+
+**Problem 1 (Variance Derivation):** Complete the derivation of $V(Y) = \frac{(\theta_2 - \theta_1)^2}{12}$ for the uniform distribution. Show all algebraic steps clearly.
+
+**Problem 2 (Investment Analysis):** A commodity price is uniformly distributed between $\$80$ and $\$120$. Find: (a) the expected price, (b) the probability the price exceeds $\$100$, and (c) the standard deviation of the price.
+
+**Problem 3 (Expectation Computation):** Let $Y$ have density $f(y) = 2y$ for $0 \leq y \leq 1$. Find $E(Y)$, $E(Y^2)$, and $V(Y)$.
+
+**Problem 4 (Poisson Application):** During a 2-hour period, exactly 3 customers arrived at a bank following a Poisson process. What is the probability that all 3 arrivals occurred in the first hour? (Hint: Use properties of uniform distribution conditioning.)
+
+**Problem 5 (Function of Random Variable):** For $Y \sim \text{Uniform}(0, 1)$, find $E(Y^3)$ and $E(e^Y)$.
 :::
 
-. . .
-
-::: {.callout-note icon=false collapse="true"}
-## Solution Setup
-
-Let \(Y\) denote the number of people who recover. If the medication is **worthless**, the probability that a single ill person will recover is \(p = 0.3\).
-
-Then the number of trials is \(n = 10\) and we need to find \(P(Y \geq 9)\).
-:::
-
-## Example 4: Solution {.smaller}
-
-The probability of exactly **nine recoveries** is:
-
-\[
-P(Y = 9) = \binom{10}{9} (0.3)^9 (0.7)^1 = 10 \times (0.3)^9 \times 0.7 = 0.000138
-\]
-
-. . .
-
-Similarly, the probability of exactly **ten recoveries** is:
-
-\[
-P(Y = 10) = \binom{10}{10} (0.3)^{10} (0.7)^0 = 1 \times (0.3)^{10} = 0.000006
-\]
-
-. . .
-
-Therefore:
-
-\[
-P(Y \geq 9) = P(Y = 9) + P(Y = 10) = 0.000138 + 0.000006 = 0.000144
-\]
-
-. . .
-
-::: {.callout-important icon=false}
-## Interpretation
-If the medication is **ineffective**, the probability of observing at least nine recoveries is **extremely small** (0.0144%). This provides strong evidence that the medication is actually effective!
-:::
-
-## 📝 Quick Quiz #2 {.quiz-question}
-
-A fair coin is flipped 6 times. What is the probability of getting exactly 4 heads?
-
-**Hint**: Use the binomial formula with $n=6$, $p=0.5$, $y=4$.
-
-- [0.234]{.correct data-explanation="✅ Correct! P(Y=4) = C(6,4) × (0.5)^4 × (0.5)^2 = 15 × 0.0625 = 0.234"}
-- 0.313
-- 0.156
-- 0.667
-
-## Example 5: Using Tables {.smaller}
-
-::: {.callout-warning icon=false}
-## Example 5
-The large lot of electrical fuses is supposed to contain only **5% defectives**. If \(n = 20\) fuses are randomly sampled from this lot, find the probability that **at least four defectives** will be observed.
-:::
-
-. . .
-
-::: {.callout-note icon=false collapse="true"}
-## Solution
-
-Letting \(Y\) denote the number of defectives in the sample, we assume the binomial model for \(Y\), with \(p = 0.05\). Thus,
-
-\[
-P(Y\geq 4) = 1 - P(Y\leq 3)
-\]
-
-and
-
-\[
-P(Y\leq 3) = \sum_{y=0}^3p(y) = p(0) + p(1) + p(2) + p(3)
-\]
-
-We can use **binomial probability tables** or statistical software to find this cumulative probability.
-:::
-
-## Using Binomial Tables
-
-::: {.callout-tip icon=false}
-## Table Format
-Tabulated values represent cumulative probabilities:
-\[
-P(Y \leq a) = \sum_{y=0}^{a}p(y)
-\]
-
-For our example with \(n=20\) and \(p=0.05\):
-- Look up the row for \(n=20\)
-- Find the column for \(p=0.05\)
-- Read the value for \(a=3\)
-
-From standard tables: \(P(Y \leq 3) \approx 0.9841\)
-
-Therefore: \(P(Y \geq 4) = 1 - 0.9841 = 0.0159\)
-:::
-
-**Modern approach**: Use R, Python, or Excel for exact calculations!
-
-# Mean and Variance of Binomial Distribution
-
-## Key Theorem {.smaller}
-
-::: {.callout-note icon=false}
-## Theorem 1
-Let \(Y\) be a binomial random variable based on \(n\) trials and success probability \(p\). Then:
-
-\[
-\mu = E(Y) = np
-\]
-
-\[
-\sigma^2 = V(Y) = npq = np(1-p)
-\]
-
-where \(q = 1 - p\).
-:::
-
-. . .
-
-::: {.callout-important icon=false}
-## Intuition
-- **Expected value**: If we repeat the experiment many times with \(n\) trials each, on average we expect \(np\) successes per experiment.
-- **Variance**: Measures the spread of the distribution. Maximum variance occurs when \(p = 0.5\).
-:::
-
-## 🤔 Group Activity: Understanding \(E(Y) = np\)
-
-::: {.activity-box}
-### Activity 3: Exploring the Mean (5 minutes)
-
-**Scenario**: A basketball player has a 70% free throw success rate.
-
-**Task**: In groups of 3-4:
-1. If she takes 10 shots, what's the expected number of successes? (1 min)
-2. If she takes 100 shots, what's the expected number? (1 min)
-3. Does the success rate \(p\) change? Why does \(E(Y)\) increase? (2 min)
-4. Present your insights (1 min per group)
-:::
-
-```{r}
-#| echo: false
-countdown::countdown(
-  minutes = 5,
-  seconds = 0,
-  font_size = "2em",
-  color_running_background = "#31b09e",
-  color_finished_background = "#dc3545"
-)
-```
-
-## Example 6: Employee Survey {.smaller}
-
-::: {.callout-warning icon=false}
-## Example 6
-Suppose that we survey **20 individuals** working for a large company and ask each whether they favor implementation of a new policy regarding retirement funding. If, in our sample, **6 favored** the new policy, find an estimate for \(p\), the true but unknown proportion of employees that favor the new policy.
-:::
-
-. . .
-
-::: {.callout-note icon=false collapse="true"}
-## Solution: Setup
-
-- Let \(Y\) denotes the number among the 20 who favor the new policy.
-- Then \(Y\) has a binomial distribution with \(n = 20\) for some value of \(p\).
-- Whatever the true value for \(p\), we conclude that the probability of observing 6 out of 20 in favor of the policy is:
-
-\[
-P(Y = 6) = \binom{20}{6} p^6 (1 - p)^{14}
-\]
-
-**Question**: How do we find the value of \(p\) that maximizes \(P(Y = 6)\)?
-:::
-
-## Maximum Likelihood Estimation {.smaller}
-
-::: {.incremental}
-- We want to find the value of \(p\) that **maximizes** the probability of what we observed.
-- \(\binom{20}{6}\) is a constant (relative to \(p\)).
-- \(\ln(x)\) is an **increasing function** of \(x\).
-- So the value of \(p\) that maximizes \(P(Y = 6) = \binom{20}{6} p^6 (1 - p)^{14}\) is the same as the value of \(p\) that maximizes:
-:::
-
-. . .
-
-\[
-\ln[p^6(1 - p)^{14}] = 6 \ln(p) + 14 \ln(1 - p)
-\]
-
-. . .
-
-**Differentiate** with respect to \(p\):
-
-\[
-\frac{d[6 \ln(p) + 14 \ln(1 - p)]}{dp} = \frac{6}{p} - \frac{14}{1 - p}
-\]
-
-## Finding the Maximum {.smaller}
-
-Set the derivative equal to zero:
-
-\[
-\frac{6}{p} - \frac{14}{1 - p} = 0
-\]
-
-. . .
-
-Multiply both sides by \(p(1-p)\):
-
-\[
-6(1-p) - 14p = 0
-\]
-
-\[
-6 - 6p - 14p = 0
-\]
-
-\[
-6 = 20p
-\]
-
-\[
-p = \frac{6}{20} = 0.3
-\]
-
-## Solution Verification {.smaller}
-
-::: {.callout-note icon=false}
-## Final Solution
-
-- The **second derivative** of \(6 \ln(p) + 14 \ln(1 - p)\) is:
-  \[
-  \frac{d^2}{dp^2} = -\frac{6}{p^2} - \frac{14}{(1-p)^2}
-  \]
-
-- This is **negative** when \(p = 6/20\), confirming a maximum.
-
-- Hence our estimate for \(p\), based on 6 "successes" in 20 trials, is:
-
-  \[
-  \boxed{\hat{p} = \frac{6}{20} = 0.30 = 30\%}
-  \]
-:::
-
-. . .
-
-::: {.callout-important icon=false}
-## Key Insight
-The **Maximum Likelihood Estimator (MLE)** for \(p\) in a binomial distribution is simply the sample proportion: \(\hat{p} = \frac{Y}{n}\)
-:::
-
-## 📝 Quick Quiz #3 {.quiz-question}
-
-A binomial random variable has $n = 25$ trials and $p = 0.4$. What is the expected value and standard deviation?
-
-**Hint**: $E(Y) = np$ and $SD(Y) = \sqrt{npq}$
-
-- [$E(Y) = 10$, $SD(Y) = 2.45$]{.correct data-explanation="✅ Correct! E(Y) = 25 × 0.4 = 10, SD(Y) = sqrt(25 × 0.4 × 0.6) = sqrt(6) ≈ 2.45"}
-- $E(Y) = 12$, $SD(Y) = 3.00$
-- $E(Y) = 10$, $SD(Y) = 6.00$
-- $E(Y) = 15$, $SD(Y) = 2.45$
-
-# Practice and Applications
-
-## 🤔 Think-Pair-Share Activity #3
-
-::: {.activity-box}
-### Activity 4: Real-World Application (5 minutes)
-
-**Scenario**: A quality control manager at a manufacturing plant knows that historically 2% of products are defective. Today, in a random sample of 50 products, 5 were found to be defective.
-
-::: {.activity-step}
-**Think** (2 minutes): Is this evidence that the defect rate has increased?
-:::
-
-::: {.activity-step}
-**Pair** (2 minutes): Calculate \(P(Y \geq 5)\) when \(n=50\) and \(p=0.02\). Discuss what this probability means.
-:::
-
-::: {.activity-step}
-**Share** (1 minute): Groups present their conclusions.
-:::
-:::
-
-```{r}
-#| echo: false
-countdown::countdown(
-  minutes = 5,
-  seconds = 0,
-  font_size = "2em",
-  color_running_background = "#31b09e",
-  color_finished_background = "#dc3545"
-)
-```
-
-## Summary {.smaller}
-
-::: {.callout-note icon=false}
-## Key Takeaways
-
-**Binomial Experiment Properties:**
-1. Fixed number of trials \(n\)
-2. Two outcomes: success or failure
-3. Constant probability \(p\)
-4. Independent trials
-5. Count of successes \(Y\)
-
-**Binomial Distribution:**
-\[
-p(y) = \binom{n}{y}p^yq^{n-y}, \quad y=0,1,2,\dotsc, n
-\]
-
-**Mean and Variance:**
-\[
-E(Y) = np, \quad V(Y) = npq
-\]
-
-**Maximum Likelihood Estimate:**
-\[
-\hat{p} = \frac{Y}{n}
-\]
-:::
-
-## Practice Problems {.smaller}
-
-::: {.callout-tip icon=false}
-## Homework Problems
-
-1. **Quality Control**: A shipment of 1000 computer chips contains 5% defectives. If 10 chips are randomly selected, what is the probability that at most 2 are defective?
-
-2. **Medical Testing**: A diagnostic test correctly identifies a disease 90% of the time. If 15 patients with the disease are tested, what is the expected number of correct identifications? What is the standard deviation?
-
-3. **Marketing**: Historical data shows that 35% of customers make a purchase after viewing an online ad. If 20 customers view the ad today:
-   - What is the probability that exactly 7 make a purchase?
-   - What is the probability that at least 5 make a purchase?
-   - If you observed 12 purchases, would you suspect the ad's effectiveness has changed?
-
-**Due**: Next class meeting
-:::
-
-## Additional Resources {.smaller}
-
-::: {.callout-tip icon=false}
-## For Further Study
-
-**Interactive Tools:**
-- [Binomial Distribution Calculator](https://homepage.divms.uiowa.edu/~mbognar/applets/bin.html)
-- Khan Academy: Binomial Probability
-- StatQuest YouTube Channel
-
-**Statistical Software:**
-- R: `dbinom()`, `pbinom()`, `qbinom()`, `rbinom()`
-- Python: `scipy.stats.binom`
-- Excel: `BINOM.DIST()`
-
-**Reading:**
-- Textbook Chapter 3.4-3.5
-- Review Definition of Expected Value (Chapter 3.2)
-:::
-
-## Thank You! {.smaller}
+## 👋 Thank You! {.smaller .center}
 
 ::: {.columns}
 ::: {.column width="50%"}
-**Contact Information:**
+**📬 Contact Information:**
 
-**Samir Orujov**  
+Samir Orujov  
 Assistant Professor  
-Department of Mathematics and Statistics  
+School of Business  
 ADA University
 
-📧 Email: sorujov@ada.edu.az  
-🏢 Office Hours: By appointment
+📧 Email: [sorujov@ada.edu.az](mailto:sorujov@ada.edu.az)  
+🏢 Office: D312  
+⏰ Office Hours: By appointment
 :::
 
 ::: {.column width="50%"}
-**Next Class:**
+**📅 Next Class:**
 
-- Topic: Poisson Distribution
-- Reading: Chapter 3.6
-- Bring questions about binomial distribution
+**Topic:** Normal Distribution and Properties
 
-**Reminders:**
-- Complete practice problems
-- Review MLE concept
-- Prepare for quiz next week
+**Reading:** Chapter on Normal Distribution in textbook
+
+**Preparation:** Review integration techniques and standard normal tables
+
+**⏰ Reminders:**
+
+✅ Complete practice problems (due next class)
+
+✅ Review uniform distribution formulas
+
+✅ Work hard and stay curious!
 :::
 :::
 
-## Questions? {.center}
+## ❓ Questions? {.smaller .center}
 
-::: {.callout-note icon=false}
-## Open Discussion (5 minutes)
+::: {.callout-note}
+## 💬 Open Discussion
 
-Feel free to ask questions about:
-- Binomial distribution properties
-- Calculating probabilities
-- Mean and variance formulas
-- Maximum likelihood estimation
-- Applications to your field of interest
+**Discussion Topics:**
+
+- How do we know when the expected value integral converges?
+
+- What other real-world scenarios can be modeled with the uniform distribution?
+
+- How does the uniform distribution relate to other continuous distributions we'll study?
+
+- What are the limitations of assuming uniform distribution in financial modeling?
+
+- How can we extend these concepts to multivariate continuous random variables?
 :::
-
-```{r}
-#| echo: false
-countdown::countdown(
-  minutes = 5,
-  seconds = 0,
-  font_size = "2em",
-  color_running_background = "#31b09e",
-  color_finished_background = "#dc3545"
-)
-```
