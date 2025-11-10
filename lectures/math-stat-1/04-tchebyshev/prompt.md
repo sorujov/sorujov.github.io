@@ -663,9 +663,52 @@ Preparation: [What to review]
 4. **Columns**: Use `.columns` and `.column` for side-by-side content
 5. **Incremental reveals**: Use `.incremental` or `. . .` for progressive disclosure
    - **CRITICAL**: Do NOT wrap incremental content (`. . .`) inside styled divs like `::: {style="font-size:28px"}`
-   - Styled divs block incremental reveal functionality
+   - **CRITICAL**: Do NOT put incremental content (`. . .`) inside callout boxes (`.callout-note`, `.callout-important`, etc.)
+   - Styled divs and callout boxes block incremental reveal functionality
    - Use slide classes (`.smaller`) instead for font sizing on slides with incremental content
+   - **CORRECT PATTERN**: Close the callout box, then add incremental content outside:
+   ```markdown
+   ::: {.callout-important}
+   ## Theorem Title
+   
+   Introduction text and key equation
+   :::
+   
+   . . .
+   
+   **Property 1:** Details
+   
+   . . .
+   
+   **Property 2:** More details
+   ```
 6. **Slide classes**: Add `{.smaller}` to headers for content-heavy slides to improve fitting
+7. **Summary boxes and styled divs**: Do NOT use `##` headers inside styled divs
+   - **CRITICAL**: Using `##` inside `::: {.summary-box}` or any styled div creates an extra slide
+   - Revealjs treats `##` as slide delimiter even when inside containers
+   - **Solution**: Use **bold text** like `**✅ Key Takeaways**` instead of `## ✅ Key Takeaways`
+   - **CORRECT PATTERN**:
+   ```markdown
+   ## 📝 Summary
+   
+   ::: {.summary-box}
+   **✅ Key Takeaways**
+   
+   - Point 1: Details
+   - Point 2: More details
+   :::
+   ```
+   - **WRONG FORMAT** (creates two slides):
+   ```markdown
+   ## 📝 Summary
+   
+   ::: {.summary-box}
+   ## ✅ Key Takeaways    ❌ DO NOT DO THIS
+   
+   - Point 1: Details
+   :::
+   ```
+
 ### **Mathematical Notation:**
 
 - **ALWAYS use `$...$` for inline math** (e.g., `$\lambda$`, `$E(X)$`) - NEVER use `\(...\)` syntax

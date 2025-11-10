@@ -749,11 +749,17 @@ location: "Baku, Azerbaijan"
 
     
     <div class="video-lecture-section">
-      <div class="video-placeholder">
-        <i>🎬</i>
-        <p><strong>Video Lecture Coming Soon</strong></p>
-        <p>Investment success rates and market penetration modeling</p>
+      <h4>🎥 Binomial Distribution</h4>
+      <div class="youtube-container">
+        <iframe width="560" height="315" 
+                src="https://www.youtube.com/embed/f6qcHVL16Mg" 
+                title="Binomial Distribution - Mathematical Statistics" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowfullscreen>
+        </iframe>
       </div>
+      <p><em>Investment success rates and market penetration modeling with binomial distribution.</em></p>
     </div>
   </div>
 
