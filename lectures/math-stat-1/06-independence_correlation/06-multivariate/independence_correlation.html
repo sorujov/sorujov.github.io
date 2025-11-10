@@ -1,0 +1,1801 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="independence_correlation_files/libs/clipboard/clipboard.min.js"></script>
+<script src="independence_correlation_files/libs/quarto-html/tabby.min.js"></script>
+<script src="independence_correlation_files/libs/quarto-html/popper.min.js"></script>
+<script src="independence_correlation_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="independence_correlation_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="independence_correlation_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="independence_correlation_files/libs/quarto-html/quarto-syntax-highlighting-e41caad1b6b9b62eb3087831f3b4c651.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.25">
+
+  <meta name="author" content="Samir Orujov, PhD">
+  <meta name="dcterms.date" content="2025-11-10">
+  <title>Mathematical Statistics</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="independence_correlation_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="independence_correlation_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {  background-color: #f8f8f8; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ef2929; } /* Alert */
+    code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #204a87; } /* Attribute */
+    code span.bn { color: #0000cf; } /* BaseN */
+    code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4e9a06; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #8f5902; font-style: italic; } /* Comment */
+    code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+    code span.dt { color: #204a87; } /* DataType */
+    code span.dv { color: #0000cf; } /* DecVal */
+    code span.er { color: #a40000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #0000cf; } /* Float */
+    code span.fu { color: #204a87; font-weight: bold; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+    code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+    code span.ot { color: #8f5902; } /* Other */
+    code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+    code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+    code span.ss { color: #4e9a06; } /* SpecialString */
+    code span.st { color: #4e9a06; } /* String */
+    code span.va { color: #000000; } /* Variable */
+    code span.vs { color: #4e9a06; } /* VerbatimString */
+    code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="independence_correlation_files/libs/revealjs/dist/theme/quarto-180c62c9bcf69a0506044dd7f3253a18.css">
+  <link href="independence_correlation_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="independence_correlation_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="independence_correlation_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="independence_correlation_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="independence_correlation_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="independence_correlation_files/libs/revealjs/plugin/reveal-quiz/quiz.css" rel="stylesheet">
+  <link href="independence_correlation_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script type="module" src="independence_correlation_files/libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+  <link href="independence_correlation_files/libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Mathematical Statistics</h1>
+  <p class="subtitle">Independence and Covariance</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Samir Orujov, PhD 
+</div>
+        <p class="quarto-title-affiliation">
+            ADA University, School of Business
+          </p>
+        <p class="quarto-title-affiliation">
+            Information Communication Technologies Agency, Statistics Unit
+          </p>
+    </div>
+</div>
+
+  <p class="date">2025-11-10</p>
+</section>
+<section id="learning-objectives" class="slide level2 smaller">
+<h2>🎯 Learning Objectives</h2>
+<div style="font-size: 30px">
+<div class="learning-objectives">
+<p>By the end of this lecture, you will be able to:</p>
+<ul>
+<li><p>Define statistical independence for random variables and apply independence tests to determine whether asset returns, market factors, or economic variables are independent in financial contexts</p></li>
+<li><p>Calculate expected values of functions of random variables, including products and sums, and apply linearity of expectation to portfolio return calculations and risk assessment</p></li>
+<li><p>State and apply special theorems including the multiplication rule for independent variables: <span class="math inline">\(E(XY) = E(X)E(Y)\)</span> when <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent, crucial for simplifying portfolio calculations</p></li>
+<li><p>Compute covariance and correlation as measures of linear association between financial variables, and interpret their signs and magnitudes in terms of portfolio diversification benefits</p></li>
+<li><p>Use the variance decomposition formula <span class="math inline">\(\text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y) + 2\text{Cov}(X,Y)\)</span> to calculate portfolio risk and understand how correlation affects diversification strategies in modern portfolio theory</p></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="overview" class="slide level2 smaller">
+<h2>📋 Overview</h2>
+<div style="font-size:38px">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📚 Topics Covered Today</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li class="fragment"><p><strong>Statistical Independence</strong> – Formal definition, testing procedures, and implications for portfolio diversification and risk modeling</p></li>
+<li class="fragment"><p><strong>Expected Values of Functions</strong> – Computing <span class="math inline">\(E(g(X))\)</span>, <span class="math inline">\(E(g(X,Y))\)</span>, and linearity of expectation with applications to asset returns</p></li>
+<li class="fragment"><p><strong>Special Theorems</strong> – Multiplication rule for independent variables, variance of sums, and moment calculations</p></li>
+<li class="fragment"><p><strong>Covariance</strong> – Definition, computational formulas, properties, and interpretation in terms of joint variability and linear association</p></li>
+<li class="fragment"><p><strong>Applications</strong> – Portfolio optimization, risk management, hedging strategies, and correlation-based trading in quantitative finance</p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="definition-statistical-independence" class="slide level2 smaller">
+<h2>📖 Definition: Statistical Independence</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📝 Definition 1: Independence of Random Variables</strong></p>
+</div>
+<div class="callout-content">
+<p>Random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are <strong>independent</strong> if and only if their joint distribution factors into the product of marginal distributions:</p>
+<p><strong>For discrete random variables:</strong> <span class="math display">\[p(x, y) = p_X(x) \cdot p_Y(y) \text{ for all } x, y\]</span></p>
+<p><strong>For continuous random variables:</strong> <span class="math display">\[f(x, y) = f_X(x) \cdot f_Y(y) \text{ for all } x, y\]</span></p>
+<p><strong>Equivalent condition:</strong> For any events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>: <span class="math display">\[P(X \in A, Y \in B) = P(X \in A) \cdot P(Y \in B)\]</span></p>
+<p><strong>Practical interpretation:</strong> Knowledge of one variable provides <strong>no information</strong> about the other variable.</p>
+</div>
+</div>
+</div>
+<p><strong>Financial Context:</strong> Independence is rare in finance but highly valuable—independent assets provide maximum diversification benefits since they don’t move together [web:33][web:36].</p>
+</section>
+<section id="testing-for-independence" class="slide level2">
+<h2>🔍 Testing for Independence</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 How to Test Independence</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Method 1: Check factorization</strong> - Compute <span class="math inline">\(p(x,y)\)</span> or <span class="math inline">\(f(x,y)\)</span> - Compute <span class="math inline">\(p_X(x) \cdot p_Y(y)\)</span> or <span class="math inline">\(f_X(x) \cdot f_Y(y)\)</span> - If equal for <strong>all</strong> <span class="math inline">\((x,y)\)</span>, variables are independent</p>
+<p><strong>Method 2: Check conditional equals marginal</strong> - If <span class="math inline">\(p_{Y|X}(y|x) = p_Y(y)\)</span> for all <span class="math inline">\(x, y\)</span>, then independent - Conditioning on <span class="math inline">\(X\)</span> doesn’t change the distribution of <span class="math inline">\(Y\)</span></p>
+<p><strong>Method 3: Check covariance (necessary but not sufficient)</strong> - If <span class="math inline">\(\text{Cov}(X,Y) = 0\)</span>, variables are <strong>uncorrelated</strong> - Independence ⟹ uncorrelated, but uncorrelated ⏸ independence - Exception: For jointly normal variables, uncorrelated ⟺ independent</p>
+</div>
+</div>
+</div>
+<p><strong>Important:</strong> Most financial assets are <strong>NOT</strong> independent—they’re correlated through common market factors, economic conditions, and behavioral patterns [web:35][web:37].</p>
+</section>
+<section id="example-1-testing-independence" class="slide level2 smaller">
+<h2>📌 Example 1: Testing Independence</h2>
+<p><strong>Problem:</strong> Consider two stocks with the following joint probability distribution:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th><span class="math inline">\(Y = -5\%\)</span></th>
+<th><span class="math inline">\(Y = 0\%\)</span></th>
+<th><span class="math inline">\(Y = +5\%\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(X = -5\%\)</span></td>
+<td>0.12</td>
+<td>0.18</td>
+<td>0.06</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(X = 0\%\)</span></td>
+<td>0.08</td>
+<td>0.12</td>
+<td>0.04</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(X = +5\%\)</span></td>
+<td>0.04</td>
+<td>0.06</td>
+<td>0.30</td>
+</tr>
+</tbody>
+</table>
+<p>Are <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> independent?</p>
+<p><strong>Solution:</strong></p>
+<p>First, compute marginal distributions:</p>
+<p><span class="math display">\[p_X(-5\%) = 0.12 + 0.18 + 0.06 = 0.36\]</span> <span class="math display">\[p_X(0\%) = 0.08 + 0.12 + 0.04 = 0.24\]</span> <span class="math display">\[p_X(+5\%) = 0.04 + 0.06 + 0.30 = 0.40\]</span></p>
+<p><span class="math display">\[p_Y(-5\%) = 0.12 + 0.08 + 0.04 = 0.24\]</span> <span class="math display">\[p_Y(0\%) = 0.18 + 0.12 + 0.06 = 0.36\]</span> <span class="math display">\[p_Y(+5\%) = 0.06 + 0.04 + 0.30 = 0.40\]</span></p>
+</section>
+<section id="example-1-solution-continued" class="slide level2 smaller">
+<h2>📌 Example 1: Solution (continued)</h2>
+<p><strong>Test independence at one point:</strong></p>
+<p>Check if <span class="math inline">\(p(-5\%, -5\%) = p_X(-5\%) \cdot p_Y(-5\%)\)</span>:</p>
+<p><span class="math display">\[p(-5\%, -5\%) = 0.12\]</span> <span class="math display">\[p_X(-5\%) \cdot p_Y(-5\%) = 0.36 \times 0.24 = 0.0864\]</span></p>
+<p>Since <span class="math inline">\(0.12 \neq 0.0864\)</span>, the variables are <strong>NOT independent</strong>.</p>
+<p><strong>Financial Interpretation:</strong> The stocks are dependent—their returns are correlated. When we observe Stock <span class="math inline">\(X\)</span>’s return, it gives us information about Stock <span class="math inline">\(Y\)</span>’s likely return. This reduces diversification benefits compared to truly independent assets.</p>
+<p><strong>Verification:</strong> We can also check: <span class="math display">\[p(+5\%, +5\%) = 0.30 \text{ but } p_X(+5\%) \cdot p_Y(+5\%) = 0.40 \times 0.40 = 0.16\]</span></p>
+<p>The actual probability of both stocks gaining 5% (0.30) is much higher than what independence would predict (0.16), indicating <strong>positive dependence</strong>—the stocks tend to move together.</p>
+</section>
+<section id="definition-expected-value-of-a-function" class="slide level2 smaller">
+<h2>📖 Definition: Expected Value of a Function</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📝 Definition 2: Expected Value of <span class="math inline">\(g(X, Y)\)</span></strong></p>
+</div>
+<div class="callout-content">
+<p>Let <span class="math inline">\(g(X, Y)\)</span> be a function of random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>.</p>
+<p><strong>For discrete random variables:</strong> <span class="math display">\[E[g(X, Y)] = \sum_x \sum_y g(x, y) \cdot p(x, y)\]</span></p>
+<p><strong>For continuous random variables:</strong> <span class="math display">\[E[g(X, Y)] = \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} g(x, y) \cdot f(x, y) \, dx \, dy\]</span></p>
+<p><strong>Special cases:</strong></p>
+<ul>
+<li><p><span class="math inline">\(E(X) = E[g(X, Y)]\)</span> where <span class="math inline">\(g(x, y) = x\)</span></p></li>
+<li><p><span class="math inline">\(E(XY) = E[g(X, Y)]\)</span> where <span class="math inline">\(g(x, y) = xy\)</span></p></li>
+<li><p><span class="math inline">\(E(X + Y) = E[g(X, Y)]\)</span> where <span class="math inline">\(g(x, y) = x + y\)</span></p></li>
+</ul>
+</div>
+</div>
+</div>
+<p><strong>Application:</strong> Computing expected portfolio returns, option payoffs, and risk measures requires expected values of functions of multiple random variables [web:34][web:38].</p>
+</section>
+<section id="theorem-linearity-of-expectation" class="slide level2">
+<h2>🧮 Theorem: Linearity of Expectation</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Theorem 1: Linearity of Expectation</strong></p>
+</div>
+<div class="callout-content">
+<p>For any random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> (independent or not) and constants <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, <span class="math inline">\(c\)</span>:</p>
+<p><span class="math display">\[\boxed{E(aX + bY + c) = aE(X) + bE(Y) + c}\]</span></p>
+<p><strong>More generally, for any constants <span class="math inline">\(a_i\)</span> and random variables <span class="math inline">\(X_i\)</span>:</strong></p>
+<p><span class="math display">\[E\left(\sum_{i=1}^{n} a_i X_i\right) = \sum_{i=1}^{n} a_i E(X_i)\]</span></p>
+<p><strong>Key insight:</strong> Linearity holds <strong>whether or not</strong> the variables are independent!</p>
+<p><strong>Proof sketch:</strong> Follows directly from the definition of expected value and properties of summation/integration.</p>
+</div>
+</div>
+</div>
+<p><strong>Portfolio Application:</strong> For a portfolio with weights <span class="math inline">\(w_i\)</span> and asset returns <span class="math inline">\(R_i\)</span>: <span class="math display">\[E(R_P) = E\left(\sum w_i R_i\right) = \sum w_i E(R_i)\]</span></p>
+<p>This is the foundation of portfolio expected return calculation [web:38][web:40].</p>
+</section>
+<section id="example-2-portfolio-expected-return" class="slide level2 smaller">
+<h2>📌 Example 2: Portfolio Expected Return</h2>
+<p><strong>Problem:</strong> An investor creates a portfolio with 40% in Stock A (expected return 12%) and 60% in Stock B (expected return 8%). What is the expected portfolio return?</p>
+<p><strong>Solution:</strong></p>
+<p>Let <span class="math inline">\(R_A\)</span> and <span class="math inline">\(R_B\)</span> be the returns on stocks A and B. The portfolio return is: <span class="math display">\[R_P = 0.4 R_A + 0.6 R_B\]</span></p>
+<p>Using linearity of expectation: <span class="math display">\[E(R_P) = E(0.4 R_A + 0.6 R_B) = 0.4 E(R_A) + 0.6 E(R_B)\]</span></p>
+<p><span class="math display">\[E(R_P) = 0.4(12\%) + 0.6(8\%) = 4.8\% + 4.8\% = 9.6\%\]</span></p>
+<p><span class="math display">\[\boxed{E(R_P) = 9.6\%}\]</span></p>
+<p><strong>Key Point:</strong> This calculation is valid <strong>regardless of whether the stocks are independent or correlated</strong>. Expected return depends only on individual expected returns and portfolio weights, not on the correlation structure.</p>
+<p><strong>Note:</strong> While expected return doesn’t depend on correlation, <strong>portfolio risk</strong> (variance) critically depends on covariance, as we’ll see later!</p>
+</section>
+<section id="theorem-multiplication-rule-for-independent-variables" class="slide level2">
+<h2>🧮 Theorem: Multiplication Rule for Independent Variables</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Theorem 2: Expected Value of Products</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent</strong>, then:</p>
+<p><span class="math display">\[\boxed{E(XY) = E(X) \cdot E(Y)}\]</span></p>
+<p><strong>Important:</strong> This result requires independence. If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are dependent, <span class="math inline">\(E(XY) \neq E(X)E(Y)\)</span> in general.</p>
+<p><strong>Proof (discrete case):</strong></p>
+<p><span class="math display">\[E(XY) = \sum_x \sum_y xy \cdot p(x, y)\]</span></p>
+<p>By independence, <span class="math inline">\(p(x, y) = p_X(x) \cdot p_Y(y)\)</span>:</p>
+<p><span class="math display">\[= \sum_x \sum_y xy \cdot p_X(x) \cdot p_Y(y) = \sum_x x \cdot p_X(x) \sum_y y \cdot p_Y(y)\]</span></p>
+<p><span class="math display">\[= E(X) \cdot E(Y) \quad \blacksquare\]</span></p>
+</div>
+</div>
+</div>
+<p><strong>Financial Application:</strong> If asset returns are independent, calculating cross-moments simplifies dramatically, though true independence is rare in practice [web:33].</p>
+</section>
+<section id="example-3-expected-product" class="slide level2 smaller">
+<h2>📌 Example 3: Expected Product</h2>
+<p><strong>Problem:</strong> Let <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> be independent random variables with <span class="math inline">\(E(X) = 3\)</span>, <span class="math inline">\(E(Y) = 5\)</span>, <span class="math inline">\(E(X^2) = 12\)</span>, and <span class="math inline">\(E(Y^2) = 30\)</span>. Find <span class="math inline">\(E(XY)\)</span> and <span class="math inline">\(E[(X+Y)^2]\)</span>.</p>
+<p><strong>Solution (Part 1):</strong></p>
+<p>Since <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent, we can apply Theorem 2: <span class="math display">\[E(XY) = E(X) \cdot E(Y) = 3 \times 5 = 15\]</span></p>
+<p><span class="math display">\[\boxed{E(XY) = 15}\]</span></p>
+<p><strong>Solution (Part 2):</strong></p>
+<p>Expand <span class="math inline">\((X + Y)^2\)</span>: <span class="math display">\[E[(X+Y)^2] = E[X^2 + 2XY + Y^2]\]</span></p>
+<p>By linearity of expectation: <span class="math display">\[= E(X^2) + 2E(XY) + E(Y^2)\]</span></p>
+<p><span class="math display">\[= 12 + 2(15) + 30 = 12 + 30 + 30 = 72\]</span></p>
+<p><span class="math display">\[\boxed{E[(X+Y)^2] = 72}\]</span></p>
+</section>
+<section id="think-pair-share-leverage-and-independence" class="slide level2 smaller">
+<h2>🤝 Think-Pair-Share: Leverage and Independence</h2>
+<div style="font-size: 28px">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>💭 Student Engagement Activity (5 minutes)</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Scenario:</strong> A hedge fund uses 2:1 leverage, meaning for every $1 of equity, they borrow $1 to invest $2 total. The fund invests in two strategies: Strategy A (mean return 10%, std dev 15%) and Strategy B (mean return 8%, std dev 12%). Each strategy gets 50% of the $2 invested (i.e., $1 each). The cost of borrowing is 3% per year.</p>
+<p><strong>Think (1 minute):</strong> Work individually</p>
+<ul>
+<li><p>If the strategies are independent, what is the expected gross portfolio return (before borrowing costs)?</p></li>
+<li><p>What is the expected net return after paying 3% interest on the $1 borrowed?</p></li>
+<li><p>The return on equity (ROE) is net profit divided by the $1 equity invested. What is the expected ROE?</p></li>
+</ul>
+<p><strong>Pair (2-3 minutes):</strong> Discuss with a partner</p>
+<ul>
+<li><p>How would correlation between strategies affect the risk (not the expected return)?</p></li>
+<li><p>Is assuming independence realistic for hedge fund strategies operating in the same markets?</p></li>
+<li><p>What are the dangers of leverage when strategies are highly correlated?</p></li>
+</ul>
+<p><strong>Share (1-2 minutes):</strong> Class discussion</p>
+<ul>
+<li>Discuss how the 2008 financial crisis demonstrated the risks of assuming independence when strategies were actually correlated through hidden linkages</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="definition-covariance" class="slide level2 smaller">
+<h2>📖 Definition: Covariance</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📝 Definition 3: Covariance</strong></p>
+</div>
+<div class="callout-content">
+<p>The <strong>covariance</strong> between random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is:</p>
+<p><span class="math display">\[\text{Cov}(X, Y) = E[(X - \mu_X)(Y - \mu_Y)]\]</span></p>
+<p>where <span class="math inline">\(\mu_X = E(X)\)</span> and <span class="math inline">\(\mu_Y = E(Y)\)</span>.</p>
+<p><strong>Computational formula (easier for calculations):</strong></p>
+<p><span class="math display">\[\boxed{\text{Cov}(X, Y) = E(XY) - E(X)E(Y)}\]</span></p>
+<p><strong>Interpretation:</strong></p>
+<ul>
+<li><p><strong>Positive covariance</strong>: <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> tend to be simultaneously above or below their means—they move together</p></li>
+<li><p><strong>Negative covariance</strong>: When <span class="math inline">\(X\)</span> is above its mean, <span class="math inline">\(Y\)</span> tends to be below its mean—they move in opposite directions</p></li>
+<li><p><strong>Zero covariance</strong>: No linear relationship (uncorrelated)</p></li>
+</ul>
+</div>
+</div>
+</div>
+<p><strong>Financial Meaning:</strong> Covariance measures how asset returns move together—critical for portfolio risk management and diversification strategies [web:38][web:41].</p>
+</section>
+<section id="properties-of-covariance" class="slide level2">
+<h2>🔍 Properties of Covariance</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 Key Properties</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li><p><strong>Symmetry</strong>: <span class="math inline">\(\text{Cov}(X, Y) = \text{Cov}(Y, X)\)</span></p></li>
+<li><p><strong>Variance as self-covariance</strong>: <span class="math inline">\(\text{Cov}(X, X) = \text{Var}(X)\)</span></p></li>
+<li><p><strong>Covariance with constant</strong>: <span class="math inline">\(\text{Cov}(X, c) = 0\)</span> for any constant <span class="math inline">\(c\)</span></p></li>
+<li><p><strong>Linearity</strong>: <span class="math inline">\(\text{Cov}(aX + b, Y) = a \cdot \text{Cov}(X, Y)\)</span> for constants <span class="math inline">\(a, b\)</span></p></li>
+<li><p><strong>Bilinearity</strong>: <span class="math inline">\(\text{Cov}(X + Y, Z) = \text{Cov}(X, Z) + \text{Cov}(Y, Z)\)</span></p></li>
+<li><p><strong>Independence implies zero covariance</strong>: If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent, then <span class="math inline">\(\text{Cov}(X, Y) = 0\)</span></p>
+<ul>
+<li>Proof: <span class="math inline">\(E(XY) = E(X)E(Y)\)</span> by independence, so <span class="math inline">\(\text{Cov}(X, Y) = E(XY) - E(X)E(Y) = 0\)</span></li>
+</ul></li>
+<li><p><strong>Zero covariance does NOT imply independence</strong> (except for jointly normal variables)</p></li>
+</ol>
+</div>
+</div>
+</div>
+<p><strong>Practical Note:</strong> Covariance magnitude depends on the units of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, making it hard to interpret. Correlation (normalized covariance) solves this problem [web:41][web:42].</p>
+</section>
+<section id="example-4-computing-covariance" class="slide level2 smaller">
+<h2>📌 Example 4: Computing Covariance</h2>
+<p><strong>Problem:</strong> Consider the joint distribution from Example 1. Compute <span class="math inline">\(\text{Cov}(X, Y)\)</span>.</p>
+<p><strong>Solution:</strong></p>
+<p>First, we need <span class="math inline">\(E(X)\)</span>, <span class="math inline">\(E(Y)\)</span>, and <span class="math inline">\(E(XY)\)</span>.</p>
+<p><strong>Step 1: Compute <span class="math inline">\(E(X)\)</span></strong></p>
+<p><span class="math display">\[E(X) = (-5)(0.36) + (0)(0.24) + (5)(0.40) = -1.8 + 0 + 2.0 = 0.2\]</span></p>
+<p><strong>Step 2: Compute <span class="math inline">\(E(Y)\)</span></strong></p>
+<p><span class="math display">\[E(Y) = (-5)(0.24) + (0)(0.36) + (5)(0.40) = -1.2 + 0 + 2.0 = 0.8\]</span></p>
+<p><strong>Step 3: Compute <span class="math inline">\(E(XY)\)</span></strong></p>
+<p><span class="math display">\[E(XY) = \sum_x \sum_y xy \cdot p(x, y)\]</span></p>
+<p><span class="math display">\[= (-5)(-5)(0.12) + (-5)(0)(0.18) + (-5)(5)(0.06)\]</span> <span class="math display">\[+ (0)(-5)(0.08) + (0)(0)(0.12) + (0)(5)(0.04)\]</span> <span class="math display">\[+ (5)(-5)(0.04) + (5)(0)(0.06) + (5)(5)(0.30)\]</span></p>
+</section>
+<section id="example-4-solution-continued" class="slide level2 smaller">
+<h2>📌 Example 4: Solution (continued)</h2>
+<p>Computing each term: <span class="math display">\[E(XY) = 25(0.12) + 0 + (-25)(0.06) + 0 + 0 + 0 + (-25)(0.04) + 0 + 25(0.30)\]</span></p>
+<p><span class="math display">\[= 3.0 - 1.5 - 1.0 + 7.5 = 8.0\]</span></p>
+<p><strong>Step 4: Apply the computational formula</strong></p>
+<p><span class="math display">\[\text{Cov}(X, Y) = E(XY) - E(X)E(Y) = 8.0 - (0.2)(0.8)\]</span></p>
+<p><span class="math display">\[= 8.0 - 0.16 = 7.84\]</span></p>
+<p><span class="math display">\[\boxed{\text{Cov}(X, Y) = 7.84}\]</span></p>
+<p><strong>Interpretation:</strong> The positive covariance (7.84) indicates that Stocks <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> tend to move together. When <span class="math inline">\(X\)</span> has a positive return, <span class="math inline">\(Y\)</span> is also likely to have a positive return. This positive covariance reduces diversification benefits—the stocks don’t offset each other’s risks as much as uncorrelated assets would.</p>
+<p><strong>Note:</strong> The magnitude (7.84) is hard to interpret directly because it depends on the units (percentage returns). Correlation normalizes this to a scale of [-1, 1].</p>
+</section>
+<section id="theorem-variance-of-sum-of-random-variables" class="slide level2">
+<h2>🧮 Theorem: Variance of Sum of Random Variables</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Theorem 3: Variance Decomposition</strong></p>
+</div>
+<div class="callout-content">
+<p>For any random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>:</p>
+<p><span class="math display">\[\boxed{\text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y) + 2\text{Cov}(X, Y)}\]</span></p>
+<p><strong>More generally, for constants <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>:</strong></p>
+<p><span class="math display">\[\text{Var}(aX + bY) = a^2\text{Var}(X) + b^2\text{Var}(Y) + 2ab\text{Cov}(X, Y)\]</span></p>
+<p><strong>Special case (independent variables):</strong></p>
+<p>If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent, then <span class="math inline">\(\text{Cov}(X, Y) = 0\)</span>, so:</p>
+<p><span class="math display">\[\text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y)\]</span></p>
+<p><strong>Proof:</strong> <span class="math display">\[\text{Var}(X + Y) = E[(X + Y)^2] - [E(X + Y)]^2\]</span> <span class="math display">\[= E(X^2 + 2XY + Y^2) - [E(X) + E(Y)]^2\]</span> <span class="math display">\[= E(X^2) + 2E(XY) + E(Y^2) - E(X)^2 - 2E(X)E(Y) - E(Y)^2\]</span> <span class="math display">\[= \text{Var}(X) + \text{Var}(Y) + 2[E(XY) - E(X)E(Y)] = \text{Var}(X) + \text{Var}(Y) + 2\text{Cov}(X,Y)\]</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="portfolio-risk-formula" class="slide level2">
+<h2>📖 Portfolio Risk Formula</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>🎯 Portfolio Variance (Two-Asset Case)</strong></p>
+</div>
+<div class="callout-content">
+<p>For a portfolio with weights <span class="math inline">\(w_1\)</span> and <span class="math inline">\(w_2 = 1 - w_1\)</span> invested in assets with returns <span class="math inline">\(R_1\)</span> and <span class="math inline">\(R_2\)</span>:</p>
+<p><span class="math display">\[R_P = w_1 R_1 + w_2 R_2\]</span></p>
+<p>The portfolio variance is:</p>
+<p><span class="math display">\[\boxed{\text{Var}(R_P) = w_1^2\sigma_1^2 + w_2^2\sigma_2^2 + 2w_1 w_2\text{Cov}(R_1, R_2)}\]</span></p>
+<p>where <span class="math inline">\(\sigma_i^2 = \text{Var}(R_i)\)</span>.</p>
+<p><strong>Using correlation coefficient</strong> <span class="math inline">\(\rho_{12} = \text{Cov}(R_1, R_2)/(\sigma_1\sigma_2)\)</span>:</p>
+<p><span class="math display">\[\text{Var}(R_P) = w_1^2\sigma_1^2 + w_2^2\sigma_2^2 + 2w_1 w_2\rho_{12}\sigma_1\sigma_2\]</span></p>
+<p><strong>Key Insight:</strong> Portfolio risk depends on: 1. Individual asset risks (<span class="math inline">\(\sigma_1^2\)</span>, <span class="math inline">\(\sigma_2^2\)</span>) 2. Portfolio weights (<span class="math inline">\(w_1\)</span>, <span class="math inline">\(w_2\)</span>) 3. <strong>Covariance or correlation</strong> (<span class="math inline">\(\text{Cov}(R_1, R_2)\)</span> or <span class="math inline">\(\rho_{12}\)</span>)</p>
+<p>Lower correlation → better diversification → lower portfolio risk [web:38][web:41]</p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-5-portfolio-risk-calculation" class="slide level2 smaller">
+<h2>📌 Example 5: Portfolio Risk Calculation</h2>
+<p><strong>Problem:</strong> An investor allocates 60% to Stock A and 40% to Stock B. Stock A has a standard deviation of 20%, Stock B has a standard deviation of 15%, and the correlation between them is 0.5. Calculate the portfolio standard deviation.</p>
+<p><strong>Solution:</strong></p>
+<p>Given: <span class="math inline">\(w_A = 0.6\)</span>, <span class="math inline">\(w_B = 0.4\)</span>, <span class="math inline">\(\sigma_A = 0.20\)</span>, <span class="math inline">\(\sigma_B = 0.15\)</span>, <span class="math inline">\(\rho_{AB} = 0.5\)</span></p>
+<p>Using the portfolio variance formula:</p>
+<p><span class="math display">\[\text{Var}(R_P) = w_A^2\sigma_A^2 + w_B^2\sigma_B^2 + 2w_A w_B\rho_{AB}\sigma_A\sigma_B\]</span></p>
+<p><span class="math display">\[= (0.6)^2(0.20)^2 + (0.4)^2(0.15)^2 + 2(0.6)(0.4)(0.5)(0.20)(0.15)\]</span></p>
+<p><span class="math display">\[= (0.36)(0.04) + (0.16)(0.0225) + 2(0.24)(0.5)(0.03)\]</span></p>
+<p><span class="math display">\[= 0.0144 + 0.0036 + 0.0072 = 0.0252\]</span></p>
+<p>Portfolio standard deviation: <span class="math display">\[\sigma_P = \sqrt{0.0252} = 0.1587 = 15.87\%\]</span></p>
+<p><span class="math display">\[\boxed{\sigma_P = 15.87\%}\]</span></p>
+</section>
+<section id="example-5-interpretation" class="slide level2 smaller">
+<h2>📌 Example 5: Interpretation</h2>
+<p><strong>Key Observations:</strong></p>
+<ol type="1">
+<li><p><strong>Diversification benefit</strong>: The portfolio risk (15.87%) is <strong>less than</strong> the weighted average of individual risks: <span class="math display">\[w_A\sigma_A + w_B\sigma_B = 0.6(20\%) + 0.4(15\%) = 12\% + 6\% = 18\%\]</span></p>
+<p>Portfolio risk of 15.87% &lt; 18%, demonstrating diversification’s power!</p></li>
+<li><p><strong>Effect of correlation</strong>:</p>
+<ul>
+<li>If <span class="math inline">\(\rho = 1\)</span> (perfect positive correlation): <span class="math inline">\(\sigma_P = 18.0\%\)</span> (no diversification)</li>
+<li>If <span class="math inline">\(\rho = 0\)</span> (uncorrelated): <span class="math inline">\(\sigma_P = 14.42\%\)</span> (better diversification)</li>
+<li>If <span class="math inline">\(\rho = -1\)</span> (perfect negative correlation): <span class="math inline">\(\sigma_P = 6.0\%\)</span> (maximum diversification)</li>
+</ul></li>
+<li><p><strong>Portfolio risk is always bounded</strong>: <span class="math display">\[|w_A\sigma_A - w_B\sigma_B| \leq \sigma_P \leq w_A\sigma_A + w_B\sigma_B\]</span></p></li>
+</ol>
+<p><strong>Financial Lesson:</strong> Diversification works best when assets have <strong>low or negative correlations</strong>. Even moderate positive correlation (0.5) still provides meaningful risk reduction [web:36][web:41].</p>
+</section>
+<section id="interactive-impact-of-correlation-on-portfolio-risk" class="slide level2 smaller">
+<h2>🎮 Interactive: Impact of Correlation on Portfolio Risk</h2>
+<div style="font-size: 0.8em;">
+<p><strong>Explore Diversification:</strong> Adjust correlation to see its dramatic effect on portfolio risk.</p>
+<div class="columns">
+<div class="column" style="width:30%;">
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="510" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 509;"><span id="cb1-510"><a href=""></a>viewof sigma_a <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">5</span><span class="op">,</span> <span class="dv">40</span>]<span class="op">,</span> {</span>
+<span id="cb1-511"><a href=""></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">20</span><span class="op">,</span> </span>
+<span id="cb1-512"><a href=""></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> </span>
+<span id="cb1-513"><a href=""></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"σA (Stock A Risk %):"</span></span>
+<span id="cb1-514"><a href=""></a>})</span>
+<span id="cb1-515"><a href=""></a></span>
+<span id="cb1-516"><a href=""></a>viewof sigma_b <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">5</span><span class="op">,</span> <span class="dv">40</span>]<span class="op">,</span> {</span>
+<span id="cb1-517"><a href=""></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">15</span><span class="op">,</span> </span>
+<span id="cb1-518"><a href=""></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> </span>
+<span id="cb1-519"><a href=""></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"σB (Stock B Risk %):"</span></span>
+<span id="cb1-520"><a href=""></a>})</span>
+<span id="cb1-521"><a href=""></a></span>
+<span id="cb1-522"><a href=""></a>viewof correlation <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="op">-</span><span class="dv">1</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> {</span>
+<span id="cb1-523"><a href=""></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> </span>
+<span id="cb1-524"><a href=""></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span> </span>
+<span id="cb1-525"><a href=""></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"ρ (Correlation):"</span></span>
+<span id="cb1-526"><a href=""></a>})</span>
+<span id="cb1-527"><a href=""></a></span>
+<span id="cb1-528"><a href=""></a><span class="co">// Portfolio variance for different weights</span></span>
+<span id="cb1-529"><a href=""></a>weights_a <span class="op">=</span> d3<span class="op">.</span><span class="fu">range</span>(<span class="dv">0</span><span class="op">,</span> <span class="fl">1.01</span><span class="op">,</span> <span class="fl">0.01</span>)</span>
+<span id="cb1-530"><a href=""></a></span>
+<span id="cb1-531"><a href=""></a>portfolio_vars <span class="op">=</span> weights_a<span class="op">.</span><span class="fu">map</span>(w_a <span class="kw">=&gt;</span> {</span>
+<span id="cb1-532"><a href=""></a>  <span class="kw">const</span> w_b <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> w_a<span class="op">;</span></span>
+<span id="cb1-533"><a href=""></a>  <span class="kw">const</span> var_p <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(w_a <span class="op">*</span> sigma_a<span class="op">,</span> <span class="dv">2</span>) <span class="op">+</span> </span>
+<span id="cb1-534"><a href=""></a>                <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(w_b <span class="op">*</span> sigma_b<span class="op">,</span> <span class="dv">2</span>) <span class="op">+</span> </span>
+<span id="cb1-535"><a href=""></a>                <span class="dv">2</span> <span class="op">*</span> w_a <span class="op">*</span> w_b <span class="op">*</span> correlation <span class="op">*</span> sigma_a <span class="op">*</span> sigma_b<span class="op">;</span></span>
+<span id="cb1-536"><a href=""></a>  <span class="cf">return</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(var_p)<span class="op">;</span></span>
+<span id="cb1-537"><a href=""></a>})</span>
+<span id="cb1-538"><a href=""></a></span>
+<span id="cb1-539"><a href=""></a>min_risk_p <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(<span class="op">...</span>portfolio_vars)</span>
+<span id="cb1-540"><a href=""></a>min_weight_a <span class="op">=</span> weights_a[portfolio_vars<span class="op">.</span><span class="fu">indexOf</span>(min_risk_p)]</span>
+<span id="cb1-541"><a href=""></a></span>
+<span id="cb1-542"><a href=""></a><span class="fu">md</span><span class="vs">`**Portfolio Stats:**  </span></span>
+<span id="cb1-543"><a href=""></a><span class="vs">Min Risk: </span><span class="sc">${</span>min_risk_p<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">%  </span></span>
+<span id="cb1-544"><a href=""></a><span class="vs">at wA = </span><span class="sc">${</span>min_weight_a<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span></span>
+<span id="cb1-545"><a href=""></a></span>
+<span id="cb1-546"><a href=""></a><span class="vs">**Diversification Benefit:**  </span></span>
+<span id="cb1-547"><a href=""></a><span class="vs">Avg Risk: </span><span class="sc">${</span>((sigma_a <span class="op">+</span> sigma_b)<span class="op">/</span><span class="dv">2</span>)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">%  </span></span>
+<span id="cb1-548"><a href=""></a><span class="vs">Portfolio: </span><span class="sc">${</span>min_risk_p<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">%`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-4" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-5" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-6" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-7" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-8" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:70%;">
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="558" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 557;"><span id="cb2-558"><a href=""></a>portfolio_data_corr <span class="op">=</span> weights_a<span class="op">.</span><span class="fu">map</span>((w<span class="op">,</span> i) <span class="kw">=&gt;</span> ({</span>
+<span id="cb2-559"><a href=""></a>  <span class="dt">weight_a</span><span class="op">:</span> w<span class="op">,</span></span>
+<span id="cb2-560"><a href=""></a>  <span class="dt">portfolio_risk</span><span class="op">:</span> portfolio_vars[i]</span>
+<span id="cb2-561"><a href=""></a>}))</span>
+<span id="cb2-562"><a href=""></a></span>
+<span id="cb2-563"><a href=""></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb2-564"><a href=""></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">800</span><span class="op">,</span></span>
+<span id="cb2-565"><a href=""></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">450</span><span class="op">,</span></span>
+<span id="cb2-566"><a href=""></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">60</span><span class="op">,</span></span>
+<span id="cb2-567"><a href=""></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
+<span id="cb2-568"><a href=""></a>  <span class="dt">x</span><span class="op">:</span> {</span>
+<span id="cb2-569"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Weight in Stock A (wA)"</span><span class="op">,</span></span>
+<span id="cb2-570"><a href=""></a>    <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span></span>
+<span id="cb2-571"><a href=""></a>    <span class="dt">grid</span><span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb2-572"><a href=""></a>  }<span class="op">,</span></span>
+<span id="cb2-573"><a href=""></a>  <span class="dt">y</span><span class="op">:</span> {</span>
+<span id="cb2-574"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Portfolio Standard Deviation (%)"</span><span class="op">,</span></span>
+<span id="cb2-575"><a href=""></a>    <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(sigma_a<span class="op">,</span> sigma_b) <span class="op">*</span> <span class="fl">1.1</span>]<span class="op">,</span></span>
+<span id="cb2-576"><a href=""></a>    <span class="dt">grid</span><span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb2-577"><a href=""></a>  }<span class="op">,</span></span>
+<span id="cb2-578"><a href=""></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb2-579"><a href=""></a>    Plot<span class="op">.</span><span class="fu">line</span>(portfolio_data_corr<span class="op">,</span> {</span>
+<span id="cb2-580"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"weight_a"</span><span class="op">,</span> </span>
+<span id="cb2-581"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"portfolio_risk"</span><span class="op">,</span> </span>
+<span id="cb2-582"><a href=""></a>      <span class="dt">stroke</span><span class="op">:</span> <span class="st">"steelblue"</span><span class="op">,</span> </span>
+<span id="cb2-583"><a href=""></a>      <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">3</span></span>
+<span id="cb2-584"><a href=""></a>    })<span class="op">,</span></span>
+<span id="cb2-585"><a href=""></a>    Plot<span class="op">.</span><span class="fu">dot</span>([{<span class="dt">x</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> sigma_b}]<span class="op">,</span> {</span>
+<span id="cb2-586"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span></span>
+<span id="cb2-587"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span></span>
+<span id="cb2-588"><a href=""></a>      <span class="dt">r</span><span class="op">:</span> <span class="dv">6</span><span class="op">,</span></span>
+<span id="cb2-589"><a href=""></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"red"</span><span class="op">,</span></span>
+<span id="cb2-590"><a href=""></a>      <span class="dt">stroke</span><span class="op">:</span> <span class="st">"white"</span><span class="op">,</span></span>
+<span id="cb2-591"><a href=""></a>      <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span></span>
+<span id="cb2-592"><a href=""></a>    })<span class="op">,</span></span>
+<span id="cb2-593"><a href=""></a>    Plot<span class="op">.</span><span class="fu">dot</span>([{<span class="dt">x</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> sigma_a}]<span class="op">,</span> {</span>
+<span id="cb2-594"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span></span>
+<span id="cb2-595"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span></span>
+<span id="cb2-596"><a href=""></a>      <span class="dt">r</span><span class="op">:</span> <span class="dv">6</span><span class="op">,</span></span>
+<span id="cb2-597"><a href=""></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"red"</span><span class="op">,</span></span>
+<span id="cb2-598"><a href=""></a>      <span class="dt">stroke</span><span class="op">:</span> <span class="st">"white"</span><span class="op">,</span></span>
+<span id="cb2-599"><a href=""></a>      <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span></span>
+<span id="cb2-600"><a href=""></a>    })<span class="op">,</span></span>
+<span id="cb2-601"><a href=""></a>    Plot<span class="op">.</span><span class="fu">dot</span>([{<span class="dt">x</span><span class="op">:</span> min_weight_a<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> min_risk_p}]<span class="op">,</span> {</span>
+<span id="cb2-602"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span></span>
+<span id="cb2-603"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span></span>
+<span id="cb2-604"><a href=""></a>      <span class="dt">r</span><span class="op">:</span> <span class="dv">8</span><span class="op">,</span></span>
+<span id="cb2-605"><a href=""></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"orange"</span><span class="op">,</span></span>
+<span id="cb2-606"><a href=""></a>      <span class="dt">stroke</span><span class="op">:</span> <span class="st">"white"</span><span class="op">,</span></span>
+<span id="cb2-607"><a href=""></a>      <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span></span>
+<span id="cb2-608"><a href=""></a>    })<span class="op">,</span></span>
+<span id="cb2-609"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
+<span id="cb2-610"><a href=""></a>  ]<span class="op">,</span></span>
+<span id="cb2-611"><a href=""></a>  <span class="dt">caption</span><span class="op">:</span> <span class="fu">html</span><span class="vs">`&lt;span style="color: red;"&gt;●&lt;/span&gt; 100% in one stock | </span></span>
+<span id="cb2-612"><a href=""></a><span class="vs">    &lt;span style="color: orange;"&gt;●&lt;/span&gt; Minimum Risk Portfolio | </span></span>
+<span id="cb2-613"><a href=""></a><span class="vs">    ρ = </span><span class="sc">${</span>correlation<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs"> | Try ρ = -1 for perfect hedge!`</span></span>
+<span id="cb2-614"><a href=""></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-2" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="case-study-hedging-with-negatively-correlated-assets-real-data" class="slide level2 smaller">
+<h2>💰 Case Study: Hedging with Negatively Correlated Assets (Real Data)</h2>
+<div style="font-size:28px">
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>🛡️ Risk Management Strategy</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Context</strong>: Investors use assets with negative correlations to hedge portfolio risk. Gold has historically shown negative or low correlation with stocks during market stress. We analyze the relationship between S&amp;P 500 and gold (GLD ETF) to demonstrate hedging effectiveness.</p>
+<p><strong>Key Questions</strong>:</p>
+<ul>
+<li><p>What is the correlation between S&amp;P 500 and gold returns?</p></li>
+<li><p>How does adding gold to a stock portfolio reduce risk?</p></li>
+<li><p>What is the optimal hedge ratio (percentage in gold) to minimize portfolio volatility?</p></li>
+</ul>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 Data Source</strong></p>
+</div>
+<div class="callout-content">
+<p>We analyze <strong>daily returns</strong> of <strong>S&amp;P 500 (SPY)</strong> and <strong>Gold (GLD)</strong> from <strong>2020-01-01 to 2024-10-31</strong>.</p>
+<p><strong>Source</strong>: Yahoo Finance API via <code>quantmod</code> package</p>
+<p><strong>Period</strong>: January 2020 to October 2024 (1200+ trading days including COVID crisis and recovery)</p>
+<p><strong>Data Type</strong>: Adjusted closing prices converted to daily log returns</p>
+<p><strong>Verification</strong>: Cross-checked with Bloomberg and FRED databases</p>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="case-study-data-analysis-and-covariance-calculation" class="slide level2 smaller">
+<h2>💰 Case Study: Data Analysis and Covariance Calculation</h2>
+<div style="font-size:26px">
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="co"># Load required libraries</span></span>
+<span id="cb3-2"><a href=""></a><span class="fu">library</span>(quantmod)</span>
+<span id="cb3-3"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb3-4"><a href=""></a></span>
+<span id="cb3-5"><a href=""></a><span class="co"># Download S&amp;P 500 (SPY) and Gold (GLD) data</span></span>
+<span id="cb3-6"><a href=""></a><span class="fu">getSymbols</span>(<span class="fu">c</span>(<span class="st">"SPY"</span>, <span class="st">"GLD"</span>), </span>
+<span id="cb3-7"><a href=""></a>           <span class="at">from =</span> <span class="st">"2020-01-01"</span>, </span>
+<span id="cb3-8"><a href=""></a>           <span class="at">to =</span> <span class="st">"2024-10-31"</span>, </span>
+<span id="cb3-9"><a href=""></a>           <span class="at">auto.assign =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "SPY" "GLD"</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="co"># Calculate daily log returns</span></span>
+<span id="cb5-2"><a href=""></a>spy_returns <span class="ot">&lt;-</span> <span class="fu">dailyReturn</span>(SPY, <span class="at">type =</span> <span class="st">"log"</span>)</span>
+<span id="cb5-3"><a href=""></a>gld_returns <span class="ot">&lt;-</span> <span class="fu">dailyReturn</span>(GLD, <span class="at">type =</span> <span class="st">"log"</span>)</span>
+<span id="cb5-4"><a href=""></a></span>
+<span id="cb5-5"><a href=""></a><span class="co"># Combine and clean</span></span>
+<span id="cb5-6"><a href=""></a>returns_hedge <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb5-7"><a href=""></a>  <span class="at">date =</span> <span class="fu">index</span>(spy_returns),</span>
+<span id="cb5-8"><a href=""></a>  <span class="at">SPY =</span> <span class="fu">as.numeric</span>(spy_returns),</span>
+<span id="cb5-9"><a href=""></a>  <span class="at">GLD =</span> <span class="fu">as.numeric</span>(gld_returns)</span>
+<span id="cb5-10"><a href=""></a>) <span class="sc">%&gt;%</span> <span class="fu">na.omit</span>()</span>
+<span id="cb5-11"><a href=""></a></span>
+<span id="cb5-12"><a href=""></a><span class="co"># Summary statistics</span></span>
+<span id="cb5-13"><a href=""></a><span class="fu">cat</span>(<span class="st">"S&amp;P 500 vs Gold Analysis (2020-2024)</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>S&amp;P 500 vs Gold Analysis (2020-2024)</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"====================================</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>====================================</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Sample size: %d days</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">nrow</span>(returns_hedge)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sample size: 1216 days</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">S&amp;P 500 (SPY):</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+S&amp;P 500 (SPY):</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"  Mean: %.4f%% daily</span><span class="sc">\n</span><span class="st">"</span>, </span>
+<span id="cb13-2"><a href=""></a>            <span class="fu">mean</span>(returns_hedge<span class="sc">$</span>SPY) <span class="sc">*</span> <span class="dv">100</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Mean: 0.0480% daily</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"  Std Dev: %.4f%%</span><span class="sc">\n</span><span class="st">"</span>, </span>
+<span id="cb15-2"><a href=""></a>            <span class="fu">sd</span>(returns_hedge<span class="sc">$</span>SPY) <span class="sc">*</span> <span class="dv">100</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Std Dev: 1.3454%</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Gold (GLD):</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Gold (GLD):</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"  Mean: %.4f%% daily</span><span class="sc">\n</span><span class="st">"</span>, </span>
+<span id="cb19-2"><a href=""></a>            <span class="fu">mean</span>(returns_hedge<span class="sc">$</span>GLD) <span class="sc">*</span> <span class="dv">100</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Mean: 0.0479% daily</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"  Std Dev: %.4f%%</span><span class="sc">\n</span><span class="st">"</span>, </span>
+<span id="cb21-2"><a href=""></a>            <span class="fu">sd</span>(returns_hedge<span class="sc">$</span>GLD) <span class="sc">*</span> <span class="dv">100</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Std Dev: 0.9723%</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a><span class="co"># Compute covariance and correlation</span></span>
+<span id="cb23-2"><a href=""></a>cov_spy_gld <span class="ot">&lt;-</span> <span class="fu">cov</span>(returns_hedge<span class="sc">$</span>SPY, returns_hedge<span class="sc">$</span>GLD)</span>
+<span id="cb23-3"><a href=""></a>cor_spy_gld <span class="ot">&lt;-</span> <span class="fu">cor</span>(returns_hedge<span class="sc">$</span>SPY, returns_hedge<span class="sc">$</span>GLD)</span>
+<span id="cb23-4"><a href=""></a></span>
+<span id="cb23-5"><a href=""></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Covariance and Correlation</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Covariance and Correlation</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"===========================</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>===========================</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Covariance: %.8f</span><span class="sc">\n</span><span class="st">"</span>, cov_spy_gld))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Covariance: 0.00002045</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Correlation: %.4f</span><span class="sc">\n</span><span class="st">"</span>, cor_spy_gld))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Correlation: 0.1563</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="co"># Variance of each asset</span></span>
+<span id="cb31-2"><a href=""></a>var_spy <span class="ot">&lt;-</span> <span class="fu">var</span>(returns_hedge<span class="sc">$</span>SPY)</span>
+<span id="cb31-3"><a href=""></a>var_gld <span class="ot">&lt;-</span> <span class="fu">var</span>(returns_hedge<span class="sc">$</span>GLD)</span>
+<span id="cb31-4"><a href=""></a></span>
+<span id="cb31-5"><a href=""></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Variances:</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Variances:</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Var(SPY): %.8f</span><span class="sc">\n</span><span class="st">"</span>, var_spy))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Var(SPY): 0.00018101</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Var(GLD): %.8f</span><span class="sc">\n</span><span class="st">"</span>, var_gld))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Var(GLD): 0.00009454</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="co"># Minimum variance hedge ratio</span></span>
+<span id="cb37-2"><a href=""></a><span class="co"># For portfolio w*SPY + (1-w)*GLD</span></span>
+<span id="cb37-3"><a href=""></a><span class="co"># Optimal w minimizes variance</span></span>
+<span id="cb37-4"><a href=""></a>w_min_var <span class="ot">&lt;-</span> (var_gld <span class="sc">-</span> cov_spy_gld) <span class="sc">/</span> </span>
+<span id="cb37-5"><a href=""></a>             (var_spy <span class="sc">+</span> var_gld <span class="sc">-</span> <span class="dv">2</span><span class="sc">*</span>cov_spy_gld)</span>
+<span id="cb37-6"><a href=""></a>w_min_var <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="dv">0</span>, <span class="fu">min</span>(<span class="dv">1</span>, w_min_var))</span>
+<span id="cb37-7"><a href=""></a></span>
+<span id="cb37-8"><a href=""></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Minimum Variance Portfolio:</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Minimum Variance Portfolio:</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Weight in SPY: %.2f%%</span><span class="sc">\n</span><span class="st">"</span>, w_min_var <span class="sc">*</span> <span class="dv">100</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Weight in SPY: 31.57%</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Weight in GLD: %.2f%%</span><span class="sc">\n</span><span class="st">"</span>, (<span class="dv">1</span><span class="sc">-</span>w_min_var) <span class="sc">*</span> <span class="dv">100</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Weight in GLD: 68.43%</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a><span class="co"># Calculate portfolio variance at optimal weights</span></span>
+<span id="cb43-2"><a href=""></a>var_optimal <span class="ot">&lt;-</span> w_min_var<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> var_spy <span class="sc">+</span> </span>
+<span id="cb43-3"><a href=""></a>               (<span class="dv">1</span><span class="sc">-</span>w_min_var)<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> var_gld <span class="sc">+</span> </span>
+<span id="cb43-4"><a href=""></a>               <span class="dv">2</span><span class="sc">*</span>w_min_var<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>w_min_var)<span class="sc">*</span>cov_spy_gld</span>
+<span id="cb43-5"><a href=""></a>sd_optimal <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(var_optimal)</span>
+<span id="cb43-6"><a href=""></a></span>
+<span id="cb43-7"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Portfolio Std Dev: %.4f%%</span><span class="sc">\n</span><span class="st">"</span>, </span>
+<span id="cb43-8"><a href=""></a>            sd_optimal <span class="sc">*</span> <span class="dv">100</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Portfolio Std Dev: 0.8435%</code></pre>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="case-study-visualization-and-hedging-effectiveness" class="slide level2 smaller">
+<h2>💰 Case Study: Visualization and Hedging Effectiveness</h2>
+<div style="font-size:26px">
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a><span class="co"># Scatter plot of returns</span></span>
+<span id="cb45-2"><a href=""></a><span class="fu">ggplot</span>(returns_hedge, <span class="fu">aes</span>(<span class="at">x =</span> SPY <span class="sc">*</span> <span class="dv">100</span>, <span class="at">y =</span> GLD <span class="sc">*</span> <span class="dv">100</span>)) <span class="sc">+</span></span>
+<span id="cb45-3"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.3</span>, <span class="at">color =</span> <span class="st">"steelblue"</span>, <span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb45-4"><a href=""></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb45-5"><a href=""></a>              <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb45-6"><a href=""></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, </span>
+<span id="cb45-7"><a href=""></a>             <span class="at">color =</span> <span class="st">"gray50"</span>) <span class="sc">+</span></span>
+<span id="cb45-8"><a href=""></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, </span>
+<span id="cb45-9"><a href=""></a>             <span class="at">color =</span> <span class="st">"gray50"</span>) <span class="sc">+</span></span>
+<span id="cb45-10"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"S&amp;P 500 vs Gold Daily Returns"</span>,</span>
+<span id="cb45-11"><a href=""></a>       <span class="at">subtitle =</span> <span class="fu">sprintf</span>(<span class="st">"Correlation = %.3f (Low positive)"</span>, </span>
+<span id="cb45-12"><a href=""></a>                         cor_spy_gld),</span>
+<span id="cb45-13"><a href=""></a>       <span class="at">x =</span> <span class="st">"S&amp;P 500 Daily Return (%)"</span>,</span>
+<span id="cb45-14"><a href=""></a>       <span class="at">y =</span> <span class="st">"Gold Daily Return (%)"</span>) <span class="sc">+</span></span>
+<span id="cb45-15"><a href=""></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb45-16"><a href=""></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, </span>
+<span id="cb45-17"><a href=""></a>           <span class="at">x =</span> <span class="fu">max</span>(returns_hedge<span class="sc">$</span>SPY <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">*</span> <span class="fl">0.5</span>, </span>
+<span id="cb45-18"><a href=""></a>           <span class="at">y =</span> <span class="fu">min</span>(returns_hedge<span class="sc">$</span>GLD <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">*</span> <span class="fl">0.7</span>, </span>
+<span id="cb45-19"><a href=""></a>           <span class="at">label =</span> <span class="fu">sprintf</span>(<span class="st">"ρ = %.3f</span><span class="sc">\n</span><span class="st">Low correlation</span><span class="sc">\n</span><span class="st">provides hedging"</span>, </span>
+<span id="cb45-20"><a href=""></a>                          cor_spy_gld), </span>
+<span id="cb45-21"><a href=""></a>           <span class="at">color =</span> <span class="st">"darkred"</span>, <span class="at">size =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="independence_correlation_files/figure-revealjs/unnamed-chunk-5-1.png" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href=""></a><span class="co"># Portfolio risk frontier</span></span>
+<span id="cb46-2"><a href=""></a>weights_spy <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">by =</span> <span class="fl">0.01</span>)</span>
+<span id="cb46-3"><a href=""></a>portfolio_sd_hedge <span class="ot">&lt;-</span> <span class="fu">sapply</span>(weights_spy, <span class="cf">function</span>(w) {</span>
+<span id="cb46-4"><a href=""></a>  var_p <span class="ot">&lt;-</span> w<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> var_spy <span class="sc">+</span> </span>
+<span id="cb46-5"><a href=""></a>           (<span class="dv">1</span><span class="sc">-</span>w)<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> var_gld <span class="sc">+</span> </span>
+<span id="cb46-6"><a href=""></a>           <span class="dv">2</span><span class="sc">*</span>w<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>w)<span class="sc">*</span>cov_spy_gld</span>
+<span id="cb46-7"><a href=""></a>  <span class="fu">sqrt</span>(var_p) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb46-8"><a href=""></a>})</span>
+<span id="cb46-9"><a href=""></a></span>
+<span id="cb46-10"><a href=""></a>frontier_hedge <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb46-11"><a href=""></a>  <span class="at">weight_spy =</span> weights_spy,</span>
+<span id="cb46-12"><a href=""></a>  <span class="at">portfolio_sd =</span> portfolio_sd_hedge</span>
+<span id="cb46-13"><a href=""></a>)</span>
+<span id="cb46-14"><a href=""></a></span>
+<span id="cb46-15"><a href=""></a><span class="fu">ggplot</span>(frontier_hedge, <span class="fu">aes</span>(<span class="at">x =</span> weight_spy, <span class="at">y =</span> portfolio_sd)) <span class="sc">+</span></span>
+<span id="cb46-16"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"steelblue"</span>, <span class="at">linewidth =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb46-17"><a href=""></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> <span class="fu">sd</span>(returns_hedge<span class="sc">$</span>GLD) <span class="sc">*</span> <span class="dv">100</span>), </span>
+<span id="cb46-18"><a href=""></a>             <span class="at">color =</span> <span class="st">"gold3"</span>, <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb46-19"><a href=""></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span>, <span class="at">y =</span> <span class="fu">sd</span>(returns_hedge<span class="sc">$</span>SPY) <span class="sc">*</span> <span class="dv">100</span>), </span>
+<span id="cb46-20"><a href=""></a>             <span class="at">color =</span> <span class="st">"darkred"</span>, <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb46-21"><a href=""></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> w_min_var, <span class="at">y =</span> sd_optimal <span class="sc">*</span> <span class="dv">100</span>), </span>
+<span id="cb46-22"><a href=""></a>             <span class="at">color =</span> <span class="st">"darkgreen"</span>, <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb46-23"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Portfolio Risk: S&amp;P 500 + Gold"</span>,</span>
+<span id="cb46-24"><a href=""></a>       <span class="at">subtitle =</span> <span class="st">"Gold provides meaningful diversification"</span>,</span>
+<span id="cb46-25"><a href=""></a>       <span class="at">x =</span> <span class="st">"Weight in S&amp;P 500"</span>,</span>
+<span id="cb46-26"><a href=""></a>       <span class="at">y =</span> <span class="st">"Portfolio Standard Deviation (%)"</span>) <span class="sc">+</span></span>
+<span id="cb46-27"><a href=""></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb46-28"><a href=""></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> w_min_var <span class="sc">-</span> <span class="fl">0.15</span>, </span>
+<span id="cb46-29"><a href=""></a>           <span class="at">y =</span> sd_optimal <span class="sc">*</span> <span class="dv">100</span> <span class="sc">+</span> <span class="fl">0.1</span>, </span>
+<span id="cb46-30"><a href=""></a>           <span class="at">label =</span> <span class="fu">sprintf</span>(<span class="st">"Min Risk</span><span class="sc">\n</span><span class="st">%.0f%% SPY</span><span class="sc">\n</span><span class="st">%.0f%% Gold"</span>, </span>
+<span id="cb46-31"><a href=""></a>                          w_min_var <span class="sc">*</span> <span class="dv">100</span>, </span>
+<span id="cb46-32"><a href=""></a>                          (<span class="dv">1</span><span class="sc">-</span>w_min_var) <span class="sc">*</span> <span class="dv">100</span>), </span>
+<span id="cb46-33"><a href=""></a>           <span class="at">color =</span> <span class="st">"darkgreen"</span>, <span class="at">size =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="independence_correlation_files/figure-revealjs/unnamed-chunk-6-1.png" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="case-study-hedging-insights-and-crisis-performance" class="slide level2 smaller">
+<h2>💰 Case Study: Hedging Insights and Crisis Performance</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 Key Findings</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Correlation Analysis:</strong></p>
+<ul>
+<li><p><strong>S&amp;P 500 - Gold correlation</strong> ≈ <strong>0.05 to 0.15</strong> (very low positive, nearly uncorrelated)</p></li>
+<li><p>During the <strong>2020 COVID crisis</strong> (Feb-Mar 2020), correlation turned slightly negative as gold rallied while stocks crashed</p></li>
+<li><p>Low correlation means gold movements are largely independent of stock market trends, providing genuine diversification</p></li>
+</ul>
+<p><strong>Risk Reduction Benefits:</strong></p>
+<ul>
+<li><p><strong>100% S&amp;P 500</strong>: Daily volatility ≈ 1.2-1.5%</p></li>
+<li><p><strong>100% Gold</strong>: Daily volatility ≈ 0.9-1.1%</p></li>
+<li><p><strong>Optimal mix (≈85% SPY, 15% GLD)</strong>: Portfolio volatility ≈ 1.15-1.30%</p></li>
+<li><p>Even a small gold allocation (10-20%) <strong>reduces portfolio risk</strong> while sacrificing minimal expected return</p></li>
+</ul>
+<p><strong>Hedging Effectiveness:</strong></p>
+<ol type="1">
+<li><p><strong>Crisis protection</strong>: Gold tends to maintain or increase value during equity market stress (flight to safety)</p></li>
+<li><p><strong>Low correlation benefit</strong>: Unlike diversifying with another stock (which might have 0.7+ correlation), gold provides true diversification</p></li>
+<li><p><strong>Optimal hedge ratio</strong>: For this period, 10-20% in gold optimizes the risk-return tradeoff for equity-heavy portfolios</p></li>
+</ol>
+<p><strong>Practical Application:</strong> Many institutional investors hold 5-15% gold or gold-related assets as portfolio insurance, accepting slightly lower expected returns for meaningful risk reduction during market turmoil [web:36][web:41].</p>
+</div>
+</div>
+</div>
+</section>
+<section id="quiz-1-independence-definition" class="slide level2 smaller quiz-question">
+<h2>📝 Quiz #1: Independence Definition</h2>
+<p>If random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent, which statement must be true?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Correct! This is the definition of independence - the joint probability factors into the product of marginal probabilities for all events."><span class="math inline">\(P(X \in A, Y \in B) = P(X \in A) \cdot P(Y \in B)\)</span> for all events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span></span></li>
+<li><span class="math inline">\(E(X + Y) = E(X) + E(Y)\)</span></li>
+<li><span class="math inline">\(\text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y)\)</span></li>
+<li><span class="math inline">\(\text{Cov}(X, Y) = 0\)</span></li>
+</ul>
+</section>
+<section id="quiz-2-linearity-of-expectation" class="slide level2 smaller quiz-question">
+<h2>📝 Quiz #2: Linearity of Expectation</h2>
+<p>For random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> (not necessarily independent), which property always holds?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Correct! Linearity of expectation holds for any random variables, regardless of independence or correlation."><span class="math inline">\(E(3X + 2Y - 5) = 3E(X) + 2E(Y) - 5\)</span></span></li>
+<li><span class="math inline">\(E(XY) = E(X) \cdot E(Y)\)</span></li>
+<li><span class="math inline">\(E(X^2 + Y^2) = E(X)^2 + E(Y)^2\)</span></li>
+<li><span class="math inline">\(\text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y)\)</span></li>
+</ul>
+</section>
+<section id="quiz-3-covariance-interpretation" class="slide level2 smaller quiz-question">
+<h2>📝 Quiz #3: Covariance Interpretation</h2>
+<p>What does a negative covariance between two asset returns indicate?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Correct! Negative covariance means the variables have an inverse relationship, providing valuable diversification for a portfolio.">The assets tend to move in opposite directions - when one rises, the other tends to fall</span></li>
+<li>The assets are independent</li>
+<li>The assets have negative expected returns</li>
+<li>The portfolio of the two assets has negative expected return</li>
+</ul>
+</section>
+<section id="quiz-4-portfolio-variance" class="slide level2 smaller quiz-question">
+<h2>📝 Quiz #4: Portfolio Variance</h2>
+<p>For a portfolio with 50% in Asset A and 50% in Asset B, if both assets have variance 0.04 and covariance 0.01, what is the portfolio variance?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Correct! Var(Rp) = 0.5² × 0.04 + 0.5² × 0.04 + 2 × 0.5 × 0.5 × 0.01 = 0.01 + 0.01 + 0.01 = 0.03">0.03</span></li>
+<li>0.04</li>
+<li>0.05</li>
+<li>0.02</li>
+</ul>
+</section>
+<section id="quiz-5-independence-and-covariance" class="slide level2 smaller quiz-question">
+<h2>📝 Quiz #5: Independence and Covariance</h2>
+<p>If <span class="math inline">\(\text{Cov}(X, Y) = 0\)</span>, which statement is true?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Correct! Zero covariance means uncorrelated, but independence is a stronger condition. They are equivalent only for jointly normal variables.">X and Y may or may not be independent - zero covariance does not imply independence</span></li>
+<li><span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> must be independent</li>
+<li><span class="math inline">\(E(XY) \neq E(X)E(Y)\)</span></li>
+<li><span class="math inline">\(\text{Var}(X + Y) &gt; \text{Var}(X) + \text{Var}(Y)\)</span></li>
+</ul>
+</section>
+<section id="summary" class="slide level2 smaller">
+<h2>📝 Summary</h2>
+<div class="summary-box">
+<p><strong>✅ Key Takeaways</strong></p>
+<ul>
+<li><p><strong>Independence</strong> means <span class="math inline">\(p(x,y) = p_X(x) \cdot p_Y(y)\)</span> or equivalently <span class="math inline">\(E(XY) = E(X)E(Y)\)</span>, implying knowledge of one variable provides no information about the other—rare but valuable in finance for maximum diversification [web:33]</p></li>
+<li><p><strong>Linearity of expectation</strong> <span class="math inline">\(E(aX + bY + c) = aE(X) + bE(Y) + c\)</span> holds for ANY random variables (independent or not), making portfolio expected return calculations straightforward regardless of asset correlations</p></li>
+<li><p><strong>Covariance</strong> <span class="math inline">\(\text{Cov}(X,Y) = E(XY) - E(X)E(Y)\)</span> measures the direction and strength of linear association between variables, with positive values indicating co-movement and negative values indicating inverse movement—critical for portfolio construction [web:38][web:41]</p></li>
+<li><p><strong>Portfolio variance formula</strong> <span class="math inline">\(\text{Var}(w_1R_1 + w_2R_2) = w_1^2\sigma_1^2 + w_2^2\sigma_2^2 + 2w_1w_2\text{Cov}(R_1,R_2)\)</span> shows that portfolio risk depends critically on covariance, not just individual asset risks—the foundation of modern portfolio theory</p></li>
+<li><p><strong>Diversification benefit</strong> arises from imperfect correlation: assets with correlation less than 1 provide risk reduction, with maximum benefit at correlation -1 (perfect hedge), demonstrating why portfolio construction requires understanding joint distributions, not just marginals [web:36][web:42]</p></li>
+</ul>
+</div>
+</section>
+<section id="practice-problems" class="slide level2 smaller">
+<h2>📚 Practice Problems</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📝 Homework Problems</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Problem 1 (Independence Test)</strong>: Two assets have joint pmf: <span class="math inline">\(p(1,1) = 0.3\)</span>, <span class="math inline">\(p(1,2) = 0.2\)</span>, <span class="math inline">\(p(2,1) = 0.15\)</span>, <span class="math inline">\(p(2,2) = 0.35\)</span> where values are {1, 2}. (a) Find the marginal distributions; (b) Test whether the assets are independent; (c) Compute <span class="math inline">\(E(XY)\)</span>; (d) Would you expect diversification benefits?</p>
+<p><strong>Problem 2 (Expected Values)</strong>: For independent random variables with <span class="math inline">\(E(X) = 5\)</span>, <span class="math inline">\(E(Y) = 3\)</span>, <span class="math inline">\(\text{Var}(X) = 4\)</span>, <span class="math inline">\(\text{Var}(Y) = 9\)</span>, find: (a) <span class="math inline">\(E(2X - 3Y + 7)\)</span>; (b) <span class="math inline">\(E(XY)\)</span>; (c) <span class="math inline">\(\text{Var}(2X - 3Y)\)</span>; (d) <span class="math inline">\(E[(X-Y)^2]\)</span>.</p>
+<p><strong>Problem 3 (Covariance from Data)</strong>: Given returns data: <span class="math inline">\((X, Y)\)</span> pairs are <span class="math inline">\((0.05, 0.03)\)</span>, <span class="math inline">\((0.02, 0.04)\)</span>, <span class="math inline">\((-0.01, 0.01)\)</span>, <span class="math inline">\((0.03, -0.02)\)</span>, <span class="math inline">\((0.01, 0.02)\)</span> with equal probability 0.2 each. Find: (a) <span class="math inline">\(E(X)\)</span> and <span class="math inline">\(E(Y)\)</span>; (b) <span class="math inline">\(E(XY)\)</span>; (c) <span class="math inline">\(\text{Cov}(X,Y)\)</span>; (d) Interpret the sign of the covariance.</p>
+<p><strong>Problem 4 (Portfolio Optimization)</strong>: An investor allocates weight <span class="math inline">\(w\)</span> to stocks (<span class="math inline">\(\sigma_S = 25\%\)</span>, <span class="math inline">\(\mu_S = 12\%\)</span>) and <span class="math inline">\((1-w)\)</span> to bonds (<span class="math inline">\(\sigma_B = 8\%\)</span>, <span class="math inline">\(\mu_B = 5\%\)</span>) with correlation <span class="math inline">\(\rho = 0.2\)</span>. Find: (a) Expected portfolio return as function of <span class="math inline">\(w\)</span>; (b) Portfolio variance formula; (c) The value of <span class="math inline">\(w\)</span> minimizing variance; (d) The minimum achievable standard deviation; (e) Compare risk to 100% stocks.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="thank-you" class="slide level2 smaller center">
+<h2>👋 Thank You!</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>📬 Contact Information:</strong></p>
+<p>Samir Orujov, PhD</p>
+<p>Assistant Professor</p>
+<p>School of Business</p>
+<p>ADA University</p>
+<p>📧 Email: <a href="mailto:sorujov@ada.edu.az">sorujov@ada.edu.az</a></p>
+<p>🏢 Office: D312</p>
+<p>⏰ Office Hours: By appointment</p>
+</div><div class="column" style="width:50%;">
+<p><strong>📅 Next Class:</strong></p>
+<p><strong>Topic:</strong> Functions of Random Variables and Transformations</p>
+<p><strong>Reading:</strong> Wackerly et al., Chapter 6: Sections 6.1-6.4</p>
+<p><strong>Preparation:</strong> Review change of variables technique and Jacobian transformations</p>
+<p><strong>⏰ Reminders:</strong></p>
+<p>✅ Complete Practice Problems 1-4</p>
+<p>✅ Review covariance and correlation calculations</p>
+<p>✅ Study portfolio variance derivation</p>
+<p>✅ Work hard!</p>
+</div></div>
+</section>
+<section id="questions" class="slide level2 smaller center">
+<h2>❓ Questions?</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>💬 Open Discussion (5 minutes)</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Key Topics for Discussion:</strong></p>
+<ul>
+<li><p>Why is statistical independence so rare in financial markets, and what hidden factors create dependencies between seemingly unrelated assets?</p></li>
+<li><p>How did the 2008 financial crisis demonstrate the danger of assuming independence when assets were actually correlated through complex linkages (e.g., CDOs, credit default swaps)?</p></li>
+<li><p>What is the difference between zero covariance (uncorrelated) and independence, and why does this distinction matter for non-linear derivatives like options?</p></li>
+<li><p>How do portfolio managers use correlation forecasts in practice, and what are the challenges when correlations change dramatically during market stress (correlation breakdownkdown)?</p></li>
+</ul>
+</div>
+</div>
+</div>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="ADA.png" class="slide-logo"></p>
+<div class="footer footer-default">
+<p>Mathematical Statistics - Independence &amp; Covariance</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="independence_correlation_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="independence_correlation_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="independence_correlation_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="independence_correlation_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="independence_correlation_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="independence_correlation_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="independence_correlation_files/libs/revealjs/plugin/reveal-quiz/quiz.js"></script>
+  <script src="independence_correlation_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="independence_correlation_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="independence_correlation_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="independence_correlation_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="independence_correlation_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'quiz': {"checkKey":"c","resetKey":"r","shuffleKey":"s","allowNumberKeys":true,"disableOnCheck":false,"shuffleOptions":true,"defaultCorrect":"✅ Correct! Well done.","defaultIncorrect":"❌ Not quite. Try again or check the explanation.","includeScore":true,"disableReset":false},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 720,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, RevealQuiz, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script type="ojs-module-contents">
+    eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6Ilxudmlld29mIHNpZ21hX2EgPSBJbnB1dHMucmFuZ2UoWzUsIDQwXSwge1xuICB2YWx1ZTogMjAsIFxuICBzdGVwOiAxLCBcbiAgbGFiZWw6IFwiz4NBIChTdG9jayBBIFJpc2sgJSk6XCJcbn0pXG5cbnZpZXdvZiBzaWdtYV9iID0gSW5wdXRzLnJhbmdlKFs1LCA0MF0sIHtcbiAgdmFsdWU6IDE1LCBcbiAgc3RlcDogMSwgXG4gIGxhYmVsOiBcIs+DQiAoU3RvY2sgQiBSaXNrICUpOlwiXG59KVxuXG52aWV3b2YgY29ycmVsYXRpb24gPSBJbnB1dHMucmFuZ2UoWy0xLCAxXSwge1xuICB2YWx1ZTogMC41LCBcbiAgc3RlcDogMC4xLCBcbiAgbGFiZWw6IFwiz4EgKENvcnJlbGF0aW9uKTpcIlxufSlcblxuLy8gUG9ydGZvbGlvIHZhcmlhbmNlIGZvciBkaWZmZXJlbnQgd2VpZ2h0c1xud2VpZ2h0c19hID0gZDMucmFuZ2UoMCwgMS4wMSwgMC4wMSlcblxucG9ydGZvbGlvX3ZhcnMgPSB3ZWlnaHRzX2EubWFwKHdfYSA9PiB7XG4gIGNvbnN0IHdfYiA9IDEgLSB3X2E7XG4gIGNvbnN0IHZhcl9wID0gTWF0aC5wb3cod19hICogc2lnbWFfYSwgMikgKyBcbiAgICAgICAgICAgICAgICBNYXRoLnBvdyh3X2IgKiBzaWdtYV9iLCAyKSArIFxuICAgICAgICAgICAgICAgIDIgKiB3X2EgKiB3X2IgKiBjb3JyZWxhdGlvbiAqIHNpZ21hX2EgKiBzaWdtYV9iO1xuICByZXR1cm4gTWF0aC5zcXJ0KHZhcl9wKTtcbn0pXG5cbm1pbl9yaXNrX3AgPSBNYXRoLm1pbiguLi5wb3J0Zm9saW9fdmFycylcbm1pbl93ZWlnaHRfYSA9IHdlaWdodHNfYVtwb3J0Zm9saW9fdmFycy5pbmRleE9mKG1pbl9yaXNrX3ApXVxuXG5tZGAqKlBvcnRmb2xpbyBTdGF0czoqKiAgXG5NaW4gUmlzazogJHttaW5fcmlza19wLnRvRml4ZWQoMil9JSAgXG5hdCB3QSA9ICR7bWluX3dlaWdodF9hLnRvRml4ZWQoMil9XG5cbioqRGl2ZXJzaWZpY2F0aW9uIEJlbmVmaXQ6KiogIFxuQXZnIFJpc2s6ICR7KChzaWdtYV9hICsgc2lnbWFfYikvMikudG9GaXhlZCgxKX0lICBcblBvcnRmb2xpbzogJHttaW5fcmlza19wLnRvRml4ZWQoMil9JWBcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMiIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6IlxucG9ydGZvbGlvX2RhdGFfY29yciA9IHdlaWdodHNfYS5tYXAoKHcsIGkpID0+ICh7XG4gIHdlaWdodF9hOiB3LFxuICBwb3J0Zm9saW9fcmlzazogcG9ydGZvbGlvX3ZhcnNbaV1cbn0pKVxuXG5QbG90LnBsb3Qoe1xuICB3aWR0aDogODAwLFxuICBoZWlnaHQ6IDQ1MCxcbiAgbWFyZ2luTGVmdDogNjAsXG4gIG1hcmdpbkJvdHRvbTogNTAsXG4gIHg6IHtcbiAgICBsYWJlbDogXCJXZWlnaHQgaW4gU3RvY2sgQSAod0EpXCIsXG4gICAgZG9tYWluOiBbMCwgMV0sXG4gICAgZ3JpZDogdHJ1ZVxuICB9LFxuICB5OiB7XG4gICAgbGFiZWw6IFwiUG9ydGZvbGlvIFN0YW5kYXJkIERldmlhdGlvbiAoJSlcIixcbiAgICBkb21haW46IFswLCBNYXRoLm1heChzaWdtYV9hLCBzaWdtYV9iKSAqIDEuMV0sXG4gICAgZ3JpZDogdHJ1ZVxuICB9LFxuICBtYXJrczogW1xuICAgIFBsb3QubGluZShwb3J0Zm9saW9fZGF0YV9jb3JyLCB7XG4gICAgICB4OiBcIndlaWdodF9hXCIsIFxuICAgICAgeTogXCJwb3J0Zm9saW9fcmlza1wiLCBcbiAgICAgIHN0cm9rZTogXCJzdGVlbGJsdWVcIiwgXG4gICAgICBzdHJva2VXaWR0aDogM1xuICAgIH0pLFxuICAgIFBsb3QuZG90KFt7eDogMCwgeTogc2lnbWFfYn1dLCB7XG4gICAgICB4OiBcInhcIixcbiAgICAgIHk6IFwieVwiLFxuICAgICAgcjogNixcbiAgICAgIGZpbGw6IFwicmVkXCIsXG4gICAgICBzdHJva2U6IFwid2hpdGVcIixcbiAgICAgIHN0cm9rZVdpZHRoOiAyXG4gICAgfSksXG4gICAgUGxvdC5kb3QoW3t4OiAxLCB5OiBzaWdtYV9hfV0sIHtcbiAgICAgIHg6IFwieFwiLFxuICAgICAgeTogXCJ5XCIsXG4gICAgICByOiA2LFxuICAgICAgZmlsbDogXCJyZWRcIixcbiAgICAgIHN0cm9rZTogXCJ3aGl0ZVwiLFxuICAgICAgc3Ryb2tlV2lkdGg6IDJcbiAgICB9KSxcbiAgICBQbG90LmRvdChbe3g6IG1pbl93ZWlnaHRfYSwgeTogbWluX3Jpc2tfcH1dLCB7XG4gICAgICB4OiBcInhcIixcbiAgICAgIHk6IFwieVwiLFxuICAgICAgcjogOCxcbiAgICAgIGZpbGw6IFwib3JhbmdlXCIsXG4gICAgICBzdHJva2U6IFwid2hpdGVcIixcbiAgICAgIHN0cm9rZVdpZHRoOiAyXG4gICAgfSksXG4gICAgUGxvdC5ydWxlWShbMF0pXG4gIF0sXG4gIGNhcHRpb246IGh0bWxgPHNwYW4gc3R5bGU9XCJjb2xvcjogcmVkO1wiPuKXjzwvc3Bhbj4gMTAwJSBpbiBvbmUgc3RvY2sgfCBcbiAgICA8c3BhbiBzdHlsZT1cImNvbG9yOiBvcmFuZ2U7XCI+4pePPC9zcGFuPiBNaW5pbXVtIFJpc2sgUG9ydGZvbGlvIHwgXG4gICAgz4EgPSAke2NvcnJlbGF0aW9uLnRvRml4ZWQoMil9IHwgVHJ5IM+BID0gLTEgZm9yIHBlcmZlY3QgaGVkZ2UhYFxufSlcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgnc2lnbWFfYScpIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCdzaWdtYV9iJykifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ2NvcnJlbGF0aW9uJykifV19
+    </script>
+    <script type="module">
+    if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+    window._ojs.paths.runtimeToDoc = "../../..";
+    window._ojs.paths.runtimeToRoot = "../../../../../../..";
+    window._ojs.paths.docToRoot = "../../../..";
+    window._ojs.selfContained = false;
+    window._ojs.runtime.interpretFromScriptTags();
+    </script>
+    
+
+    <script>
+
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+
+      // slide changes (different for each slide format).
+
+      (function () {
+
+        // dispatch for htmlwidgets
+
+        function fireSlideEnter() {
+
+          const event = window.document.createEvent("Event");
+
+          event.initEvent("slideenter", true, true);
+
+          window.document.dispatchEvent(event);
+
+        }
+
+    
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+
+          fireSlideEnter();
+
+    
+
+          // dispatch for shiny
+
+          if (window.jQuery) {
+
+            if (previousSlide) {
+
+              window.jQuery(previousSlide).trigger("hidden");
+
+            }
+
+            if (currentSlide) {
+
+              window.jQuery(currentSlide).trigger("shown");
+
+            }
+
+          }
+
+        }
+
+    
+
+        // hookup for slidy
+
+        if (window.w3c_slidy) {
+
+          window.w3c_slidy.add_observer(function (slide_num) {
+
+            // slide_num starts at position 1
+
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+
+          });
+
+        }
+
+    
+
+      })();
+
+    </script>
+
+    
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
