@@ -662,13 +662,37 @@ Preparation: [What to review]
 3. **Callout boxes**: Extensive use of `.callout-note`, `.callout-tip`, `.callout-important`
 4. **Columns**: Use `.columns` and `.column` for side-by-side content
 5. **Incremental reveals**: Use `.incremental` or `. . .` for progressive disclosure
+   - **CRITICAL**: Do NOT wrap incremental content (`. . .`) inside styled divs like `::: {style="font-size:28px"}`
+   - Styled divs block incremental reveal functionality
+   - Use slide classes (`.smaller`) instead for font sizing on slides with incremental content
 6. **Slide classes**: Add `{.smaller}` to headers for content-heavy slides to improve fitting
 ### **Mathematical Notation:**
-- Use proper LaTeX syntax
-- Display equations in `$$` blocks
-- Important results in `\boxed{}`
-- Clear variable definitions after equations
-- Financial/economic interpretation after calculations
+
+- **ALWAYS use `$...$` for inline math** (e.g., `$\lambda$`, `$E(X)$`) - NEVER use `\(...\)` syntax
+
+- **ALWAYS use `$$...$$` for display equations** (centered, block math) - NEVER use `\[...\]` syntax
+
+- Important results should be wrapped in `\boxed{}` within display equations
+
+- Use proper LaTeX commands: `\lambda`, `\sigma`, `\mu`, `\binom{n}{k}`, `\leq`, `\geq`, etc.
+
+- Clear variable definitions should follow equations
+
+- Financial/economic interpretation should follow calculations
+
+- **Example correct syntax:**
+  ```markdown
+  Inline: The mean is $\mu = E(X)$ and variance is $\sigma^2$.
+  
+  Display:
+  $$\boxed{P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}}$$
+  ```
+
+- **WRONG syntax (DO NOT USE):**
+  ```markdown
+  \(X \sim N(\mu, \sigma^2)\)  ← WRONG! Use $X \sim N(\mu, \sigma^2)$ instead
+  \[E(X) = \mu\]  ← WRONG! Use $$E(X) = \mu$$ instead
+  ```
 
 
 ### **Code Style:**

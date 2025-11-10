@@ -335,11 +335,17 @@ location: "Baku, Azerbaijan"
     </div>
     
     <div class="video-lecture-section">
-      <div class="video-placeholder">
-        <i>🎬</i>
-        <p><strong>Video Lecture Coming Soon</strong></p>
-        <p>Bayes' theorem applications in economic decision making</p>
+      <h4>🎥 Discrete Probability Distributions</h4>
+      <div class="youtube-container">
+        <iframe width="560" height="315" 
+                src="https://www.youtube.com/embed/6D-JbHDWoSQ" 
+                title="Discrete Probability Distributions - Mathematical Statistics" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowfullscreen>
+        </iframe>
       </div>
+      <p><em>Introduction to discrete random variables and probability distributions with business applications.</em></p>
     </div>
     </div>
   </div>
@@ -852,7 +858,7 @@ location: "Baku, Azerbaijan"
     </div>
     
     <div class="lecture-buttons">
-      <a href="/lectures/math-stat-1/10-continuous-rv/index.html" class="btn btn--primary">
+      <a href="/lectures/math-stat-1/05-continuous/continuous.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
       <a href="/downloads/stat2311-homework-5.pdf" class="btn btn--primary">
