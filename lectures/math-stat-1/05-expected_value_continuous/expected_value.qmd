@@ -1,0 +1,895 @@
+---
+title: "Mathematical Statistics"
+subtitle: "The Binomial Probability Distribution"
+author: "Samir Orujov"
+date: today
+format:
+  revealjs:
+    theme: default
+    slide-number: true
+    chalkboard: true
+    auto-stretch: false
+    width: 1600
+    height: 900
+    logo: ADA.png
+    footer: "Mathematical Statistics - ADA University"
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again."
+      includeScore: true
+    revealjs-plugins:
+      - quiz
+    css: |
+      /* Custom CSS embedded directly */
+      .reveal h2 {
+        font-size: 1.8em;
+        color: #1976d2;
+      }
+
+      .reveal h3 {
+        font-size: 1.4em;
+        color: #424242;
+      }
+
+      .fragment.highlight-current-blue.visible.current-fragment {
+        color: #1f77b4;
+        font-weight: bold;
+      }
+
+      .callout {
+        margin: 1em 0;
+        padding: 1em;
+        border-radius: 8px;
+      }
+
+      .callout-note {
+        background-color: #e3f2fd;
+        border-left: 5px solid #1976d2;
+      }
+
+      .callout-tip {
+        background-color: #f1f8e9;
+        border-left: 5px solid #689f38;
+      }
+
+      .callout-warning {
+        background-color: #fff3e0;
+        border-left: 5px solid #f57c00;
+      }
+
+      .callout-important {
+        background-color: #fce4ec;
+        border-left: 5px solid #c2185b;
+      }
+
+      .callout-title {
+        font-weight: bold;
+        margin-bottom: 0.5em;
+        font-size: 1.1em;
+      }
+
+      /* Timer styling */
+      .timer-display {
+        font-size: 2em;
+        font-weight: bold;
+        margin: 20px 0;
+        padding: 20px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      }
+
+      .timer-controls {
+        margin: 10px 0;
+      }
+
+      .timer-button {
+        background: #667eea;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 5px;
+        font-size: 1em;
+        transition: all 0.3s ease;
+      }
+
+      .timer-button:hover {
+        background: #5568d3;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      }
+
+      .timer-button.pause {
+        background: #f39c12;
+      }
+
+      .timer-button.reset {
+        background: #e74c3c;
+      }
+
+      /* Activity boxes */
+      .activity-box {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 20px 0;
+      }
+
+      .activity-step {
+        margin: 15px 0;
+        padding: 10px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 5px;
+      }
+
+      /* Quiz styling */
+      .quiz-option {
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 8px;
+        border: 2px solid #e0e0e0;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .quiz-option:hover {
+        border-color: #667eea;
+        background-color: #f5f5f5;
+      }
+
+      .quiz-option.correct {
+        border-color: #4caf50;
+        background-color: #e8f5e9;
+      }
+
+      .quiz-option.incorrect {
+        border-color: #f44336;
+        background-color: #ffebee;
+      }
+
+      /* Table styling */
+      table {
+        margin: 20px auto;
+        border-collapse: collapse;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+
+      table thead {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+
+      table th, table td {
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+      }
+
+      table tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+
+      table tbody tr:hover {
+        background-color: #f5f5f5;
+      }
+
+      /* Center alignment utilities */
+      .center {
+        text-align: center;
+      }
+
+      .smaller {
+        font-size: 0.9em;
+      }
+
+      /* Columns */
+      .columns {
+        display: flex;
+        gap: 2em;
+      }
+
+      .column {
+        flex: 1;
+      }
+
+      /* Math styling */
+      .math.display {
+        margin: 1em 0;
+        font-size: 1.2em;
+      }
+
+      /* Fragment animations */
+      .fragment {
+        opacity: 0;
+      }
+
+      .fragment.visible {
+        opacity: 1;
+      }
+
+      /* Code blocks */
+      code {
+        background-color: #f5f5f5;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-family: 'Courier New', monospace;
+      }
+
+      /* Emphasis */
+      strong {
+        color: #1976d2;
+      }
+
+      /* Links */
+      a {
+        color: #1976d2;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      /* List styling */
+      ul, ol {
+        line-height: 1.8;
+      }
+
+      /* Incremental lists */
+      .incremental > * {
+        opacity: 0;
+      }
+
+      .incremental > *.visible {
+        opacity: 1;
+      }
+---
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+# Load required packages
+if (!require("countdown")) {
+  install.packages("countdown")
+  library(countdown)
+}
+```
+
+## Overview {.smaller}
+
+::: {.incremental}
+- The Binomial Probability Distribution
+- Properties of Binomial Experiments
+- Binomial Probability Formula
+- Mean and Variance
+- Applications and Examples
+- Maximum Likelihood Estimation
+:::
+
+# The Binomial Probability Distribution
+
+## Definition: Binomial Experiment {.smaller}
+
+::: {.callout-note icon=false}
+## Definition 1
+A **binomial experiment** possesses the following properties:
+
+1. The experiment consists of a **fixed number**, \(n\), of identical trials.
+2. Each trial results in one of two outcomes: **success**, \(S\), or **failure**, \(F\).
+3. The probability of success on a single trial is equal to some value \(p\) and **remains the same** from trial to trial. The probability of a failure is equal to \(q = (1 - p)\).
+4. The trials are **independent**.
+5. The random variable of interest is \(Y\), the **number of successes** observed during the \(n\) trials.
+:::
+
+## 🤔 Think-Pair-Share Activity
+
+::: {.activity-box}
+### Activity 1: Identifying Binomial Experiments (3 minutes)
+
+::: {.activity-step}
+**Think** (1 minute): Consider the following scenario individually:
+> "A quality control inspector examines 10 smartphones from a production line. Each phone is classified as defective or non-defective."
+:::
+
+::: {.activity-step}
+**Pair** (1 minute): Discuss with your neighbor - does this meet all binomial experiment properties?
+:::
+
+::: {.activity-step}
+**Share** (1 minute): Groups share their conclusions with the class.
+:::
+:::
+
+```{r}
+#| echo: false
+countdown::countdown(
+  minutes = 3,
+  seconds = 0,
+  font_size = "2em",
+  color_running_background = "#31b09e",
+  color_finished_background = "#dc3545"
+)
+```
+
+## Example 1: Radar Detection System {.smaller}
+
+::: {.callout-warning icon=false}
+## Example 1
+An early-warning detection system for aircraft consists of **four identical radar units** operating independently of one another. Suppose that each has a probability of **0.95** of detecting an intruding aircraft. When an intruding aircraft enters the scene, the random variable of interest is \(Y\), the number of radar units that **do not detect** the plane. Is this a binomial experiment?
+:::
+
+. . .
+
+::: {.callout-note icon=false collapse="true"}
+## Solution
+
+Let's verify each property:
+
+- ✅ The experiment involves **four identical trials** (four radar units).
+- ✅ Each trial results in one of two outcomes:
+  - \(S\) denotes that the aircraft was **not detected**
+  - \(F\) denotes that it **was detected**
+- ✅ \(p = P(S) = P(\text{do not detect}) = 0.05\)
+- ✅ The trials are **independent** because the units operate independently.
+- ✅ The random variable of interest is \(Y\), the number of successes in four trials.
+
+**Conclusion**: Yes, this is a binomial experiment!
+:::
+
+## Example 2: Voter Preference {.smaller}
+
+::: {.callout-warning icon=false}
+## Example 2
+Suppose that **40%** of a large population of registered voters favor candidate Jones. A random sample of \(n = 10\) voters will be selected, and \(Y\), the number favoring Jones, is to be observed. Does this experiment meet the requirements of a binomial experiment?
+:::
+
+. . .
+
+::: {.callout-important icon=false}
+## Remark 1
+In general, if the population is **large** and the sample size is **relatively small**, the conditional probability of success on a later trial given the number of successes on the previous trials will stay approximately the same regardless of the outcomes on previous trials.
+
+**Key principle**: For sampling without replacement, if \(n < 0.05N\) (sample size is less than 5% of population), we can approximate with binomial distribution.
+:::
+
+## 📝 Quick Quiz #1 {.quiz-question}
+
+Which of the following is **NOT** a binomial experiment?
+
+- Flipping a coin 20 times and counting heads
+- [Rolling a die until you get a 6]{.correct data-explanation="✅ Correct! The number of trials is not fixed in this scenario, violating the binomial conditions."}
+- Testing 15 light bulbs and counting defectives
+- Surveying 50 students about whether they own a laptop
+:::
+
+# The Binomial Probability Formula
+
+## The Binomial Distribution {.smaller}
+
+::: {.callout-note icon=false}
+## Definition 2
+A random variable \(Y\) is said to have a **binomial distribution** based on \(n\) trials with success probability \(p\) if and only if 
+
+\[
+p(y) = \binom{n}{y}p^yq^{n-y}, \quad y=0,1,2,\dotsc, n \quad \text{and} \quad 0\le p \le 1.
+\]
+
+where \(q = 1 - p\) and \(\binom{n}{y} = \frac{n!}{y!(n-y)!}\)
+:::
+
+. . .
+
+::: {.callout-tip icon=false}
+## Formula 1: Binomial Theorem
+\[
+(q+p)^n = \binom{n}{0}q^n+\binom{n}{1}pq^{n-1}+\binom{n}{2}p^2q^{n-2}+\cdots+\binom{n}{n}p^n
+\]
+
+Since \(p + q = 1\), we have \((q+p)^n = 1\), which confirms that \(\sum_{y=0}^{n}p(y) = 1\).
+:::
+
+## Interactive Exploration
+
+::: {.callout-tip icon=false}
+## Explore Binomial Distributions
+
+Visit this interactive applet: [Binomial Distribution Applet](https://homepage.divms.uiowa.edu/~mbognar/applets/bin.html)
+
+**Activity**: Experiment with different values of \(n\) and \(p\):
+- Set \(n = 10\), \(p = 0.5\) - What shape do you observe?
+- Set \(n = 10\), \(p = 0.1\) - How does the distribution change?
+- Set \(n = 10\), \(p = 0.9\) - What pattern do you notice?
+:::
+
+## 🤔 Think-Pair-Share Activity #2
+
+::: {.activity-box}
+### Activity 2: Understanding the Formula (4 minutes)
+
+::: {.activity-step}
+**Think** (1.5 minutes): Why do we multiply \(\binom{n}{y}\), \(p^y\), and \(q^{n-y}\) together? What does each component represent?
+:::
+
+::: {.activity-step}
+**Pair** (1.5 minutes): Explain your reasoning to your partner and discuss.
+:::
+
+::: {.activity-step}
+**Share** (1 minute): Volunteer pairs share insights with the class.
+:::
+:::
+
+```{r}
+#| echo: false
+countdown::countdown(
+  minutes = 4,
+  seconds = 0,
+  font_size = "2em",
+  color_running_background = "#31b09e",
+  color_finished_background = "#dc3545"
+)
+```
+
+## Example 3: Defective Fuses {.smaller}
+
+::: {.callout-warning icon=false}
+## Example 3
+Suppose that a lot of **5000 electrical fuses** contains **5% defectives**. If a sample of **5 fuses** is tested, find the probability of observing **at least one defective**.
+:::
+
+. . .
+
+::: {.callout-note icon=false collapse="true"}
+## Solution
+
+Let \(Y\) = number of defectives in the sample. Then \(Y \sim \text{Binomial}(n=5, p=0.05)\).
+
+\[
+P(\text{at least one defective}) = 1 - P(Y = 0)
+\]
+
+\[
+P(Y = 0) = \binom{5}{0}(0.05)^0(0.95)^5 = 1 \times 1 \times (0.95)^5 = 0.774
+\]
+
+Therefore:
+\[
+P(Y \geq 1) = 1 - 0.774 = 0.226
+\]
+
+**Interpretation**: There is a **22.6% chance** of seeing at least one defective, even though the sample is quite small.
+:::
+
+## Example 4: Medical Treatment {.smaller}
+
+::: {.callout-warning icon=false}
+## Example 4
+Experience has shown that **30%** of all persons afflicted by a certain illness recover. A drug company has developed a new medication. **Ten people** with the illness were selected at random and received the medication; **nine recovered** shortly thereafter. Suppose that the medication was absolutely worthless. What is the probability that at least nine of ten receiving the medication will recover?
+:::
+
+. . .
+
+::: {.callout-note icon=false collapse="true"}
+## Solution Setup
+
+Let \(Y\) denote the number of people who recover. If the medication is **worthless**, the probability that a single ill person will recover is \(p = 0.3\).
+
+Then the number of trials is \(n = 10\) and we need to find \(P(Y \geq 9)\).
+:::
+
+## Example 4: Solution {.smaller}
+
+The probability of exactly **nine recoveries** is:
+
+\[
+P(Y = 9) = \binom{10}{9} (0.3)^9 (0.7)^1 = 10 \times (0.3)^9 \times 0.7 = 0.000138
+\]
+
+. . .
+
+Similarly, the probability of exactly **ten recoveries** is:
+
+\[
+P(Y = 10) = \binom{10}{10} (0.3)^{10} (0.7)^0 = 1 \times (0.3)^{10} = 0.000006
+\]
+
+. . .
+
+Therefore:
+
+\[
+P(Y \geq 9) = P(Y = 9) + P(Y = 10) = 0.000138 + 0.000006 = 0.000144
+\]
+
+. . .
+
+::: {.callout-important icon=false}
+## Interpretation
+If the medication is **ineffective**, the probability of observing at least nine recoveries is **extremely small** (0.0144%). This provides strong evidence that the medication is actually effective!
+:::
+
+## 📝 Quick Quiz #2 {.quiz-question}
+
+A fair coin is flipped 6 times. What is the probability of getting exactly 4 heads?
+
+**Hint**: Use the binomial formula with $n=6$, $p=0.5$, $y=4$.
+
+- [0.234]{.correct data-explanation="✅ Correct! P(Y=4) = C(6,4) × (0.5)^4 × (0.5)^2 = 15 × 0.0625 = 0.234"}
+- 0.313
+- 0.156
+- 0.667
+
+## Example 5: Using Tables {.smaller}
+
+::: {.callout-warning icon=false}
+## Example 5
+The large lot of electrical fuses is supposed to contain only **5% defectives**. If \(n = 20\) fuses are randomly sampled from this lot, find the probability that **at least four defectives** will be observed.
+:::
+
+. . .
+
+::: {.callout-note icon=false collapse="true"}
+## Solution
+
+Letting \(Y\) denote the number of defectives in the sample, we assume the binomial model for \(Y\), with \(p = 0.05\). Thus,
+
+\[
+P(Y\geq 4) = 1 - P(Y\leq 3)
+\]
+
+and
+
+\[
+P(Y\leq 3) = \sum_{y=0}^3p(y) = p(0) + p(1) + p(2) + p(3)
+\]
+
+We can use **binomial probability tables** or statistical software to find this cumulative probability.
+:::
+
+## Using Binomial Tables
+
+::: {.callout-tip icon=false}
+## Table Format
+Tabulated values represent cumulative probabilities:
+\[
+P(Y \leq a) = \sum_{y=0}^{a}p(y)
+\]
+
+For our example with \(n=20\) and \(p=0.05\):
+- Look up the row for \(n=20\)
+- Find the column for \(p=0.05\)
+- Read the value for \(a=3\)
+
+From standard tables: \(P(Y \leq 3) \approx 0.9841\)
+
+Therefore: \(P(Y \geq 4) = 1 - 0.9841 = 0.0159\)
+:::
+
+**Modern approach**: Use R, Python, or Excel for exact calculations!
+
+# Mean and Variance of Binomial Distribution
+
+## Key Theorem {.smaller}
+
+::: {.callout-note icon=false}
+## Theorem 1
+Let \(Y\) be a binomial random variable based on \(n\) trials and success probability \(p\). Then:
+
+\[
+\mu = E(Y) = np
+\]
+
+\[
+\sigma^2 = V(Y) = npq = np(1-p)
+\]
+
+where \(q = 1 - p\).
+:::
+
+. . .
+
+::: {.callout-important icon=false}
+## Intuition
+- **Expected value**: If we repeat the experiment many times with \(n\) trials each, on average we expect \(np\) successes per experiment.
+- **Variance**: Measures the spread of the distribution. Maximum variance occurs when \(p = 0.5\).
+:::
+
+## 🤔 Group Activity: Understanding \(E(Y) = np\)
+
+::: {.activity-box}
+### Activity 3: Exploring the Mean (5 minutes)
+
+**Scenario**: A basketball player has a 70% free throw success rate.
+
+**Task**: In groups of 3-4:
+1. If she takes 10 shots, what's the expected number of successes? (1 min)
+2. If she takes 100 shots, what's the expected number? (1 min)
+3. Does the success rate \(p\) change? Why does \(E(Y)\) increase? (2 min)
+4. Present your insights (1 min per group)
+:::
+
+```{r}
+#| echo: false
+countdown::countdown(
+  minutes = 5,
+  seconds = 0,
+  font_size = "2em",
+  color_running_background = "#31b09e",
+  color_finished_background = "#dc3545"
+)
+```
+
+## Example 6: Employee Survey {.smaller}
+
+::: {.callout-warning icon=false}
+## Example 6
+Suppose that we survey **20 individuals** working for a large company and ask each whether they favor implementation of a new policy regarding retirement funding. If, in our sample, **6 favored** the new policy, find an estimate for \(p\), the true but unknown proportion of employees that favor the new policy.
+:::
+
+. . .
+
+::: {.callout-note icon=false collapse="true"}
+## Solution: Setup
+
+- Let \(Y\) denotes the number among the 20 who favor the new policy.
+- Then \(Y\) has a binomial distribution with \(n = 20\) for some value of \(p\).
+- Whatever the true value for \(p\), we conclude that the probability of observing 6 out of 20 in favor of the policy is:
+
+\[
+P(Y = 6) = \binom{20}{6} p^6 (1 - p)^{14}
+\]
+
+**Question**: How do we find the value of \(p\) that maximizes \(P(Y = 6)\)?
+:::
+
+## Maximum Likelihood Estimation {.smaller}
+
+::: {.incremental}
+- We want to find the value of \(p\) that **maximizes** the probability of what we observed.
+- \(\binom{20}{6}\) is a constant (relative to \(p\)).
+- \(\ln(x)\) is an **increasing function** of \(x\).
+- So the value of \(p\) that maximizes \(P(Y = 6) = \binom{20}{6} p^6 (1 - p)^{14}\) is the same as the value of \(p\) that maximizes:
+:::
+
+. . .
+
+\[
+\ln[p^6(1 - p)^{14}] = 6 \ln(p) + 14 \ln(1 - p)
+\]
+
+. . .
+
+**Differentiate** with respect to \(p\):
+
+\[
+\frac{d[6 \ln(p) + 14 \ln(1 - p)]}{dp} = \frac{6}{p} - \frac{14}{1 - p}
+\]
+
+## Finding the Maximum {.smaller}
+
+Set the derivative equal to zero:
+
+\[
+\frac{6}{p} - \frac{14}{1 - p} = 0
+\]
+
+. . .
+
+Multiply both sides by \(p(1-p)\):
+
+\[
+6(1-p) - 14p = 0
+\]
+
+\[
+6 - 6p - 14p = 0
+\]
+
+\[
+6 = 20p
+\]
+
+\[
+p = \frac{6}{20} = 0.3
+\]
+
+## Solution Verification {.smaller}
+
+::: {.callout-note icon=false}
+## Final Solution
+
+- The **second derivative** of \(6 \ln(p) + 14 \ln(1 - p)\) is:
+  \[
+  \frac{d^2}{dp^2} = -\frac{6}{p^2} - \frac{14}{(1-p)^2}
+  \]
+
+- This is **negative** when \(p = 6/20\), confirming a maximum.
+
+- Hence our estimate for \(p\), based on 6 "successes" in 20 trials, is:
+
+  \[
+  \boxed{\hat{p} = \frac{6}{20} = 0.30 = 30\%}
+  \]
+:::
+
+. . .
+
+::: {.callout-important icon=false}
+## Key Insight
+The **Maximum Likelihood Estimator (MLE)** for \(p\) in a binomial distribution is simply the sample proportion: \(\hat{p} = \frac{Y}{n}\)
+:::
+
+## 📝 Quick Quiz #3 {.quiz-question}
+
+A binomial random variable has $n = 25$ trials and $p = 0.4$. What is the expected value and standard deviation?
+
+**Hint**: $E(Y) = np$ and $SD(Y) = \sqrt{npq}$
+
+- [$E(Y) = 10$, $SD(Y) = 2.45$]{.correct data-explanation="✅ Correct! E(Y) = 25 × 0.4 = 10, SD(Y) = sqrt(25 × 0.4 × 0.6) = sqrt(6) ≈ 2.45"}
+- $E(Y) = 12$, $SD(Y) = 3.00$
+- $E(Y) = 10$, $SD(Y) = 6.00$
+- $E(Y) = 15$, $SD(Y) = 2.45$
+
+# Practice and Applications
+
+## 🤔 Think-Pair-Share Activity #3
+
+::: {.activity-box}
+### Activity 4: Real-World Application (5 minutes)
+
+**Scenario**: A quality control manager at a manufacturing plant knows that historically 2% of products are defective. Today, in a random sample of 50 products, 5 were found to be defective.
+
+::: {.activity-step}
+**Think** (2 minutes): Is this evidence that the defect rate has increased?
+:::
+
+::: {.activity-step}
+**Pair** (2 minutes): Calculate \(P(Y \geq 5)\) when \(n=50\) and \(p=0.02\). Discuss what this probability means.
+:::
+
+::: {.activity-step}
+**Share** (1 minute): Groups present their conclusions.
+:::
+:::
+
+```{r}
+#| echo: false
+countdown::countdown(
+  minutes = 5,
+  seconds = 0,
+  font_size = "2em",
+  color_running_background = "#31b09e",
+  color_finished_background = "#dc3545"
+)
+```
+
+## Summary {.smaller}
+
+::: {.callout-note icon=false}
+## Key Takeaways
+
+**Binomial Experiment Properties:**
+1. Fixed number of trials \(n\)
+2. Two outcomes: success or failure
+3. Constant probability \(p\)
+4. Independent trials
+5. Count of successes \(Y\)
+
+**Binomial Distribution:**
+\[
+p(y) = \binom{n}{y}p^yq^{n-y}, \quad y=0,1,2,\dotsc, n
+\]
+
+**Mean and Variance:**
+\[
+E(Y) = np, \quad V(Y) = npq
+\]
+
+**Maximum Likelihood Estimate:**
+\[
+\hat{p} = \frac{Y}{n}
+\]
+:::
+
+## Practice Problems {.smaller}
+
+::: {.callout-tip icon=false}
+## Homework Problems
+
+1. **Quality Control**: A shipment of 1000 computer chips contains 5% defectives. If 10 chips are randomly selected, what is the probability that at most 2 are defective?
+
+2. **Medical Testing**: A diagnostic test correctly identifies a disease 90% of the time. If 15 patients with the disease are tested, what is the expected number of correct identifications? What is the standard deviation?
+
+3. **Marketing**: Historical data shows that 35% of customers make a purchase after viewing an online ad. If 20 customers view the ad today:
+   - What is the probability that exactly 7 make a purchase?
+   - What is the probability that at least 5 make a purchase?
+   - If you observed 12 purchases, would you suspect the ad's effectiveness has changed?
+
+**Due**: Next class meeting
+:::
+
+## Additional Resources {.smaller}
+
+::: {.callout-tip icon=false}
+## For Further Study
+
+**Interactive Tools:**
+- [Binomial Distribution Calculator](https://homepage.divms.uiowa.edu/~mbognar/applets/bin.html)
+- Khan Academy: Binomial Probability
+- StatQuest YouTube Channel
+
+**Statistical Software:**
+- R: `dbinom()`, `pbinom()`, `qbinom()`, `rbinom()`
+- Python: `scipy.stats.binom`
+- Excel: `BINOM.DIST()`
+
+**Reading:**
+- Textbook Chapter 3.4-3.5
+- Review Definition of Expected Value (Chapter 3.2)
+:::
+
+## Thank You! {.smaller}
+
+::: {.columns}
+::: {.column width="50%"}
+**Contact Information:**
+
+**Samir Orujov**  
+Assistant Professor  
+Department of Mathematics and Statistics  
+ADA University
+
+📧 Email: sorujov@ada.edu.az  
+🏢 Office Hours: By appointment
+:::
+
+::: {.column width="50%"}
+**Next Class:**
+
+- Topic: Poisson Distribution
+- Reading: Chapter 3.6
+- Bring questions about binomial distribution
+
+**Reminders:**
+- Complete practice problems
+- Review MLE concept
+- Prepare for quiz next week
+:::
+:::
+
+## Questions? {.center}
+
+::: {.callout-note icon=false}
+## Open Discussion (5 minutes)
+
+Feel free to ask questions about:
+- Binomial distribution properties
+- Calculating probabilities
+- Mean and variance formulas
+- Maximum likelihood estimation
+- Applications to your field of interest
+:::
+
+```{r}
+#| echo: false
+countdown::countdown(
+  minutes = 5,
+  seconds = 0,
+  font_size = "2em",
+  color_running_background = "#31b09e",
+  color_finished_background = "#dc3545"
+)
+```

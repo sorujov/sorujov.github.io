@@ -784,11 +784,17 @@ location: "Baku, Azerbaijan"
 
     
     <div class="video-lecture-section">
-      <div class="video-placeholder">
-        <i>🎬</i>
-        <p><strong>Video Lecture Coming Soon</strong></p>
-        <p>Rare economic events and moment-generating function applications</p>
+      <h4>🎥 Poisson Distribution</h4>
+      <div class="youtube-container">
+        <iframe width="560" height="315" 
+                src="https://www.youtube.com/embed/DO2nlpj_Rgo" 
+                title="Poisson Distribution - Mathematical Statistics" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowfullscreen>
+        </iframe>
       </div>
+      <p><em>Rare economic events and moment-generating function applications with Poisson distribution.</em></p>
     </div>
   </div>
 
