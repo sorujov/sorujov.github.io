@@ -917,16 +917,16 @@ location: "Baku, Azerbaijan"
   </div>
 
   <div class="topic-item">
-    <h3 class="topic-title">Topic 13: Normal & Gamma Distributions</h3>
+    <h3 class="topic-title">Topic 13: Normal Probability Distribution</h3>
     <div class="topic-content">
-      <strong>Content:</strong> Normal Distribution, Gamma Distribution, financial modeling
+      <strong>Content:</strong> The Normal Distribution, Standard Normal Distribution, Z-scores, Empirical Rule (68-95-99.7), Applications to Financial Returns
     </div>
     <div class="topic-reading">
-      📖 <strong>Reading:</strong> Wackerly et al., Chapter 4: Sections 4.5-4.6
+      📖 <strong>Reading:</strong> Wackerly et al., Chapter 4: Section 4.5
     </div>
     
     <div class="lecture-buttons">
-      <a href="/lectures/math-stat-1/12-normal-gamma/index.html" class="btn btn--primary">
+      <a href="/lectures/math-stat-1/05-normal_distribution/normal.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
       <a href="/downloads/stat2311-homework-5.pdf" class="btn btn--primary">
@@ -940,25 +940,25 @@ location: "Baku, Azerbaijan"
       <div class="video-placeholder">
         <i>🎬</i>
         <p><strong>Video Lecture Coming Soon</strong></p>
-        <p>Stock price modeling and waiting time applications</p>
+        <p>Stock returns modeling and the bell-shaped curve in financial data analysis</p>
       </div>
     </div>
   </div>
 
   <div class="topic-item">
-    <h3 class="topic-title">Topic 14: Tchebysheff's Theorem (Continuous)</h3>
+    <h3 class="topic-title">Topic 14: Gamma Distribution</h3>
     <div class="topic-content">
-      <strong>Content:</strong> Tchebysheff's Theorem for Continuous Variables
+      <strong>Content:</strong> Gamma Distribution, Exponential Distribution as special case, waiting time applications, financial modeling
     </div>
     <div class="topic-reading">
-      📖 <strong>Reading:</strong> Wackerly et al., Chapter 4: Section 4.7
+      📖 <strong>Reading:</strong> Wackerly et al., Chapter 4: Section 4.6
     </div>
     
     <div class="lecture-buttons">
-      <a href="/lectures/math-stat-1/13-tchebysheff-continuous/index.html" class="btn btn--primary">
-        🚀 Interactive Lecture
+      <a href="/lectures/math-stat-1/06-gamma_distribution/gamma.html" class="btn btn--primary">
+        🚀 Interactive Lecture (Coming Soon)
       </a>
-      <a href="/downloads/stat2311-homework-5.pdf" class="btn btn--primary">
+      <a href="/downloads/stat2311-homework-6.pdf" class="btn btn--primary">
         📄 Homework PDF (Coming Soon)
       </a>
     </div>
@@ -969,7 +969,7 @@ location: "Baku, Azerbaijan"
       <div class="video-placeholder">
         <i>🎬</i>
         <p><strong>Video Lecture Coming Soon</strong></p>
-        <p>Continuous risk assessment and probability bounds</p>
+        <p>Waiting time modeling and insurance claim applications with Gamma distribution</p>
       </div>
     </div>
   </div>

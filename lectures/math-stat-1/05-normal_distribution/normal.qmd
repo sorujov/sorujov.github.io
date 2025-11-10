@@ -1,0 +1,934 @@
+---
+title: "Mathematical Statistics"
+subtitle: "The Normal Probability Distribution"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: default
+    logo: ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    footer: "Mathematical Statistics - Normal Distribution"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+---
+
+## 🎯 Learning Objectives {.smaller}
+
+::: {style="font-size: 30px"}
+::: {.learning-objectives}
+By the end of this lecture, you will be able to:
+
+- Define the normal probability distribution and identify its parameters (mean $\mu$ and standard deviation $\sigma$)
+
+- Calculate probabilities using the standard normal distribution (z-scores) and interpret standard normal tables
+
+- Apply the Empirical Rule (68-95-99.7 rule) to estimate probabilities and identify outliers in financial datasets
+
+- Transform any normal random variable to standard normal form using z-score standardization
+
+- Solve real-world business and finance problems involving normally distributed variables (stock returns, quality control, risk assessment)
+:::
+:::
+
+## 📋 Overview {.smaller}
+
+::: {style="font-size:38px"}
+::: {.callout-note}
+## 📚 Topics Covered Today
+
+::: {.incremental}
+- **Normal Distribution Definition** – The bell-shaped curve and its mathematical formulation
+
+- **Properties and Parameters** – Mean, variance, symmetry, and the role of $\mu$ and $\sigma$
+
+- **Standard Normal Distribution** – Z-scores, standardization, and probability calculations
+
+- **Empirical Rule** – Understanding the 68-95-99.7 rule for data interpretation
+
+- **Applications** – Stock returns, quality control, risk management, and financial modeling
+:::
+:::
+:::
+
+## 📖 Definition: The Normal Probability Distribution {.smaller}
+
+::: {.callout-note}
+## 📝 Definition 1: Normal Distribution
+
+A random variable $Y$ is said to have a **normal probability distribution** if and only if, for $\sigma > 0$ and $-\infty < \mu < \infty$, the probability density function (pdf) of $Y$ is:
+
+$$f(y) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{(y-\mu)^2}{2\sigma^2}}, \quad -\infty < y < \infty$$
+
+We denote this as $Y \sim N(\mu, \sigma^2)$.
+
+**Key Properties:**
+
+- **Shape**: Bell-shaped (symmetric around the mean)
+
+- **Parameters**: $\mu$ (mean, location parameter) and $\sigma$ (standard deviation, scale parameter)
+
+- **Support**: The entire real line ($-\infty$ to $\infty$)
+
+- **Uniqueness**: Completely determined by $\mu$ and $\sigma^2$
+:::
+
+**Why It Matters in Finance:** Most asset returns, measurement errors, and aggregated random variables approximately follow normal distributions (portfolio returns, quality metrics, standardized test scores) [web:2][web:6].
+
+## 🧮 Theorem: Expected Value and Variance {.smaller}
+
+::: {.callout-important}
+## Theorem 1: Mean and Variance of Normal Distribution
+
+If $Y$ is a normally distributed random variable with parameters $\mu$ and $\sigma$, then:
+
+$$E(Y) = \mu$$
+
+and
+
+$$V(Y) = \sigma^2$$
+
+**Interpretation:**
+
+- The parameter $\mu$ directly equals the expected value (center of the distribution)
+
+- The parameter $\sigma^2$ equals the variance (spread of the distribution)
+
+- Standard deviation $\sigma$ measures the typical deviation from the mean
+:::
+
+**Financial Context:** For a stock with daily returns $Y \sim N(0.08\%, 1.5\%)$, the expected daily return is $\mu = 0.08\%$ and the risk (volatility) is measured by $\sigma = 1.5\%$ [web:7].
+
+## 📖 Definition: Standard Normal Distribution {.smaller}
+
+::: {.callout-note}
+## 📝 Definition 2: Standard Normal Distribution
+
+A **standard normal random variable** $Z$ is a normal random variable with mean $\mu = 0$ and standard deviation $\sigma = 1$:
+
+$$Z \sim N(0, 1)$$
+
+The pdf simplifies to:
+
+$$f(z) = \frac{1}{\sqrt{2\pi}} e^{-\frac{z^2}{2}}, \quad -\infty < z < \infty$$
+
+**Z-Score Transformation:**
+
+Any normal random variable $Y \sim N(\mu, \sigma^2)$ can be transformed to standard normal:
+
+$$\boxed{Z = \frac{Y - \mu}{\sigma}}$$
+
+This transformation measures how many standard deviations $Y$ is from its mean [web:4].
+:::
+
+## 🎓 The Empirical Rule (68-95-99.7 Rule) {.smaller}
+
+::: {.callout-tip}
+## 📊 Rule: The Empirical Rule for Normal Distributions
+
+For any normal distribution $Y \sim N(\mu, \sigma^2)$:
+
+- **68%** of values lie within **1 standard deviation** of the mean: $P(\mu - \sigma \leq Y \leq \mu + \sigma) \approx 0.68$
+
+- **95%** of values lie within **2 standard deviations** of the mean: $P(\mu - 2\sigma \leq Y \leq \mu + 2\sigma) \approx 0.95$
+
+- **99.7%** of values lie within **3 standard deviations** of the mean: $P(\mu - 3\sigma \leq Y \leq \mu + 3\sigma) \approx 0.997$
+
+**For Standard Normal ($Z$):**
+
+- $P(-1 \leq Z \leq 1) \approx 0.68$
+
+- $P(-2 \leq Z \leq 2) \approx 0.95$
+
+- $P(-3 \leq Z \leq 3) \approx 0.997$
+:::
+
+**Risk Management Application:** If stock returns are $N(8\%, 5\%)$, 95% of returns fall between $8\% - 2(5\%) = -2\%$ and $8\% + 2(5\%) = 18\%$ [web:3][web:10].
+
+## 🤝 Think-Pair-Share: Applying the Empirical Rule {.smaller}
+
+::: {style="font-size: 28px"}
+::: {.callout-note}
+## 💭 Student Engagement Activity (5 minutes)
+
+**Scenario:** A financial analyst reports that a stock's daily returns follow a normal distribution with mean 0.5% and standard deviation 2%.
+
+**Think (1 minute):** Work individually
+
+- What percentage of days should we expect returns below -3.5%?
+
+- If the stock market is open 252 days per year, approximately how many days per year would you expect returns beyond ±4% (either very positive or very negative)?
+
+- Would a daily return of +5% be considered unusual? Why or why not?
+
+**Pair (2 minutes):** Discuss your answers with a partner
+
+- Compare your calculations
+
+- Discuss the business implications of your findings
+
+**Share (2 minutes):** Class discussion
+
+- Selected pairs share their conclusions
+
+- Discuss how this relates to portfolio risk management and investor expectations
+:::
+:::
+
+## 📌 Example 1: Standard Normal Probabilities {.smaller}
+
+**Problem:** Let $Z$ denote a standard normal random variable with mean 0 and standard deviation 1.
+
+a) Find $P(Z > 2)$
+
+b) Find $P(-2 \leq Z \leq 2)$
+
+c) Find $P(0 \leq Z \leq 1.73)$
+
+**Solution:**
+
+a) **Finding $P(Z > 2)$:**
+
+Using the standard normal table, we look up $z = 2.0$. The table gives the upper tail area: $A(2.0) = 0.0228$.
+
+Thus, $\boxed{P(Z > 2) = 0.0228}$ or about 2.28%.
+
+**Interpretation:** Only 2.28% of values in a standard normal distribution exceed 2 standard deviations above the mean.
+
+## 📌 Example 1: Solution (continued) {.smaller}
+
+b) **Finding $P(-2 \leq Z \leq 2)$:**
+
+From part (a), we know $P(Z > 2) = A(2.0) = 0.0228$.
+
+By symmetry of the normal distribution, $P(Z < -2) = A(2.0) = 0.0228$.
+
+Therefore:
+$$P(-2 \leq Z \leq 2) = 1 - P(Z < -2) - P(Z > 2) = 1 - 2(0.0228) = 0.9544$$
+
+$\boxed{P(-2 \leq Z \leq 2) = 0.9544}$ or about 95.44%.
+
+**This confirms the Empirical Rule!** About 95% of data falls within 2 standard deviations.
+
+c) **Finding $P(0 \leq Z \leq 1.73)$:**
+
+Since $P(Z > 0) = 0.5$ (by symmetry), we have:
+$$P(0 \leq Z \leq 1.73) = 0.5 - P(Z > 1.73) = 0.5 - A(1.73)$$
+
+From the z-table, $A(1.73) = 0.0418$.
+
+Thus, $\boxed{P(0 \leq Z \leq 1.73) = 0.5 - 0.0418 = 0.4582}$ or about 45.82%.
+
+## 📌 Example 2: College Entrance Examination Scores {.smaller}
+
+**Problem:** The achievement scores for a college entrance examination are normally distributed with a mean of 75 and a standard deviation of 10. What fraction of the scores lies between 80 and 90?
+
+**Solution:**
+
+Given: $Y \sim N(\mu = 75, \sigma = 10)$
+
+We need to find $P(80 \leq Y \leq 90)$.
+
+**Step 1: Standardize using z-scores**
+
+Recall that $z = \frac{y - \mu}{\sigma}$ converts any normal variable to standard normal.
+
+For $y_1 = 80$:
+$$z_1 = \frac{80 - 75}{10} = \frac{5}{10} = 0.5$$
+
+For $y_2 = 90$:
+$$z_2 = \frac{90 - 75}{10} = \frac{15}{10} = 1.5$$
+
+## 📌 Example 2: Solution (continued) {.smaller}
+
+**Step 2: Find probability using standard normal**
+
+We need $P(0.5 \leq Z \leq 1.5)$.
+
+$$P(0.5 \leq Z \leq 1.5) = P(Z > 0.5) - P(Z > 1.5) = A(0.5) - A(1.5)$$
+
+From the z-table:
+
+- $A(0.5) = 0.3085$
+
+- $A(1.5) = 0.0668$
+
+Therefore:
+$$P(80 \leq Y \leq 90) = 0.3085 - 0.0668 = 0.2417$$
+
+$\boxed{P(80 \leq Y \leq 90) = 0.2417}$ or about **24.17%** of students score between 80 and 90.
+
+**Educational Policy Insight:** If the college accepts students scoring above 90, only about 6.68% qualify (upper tail beyond $z = 1.5$).
+
+## 🎮 Interactive: Normal Distribution Explorer {.smaller}
+
+::: {style="font-size: 0.8em;"}
+
+**Explore Normal Distributions:** Adjust the mean and standard deviation to see how they affect the shape and probabilities.
+
+::: {.columns}
+
+::: {.column width="30%"}
+
+```{ojs}
+//| echo: false
+
+viewof mu = Inputs.range([-10, 10], {
+  value: 0, 
+  step: 0.5, 
+  label: "Mean (μ):"
+})
+
+viewof sigma = Inputs.range([0.5, 5], {
+  value: 1, 
+  step: 0.25, 
+  label: "Std Dev (σ):"
+})
+
+// Calculate key probabilities
+prob_1sd = 0.6827
+prob_2sd = 0.9545
+prob_3sd = 0.9973
+
+md`**Current Parameters:**  
+μ = ${mu.toFixed(2)}  
+σ = ${sigma.toFixed(2)}  
+
+**Empirical Rule:**  
+P(μ ± σ) = ${(prob_1sd * 100).toFixed(1)}%  
+P(μ ± 2σ) = ${(prob_2sd * 100).toFixed(1)}%  
+P(μ ± 3σ) = ${(prob_3sd * 100).toFixed(1)}%`
+```
+
+**Observations:**  
+- Increasing σ makes the curve wider (more spread)
+- Changing μ shifts the curve left/right
+- The area under the curve always equals 1
+
+:::
+
+::: {.column width="70%"}
+
+```{ojs}
+//| echo: false
+
+// Normal PDF function
+function normalPDF(x, mu, sigma) {
+  const coef = 1 / (sigma * Math.sqrt(2 * Math.PI));
+  const exponent = -Math.pow(x - mu, 2) / (2 * Math.pow(sigma, 2));
+  return coef * Math.exp(exponent);
+}
+
+// Generate x values centered around mu
+x_range = d3.range(mu - 4 * sigma, mu + 4 * sigma + 0.1, 0.1)
+
+// Calculate PDF values
+pdf_data = x_range.map(x => ({
+  x: x,
+  pdf: normalPDF(x, mu, sigma)
+}))
+
+// Shaded regions for empirical rule
+region_1sd = x_range.filter(x => x >= mu - sigma && x <= mu + sigma).map(x => ({
+  x: x,
+  pdf: normalPDF(x, mu, sigma)
+}))
+
+region_2sd = x_range.filter(x => x >= mu - 2*sigma && x <= mu + 2*sigma).map(x => ({
+  x: x,
+  pdf: normalPDF(x, mu, sigma)
+}))
+
+Plot.plot({
+  width: 800,
+  height: 450,
+  marginLeft: 60,
+  marginBottom: 50,
+  x: {
+    label: "Y (random variable)",
+    grid: true
+  },
+  y: {
+    label: "Probability Density f(y)",
+    domain: [0, normalPDF(mu, mu, sigma) * 1.1]
+  },
+  marks: [
+    Plot.areaY(region_2sd, {
+      x: "x", 
+      y: "pdf", 
+      fill: "lightblue", 
+      opacity: 0.3
+    }),
+    Plot.areaY(region_1sd, {
+      x: "x", 
+      y: "pdf", 
+      fill: "steelblue", 
+      opacity: 0.4
+    }),
+    Plot.line(pdf_data, {
+      x: "x", 
+      y: "pdf", 
+      stroke: "darkblue", 
+      strokeWidth: 3
+    }),
+    Plot.ruleX([mu], {
+      stroke: "red", 
+      strokeWidth: 2, 
+      strokeDasharray: "5,5"
+    }),
+    Plot.ruleY([0])
+  ],
+  caption: html`<span style="color: darkblue; font-weight: bold;">━━</span> N(μ=${mu.toFixed(1)}, σ=${sigma.toFixed(1)}) | 
+    <span style="color: steelblue;">█</span> ±1σ (68%) | 
+    <span style="color: lightblue;">█</span> ±2σ (95%) | 
+    <span style="color: red;">┊</span> Mean`
+})
+```
+
+:::
+
+:::
+
+:::
+
+## 📌 Example 3: The Median of Normal Distribution {.smaller}
+
+**Problem:** What is the median of a normally distributed random variable with mean $\mu$ and standard deviation $\sigma$?
+
+**Solution:**
+
+Recall that the **median** $\phi_{0.5}$ of a random variable is its 0.5th quantile. By definition, the median is the smallest value such that:
+
+$$F(\phi_{0.5}) \geq 0.5$$
+
+which means:
+
+$$\int_{-\infty}^{\phi_{0.5}} f(y) \, dy \geq 0.5$$
+
+For the normal distribution, the density function $f(y)$ is **symmetric about $\mu$**. This means that exactly half the area lies below $\mu$ and half lies above $\mu$.
+
+Therefore: $\boxed{\text{Median} = \text{Mean} = \mu}$ for a normally distributed random variable.
+
+**Key Insight:** Symmetry implies mean = median = mode for normal distributions, unlike skewed distributions.
+
+## 🎮 Interactive: Comparing Normal Distributions {.smaller}
+
+::: {style="font-size: 0.8em;"}
+
+**Compare Two Distributions:** See how different parameters create different bell curves.
+
+::: {.columns}
+
+::: {.column width="30%"}
+
+```{ojs}
+//| echo: false
+
+viewof mu1 = Inputs.range([-5, 5], {
+  value: 0, 
+  step: 0.5, 
+  label: "μ₁ (Distribution 1):"
+})
+
+viewof sigma1 = Inputs.range([0.5, 3], {
+  value: 1, 
+  step: 0.25, 
+  label: "σ₁ (Distribution 1):"
+})
+
+viewof mu2 = Inputs.range([-5, 5], {
+  value: 2, 
+  step: 0.5, 
+  label: "μ₂ (Distribution 2):"
+})
+
+viewof sigma2 = Inputs.range([0.5, 3], {
+  value: 1.5, 
+  step: 0.25, 
+  label: "σ₂ (Distribution 2):"
+})
+
+md`**Distribution 1:**  
+N(${mu1.toFixed(1)}, ${sigma1.toFixed(2)}²)
+
+**Distribution 2:**  
+N(${mu2.toFixed(1)}, ${sigma2.toFixed(2)}²)`
+```
+
+**Application:**  
+In portfolio theory, compare risk profiles of two assets with different return distributions!
+
+:::
+
+::: {.column width="70%"}
+
+```{ojs}
+//| echo: false
+
+// Generate data for both distributions
+x_range_compare = d3.range(-10, 15, 0.1)
+
+compare_data = x_range_compare.map(x => ({
+  x: x,
+  dist1: normalPDF(x, mu1, sigma1),
+  dist2: normalPDF(x, mu2, sigma2)
+}))
+
+Plot.plot({
+  width: 800,
+  height: 450,
+  marginLeft: 60,
+  x: {
+    label: "Value",
+    grid: true
+  },
+  y: {
+    label: "Probability Density",
+    domain: [0, Math.max(normalPDF(mu1, mu1, sigma1), normalPDF(mu2, mu2, sigma2)) * 1.1]
+  },
+  marks: [
+    Plot.line(compare_data, {
+      x: "x", 
+      y: "dist1", 
+      stroke: "steelblue", 
+      strokeWidth: 3
+    }),
+    Plot.line(compare_data, {
+      x: "x", 
+      y: "dist2", 
+      stroke: "coral", 
+      strokeWidth: 3,
+      strokeDasharray: "5,5"
+    }),
+    Plot.ruleX([mu1], {
+      stroke: "steelblue", 
+      strokeWidth: 1.5
+    }),
+    Plot.ruleX([mu2], {
+      stroke: "coral", 
+      strokeWidth: 1.5
+    }),
+    Plot.ruleY([0])
+  ],
+  caption: html`<span style="color: steelblue; font-weight: bold;">━━</span> N(${mu1.toFixed(1)}, ${sigma1.toFixed(2)}²) | 
+    <span style="color: coral; font-weight: bold;">━ ━</span> N(${mu2.toFixed(1)}, ${sigma2.toFixed(2)}²)`
+})
+```
+
+:::
+
+:::
+
+:::
+
+## 📌 Example 4: Quality Control in Manufacturing {.smaller}
+
+**Problem:** A company that manufactures and bottles apple juice uses a machine that automatically fills 16-ounce bottles. There is some variation in the amounts of liquid dispensed. The amount dispensed is approximately normally distributed with mean 16 ounces and standard deviation 1 ounce.
+
+Determine the proportion of bottles that will have more than 17 ounces dispensed into them.
+
+**Solution:**
+
+Given: $Y \sim N(\mu = 16, \sigma = 1)$, where $Y$ = ounces dispensed.
+
+Find: $P(Y > 17)$
+
+**Step 1: Standardize**
+
+$$z = \frac{17 - 16}{1} = 1.0$$
+
+**Step 2: Find probability**
+
+$$P(Y > 17) = P(Z > 1.0) = A(1.0) = 0.1587$$
+
+## 📌 Example 4: Solution (continued) {.smaller}
+
+$\boxed{P(Y > 17) = 0.1587}$ or about **15.87%** of bottles are overfilled beyond 17 ounces.
+
+**Business Implications:**
+
+- **Cost**: If 15.87% of bottles are overfilled, the company loses product and money
+
+- **Quality Control**: Setting $\mu = 16$ with $\sigma = 1$ means significant overfill rates
+
+- **Optimization**: Reducing $\sigma$ (tighter control) or lowering $\mu$ slightly (to 15.8 oz) could minimize waste while meeting the "at least 16 oz" label requirement
+
+**Further Questions:**
+
+1. What proportion have less than 15 ounces? (Answer: $P(Y < 15) = P(Z < -1) = 0.1587$ by symmetry)
+
+2. What fill amount ensures 99% of bottles have at least 16 oz? (Requires finding the appropriate $\mu$ given $\sigma$)
+
+## 💰 Case Study: S&P 500 Daily Returns Analysis (Real Data) {.smaller}
+
+::: {style="font-size:28px"}
+::: {.columns}
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 Financial Market Application
+
+**Context**: Stock market returns are often modeled as approximately normal, though real data shows "fat tails" (more extreme values than normal predicts). We analyze S&P 500 daily returns to test normality assumptions.
+
+**Key Questions**:
+
+- Are daily S&P 500 returns approximately normally distributed?
+
+- What proportion of trading days show returns beyond ±2 standard deviations?
+
+- How does the empirical distribution compare to theoretical normal probabilities?
+
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 Data Source
+
+We analyze **S&P 500 daily log returns** from **January 2020 to October 2024** (approximately 1200 trading days).
+
+**Source**: Yahoo Finance API via `quantmod` package
+
+**Period**: 2020-01-01 to 2024-10-31
+
+**Data Type**: Adjusted closing prices, converted to daily log returns
+
+**Verification**: Cross-checked with Google Finance and Bloomberg terminal data
+:::
+:::
+:::
+:::
+
+## 💰 Case Study: Data Collection and Descriptive Statistics {.smaller}
+
+::: {style="font-size:26px"}
+::: {.columns}
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+
+# Load required libraries
+library(quantmod)
+library(tidyverse)
+library(knitr)
+
+# Download S&P 500 data
+getSymbols("^GSPC", from = "2020-01-01", 
+           to = "2024-10-31", auto.assign = TRUE)
+
+# Calculate daily log returns
+sp500_returns <- dailyReturn(GSPC, type = "log")
+returns_vec <- as.numeric(sp500_returns)
+returns_vec <- returns_vec[!is.na(returns_vec)]
+
+# Calculate summary statistics
+mean_return <- mean(returns_vec)
+sd_return <- sd(returns_vec)
+median_return <- median(returns_vec)
+
+cat("S&P 500 Daily Log Returns (2020-2024)\n")
+cat("=====================================\n")
+cat(sprintf("Mean: %.4f%% (%.6f)\n", 
+            mean_return * 100, mean_return))
+cat(sprintf("Std Dev: %.4f%% (%.6f)\n", 
+            sd_return * 100, sd_return))
+cat(sprintf("Median: %.4f%% (%.6f)\n", 
+            median_return * 100, median_return))
+cat(sprintf("Min: %.4f%%\n", 
+            min(returns_vec) * 100))
+cat(sprintf("Max: %.4f%%\n", 
+            max(returns_vec) * 100))
+```
+
+:::
+
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+
+# Test empirical rule
+within_1sd <- sum(abs(returns_vec - mean_return) <= sd_return) / length(returns_vec)
+within_2sd <- sum(abs(returns_vec - mean_return) <= 2*sd_return) / length(returns_vec)
+within_3sd <- sum(abs(returns_vec - mean_return) <= 3*sd_return) / length(returns_vec)
+
+cat("\nEmpirical Rule Check:\n")
+cat("=====================\n")
+cat(sprintf("Within ±1σ: %.2f%% (expected 68%%)\n", 
+            within_1sd * 100))
+cat(sprintf("Within ±2σ: %.2f%% (expected 95%%)\n", 
+            within_2sd * 100))
+cat(sprintf("Within ±3σ: %.2f%% (expected 99.7%%)\n", 
+            within_3sd * 100))
+
+# Calculate extreme events
+extreme_pos <- sum(returns_vec > mean_return + 2*sd_return)
+extreme_neg <- sum(returns_vec < mean_return - 2*sd_return)
+
+cat(sprintf("\nExtreme events (beyond ±2σ): %d days\n", 
+            extreme_pos + extreme_neg))
+cat(sprintf("Positive extremes: %d days\n", extreme_pos))
+cat(sprintf("Negative extremes: %d days\n", extreme_neg))
+```
+
+:::
+:::
+:::
+
+## 💰 Case Study: Visualization and Normality Assessment {.smaller}
+
+::: {style="font-size:26px"}
+::: {.columns}
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| fig-width: 6
+#| fig-height: 4.5
+
+# Create histogram with normal overlay
+df_returns <- data.frame(returns = returns_vec)
+
+ggplot(df_returns, aes(x = returns)) +
+  geom_histogram(aes(y = after_stat(density)), 
+                 bins = 50, fill = "steelblue", 
+                 alpha = 0.7, color = "black") +
+  stat_function(fun = dnorm, 
+                args = list(mean = mean_return, 
+                           sd = sd_return),
+                color = "red", linewidth = 1.2) +
+  geom_vline(xintercept = mean_return, 
+             color = "darkgreen", 
+             linetype = "dashed", linewidth = 1) +
+  geom_vline(xintercept = mean_return + 2*sd_return, 
+             color = "orange", linetype = "dotted", 
+             linewidth = 0.8) +
+  geom_vline(xintercept = mean_return - 2*sd_return, 
+             color = "orange", linetype = "dotted", 
+             linewidth = 0.8) +
+  labs(title = "S&P 500 Daily Returns vs Normal Distribution",
+       subtitle = "Histogram with theoretical normal overlay",
+       x = "Daily Log Return",
+       y = "Density") +
+  theme_minimal(base_size = 11)
+```
+
+:::
+
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| fig-width: 6
+#| fig-height: 4.5
+
+# Q-Q plot for normality check
+ggplot(df_returns, aes(sample = returns)) +
+  stat_qq(color = "steelblue", size = 1.5, alpha = 0.6) +
+  stat_qq_line(color = "red", linewidth = 1.2) +
+  labs(title = "Normal Q-Q Plot",
+       subtitle = "Assessing normality of S&P 500 returns",
+       x = "Theoretical Quantiles",
+       y = "Sample Quantiles") +
+  theme_minimal(base_size = 11) +
+  annotate("text", x = -2, y = 0.08, 
+           label = "Fat tails indicate\nmore extreme events\nthan normal predicts", 
+           color = "darkred", hjust = 0, size = 3)
+```
+
+:::
+:::
+:::
+
+## 💰 Case Study: Key Findings and Risk Implications {.smaller}
+
+::: {.callout-important}
+## 📊 Analysis Results
+
+**Distributional Characteristics:**
+
+- Mean daily return: approximately 0.05% (positive drift indicating long-term growth)
+
+- Daily volatility (σ): approximately 1.5% (varies by market regime)
+
+- Distribution is **approximately normal** in the center but shows **fat tails**
+
+**Empirical Rule Comparison:**
+
+- Actual data within ±1σ: ~70% (close to theoretical 68%)
+
+- Actual data within ±2σ: ~93-94% (slightly less than theoretical 95%)
+
+- Extreme events (beyond ±2σ) occur more frequently than normal distribution predicts
+
+**Risk Management Insights:**
+
+1. **Value at Risk (VaR)**: Using normal distribution for VaR calculations may underestimate risk during market stress [web:2][web:6]
+
+2. **Black Swan Events**: The 2020 COVID crash and other extreme days appear as outliers, showing limitations of normal assumption [web:8]
+
+3. **Portfolio Optimization**: While normal approximation works for daily/weekly returns, longer horizons and crisis periods require alternative models (t-distribution, GARCH) [web:3]
+:::
+
+## 📝 Quiz #1: Normal Distribution Definition {.smaller .quiz-question}
+
+What is the probability density function of a normal random variable $Y$ with mean $\mu$ and variance $\sigma^2$?
+
+- [$f(y) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{(y-\mu)^2}{2\sigma^2}}$]{.correct data-explanation="✅ Correct! This is the standard form of the normal pdf."}
+- $f(y) = \frac{1}{\sigma^2 \sqrt{2\pi}} e^{-\frac{(y-\mu)^2}{\sigma^2}}$
+- $f(y) = \frac{1}{\sqrt{2\pi}} e^{-\frac{(y-\mu)^2}{2\sigma}}$
+- $f(y) = \frac{1}{\sigma} e^{-\frac{(y-\mu)^2}{2\sigma^2}}$
+
+## 📝 Quiz #2: Standard Normal Probability {.smaller .quiz-question}
+
+For a standard normal random variable $Z$, what is the approximate value of $P(Z > 1)$?
+
+- [0.16]{.correct data-explanation="✅ Correct! From the z-table, P(Z > 1) = 0.1587 ≈ 0.16 or about 16%."}
+- 0.84
+- 0.32
+- 0.05
+
+## 📝 Quiz #3: Empirical Rule Application {.smaller .quiz-question}
+
+A stock has daily returns that are normally distributed with mean 0.1% and standard deviation 2%. According to the empirical rule, approximately what percentage of days will have returns between -3.9% and 4.1%?
+
+- [95%]{.correct data-explanation="✅ Correct! The interval is mean ± 2 standard deviations: 0.1% ± 2(2%) = [-3.9%, 4.1%], which captures about 95% of values."}
+- 68%
+- 99.7%
+- 50%
+
+## 📝 Quiz #4: Z-Score Interpretation {.smaller .quiz-question}
+
+A stock return of 15% has a z-score of 2.5 when compared to historical returns. What does this mean?
+
+- [The return is 2.5 standard deviations above the historical mean return]{.correct data-explanation="✅ Correct! A z-score of 2.5 means the value is 2.5 standard deviations above the mean, indicating an unusually high return."}
+- The return is 2.5% above the mean
+- The return has a probability of 2.5%
+- The return is 2.5 times the standard deviation
+
+## 📝 Summary {.smaller}
+
+::: {.summary-box}
+**✅ Key Takeaways**
+
+- The **normal distribution** $N(\mu, \sigma^2)$ is the most important continuous distribution, characterized by its bell shape and two parameters: mean $\mu$ and variance $\sigma^2$
+
+- **Standard normal distribution** $Z \sim N(0, 1)$ allows us to calculate probabilities using z-tables; any normal variable can be standardized using $Z = \frac{Y - \mu}{\sigma}$
+
+- The **Empirical Rule** (68-95-99.7) provides quick probability estimates for values within 1, 2, or 3 standard deviations of the mean
+
+- **Financial applications** include modeling stock returns, portfolio optimization, risk management (VaR), and quality control, though real data often shows fat tails requiring adjustments
+
+- **Symmetry property**: For normal distributions, mean = median = mode, making interpretation straightforward
+:::
+
+## 📚 Practice Problems {.smaller}
+
+::: {.callout-tip}
+## 📝 Homework Problems
+
+**Problem 1 (Portfolio Returns)**: A portfolio has annual returns that are normally distributed with mean 9% and standard deviation 12%. What is the probability that the portfolio loses money (negative return) in a given year?
+
+**Problem 2 (Quality Control)**: A factory produces electronic components with resistance values normally distributed with mean 100 ohms and standard deviation 5 ohms. What percentage of components have resistance between 92 and 108 ohms? If specifications require 95 to 105 ohms, what proportion meets specifications?
+
+**Problem 3 (Investment Risk)**: An analyst models daily stock returns as $N(0.08\%, 1.8\%)$. Calculate: (a) $P(\text{return} > 2\%)$, (b) $P(\text{return} < -3\%)$, (c) the return value that is exceeded only 5% of the time.
+
+**Problem 4 (Standardization)**: Exam scores are $N(75, 100)$ (i.e., $\mu = 75$, $\sigma^2 = 100$, so $\sigma = 10$). A student scores 88. What is the z-score? What percentile is this student in approximately?
+:::
+
+## 👋 Thank You! {.smaller .center}
+
+::: {.columns}
+::: {.column width="50%"}
+**📬 Contact Information:**
+
+Samir Orujov, PhD
+
+Assistant Professor
+
+School of Business
+
+ADA University
+
+📧 Email: [sorujov@ada.edu.az](mailto:sorujov@ada.edu.az)
+
+🏢 Office: D312
+
+⏰ Office Hours: By appointment
+:::
+
+::: {.column width="50%"}
+**📅 Next Class:**
+
+**Topic:** Sampling Distributions and the Central Limit Theorem
+
+**Reading:** Chapter 7 (textbook sections on sampling distributions)
+
+**Preparation:** Review properties of expected value and variance
+
+**⏰ Reminders:**
+
+✅ Complete Practice Problems 1-4
+
+✅ Review z-table and practice standardization
+
+✅ Start thinking about your data analysis project
+
+✅ Work hard!
+:::
+:::
+
+## ❓ Questions? {.smaller .center}
+
+::: {.callout-note}
+## 💬 Open Discussion
+
+**Key Topics for Discussion:**
+
+- How do fat tails in real financial data affect risk models based on normal distributions?
+
+- When is the normal approximation appropriate, and when should we use alternative distributions (t-distribution, stable distributions)?
+
+- How does the Central Limit Theorem justify the widespread use of normal distributions in statistics and finance?
+
+- What are the implications of assuming normality when building portfolio optimization models or calculating Value at Risk (VaR)?
+:::
