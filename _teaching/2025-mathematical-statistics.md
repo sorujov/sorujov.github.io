@@ -808,6 +808,35 @@ location: "Baku, Azerbaijan"
       </div>
     </div>
   </div>
+
+  <div class="topic-item">
+    <h3 class="topic-title">Topic 10b: Moment Generating Functions</h3>
+    <div class="topic-content">
+      <strong>Content:</strong> Definition of MGF, Computing moments via derivatives, MGF uniqueness property, Applications to Poisson, Exponential, and Normal distributions
+    </div>
+    <div class="topic-reading">
+      📖 <strong>Reading:</strong> Wackerly et al., Chapter 3: Section 3.9
+    </div>
+    
+    <div class="lecture-buttons">
+      <a href="/lectures/math-stat-1/04-mgf/mgf.html" class="btn btn--primary">
+        🚀 Interactive Lecture
+      </a>
+      <a href="/downloads/stat2311-homework-4b.pdf" class="btn btn--primary">
+        📄 Homework PDF (Coming Soon)
+      </a>
+    </div>
+    
+
+    
+    <div class="video-lecture-section">
+      <div class="video-placeholder">
+        <i>🎬</i>
+        <p><strong>Video Lecture Coming Soon</strong></p>
+        <p>MGF theory and applications to portfolio risk management</p>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="unit-section">

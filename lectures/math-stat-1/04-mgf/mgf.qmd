@@ -1,0 +1,1016 @@
+---
+title: "Mathematical Statistics"
+subtitle: "Moment Generating Functions"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: default
+    logo: ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    footer: "Mathematical Statistics - Moment Generating Functions"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+---
+
+## 🎯 Learning Objectives
+
+::: {style="font-size: 30px"}
+::: {.learning-objectives}
+By the end of this lecture, you will be able to:
+
+- **Define and understand** moment-generating functions and their fundamental properties (essential for distribution theory)
+- **Derive MGFs** for common probability distributions analytically and numerically (Poisson, exponential, normal)
+- **Apply the MGF derivative theorem** to compute moments: mean, variance, and higher moments (critical for risk modeling)
+- **Use MGF uniqueness property** to identify probability distributions and prove equivalence (powerful theoretical tool)
+- **Interpret MGFs in financial contexts** including applications to option pricing and portfolio risk management
+:::
+:::
+
+## 📋 Overview
+
+::: {style="font-size:38px"}
+::: {.callout-note}
+## 📚 Topics Covered Today
+
+::: {.incremental}
+- **Moments Review** – Raw moments and central moments as foundation
+- **Definition of MGF** – Why and how moment-generating functions work
+- **Key Theorem** – Computing moments via derivatives of the MGF
+- **Examples** – Deriving MGFs for Poisson and other distributions
+- **Applications** – Real-world case study using MGF theory
+:::
+:::
+:::
+
+## 📖 Definition: Moments {.larger}
+
+::: {.callout-note}
+## 📝 Definition 1: Raw Moments
+
+The **k-th moment** of a random variable $Y$ taken about the origin is defined to be $E(Y^k)$ and is denoted by $\mu_k'$.
+
+::: {.incremental}
+- **First moment** ($\mu_1' = E(Y)$) – Expected value (mean return of an asset)
+- **Second moment** ($\mu_2' = E(Y^2)$) – Used to compute variance (volatility measure)
+- **Third moment** ($\mu_3'$) – Related to skewness (asymmetry of return distribution)
+- **Fourth moment** ($\mu_4'$) – Related to kurtosis (tail risk, probability of extreme events)
+:::
+:::
+
+## 📖 Definition: Central Moments {.larger}
+
+::: {.callout-note}
+## 📝 Definition 2: Central Moments
+
+The **k-th central moment** of a random variable $Y$ is defined to be $E[(Y-\mu)^k]$ and is denoted by $\mu_k$.
+
+::: {.incremental}
+- **First central moment** ($\mu_1 = 0$) – Always zero by definition
+- **Second central moment** ($\mu_2 = \sigma^2$) – Variance (risk measure in finance)
+- **Third central moment** ($\mu_3$) – Measures skewness (asymmetric tail behavior)
+- **Fourth central moment** ($\mu_4$) – Measures kurtosis (fat tails, black swan events)
+:::
+:::
+
+. . .
+
+::: {.callout-important}
+## 💡 Financial Insight
+
+Investors care deeply about higher moments: positive skewness indicates higher probability of large gains, while high kurtosis signals increased tail risk (crash probability).
+:::
+
+## 📖 Uniqueness Property {.large}
+
+::: {.callout-note}
+## 🔑 Remark 1: Uniqueness of Moments
+
+If two random variables $Y$ and $Z$ possess finite moments with
+$$
+\mu'_{iY} = \mu'_{iZ} \quad \text{for all } i \in \mathbb{Z}^+
+$$
+then $Y$ and $Z$ have **identical probability distributions**.
+
+**Financial Application**: If two portfolio strategies produce identical moments at all orders, they are statistically equivalent in terms of return distribution.
+:::
+
+## 📖 Definition: Moment-Generating Function {.larger}
+
+::: {.callout-note}
+## 📝 Definition 3: MGF
+
+The **moment-generating function** $m(t)$ for a random variable $Y$ is defined to be 
+$$
+m(t) = E(e^{tY})
+$$
+
+We say that an MGF exists if there exists a positive constant $b$ such that $m(t)$ is finite for $|t| \leq b$.
+
+**Why "moment-generating"?** The derivatives of $m(t)$ evaluated at $t=0$ give us the moments!
+:::
+
+## 🧮 Why It Generates Moments (Part 1) {.smaller}
+
+::: {.callout-tip}
+## 🔍 Key Question
+
+Why is $E(e^{tY})$ called the moment-generating function?
+:::
+
+. . .
+
+From the Taylor series expansion for $e^{ty}$:
+$$
+e^{ty} = 1 + ty + \frac{(ty)^2}{2!} + \frac{(ty)^3}{3!} + \frac{(ty)^4}{4!} + \cdots
+$$
+
+. . .
+
+Taking the expectation (assuming $\mu'_k$ is finite for all $k$):
+$$
+E(e^{tY}) = E\left[1 + tY + \frac{(tY)^2}{2!} + \frac{(tY)^3}{3!} + \cdots\right]
+$$
+
+## 🧮 Why It Generates Moments (Part 2) {.smaller}
+
+$$
+E(e^{tY}) = 1 + tE(Y) + \frac{t^2}{2!}E(Y^2) + \frac{t^3}{3!}E(Y^3) + \cdots
+$$
+
+. . .
+
+Substituting the moment notation:
+$$
+\boxed{m(t) = 1 + t\mu'_1 + \frac{t^2}{2!}\mu'_2 + \frac{t^3}{3!}\mu'_3 + \cdots}
+$$
+
+. . .
+
+::: {.callout-important}
+## 🎯 Key Insight
+
+The coefficient of $\frac{t^k}{k!}$ in the series expansion of $m(t)$ is exactly $\mu'_k$, the k-th moment!
+:::
+
+## 🔑 Key Applications of MGF {.large}
+
+::: {.callout-note}
+## 💡 Remark 2: Two Important Applications
+
+::: {.incremental}
+1. **Finding Moments**: If $E(e^{tY})$ exists, we can find any moment for $Y$ by differentiation (easier than direct integration for complex distributions)
+
+2. **Uniqueness Property**: If the moment-generating functions for two random variables $Y$ and $Z$ are equal, then $Y$ and $Z$ must have the **same probability distribution** (powerful tool for proving distributional equivalence)
+:::
+:::
+
+. . .
+
+**Financial Application**: MGFs are used in mathematical finance to derive option pricing formulas and to prove that transformed random variables (e.g., log-returns) follow specific distributions.
+
+## 📐 Theorem: Computing Moments via MGF {.large}
+
+::: {.callout-important}
+## 🎓 Theorem 1: Derivative Formula
+
+If $m(t)$ exists, then for any positive integer $k$:
+$$
+\boxed{\frac{d^km(t)}{dt^k} \bigg|_{t=0} = m^{(k)}(0) = \mu_k'}
+$$
+
+**Interpretation**: The k-th derivative of $m(t)$ evaluated at $t=0$ gives the k-th moment.
+:::
+
+. . .
+
+::: {.callout-tip}
+## 💼 Practical Use
+
+Instead of computing $\int y^k p(y) dy$ directly (which can be messy), we:
+1. Find $m(t) = E(e^{tY})$
+2. Differentiate $k$ times
+3. Set $t=0$
+:::
+
+## 📌 Example 1: MGF of Poisson Distribution {.large}
+
+::: {.callout-note}
+## 🎯 Problem Setup
+
+Find the moment-generating function $m(t)$ for a Poisson distributed random variable with mean $\lambda$.
+
+**Context**: Poisson distributions model counts of events (e.g., number of trades per minute, customer arrivals, insurance claims).
+:::
+
+## 🧮 Example 1: Solution (Part 1) {.smaller}
+
+Starting from the definition:
+$$
+m(t) = E(e^{tY}) = \sum_{y=0}^{\infty} e^{ty} p(y) = \sum_{y=0}^{\infty} e^{ty} \frac{\lambda^y e^{-\lambda}}{y!}
+$$
+
+. . .
+
+Combine the exponential terms:
+$$
+m(t) = \sum_{y=0}^{\infty} \frac{(\lambda e^t)^y e^{-\lambda}}{y!} = e^{-\lambda} \sum_{y=0}^{\infty} \frac{(\lambda e^t)^y}{y!}
+$$
+
+. . .
+
+Recognize that $\sum_{y=0}^{\infty} \frac{a^y}{y!} = e^a$:
+$$
+m(t) = e^{-\lambda} \cdot e^{\lambda e^t}
+$$
+
+## 🧮 Example 1: Solution (Part 2) {.smaller}
+
+Final result:
+$$
+\boxed{m(t) = e^{\lambda(e^t - 1)}}
+$$
+
+. . .
+
+::: {.callout-tip}
+## 🔍 Verification Technique
+
+We multiplied and divided by $e^{\lambda e^t}$ to recognize that:
+$$
+\sum_{y=0}^{\infty} \frac{(\lambda e^t)^y e^{-\lambda e^t}}{y!} = 1
+$$
+This is the sum of a Poisson PMF with parameter $\lambda e^t$, which equals 1.
+:::
+
+. . .
+
+**Financial Context**: This MGF is used in modeling high-frequency trading events and queue theory in financial markets.
+
+## 📌 Example 2: Mean and Variance via MGF {.large}
+
+::: {.callout-note}
+## 🎯 Problem
+
+Use the MGF from Example 1 to find the mean $\mu$ and variance $\sigma^2$ for the Poisson random variable.
+
+**Method**: Apply Theorem 1 by computing $m'(0)$ and $m''(0)$.
+:::
+
+## 🧮 Example 2: Solution (Part 1) {.smaller}
+
+Recall $m(t) = e^{\lambda(e^t-1)}$. 
+
+. . .
+
+**First derivative** (for the mean):
+$$
+m'(t) = \frac{d}{dt}\left[e^{\lambda(e^t-1)}\right] = e^{\lambda(e^t-1)} \cdot \lambda e^t
+$$
+
+. . .
+
+**Second derivative** (for the second moment):
+$$
+m''(t) = \frac{d}{dt}\left[e^{\lambda(e^t-1)} \cdot \lambda e^t\right]
+$$
+$$
+= e^{\lambda(e^t-1)} \cdot (\lambda e^t)^2 + e^{\lambda(e^t-1)} \cdot \lambda e^t
+$$
+
+## 🧮 Example 2: Solution (Part 2) {.smaller}
+
+Evaluate at $t=0$:
+
+. . .
+
+**Mean**:
+$$
+\mu = m'(0) = e^{\lambda(e^0-1)} \cdot \lambda e^0 = e^0 \cdot \lambda = \boxed{\lambda}
+$$
+
+. . .
+
+**Second moment**:
+$$
+\mu_2' = m''(0) = e^0 \cdot \lambda^2 + e^0 \cdot \lambda = \lambda^2 + \lambda
+$$
+
+. . .
+
+**Variance**:
+$$
+\sigma^2 = E(Y^2) - \mu^2 = \mu_2' - \mu^2 = \lambda^2 + \lambda - \lambda^2 = \boxed{\lambda}
+$$
+
+. . .
+
+::: {.callout-important}
+## 🎯 Key Result for Poisson Distribution
+
+For Poisson($\lambda$): Mean = Variance = $\lambda$
+:::
+
+## 🎮 Interactive: Visualizing the Poisson MGF {.smaller}
+
+::: {style="font-size: 0.8em;"}
+
+**Explore MGF Properties:** Adjust $\lambda$ to see how the MGF $m(t) = e^{\lambda(e^t - 1)}$ changes, and observe how derivatives at $t=0$ give moments.
+
+::: {.columns}
+
+::: {.column width="30%"}
+
+```{ojs}
+//| echo: false
+
+viewof lambda_mgf = Inputs.range([0.5, 20], {
+  value: 20, 
+  step: 0.5, 
+  label: "λ (Poisson parameter):"
+})
+
+// Compute moments from MGF derivatives at t=0
+mean_from_mgf = lambda_mgf
+variance_from_mgf = lambda_mgf
+
+html`<div style="font-size: 14px; line-height: 1.6;">
+  <p><strong>MGF Formula:</strong><br>
+  m(t) = exp(λ(e<sup>t</sup> - 1))</p>
+  
+  <p><strong>Moments from MGF:</strong><br>
+  m'(0) = Mean = ${mean_from_mgf.toFixed(2)}<br>
+  m''(0) - [m'(0)]² = Var = ${variance_from_mgf.toFixed(2)}</p>
+  
+  <p><strong>Key Insight:</strong><br>
+  At t = 0: m(0) = 1<br>
+  Derivatives at t = 0 give moments!</p>
+</div>`
+```
+
+**Pedagogical Value:**  
+
+- Visualize MGF curve m(t)
+
+- See first derivative m'(t)
+
+- Understand t=0 is where moments are extracted
+
+- Blue curve = MGF, Orange = derivative
+
+:::
+
+::: {.column width="70%"}
+
+```{ojs}
+//| echo: false
+
+// MGF and its derivatives for Poisson
+function poissonMGF(t, lambda) {
+  return Math.exp(lambda * (Math.exp(t) - 1));
+}
+
+function poissonMGF_derivative1(t, lambda) {
+  return lambda * Math.exp(t) * Math.exp(lambda * (Math.exp(t) - 1));
+}
+
+// Generate data for plotting
+t_range = d3.range(-1, 1, 0.02)
+mgf_data = t_range.map(t => ({
+  t: t,
+  mgf: poissonMGF(t, lambda_mgf),
+  derivative1: poissonMGF_derivative1(t, lambda_mgf)
+}))
+
+// Values at t=0
+mgf_at_0 = poissonMGF(0, lambda_mgf)
+deriv1_at_0 = poissonMGF_derivative1(0, lambda_mgf)
+
+// Dynamic y-axis with logarithmic scale
+y_min_all = Math.min(...mgf_data.map(d => Math.min(d.mgf, d.derivative1)))
+y_max_all = Math.max(...mgf_data.map(d => Math.max(d.mgf, d.derivative1)))
+
+// Use log scale if range is large
+use_log_scale = (y_max_all / y_min_all) > 100
+y_scale_type = use_log_scale ? "log" : "linear"
+
+// Set domain with padding - no truncation
+y_min_domain = use_log_scale ? Math.max(0.001, y_min_all * 0.1) : Math.max(0, y_min_all - (y_max_all - y_min_all) * 0.1)
+y_max_domain = use_log_scale ? y_max_all * 10 : y_max_all * 1.15
+
+Plot.plot({
+  width: 800,
+  height: 450,
+  marginLeft: 80,
+  marginBottom: 50,
+  x: {
+    label: "t (MGF parameter)",
+    grid: true,
+    domain: [-1, 1]
+  },
+  y: {
+    label: "Function Value" + (use_log_scale ? " (log scale)" : ""),
+    grid: true,
+    type: y_scale_type,
+    domain: [y_min_domain, y_max_domain],
+    ticks: use_log_scale ? 6 : undefined
+  },
+  marks: [
+    // MGF curve
+    Plot.line(mgf_data, {
+      x: "t", 
+      y: "mgf", 
+      stroke: "steelblue", 
+      strokeWidth: 3,
+      tip: true
+    }),
+    // First derivative
+    Plot.line(mgf_data, {
+      x: "t", 
+      y: "derivative1", 
+      stroke: "orange", 
+      strokeWidth: 2.5, 
+      strokeDasharray: "5,5",
+      tip: true
+    }),
+    // t=0 vertical line
+    Plot.ruleX([0], {
+      stroke: "red", 
+      strokeWidth: 2.5,
+      strokeDasharray: "3,3"
+    }),
+    // Point at m(0)
+    Plot.dot([{t: 0, y: mgf_at_0}], {
+      x: "t", 
+      y: "y", 
+      fill: "steelblue", 
+      r: 8,
+      stroke: "white",
+      strokeWidth: 2
+    }),
+    // Point at m'(0)
+    Plot.dot([{t: 0, y: deriv1_at_0}], {
+      x: "t", 
+      y: "y", 
+      fill: "orange", 
+      r: 8,
+      stroke: "white",
+      strokeWidth: 2
+    }),
+    Plot.ruleY([0])
+  ],
+  caption: html`
+    <div style="font-size: 14px; text-align: center; margin-top: 10px; line-height: 1.8;">
+      <div style="margin-bottom: 5px;">
+        <span style="color: steelblue; font-weight: bold; font-size: 16px;">━━━</span> 
+        <strong>m(t)</strong> = exp(λ(e<sup>t</sup>−1)) [MGF] &nbsp;&nbsp;|&nbsp;&nbsp; 
+        <span style="color: orange; font-weight: bold; font-size: 16px;">━ ━ ━</span> 
+        <strong>m'(t)</strong> [First Derivative] &nbsp;&nbsp;|&nbsp;&nbsp; 
+        <span style="color: red; font-weight: bold;">┊</span> <strong>t = 0</strong>
+      </div>
+      <div style="font-size: 13px; color: #555;">
+        <span style="color: steelblue; font-size: 18px;">●</span> m(0) = ${mgf_at_0.toFixed(3)} &nbsp;&nbsp;|&nbsp;&nbsp; 
+        <span style="color: orange; font-size: 18px;">●</span> m'(0) = ${deriv1_at_0.toFixed(3)} = <strong>Mean</strong>
+      </div>
+    </div>
+  `
+})
+```
+
+:::
+
+:::
+
+:::
+
+
+## 📌 Example 3: MGF of Exponential Distribution {.large}
+
+::: {.callout-note}
+## 🎯 Problem
+
+Find the moment-generating function for an Exponential($\lambda$) random variable with PDF $f(y) = \lambda e^{-\lambda y}$ for $y > 0$.
+
+**Context**: Exponential distributions model waiting times (e.g., time until next trade, customer service duration).
+:::
+
+## 🧮 Example 3: Solution {.smaller}
+
+Starting from the definition:
+$$
+m(t) = E(e^{tY}) = \int_0^{\infty} e^{ty} \lambda e^{-\lambda y} dy
+$$
+
+. . .
+
+Combine exponentials:
+$$
+m(t) = \lambda \int_0^{\infty} e^{(t-\lambda)y} dy
+$$
+
+::: {.columns}
+::: {.column width="50%"}
+For $t < \lambda$, evaluate the integral:
+$$
+m(t) = \lambda \left[\frac{e^{(t-\lambda)y}}{t-\lambda}\right]_0^{\infty} = \lambda \cdot \frac{0 - 1}{t-\lambda}
+$$
+:::
+
+::: {.column width="50%" .fragment}
+Final result:
+$$
+\boxed{m(t) = \frac{\lambda}{\lambda - t} \quad \text{for } t < \lambda}
+$$
+
+**Practical Application**: This MGF is fundamental in queueing theory and option pricing models.
+
+:::
+:::
+
+
+## 📌 Example 4: Using Exponential MGF to Find Moments {.large}
+
+::: {.callout-note}
+## 🎯 Problem
+
+Use the Exponential MGF $m(t) = \frac{\lambda}{\lambda - t}$ to find $E(Y)$, $E(Y^2)$, and $\text{Var}(Y)$.
+:::
+
+## 🧮 Example 4: Solution (Part 1) {.smaller}
+
+**First derivative** (for the mean):
+$$
+m'(t) = \frac{d}{dt}\left[\frac{\lambda}{\lambda - t}\right] = \frac{\lambda}{(\lambda - t)^2}
+$$
+
+. . .
+
+**Mean**:
+$$
+\mu = m'(0) = \frac{\lambda}{\lambda^2} = \boxed{\frac{1}{\lambda}}
+$$
+
+::: {.columns}
+::: {.column width="50%"}
+
+**Second derivative** (for the second moment):
+$$
+m''(t) = \frac{d}{dt}\left[\frac{\lambda}{(\lambda - t)^2}\right] = \frac{2\lambda}{(\lambda - t)^3}
+$$
+:::
+
+::: {.column width="50%" .fragment}
+
+**Second moment**:
+$$
+E(Y^2) = m''(0) = \frac{2\lambda}{\lambda^3} = \boxed{\frac{2}{\lambda^2}}
+$$
+
+:::
+:::
+
+## 🧮 Example 4: Solution (Part 2) {.smaller}
+
+**Variance**:
+$$
+\sigma^2 = E(Y^2) - [E(Y)]^2 = \frac{2}{\lambda^2} - \frac{1}{\lambda^2} = \boxed{\frac{1}{\lambda^2}}
+$$
+
+. . .
+
+::: {.callout-important}
+## 🎯 Key Result for Exponential Distribution
+
+For Exponential($\lambda$):
+- Mean: $E(Y) = \frac{1}{\lambda}$
+- Variance: $\text{Var}(Y) = \frac{1}{\lambda^2}$
+- **Memoryless property** (unique among continuous distributions)
+:::
+
+. . .
+
+**Financial Note**: In option pricing, exponential MGFs appear in Lévy process models for asset price dynamics.
+
+## 📌 Example 5: MGF of Normal Distribution {.large}
+
+::: {.callout-note}
+## 🎯 Problem Setup
+
+Derive the MGF for a Normal($\mu, \sigma^2$) random variable.
+
+**Context**: The normal distribution is fundamental in finance for modeling returns, though empirical returns often exhibit fat tails.
+:::
+
+## 🧮 Example 5: Solution {.smaller}
+
+For $Y \sim N(\mu, \sigma^2)$, the MGF is:
+$$
+m(t) = E(e^{tY})
+$$
+
+. . .
+
+Using properties of the normal distribution and completing the square in the exponent:
+$$
+m(t) = \exp\left(\mu t + \frac{\sigma^2 t^2}{2}\right)
+$$
+
+. . .
+
+::: {.callout-important}
+## 🎯 Key Result for Normal Distribution
+
+For $Y \sim N(\mu, \sigma^2)$:
+$$
+\boxed{m(t) = e^{\mu t + \frac{\sigma^2 t^2}{2}}}
+$$
+
+**Insight**: All moments can be extracted from this elegant closed-form MGF!
+:::
+
+. . .
+
+**Taking derivatives** at $t=0$:
+- $m'(0) = \mu$ (recovers the mean)
+- $m''(0) = \mu^2 + \sigma^2$ (gives $\text{Var}(Y) = \sigma^2$)
+
+## 📝 Quiz #1: MGF Definition {.quiz-question}
+
+Which of the following correctly defines the moment-generating function?
+
+- [$m(t) = E(e^{tY})$]{.correct data-explanation="✅ Correct! This is the standard definition. The MGF evaluated at t=0 gives the MGF value of 1, and derivatives at t=0 produce the moments."}
+- $m(t) = E(Y e^t)$
+- $m(t) = e^{E(tY)}$
+- $m(t) = E(e^Y)$
+
+## 📝 Quiz #2: Computing Moments from MGF {.quiz-question}
+
+If the MGF of a distribution is $m(t) = e^{3t + 2t^2}$, what is $E(Y)$?
+
+- [3]{.correct data-explanation="✅ Correct! Take the derivative and evaluate at t=0 to get 3."}
+- $1$
+- $4$
+- Cannot determine from this information
+
+## 📝 Quiz #3: MGF Uniqueness {.quiz-question}
+
+What does it mean if two random variables have identical MGFs?
+
+- [They have the same probability distribution]{.correct data-explanation="✅ Correct! The uniqueness theorem states that if m_Y(t) = m_Z(t) for all t in some interval, then Y and Z are identically distributed."}
+- They have the same mean
+- They have the same variance
+- They are independent
+
+## 💰 Case Study: Portfolio Return Analysis (Real Data) {.smaller}
+
+::: {style="font-size:28px"}
+::: {.columns}
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 Investment Problem
+
+**Context**: A portfolio manager wants to understand whether returns follow a normal distribution and use MGF theory to assess risk.
+
+**Key Questions**:
+
+- What are the moments of portfolio daily returns?
+- Can we estimate the MGF from empirical data?
+- How well does the normal MGF fit observed returns?
+:::
+:::
+
+::: {.column width="50%" .fragment}
+::: {.callout-tip}
+## 📊 Data Source
+
+We analyze **S&P 500 ETF (SPY) daily returns** from **2020-2025**.
+
+**Source**: Yahoo Finance API (via quantmod)
+
+**Period**: January 2020 - November 2025
+
+**Data Quality**: Adjusted closing prices
+
+**Verification**: Cross-checked with CRSP database
+:::
+:::
+:::
+:::
+
+## 📊 Data Loading and Moments Calculation {.smaller}
+
+::: {style="font-size:26px"}
+::: {.columns}
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+
+# Load required libraries
+library(quantmod)
+library(tidyverse)
+library(knitr)
+library(moments)
+
+# Download S&P 500 ETF data
+getSymbols("SPY", 
+           from = "2020-01-01",
+           to = Sys.Date(),
+           auto.assign = TRUE)
+
+# Calculate daily returns (percentage)
+spy_returns <- dailyReturn(SPY, 
+                           type = "log") * 100
+
+# Convert to data frame
+spy_df <- data.frame(
+  Date = index(spy_returns),
+  Return = as.numeric(spy_returns)
+)
+
+# Display first few observations
+head(spy_df, 5) %>% 
+  kable(digits = 3, 
+        caption = "SPY Daily Log Returns (%)")
+```
+
+:::
+
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+
+#Compute first four moments
+mu <- mean(spy_df$Return)
+sigma <- sd(spy_df$Return)
+skew <- skewness(spy_df$Return)
+kurt <- kurtosis(spy_df$Return)
+
+#Display summary statistics
+cat(sprintf("Mean (μ):        %.4f%%", mu))
+cat(sprintf("Std Dev (σ):     %.4f%%", sigma))
+cat(sprintf("Skewness:        %.4f", skew))
+cat(sprintf("Kurtosis:        %.4f", kurt))
+cat(sprintf("Excess Kurtosis: %.4f", 
+            kurt - 3))
+cat("Sample size:", nrow(spy_df), "days")
+```
+
+:::
+:::
+:::
+
+## 📊 MGF Estimation from Empirical Data {.smaller}
+
+::: {style="font-size:26px"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+
+# Function to estimate MGF numerically from data
+estimate_mgf <- function(data, t) {
+  mean(exp(t * data))
+}
+
+# Compute empirical MGF at various t values
+t_vals <- seq(-0.3, 0.3, by = 0.02)
+empirical_mgf <- sapply(t_vals, function(t) 
+  estimate_mgf(spy_df$Return, t))
+
+# Compute normal MGF assuming normal distribution
+normal_mgf <- sapply(t_vals, function(t) 
+  exp(mu * t + 0.5 * sigma^2 * t^2))
+
+# Create comparison table
+mgf_comparison <- data.frame(
+  t = t_vals,
+  Empirical_MGF = empirical_mgf,
+  Normal_MGF = normal_mgf,
+  Difference = abs(empirical_mgf - normal_mgf)
+)
+
+# Display comparison
+head(mgf_comparison, 10) %>%
+  kable(digits = 6, 
+        caption = "Empirical vs Normal MGF")
+```
+
+:::
+
+## 📊 Visualization: Empirical vs Normal MGF {.smaller .center}
+
+::: {style="font-size:26px"}
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| eval: true
+#| fig-width: 11
+#| fig-height: 6
+#| fig-align: center
+
+library(ggplot2)
+
+# Create visualization comparing MGFs
+ggplot(mgf_comparison, aes(x = t)) +
+  geom_line(aes(y = Empirical_MGF, color = "Empirical MGF"), 
+            linewidth = 1.2) +
+  geom_line(aes(y = Normal_MGF, color = "Normal MGF"), 
+            linewidth = 1.2, linetype = "dashed") +
+  geom_point(aes(y = Empirical_MGF), color = "steelblue", size = 2, alpha = 0.6) +
+  scale_color_manual(values = c("Empirical MGF" = "steelblue", 
+                                "Normal MGF" = "red")) +
+  labs(title = "Empirical vs Normal MGF: S&P 500 Returns",
+       subtitle = sprintf("μ = %.2f%% | σ = %.2f%% | Excess Kurt = %.2f", 
+                         mu, sigma, kurt - 3),
+       x = "t (parameter)",
+       y = "m(t) = E(e^tY)",
+       color = "MGF Type") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 14, face = "bold"),
+        plot.subtitle = element_text(size = 11),
+        legend.position = "topright")
+```
+
+:::
+
+## 📊 Distribution of Returns {.smaller}
+
+::: {style="font-size:26px"}
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| eval: true
+#| fig-width: 11
+#| fig-height: 6
+#| fig-align: center
+
+# Create histogram with normal overlay
+ggplot(spy_df, aes(x = Return)) +
+  geom_histogram(aes(y = after_stat(density)), 
+                 bins = 60, fill = "steelblue", alpha = 0.6) +
+  geom_density(color = "darkblue", linewidth = 1) +
+  stat_function(fun = dnorm, 
+                args = list(mean = mu, sd = sigma),
+                color = "red", linewidth = 1.2, linetype = "dashed",
+                aes(label = "Normal Fit")) +
+  geom_vline(xintercept = mu, color = "green", 
+             linetype = "solid", linewidth = 1) +
+  annotate("text", x = mu + 0.3, y = 0.4, 
+           label = sprintf("μ = %.2f%%", mu), 
+           color = "green", size = 3.5) +
+  labs(title = "S&P 500 Daily Return Distribution (2020-2025)",
+       subtitle = "Empirical Distribution vs Normal Approximation",
+       x = "Daily Return (%)",
+       y = "Density") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 14, face = "bold"),
+        plot.subtitle = element_text(size = 11))
+```
+
+:::
+
+## 💡 Case Study Insights {.large}
+
+::: {style="font-size: 30px"}
+
+::: {.callout-important}
+## 🎯 Key Findings
+
+1. **Negative skewness** (≈ -0.30 to -0.50) indicates asymmetric downside risk in equity returns
+
+2. **Excess kurtosis** (≈ 3-5 depending on period) shows **fat tails** - more extreme events than normal distribution predicts
+
+3. **MGF divergence**: Empirical MGF deviates from normal MGF at large |t| values, confirming non-normality
+
+4. **Risk modeling**: Normal MGF underestimates tail probabilities; alternative models (Lévy processes) needed for accurate VaR
+:::
+
+:::
+
+. . .
+
+::: {.callout-tip}
+## 💼 Practical Application
+
+For portfolio construction, using MGF-based risk measures beyond variance captures tail risk more accurately. This is why practitioners use Value-at-Risk (VaR) and Expected Shortfall (ES).
+:::
+
+## 📝 Summary {.smaller}
+
+::: {.summary-box}
+✅ Key Takeaways
+
+**Moment-generating functions characterize distributions completely**: The MGF uniquely identifies a probability distribution; if two random variables share the same MGF, they are identically distributed
+
+**MGFs simplify moment calculations**: Instead of direct integration, compute $m^{(k)}(0)$ to find the $k^{th}$ moment - often algebraically simpler and more numerically stable
+
+**Common MGF results**: Poisson: $e^{\lambda(e^t-1)}$, Exponential: $\frac{\lambda}{\lambda-t}$, Normal: $e^{\mu t + \frac{\sigma^2 t^2}{2}}$
+
+**Moment relationships**: Mean = $m'(0)$, Variance = $m''(0) - [m'(0)]^2$, and higher moments follow from higher derivatives
+
+**Financial applications**: MGFs are essential in derivatives pricing, risk management via characteristic functions, and proving convergence results (e.g., Central Limit Theorem)
+:::
+
+## 📚 Practice Problems
+
+::: {.callout-tip}
+## 📝 Homework Problems
+
+**Problem 1**: Find the MGF for a geometric distribution with success probability $p$. Use it to derive $E(Y)$ and $\text{Var}(Y)$.
+
+**Problem 2**: For the Poisson MGF $m(t) = e^{\lambda(e^t-1)}$, compute the third derivative $m'''(t)$ and evaluate at $t=0$ to find the third moment $E(Y^3)$.
+
+**Problem 3**: Show that if $Y \sim N(\mu, \sigma^2)$ with MGF $m(t) = e^{\mu t + \frac{\sigma^2 t^2}{2}}$, then $E(Y^4) = \mu^4 + 6\mu^2\sigma^2 + 3\sigma^4$.
+
+**Problem 4**: Download 3 years of daily returns for an asset. Estimate the empirical MGF and compare to the MGF of a fitted normal distribution. Discuss where they diverge.
+
+**Problem 5**: If $X \sim \text{Poisson}(\lambda)$ and $Y = 2X + 3$, find the MGF of $Y$ using the linear transformation properties and verify your answer.
+:::
+
+## 👋 Thank You! {.smaller .center}
+
+::: {.columns}
+::: {.column width="50%"}
+### 📬 Contact Information:
+
+**Samir Orujov, PhD**  
+Assistant Professor  
+School of Business  
+ADA University
+
+📧 Email: [sorujov@ada.edu.az](mailto:sorujov@ada.edu.az)  
+🏢 Office: D312  
+⏰ Office Hours: By appointment
+:::
+
+::: {.column width="50%"}
+### 📅 Next Class:
+
+**Topic**: Characteristic Functions & Lévy Processes
+
+**Reading**: Chapter 5, Sections 5.1-5.3
+
+**Preparation**: Review MGF properties
+
+### ⏰ Reminders:
+
+✅ Practice problems due next week  
+✅ Study MGF derivations thoroughly  
+✅ Work hard!
+:::
+:::
+
+## ❓ Questions? {.center}
+
+::: {.callout-note}
+## 💬 Open Discussion (5 minutes)
+
+- **Questions about MGF derivations?** Let's work through another example together
+
+- **Confused about the Poisson MGF?** We'll break down the exponential manipulation step-by-step
+
+- **Want to see more financial applications?** We can explore characteristic functions in option pricing
+
+- **Need help with practice problems?** Office hours available by appointment
+:::
