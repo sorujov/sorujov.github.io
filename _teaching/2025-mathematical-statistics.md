@@ -849,11 +849,16 @@ location: "Baku, Azerbaijan"
 
     
     <div class="video-lecture-section">
-      <div class="video-placeholder">
-        <i>🎬</i>
-        <p><strong>Video Lecture Coming Soon</strong></p>
-        <p>MGF theory and applications to portfolio risk management</p>
+      <h4>📹 Video Lecture</h4>
+      <div class="video-container">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/380XmHDHC2A" 
+                title="MGF - Moment Generating Functions" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+        </iframe>
       </div>
+      <p><em>MGF theory and applications to portfolio risk management</em></p>
     </div>
   </div>
 </div>
@@ -882,11 +887,17 @@ location: "Baku, Azerbaijan"
 
     
     <div class="video-lecture-section">
-      <div class="video-placeholder">
-        <i>🎬</i>
-        <p><strong>Video Lecture Coming Soon</strong></p>
-        <p>Continuous economic variables and probability density applications</p>
+      <h4>🎥 Continuous Random Variables</h4>
+      <div class="youtube-container">
+        <iframe width="560" height="315" 
+                src="https://www.youtube.com/embed/_NU4Tw4h9_o" 
+                title="Continuous Random Variables - Mathematical Statistics" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowfullscreen>
+        </iframe>
       </div>
+      <p><em>Continuous economic variables and probability density applications</em></p>
     </div>
   </div>
 
@@ -900,7 +911,7 @@ location: "Baku, Azerbaijan"
     </div>
     
     <div class="lecture-buttons">
-      <a href="/lectures/math-stat-1/05_expected_value_continuous/expected_value.html" class="btn btn--primary">
+      <a href="/lectures/math-stat-1/05-expected_value_continuous/expected_value.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
       <a href="/downloads/stat2311-homework-5.pdf" class="btn btn--primary">
