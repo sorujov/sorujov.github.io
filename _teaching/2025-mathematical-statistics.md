@@ -109,8 +109,11 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/01-combinatorics/index.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <a href="/downloads/stat2311-homework-1.pdf" class="btn btn--primary">
-        📄 Homework PDF (Coming Soon)
+      <a href="/lectures/math-stat-1/01-combinatorics/Orujov-2025-Fall-Math-Stats-1.sorujov.Counting_Principles.pdf" class="btn btn--primary">
+        📄 Homework 1: Counting Principles
+      </a>
+      <a href="/lectures/math-stat-1/01-combinatorics/Orujov-2025-Fall-Math-Stats-1.sorujov.Combinatorial_Analysis.pdf" class="btn btn--primary">
+        📄 Homework 2: Combinatorial Analysis
       </a>
     </div>
   
@@ -147,8 +150,8 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/03-sample_spaces/improved_merged_probability_lecture.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <a href="/downloads/stat2311-homework-2.pdf" class="btn btn--primary">
-        📄 Homework PDF (Coming Soon)
+      <a href="/lectures/math-stat-1/02-axioms_of_probability/Orujov-2025-Fall-Math-Stats-1.sorujov.Probability.pdf" class="btn btn--primary">
+        📄 Homework PDF
       </a>
     </div>
 
@@ -180,8 +183,8 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/03-01-equally_likely_outcome/sample_spaces_equally_likely_outcomes.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <a href="/downloads/stat2311-homework-2.pdf" class="btn btn--primary">
-        📄 Homework PDF (Coming Soon)
+      <a href="/lectures/math-stat-1/03-01-equally_likely_outcome/Orujov-2025-Fall-Math-Stats-1.sorujov.Sample_Space_And_Events.pdf" class="btn btn--primary">
+        📄 Homework PDF
       </a>
     </div>
 
@@ -217,8 +220,8 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/03-conditional_probability/conditional_probability_slides_fixed.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <a href="/downloads/stat2311-homework-3.pdf" class="btn btn--primary">
-        📄 Homework PDF (Coming Soon)
+      <a href="/lectures/math-stat-1/03-conditional_probability/Orujov-2025-Fall-Math-Stats-1.sorujov.Conditional_Probability.pdf" class="btn btn--primary">
+        📄 Homework PDF
       </a>
     </div>
 
@@ -249,8 +252,8 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/03-independent_events/independent_events.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <a href="/downloads/stat2311-homework-3.pdf" class="btn btn--primary">
-        📄 Homework PDF (Coming Soon)
+      <a href="/lectures/math-stat-1/03-Bayes_Formula/Orujov-2025-Fall-Math-Stats-1.sorujov.Bayes_Theorem_And_Independence.pdf" class="btn btn--primary">
+        📄 Homework PDF
       </a>
     </div>
         
@@ -282,8 +285,8 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/03-Bayes_Formula/bayes_formula.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <a href="/downloads/stat2311-homework-3.pdf" class="btn btn--primary">
-        📄 Homework PDF (Coming Soon)
+      <a href="/lectures/math-stat-1/03-Bayes_Formula/Orujov-2025-Fall-Math-Stats-1.sorujov.Bayes_Theorem_And_Independence.pdf" class="btn btn--primary">
+        📄 Homework PDF
       </a>
     </div>
     
@@ -321,8 +324,8 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/04-discrete-random-variables/discrete_random_variables.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <a href="/downloads/stat2311-homework-4.pdf" class="btn btn--primary">
-        📄 Homework PDF (Coming Soon)
+      <a href="/lectures/math-stat-1/04-discrete-random-variables/Orujov-2025-Fall-Math-Stats-1.sorujov.Random_Variables.pdf" class="btn btn--primary">
+        📄 Homework PDF
       </a>
     </div>
     
@@ -734,8 +737,8 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/04-Binomial-Distribution/binomial.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <a href="/downloads/stat2311-homework-4.pdf" class="btn btn--primary">
-        📄 Homework PDF (Coming Soon)
+      <a href="/lectures/math-stat-1/04-Binomial-Distribution/Orujov-2025-Fall-Math-Stats-1.sorujov.Binomial.pdf" class="btn btn--primary">
+        📄 Homework PDF
       </a>
     </div> 
 
@@ -768,8 +771,8 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/04-poisson/poisson.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <a href="/downloads/stat2311-homework-4.pdf" class="btn btn--primary">
-        📄 Homework PDF (Coming Soon)
+      <a href="/lectures/math-stat-1/04-poisson/Orujov-2025-Fall-Math-Stats-1.sorujov.Poisson.pdf" class="btn btn--primary">
+        📄 Homework PDF
       </a>
     </div>
     
@@ -871,8 +874,8 @@ location: "Baku, Azerbaijan"
       <a href="/lectures/math-stat-1/05-continuous/continuous.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
-      <a href="/downloads/stat2311-homework-5.pdf" class="btn btn--primary">
-        📄 Homework PDF (Coming Soon)
+      <a href="/lectures/math-stat-1/05-continuous/Orujov-2025-Fall-Math-Stats-1.sorujov.Continuous.pdf" class="btn btn--primary">
+        📄 Homework PDF
       </a>
     </div>
     
