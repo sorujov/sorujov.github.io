@@ -900,7 +900,7 @@ location: "Baku, Azerbaijan"
     </div>
     
     <div class="lecture-buttons">
-      <a href="/lectures/math-stat-1/11-uniform-expected/index.html" class="btn btn--primary">
+      <a href="/lectures/math-stat-1/05_expected_value_continous/expected_value.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
       <a href="/downloads/stat2311-homework-5.pdf" class="btn btn--primary">
@@ -958,8 +958,8 @@ location: "Baku, Azerbaijan"
     </div>
     
     <div class="lecture-buttons">
-      <a href="/lectures/math-stat-1/06-gamma_distribution/gamma.html" class="btn btn--primary">
-        🚀 Interactive Lecture (Coming Soon)
+      <a href="/lectures/math-stat-1/05-gamma/gamma.html" class="btn btn--primary">
+        🚀 Interactive Lecture
       </a>
       <a href="/downloads/stat2311-homework-6.pdf" class="btn btn--primary">
         📄 Homework PDF (Coming Soon)
@@ -991,7 +991,7 @@ location: "Baku, Azerbaijan"
     </div>
     
     <div class="lecture-buttons">
-      <a href="/lectures/math-stat-1/14-multivariate/index.html" class="btn btn--primary">
+      <a href="/lectures/math-stat-1/06-multivariate/multi.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
       <a href="/downloads/stat2311-homework-5.pdf" class="btn btn--primary">
@@ -1020,7 +1020,7 @@ location: "Baku, Azerbaijan"
     </div>
     
     <div class="lecture-buttons">
-      <a href="/lectures/math-stat-1/15-independence-covariance/index.html" class="btn btn--primary">
+      <a href="/lectures/math-stat-1/06-independence_correlation/06-multivariate/independence_correlation.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
       <a href="/downloads/stat2311-homework-5.pdf" class="btn btn--primary">
