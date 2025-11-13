@@ -900,7 +900,7 @@ location: "Baku, Azerbaijan"
     </div>
     
     <div class="lecture-buttons">
-      <a href="/lectures/math-stat-1/05_expected_value_continous/expected_value.html" class="btn btn--primary">
+      <a href="/lectures/math-stat-1/05_expected_value_continuous/expected_value.html" class="btn btn--primary">
         🚀 Interactive Lecture
       </a>
       <a href="/downloads/stat2311-homework-5.pdf" class="btn btn--primary">
