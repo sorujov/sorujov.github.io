@@ -849,12 +849,13 @@ location: "Baku, Azerbaijan"
 
     
     <div class="video-lecture-section">
-      <h4>📹 Video Lecture</h4>
-      <div class="video-container">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/380XmHDHC2A" 
+      <h4>🎥 Moment Generating Functions</h4>
+      <div class="youtube-container">
+        <iframe width="560" height="315" 
+                src="https://www.youtube.com/embed/380XmHDHC2A" 
                 title="MGF - Moment Generating Functions" 
                 frameborder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                 allowfullscreen>
         </iframe>
       </div>
