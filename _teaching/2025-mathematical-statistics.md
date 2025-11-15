@@ -1067,11 +1067,17 @@ location: "Baku, Azerbaijan"
 
     
     <div class="video-lecture-section">
-      <div class="video-placeholder">
-        <i>🎬</i>
-        <p><strong>Video Lecture Coming Soon</strong></p>
-        <p>Portfolio correlation and risk diversification modeling</p>
+      <h4>🎥 Independence & Covariance</h4>
+      <div class="youtube-container">
+        <iframe width="560" height="315" 
+                src="https://www.youtube.com/embed/cgHn8fqCzm0" 
+                title="Independence & Covariance" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowfullscreen>
+        </iframe>
       </div>
+      <p><em>Portfolio correlation and risk diversification modeling</em></p>
     </div>
   </div>
 </div>
