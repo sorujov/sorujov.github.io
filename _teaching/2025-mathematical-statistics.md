@@ -958,11 +958,17 @@ location: "Baku, Azerbaijan"
 
     
     <div class="video-lecture-section">
-      <div class="video-placeholder">
-        <i>🎬</i>
-        <p><strong>Video Lecture Coming Soon</strong></p>
-        <p>Stock returns modeling and the bell-shaped curve in financial data analysis</p>
+      <h4>🎥 Normal Probability Distribution</h4>
+      <div class="youtube-container">
+        <iframe width="560" height="315" 
+                src="https://www.youtube.com/embed/ic7aCDc2Wdw" 
+                title="Normal Probability Distribution" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowfullscreen>
+        </iframe>
       </div>
+      <p><em>Stock returns modeling and the bell-shaped curve in financial data analysis</em></p>
     </div>
   </div>
 
@@ -987,11 +993,17 @@ location: "Baku, Azerbaijan"
 
     
     <div class="video-lecture-section">
-      <div class="video-placeholder">
-        <i>🎬</i>
-        <p><strong>Video Lecture Coming Soon</strong></p>
-        <p>Waiting time modeling and insurance claim applications with Gamma distribution</p>
+      <h4>🎥 Gamma Distribution</h4>
+      <div class="youtube-container">
+        <iframe width="560" height="315" 
+                src="https://www.youtube.com/embed/kHGYimjXD3k" 
+                title="Gamma Distribution" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowfullscreen>
+        </iframe>
       </div>
+      <p><em>Waiting time modeling and insurance claim applications with Gamma distribution</em></p>
     </div>
   </div>
 </div>
@@ -1020,11 +1032,17 @@ location: "Baku, Azerbaijan"
 
     
     <div class="video-lecture-section">
-      <div class="video-placeholder">
-        <i>🎬</i>
-        <p><strong>Video Lecture Coming Soon</strong></p>
-        <p>Joint probability models for economic variables</p>
+      <h4>🎥 Multivariate & Bivariate Distributions</h4>
+      <div class="youtube-container">
+        <iframe width="560" height="315" 
+                src="https://www.youtube.com/embed/9nBP6EAeQ9A" 
+                title="Multivariate & Bivariate Distributions" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowfullscreen>
+        </iframe>
       </div>
+      <p><em>Joint probability models for economic variables</em></p>
     </div>
   </div>
 
