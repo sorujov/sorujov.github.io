@@ -5,6 +5,8 @@ permalink: /attendance/math-stat-1/
 classes: wide
 ---
 
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
 <div style="text-align: center; padding: 2rem;">
   <h2>📊 Mathematical Statistics I - Attendance</h2>
   <p>Class Session QR Code</p>
@@ -33,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var CLASS_ID = 'STAT2311-F25';
   var qrContainer = document.getElementById('qr-container');
   var statusEl = document.getElementById('qr-status');
+  var currentQR = null;
   
   if (!qrContainer || !statusEl) {
     console.error('Required elements not found');
@@ -43,15 +46,15 @@ document.addEventListener('DOMContentLoaded', function() {
     var attempts = 0;
     function check() {
       attempts++;
-      console.log('Checking for QRious library, attempt', attempts, '- type:', typeof QRious);
+      console.log('Checking for QRCode library, attempt', attempts, '- type:', typeof QRCode);
       
-      if (typeof QRious !== 'undefined') {
-        console.log('✅ QRious found!', QRious);
+      if (typeof QRCode !== 'undefined') {
+        console.log('✅ QRCode found!', QRCode);
         callback();
-      } else if (attempts < 50) { // Wait up to 5 seconds
+      } else if (attempts < 50) {
         setTimeout(check, 100);
       } else {
-        console.error('❌ QRious library failed to load after 5 seconds');
+        console.error('❌ QRCode library failed to load after 5 seconds');
         statusEl.textContent = '❌ Library failed to load';
         statusEl.style.color = '#dc3545';
       }
@@ -61,23 +64,22 @@ document.addEventListener('DOMContentLoaded', function() {
   
   function drawQR(text) {
     try {
-      console.log('Creating QR with QRious for:', text);
+      console.log('Creating QR for:', text);
       
-      // Create canvas element
-      var canvas = document.createElement('canvas');
+      // Clear previous QR
+      qrContainer.innerHTML = '';
       
-      // Create QR Code using QRious library
-      var qr = new QRious({
-        element: canvas,
-        value: text,
-        size: 256,
-        level: 'H'
+      // Create new QR Code
+      currentQR = new QRCode(qrContainer, {
+        text: text,
+        width: 256,
+        height: 256,
+        colorDark: '#000000',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.H
       });
       
       console.log('✅ QR created successfully');
-      
-      qrContainer.innerHTML = '';
-      qrContainer.appendChild(canvas);
       return true;
       
     } catch (e) {
@@ -110,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Wait for library, then start
   waitForLib(function() {
-    console.log('✅ Nayuki QR library loaded successfully');
+    console.log('✅ QRCode library loaded successfully');
     statusEl.textContent = 'Generating first QR...';
     statusEl.style.color = '#667eea';
     
