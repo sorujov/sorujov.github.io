@@ -13,7 +13,65 @@ location: "Baku, Azerbaijan"
   <p>Rigorous mathematical treatment of statistical theory tailored for Economics and Finance students, covering probability foundations, random variables, and distribution theory with applications to economic and financial data analysis.</p>
 </div>
 
-<div class="course-info">
+<div class="table-of-contents">
+  <h2>📑 Quick Navigation</h2>
+  
+  <div class="toc-section-links">
+    <a href="#course-info" class="toc-main-link">📋 Course Information</a>
+    <a href="#learning-objectives" class="toc-main-link">🎯 Learning Objectives</a>
+    <a href="#assessment" class="toc-main-link">📊 Assessment</a>
+    <a href="#literature" class="toc-main-link">📚 Literature</a>
+    <a href="#technical-notes" class="toc-main-link">⚙️ Technical Notes</a>
+  </div>
+
+  <h3 class="toc-lectures-header">📚 Course Topics</h3>
+  <div class="toc-grid">
+    <div class="toc-unit">
+      <h3>Unit 1: Combinatorial Foundations</h3>
+      <ul>
+        <li><a href="#topic-1">Topic 1: Basic Counting Principles</a></li>
+      </ul>
+    </div>
+    <div class="toc-unit">
+      <h3>Unit 2: Probability Theory</h3>
+      <ul>
+        <li><a href="#topic-2">Topic 2: Introduction to Probability</a></li>
+        <li><a href="#topic-3">Topic 3: Sample Spaces with Equally Likely Outcomes</a></li>
+        <li><a href="#topic-4">Topic 4: Conditional Probability</a></li>
+        <li><a href="#topic-5">Topic 5: Independence of Events</a></li>
+        <li><a href="#topic-6">Topic 6: Bayes Theorem</a></li>
+      </ul>
+    </div>
+    <div class="toc-unit">
+      <h3>Unit 3: Discrete Random Variables</h3>
+      <ul>
+        <li><a href="#topic-7">Topic 7: Discrete Probability Distributions</a></li>
+        <li><a href="#topic-8">Topic 8: Binomial Distribution</a></li>
+        <li><a href="#topic-9">Topic 9: Poisson Distribution</a></li>
+        <li><a href="#topic-10">Topic 10: Tchebysheff's Theorem</a></li>
+        <li><a href="#topic-10b">Topic 10b: Moment Generating Functions</a></li>
+      </ul>
+    </div>
+    <div class="toc-unit">
+      <h3>Unit 4: Continuous Random Variables</h3>
+      <ul>
+        <li><a href="#topic-11">Topic 11: Continuous Probability Distributions</a></li>
+        <li><a href="#topic-12">Topic 12: Expected Values & Uniform</a></li>
+        <li><a href="#topic-13">Topic 13: Normal Distribution</a></li>
+        <li><a href="#topic-14">Topic 14: Gamma Distribution</a></li>
+      </ul>
+    </div>
+    <div class="toc-unit">
+      <h3>Unit 5: Multivariate Distributions</h3>
+      <ul>
+        <li><a href="#topic-15">Topic 15: Multivariate Probability Theory</a></li>
+        <li><a href="#topic-16">Topic 16: Independence & Covariance</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="course-info" id="course-info">
   <h2>📋 Course Information</h2>
   <div class="assessment-grid">
     <div class="assessment-item">
@@ -61,7 +119,8 @@ location: "Baku, Azerbaijan"
 
 ---
 
-# 🎯 Learning Objectives & Program Alignment
+<div id="learning-objectives">
+<h1>🎯 Learning Objectives & Program Alignment</h1>
 
 <div class="objectives-grid">
   <div class="objective-card">
@@ -88,6 +147,7 @@ location: "Baku, Azerbaijan"
     <small><em>Contributes to PLO 6: Develop innovative solutions to economic problems through in-depth analysis</em></small>
   </div>
 </div>
+</div>
 
 ---
 
@@ -96,7 +156,7 @@ location: "Baku, Azerbaijan"
 <div class="unit-section">
   <h2 class="unit-header">Unit 1: Combinatorial Foundations</h2>
   
-  <div class="topic-item">
+  <div class="topic-item" id="topic-1">
     <h3 class="topic-title">Topic 1: Basic Counting Principles</h3>
     <div class="topic-content">
       <strong>Content:</strong> The Basic Principle of Counting, Permutations, Combinations, Multinomial Coefficients
@@ -137,7 +197,7 @@ location: "Baku, Azerbaijan"
 <div class="unit-section">
   <h2 class="unit-header">Unit 2: Axioms of Probability</h2>
   
-  <div class="topic-item">
+  <div class="topic-item" id="topic-2">
     <h3 class="topic-title">Topic 2: Introduction To Probability. Sample Spaces and Events</h3>
     <div class="topic-content">
       <strong>Content:</strong> Sample Space and Events, Event Operations, Equally Likely Outcomes
@@ -170,7 +230,7 @@ location: "Baku, Azerbaijan"
     </div>
   </div>
 
-  <div class="topic-item">
+  <div class="topic-item" id="topic-3">
     <h3 class="topic-title">Topic 3: Sample Spaces with Equally Likely Outcomes</h3>
     <div class="topic-content">
       <strong>Content:</strong> Sample spaces with equally likely outcomes, Axioms of Probability, Simple Propositions
@@ -207,7 +267,7 @@ location: "Baku, Azerbaijan"
 <div class="unit-section">
   <h2 class="unit-header">Unit 3: Conditional Probability & Independence</h2>
   
-  <div class="topic-item">
+  <div class="topic-item" id="topic-4">
     <h3 class="topic-title">Topic 4: Conditional Probability</h3>
     <div class="topic-content">
       <strong>Content:</strong> Conditional Probabilities
@@ -239,7 +299,7 @@ location: "Baku, Azerbaijan"
     </div>
   </div>
 
-  <div class="topic-item">
+  <div class="topic-item" id="topic-5">
     <h3 class="topic-title">Topic 5: Independence of Events</h3>
     <div class="topic-content">
       <strong>Content:</strong> Independent Events, Properties of Independence
@@ -272,7 +332,7 @@ location: "Baku, Azerbaijan"
     </div>
   </div>
 
-  <div class="topic-item">
+  <div class="topic-item" id="topic-6">
     <h3 class="topic-title">Topic 6: Bayes Theorem & Economic Applications</h3>
     <div class="topic-content">
       <strong>Content:</strong> Bayes' Theorem, Economic Applications of Conditional Probability and Independence
@@ -311,7 +371,7 @@ location: "Baku, Azerbaijan"
 <div class="unit-section">
   <h2 class="unit-header">Unit 4: Discrete Random Variables</h2>
   
-  <div class="topic-item">
+  <div class="topic-item" id="topic-7">
     <h3 class="topic-title">Topic 7: Discrete Probability Distributions</h3>
     <div class="topic-content">
       <strong>Content:</strong> Probability Distribution for Discrete Random Variables, Expected Value
@@ -347,6 +407,10 @@ location: "Baku, Azerbaijan"
 
 <style>
 /* Course Page Styling */
+html {
+  scroll-behavior: smooth;
+}
+
 .course-header {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
@@ -363,6 +427,157 @@ location: "Baku, Azerbaijan"
   border-radius: 10px;
   border-left: 5px solid #007bff;
   margin: 1rem 0;
+}
+
+.table-of-contents {
+  position: fixed;
+  right: 20px;
+  top: 100px;
+  width: 480px;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 1.5rem;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  z-index: 1000;
+}
+
+.table-of-contents h2 {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.toc-section-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid rgba(255,255,255,0.3);
+}
+
+.toc-main-link {
+  background: white;
+  color: #2c3e50;
+  text-decoration: none;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.toc-main-link:hover {
+  background: #667eea;
+  color: white;
+  transform: translateX(-3px);
+  text-decoration: none;
+}
+
+.toc-lectures-header {
+  color: #2c3e50;
+  font-size: 1rem;
+  margin: 1rem 0 0.75rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid rgba(255,255,255,0.3);
+  text-align: center;
+}
+
+.toc-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.toc-unit {
+  background: white;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.toc-unit h3 {
+  color: #667eea;
+  font-size: 0.85rem;
+  margin-bottom: 0.3rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 2px solid #667eea;
+}
+
+.toc-unit ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.toc-unit li {
+  margin: 0.1rem 0;
+}
+
+.toc-unit a {
+  color: #495057;
+  text-decoration: none;
+  display: block;
+  padding: 0.2rem 0.4rem;
+  border-radius: 5px;
+  transition: all 0.2s ease;
+  font-size: 0.8rem;
+  line-height: 1.15;
+}
+
+.toc-unit a:hover {
+  background: #f8f9ff;
+  color: #667eea;
+  padding-left: 1rem;
+  text-decoration: none;
+}
+
+.toc-unit a:before {
+  content: "→ ";
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.toc-unit a:hover:before {
+  opacity: 1;
+}
+
+/* Hide TOC on smaller screens */
+@media (max-width: 1400px) {
+  .table-of-contents {
+    position: relative;
+    right: auto;
+    top: auto;
+    width: 100%;
+    max-height: none;
+    margin: 2rem 0;
+  }
+  
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .table-of-contents h2 {
+    font-size: 1.8rem;
+  }
+  
+  .toc-unit {
+    padding: 1.5rem;
+  }
+  
+  .toc-unit h3 {
+    font-size: 1.1rem;
+  }
+  
+  .toc-unit a {
+    font-size: 0.95rem;
+  }
 }
 
 .unit-section {
@@ -724,7 +939,7 @@ location: "Baku, Azerbaijan"
 
 
 
-  <div class="topic-item">
+  <div class="topic-item" id="topic-8">
     <h3 class="topic-title">Topic 8: Binomial Distribution</h3>
     <div class="topic-content">
       <strong>Content:</strong> The Binomial Probability Distribution, financial success modeling
@@ -758,7 +973,7 @@ location: "Baku, Azerbaijan"
     </div>
   </div>
 
-  <div class="topic-item">
+  <div class="topic-item" id="topic-9">
     <h3 class="topic-title">Topic 9: Poisson Distribution & Moments</h3>
     <div class="topic-content">
       <strong>Content:</strong> Poisson Distribution, Moments and Moment-Generating Functions
@@ -793,7 +1008,7 @@ location: "Baku, Azerbaijan"
     </div>
   </div>
 
-  <div class="topic-item">
+  <div class="topic-item" id="topic-10">
     <h3 class="topic-title">Topic 10: Tchebysheff's Theorem (Discrete)</h3>
     <div class="topic-content">
       <strong>Content:</strong> Tchebysheff's Theorem for discrete variables, risk assessment
@@ -828,7 +1043,7 @@ location: "Baku, Azerbaijan"
     </div>
   </div>
 
-  <div class="topic-item">
+  <div class="topic-item" id="topic-10b">
     <h3 class="topic-title">Topic 10b: Moment Generating Functions</h3>
     <div class="topic-content">
       <strong>Content:</strong> Definition of MGF, Computing moments via derivatives, MGF uniqueness property, Applications to Poisson, Exponential, and Normal distributions
@@ -867,7 +1082,7 @@ location: "Baku, Azerbaijan"
 <div class="unit-section">
   <h2 class="unit-header">Unit 5: Continuous Random Variables</h2>
   
-  <div class="topic-item">
+  <div class="topic-item" id="topic-11">
     <h3 class="topic-title">Topic 11: Continuous Probability Distributions</h3>
     <div class="topic-content">
       <strong>Content:</strong> Probability Distribution for Continuous Random Variables, density functions
@@ -902,7 +1117,7 @@ location: "Baku, Azerbaijan"
     </div>
   </div>
 
-  <div class="topic-item">
+  <div class="topic-item" id="topic-12">
     <h3 class="topic-title">Topic 12: Expected Values & Uniform Distribution</h3>
     <div class="topic-content">
       <strong>Content:</strong> Expected Values, Uniform Probability Distribution
@@ -937,7 +1152,7 @@ location: "Baku, Azerbaijan"
     </div>
   </div>
 
-  <div class="topic-item">
+  <div class="topic-item" id="topic-13">
     <h3 class="topic-title">Topic 13: Normal Probability Distribution</h3>
     <div class="topic-content">
       <strong>Content:</strong> The Normal Distribution, Standard Normal Distribution, Z-scores, Empirical Rule (68-95-99.7), Applications to Financial Returns
@@ -972,7 +1187,7 @@ location: "Baku, Azerbaijan"
     </div>
   </div>
 
-  <div class="topic-item">
+  <div class="topic-item" id="topic-14">
     <h3 class="topic-title">Topic 14: Gamma Distribution</h3>
     <div class="topic-content">
       <strong>Content:</strong> Gamma Distribution, Exponential Distribution as special case, waiting time applications, financial modeling
@@ -1011,7 +1226,7 @@ location: "Baku, Azerbaijan"
 <div class="unit-section">
   <h2 class="unit-header">Unit 6: Multivariate Distributions</h2>
   
-  <div class="topic-item">
+  <div class="topic-item" id="topic-15">
     <h3 class="topic-title">Topic 15: Multivariate Probability Theory</h3>
     <div class="topic-content">
       <strong>Content:</strong> Bivariate and Multivariate Distributions, Marginal and Conditional Distributions
@@ -1046,7 +1261,7 @@ location: "Baku, Azerbaijan"
     </div>
   </div>
 
-  <div class="topic-item">
+  <div class="topic-item" id="topic-16">
     <h3 class="topic-title">Topic 16: Independence & Covariance</h3>
     <div class="topic-content">
       <strong>Content:</strong> Independence, Expected Values, Special Theorems, Covariance
@@ -1084,7 +1299,7 @@ location: "Baku, Azerbaijan"
 
 ---
 
-<div class="assessment-section">
+<div class="assessment-section" id="assessment">
   <h2 class="section-header">📊 Assessment Strategy & Academic Standards</h2>
   
   <div class="platform-highlight">
@@ -1154,7 +1369,7 @@ location: "Baku, Azerbaijan"
   </div>
 </div>
 
-<div class="literature-section">
+<div class="literature-section" id="literature">
   <h2 class="section-header">📚 Course Literature</h2>
   
   <div class="books-grid">
@@ -1178,7 +1393,7 @@ location: "Baku, Azerbaijan"
   </div>
 </div>
 
-<div class="technical-section">
+<div class="technical-section" id="technical-notes">
   <h2 class="section-header">⚙️ Technical Notes for Interactive Lectures</h2>
   
   <div class="tech-grid">
