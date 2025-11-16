@@ -102,8 +102,8 @@ document.addEventListener('DOMContentLoaded', function() {
       });
       var sessionInfo = dateStr + ' ' + timeStr;
       
-      // Google Form URL with timestamp
-      var formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLScCWzzIGI1AFbSLlahBNl18_eWGPChIXNyGkx2ej7joGwnfEQ/viewform?usp=pp_url&entry.1234567890=' + encodeURIComponent(sessionInfo);
+      // Google Form URL with timestamp (entry.303810813 is Session Date/Time field)
+      var formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLScCWzzIGI1AFbSLlahBNl18_eWGPChIXNyGkx2ej7joGwnfEQ/viewform?usp=pp_url&entry.303810813=' + encodeURIComponent(sessionInfo);
       
       if (drawQR(formUrl)) {
         statusEl.textContent = '✓ QR Updated - ' + timeStr;
