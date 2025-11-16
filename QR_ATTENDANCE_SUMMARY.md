@@ -26,10 +26,18 @@ Create a dynamic QR code attendance system for Mathematical Statistics I course 
 - **Result**: ❌ Failed
 - **Issue**: CSP blocks eval in JavaScript (error: "Content Security Policy blocks eval")
 
-### Attempt 4: QR Server API (Current)
+### Attempt 4: QR Server API
 - **Approach**: Using api.qrserver.com for server-side QR generation
-- **Result**: ⏳ Testing in progress
-- **Issue**: May still face CSP restrictions
+- **Result**: ❌ Failed
+- **Issue**: Still blocked by GitHub Pages CSP
+
+### Attempt 5: Self-Hosted QRCode.js (SOLUTION ✅)
+- **Approach**: Downloaded qrcode.min.js and hosted locally in `/assets/js/`
+- **Result**: ✅ SUCCESS - Works on GitHub Pages!
+- **Why It Works**: 
+  - GitHub Pages CSP allows scripts from 'self' origin
+  - QRCode.js uses Canvas/DOM manipulation (no eval)
+  - Library is CSP-compliant and has no dependencies
 
 ---
 
@@ -103,6 +111,8 @@ Professor can compare:
 1. `c4b5f17` - Updated attendance QR with correct Google Form entry ID
 2. `6609a7b` - Fixed QR using Google Chart API
 3. `b36a415` - Switched to QR Server API to avoid CSP issues
+4. `44545f2` - Added CSP meta tag (didn't work - GitHub overrides)
+5. **Final Solution** - Self-hosted QRCode.js library locally
 
 ---
 
@@ -140,10 +150,22 @@ meta:
 ---
 
 ## Files Modified
-- `_pages/attendance-qr.md` - Main attendance QR page
-- Created: `QR_ATTENDANCE_SUMMARY.md` - This documentation
+- `_pages/attendance-qr.md` - Main attendance QR page (updated to use local library)
+- `assets/js/qrcode.min.js` - Self-hosted QRCode.js library (19KB)
+- `_includes/head.html` - Added CSP meta tag (ineffective due to GitHub server-level CSP)
+- `QR_ATTENDANCE_SUMMARY.md` - This documentation
 
 ---
 
-## Recommendation
-**Try Option 1 (unsafe-eval)** since you don't care about the security implications. If that doesn't work, **Option 2 (self-hosted library)** is the next best bet.
+## Final Solution ✅
+
+**Self-hosted QRCode.js library** successfully resolves all CSP issues:
+
+1. ✅ QR codes generate dynamically every 30 seconds
+2. ✅ Works on GitHub Pages (CSP allows 'self' origin)
+3. ✅ No external dependencies or API calls
+4. ✅ Pre-fills Google Form with session date/time
+5. ✅ Students only enter First Name and Last Name
+6. ✅ Google automatically collects email and submission timestamp
+
+**Live URL**: https://sorujov.github.io/attendance/math-stat-1/
