@@ -5,13 +5,13 @@ permalink: /attendance/math-stat-1/
 classes: wide
 ---
 
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-
 <div style="text-align: center; padding: 2rem;">
   <h2>📊 Mathematical Statistics I - Attendance</h2>
   <p>Class Session QR Code</p>
 
-  <div id="qr-container" style="margin: 20px auto; padding: 10px; border: 3px solid #667eea; border-radius: 10px; display: inline-block; background: white;"></div>
+  <div id="qr-container" style="margin: 20px auto; padding: 10px; border: 3px solid #667eea; border-radius: 10px; display: inline-block; background: white;">
+    <img id="qr-image" src="" alt="QR Code" style="display: block;">
+  </div>
   <p id="qr-status" style="color: #667eea; font-weight: bold; margin-top: 15px;">Loading...</p>
 
   <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; max-width: 400px; margin-left: auto; margin-right: auto;">
@@ -29,63 +29,22 @@ classes: wide
 document.addEventListener('DOMContentLoaded', function() {
   'use strict';
   
-  console.log('DOM ready, starting QR system...');
-  
   var QR_REFRESH_MS = 30000;
-  var CLASS_ID = 'STAT2311-F25';
-  var qrContainer = document.getElementById('qr-container');
+  var qrImage = document.getElementById('qr-image');
   var statusEl = document.getElementById('qr-status');
-  var currentQR = null;
   
-  if (!qrContainer || !statusEl) {
+  if (!qrImage || !statusEl) {
     console.error('Required elements not found');
     return;
   }
   
-  function waitForLib(callback) {
-    var attempts = 0;
-    function check() {
-      attempts++;
-      console.log('Checking for QRCode library, attempt', attempts, '- type:', typeof QRCode);
-      
-      if (typeof QRCode !== 'undefined') {
-        console.log('✅ QRCode found!', QRCode);
-        callback();
-      } else if (attempts < 50) {
-        setTimeout(check, 100);
-      } else {
-        console.error('❌ QRCode library failed to load after 5 seconds');
-        statusEl.textContent = '❌ Library failed to load';
-        statusEl.style.color = '#dc3545';
-      }
-    }
-    check();
-  }
-  
-  function drawQR(text) {
-    try {
-      console.log('Creating QR for:', text);
-      
-      // Clear previous QR
-      qrContainer.innerHTML = '';
-      
-      // Create new QR Code
-      currentQR = new QRCode(qrContainer, {
-        text: text,
-        width: 256,
-        height: 256,
-        colorDark: '#000000',
-        colorLight: '#ffffff',
-        correctLevel: QRCode.CorrectLevel.H
-      });
-      
-      console.log('✅ QR created successfully');
-      return true;
-      
-    } catch (e) {
-      console.error('QR generation error:', e);
-      return false;
-    }
+  function generateQR(url) {
+    // Use Google Chart API to generate QR code
+    var encodedUrl = encodeURIComponent(url);
+    var qrUrl = 'https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=' + encodedUrl + '&choe=UTF-8';
+    qrImage.src = qrUrl;
+    qrImage.style.width = '300px';
+    qrImage.style.height = '300px';
   }
   
   function refreshQR() {
@@ -105,14 +64,9 @@ document.addEventListener('DOMContentLoaded', function() {
       // Google Form URL with timestamp (entry.303810813 is Session Date/Time field)
       var formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLScCWzzIGI1AFbSLlahBNl18_eWGPChIXNyGkx2ej7joGwnfEQ/viewform?usp=pp_url&entry.303810813=' + encodeURIComponent(sessionInfo);
       
-      if (drawQR(formUrl)) {
-        statusEl.textContent = '✓ QR Updated - ' + timeStr;
-        statusEl.style.color = '#28a745';
-        console.log('✅ QR refreshed successfully for session:', sessionInfo);
-      } else {
-        statusEl.textContent = '⚠ Generation failed';
-        statusEl.style.color = '#dc3545';
-      }
+      generateQR(formUrl);
+      statusEl.textContent = '✓ QR Updated - ' + timeStr;
+      statusEl.style.color = '#28a745';
       
     } catch (e) {
       statusEl.textContent = '⚠ Error: ' + e.message;
@@ -121,18 +75,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   
-  // Wait for library, then start
-  waitForLib(function() {
-    console.log('✅ QRCode library loaded successfully');
-    statusEl.textContent = 'Generating first QR...';
-    statusEl.style.color = '#667eea';
-    
-    // Generate first QR
-    setTimeout(function() {
-      refreshQR();
-      // Set up interval for refreshing
-      setInterval(refreshQR, QR_REFRESH_MS);
-    }, 100);
-  });
+  // Generate first QR immediately
+  statusEl.textContent = 'Generating QR...';
+  refreshQR();
+  
+  // Set up interval for refreshing every 30 seconds
+  setInterval(refreshQR, QR_REFRESH_MS);
 });
 </script>
