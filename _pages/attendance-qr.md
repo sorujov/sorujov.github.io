@@ -90,14 +90,25 @@ document.addEventListener('DOMContentLoaded', function() {
   
   function refreshQR() {
     try {
-      var timestamp = Date.now();
-      var token = btoa(timestamp + '-' + CLASS_ID);
-      var url = location.origin + '/attend/math-stat-1/?tok=' + encodeURIComponent(token);
+      var now = new Date();
+      var dateStr = now.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric' 
+      });
+      var timeStr = now.toLocaleTimeString('en-US', { 
+        hour: '2-digit', 
+        minute: '2-digit' 
+      });
+      var sessionInfo = dateStr + ' ' + timeStr;
       
-      if (drawQR(url)) {
-        statusEl.textContent = '✓ QR Updated - ' + new Date().toLocaleTimeString();
+      // Google Form URL with timestamp
+      var formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLScCWzzIGI1AFbSLlahBNl18_eWGPChIXNyGkx2ej7joGwnfEQ/viewform?usp=pp_url&entry.1234567890=' + encodeURIComponent(sessionInfo);
+      
+      if (drawQR(formUrl)) {
+        statusEl.textContent = '✓ QR Updated - ' + timeStr;
         statusEl.style.color = '#28a745';
-        console.log('✅ QR refreshed successfully');
+        console.log('✅ QR refreshed successfully for session:', sessionInfo);
       } else {
         statusEl.textContent = '⚠ Generation failed';
         statusEl.style.color = '#dc3545';
