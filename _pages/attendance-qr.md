@@ -39,9 +39,9 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   
   function generateQR(url) {
-    // Use Google Chart API to generate QR code
+    // Use QR Server API (more reliable for GitHub Pages)
     var encodedUrl = encodeURIComponent(url);
-    var qrUrl = 'https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=' + encodedUrl + '&choe=UTF-8';
+    var qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' + encodedUrl;
     qrImage.src = qrUrl;
     qrImage.style.width = '300px';
     qrImage.style.height = '300px';
