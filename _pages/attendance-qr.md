@@ -5,21 +5,13 @@ permalink: /attendance/math-stat-1/
 ---
 
 <div id="qrcode-container">
+    <button id="fullscreen-btn" title="Toggle Fullscreen (F11)">⛶</button>
     <h2>📊 Scan for Attendance</h2>
     <div id="qrcode"></div>
     <div id="timer">Next refresh in: <span id="countdown">30</span>s</div>
     <p class="session-info">
         Session: <span id="session-time"></span>
     </p>
-    <div class="instructions">
-        <strong>Instructions:</strong>
-        <ul>
-            <li>Display this page in fullscreen (F11)</li>
-            <li>Students scan the QR code with phone</li>
-            <li>QR auto-refreshes every 30 seconds</li>
-            <li>Form opens with session time pre-filled</li>
-        </ul>
-    </div>
 </div>
 
 <script src="{{ site.baseurl }}/assets/js/qrcode.min.js"></script>
@@ -86,13 +78,29 @@ permalink: /attendance/math-stat-1/
         }
     }
 
-    // Wait for DOM to be ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', generateQR);
-    } else {
-        generateQR();
+    // Fullscreen toggle
+    function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen();
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            }
+        }
     }
 
+    // Wait for DOM to be ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            generateQR();
+            document.getElementById('fullscreen-btn').addEventListener('click', toggleFullscreen);
+        });
+    } else {
+        generateQR();
+        document.getElementById('fullscreen-btn').addEventListener('click', toggleFullscreen);
+    }
+
+    // F11 still works natively
     // Refresh every 30 seconds
     setInterval(generateQR, QR_REFRESH_MS);
 })();
