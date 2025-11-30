@@ -101,14 +101,19 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 }
 
 document.getElementById('checkin').addEventListener('click', () => {
+  alert('Button clicked! Checking geolocation support...');
+  
   if (!('geolocation' in navigator)) {
+    alert('Geolocation NOT supported on this device');
     log('⚠ Geolocation not supported on this device', true);
     return;
   }
   
+  alert('Geolocation supported! Requesting location...');
   log('📍 Checking your location...', false);
   
   navigator.geolocation.getCurrentPosition((pos) => {
+    alert('Location received! Lat: ' + pos.coords.latitude + ', Lon: ' + pos.coords.longitude);
     const lat = pos.coords.latitude;
     const lon = pos.coords.longitude;
     const distance = calculateDistance(lat, lon, ADA_LAT, ADA_LON);
