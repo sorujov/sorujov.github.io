@@ -10,7 +10,7 @@
     var ADA_LON = 49.8461084;
     var RADIUS_KM = 0.5;
     var PASSWORD = 'so123!';
-    var TOKEN_VALIDITY_MINUTES = 2; // Token expires after 2 minutes (for testing)
+    var TOKEN_VALIDITY_SECONDS = 30; // Token expires after 30 seconds
 
     var SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbxQnYUuKy6fwD8Ymuy8JjbuDwRgfdDv7s20fRgaelrV-QHthecOuCwsbImzNsQgGouB/exec';
     
@@ -71,14 +71,14 @@
         
         // Check if token is expired
         var now = new Date().getTime();
-        var ageMinutes = (now - timestamp) / (1000 * 60);
+        var ageSeconds = (now - timestamp) / 1000;
         
         console.log('Current time:', now);
-        console.log('Token age (minutes):', ageMinutes);
-        console.log('Max age (minutes):', TOKEN_VALIDITY_MINUTES);
+        console.log('Token age (seconds):', ageSeconds);
+        console.log('Max age (seconds):', TOKEN_VALIDITY_SECONDS);
         
-        if (ageMinutes > TOKEN_VALIDITY_MINUTES) {
-          log('⚠ This link has expired (' + Math.round(ageMinutes) + ' min old). Please scan the QR code again.', true);
+        if (ageSeconds > TOKEN_VALIDITY_SECONDS) {
+          log('⚠ This link has expired (' + Math.round(ageSeconds) + ' sec old). Please scan the QR code again.', true);
           document.getElementById('checkin').disabled = true;
           document.getElementById('checkin').style.opacity = '0.5';
           document.getElementById('checkin').style.cursor = 'not-allowed';
