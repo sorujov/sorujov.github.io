@@ -86,5 +86,4 @@ classes: wide
   </div>
 </div>
 
-{% include base_path %}
-<script src="{{ base_path }}/assets/js/attend-math-stat-1.js"></script>
+<script src="{{ site.baseurl }}/assets/js/attend-math-stat-1.js"></script>
