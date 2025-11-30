@@ -10,7 +10,7 @@
     var ADA_LON = 49.8461084;
     var RADIUS_KM = 0.5;
     var PASSWORD = 'so123!';
-    var TOKEN_VALIDITY_MINUTES = 10; // Token expires after 10 minutes
+    var TOKEN_VALIDITY_MINUTES = 2; // Token expires after 2 minutes (for testing)
 
     var SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbxQnYUuKy6fwD8Ymuy8JjbuDwRgfdDv7s20fRgaelrV-QHthecOuCwsbImzNsQgGouB/exec';
     
