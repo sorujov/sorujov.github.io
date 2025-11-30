@@ -16,6 +16,7 @@
     
     var out = document.getElementById('out');
     var capturedLocation = null;
+    var hasSubmitted = false; // Track if submission already made with this token
 
     function log(msg, isError) {
       if (isError === undefined) isError = false;
@@ -29,6 +30,21 @@
       var urlParams = new URLSearchParams(window.location.search);
       var token = urlParams.get('token');
       var session = urlParams.get('session');
+      
+      // Check if token was already used for submission
+      if (token) {
+        var usedTokens = sessionStorage.getItem('usedTokens');
+        if (usedTokens) {
+          var tokens = JSON.parse(usedTokens);
+          if (tokens.indexOf(token) !== -1) {
+            log('⚠ This attendance link has already been used. Please scan the QR code again.', true);
+            document.getElementById('checkin').disabled = true;
+            document.getElementById('checkin').style.opacity = '0.5';
+            document.getElementById('checkin').style.cursor = 'not-allowed';
+            return false;
+          }
+        }
+      }
       
       console.log('Token validation - token:', token);
       console.log('Token validation - session:', session);
@@ -288,25 +304,47 @@
             body: JSON.stringify(data)
           });
           
+          // Mark token as used
+          var urlParams = new URLSearchParams(window.location.search);
+          var token = urlParams.get('token');
+          if (token) {
+            var usedTokens = sessionStorage.getItem('usedTokens');
+            var tokens = usedTokens ? JSON.parse(usedTokens) : [];
+            tokens.push(token);
+            sessionStorage.setItem('usedTokens', JSON.stringify(tokens));
+            hasSubmitted = true;
+          }
+          
           log('✅ Attendance recorded successfully!', false);
           document.getElementById('student-form').style.display = 'none';
           
           setTimeout(function() {
             document.getElementById('attendance-form').reset();
-            document.getElementById('checkin').style.display = 'inline-block';
+            document.getElementById('checkin').style.display = 'none';
             capturedLocation = null;
-            log('👆 Click the button above to check in', false);
+            log('⚠ This link can only be used once. Please scan the QR code again to check in.', true);
           }, 3000);
           
         } catch (error) {
+          // Mark token as used even if fetch fails (no-cors)
+          var urlParams = new URLSearchParams(window.location.search);
+          var token = urlParams.get('token');
+          if (token) {
+            var usedTokens = sessionStorage.getItem('usedTokens');
+            var tokens = usedTokens ? JSON.parse(usedTokens) : [];
+            tokens.push(token);
+            sessionStorage.setItem('usedTokens', JSON.stringify(tokens));
+            hasSubmitted = true;
+          }
+          
           log('✅ Attendance recorded!', false);
           document.getElementById('student-form').style.display = 'none';
           
           setTimeout(function() {
             e.target.reset();
-            document.getElementById('checkin').style.display = 'inline-block';
+            document.getElementById('checkin').style.display = 'none';
             capturedLocation = null;
-            log('👆 Click the button above to check in', false);
+            log('⚠ This link can only be used once. Please scan the QR code again to check in.', true);
           }, 3000);
         }
       });
