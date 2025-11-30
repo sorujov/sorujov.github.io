@@ -100,23 +100,54 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
   return R * c;
 }
 
-document.getElementById('checkin').addEventListener('click', () => {
-  alert('Button clicked! Checking geolocation support...');
-  
+// Geolocation with proper timeout protection
+function getLocationWithTimeout() {
+  return new Promise((resolve, reject) => {
+    const timeoutId = setTimeout(() => {
+      reject(new Error('Location request timed out after 10 seconds. Please ensure GPS is enabled.'));
+    }, 10000);
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        clearTimeout(timeoutId);
+        resolve(position);
+      },
+      (error) => {
+        clearTimeout(timeoutId);
+        const errorMessages = {
+          1: 'Permission denied - please allow location access in your browser settings',
+          2: 'Position unavailable - check that GPS/location services are enabled',
+          3: 'Request timeout - please try again'
+        };
+        reject(new Error(errorMessages[error.code] || 'Unknown error: ' + error.message));
+      },
+      {
+        timeout: 8000,
+        maximumAge: 0,
+        enableHighAccuracy: true
+      }
+    );
+  });
+}
+
+document.getElementById('checkin').addEventListener('click', async () => {
   if (!('geolocation' in navigator)) {
-    alert('Geolocation NOT supported on this device');
     log('⚠ Geolocation not supported on this device', true);
     return;
   }
   
-  alert('Geolocation supported! Requesting location...');
-  log('📍 Checking your location...', false);
+  log('📍 Requesting location permission...', false);
   
-  navigator.geolocation.getCurrentPosition((pos) => {
-    alert('Location received! Lat: ' + pos.coords.latitude + ', Lon: ' + pos.coords.longitude);
-    const lat = pos.coords.latitude;
-    const lon = pos.coords.longitude;
+  try {
+    const position = await getLocationWithTimeout();
+    
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+    const accuracy = position.coords.accuracy;
     const distance = calculateDistance(lat, lon, ADA_LAT, ADA_LON);
+    
+    log(`✓ Location: ${lat.toFixed(6)}, ${lon.toFixed(6)} (±${accuracy.toFixed(0)}m)`, false);
+    log(`Distance from campus: ${(distance*1000).toFixed(0)}m`, false);
     
     // Geofence check
     if (distance > RADIUS_KM) {
@@ -138,24 +169,10 @@ document.getElementById('checkin').addEventListener('click', () => {
     document.getElementById('student-form').style.display = 'block';
     document.getElementById('checkin').style.display = 'none';
     
-  }, (err) => {
-    let errorMsg = '⚠ Location access required. Please enable location services.';
-    if (err.code === err.PERMISSION_DENIED) {
-      errorMsg = '⚠ Location permission denied. Please allow location access to check in.';
-    } else if (err.code === err.POSITION_UNAVAILABLE) {
-      errorMsg = '⚠ Location information unavailable. Please try again.';
-    } else if (err.code === err.TIMEOUT) {
-      errorMsg = '⚠ Location request timed out. Please try again.';
-    }
-    console.error('Geolocation error:', err);
-    alert('Debug: ' + errorMsg + ' (Error code: ' + err.code + ', Message: ' + err.message + ')');
-    log(errorMsg, true);
-    console.error(err);
-  }, { 
-    enableHighAccuracy: true, 
-    maximumAge: 0, 
-    timeout: 15000 
-  });
+  } catch (error) {
+    console.error('Geolocation error:', error);
+    log('⚠ ' + error.message, true);
+  }
 });
 
 // Handle form submission
