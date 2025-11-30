@@ -98,9 +98,9 @@ A **skewed distribution** occurs when data in a chart lean either to the left or
 :::
 :::
 
-**Financial Context:** Income distributions are typically right-skewed (positively skewed) with a long tail extending toward higher incomes, while most people cluster at lower to moderate income levels [web:17].
+**Financial Context:** Income distributions are typically right-skewed (positively skewed) with a long tail extending toward higher incomes, while most people cluster at lower to moderate income levels .
 
-## 📊 Types of Skewness
+## 📊 Types of Skewness {.smaller}
 
 ::: {.columns}
 
@@ -192,11 +192,14 @@ $$\Gamma(\alpha) = \int_{0}^{\infty} y^{\alpha-1}e^{-y} \,dy$$
 - $\alpha > 1$: Unimodal with peak shifting right as $\alpha$ increases
 - Larger $\alpha$ makes distribution more symmetric (approaches normal)
 
-**Financial Application:** In reliability engineering, $\alpha$ represents the number of stages or phases before failure [web:13].
+::: {style="margin-top: -1em;"}
+**Financial Application:** In reliability engineering, $\alpha$ represents the number of stages or phases before failure .
+:::
 :::
 :::
 
 ::: {.column width="50%"}
+::: {.fragment}
 ::: {.callout-tip}
 ## 📏 Scale Parameter: $\beta$
 
@@ -207,13 +210,14 @@ $$\Gamma(\alpha) = \int_{0}^{\infty} y^{\alpha-1}e^{-y} \,dy$$
 - Smaller $\beta$ compresses distribution toward zero
 - Does not affect shape, only the x-axis scaling
 
-**Financial Application:** In insurance, $\beta$ scales the claim amounts while maintaining the underlying claim frequency pattern represented by $\alpha$ [web:13].
+**Financial Application:** In insurance, $\beta$ scales the claim amounts while maintaining the underlying claim frequency pattern represented by $\alpha$ .
+:::
 :::
 :::
 
 :::
 
-## 🧮 Theorem: Mean and Variance of Gamma Distribution
+## 🧮 Theorem: Mean and Variance of Gamma Distribution{.smaller}
 
 ::: {.callout-important}
 ## Theorem 1: Expected Value and Variance
@@ -249,13 +253,13 @@ $$\boxed{\sigma^2 = V(Y) = \alpha \beta^2}$$
 ```{ojs}
 //| echo: false
 
-viewof alpha = Inputs.range([0.5, 10], {
+viewof alpha = Inputs.range([1, 5], {
   value: 2, 
   step: 0.5, 
   label: "α (shape):"
 })
 
-viewof beta = Inputs.range([0.5, 5], {
+viewof beta = Inputs.range([1, 5], {
   value: 2, 
   step: 0.5, 
   label: "β (scale):"
@@ -276,8 +280,11 @@ Std Dev (σ) = ${sd_gamma.toFixed(2)}`
 ```
 
 **Observations:**  
+
 - Increase α: peak moves right, distribution becomes more symmetric
+
 - Increase β: distribution stretches horizontally
+
 - When α = 1: exponential distribution
 
 :::
@@ -303,8 +310,8 @@ function gammaPDF(y, alpha, beta) {
   return numerator / denominator;
 }
 
-// Generate data
-y_range = d3.range(0.01, Math.max(alpha * beta + 4 * Math.sqrt(alpha * beta * beta), 20), 0.1)
+// Generate data with fixed range
+y_range = d3.range(0.01, 60, 0.1)
 
 gamma_data = y_range.map(y => ({
   y: y,
@@ -322,11 +329,11 @@ Plot.plot({
   x: {
     label: "Y (random variable)",
     grid: true,
-    domain: [0, Math.max(alpha * beta + 4 * Math.sqrt(alpha * beta * beta), 20)]
+    domain: [0, 60]
   },
   y: {
     label: "Probability Density f(y)",
-    domain: [0, d3.max(gamma_data, d => d.pdf) * 1.1]
+    domain: [0, 0.4]
   },
   marks: [
     Plot.line(gamma_data, {
@@ -367,11 +374,17 @@ a) Write the probability density function for the response times.
 
 b) What is the probability that the response time on the terminal is less than five seconds?
 
+. . .
+
 **Solution (Part a):**
+
+. . .
 
 Let $Y$ be the response time variable. Given: $\mu = 4$ and $\sigma^2 = 8$.
 
 Using the theorem, we have: $\mu = \alpha\beta = 4$ and $\sigma^2 = \alpha\beta^2 = 8$.
+
+. . .
 
 From these equations:
 $$\frac{\sigma^2}{\mu} = \frac{\alpha\beta^2}{\alpha\beta} = \beta = \frac{8}{4} = 2$$
@@ -382,10 +395,14 @@ Therefore: $\alpha = \frac{\mu}{\beta} = \frac{4}{2} = 2$
 
 With $\alpha = 2$ and $\beta = 2$, the probability density function is:
 
+. . .
+
 $$f(y) = \begin{cases}
 \frac{y^{2-1}e^{-y/2}}{2^2\Gamma(2)}, & 0 \leq y < \infty \\
 0, & \text{elsewhere}
 \end{cases}$$
+
+. . .
 
 Since $\Gamma(2) = 1! = 1$, this simplifies to:
 
@@ -394,7 +411,11 @@ $$\boxed{f(y) = \begin{cases}
 0, & \text{elsewhere}
 \end{cases}}$$
 
+. . .
+
 **Solution (Part b):**
+
+. . .
 
 To find $P(Y < 5)$, we calculate:
 $$P(Y < 5) = \int_{0}^{5} \frac{y}{4} e^{-\frac{y}{2}} \,dy$$
@@ -407,11 +428,13 @@ Let $u = \frac{y}{4}$ and $dv = e^{-\frac{y}{2}} dy$
 
 Then: $du = \frac{1}{4}dy$ and $v = -2e^{-\frac{y}{2}}$
 
+. . . 
+
 Applying the integration by parts formula $\int u \, dv = uv - \int v \, du$:
 
-$$\int \frac{y}{4}e^{-\frac{y}{2}} \, dy = -\frac{y}{2} \cdot e^{-\frac{y}{2}} - \int -\frac{1}{2} e^{-\frac{y}{2}}\, dy$$
+$$\int \frac{y}{4}e^{-\frac{y}{2}} \, dy = -\frac{y}{2} \cdot e^{-\frac{y}{2}} - \int -\frac{1}{2} e^{-\frac{y}{2}}\, dy = -\frac{y}{2} \cdot e^{-\frac{y}{2}} - e^{-\frac{y}{2}}$$
 
-$$= -\frac{y}{2} \cdot e^{-\frac{y}{2}} - e^{-\frac{y}{2}}$$
+. . . 
 
 Evaluating from 0 to 5:
 
@@ -419,16 +442,34 @@ $$P(Y < 5) = \left[-\frac{y}{2} \cdot e^{-\frac{y}{2}} - e^{-\frac{y}{2}}\right]
 
 $$\boxed{P(Y < 5) \approx 0.7127 \text{ or } 71.27\%}$$
 
+. . . 
+
 **Interpretation:** About 71% of the time, the computer responds within 5 seconds.
 
 ## 🤝 Think-Pair-Share: IT Infrastructure Planning {.smaller}
 
-::: {style="font-size: 28px"}
+```{r}
+#| echo: false
+library(countdown)
+countdown(minutes = 5, 
+          seconds = 0,
+          top = "600px",
+          right = "0px",
+          warn_when = 30,
+          play_sound = TRUE,
+          font_size = "2em",
+          margin = "0.5em")
+```
+
+::: {style="font-size: 35px"}
 ::: {.callout-note}
 ## 💭 Student Engagement Activity (5 minutes)
 
 **Scenario:** You are an IT manager at a financial services company. Server response times follow a gamma distribution with mean $\mu = 3$ seconds and standard deviation $\sigma = 2$ seconds. The company's service level agreement (SLA) requires that 90% of requests complete within 6 seconds.
 
+::: {.columns}
+
+::: {.column width="33%"}
 **Think (1 minute):** Work individually
 
 - Calculate the parameters $\alpha$ and $\beta$ for this gamma distribution
@@ -436,7 +477,9 @@ $$\boxed{P(Y < 5) \approx 0.7127 \text{ or } 71.27\%}$$
 - Does the current system meet the SLA requirement? (Use the fact that $P(Y < 6) \approx 0.85$ for these parameters)
 
 - What business impact occurs if the SLA is violated?
+:::
 
+::: {.column width="33%"}
 **Pair (2-3 minutes):** Discuss with a partner
 
 - Compare your parameter calculations
@@ -444,16 +487,23 @@ $$\boxed{P(Y < 5) \approx 0.7127 \text{ or } 71.27\%}$$
 - Discuss whether system upgrades are needed
 
 - Consider the trade-off between upgrade costs and SLA compliance
+:::
 
+::: {.column width="33%"}
 **Share (1-2 minutes):** Class discussion
 
 - Selected pairs share their recommendations
 
 - Discuss how modeling response times helps capacity planning and investment decisions
 :::
+
+:::
+:::
 :::
 
 ## 📖 Definition: Chi-Square Distribution {.smaller}
+
+::: {style="font-size: 35px;"}
 
 ::: {.callout-note}
 ## 📝 Definition 2: Chi-Square ($\chi^2$) Distribution
@@ -476,9 +526,11 @@ $$f(y) = \begin{cases}
 
 If $Y \sim \chi^2_\nu$, then: $\boxed{\mu = E(Y) = \nu}$ and $\boxed{\sigma^2 = V(Y) = 2\nu}$
 :::
+:::
 
 ## 🔗 Relationship: Gamma to Chi-Square
 
+::: {style="font-size: 50px;"}
 ::: {.callout-tip}
 ## 📊 Converting Gamma to Chi-Square
 
@@ -490,13 +542,20 @@ has a chi-square distribution with $n$ degrees of freedom.
 
 **Why This Matters:** Chi-square distributions have extensive tables and computational support, making them easier to work with than general gamma distributions.
 :::
+:::
 
 ## 📌 Example 3: Converting Gamma to Chi-Square {.smaller}
 
 **Problem:** If $Y$ has a gamma distribution with $\alpha = 1.5 = \frac{3}{2}$ and $\beta = 4$, find $P(Y < 3.5)$ using the chi-square distribution.
 
+. . .
+
 **Solution:**
 
+. . .
+
+::: {columns}
+::: {.column width="50%" .fragment}
 Since $\alpha = \frac{3}{2}$, we can use the relationship:
 
 $$\frac{2Y}{\beta} = \frac{2Y}{4} = \frac{Y}{2} \sim \chi^2_3$$
@@ -504,11 +563,18 @@ $$\frac{2Y}{\beta} = \frac{2Y}{4} = \frac{Y}{2} \sim \chi^2_3$$
 Therefore:
 $$P(Y < 3.5) = P\left(\frac{Y}{2} < \frac{3.5}{2}\right) = P\left(\frac{Y}{2} < 1.75\right) = P(\chi^2_3 < 1.75)$$
 
+:::
+
+::: {.column width="50%" .fragment}
+
 Using chi-square tables or software with $\nu = 3$ degrees of freedom and value 1.75:
 
 $$\boxed{P(Y < 3.5) = P(\chi^2_3 < 1.75) \approx 0.374}$$
 
-**Application:** This technique is commonly used in hypothesis testing and variance estimation in financial econometrics [web:22].
+:::
+:::
+
+**Application:** This technique is commonly used in hypothesis testing and variance estimation in financial econometrics .
 
 ## 🎮 Interactive: Chi-Square Distribution by Degrees of Freedom {.smaller}
 
@@ -547,8 +613,11 @@ Std Dev = ${sd_chi.toFixed(2)}
 ```
 
 **Key Patterns:**  
+
 - Low ν: highly right-skewed
+
 - High ν: approaches normal
+
 - Used in hypothesis testing
 
 :::
@@ -616,6 +685,8 @@ Plot.plot({
 
 ## 📖 Definition: Exponential Distribution {.smaller}
 
+::: {style="font-size: 33px"}
+
 ::: {.callout-note}
 ## 📝 Definition 3: Exponential Distribution
 
@@ -637,35 +708,47 @@ $$f(y) = \begin{cases}
 - **Common applications**: Time between arrivals, component lifetimes, time until failure
 :::
 
-::: {.callout-important}
+::: {.callout-important .fragment}
 ## Theorem 3: Mean and Variance of Exponential Distribution
 
 If $Y$ has an exponential distribution with parameter $\beta$, then: $\boxed{\mu = E(Y) = \beta}$ and $\boxed{\sigma^2 = V(Y) = \beta^2}$
 :::
+:::
 
 ## 🔍 The Memoryless Property
 
-::: {.callout-tip}
+::: {.callout-tip style="margin-top: -0.5em;"}
 ## 📐 Memoryless Property of Exponential Distribution
 
 **Definition:** A random variable $Y$ is memoryless if:
 
-$$P(Y > a + b \mid Y > a) = P(Y > b)$$
+$$P(Y > a + b \mid Y > a) = P(Y > b) \text{for all} a > 0 \text{and} b > 0.$$
 
-for all $a > 0$ and $b > 0$.
 
 **Interpretation:** 
 
+::: {columns}
+
+::: {.column width="33%" .fragment}
 - If a component has already lasted $a$ time units, the probability it lasts an additional $b$ time units is the same as if it were brand new
+:::
 
+::: {.column width="33%" .fragment}
 - The past does not affect future probabilities
+:::
 
+::: {.column width="33%" .fragment}
 - Example: A fuse that hasn't blown after 100 hours is just as likely to last another 50 hours as a new fuse is to last 50 hours
+:::
+:::
 
+::: {.fragment}
 **Mathematical Proof:** Using the definition of conditional probability:
 
 $$P(Y > a + b \mid Y > a) = \frac{P(Y > a + b)}{P(Y > a)} = \frac{e^{-(a+b)/\beta}}{e^{-a/\beta}} = e^{-b/\beta} = P(Y > b)$$
 :::
+:::
+
 
 ## 📌 Example 4: Memoryless Property Verification {.smaller}
 
@@ -673,10 +756,14 @@ $$P(Y > a + b \mid Y > a) = \frac{P(Y > a + b)}{P(Y > a)} = \frac{e^{-(a+b)/\bet
 
 $$P(Y > a + b \mid Y > a) = P(Y > b)$$
 
+. . . 
+
 **Solution:**
 
 From the definition of conditional probability:
 $$P(Y > a + b \mid Y > a) = \frac{P(Y > a + b \cap Y > a)}{P(Y > a)}$$
+
+. . . 
 
 Since $(Y > a + b) \cap (Y > a) = (Y > a + b)$:
 $$P(Y > a + b \mid Y > a) = \frac{P(Y > a + b)}{P(Y > a)}$$
@@ -693,7 +780,7 @@ $$P(Y > a) = \int_{a}^{\infty} \frac{1}{\beta}e^{-y/\beta} \,dy = e^{-a/\beta}$$
 Therefore:
 $$P(Y > a + b \mid Y > a) = \frac{e^{-(a+b)/\beta}}{e^{-a/\beta}} = e^{-b/\beta} = P(Y > b) \quad \blacksquare$$
 
-**Financial Interpretation:** In modeling default times for credit risk, the memoryless property implies that a bond that hasn't defaulted so far is as likely to default in the next period as it was initially—which may not be realistic, motivating more complex models [web:21].
+**Financial Interpretation:** In modeling default times for credit risk, the memoryless property implies that a bond that hasn't defaulted so far is as likely to default in the next period as it was initially—which may not be realistic, motivating more complex models .
 
 ## 🎮 Interactive: Exponential Distribution {.smaller}
 
@@ -708,7 +795,7 @@ $$P(Y > a + b \mid Y > a) = \frac{e^{-(a+b)/\beta}}{e^{-a/\beta}} = e^{-b/\beta}
 ```{ojs}
 //| echo: false
 
-viewof beta_exp = Inputs.range([0.5, 10], {
+viewof beta_exp = Inputs.range([1, 10], {
   value: 2, 
   step: 0.5, 
   label: "β (mean & scale):"
@@ -747,7 +834,7 @@ function exponentialPDF(y, beta) {
   return (1 / beta) * Math.exp(-y / beta);
 }
 
-y_range_exp = d3.range(0, beta_exp * 5, 0.05)
+y_range_exp = d3.range(0, 50, 0.05)
 
 exp_data = y_range_exp.map(y => ({
   y: y,
@@ -765,11 +852,11 @@ Plot.plot({
   x: {
     label: "Y (time)",
     grid: true,
-    domain: [0, beta_exp * 5]
+    domain: [0, 30]
   },
   y: {
     label: "Probability Density f(y)",
-    domain: [0, 1 / beta_exp * 1.2]
+    domain: [0, 1.1]
   },
   marks: [
     Plot.line(exp_data, {
@@ -811,6 +898,8 @@ a) Find the probability that the demand will exceed 200 cfs during the early aft
 
 b) What water-pumping capacity should the station maintain during early afternoons so that the probability that demand will exceed capacity on a randomly selected day is only 0.01?
 
+. . .
+
 **Solution (Part a):**
 
 Since the mean of an exponential random variable with parameter $\beta$ equals $\beta$, we have $\beta = 100$.
@@ -831,6 +920,8 @@ $$\boxed{P(Y > 200) = e^{-2} \approx 0.1353 \text{ or } 13.53\%}$$
 
 **Interpretation:** There's about a 13.5% chance that water demand will exceed 200 cfs on any given afternoon.
 
+. . . 
+
 **Solution (Part b):**
 
 This is a reverse problem. We need to find $y$ such that $P(Y > y) = 0.01$.
@@ -847,15 +938,19 @@ $$y = -100 \ln(0.01) = 100 \ln(100)$$
 
 $$\boxed{y \approx 460.52 \text{ cfs}}$$
 
+. . . 
+
 **Business Recommendation:** The pumping station should maintain a capacity of at least **461 cfs** to ensure that demand exceeds capacity on only 1% of days (approximately 3-4 days per year).
+
+. . .
 
 **Cost-Benefit Analysis:** This capacity provides high reliability (99% service level) while avoiding over-investment in excessive capacity that would rarely be needed. The station manager can balance the cost of additional capacity against the cost of water shortages.
 
 ## 💰 Case Study: Insurance Claim Amounts (Real Data) {.smaller}
 
-::: {style="font-size:28px"}
+::: {style="font-size:33px"}
 ::: {.columns}
-::: {.column width="50%"}
+::: {.column width="50%" .fragment}
 ::: {.callout-note}
 ## 📋 Insurance Loss Modeling
 
@@ -872,7 +967,7 @@ $$\boxed{y \approx 460.52 \text{ cfs}}$$
 :::
 :::
 
-::: {.column width="50%"}
+::: {.column width="50%" .fragment}
 ::: {.callout-tip}
 ## 📊 Data Source
 
@@ -884,7 +979,7 @@ We analyze **auto insurance bodily injury claims** from the **Insurance Services
 
 **Data Type**: Claim amounts in USD (filtered for completeness)
 
-**Application**: Used by actuaries for pricing, reserving, and risk assessment [web:13]
+**Application**: Used by actuaries for pricing, reserving, and risk assessment 
 :::
 :::
 :::
@@ -893,8 +988,9 @@ We analyze **auto insurance bodily injury claims** from the **Insurance Services
 ## 💰 Case Study: Data Loading and Parameter Estimation {.smaller}
 
 ::: {style="font-size:26px"}
+
 ::: {.columns}
-::: {.column width="50%"}
+::: {.column width="33%"}
 
 ```{r}
 #| echo: true
@@ -929,18 +1025,15 @@ median_claim <- median(claims)
 sd_claim <- sd(claims)
 max_claim <- max(claims)
 
-cat("Insurance Claim Data Summary\n")
-cat("==============================\n")
 cat(sprintf("Sample size: %d claims\n", n_claims))
 cat(sprintf("Mean claim: $%.2f\n", mean_claim))
 cat(sprintf("Median claim: $%.2f\n", median_claim))
 cat(sprintf("Std Dev: $%.2f\n", sd_claim))
 cat(sprintf("Max claim: $%.2f\n", max_claim))
 ```
-
 :::
 
-::: {.column width="50%"}
+::: {.column width="33%"}
 
 ```{r}
 #| echo: true
@@ -955,8 +1048,6 @@ cat(sprintf("Max claim: $%.2f\n", max_claim))
 alpha_est <- (mean_claim^2) / (sd_claim^2)
 beta_est <- (sd_claim^2) / mean_claim
 
-cat("\nEstimated Gamma Parameters (Method of Moments)\n")
-cat("================================================\n")
 cat(sprintf("Shape (α): %.3f\n", alpha_est))
 cat(sprintf("Scale (β): $%.2f\n", beta_est))
 cat(sprintf("Estimated mean: $%.2f\n", 
@@ -966,6 +1057,12 @@ cat(sprintf("Estimated variance: $%.2f²\n",
 cat(sprintf("Compare to sample mean: $%.2f\n", mean_claim))
 cat(sprintf("Compare to sample SD: $%.2f\n", sd_claim))
 
+```
+:::
+
+::: {.column width="33%"}
+
+```{r}
 # Calculate key probabilities
 prob_exceed_25k <- 1 - pgamma(25000, 
                               shape = alpha_est, 
@@ -1103,7 +1200,7 @@ ggplot(qqplot_data, aes(x = theoretical, y = sample)) +
 
 2. **Loading for risk**: Add safety margin for high-value tail claims (use percentiles like 90th or 95th)
 
-3. **Policy limit design**: Setting limit at $50,000 covers 97% of claims, balancing coverage and affordability [web:13]
+3. **Policy limit design**: Setting limit at $50,000 covers 97% of claims, balancing coverage and affordability 
 
 **Reserve Estimation:** Insurance companies must hold reserves for outstanding claims. The gamma model allows calculating expected total payments and tail risk reserves for extreme claims.
 :::
@@ -1144,7 +1241,9 @@ If a gamma-distributed random variable has $\alpha = 2$ and variance $\sigma^2 =
 - $\beta = 8$
 - $\beta = 2$
 
-## 📝 Summary {.smaller}
+## 📝 Summary
+
+::: {style="font-size: 30px;"}
 
 ::: {.summary-box}
 **✅ Key Takeaways**
@@ -1157,10 +1256,13 @@ If a gamma-distributed random variable has $\alpha = 2$ and variance $\sigma^2 =
 
 - **Mean and variance** formulas ($\mu = \alpha\beta$ and $\sigma^2 = \alpha\beta^2$) allow parameter estimation from sample data using method of moments or maximum likelihood
 
-- **Financial applications** include insurance loss modeling, credit risk assessment, reliability engineering, and income distribution analysis, where the gamma family captures realistic skewness and tail behavior [web:13][web:17]
+- **Financial applications** include insurance loss modeling, credit risk assessment, reliability engineering, and income distribution analysis, where the gamma family captures realistic skewness and tail behavior 
 :::
+::: 
 
-## 📚 Practice Problems {.smaller}
+## 📚 Practice Problems
+
+::: {style="font-size: 35px;"}
 
 ::: {.callout-tip}
 ## 📝 Homework Problems
@@ -1172,6 +1274,7 @@ If a gamma-distributed random variable has $\alpha = 2$ and variance $\sigma^2 =
 **Problem 3 (Hypothesis Testing)**: In testing whether a sample variance differs from a population variance, we use the chi-square distribution. If a sample of size $n = 25$ has variance $s^2 = 36$ and we're testing against a hypothesized $\sigma^2 = 25$, calculate the chi-square test statistic $\chi^2 = \frac{(n-1)s^2}{\sigma^2}$ and find the probability of observing a value this extreme or more.
 
 **Problem 4 (Water Resources)**: Daily water consumption in a district follows a gamma distribution with $\alpha = 3$ and $\beta = 200$ thousand gallons. What capacity should be maintained to ensure demand is met 99% of days?
+:::
 :::
 
 ## 👋 Thank You! {.smaller .center}
@@ -1216,7 +1319,7 @@ ADA University
 :::
 :::
 
-## ❓ Questions? {.smaller .center}
+## ❓ Questions? {.center}
 
 ::: {.callout-note}
 ## 💬 Open Discussion (5 minutes)

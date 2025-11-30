@@ -809,6 +809,20 @@ Plot.plot({
 ## 🤝 Think-Pair-Share: [Activity Title] {.smaller}
 
 
+```{r}
+#| echo: false
+library(countdown)
+countdown(minutes = 5, 
+          seconds = 0,
+          top = "20px",
+          right = "20px",
+          warn_when = 30,
+          play_sound = TRUE,
+          font_size = "2em",
+          margin = "0.5em")
+```
+
+
 ::: {style="font-size: 28px"}
 ::: {.callout-note}
 ## 💭 Student Engagement Activity ([X] minutes)
@@ -847,11 +861,13 @@ Plot.plot({
 
 **CRITICAL THINK-PAIR-SHARE REQUIREMENTS:**
 - **Include at least ONE Think-Pair-Share activity** per lecture (typically after a major concept)
+- **Add countdown timer** using R countdown package at the top of the slide (adjust `minutes` parameter to match total activity time)
 - Place activities after theoretical content but before complex applications
 - Questions should require application of just-learned concepts to realistic scenarios
 - Include specific numbers/parameters so students can calculate actual answers
 - Total time: 4-6 minutes (1-2 min think, 2-3 min pair, 1-2 min share)
 - Always use finance/economics/business context for scenarios
+- Timer parameters: `top` and `right` for positioning, `warn_when` for warning threshold (seconds), `play_sound` for audio alert, `font_size` for visibility
 
 
 **Quiz Questions:**
