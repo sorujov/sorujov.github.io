@@ -85,6 +85,7 @@ permalink: /attendance/math-stat-1/
 
 <script src="{{ site.baseurl }}/assets/js/qrcode.min.js"></script>
 <script>
+// Version 2024-12-01-2 - Cache busting
 (function() {
     'use strict';
     
