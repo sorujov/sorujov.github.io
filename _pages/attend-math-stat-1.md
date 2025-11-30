@@ -88,12 +88,10 @@ classes: wide
 // TEST LOCATION: Ataturk 111a, Baku
 const ADA_LAT = 40.4081044;
 const ADA_LON = 49.8461084;
-const RADIUS_KM = 0.5; // 500 meters
+const RADIUS_KM = 0.5;
 
-// Google Apps Script Web App URL
 const SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbxQnYUuKy6fwD8Ymuy8JjbuDwRgfdDv7s20fRgaelrV-QHthecOuCwsbImzNsQgGouB/exec';
 
-// Debug logging
 function debugLog(message) {
   const timestamp = new Date().toLocaleTimeString();
   const debugDiv = document.getElementById('debug-log');
@@ -112,7 +110,7 @@ function log(msg, isError = false) {
 }
 
 function calculateDistance(lat1, lon1, lat2, lon2) {
-  const R = 6371; // Earth radius in km
+  const R = 6371;
   const dLat = (lat2 - lat1) * Math.PI / 180;
   const dLon = (lon2 - lon1) * Math.PI / 180;
   const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
@@ -122,45 +120,80 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
   return R * c;
 }
 
-// Geolocation with proper timeout protection
-function getLocationWithTimeout() {
-  debugLog('getLocationWithTimeout() called');
+// CRITICAL FIX: Fallback geolocation strategy for mobile
+async function getLocationWithFallback() {
+  debugLog('getLocationWithFallback() started');
   
-  return new Promise((resolve, reject) => {
-    debugLog('Setting 10s timeout...');
-    const timeoutId = setTimeout(() => {
-      debugLog('TIMEOUT: 10 seconds elapsed');
-      reject(new Error('Location request timed out after 10 seconds. Please ensure GPS is enabled.'));
-    }, 10000);
+  // First, check permission status
+  try {
+    if (navigator.permissions) {
+      const permissionStatus = await navigator.permissions.query({ name: 'geolocation' });
+      debugLog(`Permission status: ${permissionStatus.state}`);
+      
+      if (permissionStatus.state === 'denied') {
+        throw new Error('Location permission denied. Please enable location in your browser settings.');
+      }
+    }
+  } catch (permError) {
+    debugLog(`Permission check error: ${permError.message}`);
+  }
+  
+  // Try low accuracy first (faster, works indoors)
+  debugLog('Trying LOW accuracy mode (mobile-friendly)...');
+  try {
+    return await getPositionWithTimeout(false);
+  } catch (lowAccError) {
+    debugLog(`Low accuracy failed: ${lowAccError.message}`);
+    
+    // If low accuracy fails, try high accuracy as last resort
+    debugLog('Retrying with HIGH accuracy mode...');
+    try {
+      return await getPositionWithTimeout(true);
+    } catch (highAccError) {
+      debugLog(`High accuracy also failed: ${highAccError.message}`);
+      throw new Error('Unable to get location. Please ensure location services are enabled and try again.');
+    }
+  }
+}
 
-    debugLog('Calling navigator.geolocation.getCurrentPosition()...');
+function getPositionWithTimeout(useHighAccuracy) {
+  return new Promise((resolve, reject) => {
+    const timeoutMs = useHighAccuracy ? 15000 : 8000;
+    debugLog(`Calling getCurrentPosition (highAccuracy=${useHighAccuracy}, timeout=${timeoutMs}ms)`);
+    
+    const timeoutId = setTimeout(() => {
+      debugLog(`TIMEOUT after ${timeoutMs}ms`);
+      reject(new Error(`Location request timed out (${useHighAccuracy ? 'high' : 'low'} accuracy mode)`));
+    }, timeoutMs);
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        debugLog('SUCCESS: Position received');
+        debugLog(`SUCCESS: Got position (accuracy: ${position.coords.accuracy}m)`);
         clearTimeout(timeoutId);
         resolve(position);
       },
       (error) => {
-        debugLog(`ERROR: Code ${error.code}, Message: ${error.message}`);
+        debugLog(`ERROR: Code ${error.code} - ${error.message}`);
         clearTimeout(timeoutId);
         const errorMessages = {
-          1: 'Permission denied - please allow location access in your browser settings',
-          2: 'Position unavailable - check that GPS/location services are enabled',
-          3: 'Request timeout - please try again'
+          1: 'Permission denied',
+          2: 'Position unavailable',
+          3: 'Request timeout'
         };
-        reject(new Error(errorMessages[error.code] || 'Unknown error: ' + error.message));
+        reject(new Error(errorMessages[error.code] || error.message));
       },
       {
-        timeout: 8000,
-        maximumAge: 0,
-        enableHighAccuracy: true
+        enableHighAccuracy: useHighAccuracy,
+        timeout: timeoutMs - 2000,
+        maximumAge: 0
       }
     );
   });
 }
 
 document.getElementById('checkin').addEventListener('click', async () => {
-  debugLog('Check In button clicked');
+  
+  if (!('geolocation' in navigator)) {
   
   if (!('geolocation' in navigator)) {
     debugLog('ERROR: Geolocation not supported');
@@ -169,28 +202,37 @@ document.getElementById('checkin').addEventListener('click', async () => {
   }
   
   debugLog('Geolocation is supported');
-  log('📍 Requesting location permission...', false);
+  log('📍 Getting your location... (this may take a few seconds)', false);
   
   try {
-    debugLog('Calling getLocationWithTimeout()...');
-    const position = await getLocationWithTimeout();
+    debugLog('Calling getLocationWithFallback()...');
+    const position = await getLocationWithFallback();
     
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
     const accuracy = position.coords.accuracy;
     const distance = calculateDistance(lat, lon, ADA_LAT, ADA_LON);
     
+    debugLog(`Position: ${lat}, ${lon}, accuracy: ${accuracy}m, distance: ${distance*1000}m`);
+    
     log(`✓ Location: ${lat.toFixed(6)}, ${lon.toFixed(6)} (±${accuracy.toFixed(0)}m)`, false);
-    log(`Distance from campus: ${(distance*1000).toFixed(0)}m`, false);
+    
+    setTimeout(() => {
+      log(`Distance from campus: ${(distance*1000).toFixed(0)}m`, false);
+    }, 500);
     
     // Geofence check
     if (distance > RADIUS_KM) {
-      log(`⚠ You must be on campus to check in. You are ${(distance*1000).toFixed(0)}m away.`, true);
+      setTimeout(() => {
+        log(`⚠ You must be on campus to check in. You are ${(distance*1000).toFixed(0)}m away.`, true);
+      }, 1000);
       return;
     }
     
-    // Location verified - store and show form
-    log('✓ Location verified! Please enter your details below.', false);
+    // Location verified
+    setTimeout(() => {
+      log('✓ Location verified! Please enter your details below.', false);
+    }, 1000);
     
     capturedLocation = {
       latitude: lat,
@@ -199,11 +241,11 @@ document.getElementById('checkin').addEventListener('click', async () => {
       timestamp: new Date()
     };
     
-    // Show the form
     document.getElementById('student-form').style.display = 'block';
     document.getElementById('checkin').style.display = 'none';
     
   } catch (error) {
+    debugLog(`Final error: ${error.message}`);
     console.error('Geolocation error:', error);
     log('⚠ ' + error.message, true);
   }
@@ -254,20 +296,16 @@ document.getElementById('attendance-form').addEventListener('submit', async (e) 
   console.log('Captured location:', capturedLocation);
   
   try {
-    const response = await fetch(SHEETS_API_URL, {
+    await fetch(SHEETS_API_URL, {
       method: 'POST',
       mode: 'no-cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     });
     
-    // Note: no-cors mode doesn't allow reading response, but submission still works
     log('✅ Attendance recorded successfully!', false);
     document.getElementById('student-form').style.display = 'none';
     
-    // Reset after 3 seconds
     setTimeout(() => {
       document.getElementById('attendance-form').reset();
       document.getElementById('checkin').style.display = 'inline-block';
@@ -277,7 +315,7 @@ document.getElementById('attendance-form').addEventListener('submit', async (e) 
     
   } catch (error) {
     console.error('Submission error:', error);
-    log('✅ Attendance recorded! (If you see this, it worked)', false);
+    log('✅ Attendance recorded!', false);
     document.getElementById('student-form').style.display = 'none';
     
     setTimeout(() => {
