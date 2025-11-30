@@ -31,21 +31,6 @@
       var token = urlParams.get('token');
       var session = urlParams.get('session');
       
-      // Check if token was already used for submission
-      if (token) {
-        var usedTokens = sessionStorage.getItem('usedTokens');
-        if (usedTokens) {
-          var tokens = JSON.parse(usedTokens);
-          if (tokens.indexOf(token) !== -1) {
-            log('⚠ This attendance link has already been used. Please scan the QR code again.', true);
-            document.getElementById('checkin').disabled = true;
-            document.getElementById('checkin').style.opacity = '0.5';
-            document.getElementById('checkin').style.cursor = 'not-allowed';
-            return false;
-          }
-        }
-      }
-      
       console.log('Token validation - token:', token);
       console.log('Token validation - session:', session);
       
@@ -70,15 +55,40 @@
         
         var parts = decoded.split(':');
         var timestamp = parseInt(parts[0]);
-        var pass = parts.slice(1).join(':');
+        var sessionId = parts[1];
+        var pass = parts[2];
         
         console.log('Timestamp:', timestamp);
+        console.log('Session ID:', sessionId);
         console.log('Password from token:', pass);
         console.log('Expected password:', PASSWORD);
         
         // Verify password
         if (pass !== PASSWORD) {
           log('⚠ Invalid link. Please scan the QR code again.', true);
+          document.getElementById('checkin').disabled = true;
+          document.getElementById('checkin').style.opacity = '0.5';
+          document.getElementById('checkin').style.cursor = 'not-allowed';
+          return false;
+        }
+        
+        // Check if token was already used
+        var usedTokens = sessionStorage.getItem('usedTokens');
+        if (usedTokens) {
+          var tokens = JSON.parse(usedTokens);
+          if (tokens.indexOf(token) !== -1) {
+            log('⚠ This attendance link has already been used. Please scan the QR code again.', true);
+            document.getElementById('checkin').disabled = true;
+            document.getElementById('checkin').style.opacity = '0.5';
+            document.getElementById('checkin').style.cursor = 'not-allowed';
+            return false;
+          }
+        }
+        
+        // Verify session ID matches current QR (prevents old QR usage)
+        var currentQRSession = sessionStorage.getItem('currentQRSession');
+        if (currentQRSession && sessionId !== currentQRSession) {
+          log('⚠ This QR code is no longer valid. Please scan the latest QR code.', true);
           document.getElementById('checkin').disabled = true;
           document.getElementById('checkin').style.opacity = '0.5';
           document.getElementById('checkin').style.cursor = 'not-allowed';

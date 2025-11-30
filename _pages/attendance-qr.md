@@ -179,6 +179,7 @@ permalink: /attendance/math-stat-1/
     var sessionTimeDisplay = document.getElementById("session-time");
     var countdownDisplay = document.getElementById("countdown");
     var countdownInterval;
+    var currentSessionId = null; // Track current active session
 
     function initQRCode() {
         generateQR();
@@ -209,9 +210,15 @@ permalink: /attendance/math-stat-1/
             // Update display
             sessionTimeDisplay.textContent = sessionInfo;
             
-            // Generate unique token (timestamp-based to expire)
+            // Generate unique session ID for this QR (random string)
+            currentSessionId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+            
+            // Generate unique token with timestamp, session ID, and password
             var timestamp = now.getTime();
-            var token = btoa(timestamp + ':' + PASSWORD).replace(/[+/=]/g, '');
+            var token = btoa(timestamp + ':' + currentSessionId + ':' + PASSWORD).replace(/[+/=]/g, '');
+            
+            // Store current valid session ID in sessionStorage for validation
+            sessionStorage.setItem('currentQRSession', currentSessionId);
             
             // Build student check-in page URL with session time and token
             var baseUrl = window.location.origin + '/attend/math-stat-1/';
