@@ -10,7 +10,7 @@ classes: wide
   <h2>📊 Confirm Your Attendance</h2>
   <p>Course: Mathematical Statistics I (STAT 2311)</p>
   
-  <button id="checkin" style="
+  <button id="checkin" type="button" style="
     background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
     color: white;
     padding: 1rem 2rem;
@@ -22,7 +22,8 @@ classes: wide
     box-shadow: 0 4px 15px rgba(102,126,234,0.3);
     margin: 20px 0;
     transition: transform 0.2s;
-  " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+    display: inline-block;
+  " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'" onclick="console.log('BUTTON CLICKED DIRECTLY')">
     ✓ Verify Location
   </button>
   
@@ -87,8 +88,11 @@ classes: wide
 
 
 <script>
+console.log('SCRIPT TAG LOADED - TOP OF FILE');
+
 // Wait for page to fully load before running code
 document.addEventListener('DOMContentLoaded', function() {
+  console.log('DOMContentLoaded EVENT FIRED');
   
   // TEST LOCATION: Ataturk 111a, Baku
   const ADA_LAT = 40.4081044;
@@ -201,14 +205,18 @@ function getPositionWithTimeout(useHighAccuracy) {
 }
 
   const checkinButton = document.getElementById('checkin');
+  console.log('Looking for button with id=checkin:', checkinButton);
   
   if (!checkinButton) {
     debugLog('ERROR: Check-in button not found!');
     console.error('Button with id="checkin" not found in DOM');
+    console.log('All elements with buttons:', document.querySelectorAll('button'));
     return;
   }
   
   debugLog('Check-in button found, attaching listener...');
+  console.log('Button element:', checkinButton);
+  console.log('Button innerHTML:', checkinButton.innerHTML);
   
   checkinButton.addEventListener('click', async () => {
     debugLog('Check In button clicked');
