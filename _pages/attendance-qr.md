@@ -4,7 +4,54 @@ title: "Mathematical Statistics I - Attendance"
 permalink: /attendance/math-stat-1/
 ---
 
-<div id="qrcode-container">
+<div id="password-container" style="
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+">
+    <div style="
+        background: white;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        text-align: center;
+        max-width: 400px;
+    ">
+        <div style="font-size: 64px; margin-bottom: 20px;">🔒</div>
+        <h2 style="color: #667eea; margin-bottom: 20px;">Instructor Access Required</h2>
+        <p style="color: #666; margin-bottom: 20px;">Please enter the password to access the attendance QR code.</p>
+        <input type="password" id="password-input" placeholder="Enter password" style="
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        " />
+        <button id="password-submit" style="
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+        ">Access Attendance</button>
+        <div id="password-error" style="
+            color: #e74c3c;
+            margin-top: 15px;
+            font-size: 14px;
+            display: none;
+        ">Incorrect password. Please try again.</div>
+    </div>
+</div>
+
+<div id="qrcode-container" style="display: none;">
     <button id="fullscreen-btn" title="Toggle Fullscreen (F11)">⛶</button>
     <h2>📊 Scan for Attendance</h2>
     <div id="qrcode"></div>
@@ -19,11 +66,41 @@ permalink: /attendance/math-stat-1/
 (function() {
     'use strict';
     
+    var PASSWORD = 'so123!';
+    
+    // Password check
+    function checkPassword() {
+        var input = document.getElementById('password-input').value;
+        var errorDiv = document.getElementById('password-error');
+        
+        if (input === PASSWORD) {
+            document.getElementById('password-container').style.display = 'none';
+            document.getElementById('qrcode-container').style.display = 'block';
+            initQRCode();
+        } else {
+            errorDiv.style.display = 'block';
+            document.getElementById('password-input').value = '';
+        }
+    }
+    
+    document.getElementById('password-submit').addEventListener('click', checkPassword);
+    document.getElementById('password-input').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            checkPassword();
+        }
+    });
+    
     var QR_REFRESH_MS = 30000;
     var qrcodeContainer = document.getElementById("qrcode");
     var sessionTimeDisplay = document.getElementById("session-time");
     var countdownDisplay = document.getElementById("countdown");
     var countdownInterval;
+
+    function initQRCode() {
+        generateQR();
+        document.getElementById('fullscreen-btn').addEventListener('click', toggleFullscreen);
+        setInterval(generateQR, QR_REFRESH_MS);
+    }
 
     function generateQR() {
         try {
@@ -89,19 +166,5 @@ permalink: /attendance/math-stat-1/
         }
     }
 
-    // Wait for DOM to be ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function() {
-            generateQR();
-            document.getElementById('fullscreen-btn').addEventListener('click', toggleFullscreen);
-        });
-    } else {
-        generateQR();
-        document.getElementById('fullscreen-btn').addEventListener('click', toggleFullscreen);
-    }
-
-    // F11 still works natively
-    // Refresh every 30 seconds
-    setInterval(generateQR, QR_REFRESH_MS);
 })();
 </script>
