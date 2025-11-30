@@ -142,6 +142,8 @@ document.getElementById('checkin').addEventListener('click', () => {
     } else if (err.code === err.TIMEOUT) {
       errorMsg = '⚠ Location request timed out. Please try again.';
     }
+    console.error('Geolocation error:', err);
+    alert('Debug: ' + errorMsg + ' (Error code: ' + err.code + ', Message: ' + err.message + ')');
     log(errorMsg, true);
     console.error(err);
   }, { 
