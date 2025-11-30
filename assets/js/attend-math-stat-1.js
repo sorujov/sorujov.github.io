@@ -1,31 +1,18 @@
-// Version 2024-12-01-3 - CSP compliant
+// Version 2024-12-01-5 - Token validation
 (function() {
   'use strict';
-  
-  console.log('SCRIPT TAG LOADED - TOP OF FILE');
 
   // Wait for page to fully load before running code
   document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOMContentLoaded EVENT FIRED');
     
     // TEST LOCATION: Ataturk 111a, Baku
     var ADA_LAT = 40.4081044;
     var ADA_LON = 49.8461084;
     var RADIUS_KM = 0.5;
+    var PASSWORD = 'so123!';
+    var TOKEN_VALIDITY_MINUTES = 10; // Token expires after 10 minutes
 
     var SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbxQnYUuKy6fwD8Ymuy8JjbuDwRgfdDv7s20fRgaelrV-QHthecOuCwsbImzNsQgGouB/exec';
-
-    function debugLog(message) {
-      var timestamp = new Date().toLocaleTimeString();
-      var debugDiv = document.getElementById('debug-log');
-      if (debugDiv) {
-        debugDiv.innerHTML += '<div>' + timestamp + ': ' + message + '</div>';
-        debugDiv.scrollTop = debugDiv.scrollHeight;
-      }
-      console.log(message);
-    }
-
-    debugLog('Page loaded and script initialized');
     
     var out = document.getElementById('out');
     var capturedLocation = null;
@@ -36,6 +23,65 @@
         out.innerHTML = '<p style="color: ' + (isError ? '#dc3545' : '#28a745') + '; font-weight: bold; margin: 0;">' + msg + '</p>';
       }
     }
+    
+    // Validate token from URL
+    function validateToken() {
+      var urlParams = new URLSearchParams(window.location.search);
+      var token = urlParams.get('token');
+      var session = urlParams.get('session');
+      
+      if (!token || !session) {
+        log('⚠ Invalid or expired link. Please scan the QR code again.', true);
+        document.getElementById('checkin').disabled = true;
+        document.getElementById('checkin').style.opacity = '0.5';
+        document.getElementById('checkin').style.cursor = 'not-allowed';
+        return false;
+      }
+      
+      try {
+        // Decode token
+        var decoded = atob(token);
+        var parts = decoded.split(':');
+        var timestamp = parseInt(parts[0]);
+        var pass = parts.slice(1).join(':');
+        
+        // Verify password
+        if (pass !== PASSWORD) {
+          log('⚠ Invalid link. Please scan the QR code again.', true);
+          document.getElementById('checkin').disabled = true;
+          document.getElementById('checkin').style.opacity = '0.5';
+          document.getElementById('checkin').style.cursor = 'not-allowed';
+          return false;
+        }
+        
+        // Check if token is expired
+        var now = new Date().getTime();
+        var ageMinutes = (now - timestamp) / (1000 * 60);
+        
+        if (ageMinutes > TOKEN_VALIDITY_MINUTES) {
+          log('⚠ This link has expired. Please scan the QR code again.', true);
+          document.getElementById('checkin').disabled = true;
+          document.getElementById('checkin').style.opacity = '0.5';
+          document.getElementById('checkin').style.cursor = 'not-allowed';
+          return false;
+        }
+        
+        return true;
+      } catch (e) {
+        log('⚠ Invalid link format. Please scan the QR code again.', true);
+        document.getElementById('checkin').disabled = true;
+        document.getElementById('checkin').style.opacity = '0.5';
+        document.getElementById('checkin').style.cursor = 'not-allowed';
+        return false;
+      }
+    }
+    
+    // Validate token first
+    if (!validateToken()) {
+      return;
+    }
+    
+    log('👆 Click the button above to check in', false);
     
     function calculateDistance(lat1, lon1, lat2, lon2) {
       var R = 6371;
@@ -48,37 +94,28 @@
       return R * c;
     }
 
-    // CRITICAL FIX: Fallback geolocation strategy for mobile
+    // Fallback geolocation strategy for mobile
     async function getLocationWithFallback() {
-      debugLog('getLocationWithFallback() started');
-    
       // First, check permission status
       try {
         if (navigator.permissions) {
           var permissionStatus = await navigator.permissions.query({ name: 'geolocation' });
-          debugLog('Permission status: ' + permissionStatus.state);
-          
           if (permissionStatus.state === 'denied') {
             throw new Error('Location permission denied. Please enable location in your browser settings.');
           }
         }
       } catch (permError) {
-        debugLog('Permission check error: ' + permError.message);
+        // Ignore permission check errors
       }
       
       // Try low accuracy first (faster, works indoors)
-      debugLog('Trying LOW accuracy mode (mobile-friendly)...');
       try {
         return await getPositionWithTimeout(false);
       } catch (lowAccError) {
-        debugLog('Low accuracy failed: ' + lowAccError.message);
-        
         // If low accuracy fails, try high accuracy as last resort
-        debugLog('Retrying with HIGH accuracy mode...');
         try {
           return await getPositionWithTimeout(true);
         } catch (highAccError) {
-          debugLog('High accuracy also failed: ' + highAccError.message);
           throw new Error('Unable to get location. Please ensure location services are enabled and try again.');
         }
       }
@@ -87,21 +124,17 @@
     function getPositionWithTimeout(useHighAccuracy) {
       return new Promise(function(resolve, reject) {
         var timeoutMs = useHighAccuracy ? 15000 : 8000;
-        debugLog('Calling getCurrentPosition (highAccuracy=' + useHighAccuracy + ', timeout=' + timeoutMs + 'ms)');
         
         var timeoutId = setTimeout(function() {
-          debugLog('TIMEOUT after ' + timeoutMs + 'ms');
           reject(new Error('Location request timed out (' + (useHighAccuracy ? 'high' : 'low') + ' accuracy mode)'));
         }, timeoutMs);
 
         navigator.geolocation.getCurrentPosition(
           function(position) {
-            debugLog('SUCCESS: Got position (accuracy: ' + position.coords.accuracy + 'm)');
             clearTimeout(timeoutId);
             resolve(position);
           },
           function(error) {
-            debugLog('ERROR: Code ' + error.code + ' - ' + error.message);
             clearTimeout(timeoutId);
             var errorMessages = {
               1: 'Permission denied',
@@ -120,20 +153,10 @@
     }
 
     var checkinButton = document.getElementById('checkin');
-    console.log('Looking for button with id=checkin:', checkinButton);
     
     if (!checkinButton) {
-      debugLog('ERROR: Check-in button not found!');
-      console.error('Button with id="checkin" not found in DOM');
-      console.log('All elements with buttons:', document.querySelectorAll('button'));
       return;
-    }
-    
-    debugLog('Check-in button found, attaching listener...');
-    console.log('Button element:', checkinButton);
-    console.log('Button innerHTML:', checkinButton.innerHTML);
-    
-    // Add hover effects via JavaScript (CSP-compliant)
+    }    // Add hover effects via JavaScript (CSP-compliant)
     checkinButton.addEventListener('mouseover', function() {
       checkinButton.style.transform = 'translateY(-2px)';
     });
@@ -144,27 +167,20 @@
     
     // Main click handler
     checkinButton.addEventListener('click', async function() {
-      debugLog('Check In button clicked');
-      
       if (!('geolocation' in navigator)) {
-        debugLog('ERROR: Geolocation not supported');
         log('⚠ Geolocation not supported on this device', true);
         return;
       }
       
-      debugLog('Geolocation is supported');
       log('📍 Getting your location... (this may take a few seconds)', false);
       
       try {
-        debugLog('Calling getLocationWithFallback()...');
         var position = await getLocationWithFallback();
         
         var lat = position.coords.latitude;
         var lon = position.coords.longitude;
         var accuracy = position.coords.accuracy;
         var distance = calculateDistance(lat, lon, ADA_LAT, ADA_LON);
-        
-        debugLog('Position: ' + lat + ', ' + lon + ', accuracy: ' + accuracy + 'm, distance: ' + (distance*1000) + 'm');
         
         log('✓ Location: ' + lat.toFixed(6) + ', ' + lon.toFixed(6) + ' (±' + accuracy.toFixed(0) + 'm)', false);
         
@@ -196,8 +212,6 @@
         document.getElementById('checkin').style.display = 'none';
         
       } catch (error) {
-        debugLog('Final error: ' + error.message);
-        console.error('Geolocation error:', error);
         log('⚠ ' + error.message, true);
       }
     });
@@ -245,9 +259,6 @@
           userAgent: navigator.userAgent.substring(0, 200)
         };
         
-        console.log('Sending data:', data);
-        console.log('Captured location:', capturedLocation);
-        
         try {
           await fetch(SHEETS_API_URL, {
             method: 'POST',
@@ -267,7 +278,6 @@
           }, 3000);
           
         } catch (error) {
-          console.error('Submission error:', error);
           log('✅ Attendance recorded!', false);
           document.getElementById('student-form').style.display = 'none';
           
@@ -280,8 +290,6 @@
         }
       });
     }
-
-    log('👆 Click the button above to check in', false);
     
   }); // End of DOMContentLoaded
 

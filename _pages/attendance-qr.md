@@ -209,9 +209,13 @@ permalink: /attendance/math-stat-1/
             // Update display
             sessionTimeDisplay.textContent = sessionInfo;
             
-            // Build student check-in page URL with session time parameter
+            // Generate unique token (timestamp-based to expire)
+            var timestamp = now.getTime();
+            var token = btoa(timestamp + ':' + PASSWORD).replace(/[+/=]/g, '');
+            
+            // Build student check-in page URL with session time and token
             var baseUrl = window.location.origin + '/attend/math-stat-1/';
-            var attendUrl = baseUrl + '?session=' + encodeURIComponent(sessionInfo);
+            var attendUrl = baseUrl + '?session=' + encodeURIComponent(sessionInfo) + '&token=' + token;
             
             // Show the link in the text box
             document.getElementById('attendance-link').value = attendUrl;
