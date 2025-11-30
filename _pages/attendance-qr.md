@@ -59,6 +59,28 @@ permalink: /attendance/math-stat-1/
     <p class="session-info">
         Session: <span id="session-time"></span>
     </p>
+    <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; border: 1px dashed #6c757d;">
+        <p style="margin: 0 0 10px 0; font-weight: bold; color: #495057;">📋 Test Link (for local testing):</p>
+        <input type="text" id="attendance-link" readonly style="
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            background: white;
+        ">
+        <button onclick="copyLink()" style="
+            margin-top: 10px;
+            padding: 8px 16px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        ">📋 Copy Link</button>
+    </div>
 </div>
 
 <script src="{{ site.baseurl }}/assets/js/qrcode.min.js"></script>
@@ -187,8 +209,11 @@ permalink: /attendance/math-stat-1/
             sessionTimeDisplay.textContent = sessionInfo;
             
             // Build attendance page URL with session time parameter
-            var baseUrl = window.location.origin + '/attend/math-stat-1/';
+            var baseUrl = window.location.origin + '/attendance/math-stat-1/';
             var attendUrl = baseUrl + '?session=' + encodeURIComponent(sessionInfo);
+            
+            // Show the link in the text box
+            document.getElementById('attendance-link').value = attendUrl;
             
             // Generate QR code - LARGE for projection
             var qrSize = Math.min(window.innerWidth * 0.7, window.innerHeight * 0.7, 800);
@@ -227,6 +252,15 @@ permalink: /attendance/math-stat-1/
             }
         }
     }
+    
+    // Copy link function
+    window.copyLink = function() {
+        var linkInput = document.getElementById('attendance-link');
+        linkInput.select();
+        linkInput.setSelectionRange(0, 99999); // For mobile
+        document.execCommand('copy');
+        alert('Link copied! You can paste it in your browser.');
+    };
 
 })();
 </script>
