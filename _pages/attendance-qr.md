@@ -68,16 +68,90 @@ permalink: /attendance/math-stat-1/
     
     var PASSWORD = 'so123!';
     
+    // TEST LOCATION: Ataturk 111a, Baku (change back to ADA coordinates later)
+    var ADA_LAT = 40.4081044;
+    var ADA_LON = 49.8461084;
+    var RADIUS_KM = 0.5; // 500 meters radius
+    
+    // Calculate distance between two coordinates (Haversine formula)
+    function getDistance(lat1, lon1, lat2, lon2) {
+        var R = 6371; // Earth's radius in km
+        var dLat = (lat2 - lat1) * Math.PI / 180;
+        var dLon = (lon2 - lon1) * Math.PI / 180;
+        var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon/2) * Math.sin(dLon/2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        return R * c;
+    }
+    
+    // Check if user is on campus
+    function checkLocation(callback) {
+        if (!navigator.geolocation) {
+            callback(false, 'Geolocation is not supported by your browser');
+            return;
+        }
+        
+        navigator.geolocation.getCurrentPosition(
+            function(position) {
+                var distance = getDistance(
+                    ADA_LAT, ADA_LON,
+                    position.coords.latitude,
+                    position.coords.longitude
+                );
+                
+                if (distance <= RADIUS_KM) {
+                    callback(true, null);
+                } else {
+                    callback(false, 'You must be on ADA University campus to access attendance. Distance: ' + distance.toFixed(2) + ' km');
+                }
+            },
+            function(error) {
+                var errorMsg = 'Location access denied. Please enable location services.';
+                if (error.code === error.PERMISSION_DENIED) {
+                    errorMsg = 'Location permission denied. Please allow location access to use attendance.';
+                } else if (error.code === error.POSITION_UNAVAILABLE) {
+                    errorMsg = 'Location information unavailable.';
+                } else if (error.code === error.TIMEOUT) {
+                    errorMsg = 'Location request timed out.';
+                }
+                callback(false, errorMsg);
+            },
+            {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 0
+            }
+        );
+    }
+    
     // Password check
     function checkPassword() {
         var input = document.getElementById('password-input').value;
         var errorDiv = document.getElementById('password-error');
         
         if (input === PASSWORD) {
-            document.getElementById('password-container').style.display = 'none';
-            document.getElementById('qrcode-container').style.display = 'block';
-            initQRCode();
+            // First check password, then check location
+            errorDiv.style.display = 'none';
+            errorDiv.textContent = 'Checking your location...';
+            errorDiv.style.color = '#667eea';
+            errorDiv.style.display = 'block';
+            
+            checkLocation(function(isOnCampus, error) {
+                if (isOnCampus) {
+                    document.getElementById('password-container').style.display = 'none';
+                    document.getElementById('qrcode-container').style.display = 'block';
+                    initQRCode();
+                } else {
+                    errorDiv.style.color = '#e74c3c';
+                    errorDiv.textContent = error;
+                    errorDiv.style.display = 'block';
+                    document.getElementById('password-input').value = '';
+                }
+            });
         } else {
+            errorDiv.style.color = '#e74c3c';
+            errorDiv.textContent = 'Incorrect password. Please try again.';
             errorDiv.style.display = 'block';
             document.getElementById('password-input').value = '';
         }
