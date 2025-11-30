@@ -125,30 +125,17 @@ permalink: /attendance/math-stat-1/
         );
     }
     
-    // Password check
+    // Password check (no location check for instructor)
     function checkPassword() {
         var input = document.getElementById('password-input').value;
         var errorDiv = document.getElementById('password-error');
         
         if (input === PASSWORD) {
-            // First check password, then check location
+            // Password correct - show QR code immediately
             errorDiv.style.display = 'none';
-            errorDiv.textContent = 'Checking your location...';
-            errorDiv.style.color = '#667eea';
-            errorDiv.style.display = 'block';
-            
-            checkLocation(function(isOnCampus, error) {
-                if (isOnCampus) {
-                    document.getElementById('password-container').style.display = 'none';
-                    document.getElementById('qrcode-container').style.display = 'block';
-                    initQRCode();
-                } else {
-                    errorDiv.style.color = '#e74c3c';
-                    errorDiv.textContent = error;
-                    errorDiv.style.display = 'block';
-                    document.getElementById('password-input').value = '';
-                }
-            });
+            document.getElementById('password-container').style.display = 'none';
+            document.getElementById('qrcode-container').style.display = 'block';
+            initQRCode();
         } else {
             errorDiv.style.color = '#e74c3c';
             errorDiv.textContent = 'Incorrect password. Please try again.';
