@@ -209,8 +209,8 @@ permalink: /attendance/math-stat-1/
             // Update display
             sessionTimeDisplay.textContent = sessionInfo;
             
-            // Build attendance page URL with session time parameter
-            var baseUrl = window.location.origin + '/attendance/math-stat-1/';
+            // Build student check-in page URL with session time parameter
+            var baseUrl = window.location.origin + '/attend/math-stat-1/';
             var attendUrl = baseUrl + '?session=' + encodeURIComponent(sessionInfo);
             
             // Show the link in the text box
