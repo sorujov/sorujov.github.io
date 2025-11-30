@@ -107,14 +107,18 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log(message);
   }
 
-  debugLog('Page loaded and script initialized');const out = document.getElementById('out');
-let capturedLocation = null;
+  debugLog('Page loaded and script initialized');
+  
+  const out = document.getElementById('out');
+  let capturedLocation = null;
 
   function log(msg, isError = false) {
     if (out) {
       out.innerHTML = `<p style="color: ${isError ? '#dc3545' : '#28a745'}; font-weight: bold; margin: 0;">${msg}</p>`;
     }
-  }function calculateDistance(lat1, lon1, lat2, lon2) {
+  }
+  
+  function calculateDistance(lat1, lon1, lat2, lon2) {
   const R = 6371;
   const dLat = (lat2 - lat1) * Math.PI / 180;
   const dLon = (lon2 - lon1) * Math.PI / 180;
