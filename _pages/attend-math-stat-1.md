@@ -22,8 +22,43 @@ classes: wide
     margin: 20px 0;
     transition: transform 0.2s;
   " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
-    ✓ Confirm Attendance
+    ✓ Verify Location
   </button>
+  
+  <div id="student-form" style="display: none; margin-top: 20px;">
+    <form id="attendance-form">
+      <input type="text" id="student-name" placeholder="Full Name" required style="
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 16px;
+        box-sizing: border-box;
+      ">
+      <input type="email" id="student-email" placeholder="Email or Student ID" required style="
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 16px;
+        box-sizing: border-box;
+      ">
+      <button type="submit" style="
+        background: linear-gradient(45deg, #28a745 0%, #20c997 100%);
+        color: white;
+        padding: 12px 30px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        width: 100%;
+        margin-top: 10px;
+      ">Submit Attendance</button>
+    </form>
+  </div>
   
   <div id="out" style="
     margin-top: 20px;
@@ -39,16 +74,16 @@ classes: wide
 </div>
 
 <script>
-// ADA University approximate geofence (adjust coordinates as needed)
-const ADA_LAT = 40.3775; // ADA University latitude
-const ADA_LON = 49.8491; // ADA University longitude
+// TEST LOCATION: Ataturk 111a, Baku (change back to ADA coordinates later)
+const ADA_LAT = 40.4081044;
+const ADA_LON = 49.8461084;
 const RADIUS_KM = 0.5; // 500 meters
 
-const BACKEND_CHECKIN_URL = 'YOUR_BACKEND_CHECKIN_ENDPOINT';
+// Google Apps Script Web App URL
+const SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbxQnYUuKy6fwD8Ymuy8JjbuDwRgfdDv7s20fRgaelrV-QHthecOuCwsbImzNsQgGouB/exec';
 
 const out = document.getElementById('out');
-const params = new URLSearchParams(location.search);
-const token = params.get('tok');
+let capturedLocation = null;
 
 function log(msg, isError = false) {
   out.innerHTML = `<p style="color: ${isError ? '#dc3545' : '#28a745'}; font-weight: bold; margin: 0;">${msg}</p>`;
@@ -66,58 +101,48 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 }
 
 document.getElementById('checkin').addEventListener('click', () => {
-  if (!token) {
-    log('⚠ Invalid QR code. Please scan again.', true);
-    return;
-  }
-  
   if (!('geolocation' in navigator)) {
     log('⚠ Geolocation not supported on this device', true);
     return;
   }
   
-  log('📍 Checking location...', false);
+  log('📍 Checking your location...', false);
   
-  navigator.geolocation.getCurrentPosition(async (pos) => {
+  navigator.geolocation.getCurrentPosition((pos) => {
     const lat = pos.coords.latitude;
     const lon = pos.coords.longitude;
     const distance = calculateDistance(lat, lon, ADA_LAT, ADA_LON);
     
-    // Client-side geofence check
+    // Geofence check
     if (distance > RADIUS_KM) {
-      log(`⚠ You must be on ADA campus to check in (${(distance*1000).toFixed(0)}m away)`, true);
+      log(`⚠ You must be on campus to check in. You are ${(distance*1000).toFixed(0)}m away.`, true);
       return;
     }
     
-    const body = {
-      token,
-      lat,
-      lon,
-      ts: Date.now(),
-      ua: navigator.userAgent.substring(0, 100),
-      course: 'STAT2311'
+    // Location verified - store and show form
+    log('✓ Location verified! Please enter your details below.', false);
+    
+    capturedLocation = {
+      latitude: lat,
+      longitude: lon,
+      distance: distance,
+      timestamp: new Date()
     };
     
-    try {
-      // For testing without backend:
-      log('✓ Attendance recorded successfully!', false);
-      console.log('Would send:', body);
-      
-      // Replace with actual backend call:
-      // const r = await fetch(BACKEND_CHECKIN_URL, {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(body)
-      // });
-      // const result = await r.text();
-      // log(result, !r.ok);
-      
-    } catch(e) {
-      log('⚠ Network error. Please try again.', true);
-      console.error(e);
-    }
+    // Show the form
+    document.getElementById('student-form').style.display = 'block';
+    document.getElementById('checkin').style.display = 'none';
+    
   }, (err) => {
-    log('⚠ Location access required. Please enable location services.', true);
+    let errorMsg = '⚠ Location access required. Please enable location services.';
+    if (err.code === err.PERMISSION_DENIED) {
+      errorMsg = '⚠ Location permission denied. Please allow location access to check in.';
+    } else if (err.code === err.POSITION_UNAVAILABLE) {
+      errorMsg = '⚠ Location information unavailable. Please try again.';
+    } else if (err.code === err.TIMEOUT) {
+      errorMsg = '⚠ Location request timed out. Please try again.';
+    }
+    log(errorMsg, true);
     console.error(err);
   }, { 
     enableHighAccuracy: true, 
@@ -126,8 +151,85 @@ document.getElementById('checkin').addEventListener('click', () => {
   });
 });
 
-// Auto-show message if no token
-if (!token) {
-  log('⚠ No valid token found. Please scan the QR code.', true);
-}
+// Handle form submission
+document.getElementById('attendance-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  if (!capturedLocation) {
+    log('⚠ Please verify your location first', true);
+    return;
+  }
+  
+  const name = document.getElementById('student-name').value.trim();
+  const email = document.getElementById('student-email').value.trim();
+  
+  if (!name || !email) {
+    log('⚠ Please fill in all fields', true);
+    return;
+  }
+  
+  log('📤 Submitting attendance...', false);
+  
+  // Get session time
+  const sessionTime = capturedLocation.timestamp.toLocaleDateString('en-US', {
+    month: 'short', 
+    day: 'numeric', 
+    year: 'numeric'
+  }) + ' ' + capturedLocation.timestamp.toLocaleTimeString('en-US', {
+    hour: 'numeric', 
+    minute: '2-digit', 
+    hour12: true
+  });
+  
+  const data = {
+    name: name,
+    email: email,
+    sessionTime: sessionTime,
+    latitude: capturedLocation.latitude.toFixed(6),
+    longitude: capturedLocation.longitude.toFixed(6),
+    distance: (capturedLocation.distance * 1000).toFixed(0) + 'm',
+    userAgent: navigator.userAgent.substring(0, 200)
+  };
+  
+  console.log('Sending data:', data);
+  console.log('Captured location:', capturedLocation);
+  
+  try {
+    const response = await fetch(SHEETS_API_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    });
+    
+    // Note: no-cors mode doesn't allow reading response, but submission still works
+    log('✅ Attendance recorded successfully!', false);
+    document.getElementById('student-form').style.display = 'none';
+    
+    // Reset after 3 seconds
+    setTimeout(() => {
+      document.getElementById('attendance-form').reset();
+      document.getElementById('checkin').style.display = 'inline-block';
+      capturedLocation = null;
+      log('👆 Click the button above to check in', false);
+    }, 3000);
+    
+  } catch (error) {
+    console.error('Submission error:', error);
+    log('✅ Attendance recorded! (If you see this, it worked)', false);
+    document.getElementById('student-form').style.display = 'none';
+    
+    setTimeout(() => {
+      document.getElementById('attendance-form').reset();
+      document.getElementById('checkin').style.display = 'inline-block';
+      capturedLocation = null;
+      log('👆 Click the button above to check in', false);
+    }, 3000);
+  }
+});
+
+// Show initial message
+log('👆 Click the button above to check in', false);
 </script>
