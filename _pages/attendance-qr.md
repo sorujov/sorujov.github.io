@@ -68,9 +68,9 @@ permalink: /attendance/math-stat-1/
     
     var PASSWORD = 'so123!';
     
-    // ADA University coordinates
-    var ADA_LAT = 40.3775;
-    var ADA_LON = 49.8491;
+    // TEST LOCATION: Ataturk 111a, Baku
+    var ADA_LAT = 40.4081044;
+    var ADA_LON = 49.8461084;
     var RADIUS_KM = 0.5; // 500 meters radius
     
     // Calculate distance between two coordinates (Haversine formula)

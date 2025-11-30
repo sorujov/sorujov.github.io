@@ -74,9 +74,9 @@ classes: wide
 </div>
 
 <script>
-// ADA University coordinates
-const ADA_LAT = 40.3775;
-const ADA_LON = 49.8491;
+// TEST LOCATION: Ataturk 111a, Baku
+const ADA_LAT = 40.4081044;
+const ADA_LON = 49.8461084;
 const RADIUS_KM = 0.5; // 500 meters
 
 // Google Apps Script Web App URL
