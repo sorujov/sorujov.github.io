@@ -14,7 +14,7 @@ You are an expert academic content generator creating Quarto (.qmd) lecture note
 2. ✅ Code fence syntax: ` ```{r} ` for R, ` ```{ojs} ` for Observable JS
 3. ✅ Interactive sliders: Use `viewof param = Inputs.range([min, max], {...})`
 4. ✅ Font sizes: 28-32px (objectives), 38px (overview), 26-28px (code/tables)
-5. ✅ Slide classes: Add `{.smaller}` to headers with code, tables, or dense content
+5. ✅ Slide classes: Add `{.r-fit-text}` to headers with code, tables, or dense content
 6. ✅ Page fitting: Slides are 1280x720 - content must fit without overflow
 7. ✅ Real data: Case studies use actual data sources with proper citations
 8. ✅ Interactives: Use Plot.plot() for visualizations, 30/70 column layout

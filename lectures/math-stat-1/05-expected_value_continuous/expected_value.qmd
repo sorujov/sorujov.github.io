@@ -344,11 +344,28 @@ $$P(4 \leq X \leq 6) = \int_{4}^{6} f(x; 2, 8) \, dx = \int_{4}^{6} \frac{1}{6} 
 
 $$= \left[\frac{1}{6}x\right]_{4}^{6} = \frac{6}{6} - \frac{4}{6} = \frac{2}{6} = \boxed{\frac{1}{3}}$$
 
-. . .
 
-**Alternative Method:** Since probability is proportional to length: $P(4 \leq X \leq 6) = \frac{6-4}{8-2} = \frac{2}{6} = \frac{1}{3}$
+## 📌 Example 2: Probability with Uniform Distribution (Cont'd)
+::: {.columns}
 
-## 📖 Application: Poisson Process & Uniform Conditioning {.smaller}
+::: {.column width="50%"}
+::: {.fragment}
+**Integration Method:**
+$$P(4 \leq X \leq 6) = \int_{4}^{6} \frac{1}{6} \, dx = \frac{1}{3}$$
+:::
+:::
+
+::: {.column width="50%"}
+::: {.fragment}
+**Shortcut Method:**
+$$P(4 \leq X \leq 6) = \frac{6-4}{8-2} = \frac{1}{3}$$
+(length ratio)
+:::
+:::
+
+:::
+
+## 📖 Application: Poisson Process & Uniform Conditioning 
 
 ::: {.callout-tip}
 ## 🎯 Real-World Application
@@ -401,19 +418,11 @@ $$\boxed{\mu = E(Y) = \frac{\theta_1 + \theta_2}{2}}$$
 **Proof:**
 
 By definition of expected value:
-$$E(Y) = \int_{-\infty}^{\infty} y f(y) \, dy = \int_{\theta_1}^{\theta_2} y \left(\frac{1}{\theta_2 - \theta_1}\right) \, dy$$
+$$E(Y) = \int_{-\infty}^{\infty} y f(y) \, dy = \int_{\theta_1}^{\theta_2} y \left(\frac{1}{\theta_2 - \theta_1}\right) \, dy = \frac{1}{\theta_2 - \theta_1} \int_{\theta_1}^{\theta_2} y \, dy = \frac{1}{\theta_2 - \theta_1} \left[\frac{1}{2}y^2\right]_{\theta_1}^{\theta_2}$$
 
 . . .
 
-$$= \frac{1}{\theta_2 - \theta_1} \int_{\theta_1}^{\theta_2} y \, dy = \frac{1}{\theta_2 - \theta_1} \left[\frac{1}{2}y^2\right]_{\theta_1}^{\theta_2}$$
-
-. . .
-
-$$= \frac{1}{\theta_2 - \theta_1} \cdot \frac{1}{2}(\theta_2^2 - \theta_1^2) = \frac{\theta_2^2 - \theta_1^2}{2(\theta_2 - \theta_1)}$$
-
-. . .
-
-$$= \frac{(\theta_2 - \theta_1)(\theta_2 + \theta_1)}{2(\theta_2 - \theta_1)} = \boxed{\frac{\theta_1 + \theta_2}{2}}$$
+$$= \frac{1}{\theta_2 - \theta_1} \cdot \frac{1}{2}(\theta_2^2 - \theta_1^2) = \frac{\theta_2^2 - \theta_1^2}{2(\theta_2 - \theta_1)} = \frac{(\theta_2 - \theta_1)(\theta_2 + \theta_1)}{2(\theta_2 - \theta_1)} = \boxed{\frac{\theta_1 + \theta_2}{2}}$$
 
 ## 🧮 Theorem: Variance of Uniform Distribution {.smaller}
 
@@ -429,11 +438,7 @@ $$\boxed{\sigma^2 = V(Y) = \frac{(\theta_2 - \theta_1)^2}{12}}$$
 
 **Proof Strategy:**
 
-1. Compute $E(Y^2) = \int_{\theta_1}^{\theta_2} y^2 \cdot \frac{1}{\theta_2 - \theta_1} \, dy$
-
-. . .
-
-2. Use the formula $V(Y) = E(Y^2) - [E(Y)]^2$
+*Compute* $E(Y^2) = \int_{\theta_1}^{\theta_2} y^2 \cdot \frac{1}{\theta_2 - \theta_1} \, dy$ and *Use the formula* $V(Y) = E(Y^2) - [E(Y)]^2$
 
 . . .
 
@@ -448,9 +453,23 @@ $$= \frac{\theta_2^3 - \theta_1^3}{3(\theta_2 - \theta_1)} = \frac{(\theta_2 - \
 
 **Step 2: Apply Variance Formula**
 
-We have:
+::: {.columns}
+
+::: {.column width="30%"}
+::: {.fragment}
+**From Step 1:**
 $$E(Y^2) = \frac{\theta_2^2 + \theta_2\theta_1 + \theta_1^2}{3}$$
+:::
+:::
+
+::: {.column width="70%"}
+::: {.fragment}
+**Square of mean:**
 $$[E(Y)]^2 = \left(\frac{\theta_1 + \theta_2}{2}\right)^2 = \frac{(\theta_1 + \theta_2)^2}{4} = \frac{\theta_1^2 + 2\theta_1\theta_2 + \theta_2^2}{4}$$
+:::
+:::
+
+:::
 
 . . .
 
@@ -464,11 +483,7 @@ $$= \frac{4(\theta_2^2 + \theta_2\theta_1 + \theta_1^2) - 3(\theta_1^2 + 2\theta
 
 . . .
 
-$$= \frac{4\theta_2^2 + 4\theta_2\theta_1 + 4\theta_1^2 - 3\theta_1^2 - 6\theta_1\theta_2 - 3\theta_2^2}{12}$$
-
-. . .
-
-$$= \frac{\theta_2^2 - 2\theta_2\theta_1 + \theta_1^2}{12} = \frac{(\theta_2 - \theta_1)^2}{12}$$
+$$= \frac{4\theta_2^2 + 4\theta_2\theta_1 + 4\theta_1^2 - 3\theta_1^2 - 6\theta_1\theta_2 - 3\theta_2^2}{12}= \frac{\theta_2^2 - 2\theta_2\theta_1 + \theta_1^2}{12} = \frac{(\theta_2 - \theta_1)^2}{12}$$
 
 ## 📌 Example 4: Uniform Distribution Mean & Variance {.smaller}
 
@@ -486,17 +501,27 @@ Let $Y \sim \text{Uniform}(50, 70)$ represent the stock price.
 
 . . .
 
+::: {.columns}
+
+::: {.column width="30%"}
+::: {.fragment}
 **(a) Expected price:**
-$$\mu = E(Y) = \frac{\theta_1 + \theta_2}{2} = \frac{50 + 70}{2} = \boxed{\$60}$$
+$$\mu = E(Y) = \frac{\theta_1 + \theta_2}{2}$$
+$$= \frac{50 + 70}{2} = \boxed{\$60}$$
+:::
+:::
 
-. . .
-
+::: {.column width="70%"}
+::: {.fragment}
 **(b) Variance and standard deviation:**
 $$\sigma^2 = V(Y) = \frac{(\theta_2 - \theta_1)^2}{12} = \frac{(70 - 50)^2}{12} = \frac{400}{12} = \boxed{33.33}$$
-
 $$\sigma = \sqrt{33.33} \approx \boxed{\$5.77}$$
+:::
+:::
 
-## 🎮 Interactive: Uniform Mean and Variance {.smaller}
+:::
+
+## 🎮 Interactive: Uniform Mean and Variance {.r-fit-text}
 
 ::: {style="font-size: 0.8em;"}
 
@@ -600,7 +625,7 @@ Plot.plot({
 :::
 :::
 
-## 💰 Case Study: Investment Holding Period Returns (Real Data) {.smaller}
+## 💰 Case Study: Investment Holding Period Returns (Real Data) {.r-fit-text}
 
 ::: {style="font-size:26px"}
 ::: {.columns}
@@ -850,7 +875,7 @@ For $Y \sim \text{Uniform}(0, 10)$, what is $P(3 \leq Y \leq 7)$?
 - **Financial applications** include modeling price ranges, arrival times in service operations, and scenarios with equal likelihood across an interval
 :::
 
-## 📚 Practice Problems {.smaller}
+## 📚 Practice Problems {.r-fit-text}
 
 ::: {.callout-tip}
 ## 📝 Homework Problems
@@ -901,7 +926,7 @@ ADA University
 :::
 :::
 
-## ❓ Questions? {.smaller .center}
+## ❓ Questions? {.r-fit-text .center}
 
 ::: {.callout-note}
 ## 💬 Open Discussion
