@@ -305,7 +305,7 @@ location: "Baku, Azerbaijan"
       <h4>🎥 Conditional Probability</h4>
         <div class="youtube-container">
           <iframe width="560" height="315" 
-                  src="https://youtube.com/embed/_f7KLxkdQQQ" 
+                  src="https://www.youtube.com/embed/_f7KLxkdQQQ" 
                   title="Conditional Probability - Mathematical Statistics" 
                   frameborder="0" 
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
