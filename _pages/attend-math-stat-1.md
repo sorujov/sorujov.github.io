@@ -87,31 +87,34 @@ classes: wide
 
 
 <script>
-// TEST LOCATION: Ataturk 111a, Baku
-const ADA_LAT = 40.4081044;
-const ADA_LON = 49.8461084;
-const RADIUS_KM = 0.5;
+// Wait for page to fully load before running code
+document.addEventListener('DOMContentLoaded', function() {
+  
+  // TEST LOCATION: Ataturk 111a, Baku
+  const ADA_LAT = 40.4081044;
+  const ADA_LON = 49.8461084;
+  const RADIUS_KM = 0.5;
 
-const SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbxQnYUuKy6fwD8Ymuy8JjbuDwRgfdDv7s20fRgaelrV-QHthecOuCwsbImzNsQgGouB/exec';
+  const SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbxQnYUuKy6fwD8Ymuy8JjbuDwRgfdDv7s20fRgaelrV-QHthecOuCwsbImzNsQgGouB/exec';
 
-function debugLog(message) {
-  const timestamp = new Date().toLocaleTimeString();
-  const debugDiv = document.getElementById('debug-log');
-  debugDiv.innerHTML += `<div>${timestamp}: ${message}</div>`;
-  debugDiv.scrollTop = debugDiv.scrollHeight;
-  console.log(message);
-}
+  function debugLog(message) {
+    const timestamp = new Date().toLocaleTimeString();
+    const debugDiv = document.getElementById('debug-log');
+    if (debugDiv) {
+      debugDiv.innerHTML += `<div>${timestamp}: ${message}</div>`;
+      debugDiv.scrollTop = debugDiv.scrollHeight;
+    }
+    console.log(message);
+  }
 
-debugLog('Page loaded');
-
-const out = document.getElementById('out');
+  debugLog('Page loaded and script initialized');const out = document.getElementById('out');
 let capturedLocation = null;
 
-function log(msg, isError = false) {
-  out.innerHTML = `<p style="color: ${isError ? '#dc3545' : '#28a745'}; font-weight: bold; margin: 0;">${msg}</p>`;
-}
-
-function calculateDistance(lat1, lon1, lat2, lon2) {
+  function log(msg, isError = false) {
+    if (out) {
+      out.innerHTML = `<p style="color: ${isError ? '#dc3545' : '#28a745'}; font-weight: bold; margin: 0;">${msg}</p>`;
+    }
+  }function calculateDistance(lat1, lon1, lat2, lon2) {
   const R = 6371;
   const dLat = (lat2 - lat1) * Math.PI / 180;
   const dLon = (lon2 - lon1) * Math.PI / 180;
@@ -193,13 +196,23 @@ function getPositionWithTimeout(useHighAccuracy) {
   });
 }
 
-document.getElementById('checkin').addEventListener('click', async () => {
-  debugLog('Check In button clicked');
+  const checkinButton = document.getElementById('checkin');
   
-  if (!('geolocation' in navigator)) {
-    debugLog('ERROR: Geolocation not supported');
-    log('⚠ Geolocation not supported on this device', true);
+  if (!checkinButton) {
+    debugLog('ERROR: Check-in button not found!');
+    console.error('Button with id="checkin" not found in DOM');
     return;
+  }
+  
+  debugLog('Check-in button found, attaching listener...');
+  
+  checkinButton.addEventListener('click', async () => {
+    debugLog('Check In button clicked');
+    
+    if (!('geolocation' in navigator)) {
+      debugLog('ERROR: Geolocation not supported');
+      log('⚠ Geolocation not supported on this device', true);
+      return;
   }
   
   debugLog('Geolocation is supported');
@@ -250,10 +263,12 @@ document.getElementById('checkin').addEventListener('click', async () => {
     console.error('Geolocation error:', error);
     log('⚠ ' + error.message, true);
   }
-});
+  });
 
-// Handle form submission
-document.getElementById('attendance-form').addEventListener('submit', async (e) => {
+  const attendanceForm = document.getElementById('attendance-form');
+  
+  if (attendanceForm) {
+    attendanceForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   
   if (!capturedLocation) {
@@ -320,14 +335,16 @@ document.getElementById('attendance-form').addEventListener('submit', async (e) 
     document.getElementById('student-form').style.display = 'none';
     
     setTimeout(() => {
-      document.getElementById('attendance-form').reset();
+      e.target.reset();
       document.getElementById('checkin').style.display = 'inline-block';
       capturedLocation = null;
       log('👆 Click the button above to check in', false);
     }, 3000);
   }
-});
+    });
+  }
 
-// Show initial message
-log('👆 Click the button above to check in', false);
+  log('👆 Click the button above to check in', false);
+  
+}); // End of DOMContentLoaded
 </script>
