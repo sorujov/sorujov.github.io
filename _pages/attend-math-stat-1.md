@@ -192,8 +192,7 @@ function getPositionWithTimeout(useHighAccuracy) {
 }
 
 document.getElementById('checkin').addEventListener('click', async () => {
-  
-  if (!('geolocation' in navigator)) {
+  debugLog('Check In button clicked');
   
   if (!('geolocation' in navigator)) {
     debugLog('ERROR: Geolocation not supported');
