@@ -22,6 +22,7 @@ location: "Baku, Azerbaijan"
     <a href="#assessment" class="toc-main-link">📊 Assessment</a>
     <a href="#literature" class="toc-main-link">📚 Literature</a>
     <a href="#technical-notes" class="toc-main-link">⚙️ Technical Notes</a>
+    <a href="/attendance/math-stat-1/" class="toc-main-link" style="background: linear-gradient(45deg, #667eea 0%, #764ba2 100%); color: white;">✓ Attendance</a>
   </div>
 
   <h3 class="toc-lectures-header">📚 Course Topics</h3>
@@ -114,6 +115,21 @@ location: "Baku, Azerbaijan"
       <span class="assessment-percentage">35%</span>
       Final Exam
     </div>
+  </div>
+
+  <div style="margin-top: 2rem; text-align: center;">
+    <a href="/attendance/math-stat-1/" class="btn btn--primary" style="
+      background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 25px;
+      font-size: 1.1rem;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 0 4px 15px rgba(102,126,234,0.3);
+      transition: transform 0.2s;">
+      ✓ Check Attendance / View QR Code
+    </a>
   </div>
 </div>
 
