@@ -30,6 +30,9 @@
       var token = urlParams.get('token');
       var session = urlParams.get('session');
       
+      console.log('Token validation - token:', token);
+      console.log('Token validation - session:', session);
+      
       if (!token || !session) {
         log('⚠ Invalid or expired link. Please scan the QR code again.', true);
         document.getElementById('checkin').disabled = true;
@@ -39,11 +42,23 @@
       }
       
       try {
+        // Add padding if needed for base64
+        var paddedToken = token;
+        while (paddedToken.length % 4 !== 0) {
+          paddedToken += '=';
+        }
+        
         // Decode token
-        var decoded = atob(token);
+        var decoded = atob(paddedToken);
+        console.log('Decoded token:', decoded);
+        
         var parts = decoded.split(':');
         var timestamp = parseInt(parts[0]);
         var pass = parts.slice(1).join(':');
+        
+        console.log('Timestamp:', timestamp);
+        console.log('Password from token:', pass);
+        console.log('Expected password:', PASSWORD);
         
         // Verify password
         if (pass !== PASSWORD) {
@@ -58,16 +73,22 @@
         var now = new Date().getTime();
         var ageMinutes = (now - timestamp) / (1000 * 60);
         
+        console.log('Current time:', now);
+        console.log('Token age (minutes):', ageMinutes);
+        console.log('Max age (minutes):', TOKEN_VALIDITY_MINUTES);
+        
         if (ageMinutes > TOKEN_VALIDITY_MINUTES) {
-          log('⚠ This link has expired. Please scan the QR code again.', true);
+          log('⚠ This link has expired (' + Math.round(ageMinutes) + ' min old). Please scan the QR code again.', true);
           document.getElementById('checkin').disabled = true;
           document.getElementById('checkin').style.opacity = '0.5';
           document.getElementById('checkin').style.cursor = 'not-allowed';
           return false;
         }
         
+        console.log('Token validation passed!');
         return true;
       } catch (e) {
+        console.error('Token validation error:', e);
         log('⚠ Invalid link format. Please scan the QR code again.', true);
         document.getElementById('checkin').disabled = true;
         document.getElementById('checkin').style.opacity = '0.5';
