@@ -5,9 +5,9 @@
   // Wait for page to fully load before running code
   document.addEventListener('DOMContentLoaded', function() {
     
-    // TEST LOCATION: Ataturk 111a, Baku
-    var ADA_LAT = 40.4081044;
-    var ADA_LON = 49.8461084;
+    // TEST LOCATION: Ataturk 111a, Baku 40.39476586000145, 49.84937393783448
+    var ADA_LAT = 40.39476586000145;
+    var ADA_LON = 49.84937393783448;
     var RADIUS_KM = 0.5;
     var PASSWORD = 'so123!';
     var TOKEN_VALIDITY_SECONDS = 30; // Token expires after 30 seconds
