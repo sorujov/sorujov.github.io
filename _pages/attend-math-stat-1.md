@@ -5,6 +5,7 @@ permalink: /attend/math-stat-1/
 classes: wide
 ---
 
+
 <div style="max-width: 500px; margin: 2rem auto; text-align: center;">
   <h2>📊 Confirm Your Attendance</h2>
   <p>Course: Mathematical Statistics I (STAT 2311)</p>
@@ -83,6 +84,7 @@ classes: wide
     <p style="margin: 0; font-size: 0.9rem;"><strong>Note:</strong> You must be on ADA University campus to check in. Location access is required.</p>
   </div>
 </div>
+
 
 <script>
 // TEST LOCATION: Ataturk 111a, Baku
