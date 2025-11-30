@@ -199,13 +199,14 @@ permalink: /attendance/math-stat-1/
             // Update display
             sessionTimeDisplay.textContent = sessionInfo;
             
-            // Build Google Form URL with pre-filled session time
-            var formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLScCWzzIGI1AFbSLlahBNl18_eWGPChIXNyGkx2ej7joGwnfEQ/viewform?usp=pp_url&entry.303810813=' + encodeURIComponent(sessionInfo);
+            // Build attendance page URL with session time parameter
+            var baseUrl = window.location.origin + '/attend/math-stat-1/';
+            var attendUrl = baseUrl + '?session=' + encodeURIComponent(sessionInfo);
             
             // Generate QR code - LARGE for projection
             var qrSize = Math.min(window.innerWidth * 0.7, window.innerHeight * 0.7, 800);
             new QRCode(qrcodeContainer, {
-                text: formUrl,
+                text: attendUrl,
                 width: qrSize,
                 height: qrSize,
                 correctLevel: QRCode.CorrectLevel.H

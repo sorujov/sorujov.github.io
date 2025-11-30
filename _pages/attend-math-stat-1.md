@@ -170,8 +170,9 @@ document.getElementById('attendance-form').addEventListener('submit', async (e) 
   
   log('📤 Submitting attendance...', false);
   
-  // Get session time
-  const sessionTime = capturedLocation.timestamp.toLocaleDateString('en-US', {
+  // Get session time from URL parameter (from QR code) or use current time
+  const urlParams = new URLSearchParams(window.location.search);
+  const sessionTime = urlParams.get('session') || (capturedLocation.timestamp.toLocaleDateString('en-US', {
     month: 'short', 
     day: 'numeric', 
     year: 'numeric'
@@ -179,7 +180,7 @@ document.getElementById('attendance-form').addEventListener('submit', async (e) 
     hour: 'numeric', 
     minute: '2-digit', 
     hour12: true
-  });
+  }));
   
   const data = {
     name: name,
