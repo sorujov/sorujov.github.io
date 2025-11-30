@@ -68,6 +68,17 @@ classes: wide
     background: #f8f9fa;
   "></div>
   
+  <div id="debug-log" style="
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background: #e9ecef;
+    font-family: monospace;
+    font-size: 12px;
+    max-height: 300px;
+    overflow-y: auto;
+  "></div>
+  
   <div style="margin-top: 30px; padding: 15px; background: #fff3cd; border-radius: 8px; border-left: 4px solid #ffc107;">
     <p style="margin: 0; font-size: 0.9rem;"><strong>Note:</strong> You must be on ADA University campus to check in. Location access is required.</p>
   </div>
@@ -81,6 +92,17 @@ const RADIUS_KM = 0.5; // 500 meters
 
 // Google Apps Script Web App URL
 const SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbxQnYUuKy6fwD8Ymuy8JjbuDwRgfdDv7s20fRgaelrV-QHthecOuCwsbImzNsQgGouB/exec';
+
+// Debug logging
+function debugLog(message) {
+  const timestamp = new Date().toLocaleTimeString();
+  const debugDiv = document.getElementById('debug-log');
+  debugDiv.innerHTML += `<div>${timestamp}: ${message}</div>`;
+  debugDiv.scrollTop = debugDiv.scrollHeight;
+  console.log(message);
+}
+
+debugLog('Page loaded');
 
 const out = document.getElementById('out');
 let capturedLocation = null;
@@ -102,17 +124,24 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 
 // Geolocation with proper timeout protection
 function getLocationWithTimeout() {
+  debugLog('getLocationWithTimeout() called');
+  
   return new Promise((resolve, reject) => {
+    debugLog('Setting 10s timeout...');
     const timeoutId = setTimeout(() => {
+      debugLog('TIMEOUT: 10 seconds elapsed');
       reject(new Error('Location request timed out after 10 seconds. Please ensure GPS is enabled.'));
     }, 10000);
 
+    debugLog('Calling navigator.geolocation.getCurrentPosition()...');
     navigator.geolocation.getCurrentPosition(
       (position) => {
+        debugLog('SUCCESS: Position received');
         clearTimeout(timeoutId);
         resolve(position);
       },
       (error) => {
+        debugLog(`ERROR: Code ${error.code}, Message: ${error.message}`);
         clearTimeout(timeoutId);
         const errorMessages = {
           1: 'Permission denied - please allow location access in your browser settings',
@@ -131,14 +160,19 @@ function getLocationWithTimeout() {
 }
 
 document.getElementById('checkin').addEventListener('click', async () => {
+  debugLog('Check In button clicked');
+  
   if (!('geolocation' in navigator)) {
+    debugLog('ERROR: Geolocation not supported');
     log('⚠ Geolocation not supported on this device', true);
     return;
   }
   
+  debugLog('Geolocation is supported');
   log('📍 Requesting location permission...', false);
   
   try {
+    debugLog('Calling getLocationWithTimeout()...');
     const position = await getLocationWithTimeout();
     
     const lat = position.coords.latitude;
