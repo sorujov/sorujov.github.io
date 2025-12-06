@@ -17,37 +17,37 @@ Welcome to my photo gallery. Here you can find photos from academic events, conf
 
 <div class="photo-gallery">
   <div class="photo-item">
-    <img src="/images/personal/france-garden.jpg" alt="Gardens at Vannes Castle, France" style="width: 300px; height: 200px; object-fit: cover; margin: 10px; border-radius: 8px;">
+    <img src="/images/personal/france-garden.jpg" alt="Gardens at Vannes Castle, France">
     <p><em>Gardens at Vannes Castle, France</em></p>
   </div>
   
   <div class="photo-item">
-    <img src="/images/personal/france-station.jpg" alt="Gare de l'Est, Paris" style="width: 300px; height: 200px; object-fit: cover; margin: 10px; border-radius: 8px;">
+    <img src="/images/personal/france-station.jpg" alt="Gare de l'Est, Paris">
     <p><em>Gare de l'Est, Paris</em></p>
   </div>
   
   <div class="photo-item">
-    <img src="/images/personal/professional.jpg" alt="Professional Portrait" style="width: 300px; height: 200px; object-fit: cover; margin: 10px; border-radius: 8px;">
+    <img src="/images/personal/professional.jpg" alt="Professional Portrait">
     <p><em>Professional Portrait</em></p>
   </div>
   
   <div class="photo-item">
-    <img src="/images/personal/casual-style.jpg" alt="Casual Portrait" style="width: 300px; height: 200px; object-fit: cover; margin: 10px; border-radius: 8px;">
+    <img src="/images/personal/casual-style.jpg" alt="Casual Portrait">
     <p><em>Everyday Moments</em></p>
   </div>
   
   <div class="photo-item">
-    <img src="/images/personal/theme-park.jpg" alt="Theme Park Visit" style="width: 300px; height: 200px; object-fit: cover; margin: 10px; border-radius: 8px;">
+    <img src="/images/personal/theme-park.jpg" alt="Theme Park Visit">
     <p><em>Fun Times at Theme Park</em></p>
   </div>
   
   <div class="photo-item">
-    <img src="/images/personal/nature-rock.jpg" alt="Nature and Rock Formations" style="width: 300px; height: 200px; object-fit: cover; margin: 10px; border-radius: 8px;">
+    <img src="/images/personal/nature-rock.jpg" alt="Nature and Rock Formations">
     <p><em>Exploring Natural Wonders</em></p>
   </div>
   
   <div class="photo-item">
-    <img src="/images/personal/bike-vannes.jpg" alt="Cycling in Vannes" style="width: 300px; height: 200px; object-fit: cover; margin: 10px; border-radius: 8px;">
+    <img src="/images/personal/bike-vannes.jpg" alt="Cycling in Vannes">
     <p><em>Cycling Adventure in Vannes</em></p>
   </div>
 </div>
@@ -72,8 +72,12 @@ Welcome to my photo gallery. Here you can find photos from academic events, conf
 }
 
 .photo-item img {
+  width: 300px;
+  max-height: 400px;
+  object-fit: contain;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   transition: transform 0.3s ease;
+  border-radius: 8px;
 }
 
 .photo-item img:hover {
