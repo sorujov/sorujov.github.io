@@ -4,8 +4,7 @@ title: "Mathematical Statistics I - Attendance"
 permalink: /attendance/math-stat-1/
 ---
 
-<!-- PASSWORD PROTECTION (commented out for demo) -->
-<!--
+<!-- PASSWORD PROTECTION -->
 <div id="password-container" style="
     display: flex;
     justify-content: center;
@@ -52,9 +51,8 @@ permalink: /attendance/math-stat-1/
         ">Incorrect password. Please try again.</div>
     </div>
 </div>
--->
 
-<div id="qrcode-container" style="display: block;">
+<div id="qrcode-container" style="display: none;">
     <button id="fullscreen-btn" title="Toggle Fullscreen (F11)">⛶</button>
     <h2>📊 Scan for Attendance</h2>
     <div id="qrcode"></div>
@@ -129,7 +127,7 @@ permalink: /attendance/math-stat-1/
         );
     }
     
-    /* PASSWORD CHECK (commented out for demo)
+    // PASSWORD CHECK
     function checkPassword() {
         var input = document.getElementById('password-input').value;
         var errorDiv = document.getElementById('password-error');
@@ -154,7 +152,6 @@ permalink: /attendance/math-stat-1/
             checkPassword();
         }
     });
-    */
     
     var QR_REFRESH_MS = 30000;
     var qrcodeContainer = document.getElementById("qrcode");
@@ -169,8 +166,7 @@ permalink: /attendance/math-stat-1/
         setInterval(generateQR, QR_REFRESH_MS);
     }
     
-    // Auto-start QR code (password protection disabled for demo)
-    initQRCode();
+    // Password protection enabled - QR code will only show after password is entered
 
     function generateQR() {
         try {
