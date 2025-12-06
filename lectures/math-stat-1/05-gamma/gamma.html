@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.8.25">
 
   <meta name="author" content="Samir Orujov, PhD">
-  <meta name="dcterms.date" content="2025-11-30">
+  <meta name="dcterms.date" content="2025-12-06">
   <title>Mathematical Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -218,7 +218,7 @@ Samir Orujov, PhD
     </div>
 </div>
 
-  <p class="date">2025-11-30</p>
+  <p class="date">2025-12-06</p>
 </section>
 <section id="learning-objectives" class="slide level2 smaller">
 <h2>🎯 Learning Objectives</h2>
@@ -695,7 +695,7 @@ Samir Orujov, PhD
 <h2>🤝 Think-Pair-Share: IT Infrastructure Planning</h2>
 <div class="cell">
 <div class="cell-output-display">
-<div class="countdown" id="timer_95b21938" data-warn-when="30" data-update-every="1" data-play-sound="true" tabindex="0" style="top:600px;right:0px;margin:0.5em;font-size:2em;">
+<div class="countdown" id="timer_a583800d" data-warn-when="30" data-update-every="1" data-play-sound="true" tabindex="0" style="top:600px;right:0px;margin:0.5em;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">−</button><button class="countdown-bump-up">+</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -1037,7 +1037,7 @@ Samir Orujov, PhD
 </div>
 <div class="callout-content">
 <p><strong>Definition:</strong> A random variable <span class="math inline">\(Y\)</span> is memoryless if:</p>
-<p><span class="math display">\[P(Y &gt; a + b \mid Y &gt; a) = P(Y &gt; b) \text{for all} a &gt; 0 \text{and} b &gt; 0.\]</span></p>
+<p><span class="math display">\[P(Y &gt; a + b \mid Y &gt; a) = P(Y &gt; b) \; \text{for all}\; a &gt; 0 \; \text{and} \; b &gt; 0.\]</span></p>
 <p><strong>Interpretation:</strong></p>
 <div class="{columns}">
 <div class="column fragment" style="width:33%;">
@@ -1299,15 +1299,15 @@ P(Y &gt; 5 | Y &gt; 2) = P(Y &gt; 3)</p>
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>📋 Insurance Loss Modeling</strong></p>
+<p><strong>📋 Fire Insurance Loss Modeling</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Context</strong>: Insurance companies model claim amounts using gamma distributions because losses are naturally right-skewed with a long tail of large claims. We analyze auto insurance bodily injury claims to demonstrate gamma distribution fitting.</p>
+<p><strong>Context</strong>: Insurance companies model loss amounts using gamma distributions because losses are naturally right-skewed with a long tail of catastrophic events. We analyze Danish fire insurance losses from 1980-1990.</p>
 <p><strong>Key Questions</strong>:</p>
 <ul>
-<li><p>What are the optimal shape (<span class="math inline">\(\alpha\)</span>) and scale (<span class="math inline">\(\beta\)</span>) parameters for claim amounts?</p></li>
-<li><p>What proportion of claims exceed policy limits (e.g., $50,000)?</p></li>
-<li><p>How can we use the model for premium pricing and reserve estimation?</p></li>
+<li><p>What are the optimal shape (<span class="math inline">\(\alpha\)</span>) and scale (<span class="math inline">\(\beta\)</span>) parameters using MLE?</p></li>
+<li><p>What proportion of losses exceed certain thresholds (e.g., 10M, 20M DKK)?</p></li>
+<li><p>How well does the gamma model fit, and what are its limitations?</p></li>
 </ul>
 </div>
 </div>
@@ -1322,11 +1322,11 @@ P(Y &gt; 5 | Y &gt; 2) = P(Y &gt; 3)</p>
 <p><strong>📊 Data Source</strong></p>
 </div>
 <div class="callout-content">
-<p>We analyze <strong>auto insurance bodily injury claims</strong> from the <strong>Insurance Services Office (ISO)</strong> dataset.</p>
-<p><strong>Source</strong>: R package <code>actuar</code> - real insurance industry data</p>
-<p><strong>Period</strong>: Historical claims data</p>
-<p><strong>Data Type</strong>: Claim amounts in USD (filtered for completeness)</p>
-<p><strong>Application</strong>: Used by actuaries for pricing, reserving, and risk assessment</p>
+<p>We analyze <strong>Danish fire insurance losses (1980-1990)</strong> - a classic actuarial dataset.</p>
+<p><strong>Source</strong>: R package <code>fitdistrplus</code> - <code>danishuni</code> dataset</p>
+<p><strong>Sample Size</strong>: 2,167 individual fire insurance claims</p>
+<p><strong>Data Type</strong>: Loss amounts in millions of Danish Krone (DKK)</p>
+<p><strong>Application</strong>: Widely used for demonstrating actuarial modeling, extreme value analysis, and heavy-tailed distributions</p>
 </div>
 </div>
 </div>
@@ -1335,144 +1335,176 @@ P(Y &gt; 5 | Y &gt; 2) = P(Y &gt; 3)</p>
 </section>
 <section id="case-study-data-loading-and-parameter-estimation" class="slide level2 smaller">
 <h2>💰 Case Study: Data Loading and Parameter Estimation</h2>
-<div style="font-size:26px">
+<div style="font-size:18px">
 <div class="columns">
 <div class="column" style="width:33%;">
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="co"># Load required libraries</span></span>
-<span id="cb7-2"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb7-3"><a href=""></a><span class="fu">library</span>(MASS)  <span class="co"># For fitdistr</span></span>
-<span id="cb7-4"><a href=""></a></span>
-<span id="cb7-5"><a href=""></a><span class="co"># Generate realistic insurance claim data</span></span>
-<span id="cb7-6"><a href=""></a><span class="co"># (simulating from gamma based on industry parameters)</span></span>
-<span id="cb7-7"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">2024</span>)</span>
-<span id="cb7-8"><a href=""></a>n_claims <span class="ot">&lt;-</span> <span class="dv">500</span></span>
-<span id="cb7-9"><a href=""></a></span>
-<span id="cb7-10"><a href=""></a><span class="co"># Industry-typical parameters for bodily injury claims</span></span>
-<span id="cb7-11"><a href=""></a><span class="co"># alpha ≈ 1.5 (right-skewed), beta ≈ 8000</span></span>
-<span id="cb7-12"><a href=""></a>alpha_true <span class="ot">&lt;-</span> <span class="fl">1.5</span></span>
-<span id="cb7-13"><a href=""></a>beta_true <span class="ot">&lt;-</span> <span class="dv">8000</span></span>
-<span id="cb7-14"><a href=""></a></span>
-<span id="cb7-15"><a href=""></a>claims <span class="ot">&lt;-</span> <span class="fu">rgamma</span>(n_claims, </span>
-<span id="cb7-16"><a href=""></a>                 <span class="at">shape =</span> alpha_true, </span>
-<span id="cb7-17"><a href=""></a>                 <span class="at">scale =</span> beta_true)</span>
-<span id="cb7-18"><a href=""></a></span>
-<span id="cb7-19"><a href=""></a><span class="co"># Add some measurement realism</span></span>
-<span id="cb7-20"><a href=""></a>claims <span class="ot">&lt;-</span> <span class="fu">round</span>(claims, <span class="dv">2</span>)</span>
-<span id="cb7-21"><a href=""></a></span>
-<span id="cb7-22"><a href=""></a><span class="co"># Summary statistics</span></span>
-<span id="cb7-23"><a href=""></a>mean_claim <span class="ot">&lt;-</span> <span class="fu">mean</span>(claims)</span>
-<span id="cb7-24"><a href=""></a>median_claim <span class="ot">&lt;-</span> <span class="fu">median</span>(claims)</span>
-<span id="cb7-25"><a href=""></a>sd_claim <span class="ot">&lt;-</span> <span class="fu">sd</span>(claims)</span>
-<span id="cb7-26"><a href=""></a>max_claim <span class="ot">&lt;-</span> <span class="fu">max</span>(claims)</span>
-<span id="cb7-27"><a href=""></a></span>
-<span id="cb7-28"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Sample size: %d claims</span><span class="sc">\n</span><span class="st">"</span>, n_claims))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Load required libraries</span></span>
+<span id="cb7-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb7-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fitdistrplus)  <span class="co"># For MLE fitting</span></span>
+<span id="cb7-4"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Load real insurance loss data from fitdistrplus package</span></span>
+<span id="cb7-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Danish fire insurance losses (1980-1990): 2,167 claims</span></span>
+<span id="cb7-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># This is a classic actuarial dataset for gamma distribution modeling</span></span>
+<span id="cb7-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(danishuni)</span>
+<span id="cb7-9"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract loss amounts (in millions of Danish Krone)</span></span>
+<span id="cb7-11"><a href="" aria-hidden="true" tabindex="-1"></a>claims <span class="ot">&lt;-</span> danishuni<span class="sc">$</span>Loss</span>
+<span id="cb7-12"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Verify we have sufficient data</span></span>
+<span id="cb7-14"><a href="" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(claims) <span class="sc">&lt;</span> <span class="dv">100</span>) {</span>
+<span id="cb7-15"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="fu">paste</span>(<span class="st">"Error: Only"</span>, <span class="fu">length</span>(claims), <span class="st">"claims loaded. Need at least 100."</span>))</span>
+<span id="cb7-16"><a href="" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-17"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Data source: Danish fire insurance losses (1980-1990)</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Sample size: 500 claims</code></pre>
+<pre><code>Data source: Danish fire insurance losses (1980-1990)</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Mean claim: $%.2f</span><span class="sc">\n</span><span class="st">"</span>, mean_claim))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Original values in millions of Danish Krone</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Mean claim: $11798.18</code></pre>
+<pre><code>Original values in millions of Danish Krone</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Median claim: $%.2f</span><span class="sc">\n</span><span class="st">"</span>, median_claim))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary statistics</span></span>
+<span id="cb11-2"><a href="" aria-hidden="true" tabindex="-1"></a>n_claims <span class="ot">&lt;-</span> <span class="fu">length</span>(claims)</span>
+<span id="cb11-3"><a href="" aria-hidden="true" tabindex="-1"></a>mean_claim <span class="ot">&lt;-</span> <span class="fu">mean</span>(claims)</span>
+<span id="cb11-4"><a href="" aria-hidden="true" tabindex="-1"></a>median_claim <span class="ot">&lt;-</span> <span class="fu">median</span>(claims)</span>
+<span id="cb11-5"><a href="" aria-hidden="true" tabindex="-1"></a>sd_claim <span class="ot">&lt;-</span> <span class="fu">sd</span>(claims)</span>
+<span id="cb11-6"><a href="" aria-hidden="true" tabindex="-1"></a>max_claim <span class="ot">&lt;-</span> <span class="fu">max</span>(claims)</span>
+<span id="cb11-7"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Sample size: %d claims</span><span class="sc">\n</span><span class="st">"</span>, n_claims))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Median claim: $9340.80</code></pre>
+<pre><code>Sample size: 2167 claims</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Std Dev: $%.2f</span><span class="sc">\n</span><span class="st">"</span>, sd_claim))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Mean claim: $%.2f</span><span class="sc">\n</span><span class="st">"</span>, mean_claim))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Std Dev: $9454.76</code></pre>
+<pre><code>Mean claim: $3.39</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Max claim: $%.2f</span><span class="sc">\n</span><span class="st">"</span>, max_claim))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Median claim: $%.2f</span><span class="sc">\n</span><span class="st">"</span>, median_claim))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Max claim: $60859.93</code></pre>
+<pre><code>Median claim: $1.78</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Std Dev: $%.2f</span><span class="sc">\n</span><span class="st">"</span>, sd_claim))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Std Dev: $8.51</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Max claim: $%.2f</span><span class="sc">\n</span><span class="st">"</span>, max_claim))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Max claim: $263.25</code></pre>
 </div>
 </div>
 </div><div class="column" style="width:33%;">
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a><span class="co"># Estimate gamma parameters using Method of Moments</span></span>
-<span id="cb17-2"><a href=""></a><span class="co"># This is more robust than MLE for real-world skewed data</span></span>
-<span id="cb17-3"><a href=""></a><span class="co"># Based on E(Y) = α*β and Var(Y) = α*β²</span></span>
-<span id="cb17-4"><a href=""></a></span>
-<span id="cb17-5"><a href=""></a>alpha_est <span class="ot">&lt;-</span> (mean_claim<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (sd_claim<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb17-6"><a href=""></a>beta_est <span class="ot">&lt;-</span> (sd_claim<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> mean_claim</span>
-<span id="cb17-7"><a href=""></a></span>
-<span id="cb17-8"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Shape (α): %.3f</span><span class="sc">\n</span><span class="st">"</span>, alpha_est))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="co"># Estimate gamma parameters using Maximum Likelihood Estimation (MLE)</span></span>
+<span id="cb21-2"><a href=""></a><span class="co"># MLE provides optimal parameter estimates for the gamma distribution</span></span>
+<span id="cb21-3"><a href=""></a><span class="co"># fitdistrplus uses numerical optimization for robust fitting</span></span>
+<span id="cb21-4"><a href=""></a></span>
+<span id="cb21-5"><a href=""></a>fit_gamma <span class="ot">&lt;-</span> <span class="fu">fitdist</span>(claims, <span class="st">"gamma"</span>, <span class="at">method =</span> <span class="st">"mle"</span>)</span>
+<span id="cb21-6"><a href=""></a></span>
+<span id="cb21-7"><a href=""></a><span class="co"># Extract parameters (note: fitdist uses shape and rate parameterization)</span></span>
+<span id="cb21-8"><a href=""></a>alpha_est <span class="ot">&lt;-</span> fit_gamma<span class="sc">$</span>estimate[<span class="st">"shape"</span>]</span>
+<span id="cb21-9"><a href=""></a>rate_est <span class="ot">&lt;-</span> fit_gamma<span class="sc">$</span>estimate[<span class="st">"rate"</span>]</span>
+<span id="cb21-10"><a href=""></a>beta_est <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> rate_est  <span class="co"># Convert rate to scale parameter</span></span>
+<span id="cb21-11"><a href=""></a></span>
+<span id="cb21-12"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Shape (α): %.3f</span><span class="sc">\n</span><span class="st">"</span>, alpha_est))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Shape (α): 1.557</code></pre>
+<pre><code>Shape (α): 1.298</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Scale (β): $%.2f</span><span class="sc">\n</span><span class="st">"</span>, beta_est))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Scale (β): %.2f M DKK</span><span class="sc">\n</span><span class="st">"</span>, beta_est))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Scale (β): $7576.80</code></pre>
+<pre><code>Scale (β): 2.61 M DKK</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Estimated mean: $%.2f</span><span class="sc">\n</span><span class="st">"</span>, </span>
-<span id="cb21-2"><a href=""></a>            alpha_est <span class="sc">*</span> beta_est))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Rate (1/β): %.4f</span><span class="sc">\n</span><span class="st">"</span>, rate_est))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Estimated mean: $11798.18</code></pre>
+<pre><code>Rate (1/β): 0.3833</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Estimated variance: $%.2f²</span><span class="sc">\n</span><span class="st">"</span>, </span>
-<span id="cb23-2"><a href=""></a>            <span class="fu">sqrt</span>(alpha_est <span class="sc">*</span> beta_est<span class="sc">^</span><span class="dv">2</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Estimated mean: %.2f M DKK</span><span class="sc">\n</span><span class="st">"</span>, </span>
+<span id="cb27-2"><a href=""></a>            alpha_est <span class="sc">*</span> beta_est))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Estimated variance: $9454.76²</code></pre>
+<pre><code>
+Estimated mean: 3.39 M DKK</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Compare to sample mean: $%.2f</span><span class="sc">\n</span><span class="st">"</span>, mean_claim))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Sample mean: %.2f M DKK</span><span class="sc">\n</span><span class="st">"</span>, mean_claim))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Compare to sample mean: $11798.18</code></pre>
+<pre><code>Sample mean: 3.39 M DKK</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Compare to sample SD: $%.2f</span><span class="sc">\n</span><span class="st">"</span>, sd_claim))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Estimated SD: %.2f M DKK</span><span class="sc">\n</span><span class="st">"</span>, </span>
+<span id="cb31-2"><a href=""></a>            <span class="fu">sqrt</span>(alpha_est <span class="sc">*</span> beta_est<span class="sc">^</span><span class="dv">2</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Compare to sample SD: $9454.76</code></pre>
+<pre><code>
+Estimated SD: 2.97 M DKK</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Sample SD: %.2f M DKK</span><span class="sc">\n</span><span class="st">"</span>, sd_claim))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sample SD: 8.51 M DKK</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Log-likelihood: %.2f</span><span class="sc">\n</span><span class="st">"</span>, fit_gamma<span class="sc">$</span>loglik))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Log-likelihood: -4767.10</code></pre>
 </div>
 </div>
 </div><div class="column" style="width:33%;">
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>
-Probabilities of Exceeding Limits</code></pre>
+Probabilities of Exceeding Thresholds</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>==================================</code></pre>
+<pre><code>=====================================</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>P(Claim &gt; $25,000): 0.0930 (9.30%)</code></pre>
+<pre><code>P(Loss &gt; 5M DKK): 0.2231 (22.31%)</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>P(Claim &gt; $50,000): 0.0047 (0.47%)</code></pre>
+<pre><code>P(Loss &gt; 10M DKK): 0.0384 (3.84%)</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>P(Claim &gt; $100,000): 0.0000 (0.00%)</code></pre>
+<pre><code>P(Loss &gt; 20M DKK): 0.0010 (0.10%)</code></pre>
 </div>
 </div>
 </div></div>
@@ -1480,121 +1512,132 @@ Probabilities of Exceeding Limits</code></pre>
 </section>
 <section id="case-study-visualization-and-model-validation" class="slide level2 smaller">
 <h2>💰 Case Study: Visualization and Model Validation</h2>
-<div style="font-size:26px">
+
+<img data-src="gamma_files/figure-revealjs/unnamed-chunk-11-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section>
+<section id="model-fit-assessment-interpreting-diagnostic-plots" class="slide level2 smaller">
+<h2>💰 Model Fit Assessment: Interpreting Diagnostic Plots</h2>
+<div style="font-size: 30px">
 <div class="columns">
-<div class="column" style="width:50%;">
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a><span class="co"># Create histogram with gamma overlay</span></span>
-<span id="cb34-2"><a href=""></a>df_claims <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">claim =</span> claims)</span>
-<span id="cb34-3"><a href=""></a></span>
-<span id="cb34-4"><a href=""></a><span class="fu">ggplot</span>(df_claims, <span class="fu">aes</span>(<span class="at">x =</span> claim)) <span class="sc">+</span></span>
-<span id="cb34-5"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(density)), </span>
-<span id="cb34-6"><a href=""></a>                 <span class="at">bins =</span> <span class="dv">40</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>, </span>
-<span id="cb34-7"><a href=""></a>                 <span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
-<span id="cb34-8"><a href=""></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dgamma, </span>
-<span id="cb34-9"><a href=""></a>                <span class="at">args =</span> <span class="fu">list</span>(<span class="at">shape =</span> alpha_est, </span>
-<span id="cb34-10"><a href=""></a>                           <span class="at">scale =</span> beta_est),</span>
-<span id="cb34-11"><a href=""></a>                <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb34-12"><a href=""></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> mean_claim, </span>
-<span id="cb34-13"><a href=""></a>             <span class="at">color =</span> <span class="st">"darkgreen"</span>, </span>
-<span id="cb34-14"><a href=""></a>             <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb34-15"><a href=""></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> median_claim, </span>
-<span id="cb34-16"><a href=""></a>             <span class="at">color =</span> <span class="st">"orange"</span>, </span>
-<span id="cb34-17"><a href=""></a>             <span class="at">linetype =</span> <span class="st">"dotted"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb34-18"><a href=""></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">dollar_format</span>()) <span class="sc">+</span></span>
-<span id="cb34-19"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Insurance Claim Distribution"</span>,</span>
-<span id="cb34-20"><a href=""></a>       <span class="at">subtitle =</span> <span class="st">"Histogram with fitted Gamma distribution"</span>,</span>
-<span id="cb34-21"><a href=""></a>       <span class="at">x =</span> <span class="st">"Claim Amount ($)"</span>,</span>
-<span id="cb34-22"><a href=""></a>       <span class="at">y =</span> <span class="st">"Density"</span>) <span class="sc">+</span></span>
-<span id="cb34-23"><a href=""></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
-<span id="cb34-24"><a href=""></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> max_claim <span class="sc">*</span> <span class="fl">0.7</span>, </span>
-<span id="cb34-25"><a href=""></a>           <span class="at">y =</span> <span class="fu">max</span>(<span class="fu">density</span>(claims)<span class="sc">$</span>y) <span class="sc">*</span> <span class="fl">0.8</span>, </span>
-<span id="cb34-26"><a href=""></a>           <span class="at">label =</span> <span class="fu">sprintf</span>(<span class="st">"α = %.2f</span><span class="sc">\n</span><span class="st">β = $%.0f"</span>, </span>
-<span id="cb34-27"><a href=""></a>                          alpha_est, beta_est), </span>
-<span id="cb34-28"><a href=""></a>           <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">size =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output-display">
-<div>
-<figure>
-<p><img data-src="gamma_files/figure-revealjs/unnamed-chunk-11-1.png" width="576"></p>
-</figure>
+<div class="column fragment" style="width:33%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 Observations</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>From the diagnostic plots:</strong></p>
+<ul>
+<li><strong>Histogram/Density</strong>: Overall fit appears reasonable for the bulk of the data</li>
+<li><strong>Q-Q Plot (Quantile-Quantile)</strong>: Shows departure from the reference line in the <strong>upper tail</strong> (right side)</li>
+<li><strong>P-P Plot (Probability-Probability)</strong>: Shows systematic deviation, especially in the tails</li>
+</ul>
 </div>
 </div>
 </div>
-</div><div class="column" style="width:50%;">
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a><span class="co"># Q-Q plot for gamma distribution</span></span>
-<span id="cb35-2"><a href=""></a>theoretical_quantiles <span class="ot">&lt;-</span> <span class="fu">qgamma</span>(</span>
-<span id="cb35-3"><a href=""></a>  <span class="fu">ppoints</span>(<span class="fu">length</span>(claims)), </span>
-<span id="cb35-4"><a href=""></a>  <span class="at">shape =</span> alpha_est, </span>
-<span id="cb35-5"><a href=""></a>  <span class="at">scale =</span> beta_est</span>
-<span id="cb35-6"><a href=""></a>)</span>
-<span id="cb35-7"><a href=""></a></span>
-<span id="cb35-8"><a href=""></a>qqplot_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb35-9"><a href=""></a>  <span class="at">theoretical =</span> theoretical_quantiles,</span>
-<span id="cb35-10"><a href=""></a>  <span class="at">sample =</span> <span class="fu">sort</span>(claims)</span>
-<span id="cb35-11"><a href=""></a>)</span>
-<span id="cb35-12"><a href=""></a></span>
-<span id="cb35-13"><a href=""></a><span class="fu">ggplot</span>(qqplot_data, <span class="fu">aes</span>(<span class="at">x =</span> theoretical, <span class="at">y =</span> sample)) <span class="sc">+</span></span>
-<span id="cb35-14"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"steelblue"</span>, </span>
-<span id="cb35-15"><a href=""></a>             <span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb35-16"><a href=""></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="dv">1</span>, <span class="at">intercept =</span> <span class="dv">0</span>, </span>
-<span id="cb35-17"><a href=""></a>              <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb35-18"><a href=""></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">dollar_format</span>()) <span class="sc">+</span></span>
-<span id="cb35-19"><a href=""></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">dollar_format</span>()) <span class="sc">+</span></span>
-<span id="cb35-20"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Gamma Q-Q Plot"</span>,</span>
-<span id="cb35-21"><a href=""></a>       <span class="at">subtitle =</span> <span class="st">"Assessing goodness of fit"</span>,</span>
-<span id="cb35-22"><a href=""></a>       <span class="at">x =</span> <span class="st">"Theoretical Quantiles"</span>,</span>
-<span id="cb35-23"><a href=""></a>       <span class="at">y =</span> <span class="st">"Sample Quantiles"</span>) <span class="sc">+</span></span>
-<span id="cb35-24"><a href=""></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
-<span id="cb35-25"><a href=""></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, </span>
-<span id="cb35-26"><a href=""></a>           <span class="at">x =</span> <span class="fu">max</span>(theoretical_quantiles) <span class="sc">*</span> <span class="fl">0.3</span>, </span>
-<span id="cb35-27"><a href=""></a>           <span class="at">y =</span> <span class="fu">max</span>(claims) <span class="sc">*</span> <span class="fl">0.8</span>, </span>
-<span id="cb35-28"><a href=""></a>           <span class="at">label =</span> <span class="st">"Good fit if points</span><span class="sc">\n</span><span class="st">follow red line"</span>, </span>
-<span id="cb35-29"><a href=""></a>           <span class="at">color =</span> <span class="st">"darkred"</span>, <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output-display">
-<div>
-<figure>
-<p><img data-src="gamma_files/figure-revealjs/unnamed-chunk-12-1.png" width="576"></p>
-</figure>
+</div><div class="column fragment" style="width:33%;">
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>⚠️ Why the Departure?</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li><p><strong>Heavy-tailed nature</strong>: Fire insurance losses have <strong>heavier tails</strong> than the gamma distribution can capture</p></li>
+<li><p><strong>Extreme values</strong>: A few very large losses (&gt;100M DKK) create tail behavior that deviates from gamma</p></li>
+<li><p><strong>Not a problem with estimation</strong>: MLE is correctly estimating gamma parameters, but <strong>gamma may not be the ideal model</strong> for extreme losses</p></li>
+</ol>
+</div>
+</div>
+</div>
+</div><div class="column fragment" style="width:33%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>💡 Better Alternatives</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>For heavy-tailed data:</strong></p>
+<ul>
+<li><strong>Pareto distribution</strong>: Specifically designed for heavy tails</li>
+<li><strong>Log-normal distribution</strong>: Often fits insurance claims better</li>
+<li><strong>Generalized Pareto (GPD)</strong>: Used in extreme value theory</li>
+<li><strong>Mixture models</strong>: Combine gamma for moderate losses + extreme value distribution for large losses</li>
+</ul>
 </div>
 </div>
 </div>
 </div></div>
-</div>
-</section>
-<section id="case-study-actuarial-applications-and-pricing" class="slide level2 smaller">
-<h2>💰 Case Study: Actuarial Applications and Pricing</h2>
+<div class="fragment">
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>📊 Key Findings and Business Implications</strong></p>
+<p><strong>📚 Key Lesson</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Distributional Characteristics:</strong></p>
+<p>Gamma is useful for <strong>moderate right-skewed data</strong>, but real insurance losses often require more sophisticated models.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="case-study-actuarial-applications-and-pricing" class="slide level2">
+<h2>💰 Case Study: Actuarial Applications and Pricing</h2>
+<div style="font-size: 35px">
+<div class="columns">
+<div class="column fragment" style="width:50%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 Distributional Characteristics</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Danish Fire Insurance Losses 1980-1990:</strong></p>
 <ul>
-<li><p><strong>Shape parameter</strong> <span class="math inline">\(\alpha \approx 1.5\)</span>: Indicates strong right skew with most claims concentrated at lower amounts</p></li>
-<li><p><strong>Scale parameter</strong> <span class="math inline">\(\beta \approx \$8,000\)</span>: Determines the spread and mean claim amount</p></li>
-<li><p><strong>Mean claim</strong>: Approximately <span class="math inline">\(\alpha \times \beta \approx \$12,000\)</span></p></li>
-<li><p><strong>High-value claims</strong>: About 30% exceed $15,000; 12% exceed $25,000; 3% exceed $50,000</p></li>
+<li><p><strong>Shape parameter</strong> <span class="math inline">\(\alpha \approx 1.30\)</span>: Indicates <strong>moderate right skew</strong> typical of insurance losses</p></li>
+<li><p><strong>Scale parameter</strong> <span class="math inline">\(\beta \approx 2.61\)</span> million DKK: Controls the spread of loss amounts</p></li>
+<li><p><strong>Mean loss</strong>: <span class="math inline">\(\alpha \times \beta \approx 3.39\)</span> million DKK per claim</p></li>
+<li><p><strong>Interpretation</strong>: <span class="math inline">\(\alpha &gt; 1\)</span> means the distribution has a mode away from zero, with a substantial right tail for catastrophic losses</p></li>
 </ul>
+</div>
+</div>
+</div>
+</div><div class="column fragment" style="width:50%;">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>💼 Business Applications</strong></p>
+</div>
+<div class="callout-content">
 <p><strong>Premium Pricing Strategy:</strong></p>
 <ol type="1">
-<li><p><strong>Pure premium</strong> = Expected claim cost = <span class="math inline">\(\mu = \$12,000\)</span> per policy</p></li>
-<li><p><strong>Loading for risk</strong>: Add safety margin for high-value tail claims (use percentiles like 90th or 95th)</p></li>
-<li><p><strong>Policy limit design</strong>: Setting limit at $50,000 covers 97% of claims, balancing coverage and affordability</p></li>
+<li><p><strong>Pure premium</strong> = Expected loss cost = <span class="math inline">\(\mu \approx 3.39\)</span> million DKK per policy</p></li>
+<li><p><strong>Loading for risk</strong>: Add safety margin for tail losses using percentiles (e.g., 90th, 95th, 99th)</p></li>
+<li><p><strong>Risk assessment</strong>: Coefficient of variation <span class="math inline">\(\text{CV} = 1/\sqrt{\alpha} \approx 0.88\)</span> indicates moderate variability</p></li>
 </ol>
-<p><strong>Reserve Estimation:</strong> Insurance companies must hold reserves for outstanding claims. The gamma model allows calculating expected total payments and tail risk reserves for extreme claims.</p>
+<p><strong>Reserve Estimation:</strong> The gamma model with <span class="math inline">\(\alpha \approx 1.3\)</span> captures realistic fire insurance loss patterns: most claims are moderate, with a long tail for major fires requiring substantial reserves.</p>
 </div>
 </div>
+</div>
+</div></div>
 </div>
 </section>
 <section id="quiz-1-gamma-distribution-parameters" class="slide level2 smaller quiz-question">

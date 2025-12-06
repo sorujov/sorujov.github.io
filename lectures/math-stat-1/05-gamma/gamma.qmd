@@ -722,7 +722,7 @@ If $Y$ has an exponential distribution with parameter $\beta$, then: $\boxed{\mu
 
 **Definition:** A random variable $Y$ is memoryless if:
 
-$$P(Y > a + b \mid Y > a) = P(Y > b) \text{for all} a > 0 \text{and} b > 0.$$
+$$P(Y > a + b \mid Y > a) = P(Y > b) \; \text{for all}\; a > 0 \; \text{and} \; b > 0.$$
 
 
 **Interpretation:** 
@@ -952,17 +952,17 @@ $$\boxed{y \approx 460.52 \text{ cfs}}$$
 ::: {.columns}
 ::: {.column width="50%" .fragment}
 ::: {.callout-note}
-## 📋 Insurance Loss Modeling
+## 📋 Fire Insurance Loss Modeling
 
-**Context**: Insurance companies model claim amounts using gamma distributions because losses are naturally right-skewed with a long tail of large claims. We analyze auto insurance bodily injury claims to demonstrate gamma distribution fitting.
+**Context**: Insurance companies model loss amounts using gamma distributions because losses are naturally right-skewed with a long tail of catastrophic events. We analyze Danish fire insurance losses from 1980-1990.
 
 **Key Questions**:
 
-- What are the optimal shape ($\alpha$) and scale ($\beta$) parameters for claim amounts?
+- What are the optimal shape ($\alpha$) and scale ($\beta$) parameters using MLE?
 
-- What proportion of claims exceed policy limits (e.g., $50,000)?
+- What proportion of losses exceed certain thresholds (e.g., 10M, 20M DKK)?
 
-- How can we use the model for premium pricing and reserve estimation?
+- How well does the gamma model fit, and what are its limitations?
 
 :::
 :::
@@ -971,15 +971,15 @@ $$\boxed{y \approx 460.52 \text{ cfs}}$$
 ::: {.callout-tip}
 ## 📊 Data Source
 
-We analyze **auto insurance bodily injury claims** from the **Insurance Services Office (ISO)** dataset.
+We analyze **Danish fire insurance losses (1980-1990)** - a classic actuarial dataset.
 
-**Source**: R package `actuar` - real insurance industry data
+**Source**: R package `fitdistrplus` - `danishuni` dataset
 
-**Period**: Historical claims data
+**Sample Size**: 2,167 individual fire insurance claims
 
-**Data Type**: Claim amounts in USD (filtered for completeness)
+**Data Type**: Loss amounts in millions of Danish Krone (DKK)
 
-**Application**: Used by actuaries for pricing, reserving, and risk assessment 
+**Application**: Widely used for demonstrating actuarial modeling, extreme value analysis, and heavy-tailed distributions
 :::
 :::
 :::
@@ -987,7 +987,7 @@ We analyze **auto insurance bodily injury claims** from the **Insurance Services
 
 ## 💰 Case Study: Data Loading and Parameter Estimation {.smaller}
 
-::: {style="font-size:26px"}
+::: {style="font-size:18px"}
 
 ::: {.columns}
 ::: {.column width="33%"}
@@ -997,29 +997,30 @@ We analyze **auto insurance bodily injury claims** from the **Insurance Services
 #| message: false
 #| warning: false
 #| eval: true
+#| code-line-numbers: false
 
 # Load required libraries
 library(tidyverse)
-library(MASS)  # For fitdistr
+library(fitdistrplus)  # For MLE fitting
 
-# Generate realistic insurance claim data
-# (simulating from gamma based on industry parameters)
-set.seed(2024)
-n_claims <- 500
+# Load real insurance loss data from fitdistrplus package
+# Danish fire insurance losses (1980-1990): 2,167 claims
+# This is a classic actuarial dataset for gamma distribution modeling
+data(danishuni)
 
-# Industry-typical parameters for bodily injury claims
-# alpha ≈ 1.5 (right-skewed), beta ≈ 8000
-alpha_true <- 1.5
-beta_true <- 8000
+# Extract loss amounts (in millions of Danish Krone)
+claims <- danishuni$Loss
 
-claims <- rgamma(n_claims, 
-                 shape = alpha_true, 
-                 scale = beta_true)
+# Verify we have sufficient data
+if (length(claims) < 100) {
+  stop(paste("Error: Only", length(claims), "claims loaded. Need at least 100."))
+}
 
-# Add some measurement realism
-claims <- round(claims, 2)
+cat("Data source: Danish fire insurance losses (1980-1990)\n")
+cat("Original values in millions of Danish Krone\n")
 
 # Summary statistics
+n_claims <- length(claims)
 mean_claim <- mean(claims)
 median_claim <- median(claims)
 sd_claim <- sd(claims)
@@ -1041,47 +1042,52 @@ cat(sprintf("Max claim: $%.2f\n", max_claim))
 #| warning: false
 #| eval: true
 
-# Estimate gamma parameters using Method of Moments
-# This is more robust than MLE for real-world skewed data
-# Based on E(Y) = α*β and Var(Y) = α*β²
+# Estimate gamma parameters using Maximum Likelihood Estimation (MLE)
+# MLE provides optimal parameter estimates for the gamma distribution
+# fitdistrplus uses numerical optimization for robust fitting
 
-alpha_est <- (mean_claim^2) / (sd_claim^2)
-beta_est <- (sd_claim^2) / mean_claim
+fit_gamma <- fitdist(claims, "gamma", method = "mle")
+
+# Extract parameters (note: fitdist uses shape and rate parameterization)
+alpha_est <- fit_gamma$estimate["shape"]
+rate_est <- fit_gamma$estimate["rate"]
+beta_est <- 1 / rate_est  # Convert rate to scale parameter
 
 cat(sprintf("Shape (α): %.3f\n", alpha_est))
-cat(sprintf("Scale (β): $%.2f\n", beta_est))
-cat(sprintf("Estimated mean: $%.2f\n", 
+cat(sprintf("Scale (β): %.2f M DKK\n", beta_est))
+cat(sprintf("Rate (1/β): %.4f\n", rate_est))
+cat(sprintf("\nEstimated mean: %.2f M DKK\n", 
             alpha_est * beta_est))
-cat(sprintf("Estimated variance: $%.2f²\n", 
+cat(sprintf("Sample mean: %.2f M DKK\n", mean_claim))
+cat(sprintf("\nEstimated SD: %.2f M DKK\n", 
             sqrt(alpha_est * beta_est^2)))
-cat(sprintf("Compare to sample mean: $%.2f\n", mean_claim))
-cat(sprintf("Compare to sample SD: $%.2f\n", sd_claim))
-
+cat(sprintf("Sample SD: %.2f M DKK\n", sd_claim))
+cat(sprintf("\nLog-likelihood: %.2f\n", fit_gamma$loglik))
 ```
 :::
 
 ::: {.column width="33%"}
 
 ```{r}
-# Calculate key probabilities
-prob_exceed_25k <- 1 - pgamma(25000, 
-                              shape = alpha_est, 
-                              scale = beta_est)
-prob_exceed_50k <- 1 - pgamma(50000, 
-                              shape = alpha_est, 
-                              scale = beta_est)
-prob_exceed_100k <- 1 - pgamma(100000, 
-                               shape = alpha_est, 
-                               scale = beta_est)
+# Calculate key probabilities (for values >5, >10, >20)
+prob_exceed_5 <- 1 - pgamma(5, 
+                            shape = alpha_est, 
+                            scale = beta_est)
+prob_exceed_10 <- 1 - pgamma(10, 
+                             shape = alpha_est, 
+                             scale = beta_est)
+prob_exceed_20 <- 1 - pgamma(20, 
+                             shape = alpha_est, 
+                             scale = beta_est)
 
-cat("\nProbabilities of Exceeding Limits\n")
-cat("==================================\n")
-cat(sprintf("P(Claim > $25,000): %.4f (%.2f%%)\n", 
-            prob_exceed_25k, prob_exceed_25k*100))
-cat(sprintf("P(Claim > $50,000): %.4f (%.2f%%)\n", 
-            prob_exceed_50k, prob_exceed_50k*100))
-cat(sprintf("P(Claim > $100,000): %.4f (%.2f%%)\n", 
-            prob_exceed_100k, prob_exceed_100k*100))
+cat("\nProbabilities of Exceeding Thresholds\n")
+cat("=====================================\n")
+cat(sprintf("P(Loss > 5M DKK): %.4f (%.2f%%)\n", 
+            prob_exceed_5, prob_exceed_5*100))
+cat(sprintf("P(Loss > 10M DKK): %.4f (%.2f%%)\n", 
+            prob_exceed_10, prob_exceed_10*100))
+cat(sprintf("P(Loss > 20M DKK): %.4f (%.2f%%)\n", 
+            prob_exceed_20, prob_exceed_20*100))
 ```
 
 :::
@@ -1090,119 +1096,110 @@ cat(sprintf("P(Claim > $100,000): %.4f (%.2f%%)\n",
 
 ## 💰 Case Study: Visualization and Model Validation {.smaller}
 
-::: {style="font-size:26px"}
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| eval: true
+#| fig-align: center
+#| out-width: "100%"
+
+# Use fitdistrplus built-in plot function for comprehensive diagnostics
+# This creates 4 plots: density, CDF, Q-Q plot, and P-P plot
+par(mfrow = c(2, 2), mar = c(4, 4, 2, 1))
+plot(fit_gamma, 
+     demp = TRUE,  # empirical density
+     histo = TRUE, # histogram
+     breaks = 50)  # number of histogram bins
+```
+
+## 💰 Model Fit Assessment: Interpreting Diagnostic Plots {.smaller}
+
+::: {style="font-size: 30px"}
 ::: {.columns}
-::: {.column width="50%"}
+::: {.column width="33%" .fragment}
+::: {.callout-note}
+## 📊 Observations
 
-```{r}
-#| echo: true
-#| message: false
-#| warning: false
-#| eval: true
-#| fig-width: 6
-#| fig-height: 4.5
+**From the diagnostic plots:**
 
-# Create histogram with gamma overlay
-df_claims <- data.frame(claim = claims)
-
-ggplot(df_claims, aes(x = claim)) +
-  geom_histogram(aes(y = after_stat(density)), 
-                 bins = 40, fill = "steelblue", 
-                 alpha = 0.6, color = "black") +
-  stat_function(fun = dgamma, 
-                args = list(shape = alpha_est, 
-                           scale = beta_est),
-                color = "red", linewidth = 1.2) +
-  geom_vline(xintercept = mean_claim, 
-             color = "darkgreen", 
-             linetype = "dashed", linewidth = 1) +
-  geom_vline(xintercept = median_claim, 
-             color = "orange", 
-             linetype = "dotted", linewidth = 1) +
-  scale_x_continuous(labels = scales::dollar_format()) +
-  labs(title = "Insurance Claim Distribution",
-       subtitle = "Histogram with fitted Gamma distribution",
-       x = "Claim Amount ($)",
-       y = "Density") +
-  theme_minimal(base_size = 10) +
-  annotate("text", x = max_claim * 0.7, 
-           y = max(density(claims)$y) * 0.8, 
-           label = sprintf("α = %.2f\nβ = $%.0f", 
-                          alpha_est, beta_est), 
-           color = "red", size = 3)
-```
-
+- **Histogram/Density**: Overall fit appears reasonable for the bulk of the data
+- **Q-Q Plot (Quantile-Quantile)**: Shows departure from the reference line in the **upper tail** (right side)
+- **P-P Plot (Probability-Probability)**: Shows systematic deviation, especially in the tails
+:::
 :::
 
-::: {.column width="50%"}
+::: {.column width="33%" .fragment}
+::: {.callout-warning}
+## ⚠️ Why the Departure?
 
-```{r}
-#| echo: true
-#| message: false
-#| warning: false
-#| eval: true
-#| fig-width: 6
-#| fig-height: 4.5
+1. **Heavy-tailed nature**: Fire insurance losses have **heavier tails** than the gamma distribution can capture
 
-# Q-Q plot for gamma distribution
-theoretical_quantiles <- qgamma(
-  ppoints(length(claims)), 
-  shape = alpha_est, 
-  scale = beta_est
-)
+2. **Extreme values**: A few very large losses (>100M DKK) create tail behavior that deviates from gamma
 
-qqplot_data <- data.frame(
-  theoretical = theoretical_quantiles,
-  sample = sort(claims)
-)
+3. **Not a problem with estimation**: MLE is correctly estimating gamma parameters, but **gamma may not be the ideal model** for extreme losses
+:::
+:::
 
-ggplot(qqplot_data, aes(x = theoretical, y = sample)) +
-  geom_point(color = "steelblue", 
-             size = 2, alpha = 0.6) +
-  geom_abline(slope = 1, intercept = 0, 
-              color = "red", linewidth = 1.2) +
-  scale_x_continuous(labels = scales::dollar_format()) +
-  scale_y_continuous(labels = scales::dollar_format()) +
-  labs(title = "Gamma Q-Q Plot",
-       subtitle = "Assessing goodness of fit",
-       x = "Theoretical Quantiles",
-       y = "Sample Quantiles") +
-  theme_minimal(base_size = 10) +
-  annotate("text", 
-           x = max(theoretical_quantiles) * 0.3, 
-           y = max(claims) * 0.8, 
-           label = "Good fit if points\nfollow red line", 
-           color = "darkred", hjust = 0, size = 3)
-```
+::: {.column width="33%" .fragment}
+::: {.callout-tip}
+## 💡 Better Alternatives
 
+**For heavy-tailed data:**
+
+- **Pareto distribution**: Specifically designed for heavy tails
+- **Log-normal distribution**: Often fits insurance claims better
+- **Generalized Pareto (GPD)**: Used in extreme value theory
+- **Mixture models**: Combine gamma for moderate losses + extreme value distribution for large losses
 :::
 :::
 :::
 
-## 💰 Case Study: Actuarial Applications and Pricing {.smaller}
-
+::: {.fragment}
 ::: {.callout-important}
-## 📊 Key Findings and Business Implications
+## 📚 Key Lesson
 
-**Distributional Characteristics:**
+Gamma is useful for **moderate right-skewed data**, but real insurance losses often require more sophisticated models.
+:::
+:::
+:::
 
-- **Shape parameter** $\alpha \approx 1.5$: Indicates strong right skew with most claims concentrated at lower amounts
+## 💰 Case Study: Actuarial Applications and Pricing
 
-- **Scale parameter** $\beta \approx \$8,000$: Determines the spread and mean claim amount
+::: {style="font-size: 35px"}
+::: {.columns}
+::: {.column width="50%" .fragment}
+::: {.callout-note}
+## 📊 Distributional Characteristics
 
-- **Mean claim**: Approximately $\alpha \times \beta \approx \$12,000$
+**Danish Fire Insurance Losses 1980-1990:**
 
-- **High-value claims**: About 30% exceed $15,000; 12% exceed $25,000; 3% exceed $50,000
+- **Shape parameter** $\alpha \approx 1.30$: Indicates **moderate right skew** typical of insurance losses
+
+- **Scale parameter** $\beta \approx 2.61$ million DKK: Controls the spread of loss amounts
+
+- **Mean loss**: $\alpha \times \beta \approx 3.39$ million DKK per claim
+
+- **Interpretation**: $\alpha > 1$ means the distribution has a mode away from zero, with a substantial right tail for catastrophic losses
+:::
+:::
+
+::: {.column width="50%" .fragment}
+::: {.callout-important}
+## 💼 Business Applications
 
 **Premium Pricing Strategy:**
 
-1. **Pure premium** = Expected claim cost = $\mu = \$12,000$ per policy
+1. **Pure premium** = Expected loss cost = $\mu \approx 3.39$ million DKK per policy
 
-2. **Loading for risk**: Add safety margin for high-value tail claims (use percentiles like 90th or 95th)
+2. **Loading for risk**: Add safety margin for tail losses using percentiles (e.g., 90th, 95th, 99th)
 
-3. **Policy limit design**: Setting limit at $50,000 covers 97% of claims, balancing coverage and affordability 
+3. **Risk assessment**: Coefficient of variation $\text{CV} = 1/\sqrt{\alpha} \approx 0.88$ indicates moderate variability
 
-**Reserve Estimation:** Insurance companies must hold reserves for outstanding claims. The gamma model allows calculating expected total payments and tail risk reserves for extreme claims.
+**Reserve Estimation:** The gamma model with $\alpha \approx 1.3$ captures realistic fire insurance loss patterns: most claims are moderate, with a long tail for major fires requiring substantial reserves.
+:::
+:::
+:::
 :::
 
 ## 📝 Quiz #1: Gamma Distribution Parameters {.smaller .quiz-question}

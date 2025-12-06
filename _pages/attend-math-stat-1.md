@@ -70,17 +70,6 @@ classes: wide
     background: #f8f9fa;
   "></div>
   
-  <div id="debug-log" style="
-    margin-top: 20px;
-    padding: 15px;
-    border-radius: 8px;
-    background: #e9ecef;
-    font-family: monospace;
-    font-size: 12px;
-    max-height: 300px;
-    overflow-y: auto;
-  "></div>
-  
   <div style="margin-top: 30px; padding: 15px; background: #fff3cd; border-radius: 8px; border-left: 4px solid #ffc107;">
     <p style="margin: 0; font-size: 0.9rem;"><strong>Note:</strong> You must be on ADA University campus to check in. Location access is required.</p>
   </div>
