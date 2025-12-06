@@ -17,33 +17,33 @@ Welcome to my photo gallery. Here you can find photos from academic events, conf
 
 <div class="photo-gallery">
   <div class="photo-item">
-    <img src="/images/personal/IMG_0289.JPEG" alt="Personal Photo 1" style="width: 300px; height: 200px; object-fit: cover; margin: 10px; border-radius: 8px;">
-    <p><em>Personal moments</em></p>
+    <img src="/images/personal/france-garden.jpg" alt="Gardens at Vannes Castle, France" style="width: 300px; height: 200px; object-fit: cover; margin: 10px; border-radius: 8px;">
+    <p><em>Gardens at Vannes Castle, France</em></p>
   </div>
   
   <div class="photo-item">
-    <img src="/images/personal/IMG_0290.JPEG" alt="Personal Photo 2" style="width: 300px; height: 200px; object-fit: cover; margin: 10px; border-radius: 8px;">
-    <p><em>Life memories</em></p>
+    <img src="/images/personal/france-station.jpg" alt="Gare de l'Est, Paris" style="width: 300px; height: 200px; object-fit: cover; margin: 10px; border-radius: 8px;">
+    <p><em>Gare de l'Est, Paris</em></p>
   </div>
   
   <div class="photo-item">
-    <img src="/images/personal/IMG_0291.JPEG" alt="Personal Photo 3" style="width: 300px; height: 200px; object-fit: cover; margin: 10px; border-radius: 8px;">
-    <p><em>Personal experiences</em></p>
+    <img src="/images/personal/professional.jpg" alt="Professional Portrait" style="width: 300px; height: 200px; object-fit: cover; margin: 10px; border-radius: 8px;">
+    <p><em>Professional Portrait</em></p>
   </div>
   
   <div class="photo-item">
-    <img src="/images/personal/IMG_0335.JPEG" alt="Personal Photo 4" style="width: 300px; height: 200px; object-fit: cover; margin: 10px; border-radius: 8px;">
-    <p><em>Captured moments</em></p>
+    <img src="/images/personal/casual-style.jpg" alt="Casual Portrait" style="width: 300px; height: 200px; object-fit: cover; margin: 10px; border-radius: 8px;">
+    <p><em>Everyday Moments</em></p>
   </div>
   
   <div class="photo-item">
-    <img src="/images/personal/IMG_0339.JPEG" alt="Personal Photo 5" style="width: 300px; height: 200px; object-fit: cover; margin: 10px; border-radius: 8px;">
-    <p><em>Special times</em></p>
+    <img src="/images/personal/theme-park.jpg" alt="Theme Park Visit" style="width: 300px; height: 200px; object-fit: cover; margin: 10px; border-radius: 8px;">
+    <p><em>Fun Times at Theme Park</em></p>
   </div>
   
   <div class="photo-item">
-    <img src="/images/personal/IMG_0353.JPEG" alt="Personal Photo 6" style="width: 300px; height: 200px; object-fit: cover; margin: 10px; border-radius: 8px;">
-    <p><em>Life journey</em></p>
+    <img src="/images/personal/nature-rock.jpg" alt="Nature and Rock Formations" style="width: 300px; height: 200px; object-fit: cover; margin: 10px; border-radius: 8px;">
+    <p><em>Exploring Natural Wonders</em></p>
   </div>
 </div>
 
