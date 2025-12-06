@@ -45,6 +45,11 @@ Welcome to my photo gallery. Here you can find photos from academic events, conf
     <img src="/images/personal/nature-rock.jpg" alt="Nature and Rock Formations" style="width: 300px; height: 200px; object-fit: cover; margin: 10px; border-radius: 8px;">
     <p><em>Exploring Natural Wonders</em></p>
   </div>
+  
+  <div class="photo-item">
+    <img src="/images/personal/bike-vannes.jpg" alt="Cycling in Vannes" style="width: 300px; height: 200px; object-fit: cover; margin: 10px; border-radius: 8px;">
+    <p><em>Cycling Adventure in Vannes</em></p>
+  </div>
 </div>
 
 ---
