@@ -23,27 +23,27 @@ Welcome to my photo gallery. Here you can find photos from academic events, conf
   
   <div class="photo-item">
     <img src="/images/personal/france-station.jpg" alt="Gare de l'Est, Paris">
-    <p><em>Gare de l'Est, Paris</em></p>
+    <p><em>Marmaris</em></p>
   </div>
   
   <div class="photo-item">
     <img src="/images/personal/professional.jpg" alt="Professional Portrait">
-    <p><em>Professional Portrait</em></p>
+    <p><em>Portrait by my friend Ulvi</em></p>
   </div>
   
   <div class="photo-item">
     <img src="/images/personal/casual-style.jpg" alt="Casual Portrait">
-    <p><em>Everyday Moments</em></p>
+    <p><em>Portrait</em></p>
   </div>
   
   <div class="photo-item">
     <img src="/images/personal/theme-park.jpg" alt="Theme Park Visit">
-    <p><em>Fun Times at Theme Park</em></p>
+    <p><em>Some Time In Some Park</em></p>
   </div>
   
   <div class="photo-item">
     <img src="/images/personal/nature-rock.jpg" alt="Nature and Rock Formations">
-    <p><em>Exploring Natural Wonders</em></p>
+    <p><em>Guba Masdargah</em></p>
   </div>
   
   <div class="photo-item">
