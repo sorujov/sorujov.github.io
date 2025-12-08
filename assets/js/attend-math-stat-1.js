@@ -8,7 +8,7 @@
     // TEST LOCATION: Ataturk 111a, Baku 40.39476586000145, 49.84937393783448
     var ADA_LAT = 40.39476586000145;
     var ADA_LON = 49.84937393783448;
-    var RADIUS_KM = 0.5;
+    var RADIUS_KM = 5.0; // 5000 meters (testing)
     var PASSWORD = 'so123!';
     var TOKEN_VALIDITY_SECONDS = 30; // Token expires after 30 seconds
 

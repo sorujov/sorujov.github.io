@@ -73,7 +73,7 @@ permalink: /attendance/math-stat-1/
     // TEST LOCATION: Ataturk 111a, Baku
     var ADA_LAT = 40.4081044;
     var ADA_LON = 49.8461084;
-    var RADIUS_KM = 0.5; // 500 meters radius
+    var RADIUS_KM = 5.0; // 5000 meters radius (testing)
     
     // Calculate distance between two coordinates (Haversine formula)
     function getDistance(lat1, lon1, lat2, lon2) {
