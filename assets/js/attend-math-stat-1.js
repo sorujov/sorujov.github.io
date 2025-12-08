@@ -99,14 +99,15 @@
       console.log('Password from token:', tokenData.password);
       console.log('Expected password:', PASSWORD);
       
+      // COMMENTED OUT: Password verification disabled - Apps Script verifies enrollment
       // Verify password
-      if (tokenData.password !== PASSWORD) {
-          log('⚠ Invalid link. Please scan the QR code again.', true);
-          document.getElementById('checkin').disabled = true;
-          document.getElementById('checkin').style.opacity = '0.5';
-          document.getElementById('checkin').style.cursor = 'not-allowed';
-          return false;
-        }
+      // if (tokenData.password !== PASSWORD) {
+      //     log('⚠ Invalid link. Please scan the QR code again.', true);
+      //     document.getElementById('checkin').disabled = true;
+      //     document.getElementById('checkin').style.opacity = '0.5';
+      //     document.getElementById('checkin').style.cursor = 'not-allowed';
+      //     return false;
+      //   }
         
       // Check if token was already used
       var usedTokens = sessionStorage.getItem('usedTokens');
