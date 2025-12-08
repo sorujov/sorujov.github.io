@@ -340,37 +340,19 @@
         
         try {
           console.log('Sending attendance data:', data);
+          console.log('API URL:', SHEETS_API_URL);
           
           var response = await fetch(SHEETS_API_URL, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            // NO mode: 'no-cors' - this allows us to read the response
             body: JSON.stringify(data)
           });
           
           console.log('Response status:', response.status);
           console.log('Response ok:', response.ok);
-          console.log('Response headers:', response.headers);
           
-          var responseText = await response.text();
-          console.log('Raw response text:', responseText);
-          
-          if (!response.ok) {
-            console.error('Response error - Status:', response.status);
-            console.error('Response error - Text:', responseText);
-            log('❌ Server error (' + response.status + '): ' + responseText, true);
-            return;
-          }
-          
-          var result;
-          try {
-            result = JSON.parse(responseText);
-            console.log('Parsed result:', result);
-          } catch (parseError) {
-            console.error('JSON parse error:', parseError);
-            console.error('Response was:', responseText);
-            log('❌ Invalid response from server. Check console for details.', true);
-            return;
-          }
+          var result = await response.json();
+          console.log('Parsed result:', result);
           
           // Check if submission was successful
           if (result.success) {
