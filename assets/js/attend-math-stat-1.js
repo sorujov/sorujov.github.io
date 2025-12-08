@@ -257,13 +257,13 @@
           log('Distance from campus: ' + (distance*1000).toFixed(0) + 'm (RADIUS: ' + RADIUS_KM + 'km)', false);
         }, 500);
         
-        // Geofence check - TEMPORARILY DISABLED FOR TESTING
-        // if (distance > RADIUS_KM) {
-        //   setTimeout(function() {
-        //     log('⚠ You must be on campus to check in. You are ' + (distance*1000).toFixed(0) + 'm away.', true);
-        //   }, 1000);
-        //   return;
-        // }
+        // Client-side geofence check (backend also validates for security)
+        if (distance > RADIUS_KM) {
+          setTimeout(function() {
+            log('⚠ You must be on campus to check in. You are ' + (distance*1000).toFixed(0) + 'm away.', true);
+          }, 1000);
+          return;
+        }
         
         // Location verified
         setTimeout(function() {

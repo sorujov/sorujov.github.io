@@ -468,19 +468,27 @@ function doPost(e) {
       })).setMimeType(ContentService.MimeType.JSON);
     }
     
-    // STEP 2: Check location (if provided)
-    if (data.latitude && data.longitude) {
-      var locationCheck = isWithinCampus(parseFloat(data.latitude), parseFloat(data.longitude));
-      if (!locationCheck.allowed) {
-        Logger.log('REJECTED: Outside campus - ' + locationCheck.reason);
-        return ContentService.createTextOutput(JSON.stringify({
-          success: false,
-          message: locationCheck.reason,
-          errorType: 'location',
-          distance: locationCheck.distance ? (locationCheck.distance * 1000).toFixed(0) + 'm' : null,
-          outsideCampus: true
-        })).setMimeType(ContentService.MimeType.JSON);
-      }
+    // STEP 2: Check location (REQUIRED)
+    if (!data.latitude || !data.longitude) {
+      Logger.log('REJECTED: Missing location data');
+      return ContentService.createTextOutput(JSON.stringify({
+        success: false,
+        message: 'Location data is required. Please enable location services and try again.',
+        errorType: 'location',
+        missingLocation: true
+      })).setMimeType(ContentService.MimeType.JSON);
+    }
+    
+    var locationCheck = isWithinCampus(parseFloat(data.latitude), parseFloat(data.longitude));
+    if (!locationCheck.allowed) {
+      Logger.log('REJECTED: Outside campus - ' + locationCheck.reason);
+      return ContentService.createTextOutput(JSON.stringify({
+        success: false,
+        message: locationCheck.reason,
+        errorType: 'location',
+        distance: locationCheck.distance ? (locationCheck.distance * 1000).toFixed(0) + 'm' : null,
+        outsideCampus: true
+      })).setMimeType(ContentService.MimeType.JSON);
     }
     
     // STEP 3: Check Blackboard enrollment
