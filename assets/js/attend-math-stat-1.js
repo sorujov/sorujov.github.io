@@ -1,4 +1,4 @@
-// Version 2024-12-01-5 - Token validation
+// Version 2024-12-08-1 - 5km radius for testing
 (function() {
   'use strict';
 
@@ -9,6 +9,7 @@
     var ADA_LAT = 40.39476586000145;
     var ADA_LON = 49.84937393783448;
     var RADIUS_KM = 5.0; // 5000 meters (testing)
+    console.log('RADIUS_KM set to:', RADIUS_KM, 'km');
     var PASSWORD = 'so123!';
     var TOKEN_VALIDITY_SECONDS = 30; // Token expires after 30 seconds
 
