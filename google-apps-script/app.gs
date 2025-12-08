@@ -9,7 +9,7 @@ var BB_CONFIG = {
 // ==================== CLASS SCHEDULE CONFIGURATION ====================
 // All times are in Baku local time (GMT+4 / Asia/Baku timezone)
 var CLASS_SCHEDULE = {
-  days: [3, 6],  // 3 = Wednesday, 6 = Saturday (0 = Sunday)
+  days: [1, 3, 6],  // 1 = Monday (TESTING), 3 = Wednesday, 6 = Saturday (0 = Sunday)
   startHour: 10,  // 10:00 Baku time
   startMinute: 0,
   endHour: 12,    // 12:30 Baku time

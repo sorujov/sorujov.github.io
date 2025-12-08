@@ -19,34 +19,6 @@
     var capturedLocation = null;
     var hasSubmitted = false; // Track if submission already made with this token
 
-    // Test API button
-    var testApiButton = document.getElementById('test-api');
-    if (testApiButton) {
-      testApiButton.addEventListener('click', async function() {
-        log('🔧 Testing API connection...', false);
-        console.log('Testing API URL:', SHEETS_API_URL);
-        
-        try {
-          var response = await fetch(SHEETS_API_URL, {
-            method: 'GET'
-          });
-          
-          console.log('Test response status:', response.status);
-          var text = await response.text();
-          console.log('Test response text:', text);
-          
-          if (response.ok) {
-            log('✅ API is reachable! Response: ' + text, false);
-          } else {
-            log('⚠ API responded with status ' + response.status + ': ' + text, true);
-          }
-        } catch (error) {
-          console.error('Test error:', error);
-          log('❌ Cannot reach API: ' + error.message, true);
-        }
-      });
-    }
-
     function log(msg, isError) {
       if (isError === undefined) isError = false;
       if (out) {

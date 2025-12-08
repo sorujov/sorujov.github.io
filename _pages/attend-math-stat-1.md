@@ -66,18 +66,6 @@ classes: wide
   <div style="margin-top: 30px; padding: 15px; background: #fff3cd; border-radius: 8px; border-left: 4px solid #ffc107;">
     <p style="margin: 0; font-size: 0.9rem;"><strong>Note:</strong> You must be on ADA University campus to check in. Location access is required.</p>
   </div>
-  
-  <div style="margin-top: 20px;">
-    <button id="test-api" type="button" style="
-      background: #6c757d;
-      color: white;
-      padding: 8px 16px;
-      border: none;
-      border-radius: 6px;
-      font-size: 0.9rem;
-      cursor: pointer;
-    ">🔧 Test API Connection</button>
-  </div>
 </div>
 
 <script src="{{ site.baseurl }}/assets/js/attend-math-stat-1.js?v=20241208-8"></script>
