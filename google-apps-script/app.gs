@@ -450,7 +450,11 @@ function markPresentInBlackboard(email) {
 // ==================== MAIN ATTENDANCE HANDLER (WITH SCHEDULE + LOCATION + ENROLLMENT CHECK) ====================
 function doPost(e) {
   try {
+    Logger.log('=== doPost called ===');
+    Logger.log('Request payload: ' + e.postData.contents);
+    
     const data = JSON.parse(e.postData.contents);
+    Logger.log('Parsed data: ' + JSON.stringify(data));
     
     // STEP 1: Check schedule FIRST (fastest check)
     var scheduleCheck = isWithinSchedule();
@@ -541,10 +545,13 @@ function doPost(e) {
     
   } catch (error) {
     Logger.log('doPost error: ' + error.toString());
+    Logger.log('Error stack: ' + error.stack);
     return ContentService.createTextOutput(JSON.stringify({
       success: false,
       message: 'Server error: ' + error.toString(),
-      errorType: 'server_error'
+      errorType: 'server_error',
+      stack: error.stack,
+      details: 'Full error logged to Apps Script execution log'
     })).setMimeType(ContentService.MimeType.JSON);
   }
 }

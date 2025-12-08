@@ -377,15 +377,28 @@
           
           console.log('Response status:', response.status);
           console.log('Response ok:', response.ok);
+          console.log('Response headers:', response.headers);
+          
+          var responseText = await response.text();
+          console.log('Raw response text:', responseText);
           
           if (!response.ok) {
-            var errorText = await response.text();
-            console.error('Response error:', errorText);
-            throw new Error('Server returned ' + response.status + ': ' + errorText.substring(0, 100));
+            console.error('Response error - Status:', response.status);
+            console.error('Response error - Text:', responseText);
+            log('❌ Server error (' + response.status + '): ' + responseText, true);
+            return;
           }
           
-          var result = await response.json();
-          console.log('Result:', result);
+          var result;
+          try {
+            result = JSON.parse(responseText);
+            console.log('Parsed result:', result);
+          } catch (parseError) {
+            console.error('JSON parse error:', parseError);
+            console.error('Response was:', responseText);
+            log('❌ Invalid response from server. Check console for details.', true);
+            return;
+          }
           
           // Check if submission was successful
           if (result.success) {
