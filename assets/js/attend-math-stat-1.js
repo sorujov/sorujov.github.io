@@ -371,11 +371,11 @@
             }, 3000);
           } else {
             // Show error from Apps Script
-            log('⚠ ' + (result.reason || result.bbError || result.message || 'Attendance not recorded'), true);
+            log('⚠ ' + (result.reason || result.bbError || result.message || 'Error'), true);
           }
           
         } catch (error) {
-          log('⚠ Error submitting attendance: ' + error.message, true);
+          log('⚠ Network error. Please check your internet connection.', true);
         }
       });
     }
