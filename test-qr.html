@@ -1,108 +1,222 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>QR Code Test</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 2rem; }
-        #qr-container { margin: 20px auto; padding: 10px; border: 3px solid #667eea; border-radius: 10px; display: inline-block; background: white; }
-        #qr-status { color: #667eea; font-weight: bold; margin-top: 15px; }
-    </style>
+  <title>Attendance Check-In</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 500px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #333;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      padding: 15px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    button:hover:not(:disabled) {
+      background: #45a049;
+    }
+    .message {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 5px;
+      display: none;
+    }
+    .message.show {
+      display: block;
+    }
+    .success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    .loading {
+      background: #d1ecf1;
+      color: #0c5460;
+      border: 1px solid #bee5eb;
+    }
+  </style>
 </head>
 <body>
-    <h1>QR Code Test - Nayuki Library</h1>
+  <div class="container">
+    <h1>📊 Attendance Check-In</h1>
     
-    <div id="qr-container"></div>
-    <p id="qr-status">Loading...</p>
+    <form id="attendanceForm" onsubmit="submitAttendance(event)">
+      <input type="email" id="email" placeholder="Your ADA email" required>
+      <input type="text" id="name" placeholder="Your full name" required>
+      
+      <input type="hidden" id="latitude">
+      <input type="hidden" id="longitude">
+      <input type="hidden" id="distance">
+      
+      <button type="button" onclick="getLocation()">📍 Get My Location</button>
+      <button type="submit" id="submitButton" disabled>Submit Attendance</button>
+    </form>
     
-    <button onclick="testQR()">Generate Test QR</button>
+    <div id="message" class="message"></div>
+  </div>
+
+  <script>
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby5UFAIyvVhYWp987qEbey09_3BaS1vSG3peMeqeLYOVH9YKq64EMWFM_wsEhU5p9R3zA/exec';
+    const ADA_LAT = 40.39476586000145;
+    const ADA_LON = 49.84937393783448;
     
-    <script src="assets/js/vendor/qrcodegen.js"></script>
-    <script>
-        var qrContainer = document.getElementById('qr-container');
-        var statusEl = document.getElementById('qr-status');
-        
-        function waitForLib(callback) {
-            console.log('Checking for qrcodegen...', typeof qrcodegen);
-            if (typeof qrcodegen !== 'undefined') {
-                console.log('qrcodegen found!', qrcodegen);
-                callback();
-            } else {
-                console.log('qrcodegen not found, retrying...');
-                setTimeout(function() { waitForLib(callback); }, 100);
-            }
+    function getLocation() {
+      showMessage('loading', '⏳ Getting your location...');
+      
+      if (!navigator.geolocation) {
+        showMessage('error', '❌ Geolocation is not supported by your browser');
+        return;
+      }
+      
+      navigator.geolocation.getCurrentPosition(
+        function(position) {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+          const distance = calculateDistance(lat, lon, ADA_LAT, ADA_LON);
+          
+          document.getElementById('latitude').value = lat;
+          document.getElementById('longitude').value = lon;
+          document.getElementById('distance').value = distance;
+          
+          document.getElementById('submitButton').disabled = false;
+          showMessage('success', `✅ Location captured! Distance from campus: ${distance.toFixed(0)}m`);
+        },
+        function(error) {
+          showMessage('error', `❌ Location error: ${error.message}`);
         }
+      );
+    }
+    
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+      const R = 6371e3; // Earth radius in meters
+      const φ1 = lat1 * Math.PI / 180;
+      const φ2 = lat2 * Math.PI / 180;
+      const Δφ = (lat2 - lat1) * Math.PI / 180;
+      const Δλ = (lon2 - lon1) * Math.PI / 180;
+      
+      const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+                Math.cos(φ1) * Math.cos(φ2) *
+                Math.sin(Δλ/2) * Math.sin(Δλ/2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      
+      return R * c;
+    }
+    
+    function submitAttendance(event) {
+      event.preventDefault();
+      
+      const email = document.getElementById('email').value;
+      const name = document.getElementById('name').value;
+      const latitude = parseFloat(document.getElementById('latitude').value);
+      const longitude = parseFloat(document.getElementById('longitude').value);
+      const distance = parseFloat(document.getElementById('distance').value);
+      
+      const submitButton = document.getElementById('submitButton');
+      submitButton.disabled = true;
+      submitButton.textContent = 'Submitting...';
+      
+      showMessage('loading', '⏳ Submitting attendance...');
+      
+      console.log('Sending request to:', APPS_SCRIPT_URL);
+      console.log('Request data:', {
+        email: email,
+        name: name,
+        sessionTime: new Date().toLocaleString('en-US', {timeZone: 'Asia/Baku'}),
+        latitude: latitude,
+        longitude: longitude,
+        distance: distance
+      });
+      
+      fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        // NO mode: 'no-cors' - this allows us to read the response
+        body: JSON.stringify({
+          email: email,
+          name: name,
+          sessionTime: new Date().toLocaleString('en-US', {timeZone: 'Asia/Baku'}),
+          latitude: latitude,
+          longitude: longitude,
+          distance: distance
+        })
+      })
+      .then(response => {
+        console.log('Response status:', response.status);
+        console.log('Response ok:', response.ok);
+        return response.json();
+      })
+      .then(data => {
+        console.log('Parsed response data:', data);
         
-        function drawQR(text) {
-            try {
-                console.log('Attempting to create QR with qrcodegen:', qrcodegen);
-                console.log('QrCode available:', qrcodegen.QrCode);
-                console.log('Ecc available:', qrcodegen.QrCode.Ecc);
-                
-                // Create QR Code using Nayuki's qrcodegen library
-                var qr = qrcodegen.QrCode.encodeText(text, qrcodegen.QrCode.Ecc.HIGH);
-                console.log('QR created successfully, size:', qr.size);
-                
-                // Render as SVG
-                var cellSize = 8;
-                var border = 4;
-                var size = qr.size;
-                var totalSize = (size + border * 2) * cellSize;
-                
-                var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-                svg.setAttribute('width', totalSize);
-                svg.setAttribute('height', totalSize);
-                svg.setAttribute('viewBox', '0 0 ' + totalSize + ' ' + totalSize);
-                
-                // White background
-                var bg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-                bg.setAttribute('width', totalSize);
-                bg.setAttribute('height', totalSize);
-                bg.setAttribute('fill', '#ffffff');
-                svg.appendChild(bg);
-                
-                // Draw QR modules
-                for (var y = 0; y < size; y++) {
-                    for (var x = 0; x < size; x++) {
-                        if (qr.getModule(x, y)) {
-                            var rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-                            rect.setAttribute('x', ((x + border) * cellSize).toString());
-                            rect.setAttribute('y', ((y + border) * cellSize).toString());
-                            rect.setAttribute('width', cellSize.toString());
-                            rect.setAttribute('height', cellSize.toString());
-                            rect.setAttribute('fill', '#000000');
-                            svg.appendChild(rect);
-                        }
-                    }
-                }
-                
-                qrContainer.innerHTML = '';
-                qrContainer.appendChild(svg);
-                
-                statusEl.textContent = '✓ QR Generated Successfully!';
-                statusEl.style.color = '#28a745';
-                return true;
-                
-            } catch (e) {
-                console.error('QR generation error:', e);
-                statusEl.textContent = '⚠ Error: ' + e.message;
-                statusEl.style.color = '#dc3545';
-                return false;
-            }
+        if (data.success) {
+          let message = '✅ ' + (data.message || 'Attendance recorded successfully!');
+          if (data.bbDetails && data.bbDetails.alreadyMarked) {
+            message += '<br><small>Note: You were already marked present for this session.</small>';
+          }
+          showMessage('success', message);
+          submitButton.textContent = 'Submitted ✓';
+          document.getElementById('attendanceForm').reset();
+        } else {
+          let message = '❌ ' + (data.message || 'Failed to record attendance');
+          if (data.errorType) {
+            message += '<br><small>Error type: ' + data.errorType + '</small>';
+          }
+          showMessage('error', message);
+          submitButton.disabled = false;
+          submitButton.textContent = 'Try Again';
         }
-        
-        function testQR() {
-            var testUrl = 'https://sorujov.github.io/attend/math-stat-1/?tok=' + btoa(Date.now() + '-STAT2311-F25');
-            console.log('Testing QR generation for:', testUrl);
-            drawQR(testUrl);
-        }
-        
-        // Wait for library, then generate initial QR
-        waitForLib(function() {
-            console.log('Nayuki QR library loaded successfully');
-            statusEl.textContent = 'Library loaded! Click button to test.';
-            statusEl.style.color = '#28a745';
-        });
-    </script>
+      })
+      .catch(error => {
+        console.error('Fetch error:', error);
+        console.error('Error details:', error.message, error.stack);
+        showMessage('error', '❌ Network error: ' + error.message + '<br><small>Check console for details</small>');
+        submitButton.disabled = false;
+        submitButton.textContent = 'Try Again';
+      });
+    }
+    
+    function showMessage(type, message) {
+      const messageDiv = document.getElementById('message');
+      messageDiv.className = 'message show ' + type;
+      messageDiv.innerHTML = message;
+    }
+  </script>
 </body>
 </html>

@@ -12,7 +12,7 @@ var CLASS_SCHEDULE = {
   days: [1, 3, 6],  // 1 = Monday (TESTING), 3 = Wednesday, 6 = Saturday (0 = Sunday)
   startHour: 10,  // 10:00 Baku time
   startMinute: 0,
-  endHour: 12,    // 12:30 Baku time
+  endHour: 23,    // 23:30 Baku time (extended for testing)
   endMinute: 30,
   timezone: 'Asia/Baku'
 };
@@ -21,7 +21,7 @@ var CLASS_SCHEDULE = {
 var LOCATION_CONFIG = {
   adaLatitude: 40.39476586000145,
   adaLongitude: 49.84937393783448,
-  maxDistanceKm: 5.0  // 5000 meters for testing
+  maxDistanceKm: 0.5  // 500 meters
 };
 
 // ==================== BLACKBOARD AUTHENTICATION ====================
