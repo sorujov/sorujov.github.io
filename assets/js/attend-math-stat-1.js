@@ -13,7 +13,7 @@
     var PASSWORD = 'so123!';
     var TOKEN_VALIDITY_SECONDS = 30; // Token expires after 30 seconds
 
-    var SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbxSp-W1kF3aB2JH-QYmf28bR1Fm1Cd1PXDCKdGQ-HMRHXLZfz2FP7-a5IbEKV9VuFD5Wg/exec';
+    var SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbytmC2ECXRy8zXc-1ofxYiApApLDSOf7OpUzrD0Hc9f_95Wf7r_YvcWw35EhJd9OGPpLQ/exec';
     
     var out = document.getElementById('out');
     var capturedLocation = null;
@@ -254,16 +254,16 @@
         log('✓ Location: ' + lat.toFixed(6) + ', ' + lon.toFixed(6) + ' (±' + accuracy.toFixed(0) + 'm)', false);
         
         setTimeout(function() {
-          log('Distance from campus: ' + (distance*1000).toFixed(0) + 'm', false);
+          log('Distance from campus: ' + (distance*1000).toFixed(0) + 'm (RADIUS: ' + RADIUS_KM + 'km)', false);
         }, 500);
         
-        // Geofence check
-        if (distance > RADIUS_KM) {
-          setTimeout(function() {
-            log('⚠ You must be on campus to check in. You are ' + (distance*1000).toFixed(0) + 'm away.', true);
-          }, 1000);
-          return;
-        }
+        // Geofence check - TEMPORARILY DISABLED FOR TESTING
+        // if (distance > RADIUS_KM) {
+        //   setTimeout(function() {
+        //     log('⚠ You must be on campus to check in. You are ' + (distance*1000).toFixed(0) + 'm away.', true);
+        //   }, 1000);
+        //   return;
+        // }
         
         // Location verified
         setTimeout(function() {
