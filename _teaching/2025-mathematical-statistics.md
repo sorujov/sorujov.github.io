@@ -6,6 +6,7 @@ permalink: /teaching/2025-mathematical-statistics-I
 venue: "ADA University, School of Business"
 date: 2025-09-01
 location: "Baku, Azerbaijan"
+classes: wide
 ---
 
 <div class="course-header">
