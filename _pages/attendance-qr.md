@@ -4,9 +4,9 @@ title: "Mathematical Statistics I - Attendance"
 permalink: /attendance/math-stat-1/
 ---
 
-<!-- PASSWORD PROTECTION -->
+<!-- PASSWORD PROTECTION - DISABLED -->
 <div id="password-container" style="
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     min-height: 80vh;
@@ -52,7 +52,7 @@ permalink: /attendance/math-stat-1/
     </div>
 </div>
 
-<div id="qrcode-container" style="display: none;">
+<div id="qrcode-container" style="display: block;">
     <button id="fullscreen-btn" title="Toggle Fullscreen (F11)">⛶</button>
     <h2>📊 Scan for Attendance</h2>
     <div id="qrcode"></div>
@@ -127,31 +127,31 @@ permalink: /attendance/math-stat-1/
         );
     }
     
-    // PASSWORD CHECK
-    function checkPassword() {
-        var input = document.getElementById('password-input').value;
-        var errorDiv = document.getElementById('password-error');
-        
-        if (input === PASSWORD) {
-            // Password correct - show QR code immediately
-            errorDiv.style.display = 'none';
-            document.getElementById('password-container').style.display = 'none';
-            document.getElementById('qrcode-container').style.display = 'block';
-            initQRCode();
-        } else {
-            errorDiv.style.color = '#e74c3c';
-            errorDiv.textContent = 'Incorrect password. Please try again.';
-            errorDiv.style.display = 'block';
-            document.getElementById('password-input').value = '';
-        }
-    }
-    
-    document.getElementById('password-submit').addEventListener('click', checkPassword);
-    document.getElementById('password-input').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            checkPassword();
-        }
-    });
+    // PASSWORD CHECK - DISABLED (Auto-load QR code)
+    // function checkPassword() {
+    //     var input = document.getElementById('password-input').value;
+    //     var errorDiv = document.getElementById('password-error');
+    //     
+    //     if (input === PASSWORD) {
+    //         // Password correct - show QR code immediately
+    //         errorDiv.style.display = 'none';
+    //         document.getElementById('password-container').style.display = 'none';
+    //         document.getElementById('qrcode-container').style.display = 'block';
+    //         initQRCode();
+    //     } else {
+    //         errorDiv.style.color = '#e74c3c';
+    //         errorDiv.textContent = 'Incorrect password. Please try again.';
+    //         errorDiv.style.display = 'block';
+    //         document.getElementById('password-input').value = '';
+    //     }
+    // }
+    // 
+    // document.getElementById('password-submit').addEventListener('click', checkPassword);
+    // document.getElementById('password-input').addEventListener('keypress', function(e) {
+    //     if (e.key === 'Enter') {
+    //         checkPassword();
+    //     }
+    // });
     
     var QR_REFRESH_MS = 30000;
     var qrcodeContainer = document.getElementById("qrcode");
@@ -166,7 +166,8 @@ permalink: /attendance/math-stat-1/
         setInterval(generateQR, QR_REFRESH_MS);
     }
     
-    // Password protection enabled - QR code will only show after password is entered
+    // Password protection disabled - QR code auto-loads on page load
+    initQRCode();
 
     function generateQR() {
         try {
