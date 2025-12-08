@@ -56,7 +56,7 @@ permalink: /attendance/math-stat-1/
     <button id="fullscreen-btn" title="Toggle Fullscreen (F11)">⛶</button>
     <h2>📊 Scan for Attendance</h2>
     <div id="qrcode"></div>
-    <div id="timer">Next refresh in: <span id="countdown">30</span>s</div>
+    <div id="timer">Next refresh in: <span id="countdown">120</span>s</div>
     <p class="session-info">
         Session: <span id="session-time"></span>
     </p>
@@ -153,7 +153,7 @@ permalink: /attendance/math-stat-1/
     //     }
     // });
     
-    var QR_REFRESH_MS = 30000;
+    var QR_REFRESH_MS = 120000; // 2 minutes
     var qrcodeContainer = document.getElementById("qrcode");
     var sessionTimeDisplay = document.getElementById("session-time");
     var countdownDisplay = document.getElementById("countdown");
@@ -216,7 +216,7 @@ permalink: /attendance/math-stat-1/
             });
             
             // Countdown timer
-            var secondsLeft = 30;
+            var secondsLeft = 120;
             countdownDisplay.textContent = secondsLeft;
             
             countdownInterval = setInterval(function() {
