@@ -12,7 +12,7 @@
     var PASSWORD = 'so123!';
     var TOKEN_VALIDITY_SECONDS = 30; // Token expires after 30 seconds
 
-    var SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbxQnYUuKy6fwD8Ymuy8JjbuDwRgfdDv7s20fRgaelrV-QHthecOuCwsbImzNsQgGouB/exec';
+    var SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbxSp-W1kF3aB2JH-QYmf28bR1Fm1Cd1PXDCKdGQ-HMRHXLZfz2FP7-a5IbEKV9VuFD5Wg/exec';
     
     var out = document.getElementById('out');
     var capturedLocation = null;
