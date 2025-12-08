@@ -360,7 +360,7 @@
               hasSubmitted = true;
             }
             
-            log('✅ Attendance recorded successfully!', false);
+            log('✅ ' + result.message, false);
             document.getElementById('student-form').style.display = 'none';
             
             setTimeout(function() {
@@ -370,8 +370,29 @@
               log('⚠ This link can only be used once. Please scan the QR code again to check in.', true);
             }, 3000);
           } else {
-            // Show error from Apps Script
-            log('⚠ ' + (result.reason || result.bbError || result.message || 'Error'), true);
+            // Show specific error message based on error type
+            var errorMessage = result.message || 'Unknown error occurred';
+            
+            // Add helpful context based on error type
+            if (result.errorType === 'schedule') {
+              errorMessage = '🕒 ' + errorMessage;
+            } else if (result.errorType === 'location') {
+              errorMessage = '📍 ' + errorMessage;
+            } else if (result.errorType === 'enrollment') {
+              errorMessage = '👤 ' + errorMessage;
+            } else if (result.errorType === 'blackboard_sync') {
+              errorMessage = '🔄 ' + errorMessage;
+            } else {
+              errorMessage = '⚠ ' + errorMessage;
+            }
+            
+            log(errorMessage, true);
+            
+            // If not enrolled or outside schedule, disable further attempts
+            if (result.errorType === 'schedule' || result.errorType === 'enrollment') {
+              document.getElementById('student-form').style.display = 'none';
+              document.getElementById('checkin').style.display = 'none';
+            }
           }
           
         } catch (error) {
