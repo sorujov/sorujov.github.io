@@ -68,4 +68,4 @@ classes: wide
   </div>
 </div>
 
-<script src="{{ site.baseurl }}/assets/js/attend-math-stat-1.js?v=20241208-3"></script>
+<script src="{{ site.baseurl }}/assets/js/attend-math-stat-1.js?v=20241208-4"></script>
