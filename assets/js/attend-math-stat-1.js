@@ -13,11 +13,39 @@
     var PASSWORD = 'so123!';
     var TOKEN_VALIDITY_SECONDS = 30; // Token expires after 30 seconds
 
-    var SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbz63UXDyfkvFqZZpUiNp3z9leleB6uYxvHVESE7ev21xRT8kHjjZQK-qYiW-4XZgFZzOg/exec';
+    var SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbzKdk-6TvysDIuEy8jxg1v-_GahRmCgET_0GLlLIr55huxnydInTQgp43Dlib5xVy6z_g/exec';
     
     var out = document.getElementById('out');
     var capturedLocation = null;
     var hasSubmitted = false; // Track if submission already made with this token
+
+    // Test API button
+    var testApiButton = document.getElementById('test-api');
+    if (testApiButton) {
+      testApiButton.addEventListener('click', async function() {
+        log('🔧 Testing API connection...', false);
+        console.log('Testing API URL:', SHEETS_API_URL);
+        
+        try {
+          var response = await fetch(SHEETS_API_URL, {
+            method: 'GET'
+          });
+          
+          console.log('Test response status:', response.status);
+          var text = await response.text();
+          console.log('Test response text:', text);
+          
+          if (response.ok) {
+            log('✅ API is reachable! Response: ' + text, false);
+          } else {
+            log('⚠ API responded with status ' + response.status + ': ' + text, true);
+          }
+        } catch (error) {
+          console.error('Test error:', error);
+          log('❌ Cannot reach API: ' + error.message, true);
+        }
+      });
+    }
 
     function log(msg, isError) {
       if (isError === undefined) isError = false;
@@ -339,13 +367,25 @@
         };
         
         try {
+          console.log('Sending attendance data:', data);
+          
           var response = await fetch(SHEETS_API_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
           });
           
+          console.log('Response status:', response.status);
+          console.log('Response ok:', response.ok);
+          
+          if (!response.ok) {
+            var errorText = await response.text();
+            console.error('Response error:', errorText);
+            throw new Error('Server returned ' + response.status + ': ' + errorText.substring(0, 100));
+          }
+          
           var result = await response.json();
+          console.log('Result:', result);
           
           // Check if submission was successful
           if (result.success) {
@@ -396,7 +436,21 @@
           }
           
         } catch (error) {
-          log('⚠ Network error. Please check your internet connection.', true);
+          console.error('Fetch error:', error);
+          
+          // Show more specific error message
+          var errorMsg = '⚠ ';
+          if (error.message.includes('Failed to fetch')) {
+            errorMsg += 'Cannot connect to server. Please check your internet connection or try again.';
+          } else if (error.message.includes('NetworkError')) {
+            errorMsg += 'Network error. Please ensure you have a stable internet connection.';
+          } else if (error.message.includes('CORS')) {
+            errorMsg += 'Configuration error. Please contact your instructor.';
+          } else {
+            errorMsg += error.message || 'An error occurred. Please try again.';
+          }
+          
+          log(errorMsg, true);
         }
       });
     }

@@ -629,15 +629,15 @@ function testAllErrorScenarios() {
   Logger.log('Result: ' + JSON.stringify(onCampusResult));
   Logger.log('');
   
-  // Test 3: Location validation - far away
+  // Test 3: Location validation - far away (should be rejected)
   Logger.log('TEST 3: Location Validation - Too Far');
-  var farAwayResult = isWithinCampus(40.4095, 49.8671); // ~3km away
+  var farAwayResult = isWithinCampus(40.4095, 49.9671); // ~10km away
   Logger.log('Result: ' + JSON.stringify(farAwayResult));
   Logger.log('');
   
-  // Test 4: Location validation - very far
+  // Test 4: Location validation - very far (should be rejected)
   Logger.log('TEST 4: Location Validation - Very Far');
-  var veryFarResult = isWithinCampus(40.3777, 49.8920); // ~6km away
+  var veryFarResult = isWithinCampus(40.3777, 49.7920); // ~6km away
   Logger.log('Result: ' + JSON.stringify(veryFarResult));
   Logger.log('');
   
