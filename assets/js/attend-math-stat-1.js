@@ -339,55 +339,43 @@
         };
         
         try {
-          await fetch(SHEETS_API_URL, {
+          var response = await fetch(SHEETS_API_URL, {
             method: 'POST',
-            mode: 'no-cors',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
           });
           
-          // Mark token as used
-          var urlParams = new URLSearchParams(window.location.search);
-          var token = urlParams.get('token');
-          if (token) {
-            var usedTokens = sessionStorage.getItem('usedTokens');
-            var tokens = usedTokens ? JSON.parse(usedTokens) : [];
-            tokens.push(token);
-            sessionStorage.setItem('usedTokens', JSON.stringify(tokens));
-            hasSubmitted = true;
+          var result = await response.json();
+          
+          // Check if submission was successful
+          if (result.success) {
+            // Mark token as used
+            var urlParams = new URLSearchParams(window.location.search);
+            var token = urlParams.get('token');
+            if (token) {
+              var usedTokens = sessionStorage.getItem('usedTokens');
+              var tokens = usedTokens ? JSON.parse(usedTokens) : [];
+              tokens.push(token);
+              sessionStorage.setItem('usedTokens', JSON.stringify(tokens));
+              hasSubmitted = true;
+            }
+            
+            log('✅ Attendance recorded successfully!', false);
+            document.getElementById('student-form').style.display = 'none';
+            
+            setTimeout(function() {
+              document.getElementById('attendance-form').reset();
+              document.getElementById('checkin').style.display = 'none';
+              capturedLocation = null;
+              log('⚠ This link can only be used once. Please scan the QR code again to check in.', true);
+            }, 3000);
+          } else {
+            // Show error from Apps Script
+            log('⚠ ' + (result.reason || result.bbError || result.message || 'Attendance not recorded'), true);
           }
-          
-          log('✅ Attendance recorded successfully!', false);
-          document.getElementById('student-form').style.display = 'none';
-          
-          setTimeout(function() {
-            document.getElementById('attendance-form').reset();
-            document.getElementById('checkin').style.display = 'none';
-            capturedLocation = null;
-            log('⚠ This link can only be used once. Please scan the QR code again to check in.', true);
-          }, 3000);
           
         } catch (error) {
-          // Mark token as used even if fetch fails (no-cors)
-          var urlParams = new URLSearchParams(window.location.search);
-          var token = urlParams.get('token');
-          if (token) {
-            var usedTokens = sessionStorage.getItem('usedTokens');
-            var tokens = usedTokens ? JSON.parse(usedTokens) : [];
-            tokens.push(token);
-            sessionStorage.setItem('usedTokens', JSON.stringify(tokens));
-            hasSubmitted = true;
-          }
-          
-          log('✅ Attendance recorded!', false);
-          document.getElementById('student-form').style.display = 'none';
-          
-          setTimeout(function() {
-            e.target.reset();
-            document.getElementById('checkin').style.display = 'none';
-            capturedLocation = null;
-            log('⚠ This link can only be used once. Please scan the QR code again to check in.', true);
-          }, 3000);
+          log('⚠ Error submitting attendance: ' + error.message, true);
         }
       });
     }
