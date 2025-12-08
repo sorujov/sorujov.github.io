@@ -29,7 +29,7 @@ classes: wide
   
   <div id="student-form" style="display: none; margin-top: 20px;">
     <form id="attendance-form">
-      <input type="text" id="student-name" placeholder="Full Name" required style="
+      <input type="text" id="student-username" placeholder="Username (e.g., rabaszade19617)" required style="
         width: 100%;
         padding: 12px;
         margin: 10px 0;
@@ -37,15 +37,8 @@ classes: wide
         border-radius: 8px;
         font-size: 16px;
         box-sizing: border-box;
-      ">
-      <input type="email" id="student-email" placeholder="Email or Student ID" required style="
-        width: 100%;
-        padding: 12px;
-        margin: 10px 0;
-        border: 2px solid #ddd;
-        border-radius: 8px;
-        font-size: 16px;
-        box-sizing: border-box;
+        color: #333;
+        background-color: #fff;
       ">
       <button type="submit" style="
         background: linear-gradient(45deg, #28a745 0%, #20c997 100%);

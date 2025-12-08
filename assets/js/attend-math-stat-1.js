@@ -303,13 +303,15 @@
           return;
         }
         
-        var name = document.getElementById('student-name').value.trim();
-        var email = document.getElementById('student-email').value.trim();
+        var username = document.getElementById('student-username').value.trim();
         
-        if (!name || !email) {
-          log('⚠ Please fill in all fields', true);
+        if (!username) {
+          log('⚠ Please enter your username', true);
           return;
         }
+        
+        // Convert username to email format for Apps Script
+        var email = username.includes('@') ? username : username + '@ada.edu.az';
         
         log('📤 Submitting attendance...', false);
         
@@ -326,7 +328,7 @@
         }));
         
         var data = {
-          name: name,
+          name: username,
           email: email,
           sessionTime: sessionTime,
           latitude: capturedLocation.latitude.toFixed(6),
