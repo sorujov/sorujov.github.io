@@ -1,0 +1,81 @@
+name: Update ORCID Publications
+
+on:
+  # Run automatically every week on Monday at 00:00 UTC
+  schedule:
+    - cron: '0 0 * * 1'
+  
+  # Allow manual trigger from GitHub Actions tab
+  workflow_dispatch:
+  
+  # Run when this workflow file is modified
+  push:
+    paths:
+      - '.github/workflows/update-orcid-publications.yml'
+      - 'scripts/fetch_orcid_publications.py'
+
+jobs:
+  update-publications:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+      
+      - name: Fetch publications from ORCID
+        env:
+          ORCID_ID: ${{ secrets.ORCID_ID }}
+          ORCID_CLIENT_ID: ${{ secrets.ORCID_CLIENT_ID }}
+          ORCID_CLIENT_SECRET: ${{ secrets.ORCID_CLIENT_SECRET }}
+        run: |
+          python scripts/fetch_orcid_publications.py
+      
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if [[ -n $(git status --porcelain) ]]; then
+            echo "changes=true" >> $GITHUB_OUTPUT
+            echo "✓ New publications found"
+          else
+            echo "changes=false" >> $GITHUB_OUTPUT
+            echo "✓ No new publications"
+          fi
+      
+      - name: Commit and push changes
+        if: steps.check_changes.outputs.changes == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add _publications/
+          git commit -m "🔄 Auto-update publications from ORCID [skip ci]"
+          git push
+      
+      - name: Create summary
+        if: always()
+        run: |
+          echo "## ORCID Publications Update" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [[ "${{ steps.check_changes.outputs.changes }}" == "true" ]]; then
+            echo "✅ Publications updated successfully" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "New publications have been fetched from ORCID and committed to the repository." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "ℹ️ No new publications found" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Your ORCID profile is up to date with the repository." >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**ORCID ID**: ${{ secrets.ORCID_ID }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Last checked**: $(date -u +'%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
