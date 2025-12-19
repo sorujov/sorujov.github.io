@@ -8,6 +8,7 @@ date: 2025-05-16
 venue: 'Journal of Time Series Econometrics'
 paperurl: 'https://doi.org/10.1515/jtse-2023-0035'
 doi: '10.1515/jtse-2023-0035'
+github: 'https://github.com/sorujov/Log-TGARCHX-Subset-Selection'
 citation: 'Citation information from ORCID (Work Type: journal-article)'
 ---
 
