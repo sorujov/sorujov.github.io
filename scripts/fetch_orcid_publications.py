@@ -228,11 +228,35 @@ def extract_publication_info(work_summary, work_details=None, doi=None):
     # Extract abstract from multiple sources
     abstract = ''
     
-    # Try ORCID first
+    # Try ORCID first - check multiple possible fields
     if work_details:
+        # Try short-description at root level
         short_desc = work_details.get('short-description')
         if short_desc:
-            abstract = short_desc
+            abstract = short_desc if isinstance(short_desc, str) else short_desc.get('value', '')
+            print(f"  ✓ Found abstract from ORCID (short-description)")
+        
+        # Try work.short-description
+        if not abstract:
+            work_obj = work_details.get('work')
+            if work_obj:
+                short_desc = work_obj.get('short-description')
+                if short_desc:
+                    abstract = short_desc if isinstance(short_desc, str) else short_desc.get('value', '')
+                    print(f"  ✓ Found abstract from ORCID (work.short-description)")
+        
+        # Try description field (alternative name)
+        if not abstract:
+            desc = work_details.get('description')
+            if desc:
+                abstract = desc if isinstance(desc, str) else desc.get('value', '')
+                print(f"  ✓ Found abstract from ORCID (description)")
+        
+        # Debug: print available keys if no abstract found
+        if not abstract and work_details:
+            print(f"  ⚠ No abstract in ORCID work details. Available keys: {list(work_details.keys())}")
+            if 'work' in work_details:
+                print(f"     Work object keys: {list(work_details['work'].keys())}")
     
     # If no abstract from ORCID, try SSRN (for SSRN papers)
     if not abstract and doi and 'ssrn' in doi.lower():
