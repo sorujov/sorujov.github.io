@@ -95,6 +95,49 @@ def fetch_orcid_works(access_token):
         sys.exit(1)
 
 
+def fetch_work_details(put_code, access_token):
+    """Fetch detailed information for a specific work including abstract."""
+    url = f'{ORCID_API_BASE}/{ORCID_ID}/work/{put_code}'
+    headers = {
+        'Accept': 'application/json',
+        'Authorization': f'Bearer {access_token}'
+    }
+    
+    try:
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            return response.json()
+        else:
+            print(f"⚠ Could not fetch details for work {put_code}")
+            return None
+    except requests.RequestException as e:
+        print(f"⚠ Error fetching work details: {e}")
+        return None
+
+
+def get_existing_publications(output_dir):
+    """Scan existing publication files and return a dict of DOI -> filename."""
+    existing = {}
+    output_path = Path(output_dir)
+    
+    if not output_path.exists():
+        return existing
+    
+    for md_file in output_path.glob('*.md'):
+        try:
+            with open(md_file, 'r', encoding='utf-8') as f:
+                content = f.read()
+                # Extract DOI from frontmatter
+                doi_match = re.search(r'^doi:\s*[\'"](.+?)[\'"]', content, re.MULTILINE)
+                if doi_match:
+                    doi = doi_match.group(1)
+                    existing[doi] = md_file.name
+        except Exception as e:
+            print(f"⚠ Could not read {md_file.name}: {e}")
+    
+    return existing
+
+
 def sanitize_filename(title):
     """Create a safe filename from publication title."""
     # Remove special characters and replace spaces with hyphens
@@ -103,10 +146,23 @@ def sanitize_filename(title):
     return safe_title[:100].strip('-').lower()  # Limit length
 
 
-def extract_publication_info(work_summary):
-    """Extract relevant information from a work summary."""
+def extract_publication_info(work_summary, work_details=None):
+    """Extract relevant information from a work summary and optionally detailed data."""
     title_obj = work_summary.get('title', {})
     title = title_obj.get('title', {}).get('value', 'Untitled')
+    
+    # Extract abstract from detailed work data if available
+    abstract = ''
+    if work_details:
+        short_desc = work_details.get('short-description')
+        if short_desc:
+            abstract = short_desc
+        # Try to get from work citation if available
+        if not abstract:
+            citation = work_details.get('citation')
+            if citation and citation.get('citation-type') == 'bibtex':
+                # Could parse bibtex for abstract, but that's complex
+                pass
     
     # Extract publication date
     pub_date = work_summary.get('publication-date')
@@ -162,7 +218,8 @@ def extract_publication_info(work_summary):
         'venue': journal_title,
         'doi': doi,
         'url': url,
-        'citation': citation
+        'citation': citation,
+        'abstract': abstract
     }
 
 
@@ -218,7 +275,11 @@ venue: '{pub_info['venue']}'
         content += f"**DOI**: [{pub_info['doi']}](https://doi.org/{pub_info['doi']})\n\n"
     
     content += "## Abstract\n\n"
-    content += "*This publication was automatically imported from ORCID. Please edit this file to add abstract and additional details.*\n"
+    
+    if pub_info.get('abstract'):
+        content += f"{pub_info['abstract']}\n\n"
+    else:
+        content += "*This publication was automatically imported from ORCID. Please edit this file to add abstract and additional details.*\n"
     
     # Write file
     with open(filepath, 'w', encoding='utf-8') as f:
@@ -264,10 +325,16 @@ def main():
     output_dir = script_dir.parent / '_publications'
     output_dir.mkdir(exist_ok=True)
     
-    print(f"\nGenerating markdown files in {output_dir}...")
+    # Get existing publications to avoid duplicates
+    print("\nChecking for existing publications...")
+    existing_pubs = get_existing_publications(output_dir)
+    print(f"✓ Found {len(existing_pubs)} existing publication(s)")
+    
+    print(f"\nProcessing publications from ORCID...")
     
     # Process each work
     generated_files = []
+    skipped_files = []
     working_papers = []
     published_works = []
     
@@ -275,7 +342,19 @@ def main():
         work_summaries = group.get('work-summary', [])
         if work_summaries:
             work_summary = work_summaries[0]  # Use first summary
-            pub_info = extract_publication_info(work_summary)
+            put_code = work_summary.get('put-code')
+            
+            # Fetch detailed work information (includes abstract)
+            work_details = fetch_work_details(put_code, access_token)
+            
+            # Extract publication info with details
+            pub_info = extract_publication_info(work_summary, work_details)
+            
+            # Check if publication already exists (by DOI)
+            if pub_info['doi'] and pub_info['doi'] in existing_pubs:
+                print(f"⊗ Skipping existing: {pub_info['title']} (already exists as {existing_pubs[pub_info['doi']]})")
+                skipped_files.append(pub_info['title'])
+                continue
             
             # Categorize
             if pub_info['category'] == 'working-papers':
@@ -291,14 +370,19 @@ def main():
     print("\n" + "=" * 60)
     print("IMPORT SUMMARY")
     print("=" * 60)
-    print(f"Total publications imported: {len(generated_files)}")
+    print(f"Total publications processed: {len(groups)}")
+    print(f"  - New publications imported: {len(generated_files)}")
+    print(f"  - Skipped (already exist): {len(skipped_files)}")
     print(f"  - Published works: {len(published_works)}")
     print(f"  - Working papers: {len(working_papers)}")
     print("\n✓ Import completed successfully!")
-    print("\nNext steps:")
-    print("1. Review generated files in _publications/ directory")
-    print("2. Edit files to add abstracts and additional details")
-    print("3. Commit and push changes to GitHub")
+    if generated_files:
+        print("\nNext steps:")
+        print("1. Review generated files in _publications/ directory")
+        print("2. Edit files to add/enhance abstracts and additional details")
+        print("3. Commit and push changes to GitHub")
+    else:
+        print("\n✓ All publications are up to date!")
 
 
 if __name__ == '__main__':
