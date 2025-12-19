@@ -227,9 +227,17 @@ def extract_publication_info(work_summary, work_details=None, doi=None):
     
     # Extract abstract from multiple sources
     abstract = ''
+    paper_url = ''
     
     # Try ORCID first - check multiple possible fields
     if work_details:
+        # Extract URL from ORCID work details
+        orcid_url = work_details.get('url')
+        if orcid_url:
+            paper_url = orcid_url if isinstance(orcid_url, str) else orcid_url.get('value', '')
+            if paper_url:
+                print(f"  ✓ Found paper URL from ORCID: {paper_url}")
+        
         # Try short-description at root level
         short_desc = work_details.get('short-description')
         if short_desc:
@@ -326,6 +334,7 @@ def extract_publication_info(work_summary, work_details=None, doi=None):
         'venue': journal_title,
         'doi': doi,
         'url': url,
+        'paperurl': paper_url if paper_url else url,
         'citation': citation,
         'abstract': abstract
     }
@@ -353,11 +362,15 @@ date: {pub_info['date']}
 venue: '{pub_info['venue']}'
 """
     
-    if pub_info['url']:
-        content += f"paperurl: '{pub_info['url']}'\n"
+    if pub_info.get('paperurl'):
+        content += f"paperurl: '{pub_info['paperurl']}'\n"
     
     if pub_info['doi']:
         content += f"doi: '{pub_info['doi']}'\n"
+    
+    # Add github field if present (will be empty by default, can be manually added)
+    if pub_info.get('github'):
+        content += f"github: '{pub_info['github']}'\n"
     
     content += f"citation: '{pub_info['citation']}'\n"
     content += "---\n\n"

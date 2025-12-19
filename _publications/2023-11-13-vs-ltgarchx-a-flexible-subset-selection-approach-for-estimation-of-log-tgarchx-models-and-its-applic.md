@@ -6,6 +6,7 @@ permalink: /publication/2023-11-13-vs-ltgarchx-a-flexible-subset-selection-appro
 excerpt: 'VS-LTGARCHX: A Flexible Subset Selection Approach for Estimation of log-TGARCHX Models and Its Application to BTC Markets'
 date: 2023-11-13
 venue: ''
+paperurl: 'https://hal.science/hal-04283159'
 citation: 'Citation information from ORCID (Work Type: working-paper)'
 ---
 
