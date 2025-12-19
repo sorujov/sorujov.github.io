@@ -34,6 +34,25 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests
       
+      - name: Debug - Check secrets availability
+        run: |
+          echo "Checking if secrets are available..."
+          if [ -z "${{ secrets.ORCID_ID }}" ]; then
+            echo "❌ ORCID_ID secret is NOT set"
+          else
+            echo "✅ ORCID_ID secret is set"
+          fi
+          if [ -z "${{ secrets.ORCID_CLIENT_ID }}" ]; then
+            echo "❌ ORCID_CLIENT_ID secret is NOT set"
+          else
+            echo "✅ ORCID_CLIENT_ID secret is set"
+          fi
+          if [ -z "${{ secrets.ORCID_CLIENT_SECRET }}" ]; then
+            echo "❌ ORCID_CLIENT_SECRET secret is NOT set"
+          else
+            echo "✅ ORCID_CLIENT_SECRET secret is set"
+          fi
+      
       - name: Fetch publications from ORCID
         env:
           ORCID_ID: ${{ secrets.ORCID_ID }}
