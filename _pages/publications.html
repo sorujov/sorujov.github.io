@@ -22,10 +22,21 @@ author_profile: true
   .pub-list {
     list-style: none;
     padding-left: 0;
+    counter-reset: pub-counter;
   }
   .pub-list li {
     margin-bottom: 0.5em;
     line-height: 1.4;
+    counter-increment: pub-counter;
+    position: relative;
+    padding-left: 2em;
+  }
+  .pub-list li::before {
+    content: counter(pub-counter) ". ";
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+    color: #333;
   }
   .pub-title {
     font-weight: bold;
@@ -40,6 +51,12 @@ author_profile: true
   .pub-links a {
     margin-right: 1em;
     font-size: 0.9em;
+    color: #333;
+    text-decoration: none;
+  }
+  .pub-links a:hover {
+    color: #000;
+    text-decoration: underline;
   }
 </style>
 
