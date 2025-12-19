@@ -115,6 +115,35 @@ def fetch_work_details(put_code, access_token):
         return None
 
 
+def fetch_abstract_from_crossref(doi):
+    """Fetch abstract from CrossRef API using DOI."""
+    if not doi:
+        return None
+    
+    url = f'https://api.crossref.org/works/{doi}'
+    headers = {
+        'User-Agent': 'ORCID-Publications-Sync/1.0 (mailto:contact@example.com)'
+    }
+    
+    try:
+        response = requests.get(url, headers=headers, timeout=10)
+        if response.status_code == 200:
+            data = response.json()
+            message = data.get('message', {})
+            abstract = message.get('abstract')
+            if abstract:
+                # CrossRef returns abstract with XML tags, clean them
+                import html
+                abstract = html.unescape(abstract)
+                # Remove XML/HTML tags
+                abstract = re.sub(r'<[^>]+>', '', abstract)
+                return abstract.strip()
+        return None
+    except Exception as e:
+        # Silently fail - CrossRef is optional
+        return None
+
+
 def get_existing_publications(output_dir):
     """Scan existing publication files and return a dict of DOI -> filename."""
     existing = {}
@@ -146,23 +175,26 @@ def sanitize_filename(title):
     return safe_title[:100].strip('-').lower()  # Limit length
 
 
-def extract_publication_info(work_summary, work_details=None):
+def extract_publication_info(work_summary, work_details=None, doi=None):
     """Extract relevant information from a work summary and optionally detailed data."""
     title_obj = work_summary.get('title', {})
     title = title_obj.get('title', {}).get('value', 'Untitled')
     
-    # Extract abstract from detailed work data if available
+    # Extract abstract from multiple sources
     abstract = ''
+    
+    # Try ORCID first
     if work_details:
         short_desc = work_details.get('short-description')
         if short_desc:
             abstract = short_desc
-        # Try to get from work citation if available
-        if not abstract:
-            citation = work_details.get('citation')
-            if citation and citation.get('citation-type') == 'bibtex':
-                # Could parse bibtex for abstract, but that's complex
-                pass
+    
+    # If no abstract from ORCID, try CrossRef
+    if not abstract and doi:
+        crossref_abstract = fetch_abstract_from_crossref(doi)
+        if crossref_abstract:
+            abstract = crossref_abstract
+            print(f"  ✓ Found abstract from CrossRef")
     
     # Extract publication date
     pub_date = work_summary.get('publication-date')
@@ -344,17 +376,26 @@ def main():
             work_summary = work_summaries[0]  # Use first summary
             put_code = work_summary.get('put-code')
             
-            # Fetch detailed work information (includes abstract)
-            work_details = fetch_work_details(put_code, access_token)
-            
-            # Extract publication info with details
-            pub_info = extract_publication_info(work_summary, work_details)
+            # Quick extract DOI to check for duplicates early
+            external_ids = work_summary.get('external-ids', {}).get('external-id', [])
+            doi = ''
+            for ext_id in external_ids:
+                if ext_id.get('external-id-type') == 'doi':
+                    doi = ext_id.get('external-id-value', '')
+                    break
             
             # Check if publication already exists (by DOI)
-            if pub_info['doi'] and pub_info['doi'] in existing_pubs:
-                print(f"⊗ Skipping existing: {pub_info['title']} (already exists as {existing_pubs[pub_info['doi']]})")
-                skipped_files.append(pub_info['title'])
+            if doi and doi in existing_pubs:
+                title = work_summary.get('title', {}).get('title', {}).get('value', 'Unknown')
+                print(f"⊗ Skipping: {title[:60]}... (exists as {existing_pubs[doi]})")
+                skipped_files.append(title)
                 continue
+            
+            # Fetch detailed work information (includes abstract from ORCID)
+            work_details = fetch_work_details(put_code, access_token)
+            
+            # Extract publication info with details (will also try CrossRef for abstract)
+            pub_info = extract_publication_info(work_summary, work_details, doi)
             
             # Categorize
             if pub_info['category'] == 'working-papers':
