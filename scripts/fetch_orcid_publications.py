@@ -280,9 +280,32 @@ def extract_publication_info(work_summary, work_details=None, doi=None):
             abstract = crossref_abstract
             print(f"  ✓ Found abstract from CrossRef")
     
-    # Extract publication date
+    # Extract publication date - try multiple date fields
     pub_date = work_summary.get('publication-date')
-    if pub_date:
+    
+    # Check work_details for created-date if available
+    created_date = None
+    if work_details:
+        created_date = work_details.get('created-date')
+        if created_date:
+            # created-date is in timestamp format, need to convert
+            import time
+            timestamp_ms = created_date.get('value') if isinstance(created_date, dict) else created_date
+            if timestamp_ms:
+                try:
+                    # Convert milliseconds to seconds
+                    timestamp_sec = int(timestamp_ms) / 1000
+                    date_obj = datetime.fromtimestamp(timestamp_sec)
+                    print(f"  ✓ Found created date from ORCID: {date_obj.strftime('%Y-%m-%d')}")
+                    year = str(date_obj.year)
+                    month = str(date_obj.month).zfill(2)
+                    day = str(date_obj.day).zfill(2)
+                except (ValueError, TypeError) as e:
+                    print(f"  ⚠ Could not parse created-date: {e}")
+                    created_date = None
+    
+    # If no valid created_date, use publication-date
+    if not created_date and pub_date:
         year_obj = pub_date.get('year')
         year = year_obj.get('value', '') if year_obj else ''
         
@@ -291,7 +314,7 @@ def extract_publication_info(work_summary, work_details=None, doi=None):
         
         day_obj = pub_date.get('day')
         day = day_obj.get('value', '01') if day_obj else '01'
-    else:
+    elif not created_date:
         year = ''
         month = '01'
         day = '01'

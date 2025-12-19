@@ -2,9 +2,9 @@
 title: "VS-LTGARCHX: A Flexible Variable Selection in Log-TGARCHX Models"
 collection: publications
 category: manuscripts
-permalink: /publication/2025-05-16-vs-ltgarchx-a-flexible-variable-selection-in-log-tgarchx-models
+permalink: /publication/2024-11-04-vs-ltgarchx-a-flexible-variable-selection-in-log-tgarchx-models
 excerpt: 'VS-LTGARCHX: A Flexible Variable Selection in Log-TGARCHX Models'
-date: 2025-05-16
+date: 2024-11-04
 venue: 'Journal of Time Series Econometrics'
 paperurl: 'https://doi.org/10.1515/jtse-2023-0035'
 doi: '10.1515/jtse-2023-0035'
