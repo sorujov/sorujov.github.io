@@ -48,11 +48,20 @@ def get_access_token():
     }
     
     try:
+        print(f"Requesting token from ORCID...")
         response = requests.post(ORCID_TOKEN_URL, data=data)
+        print(f"Response status: {response.status_code}")
+        
+        if response.status_code != 200:
+            print(f"Response body: {response.text}")
+        
         response.raise_for_status()
-        return response.json()['access_token']
+        token_data = response.json()
+        print("✓ Token obtained successfully")
+        return token_data['access_token']
     except requests.RequestException as e:
         print(f"ERROR: Failed to get access token: {e}")
+        print(f"Response: {response.text if 'response' in locals() else 'No response'}")
         sys.exit(1)
 
 
@@ -69,11 +78,20 @@ def fetch_orcid_works(access_token):
     }
     
     try:
+        print(f"Fetching works from: {url}")
         response = requests.get(url, headers=headers)
+        print(f"Response status: {response.status_code}")
+        
+        if response.status_code != 200:
+            print(f"Response body: {response.text}")
+        
         response.raise_for_status()
-        return response.json()
+        works = response.json()
+        print(f"✓ Successfully fetched works data")
+        return works
     except requests.RequestException as e:
         print(f"ERROR: Failed to fetch works from ORCID: {e}")
+        print(f"Response: {response.text if 'response' in locals() else 'No response'}")
         sys.exit(1)
 
 
