@@ -15,6 +15,31 @@ author_profile: true
 
 {% include base_path %}
 
+<style>
+  .pub-list {
+    list-style: none;
+    padding-left: 0;
+  }
+  .pub-list li {
+    margin-bottom: 0.5em;
+    line-height: 1.4;
+  }
+  .pub-title {
+    font-weight: bold;
+  }
+  .pub-meta {
+    font-size: 0.9em;
+    color: #666;
+  }
+  .pub-links {
+    margin-top: 0.2em;
+  }
+  .pub-links a {
+    margin-right: 1em;
+    font-size: 0.9em;
+  }
+</style>
+
 <!-- New style rendering if publication categories are defined -->
 {% if site.publication_category %}
   {% for category in site.publication_category  %}
@@ -24,16 +49,60 @@ author_profile: true
         {% continue %}
       {% endif %}
       {% unless title_shown %}
-        <h2>{{ category[1].title }}</h2><hr />
+        <h2>{{ category[1].title }}</h2>
+        <ul class="pub-list">
         {% assign title_shown = true %}
       {% endunless %}
-      {% include archive-single.html %}
+      <li>
+        <span class="pub-title"><a href="{{ base_path }}{{ post.url }}">{{ post.title }}</a></span>
+        {% if post.date %}
+          <span class="pub-meta">({{ post.date | date: "%Y" }})</span>
+        {% endif %}
+        {% if post.venue and post.venue != "" %}
+          <br><em>{{ post.venue }}</em>
+        {% endif %}
+        <div class="pub-links">
+          {% if post.paperurl %}
+            <a href="{{ post.paperurl }}" target="_blank">📄 Paper</a>
+          {% endif %}
+          {% if post.doi %}
+            <a href="https://doi.org/{{ post.doi }}" target="_blank">🔗 DOI</a>
+          {% endif %}
+          {% if post.github %}
+            <a href="{{ post.github }}" target="_blank">💻 Code</a>
+          {% endif %}
+        </div>
+      </li>
     {% endfor %}
+    {% if title_shown %}
+      </ul>
+    {% endif %}
   {% endfor %}
 {% else %}
+  <ul class="pub-list">
   {% for post in site.publications reversed %}
-    {% include archive-single.html %}
+    <li>
+      <span class="pub-title"><a href="{{ base_path }}{{ post.url }}">{{ post.title }}</a></span>
+      {% if post.date %}
+        <span class="pub-meta">({{ post.date | date: "%Y" }})</span>
+      {% endif %}
+      {% if post.venue and post.venue != "" %}
+        <br><em>{{ post.venue }}</em>
+      {% endif %}
+      <div class="pub-links">
+        {% if post.paperurl %}
+          <a href="{{ post.paperurl }}" target="_blank">📄 Paper</a>
+        {% endif %}
+        {% if post.doi %}
+          <a href="https://doi.org/{{ post.doi }}" target="_blank">🔗 DOI</a>
+        {% endif %}
+        {% if post.github %}
+          <a href="{{ post.github }}" target="_blank">💻 Code</a>
+        {% endif %}
+      </div>
+    </li>
   {% endfor %}
+  </ul>
 {% endif %}
 
 

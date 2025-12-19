@@ -8,6 +8,7 @@ date: 2025-01-01
 venue: ''
 paperurl: 'https://doi.org/10.2139/ssrn.5920805'
 doi: '10.2139/ssrn.5920805'
+github: 'https://github.com/sorujov/Broadband-Demand-Elasticity'
 citation: 'Citation information from ORCID (Work Type: preprint)'
 ---
 
