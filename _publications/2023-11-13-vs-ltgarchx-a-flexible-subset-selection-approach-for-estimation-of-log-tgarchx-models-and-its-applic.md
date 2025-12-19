@@ -13,4 +13,5 @@ citation: 'Citation information from ORCID (Work Type: working-paper)'
 
 ## Abstract
 
-*This publication was automatically imported from ORCID. Please edit this file to add abstract and additional details.*
+The log-TGARCHX model is less restrictive in terms of inclusion of exogenous variables and asymmetry lags compared to the GARCHX model. However, adding less (more) covariates than necessary may lead to underfitting (overfitting), respectively. In this context, we propose a new algorithm, called VS-LTGARCHX, which incorporates a variable selection procedure into the log-TGARCHX estimation process. Furthermore, the VS-LTGARCHX algorithm is applied to extremely volatile BTC markets using 42 conditioning variables. Interestingly, our results show that the VS-LTGARCHX models outperform the specified benchmark models in one-step-ahead forecasting.
+
