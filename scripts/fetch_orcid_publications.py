@@ -190,26 +190,44 @@ def fetch_abstract_from_ssrn(doi):
 
 
 def get_existing_publications(output_dir):
-    """Scan existing publication files and return a dict of DOI -> filename."""
-    existing = {}
+    """Scan existing publication files and return a registry of put-codes, DOIs, and titles."""
+    existing_putcodes = {}
+    existing_dois = {}
+    existing_titles = {}
     output_path = Path(output_dir)
     
     if not output_path.exists():
-        return existing
+        return existing_putcodes, existing_dois, existing_titles
     
     for md_file in output_path.glob('*.md'):
         try:
             with open(md_file, 'r', encoding='utf-8') as f:
                 content = f.read()
-                # Extract DOI from frontmatter
+                
+                # Extract ORCID put-code (unique identifier) - most reliable
+                putcode_match = re.search(r'^orcid_putcode:\s*[\'"]?(\d+)[\'"]?', content, re.MULTILINE)
+                if putcode_match:
+                    putcode = putcode_match.group(1)
+                    existing_putcodes[putcode] = md_file.name
+                
+                # Extract DOI from frontmatter (fallback)
                 doi_match = re.search(r'^doi:\s*[\'"](.+?)[\'"]', content, re.MULTILINE)
                 if doi_match:
                     doi = doi_match.group(1)
-                    existing[doi] = md_file.name
+                    existing_dois[doi] = md_file.name
+                
+                # Extract title for duplicate detection (fallback)
+                title_match = re.search(r'^title:\s*[\'"](.+?)[\'"]', content, re.MULTILINE)
+                if title_match:
+                    title = title_match.group(1).lower().strip()
+                    # Normalize title: remove punctuation, extra spaces
+                    normalized = re.sub(r'[^\w\s]', '', title)
+                    normalized = re.sub(r'\s+', ' ', normalized).strip()
+                    existing_titles[normalized] = md_file.name
         except Exception as e:
             print(f"⚠ Could not read {md_file.name}: {e}")
     
-    return existing
+    return existing_putcodes, existing_dois, existing_titles
 
 
 def sanitize_filename(title):
@@ -220,7 +238,7 @@ def sanitize_filename(title):
     return safe_title[:100].strip('-').lower()  # Limit length
 
 
-def extract_publication_info(work_summary, work_details=None, doi=None):
+def extract_publication_info(work_summary, work_details=None, doi=None, put_code=None):
     """Extract relevant information from a work summary and optionally detailed data."""
     title_obj = work_summary.get('title', {})
     title = title_obj.get('title', {}).get('value', 'Untitled')
@@ -359,7 +377,8 @@ def extract_publication_info(work_summary, work_details=None, doi=None):
         'url': url,
         'paperurl': paper_url if paper_url else url,
         'citation': citation,
-        'abstract': abstract
+        'abstract': abstract,
+        'put_code': put_code
     }
 
 
@@ -383,6 +402,7 @@ permalink: {permalink}
 excerpt: '{excerpt}'
 date: {pub_info['date']}
 venue: '{pub_info['venue']}'
+orcid_putcode: '{pub_info.get('put_code', '')}'
 """
     
     if pub_info.get('paperurl'):
@@ -471,8 +491,8 @@ def main():
     
     # Get existing publications to avoid duplicates
     print("\nChecking for existing publications...")
-    existing_pubs = get_existing_publications(output_dir)
-    print(f"✓ Found {len(existing_pubs)} existing publication(s)")
+    existing_putcodes, existing_dois, existing_titles = get_existing_publications(output_dir)
+    print(f"✓ Found {len(existing_putcodes)} existing publication(s) in registry")
     
     print(f"\nProcessing publications from ORCID...")
     
@@ -486,7 +506,12 @@ def main():
         work_summaries = group.get('work-summary', [])
         if work_summaries:
             work_summary = work_summaries[0]  # Use first summary
-            put_code = work_summary.get('put-code')
+            put_code = str(work_summary.get('put-code'))
+            
+            # Extract title for duplicate checking
+            title = work_summary.get('title', {}).get('title', {}).get('value', 'Unknown')
+            normalized_title = re.sub(r'[^\w\s]', '', title.lower().strip())
+            normalized_title = re.sub(r'\s+', ' ', normalized_title).strip()
             
             # Quick extract DOI to check for duplicates early
             external_ids = work_summary.get('external-ids', {}).get('external-id', [])
@@ -496,10 +521,19 @@ def main():
                     doi = ext_id.get('external-id-value', '')
                     break
             
-            # Check if publication already exists (by DOI)
-            if doi and doi in existing_pubs:
-                title = work_summary.get('title', {}).get('title', {}).get('value', 'Unknown')
-                print(f"⊗ Skipping: {title[:60]}... (exists as {existing_pubs[doi]})")
+            # Check if publication already exists (by put-code first, then DOI, then title)
+            if put_code in existing_putcodes:
+                print(f"⊗ Skipping: {title[:60]}... (put-code: {put_code}, exists as {existing_putcodes[put_code]})")
+                skipped_files.append(title)
+                continue
+            
+            if doi and doi in existing_dois:
+                print(f"⊗ Skipping: {title[:60]}... (put-code: {put_code}, exists as {existing_dois[doi]})")
+                skipped_files.append(title)
+                continue
+            
+            if normalized_title in existing_titles:
+                print(f"⊗ Skipping: {title[:60]}... (put-code: {put_code}, duplicate title, exists as {existing_titles[normalized_title]})")
                 skipped_files.append(title)
                 continue
             
@@ -507,7 +541,7 @@ def main():
             work_details = fetch_work_details(put_code, access_token)
             
             # Extract publication info with details (will also try CrossRef for abstract)
-            pub_info = extract_publication_info(work_summary, work_details, doi)
+            pub_info = extract_publication_info(work_summary, work_details, doi, put_code)
             
             # Categorize
             if pub_info['category'] == 'working-papers':

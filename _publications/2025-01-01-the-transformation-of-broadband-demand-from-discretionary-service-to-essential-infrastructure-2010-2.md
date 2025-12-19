@@ -6,6 +6,7 @@ permalink: /publication/2025-01-01-the-transformation-of-broadband-demand-from-d
 excerpt: 'The Transformation of Broadband Demand: From Discretionary Service to Essential Infrastructure (2010-2024)'
 date: 2025-01-01
 venue: ''
+orcid_putcode: '200245951'
 paperurl: 'https://doi.org/10.2139/ssrn.5920805'
 doi: '10.2139/ssrn.5920805'
 github: 'https://github.com/sorujov/Broadband-Demand-Elasticity'

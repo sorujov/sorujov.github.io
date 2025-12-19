@@ -6,6 +6,7 @@ permalink: /publication/2024-11-04-vs-ltgarchx-a-flexible-variable-selection-in-
 excerpt: 'VS-LTGARCHX: A Flexible Variable Selection in Log-TGARCHX Models'
 date: 2024-11-04
 venue: 'Journal of Time Series Econometrics'
+orcid_putcode: '170959447'
 paperurl: 'https://doi.org/10.1515/jtse-2023-0035'
 doi: '10.1515/jtse-2023-0035'
 github: 'https://github.com/sorujov/Log-TGARCHX-Subset-Selection'
