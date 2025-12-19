@@ -110,9 +110,19 @@ def extract_publication_info(work_summary):
     
     # Extract publication date
     pub_date = work_summary.get('publication-date')
-    year = pub_date.get('year', {}).get('value', '') if pub_date else ''
-    month = pub_date.get('month', {}).get('value', '01') if pub_date else '01'
-    day = pub_date.get('day', {}).get('value', '01') if pub_date else '01'
+    if pub_date:
+        year_obj = pub_date.get('year')
+        year = year_obj.get('value', '') if year_obj else ''
+        
+        month_obj = pub_date.get('month')
+        month = month_obj.get('value', '01') if month_obj else '01'
+        
+        day_obj = pub_date.get('day')
+        day = day_obj.get('value', '01') if day_obj else '01'
+    else:
+        year = ''
+        month = '01'
+        day = '01'
     
     # Create date string
     if year:
