@@ -144,6 +144,51 @@ def fetch_abstract_from_crossref(doi):
         return None
 
 
+def fetch_abstract_from_ssrn(doi):
+    """Fetch abstract from SSRN by parsing the paper page."""
+    if not doi or 'ssrn' not in doi.lower():
+        return None
+    
+    try:
+        # Extract SSRN ID from DOI (e.g., 10.2139/ssrn.5920805 -> 5920805)
+        ssrn_id = doi.split('ssrn.')[-1]
+        url = f'https://papers.ssrn.com/sol3/papers.cfm?abstract_id={ssrn_id}'
+        
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        }
+        
+        response = requests.get(url, headers=headers, timeout=15)
+        if response.status_code == 200:
+            html_content = response.text
+            
+            # Try to find abstract in the HTML
+            # SSRN typically has abstract in a specific div or meta tag
+            abstract_patterns = [
+                r'<meta name="description" content="([^"]+)"',
+                r'<div[^>]*class="[^"]*abstract-text[^"]*"[^>]*>(.+?)</div>',
+                r'<h2[^>]*>Abstract</h2>\s*<p>(.+?)</p>',
+            ]
+            
+            for pattern in abstract_patterns:
+                match = re.search(pattern, html_content, re.DOTALL | re.IGNORECASE)
+                if match:
+                    abstract = match.group(1)
+                    # Clean HTML tags and entities
+                    import html
+                    abstract = html.unescape(abstract)
+                    abstract = re.sub(r'<[^>]+>', '', abstract)
+                    abstract = re.sub(r'\s+', ' ', abstract).strip()
+                    
+                    if len(abstract) > 100:  # Ensure it's a real abstract
+                        return abstract
+        
+        return None
+    except Exception as e:
+        # Silently fail - SSRN fetching is optional
+        return None
+
+
 def get_existing_publications(output_dir):
     """Scan existing publication files and return a dict of DOI -> filename."""
     existing = {}
@@ -189,7 +234,14 @@ def extract_publication_info(work_summary, work_details=None, doi=None):
         if short_desc:
             abstract = short_desc
     
-    # If no abstract from ORCID, try CrossRef
+    # If no abstract from ORCID, try SSRN (for SSRN papers)
+    if not abstract and doi and 'ssrn' in doi.lower():
+        ssrn_abstract = fetch_abstract_from_ssrn(doi)
+        if ssrn_abstract:
+            abstract = ssrn_abstract
+            print(f"  ✓ Found abstract from SSRN")
+    
+    # If still no abstract, try CrossRef
     if not abstract and doi:
         crossref_abstract = fetch_abstract_from_crossref(doi)
         if crossref_abstract:
