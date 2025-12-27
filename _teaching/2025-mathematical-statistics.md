@@ -1564,9 +1564,16 @@ html {
   <details class="raw-data-toggle">
     <summary>📊 View Full Evaluation Data</summary>
     <div class="raw-data-info">
-      <p>Complete anonymized evaluation data including all student responses is available in the course repository:</p>
-      <p><code>_teaching/_evaluations/Mathematical_Statistics_1_evaluations_2025.csv</code></p>
+      <p>Complete anonymized evaluation data including all student responses is available for download:</p>
       <p><em>Data includes 75 student responses across 14 evaluation questions with both quantitative ratings and qualitative feedback.</em></p>
+      <div style="text-align: center; margin-top: 1.5rem;">
+        <a href="{{ base_path }}/_teaching/_evaluations/Mathematical_Statistics_1_evaluations_2025.csv" 
+           download="Mathematical_Statistics_1_evaluations_2025.csv"
+           class="btn btn--primary"
+           style="background: linear-gradient(45deg, #667eea 0%, #764ba2 100%); color: white; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; display: inline-block;">
+          📥 Download CSV Data
+        </a>
+      </div>
     </div>
   </details>
 </div>
