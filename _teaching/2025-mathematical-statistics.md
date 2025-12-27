@@ -21,6 +21,7 @@ classes: wide
     <a href="#course-info" class="toc-main-link">📋 Course Information</a>
     <a href="#learning-objectives" class="toc-main-link">🎯 Learning Objectives</a>
     <a href="#assessment" class="toc-main-link">📊 Assessment</a>
+    <a href="#student-evaluations" class="toc-main-link">⭐ Student Evaluations</a>
     <a href="#literature" class="toc-main-link">📚 Literature</a>
     <a href="#technical-notes" class="toc-main-link">⚙️ Technical Notes</a>
     <a href="/attendance/math-stat-1/" class="toc-main-link" style="background: linear-gradient(45deg, #667eea 0%, #764ba2 100%); color: white;">✓ Attendance</a>
@@ -1385,6 +1386,571 @@ html {
     </div>
   </div>
 </div>
+
+---
+
+<div class="evaluation-section" id="student-evaluations">
+  <h2 class="section-header">⭐ Student Evaluations - Fall 2025</h2>
+  
+  <div class="eval-intro">
+    <p>Anonymous student feedback from 75 respondents collected at the end of Fall 2025 semester. These evaluations reflect student perceptions of course quality, instructor effectiveness, and overall learning experience.</p>
+  </div>
+
+  <div class="eval-summary-cards">
+    <div class="eval-card highlight">
+      <div class="eval-icon">📊</div>
+      <div class="eval-number">4.56/5</div>
+      <div class="eval-label">Overall Course Rating</div>
+    </div>
+    <div class="eval-card highlight">
+      <div class="eval-icon">👨‍🏫</div>
+      <div class="eval-number">4.72/5</div>
+      <div class="eval-label">Instructor Effectiveness</div>
+    </div>
+    <div class="eval-card">
+      <div class="eval-icon">✓</div>
+      <div class="eval-number">87%</div>
+      <div class="eval-label">Average Attendance</div>
+    </div>
+    <div class="eval-card">
+      <div class="eval-icon">👥</div>
+      <div class="eval-number">75</div>
+      <div class="eval-label">Total Responses</div>
+    </div>
+  </div>
+
+  <div class="eval-charts-section">
+    <h3>📈 Rating Distribution</h3>
+    
+    <div class="chart-container">
+      <canvas id="courseRatingsChart"></canvas>
+    </div>
+
+    <div class="chart-row">
+      <div class="chart-half">
+        <h4>Teacher Effectiveness Metrics</h4>
+        <canvas id="teacherRadarChart"></canvas>
+      </div>
+      <div class="chart-half">
+        <h4>Attendance Distribution</h4>
+        <canvas id="attendanceChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="qualitative-section">
+    <h3>💬 Student Insights & Themes</h3>
+    
+    <div class="insight-grid">
+      <div class="insight-card positive">
+        <h4>✨ Key Strengths</h4>
+        <ul>
+          <li><strong>Real-world applications:</strong> Students consistently praised the connection to economics and business contexts</li>
+          <li><strong>Clear explanations:</strong> Multiple students noted the instructor's ability to simplify complex concepts</li>
+          <li><strong>Instructor availability:</strong> High marks for being accessible and responsive to student questions</li>
+          <li><strong>Engaging teaching style:</strong> Students found lectures interesting despite challenging material</li>
+        </ul>
+      </div>
+      
+      <div class="insight-card constructive">
+        <h4>🎯 Areas for Improvement</h4>
+        <ul>
+          <li><strong>Pacing:</strong> Some students felt lectures moved quickly through material</li>
+          <li><strong>Assessment time:</strong> A few students mentioned time constraints on exams</li>
+          <li><strong>Major-specific examples:</strong> Request for more business-focused applications</li>
+          <li><strong>Lecture organization:</strong> Occasional feedback about connecting concepts more clearly</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>🗣️ Selected Student Quotes</h3>
+    
+    <div class="quotes-container">
+      <blockquote class="student-quote">
+        "Mr Samir is able to explain complex materials, theorems and concepts in a very easy and intuitive way. You UNDERSTAND statistics in this course, not memorize."
+      </blockquote>
+      
+      <blockquote class="student-quote">
+        "Absolutely. To be quite honest Prof Samir is one of the few instructors I've met whom genuinely care about his students... His classes are probably the only part of the day I actually enjoy learning."
+      </blockquote>
+      
+      <blockquote class="student-quote">
+        "Yes, I would recommend this course to other students. It is very interesting and useful course. Also, I would like mention that this course becomes more interesting for me thank to our instructor. He taught us that how we can use this information in our real life."
+      </blockquote>
+      
+      <blockquote class="student-quote">
+        "Of course, Samir muellim is one hell of a smart guy and whenever I mailed him he always explained the questions to me. He is probably the kindest instructor at the whole ADA!!"
+      </blockquote>
+      
+      <blockquote class="student-quote">
+        "Yes because it's the best in explaining statistical analysis and application in real world"
+      </blockquote>
+    </div>
+  </div>
+
+  <div class="detailed-metrics">
+    <h3>📋 Detailed Ratings (1-5 Scale)</h3>
+    
+    <div class="metrics-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Average</th>
+            <th>Mode</th>
+            <th>% Rating 4-5</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Overall Course Assessment</td>
+            <td>4.56</td>
+            <td>5</td>
+            <td>97%</td>
+          </tr>
+          <tr>
+            <td>Exercise Sessions Quality</td>
+            <td>4.45</td>
+            <td>5</td>
+            <td>93%</td>
+          </tr>
+          <tr>
+            <td>Lecture Quality</td>
+            <td>4.61</td>
+            <td>5</td>
+            <td>96%</td>
+          </tr>
+          <tr>
+            <td>Real-life Economics Connection</td>
+            <td>4.15</td>
+            <td>4, 5</td>
+            <td>87%</td>
+          </tr>
+          <tr class="highlight-row">
+            <td><strong>Teacher: Organization & Preparation</strong></td>
+            <td><strong>4.69</strong></td>
+            <td><strong>5</strong></td>
+            <td><strong>96%</strong></td>
+          </tr>
+          <tr class="highlight-row">
+            <td><strong>Teacher: Student Participation</strong></td>
+            <td><strong>4.68</strong></td>
+            <td><strong>5</strong></td>
+            <td><strong>95%</strong></td>
+          </tr>
+          <tr class="highlight-row">
+            <td><strong>Teacher: Availability</strong></td>
+            <td><strong>4.73</strong></td>
+            <td><strong>5</strong></td>
+            <td><strong>96%</strong></td>
+          </tr>
+          <tr class="highlight-row">
+            <td><strong>Teacher: Clarifying Difficult Material</strong></td>
+            <td><strong>4.75</strong></td>
+            <td><strong>5</strong></td>
+            <td><strong>97%</strong></td>
+          </tr>
+          <tr>
+            <td>Course Demand (vs other courses)</td>
+            <td>3.88</td>
+            <td>4</td>
+            <td>77%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <details class="raw-data-toggle">
+    <summary>📊 View Full Evaluation Data</summary>
+    <div class="raw-data-info">
+      <p>Complete anonymized evaluation data including all student responses is available in the course repository:</p>
+      <p><code>_teaching/_evaluations/Mathematical_Statistics_1_evaluations_2025.csv</code></p>
+      <p><em>Data includes 75 student responses across 14 evaluation questions with both quantitative ratings and qualitative feedback.</em></p>
+    </div>
+  </details>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// Course Ratings Bar Chart
+const ctxBar = document.getElementById('courseRatingsChart');
+if (ctxBar) {
+  new Chart(ctxBar, {
+    type: 'bar',
+    data: {
+      labels: ['Overall Course', 'Exercise Sessions', 'Lectures', 'Real-life Link', 'Organization', 'Participation', 'Availability', 'Clarity'],
+      datasets: [{
+        label: 'Average Rating (out of 5)',
+        data: [4.56, 4.45, 4.61, 4.15, 4.69, 4.68, 4.73, 4.75],
+        backgroundColor: [
+          'rgba(102, 126, 234, 0.8)',
+          'rgba(118, 75, 162, 0.8)',
+          'rgba(102, 126, 234, 0.8)',
+          'rgba(118, 75, 162, 0.8)',
+          'rgba(76, 175, 80, 0.8)',
+          'rgba(76, 175, 80, 0.8)',
+          'rgba(76, 175, 80, 0.8)',
+          'rgba(76, 175, 80, 0.8)'
+        ],
+        borderColor: [
+          'rgba(102, 126, 234, 1)',
+          'rgba(118, 75, 162, 1)',
+          'rgba(102, 126, 234, 1)',
+          'rgba(118, 75, 162, 1)',
+          'rgba(76, 175, 80, 1)',
+          'rgba(76, 175, 80, 1)',
+          'rgba(76, 175, 80, 1)',
+          'rgba(76, 175, 80, 1)'
+        ],
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 5,
+          ticks: {
+            stepSize: 1
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        },
+        title: {
+          display: true,
+          text: 'Student Ratings Across All Metrics',
+          font: {
+            size: 16
+          }
+        }
+      }
+    }
+  });
+}
+
+// Teacher Effectiveness Radar Chart
+const ctxRadar = document.getElementById('teacherRadarChart');
+if (ctxRadar) {
+  new Chart(ctxRadar, {
+    type: 'radar',
+    data: {
+      labels: ['Organization', 'Participation', 'Availability', 'Clarity'],
+      datasets: [{
+        label: 'Teacher Rating',
+        data: [4.69, 4.68, 4.73, 4.75],
+        fill: true,
+        backgroundColor: 'rgba(76, 175, 80, 0.2)',
+        borderColor: 'rgba(76, 175, 80, 1)',
+        pointBackgroundColor: 'rgba(76, 175, 80, 1)',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: 'rgba(76, 175, 80, 1)'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      scales: {
+        r: {
+          beginAtZero: true,
+          max: 5,
+          ticks: {
+            stepSize: 1
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        }
+      }
+    }
+  });
+}
+
+// Attendance Distribution Chart
+const ctxAttendance = document.getElementById('attendanceChart');
+if (ctxAttendance) {
+  new Chart(ctxAttendance, {
+    type: 'pie',
+    data: {
+      labels: ['90-100%', '80-89%', '70-79%', '50-69%', '0-49%'],
+      datasets: [{
+        data: [53, 11, 6, 3, 2],
+        backgroundColor: [
+          'rgba(76, 175, 80, 0.8)',
+          'rgba(102, 126, 234, 0.8)',
+          'rgba(255, 193, 7, 0.8)',
+          'rgba(255, 152, 0, 0.8)',
+          'rgba(244, 67, 54, 0.8)'
+        ],
+        borderColor: '#fff',
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: {
+          position: 'bottom'
+        },
+        title: {
+          display: true,
+          text: 'Student Attendance Rates',
+          font: {
+            size: 14
+          }
+        }
+      }
+    }
+  });
+}
+</script>
+
+<style>
+.evaluation-section {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 3rem 2rem;
+  margin: 2rem 0;
+  border-radius: 15px;
+}
+
+.eval-intro {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.eval-summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.eval-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.eval-card:hover {
+  transform: translateY(-5px);
+}
+
+.eval-card.highlight {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.eval-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.eval-number {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
+}
+
+.eval-label {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.eval-charts-section {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  margin: 2rem 0;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.chart-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.chart-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.chart-half {
+  padding: 1rem;
+}
+
+.chart-half h4 {
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.qualitative-section {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  margin: 2rem 0;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.insight-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.insight-card {
+  padding: 1.5rem;
+  border-radius: 10px;
+  border-left: 5px solid;
+}
+
+.insight-card.positive {
+  background: #e8f5e9;
+  border-left-color: #4caf50;
+}
+
+.insight-card.constructive {
+  background: #fff3e0;
+  border-left-color: #ff9800;
+}
+
+.insight-card h4 {
+  margin-top: 0;
+  color: #333;
+}
+
+.insight-card ul {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.insight-card li {
+  margin: 0.75rem 0;
+  line-height: 1.6;
+}
+
+.quotes-container {
+  margin: 2rem 0;
+}
+
+.student-quote {
+  background: #f8f9fa;
+  border-left: 4px solid #667eea;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.detailed-metrics {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  margin: 2rem 0;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.metrics-table {
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+
+.metrics-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.metrics-table th,
+.metrics-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.metrics-table th {
+  background: #667eea;
+  color: white;
+  font-weight: 600;
+}
+
+.metrics-table tr:hover {
+  background: #f5f5f5;
+}
+
+.metrics-table .highlight-row {
+  background: #e8f5e9;
+}
+
+.raw-data-toggle {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.raw-data-toggle summary {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #667eea;
+  cursor: pointer;
+  user-select: none;
+}
+
+.raw-data-toggle summary:hover {
+  color: #764ba2;
+}
+
+.raw-data-info {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.raw-data-info code {
+  background: #e9ecef;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+}
+
+@media (max-width: 768px) {
+  .eval-summary-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .chart-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .insight-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+---
 
 <div class="literature-section" id="literature">
   <h2 class="section-header">📚 Course Literature</h2>
