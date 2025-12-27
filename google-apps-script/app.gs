@@ -9,10 +9,10 @@ var BB_CONFIG = {
 // ==================== CLASS SCHEDULE CONFIGURATION ====================
 // All times are in Baku local time (GMT+4 / Asia/Baku timezone)
 var CLASS_SCHEDULE = {
-  days: [1, 3, 6],  // 1 = Monday (TESTING), 3 = Wednesday, 6 = Saturday (0 = Sunday)
+  days: [3, 6],  // 3 = Wednesday, 6 = Saturday (0 = Sunday)
   startHour: 10,  // 10:00 Baku time
   startMinute: 0,
-  endHour: 23,    // 23:30 Baku time (extended for testing)
+  endHour: 12,    // 12:30 Baku time
   endMinute: 30,
   timezone: 'Asia/Baku'
 };
@@ -21,7 +21,7 @@ var CLASS_SCHEDULE = {
 var LOCATION_CONFIG = {
   adaLatitude: 40.39476586000145,
   adaLongitude: 49.84937393783448,
-  maxDistanceKm: 0.5  // 500 meters
+  maxDistanceKm: 0.5  // 5000 meters for testing
 };
 
 // ==================== BLACKBOARD AUTHENTICATION ====================
@@ -468,27 +468,19 @@ function doPost(e) {
       })).setMimeType(ContentService.MimeType.JSON);
     }
     
-    // STEP 2: Check location (REQUIRED)
-    if (!data.latitude || !data.longitude) {
-      Logger.log('REJECTED: Missing location data');
-      return ContentService.createTextOutput(JSON.stringify({
-        success: false,
-        message: 'Location data is required. Please enable location services and try again.',
-        errorType: 'location',
-        missingLocation: true
-      })).setMimeType(ContentService.MimeType.JSON);
-    }
-    
-    var locationCheck = isWithinCampus(parseFloat(data.latitude), parseFloat(data.longitude));
-    if (!locationCheck.allowed) {
-      Logger.log('REJECTED: Outside campus - ' + locationCheck.reason);
-      return ContentService.createTextOutput(JSON.stringify({
-        success: false,
-        message: locationCheck.reason,
-        errorType: 'location',
-        distance: locationCheck.distance ? (locationCheck.distance * 1000).toFixed(0) + 'm' : null,
-        outsideCampus: true
-      })).setMimeType(ContentService.MimeType.JSON);
+    // STEP 2: Check location (if provided)
+    if (data.latitude && data.longitude) {
+      var locationCheck = isWithinCampus(parseFloat(data.latitude), parseFloat(data.longitude));
+      if (!locationCheck.allowed) {
+        Logger.log('REJECTED: Outside campus - ' + locationCheck.reason);
+        return ContentService.createTextOutput(JSON.stringify({
+          success: false,
+          message: locationCheck.reason,
+          errorType: 'location',
+          distance: locationCheck.distance ? (locationCheck.distance * 1000).toFixed(0) + 'm' : null,
+          outsideCampus: true
+        })).setMimeType(ContentService.MimeType.JSON);
+      }
     }
     
     // STEP 3: Check Blackboard enrollment
