@@ -96,8 +96,11 @@ classes: wide
   </div>
   
   <strong>Prerequisites</strong>: Calculus II (MATH 1202)  
+
   <strong>Schedule</strong>: Wednesdays and Saturdays  
+
   - Class 10462: 10:00-11:15 AM, Room D207
+  
   - Class 10463: 11:30-12:45 PM, Rooms A210 & A109
 
   <div class="assessment-grid">
@@ -1567,7 +1570,7 @@ html {
       <p>Complete anonymized evaluation data including all student responses is available for download:</p>
       <p><em>Data includes 75 student responses across 14 evaluation questions with both quantitative ratings and qualitative feedback.</em></p>
       <div style="text-align: center; margin-top: 1.5rem;">
-        <a href="{{ base_path }}/_teaching/_evaluations/Mathematical_Statistics_1_evaluations_2025.csv" 
+        <a href="{{ base_path }}/files/evaluations/Mathematical_Statistics_1_evaluations_2025.csv" 
            download="Mathematical_Statistics_1_evaluations_2025.csv"
            class="btn btn--primary"
            style="background: linear-gradient(45deg, #667eea 0%, #764ba2 100%); color: white; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; display: inline-block;">
