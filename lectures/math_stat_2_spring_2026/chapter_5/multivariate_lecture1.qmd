@@ -1,0 +1,957 @@
+---
+title: "Mathematical Statistics"
+subtitle: "Bivariate and Multivariate Probability Distributions"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: default
+    logo: ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    footer: "Mathematical Statistics - Bivariate and Multivariate Distributions"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+---
+
+## 🎯 Learning Objectives {.smaller}
+
+::: {.learning-objectives}
+By the end of this lecture, you will be able to:
+
+- Define and interpret **joint probability functions** for discrete bivariate random variables and verify their properties
+
+- Compute **joint probability density functions** for continuous bivariate random variables and calculate probabilities over specified regions
+
+- Derive **marginal probability distributions** from joint distributions using summation (discrete) or integration (continuous)
+
+- Visualize bivariate distributions using **3D surfaces**, contour plots, and understand geometric interpretations
+
+- Apply multivariate distribution concepts to **portfolio analysis** and financial risk assessment using real market data
+:::
+
+## 📋 Overview {.smaller}
+
+::: {style="font-size:50px"}
+::: {.callout-note}
+## 📚 Topics Covered Today
+
+::: {.incremental}
+- **Introduction to Multivariate Distributions** – Why study joint distributions? Applications in finance and economics
+
+- **Joint Probability Functions (Discrete)** – Definition, properties, and examples with probability tables
+
+- **Joint Probability Density Functions (Continuous)** – Definition, properties, and integration over regions
+
+- **Marginal Distributions** – Extracting individual variable distributions from joint distributions
+
+- **Case Study** – Portfolio returns analysis using real stock market data
+:::
+:::
+:::
+
+## 📖 Why Study Multivariate Distributions? {.smaller}
+
+::: {.callout-note}
+## 🎯 Motivation
+
+In the real world, random variables rarely occur in isolation. We often need to study **relationships between multiple random variables**:
+
+::: {.columns}
+::: {.column width="50%"}
+::: {.fragment}
+**Finance Applications:**
+
+- Portfolio returns (multiple stocks)
+- Risk factors affecting asset prices
+- Interest rates and inflation
+- Credit risk and market risk
+:::
+:::
+
+::: {.column width="50%"}
+::: {.fragment}
+**Other Applications:**
+
+- Height and weight of individuals
+- Temperature and humidity
+- Supply and demand quantities
+- Test scores across subjects
+:::
+:::
+:::
+:::
+
+**Key Question:** How do we mathematically describe the **joint behavior** of two or more random variables?
+
+## 📖 Definition: Joint Probability Function (Discrete) {.smaller}
+
+::: {.callout-note}
+## 📝 Definition 5.1: Bivariate Probability Function
+
+Let $Y_1$ and $Y_2$ be discrete random variables. The **joint (bivariate) probability function** for $Y_1$ and $Y_2$ is:
+
+$$p(y_1, y_2) = P(Y_1 = y_1, Y_2 = y_2)$$
+
+for all pairs $(y_1, y_2)$ in the joint sample space.
+
+**Interpretation:** $p(y_1, y_2)$ gives the probability that $Y_1$ takes value $y_1$ **and** $Y_2$ takes value $y_2$ simultaneously.
+:::
+
+**Notation:** We write $(Y_1, Y_2)$ to denote a **bivariate random variable** (or random vector) consisting of two components.
+
+## 🧮 Theorem: Properties of Joint Probability Functions {.smaller}
+
+::: {.callout-important}
+## Theorem 5.1: Properties of Joint Probability Functions
+
+For any joint probability function $p(y_1, y_2)$:
+
+**Property 1 (Non-negativity):**
+$$p(y_1, y_2) \geq 0 \quad \text{for all } (y_1, y_2)$$
+
+**Property 2 (Normalization):**
+$$\sum_{y_1} \sum_{y_2} p(y_1, y_2) = 1$$
+
+The double sum is taken over all possible pairs $(y_1, y_2)$ in the sample space.
+:::
+
+**Intuition:** Probabilities must be non-negative and sum to 1 across all possible outcomes—the same principles as univariate distributions, extended to pairs!
+
+## 📌 Example 1: Dice Tossing Experiment {.smaller}
+
+**Problem:** Consider tossing two fair dice. Let $Y_1$ = value on die 1 and $Y_2$ = value on die 2. Find the joint probability function.
+
+**Solution:**
+
+. . .
+
+Since each die has 6 faces and the tosses are independent:
+
+$$p(y_1, y_2) = P(Y_1 = y_1) \cdot P(Y_2 = y_2) = \frac{1}{6} \cdot \frac{1}{6} = \frac{1}{36}$$
+
+. . .
+
+for all $y_1, y_2 \in \{1, 2, 3, 4, 5, 6\}$.
+
+::: {.columns}
+::: {.column width="50%"}
+::: {.fragment}
+**Sample Space:** 36 equally likely outcomes
+
+$(1,1), (1,2), \ldots, (6,6)$
+:::
+:::
+
+::: {.column width="50%"}
+::: {.fragment}
+**Verification:**
+$$\sum_{y_1=1}^{6} \sum_{y_2=1}^{6} \frac{1}{36} = 36 \cdot \frac{1}{36} = 1 \checkmark$$
+:::
+:::
+:::
+
+## 📌 Example 2: Committee Selection (Discrete) {.smaller}
+
+**Problem:** A committee of 3 is selected at random from 4 Republicans and 3 Democrats. Let $Y_1$ = number of Republicans and $Y_2$ = number of Democrats selected.
+
+**Solution:**
+
+. . .
+
+The joint probability function is:
+
+$$p(y_1, y_2) = \frac{\binom{4}{y_1} \binom{3}{y_2}}{\binom{7}{3}}$$
+
+. . .
+
+where $y_1 + y_2 = 3$, $y_1 \in \{0, 1, 2, 3\}$, $y_2 \in \{0, 1, 2, 3\}$.
+
+::: {.fragment}
+**Joint Probability Table:**
+
+| $y_1 \backslash y_2$ | 0 | 1 | 2 | 3 |
+|:---:|:---:|:---:|:---:|:---:|
+| **0** | 0 | 0 | 0 | $\frac{1}{35}$ |
+| **1** | 0 | 0 | $\frac{12}{35}$ | 0 |
+| **2** | 0 | $\frac{18}{35}$ | 0 | 0 |
+| **3** | $\frac{4}{35}$ | 0 | 0 | 0 |
+
+**Note:** Only cells where $y_1 + y_2 = 3$ have non-zero probabilities.
+:::
+
+## 📖 Definition: Joint Distribution Function {.smaller}
+
+::: {.callout-note}
+## 📝 Definition 5.2: Joint Distribution Function (CDF)
+
+The **joint distribution function** (or joint CDF) for random variables $Y_1$ and $Y_2$ is:
+
+$$F(y_1, y_2) = P(Y_1 \leq y_1, Y_2 \leq y_2)$$
+
+for $-\infty < y_1 < \infty$ and $-\infty < y_2 < \infty$.
+
+**Interpretation:** $F(y_1, y_2)$ gives the probability that $Y_1$ is at most $y_1$ **and** $Y_2$ is at most $y_2$.
+:::
+
+**Geometric View:** $F(y_1, y_2)$ represents the probability accumulated in the "southwest rectangle" from $(-\infty, -\infty)$ to $(y_1, y_2)$.
+
+## 🧮 Theorem: Properties of Joint CDFs {.smaller}
+
+::: {.callout-important}
+## Theorem 5.2: Properties of Bivariate CDFs
+
+For any joint distribution function $F(y_1, y_2)$:
+
+1. $\lim_{y_1 \to -\infty} F(y_1, y_2) = \lim_{y_2 \to -\infty} F(y_1, y_2) = 0$
+
+2. $\lim_{y_1 \to \infty, y_2 \to \infty} F(y_1, y_2) = 1$
+
+3. If $y_1^* \geq y_1$ and $y_2^* \geq y_2$, then $F(y_1^*, y_2^*) \geq F(y_1, y_2)$ (non-decreasing)
+
+4. $F(y_1, y_2)$ is right-continuous in each argument
+:::
+
+**Intuition:** The CDF starts at 0, increases monotonically, and approaches 1 as both variables go to infinity.
+
+## 📖 Definition: Joint Probability Density Function (Continuous) {.smaller}
+
+::: {.callout-note}
+## 📝 Definition 5.3: Joint Probability Density Function
+
+Random variables $Y_1$ and $Y_2$ are said to be **jointly continuous** if their joint distribution function $F(y_1, y_2)$ can be written as:
+
+$$F(y_1, y_2) = \int_{-\infty}^{y_1} \int_{-\infty}^{y_2} f(t_1, t_2) \, dt_2 \, dt_1$$
+
+for some non-negative function $f(y_1, y_2)$ called the **joint probability density function** (pdf).
+
+**Key Relationship:**
+$$f(y_1, y_2) = \frac{\partial^2 F(y_1, y_2)}{\partial y_1 \, \partial y_2}$$
+
+where this derivative exists.
+:::
+
+## 🧮 Theorem: Properties of Joint PDFs {.smaller}
+
+::: {.callout-important}
+## Theorem 5.3: Properties of Joint Probability Density Functions
+
+For any joint pdf $f(y_1, y_2)$:
+
+**Property 1 (Non-negativity):**
+$$f(y_1, y_2) \geq 0 \quad \text{for all } (y_1, y_2)$$
+
+**Property 2 (Normalization):**
+$$\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(y_1, y_2) \, dy_1 \, dy_2 = 1$$
+
+**Probability Calculation:**
+$$P[(Y_1, Y_2) \in A] = \iint_A f(y_1, y_2) \, dy_1 \, dy_2$$
+:::
+
+**Geometric Interpretation:** The **volume** under the surface $z = f(y_1, y_2)$ over region $A$ gives the probability.
+
+## 📌 Example 3: Uniform Distribution on Unit Square {.smaller}
+
+**Problem:** A radioactive particle is equally likely to land anywhere in a unit square. Let $(Y_1, Y_2)$ denote the landing coordinates. Find the joint pdf and $P(Y_1 + Y_2 \leq 1)$.
+
+**Solution:**
+
+. . .
+
+Since the particle is equally likely to land anywhere:
+
+$$f(y_1, y_2) = \begin{cases} 1 & \text{if } 0 \leq y_1 \leq 1, \, 0 \leq y_2 \leq 1 \\ 0 & \text{otherwise} \end{cases}$$
+
+. . .
+
+**Verification:** $\int_0^1 \int_0^1 1 \, dy_1 \, dy_2 = 1 \checkmark$
+
+. . .
+
+**Finding $P(Y_1 + Y_2 \leq 1)$:**
+
+$$P(Y_1 + Y_2 \leq 1) = \int_0^1 \int_0^{1-y_1} 1 \, dy_2 \, dy_1 = \int_0^1 (1 - y_1) \, dy_1 = \left[ y_1 - \frac{y_1^2}{2} \right]_0^1 = \frac{1}{2}$$
+
+**Geometric:** This is the area of the triangle below the line $y_1 + y_2 = 1$ within the unit square.
+
+## 📌 Example 4: Gasoline Tank Inventory {.smaller}
+
+**Problem:** A firm stocks gasoline for sale. Let $Y_1$ = amount stocked (in 1000s of gallons) at the start of the week, and $Y_2$ = amount sold during the week. The joint pdf is:
+
+$$f(y_1, y_2) = \begin{cases} 3y_1 & \text{if } 0 \leq y_2 \leq y_1 \leq 1 \\ 0 & \text{otherwise} \end{cases}$$
+
+Find the probability that less than half of the inventory is sold.
+
+**Solution:**
+
+. . .
+
+We need $P(Y_2 < Y_1/2)$.
+
+. . .
+
+$$P\left(Y_2 < \frac{Y_1}{2}\right) = \int_0^1 \int_0^{y_1/2} 3y_1 \, dy_2 \, dy_1$$
+
+. . .
+
+$$= \int_0^1 3y_1 \cdot \frac{y_1}{2} \, dy_1 = \frac{3}{2} \int_0^1 y_1^2 \, dy_1 = \frac{3}{2} \cdot \frac{1}{3} = \boxed{\frac{1}{2}}$$
+
+**Business Insight:** There's a 50% chance of selling less than half the inventory—important for inventory planning!
+
+## 🎮 Interactive: Bivariate Probability Surface {.smaller}
+
+::: {style="font-size: 0.8em;"}
+
+**Explore Bivariate Densities:** Adjust parameters to see how the joint density surface changes.
+
+::: {.columns}
+
+::: {.column width="30%"}
+
+```{ojs}
+//| echo: false
+
+viewof alpha = Inputs.range([0.5, 3], {
+  value: 1, 
+  step: 0.25, 
+  label: "α (power of y₁):"
+})
+
+viewof beta = Inputs.range([0.5, 3], {
+  value: 1, 
+  step: 0.25, 
+  label: "β (power of y₂):"
+})
+
+// Calculate normalizing constant for f(y1,y2) = c * y1^alpha * y2^beta on [0,1]x[0,1]
+c_constant = (alpha + 1) * (beta + 1)
+
+md`**Density Function:**  
+$f(y_1, y_2) = ${c_constant.toFixed(2)} \cdot y_1^{${alpha.toFixed(2)}} \cdot y_2^{${beta.toFixed(2)}}$
+
+**on** $[0,1] \times [0,1]$
+
+**Normalizing constant:**  
+$c = (\\alpha+1)(\\beta+1) = ${c_constant.toFixed(2)}$`
+```
+
+**Observations:**  
+
+- Higher α increases density near $y_1 = 1$
+
+- Higher β increases density near $y_2 = 1$
+
+- The surface integrates to 1
+
+:::
+
+::: {.column width="70%"}
+
+```{ojs}
+//| echo: false
+
+// Generate grid for 3D-like visualization using contours
+grid_size = 30
+y1_vals = d3.range(0.02, 1, 1/grid_size)
+y2_vals = d3.range(0.02, 1, 1/grid_size)
+
+// Generate density values
+density_data = {
+  let data = [];
+  for (let y1 of y1_vals) {
+    for (let y2 of y2_vals) {
+      let density = c_constant * Math.pow(y1, alpha) * Math.pow(y2, beta);
+      data.push({y1: y1, y2: y2, density: density});
+    }
+  }
+  return data;
+}
+
+Plot.plot({
+  width: 750,
+  height: 500,
+  marginLeft: 60,
+  marginBottom: 50,
+  color: {
+    type: "linear",
+    scheme: "viridis",
+    legend: true,
+    label: "Density f(y₁, y₂)"
+  },
+  x: {
+    label: "y₁",
+    domain: [0, 1]
+  },
+  y: {
+    label: "y₂",
+    domain: [0, 1]
+  },
+  marks: [
+    Plot.contour(density_data, {
+      x: "y1",
+      y: "y2",
+      fill: "density",
+      blur: 5,
+      thresholds: 20
+    }),
+    Plot.frame()
+  ],
+  caption: html`<b>Contour Plot:</b> Joint density f(y₁, y₂) = ${c_constant.toFixed(2)}·y₁<sup>${alpha.toFixed(1)}</sup>·y₂<sup>${beta.toFixed(1)}</sup>`
+})
+```
+
+:::
+
+:::
+
+:::
+
+## 📖 Definition: Marginal Probability Distributions {.smaller}
+
+::: {.callout-note}
+## 📝 Definition 5.4: Marginal Distributions
+
+Given a joint distribution of $(Y_1, Y_2)$, the **marginal distributions** describe the probability distribution of each variable individually.
+
+**Discrete Case:**
+$$p_1(y_1) = \sum_{y_2} p(y_1, y_2) \quad \text{and} \quad p_2(y_2) = \sum_{y_1} p(y_1, y_2)$$
+
+**Continuous Case:**
+$$f_1(y_1) = \int_{-\infty}^{\infty} f(y_1, y_2) \, dy_2 \quad \text{and} \quad f_2(y_2) = \int_{-\infty}^{\infty} f(y_1, y_2) \, dy_1$$
+:::
+
+**Intuition:** To find the marginal distribution of $Y_1$, we "accumulate" (sum or integrate) the joint probabilities over all possible values of $Y_2$.
+
+## 📌 Example 5: Finding Marginal Distributions (Discrete) {.smaller}
+
+**Problem:** Using the committee selection example, find the marginal distributions of $Y_1$ (number of Republicans) and $Y_2$ (number of Democrats).
+
+**Solution:**
+
+. . .
+
+Recall the joint probability table with constraint $y_1 + y_2 = 3$:
+
+::: {.columns}
+::: {.column width="50%"}
+::: {.fragment}
+**Marginal of $Y_1$ (sum across rows):**
+
+$p_1(0) = \frac{1}{35}$ (all Democrats)
+
+$p_1(1) = \frac{12}{35}$
+
+$p_1(2) = \frac{18}{35}$
+
+$p_1(3) = \frac{4}{35}$ (all Republicans)
+:::
+:::
+
+::: {.column width="50%"}
+::: {.fragment}
+**Marginal of $Y_2$ (sum down columns):**
+
+$p_2(0) = \frac{4}{35}$ (no Democrats)
+
+$p_2(1) = \frac{18}{35}$
+
+$p_2(2) = \frac{12}{35}$
+
+$p_2(3) = \frac{1}{35}$ (all Democrats)
+:::
+:::
+:::
+
+. . .
+
+**Verification:** Both marginals sum to 1: $\frac{1+12+18+4}{35} = \frac{35}{35} = 1 \checkmark$
+
+## 📌 Example 6: Finding Marginal Distributions (Continuous) {.smaller}
+
+**Problem:** For the gasoline inventory problem with $f(y_1, y_2) = 3y_1$ for $0 \leq y_2 \leq y_1 \leq 1$, find the marginal distributions.
+
+**Solution:**
+
+. . .
+
+**Marginal of $Y_1$ (amount stocked):**
+
+$$f_1(y_1) = \int_0^{y_1} 3y_1 \, dy_2 = 3y_1 \cdot y_1 = 3y_1^2 \quad \text{for } 0 \leq y_1 \leq 1$$
+
+. . .
+
+**Marginal of $Y_2$ (amount sold):**
+
+$$f_2(y_2) = \int_{y_2}^{1} 3y_1 \, dy_1 = \frac{3}{2}[y_1^2]_{y_2}^{1} = \frac{3}{2}(1 - y_2^2) \quad \text{for } 0 \leq y_2 \leq 1$$
+
+. . .
+
+**Verification:** $\int_0^1 3y_1^2 \, dy_1 = [y_1^3]_0^1 = 1 \checkmark$
+
+**Business Insight:** The marginal distribution of amount sold helps the firm understand sales patterns independently of stocking decisions.
+
+## 🤝 Think-Pair-Share: Investment Decision {.r-fit-text}
+
+::: {style="font-size: 30px"}
+::: {.callout-note}
+## 💭 Student Engagement Activity (4 minutes)
+
+**Scenario:** An investor is considering two assets with the following joint probability distribution for annual returns (in %):
+
+| $Y_1 \backslash Y_2$ | -5% | 0% | 10% | 20% |
+|:---:|:---:|:---:|:---:|:---:|
+| **-10%** | 0.05 | 0.05 | 0.02 | 0.00 |
+| **5%** | 0.10 | 0.15 | 0.15 | 0.05 |
+| **15%** | 0.03 | 0.10 | 0.20 | 0.10 |
+
+**Think (1 minute):** Work individually
+
+- Calculate the marginal distribution of Asset 1's returns ($Y_1$)
+- Calculate the marginal distribution of Asset 2's returns ($Y_2$)
+
+**Pair (2 minutes):** Discuss with a partner
+
+- Which asset has higher expected return based on the marginals?
+- Which asset appears riskier (more spread in the marginal distribution)?
+
+**Share (1 minute):** Class discussion
+
+- How does knowing the joint distribution help us beyond just the marginals?
+:::
+:::
+
+## 💰 Case Study: Portfolio Returns Analysis (Real Data)
+
+::: {style="font-size:35px"}
+::: {.columns}
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 Financial Market Application
+
+**Context**: In portfolio theory, we study the joint distribution of multiple asset returns to understand diversification benefits and overall portfolio risk.
+
+**Key Questions**:
+
+- What does the joint distribution of two stock returns look like?
+
+- How do we extract marginal distributions from observed data?
+
+- What patterns emerge in the scatter of returns?
+
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 Data Source
+
+We analyze **daily returns** for **Apple (AAPL)** and **Microsoft (MSFT)** stocks.
+
+**Source**: Yahoo Finance API via `quantmod` package
+
+**Period**: Last 252 trading days (1 year)
+
+**Data Type**: Adjusted closing prices, converted to daily log returns
+
+**Verification**: Cross-checked with financial data providers
+:::
+:::
+:::
+:::
+
+## 💰 Case Study: Data Collection {.smaller}
+
+::: {style="font-size:26px"}
+::: {.columns}
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+
+# Load required libraries
+library(quantmod)
+library(tidyverse)
+library(knitr)
+
+# Set date range (last 252 trading days)
+end_date <- Sys.Date()
+start_date <- end_date - 365
+
+# Download stock data
+getSymbols("AAPL", from = start_date, 
+           to = end_date, auto.assign = TRUE)
+getSymbols("MSFT", from = start_date, 
+           to = end_date, auto.assign = TRUE)
+
+# Calculate daily log returns
+aapl_returns <- dailyReturn(AAPL, type = "log")
+msft_returns <- dailyReturn(MSFT, type = "log")
+
+# Combine into data frame
+returns_df <- data.frame(
+  Date = index(aapl_returns),
+  AAPL = as.numeric(aapl_returns),
+  MSFT = as.numeric(msft_returns)
+) %>% na.omit()
+
+cat(sprintf("Number of observations: %d\n", nrow(returns_df)))
+cat(sprintf("Date range: %s to %s\n", 
+            min(returns_df$Date), max(returns_df$Date)))
+```
+
+:::
+
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+
+# Summary statistics
+cat("=== AAPL Returns ===\n")
+cat(sprintf("Mean: %.4f%%\n", mean(returns_df$AAPL) * 100))
+cat(sprintf("Std Dev: %.4f%%\n", sd(returns_df$AAPL) * 100))
+cat(sprintf("Min: %.4f%%\n", min(returns_df$AAPL) * 100))
+cat(sprintf("Max: %.4f%%\n", max(returns_df$AAPL) * 100))
+
+cat("\n=== MSFT Returns ===\n")
+cat(sprintf("Mean: %.4f%%\n", mean(returns_df$MSFT) * 100))
+cat(sprintf("Std Dev: %.4f%%\n", sd(returns_df$MSFT) * 100))
+cat(sprintf("Min: %.4f%%\n", min(returns_df$MSFT) * 100))
+cat(sprintf("Max: %.4f%%\n", max(returns_df$MSFT) * 100))
+
+cat("\n=== Correlation ===\n")
+cat(sprintf("Corr(AAPL, MSFT): %.4f\n", 
+            cor(returns_df$AAPL, returns_df$MSFT)))
+```
+
+:::
+:::
+:::
+
+## 💰 Case Study: Joint Distribution Visualization {.smaller}
+
+::: {style="font-size:26px"}
+::: {.columns}
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| fig-width: 6
+#| fig-height: 5
+
+# Scatter plot of joint returns
+ggplot(returns_df, aes(x = AAPL, y = MSFT)) +
+  geom_point(alpha = 0.6, color = "steelblue", size = 2) +
+  geom_smooth(method = "lm", color = "red", 
+              se = TRUE, alpha = 0.2) +
+  geom_hline(yintercept = 0, linetype = "dashed", 
+             color = "gray50") +
+  geom_vline(xintercept = 0, linetype = "dashed", 
+             color = "gray50") +
+  labs(title = "Joint Distribution: AAPL vs MSFT Returns",
+       subtitle = "Daily log returns with linear fit",
+       x = "AAPL Daily Return",
+       y = "MSFT Daily Return") +
+  theme_minimal(base_size = 11) +
+  coord_fixed(ratio = 1)
+```
+
+:::
+
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| fig-width: 6
+#| fig-height: 5
+
+# 2D density plot (empirical joint distribution)
+ggplot(returns_df, aes(x = AAPL, y = MSFT)) +
+  stat_density_2d(aes(fill = after_stat(density)), 
+                  geom = "raster", contour = FALSE) +
+  scale_fill_viridis_c(option = "plasma") +
+  geom_point(alpha = 0.3, color = "white", size = 0.5) +
+  labs(title = "Empirical Joint Density",
+       subtitle = "2D kernel density estimate",
+       x = "AAPL Daily Return",
+       y = "MSFT Daily Return",
+       fill = "Density") +
+  theme_minimal(base_size = 11) +
+  coord_fixed(ratio = 1)
+```
+
+:::
+:::
+:::
+
+## 💰 Case Study: Marginal Distributions {.smaller}
+
+::: {style="font-size:26px"}
+::: {.columns}
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| fig-width: 6
+#| fig-height: 5
+
+# Marginal distribution of AAPL
+ggplot(returns_df, aes(x = AAPL)) +
+  geom_histogram(aes(y = after_stat(density)), 
+                 bins = 40, fill = "steelblue", 
+                 alpha = 0.7, color = "black") +
+  stat_function(fun = dnorm, 
+                args = list(mean = mean(returns_df$AAPL),
+                           sd = sd(returns_df$AAPL)),
+                color = "red", linewidth = 1.2) +
+  geom_vline(xintercept = mean(returns_df$AAPL),
+             color = "darkgreen", linetype = "dashed",
+             linewidth = 1) +
+  labs(title = "Marginal Distribution: AAPL Returns",
+       subtitle = "Histogram with normal overlay",
+       x = "Daily Return",
+       y = "Density") +
+  theme_minimal(base_size = 11)
+```
+
+:::
+
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| fig-width: 6
+#| fig-height: 5
+
+# Marginal distribution of MSFT
+ggplot(returns_df, aes(x = MSFT)) +
+  geom_histogram(aes(y = after_stat(density)), 
+                 bins = 40, fill = "coral", 
+                 alpha = 0.7, color = "black") +
+  stat_function(fun = dnorm, 
+                args = list(mean = mean(returns_df$MSFT),
+                           sd = sd(returns_df$MSFT)),
+                color = "red", linewidth = 1.2) +
+  geom_vline(xintercept = mean(returns_df$MSFT),
+             color = "darkgreen", linetype = "dashed",
+             linewidth = 1) +
+  labs(title = "Marginal Distribution: MSFT Returns",
+       subtitle = "Histogram with normal overlay",
+       x = "Daily Return",
+       y = "Density") +
+  theme_minimal(base_size = 11)
+```
+
+:::
+:::
+:::
+
+## 💰 Case Study: Key Findings {.smaller}
+
+::: {style="font-size: 32.5px;"}
+::: {.callout-important}
+## 📊 Analysis Results
+
+::: {.columns}
+
+::: {.column width="33%"}
+::: {.fragment}
+**Joint Distribution Characteristics:**
+
+- Strong positive correlation between AAPL and MSFT returns
+
+- Both tend to move together (same sector, similar market factors)
+
+- Elliptical scatter pattern suggests approximate bivariate normality
+:::
+:::
+
+::: {.column width="33%"}
+::: {.fragment}
+**Marginal Distributions:**
+
+- Both stocks show approximately symmetric return distributions
+
+- Similar volatility levels (tech sector characteristics)
+
+- Marginals alone don't capture the dependence structure
+:::
+:::
+
+::: {.column width="33%"}
+::: {.fragment}
+**Portfolio Implications:**
+
+1. **Limited Diversification**: High correlation means holding both doesn't reduce risk much
+
+2. **Sector Risk**: Both exposed to similar tech sector factors
+
+3. **Better Diversification**: Would need assets from different sectors with lower correlation
+:::
+:::
+
+:::
+:::
+:::
+
+## 📝 Quiz #1: Joint Probability Functions {.smaller .quiz-question}
+
+For a valid joint probability function $p(y_1, y_2)$, which of the following must be true?
+
+- [$p(y_1, y_2) \geq 0$ for all $(y_1, y_2)$ and $\sum_{y_1}\sum_{y_2} p(y_1, y_2) = 1$]{.correct data-explanation="✅ Correct! Joint probability functions must be non-negative everywhere and sum to 1 over all possible pairs."}
+- $p(y_1, y_2) \geq 0$ for all $(y_1, y_2)$ and $\sum_{y_1}\sum_{y_2} p(y_1, y_2) \leq 1$
+- $0 \leq p(y_1, y_2) \leq 1$ for all $(y_1, y_2)$ and no constraint on sum
+- $p(y_1, y_2) > 0$ for all $(y_1, y_2)$ and $\sum_{y_1}\sum_{y_2} p(y_1, y_2) = 1$
+
+## 📝 Quiz #2: Computing Marginal Distributions {.smaller .quiz-question}
+
+To find the marginal distribution $f_1(y_1)$ from a continuous joint pdf $f(y_1, y_2)$, you should:
+
+- [Integrate $f(y_1, y_2)$ with respect to $y_2$ over all possible values of $y_2$]{.correct data-explanation="✅ Correct! The marginal density f₁(y₁) = ∫f(y₁, y₂)dy₂ is found by integrating out the other variable."}
+- Differentiate $f(y_1, y_2)$ with respect to $y_2$
+- Set $y_2 = 0$ in $f(y_1, y_2)$
+- Multiply $f(y_1, y_2)$ by $y_2$ and integrate
+
+## 📝 Quiz #3: Bivariate Density Interpretation {.smaller .quiz-question}
+
+For a continuous bivariate random variable $(Y_1, Y_2)$ with joint pdf $f(y_1, y_2)$, the probability $P(Y_1 \leq a, Y_2 \leq b)$ equals:
+
+- [The volume under the surface $f(y_1, y_2)$ over the region $(-\infty, a] \times (-\infty, b]$]{.correct data-explanation="✅ Correct! For continuous bivariate distributions, probabilities are calculated as volumes under the density surface over the specified region."}
+- The value $f(a, b)$
+- The area under the curve $f(y_1, y_2) = a + b$
+- The double derivative of $f(y_1, y_2)$ at $(a, b)$
+
+## 📝 Summary {.smaller}
+
+::: {style="font-size: 32.5px"}
+::: {.summary-box}
+**✅ Key Takeaways**
+
+- **Joint probability functions** (discrete) and **joint pdfs** (continuous) describe the simultaneous behavior of two or more random variables, satisfying non-negativity and normalization properties
+
+- **Joint CDFs** $F(y_1, y_2) = P(Y_1 \leq y_1, Y_2 \leq y_2)$ accumulate probability in the "southwest rectangle"
+
+- **Marginal distributions** are obtained by summing (discrete) or integrating (continuous) the joint distribution over all values of the other variable
+
+- The joint distribution contains **more information** than the marginals alone—it captures the dependence structure between variables
+
+- **Financial applications** include modeling portfolio returns, where understanding joint behavior is crucial for risk management and diversification
+:::
+:::
+
+## 📚 Practice Problems
+
+::: {.callout-tip}
+## 📝 Homework Problems
+
+**Problem 1 (Discrete Joint Distribution):** A portfolio contains stocks A and B. Let $Y_1$ = return on stock A and $Y_2$ = return on stock B, with joint pmf given by a $3 \times 3$ table. Verify it's a valid pmf and find both marginal distributions.
+
+**Problem 2 (Continuous Joint Distribution):** Let $f(y_1, y_2) = cy_1y_2$ for $0 < y_1 < 2$ and $0 < y_2 < 1$. Find the constant $c$ and compute $P(Y_1 > 1, Y_2 < 0.5)$.
+
+**Problem 3 (Marginal from Joint):** Given $f(y_1, y_2) = 2$ for $0 < y_1 < 1$, $0 < y_2 < y_1$, find $f_1(y_1)$ and $f_2(y_2)$.
+
+**Problem 4 (Financial Application):** For two assets with given joint distribution, compute the probability that both assets have positive returns simultaneously.
+:::
+
+## 👋 Thank You! {.smaller .center}
+
+::: {.columns}
+::: {.column width="50%"}
+**📬 Contact Information:**
+
+Samir Orujov, PhD
+
+Assistant Professor
+
+School of Business
+
+ADA University
+
+📧 Email: [sorujov@ada.edu.az](mailto:sorujov@ada.edu.az)
+
+🏢 Office: D312
+
+⏰ Office Hours: By appointment
+:::
+
+::: {.column width="50%"}
+**📅 Next Class:**
+
+**Topic:** Conditional Distributions and Independence
+
+**Reading:** Chapter 5, Sections 5.3-5.4
+
+**Preparation:** Review conditional probability from Chapter 2
+
+**⏰ Reminders:**
+
+✅ Complete Practice Problems 1-4
+
+✅ Review integration techniques (double integrals)
+
+✅ Think about when two random variables might be independent
+
+✅ Work hard!
+:::
+:::
+
+## ❓ Questions? {.center}
+
+::: {.callout-note}
+## 💬 Open Discussion
+
+**Key Topics for Discussion:**
+
+- How do joint distributions help us understand portfolio risk beyond individual asset risks?
+
+- Why is the marginal distribution not sufficient for understanding the relationship between two variables?
+
+- What are some real-world examples where knowing the joint distribution is crucial for decision-making?
+
+- How would you estimate a joint distribution from observed data in practice?
+:::
+

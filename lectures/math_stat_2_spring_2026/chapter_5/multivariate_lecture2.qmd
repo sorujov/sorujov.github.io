@@ -1,0 +1,1065 @@
+---
+title: "Mathematical Statistics"
+subtitle: "Conditional Distributions and Independence"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: default
+    logo: ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    footer: "Mathematical Statistics - Conditional Distributions and Independence"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+---
+
+## 🎯 Learning Objectives {.smaller}
+
+::: {.learning-objectives}
+By the end of this lecture, you will be able to:
+
+- Compute **conditional probability distributions** for both discrete and continuous bivariate random variables
+
+- Apply the **multiplicative law** to decompose joint distributions into marginal and conditional components
+
+- Define and verify **statistical independence** of random variables using distribution function and density criteria
+
+- Use **Theorem 5.5** to efficiently check independence without computing marginal distributions
+
+- Interpret independence and dependence in **financial contexts** such as portfolio diversification and correlated asset returns
+:::
+
+## 📋 Overview {.smaller}
+
+::: {style="font-size:50px"}
+::: {.callout-note}
+## 📚 Topics Covered Today
+
+::: {.incremental}
+- **Conditional Distributions (Discrete)** – Computing probabilities given partial information
+
+- **Conditional Distributions (Continuous)** – Conditional densities and the "slicing" interpretation
+
+- **Independence of Random Variables** – Definition, properties, and verification methods
+
+- **Theorem 5.5: Easy Independence Check** – Factorization criterion for rectangular support
+
+- **Case Study** – Are stock and bond returns independent? Testing with real market data
+:::
+:::
+:::
+
+## 📖 Motivation: Why Conditional Distributions? {.smaller}
+
+::: {.callout-note}
+## 🎯 The Power of Partial Information
+
+In many situations, we have **partial information** about a random outcome and want to update our probabilities accordingly:
+
+::: {.columns}
+::: {.column width="50%"}
+::: {.fragment}
+**Finance Examples:**
+
+- Given that the market is up, what's the probability a specific stock is up?
+- Given yesterday's return, what's today's expected return?
+- Given a credit rating, what's the default probability?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.fragment}
+**Other Examples:**
+
+- Given a patient's age, what's the probability of a disease?
+- Given high temperature, what's the probability of rain?
+- Given a test score in math, what's the expected score in physics?
+:::
+:::
+:::
+:::
+
+**Key Insight:** Conditional distributions capture how knowledge of one variable **changes our beliefs** about another.
+
+## 📖 Recall: Multiplicative Law of Probability {.smaller}
+
+::: {.callout-tip}
+## 🔗 Connection to Chapter 2
+
+From basic probability, we know the **multiplicative law**:
+
+$$P(A \cap B) = P(A) \cdot P(B|A) = P(B) \cdot P(A|B)$$
+
+For random variables, this becomes:
+
+$$p(y_1, y_2) = p_1(y_1) \cdot p(y_2|y_1) = p_2(y_2) \cdot p(y_1|y_2)$$
+
+**Interpretation:** The joint probability can be decomposed into a marginal probability times a conditional probability.
+:::
+
+This relationship leads us to the formal definition of conditional distributions.
+
+## 📖 Definition: Conditional Probability Function (Discrete) {.smaller}
+
+::: {.callout-note}
+## 📝 Definition 5.5: Conditional Discrete Probability Function
+
+If $Y_1$ and $Y_2$ are discrete random variables with joint probability function $p(y_1, y_2)$ and marginal $p_2(y_2) > 0$, then the **conditional probability function** of $Y_1$ given $Y_2 = y_2$ is:
+
+$$p(y_1|y_2) = \frac{p(y_1, y_2)}{p_2(y_2)}$$
+
+Similarly, the conditional probability function of $Y_2$ given $Y_1 = y_1$ (when $p_1(y_1) > 0$) is:
+
+$$p(y_2|y_1) = \frac{p(y_1, y_2)}{p_1(y_1)}$$
+:::
+
+**Verification:** For any fixed $y_2$, the conditional pmf sums to 1: $\sum_{y_1} p(y_1|y_2) = 1$
+
+## 📌 Example 1: Committee Selection - Conditional Probability {.smaller}
+
+**Problem:** In the committee selection example (4 Republicans, 3 Democrats, committee of 3), find $P(Y_1 = 2 | Y_2 = 1)$—the probability of exactly 2 Republicans given exactly 1 Democrat is selected.
+
+**Solution:**
+
+. . .
+
+Recall: $Y_1$ = number of Republicans, $Y_2$ = number of Democrats, with $Y_1 + Y_2 = 3$.
+
+. . .
+
+**Step 1: Find $p(2, 1)$ from the joint distribution**
+
+$$p(2, 1) = \frac{\binom{4}{2}\binom{3}{1}}{\binom{7}{3}} = \frac{6 \cdot 3}{35} = \frac{18}{35}$$
+
+. . .
+
+**Step 2: Find $p_2(1)$ (marginal probability of 1 Democrat)**
+
+$$p_2(1) = p(2, 1) = \frac{18}{35}$$ (only one way to get exactly 1 Democrat with the constraint)
+
+. . .
+
+**Step 3: Compute conditional probability**
+
+$$p(Y_1 = 2 | Y_2 = 1) = \frac{p(2, 1)}{p_2(1)} = \frac{18/35}{18/35} = 1$$
+
+**Interpretation:** If exactly 1 Democrat is selected, we **must** have exactly 2 Republicans (since the committee has 3 members).
+
+## 📖 Definition: Conditional Density Function (Continuous) {.smaller}
+
+::: {.callout-note}
+## 📝 Definition 5.7: Conditional Density Function
+
+If $Y_1$ and $Y_2$ are jointly continuous random variables with joint pdf $f(y_1, y_2)$ and marginal pdf $f_2(y_2) > 0$, the **conditional density function** of $Y_1$ given $Y_2 = y_2$ is:
+
+$$f(y_1|y_2) = \frac{f(y_1, y_2)}{f_2(y_2)}$$
+
+The **conditional distribution function** is:
+
+$$F(y_1|y_2) = P(Y_1 \leq y_1 | Y_2 = y_2) = \int_{-\infty}^{y_1} f(t|y_2) \, dt$$
+:::
+
+**Geometric Interpretation:** The conditional density is like taking a "slice" through the joint density surface at a fixed value of $y_2$, then renormalizing to integrate to 1.
+
+## 📌 Example 2: Soft-Drink Machine (Conditional Density) {.smaller}
+
+**Problem:** A soft-drink machine has $Y_1$ = amount sold (in gallons) and $Y_2$ = amount in supply, with joint pdf:
+
+$$f(y_1, y_2) = \frac{1}{2} \quad \text{for } 0 \leq y_1 \leq y_2 \leq 2$$
+
+Find $P(Y_1 < 0.5 | Y_2 = 1.5)$ and $P(Y_1 < 0.5 | Y_2 = 2)$.
+
+**Solution:**
+
+. . .
+
+**Step 1: Find marginal $f_2(y_2)$**
+
+$$f_2(y_2) = \int_0^{y_2} \frac{1}{2} \, dy_1 = \frac{y_2}{2} \quad \text{for } 0 \leq y_2 \leq 2$$
+
+. . .
+
+**Step 2: Find conditional density $f(y_1|y_2)$**
+
+$$f(y_1|y_2) = \frac{f(y_1, y_2)}{f_2(y_2)} = \frac{1/2}{y_2/2} = \frac{1}{y_2} \quad \text{for } 0 \leq y_1 \leq y_2$$
+
+. . .
+
+**Step 3: Compute conditional probabilities**
+
+$$P(Y_1 < 0.5 | Y_2 = 1.5) = \int_0^{0.5} \frac{1}{1.5} \, dy_1 = \frac{0.5}{1.5} = \boxed{\frac{1}{3}}$$
+
+$$P(Y_1 < 0.5 | Y_2 = 2) = \int_0^{0.5} \frac{1}{2} \, dy_1 = \frac{0.5}{2} = \boxed{\frac{1}{4}}$$
+
+## 📌 Example 2: Interpretation {.smaller}
+
+::: {.callout-important}
+## 📊 Key Insight: Conditional Probabilities Change!
+
+Notice that:
+
+- $P(Y_1 < 0.5 | Y_2 = 1.5) = 1/3 \approx 33.3\%$
+- $P(Y_1 < 0.5 | Y_2 = 2) = 1/4 = 25\%$
+
+**The probability of selling less than 0.5 gallons depends on how much is in supply!**
+:::
+
+**Business Interpretation:**
+
+- With a smaller supply (1.5 gallons), there's a higher chance of low sales because customers may not find what they want
+- With a larger supply (2 gallons), sales tend to be higher, so low sales are less likely
+- This demonstrates **dependence** between supply and sales—they are NOT independent!
+
+## 🎮 Interactive: Conditional Distribution Visualizer {.smaller}
+
+::: {style="font-size: 0.8em;"}
+
+**Explore Conditional Densities:** See how the conditional distribution changes as you vary the conditioning value.
+
+::: {.columns}
+
+::: {.column width="30%"}
+
+```{ojs}
+//| echo: false
+
+viewof y2_cond = Inputs.range([0.5, 2], {
+  value: 1.5, 
+  step: 0.1, 
+  label: "Conditioning value y₂:"
+})
+
+// For f(y1,y2) = 1/2 on 0 <= y1 <= y2 <= 2
+// Marginal f2(y2) = y2/2
+// Conditional f(y1|y2) = 1/y2 on [0, y2]
+
+md`**Joint density:**  
+$f(y_1, y_2) = \\frac{1}{2}$  
+on $0 \\leq y_1 \\leq y_2 \\leq 2$
+
+**Marginal:**  
+$f_2(y_2) = \\frac{y_2}{2} = ${(y2_cond/2).toFixed(3)}$
+
+**Conditional:**  
+$f(y_1|y_2=${y2_cond.toFixed(1)}) = \\frac{1}{${y2_cond.toFixed(1)}} = ${(1/y2_cond).toFixed(3)}$
+
+on $[0, ${y2_cond.toFixed(1)}]$`
+```
+
+**Observations:**  
+
+- As $y_2$ increases, the conditional density becomes flatter (more spread out)
+
+- The conditional density always integrates to 1 over its support
+
+:::
+
+::: {.column width="70%"}
+
+```{ojs}
+//| echo: false
+
+// Generate conditional density data
+cond_y1_vals = d3.range(0, y2_cond + 0.01, 0.01)
+
+cond_density_data = cond_y1_vals.map(y1 => ({
+  y1: y1,
+  density: 1/y2_cond
+}))
+
+// Also show what happens outside support
+full_y1_range = d3.range(0, 2.1, 0.01)
+
+full_density_data = full_y1_range.map(y1 => ({
+  y1: y1,
+  density: y1 <= y2_cond ? 1/y2_cond : 0
+}))
+
+Plot.plot({
+  width: 750,
+  height: 450,
+  marginLeft: 60,
+  marginBottom: 50,
+  x: {
+    label: "y₁ (amount sold)",
+    domain: [0, 2.2]
+  },
+  y: {
+    label: "Conditional Density f(y₁|y₂)",
+    domain: [0, 2.5]
+  },
+  marks: [
+    Plot.areaY(cond_density_data, {
+      x: "y1", 
+      y: "density", 
+      fill: "steelblue", 
+      opacity: 0.5
+    }),
+    Plot.line(full_density_data, {
+      x: "y1", 
+      y: "density", 
+      stroke: "darkblue", 
+      strokeWidth: 3
+    }),
+    Plot.ruleX([y2_cond], {
+      stroke: "red", 
+      strokeWidth: 2, 
+      strokeDasharray: "5,5"
+    }),
+    Plot.ruleY([0]),
+    Plot.text([[y2_cond + 0.1, 0.5]], {
+      text: [`y₂ = ${y2_cond.toFixed(1)}`],
+      fill: "red",
+      fontSize: 14
+    })
+  ],
+  caption: html`<b>Conditional density:</b> f(y₁|y₂=${y2_cond.toFixed(1)}) = ${(1/y2_cond).toFixed(3)} on [0, ${y2_cond.toFixed(1)}]. <span style="color:red">┊</span> Upper bound`
+})
+```
+
+:::
+
+:::
+
+:::
+
+## 📖 Definition: Independent Random Variables {.smaller}
+
+::: {.callout-note}
+## 📝 Definition 5.8: Independence of Random Variables
+
+Two random variables $Y_1$ and $Y_2$ are said to be **independent** if and only if:
+
+$$F(y_1, y_2) = F_1(y_1) \cdot F_2(y_2) \quad \text{for all } (y_1, y_2)$$
+
+where $F(y_1, y_2)$ is the joint CDF and $F_1, F_2$ are the marginal CDFs.
+
+**Equivalent Conditions (Theorem 5.4):**
+
+- **Discrete case:** $p(y_1, y_2) = p_1(y_1) \cdot p_2(y_2)$ for all $(y_1, y_2)$
+
+- **Continuous case:** $f(y_1, y_2) = f_1(y_1) \cdot f_2(y_2)$ for all $(y_1, y_2)$
+:::
+
+**Intuition:** Independence means knowing the value of $Y_1$ provides **no information** about $Y_2$, and vice versa. The variables do not "influence" each other.
+
+## 📌 Example 3: Dice Tossing - Showing Independence {.smaller}
+
+**Problem:** For two fair dice tosses, verify that $Y_1$ (die 1) and $Y_2$ (die 2) are independent.
+
+**Solution:**
+
+. . .
+
+**Joint probability function:**
+$$p(y_1, y_2) = \frac{1}{36} \quad \text{for all } y_1, y_2 \in \{1, 2, 3, 4, 5, 6\}$$
+
+. . .
+
+**Marginal distributions:**
+$$p_1(y_1) = \sum_{y_2=1}^{6} \frac{1}{36} = \frac{6}{36} = \frac{1}{6} \quad \text{for } y_1 \in \{1, \ldots, 6\}$$
+
+$$p_2(y_2) = \frac{1}{6} \quad \text{(by symmetry)}$$
+
+. . .
+
+**Check factorization:**
+$$p_1(y_1) \cdot p_2(y_2) = \frac{1}{6} \cdot \frac{1}{6} = \frac{1}{36} = p(y_1, y_2) \checkmark$$
+
+**Conclusion:** Since $p(y_1, y_2) = p_1(y_1) \cdot p_2(y_2)$ for all $(y_1, y_2)$, the dice outcomes are **independent**.
+
+## 📌 Example 4: Committee Selection - Showing Dependence {.smaller}
+
+**Problem:** For the committee selection (4 Republicans, 3 Democrats, select 3), are $Y_1$ and $Y_2$ independent?
+
+**Solution:**
+
+. . .
+
+Recall: $p(2, 1) = \frac{18}{35}$
+
+**Marginal distributions:**
+
+$p_1(2) = \frac{18}{35}$ (computed by summing over $y_2$)
+
+$p_2(1) = \frac{18}{35}$ (computed by summing over $y_1$)
+
+. . .
+
+**Check if $p(2, 1) = p_1(2) \cdot p_2(1)$:**
+
+$$p_1(2) \cdot p_2(1) = \frac{18}{35} \cdot \frac{18}{35} = \frac{324}{1225} \neq \frac{18}{35} = p(2, 1)$$
+
+. . .
+
+**Conclusion:** Since $p(y_1, y_2) \neq p_1(y_1) \cdot p_2(y_2)$, the variables are **NOT independent**.
+
+**Intuition:** Knowing the number of Republicans tells you exactly how many Democrats (since total is fixed at 3).
+
+## 📌 Example 5: Continuous Case - Showing Independence {.smaller}
+
+**Problem:** Let $f(y_1, y_2) = 6y_1 y_2^2$ for $0 < y_1 < 1$ and $0 < y_2 < 1$. Are $Y_1$ and $Y_2$ independent?
+
+**Solution:**
+
+. . .
+
+**Find marginal $f_1(y_1)$:**
+$$f_1(y_1) = \int_0^1 6y_1 y_2^2 \, dy_2 = 6y_1 \cdot \frac{1}{3} = 2y_1 \quad \text{for } 0 < y_1 < 1$$
+
+. . .
+
+**Find marginal $f_2(y_2)$:**
+$$f_2(y_2) = \int_0^1 6y_1 y_2^2 \, dy_1 = 6y_2^2 \cdot \frac{1}{2} = 3y_2^2 \quad \text{for } 0 < y_2 < 1$$
+
+. . .
+
+**Check factorization:**
+$$f_1(y_1) \cdot f_2(y_2) = 2y_1 \cdot 3y_2^2 = 6y_1 y_2^2 = f(y_1, y_2) \checkmark$$
+
+**Conclusion:** $Y_1$ and $Y_2$ are **independent**.
+
+## 📌 Example 6: Non-Rectangular Support - Showing Dependence {.smaller}
+
+**Problem:** For the gasoline problem with $f(y_1, y_2) = 3y_1$ on $0 \leq y_2 \leq y_1 \leq 1$, are $Y_1$ and $Y_2$ independent?
+
+**Solution:**
+
+. . .
+
+From Lecture 1, we found:
+
+- $f_1(y_1) = 3y_1^2$ for $0 \leq y_1 \leq 1$
+- $f_2(y_2) = \frac{3}{2}(1 - y_2^2)$ for $0 \leq y_2 \leq 1$
+
+. . .
+
+**Check at a specific point, say $(y_1, y_2) = (0.5, 0.3)$:**
+
+$$f_1(0.5) \cdot f_2(0.3) = 3(0.5)^2 \cdot \frac{3}{2}(1 - 0.09) = 0.75 \cdot 1.365 = 1.024$$
+
+$$f(0.5, 0.3) = 3(0.5) = 1.5$$
+
+. . .
+
+Since $1.024 \neq 1.5$, we have $f(y_1, y_2) \neq f_1(y_1) \cdot f_2(y_2)$.
+
+**Conclusion:** $Y_1$ and $Y_2$ are **NOT independent**.
+
+**Key Insight:** The constraint $y_2 \leq y_1$ (you can't sell more than you have) creates dependence!
+
+## 🧮 Theorem 5.5: Easy Independence Check {.smaller}
+
+::: {.callout-important}
+## Theorem 5.5: Factorization Criterion for Independence
+
+Let $Y_1$ and $Y_2$ have joint pdf $f(y_1, y_2)$. If:
+
+1. The region where $f(y_1, y_2) > 0$ is a **rectangle** (possibly infinite): $\{(y_1, y_2): a < y_1 < b, c < y_2 < d\}$
+
+2. The joint density **factors** as: $f(y_1, y_2) = g(y_1) \cdot h(y_2)$ for some functions $g$ and $h$
+
+Then $Y_1$ and $Y_2$ are **independent**, with marginals proportional to $g$ and $h$.
+:::
+
+**Power of Theorem 5.5:** You can verify independence **without computing marginals explicitly!**
+
+**Example:** $f(y_1, y_2) = 6y_1 y_2^2$ on $[0,1] \times [0,1]$ (rectangle) factors as $g(y_1) = y_1$ and $h(y_2) = y_2^2$, so $Y_1 \perp Y_2$.
+
+## 📌 Example 7: Using Theorem 5.5 {.smaller}
+
+**Problem:** Let $f(y_1, y_2) = 2y_1$ for $0 < y_1 < 1$ and $0 < y_2 < 1$. Use Theorem 5.5 to determine if $Y_1$ and $Y_2$ are independent.
+
+**Solution:**
+
+. . .
+
+**Step 1: Check the support**
+
+The region $\{0 < y_1 < 1, 0 < y_2 < 1\}$ is the unit square—a **rectangle**. ✓
+
+. . .
+
+**Step 2: Check factorization**
+
+$$f(y_1, y_2) = 2y_1 = (2y_1) \cdot (1) = g(y_1) \cdot h(y_2)$$
+
+where $g(y_1) = 2y_1$ and $h(y_2) = 1$. ✓
+
+. . .
+
+**Conclusion:** By Theorem 5.5, $Y_1$ and $Y_2$ are **independent**.
+
+**Observation:** Even though $f(y_1, y_2)$ only depends on $y_1$, this doesn't automatically mean dependence! The rectangular support allows factorization, implying $Y_2 \sim \text{Uniform}(0,1)$.
+
+## 🎮 Interactive: Independence vs Dependence {.smaller}
+
+::: {style="font-size: 0.8em;"}
+
+**Compare Distributions:** Toggle between independent and dependent bivariate densities.
+
+::: {.columns}
+
+::: {.column width="30%"}
+
+```{ojs}
+//| echo: false
+
+viewof dist_type = Inputs.radio(
+  ["Independent", "Dependent"], 
+  {value: "Independent", label: "Distribution Type:"}
+)
+
+md`**${dist_type} Variables**
+
+${dist_type === "Independent" ? 
+  "**Joint pdf:** $f(y_1, y_2) = 4y_1 y_2$\n\non $[0,1] \\times [0,1]$\n\n**Marginals:**\n- $f_1(y_1) = 2y_1$\n- $f_2(y_2) = 2y_2$\n\n**Check:** $f = f_1 \\cdot f_2$ ✓" : 
+  "**Joint pdf:** $f(y_1, y_2) = 3y_1$\n\non $0 \\leq y_2 \\leq y_1 \\leq 1$\n\n**Marginals:**\n- $f_1(y_1) = 3y_1^2$\n- $f_2(y_2) = \\frac{3}{2}(1-y_2^2)$\n\n**Check:** $f \\neq f_1 \\cdot f_2$ ✗"}`
+```
+
+:::
+
+::: {.column width="70%"}
+
+```{ojs}
+//| echo: false
+
+// Generate contour data based on distribution type
+grid_size2 = 40
+y1_vals2 = d3.range(0.02, 1, 1/grid_size2)
+y2_vals2 = d3.range(0.02, 1, 1/grid_size2)
+
+indep_dep_data = {
+  let data = [];
+  for (let y1 of y1_vals2) {
+    for (let y2 of y2_vals2) {
+      let density;
+      if (dist_type === "Independent") {
+        // f(y1, y2) = 4*y1*y2 on [0,1]x[0,1]
+        density = 4 * y1 * y2;
+      } else {
+        // f(y1, y2) = 3*y1 on 0 <= y2 <= y1 <= 1
+        density = (y2 <= y1) ? 3 * y1 : 0;
+      }
+      data.push({y1: y1, y2: y2, density: density});
+    }
+  }
+  return data;
+}
+
+Plot.plot({
+  width: 750,
+  height: 500,
+  marginLeft: 60,
+  marginBottom: 50,
+  color: {
+    type: "linear",
+    scheme: dist_type === "Independent" ? "blues" : "oranges",
+    legend: true,
+    label: "Density"
+  },
+  x: {
+    label: "y₁",
+    domain: [0, 1]
+  },
+  y: {
+    label: "y₂",
+    domain: [0, 1]
+  },
+  marks: [
+    Plot.contour(indep_dep_data, {
+      x: "y1",
+      y: "y2",
+      fill: "density",
+      blur: 3,
+      thresholds: 15
+    }),
+    dist_type === "Dependent" ? Plot.line([[0,0], [1,1]], {stroke: "white", strokeWidth: 2, strokeDasharray: "5,5"}) : null,
+    Plot.frame()
+  ],
+  caption: dist_type === "Independent" ? 
+    html`<b>Independent:</b> Contours are "aligned" with axes (rectangular pattern)` :
+    html`<b>Dependent:</b> Contours follow constraint y₂ ≤ y₁ (triangular support)`
+})
+```
+
+:::
+
+:::
+
+:::
+
+## 🤝 Think-Pair-Share: Risk Assessment {.r-fit-text}
+
+::: {style="font-size: 28px"}
+::: {.callout-note}
+## 💭 Student Engagement Activity (5 minutes)
+
+**Scenario:** A company is evaluating two investment projects with the following joint probability distribution for success:
+
+| Project A \ Project B | Fail (0) | Succeed (1) |
+|:---:|:---:|:---:|
+| **Fail (0)** | 0.20 | 0.15 |
+| **Succeed (1)** | 0.10 | 0.55 |
+
+**Think (1.5 minutes):** Work individually
+
+- If Project A succeeds, what is $P(\text{Project B succeeds} | \text{Project A succeeds})$?
+- If Project A fails, what is $P(\text{Project B succeeds} | \text{Project A fails})$?
+- Are the project outcomes independent?
+
+**Pair (2 minutes):** Discuss with a partner
+
+- Compare your calculations
+- What does this dependence/independence mean for the company's risk?
+
+**Share (1.5 minutes):** Class discussion
+
+- How should this affect the company's diversification strategy?
+:::
+:::
+
+## 💰 Case Study: Are Stock Returns Independent? (Real Data)
+
+::: {style="font-size:35px"}
+::: {.columns}
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 Testing Independence with Real Data
+
+**Context**: A fundamental question in portfolio theory is whether asset returns are independent. If returns are independent, diversification is maximally effective.
+
+**Key Questions**:
+
+- Are stock (SPY) and bond (TLT) returns independent?
+
+- How do we test independence with real data?
+
+- What does dependence imply for portfolio construction?
+
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 Data Source
+
+We analyze **daily returns** for:
+
+- **SPY**: S&P 500 ETF (stocks)
+- **TLT**: 20+ Year Treasury Bond ETF (bonds)
+
+**Source**: Yahoo Finance API via `quantmod` package
+
+**Period**: Last 3 years of daily data
+
+**Why these assets?**: Traditional portfolio theory suggests stocks and bonds should have low or negative correlation
+:::
+:::
+:::
+:::
+
+## 💰 Case Study: Data Collection and Summary {.smaller}
+
+::: {style="font-size:26px"}
+::: {.columns}
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+
+# Load required libraries
+library(quantmod)
+library(tidyverse)
+library(knitr)
+
+# Set date range (last 3 years)
+end_date <- Sys.Date()
+start_date <- end_date - (3 * 365)
+
+# Download data
+getSymbols("SPY", from = start_date, 
+           to = end_date, auto.assign = TRUE)
+getSymbols("TLT", from = start_date, 
+           to = end_date, auto.assign = TRUE)
+
+# Calculate daily log returns
+spy_returns <- dailyReturn(SPY, type = "log")
+tlt_returns <- dailyReturn(TLT, type = "log")
+
+# Combine into data frame
+returns_df <- data.frame(
+  Date = index(spy_returns),
+  SPY = as.numeric(spy_returns),
+  TLT = as.numeric(tlt_returns)
+) %>% na.omit()
+
+cat(sprintf("Observations: %d\n", nrow(returns_df)))
+cat(sprintf("Period: %s to %s\n", 
+            min(returns_df$Date), max(returns_df$Date)))
+```
+
+:::
+
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+
+# Summary statistics
+cat("=== SPY (Stocks) ===\n")
+cat(sprintf("Mean: %.4f%%\n", mean(returns_df$SPY) * 100))
+cat(sprintf("Std Dev: %.4f%%\n", sd(returns_df$SPY) * 100))
+
+cat("\n=== TLT (Bonds) ===\n")
+cat(sprintf("Mean: %.4f%%\n", mean(returns_df$TLT) * 100))
+cat(sprintf("Std Dev: %.4f%%\n", sd(returns_df$TLT) * 100))
+
+# Correlation (preview of Section 5.7)
+corr_val <- cor(returns_df$SPY, returns_df$TLT)
+cat(sprintf("\n=== Correlation ===\n"))
+cat(sprintf("Corr(SPY, TLT): %.4f\n", corr_val))
+
+# If independent, correlation should be near 0
+cat(sprintf("\nNote: If independent, correlation ≈ 0\n"))
+cat(sprintf("Observed correlation suggests %s\n",
+            ifelse(abs(corr_val) < 0.1, "possible independence",
+                   "dependence")))
+```
+
+:::
+:::
+:::
+
+## 💰 Case Study: Visual Tests of Independence {.smaller}
+
+::: {style="font-size:26px"}
+::: {.columns}
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| fig-width: 6
+#| fig-height: 5
+
+# Scatter plot - if independent, no pattern
+ggplot(returns_df, aes(x = SPY, y = TLT)) +
+  geom_point(alpha = 0.5, color = "steelblue") +
+  geom_smooth(method = "lm", color = "red", se = TRUE) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  labs(title = "SPY vs TLT Daily Returns",
+       subtitle = "Looking for patterns (independence = no pattern)",
+       x = "SPY Return (Stocks)",
+       y = "TLT Return (Bonds)") +
+  theme_minimal(base_size = 11)
+```
+
+:::
+
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| fig-width: 6
+#| fig-height: 5
+
+# Conditional density comparison
+# If independent, density of TLT should not change based on SPY
+
+# Divide SPY into terciles
+returns_df <- returns_df %>%
+  mutate(SPY_tercile = cut(SPY, 
+                           breaks = quantile(SPY, c(0, 1/3, 2/3, 1)),
+                           labels = c("SPY Low", "SPY Mid", "SPY High"),
+                           include.lowest = TRUE))
+
+# Plot conditional distributions
+ggplot(returns_df, aes(x = TLT, fill = SPY_tercile)) +
+  geom_density(alpha = 0.5) +
+  labs(title = "TLT Returns by SPY Performance",
+       subtitle = "If independent, distributions should overlap",
+       x = "TLT Return (Bonds)",
+       y = "Density",
+       fill = "SPY Tercile") +
+  theme_minimal(base_size = 11) +
+  scale_fill_manual(values = c("red", "gray", "green"))
+```
+
+:::
+:::
+:::
+
+## 💰 Case Study: Formal Independence Test {.smaller}
+
+::: {style="font-size:26px"}
+::: {.columns}
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+
+# Chi-square test of independence
+# Discretize returns into categories
+returns_df <- returns_df %>%
+  mutate(
+    SPY_cat = cut(SPY, breaks = c(-Inf, -0.01, 0.01, Inf),
+                  labels = c("Down", "Flat", "Up")),
+    TLT_cat = cut(TLT, breaks = c(-Inf, -0.01, 0.01, Inf),
+                  labels = c("Down", "Flat", "Up"))
+  )
+
+# Contingency table
+cont_table <- table(returns_df$SPY_cat, returns_df$TLT_cat)
+cat("Contingency Table:\n")
+print(cont_table)
+
+# Chi-square test
+chi_test <- chisq.test(cont_table)
+cat(sprintf("\nChi-square statistic: %.2f\n", chi_test$statistic))
+cat(sprintf("Degrees of freedom: %d\n", chi_test$parameter))
+cat(sprintf("P-value: %.6f\n", chi_test$p.value))
+```
+
+:::
+
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+
+# Interpretation
+cat("=== Test Interpretation ===\n\n")
+
+if(chi_test$p.value < 0.05) {
+  cat("Result: REJECT independence (p < 0.05)\n\n")
+  cat("SPY and TLT returns are NOT independent.\n")
+  cat("The relationship is statistically significant.\n\n")
+} else {
+  cat("Result: Cannot reject independence (p >= 0.05)\n\n")
+  cat("Insufficient evidence against independence.\n\n")
+}
+
+# Expected vs observed
+cat("Expected counts (if independent):\n")
+print(round(chi_test$expected, 1))
+
+cat("\nResiduals (Obs - Expected):\n")
+print(round(chi_test$observed - chi_test$expected, 1))
+```
+
+:::
+:::
+:::
+
+## 💰 Case Study: Key Findings {.smaller}
+
+::: {style="font-size: 32.5px;"}
+::: {.callout-important}
+## 📊 Analysis Results
+
+::: {.columns}
+
+::: {.column width="33%"}
+::: {.fragment}
+**Evidence Against Independence:**
+
+- Chi-square test typically rejects independence
+
+- Scatter plot shows negative relationship
+
+- Conditional distributions shift based on SPY performance
+:::
+:::
+
+::: {.column width="33%"}
+::: {.fragment}
+**Economic Interpretation:**
+
+- Stocks and bonds often move in **opposite directions**
+
+- "Flight to safety": When stocks fall, investors buy bonds
+
+- This negative correlation is the basis for stock-bond portfolio diversification
+:::
+:::
+
+::: {.column width="33%"}
+::: {.fragment}
+**Portfolio Implications:**
+
+1. **Diversification works**: Negative correlation reduces overall portfolio risk
+
+2. **Not perfect hedge**: Correlation varies over time
+
+3. **Crisis periods**: Correlations can break down (both assets fall together)
+:::
+:::
+
+:::
+:::
+:::
+
+## 📝 Quiz #1: Conditional Probability Computation {.smaller .quiz-question}
+
+If $p(y_1, y_2) = 0.15$ and $p_2(y_2) = 0.30$, what is $p(y_1 | y_2)$?
+
+- [0.50]{.correct data-explanation="✅ Correct! p(y₁|y₂) = p(y₁,y₂)/p₂(y₂) = 0.15/0.30 = 0.50"}
+- 0.15
+- 0.45
+- 2.00
+
+## 📝 Quiz #2: Identifying Independence {.smaller .quiz-question}
+
+Let $f(y_1, y_2) = 2e^{-y_1}e^{-2y_2}$ for $y_1 > 0$ and $y_2 > 0$. Are $Y_1$ and $Y_2$ independent?
+
+- [Yes, because the joint density factors and the support is rectangular]{.correct data-explanation="✅ Correct! The density factors as g(y₁)·h(y₂) = (e^{-y₁})·(2e^{-2y₂}) and the support (0,∞)×(0,∞) is rectangular, so by Theorem 5.5, they are independent."}
+- Yes, because the density is positive everywhere
+- No, because the density depends on both $y_1$ and $y_2$
+- Cannot determine without computing marginals
+
+## 📝 Quiz #3: Independence and Conditional Distributions {.smaller .quiz-question}
+
+If $Y_1$ and $Y_2$ are independent, what is true about the conditional distribution $f(y_1|y_2)$?
+
+- [It equals the marginal distribution $f_1(y_1)$]{.correct data-explanation="✅ Correct! If independent, f(y₁|y₂) = f(y₁,y₂)/f₂(y₂) = f₁(y₁)·f₂(y₂)/f₂(y₂) = f₁(y₁). Knowing y₂ doesn't change the distribution of Y₁."}
+- It equals zero
+- It equals the joint distribution $f(y_1, y_2)$
+- It depends on the specific value of $y_2$
+
+## 📝 Summary {.smaller}
+
+::: {style="font-size: 32.5px"}
+::: {.summary-box}
+**✅ Key Takeaways**
+
+- **Conditional distributions** describe the probability distribution of one variable given the value of another: $p(y_1|y_2) = p(y_1, y_2)/p_2(y_2)$
+
+- **Independence** means the joint distribution factors into marginals: $f(y_1, y_2) = f_1(y_1) \cdot f_2(y_2)$, equivalently, knowing $Y_2$ provides no information about $Y_1$
+
+- **Theorem 5.5** provides a quick check: if the support is rectangular and the density factors, the variables are independent
+
+- **Non-rectangular support** (like $y_2 \leq y_1$) automatically implies dependence
+
+- **Financial insight**: Stock and bond returns are typically NOT independent—their negative correlation enables diversification benefits
+:::
+:::
+
+## 📚 Practice Problems
+
+::: {.callout-tip}
+## 📝 Homework Problems
+
+**Problem 1 (Conditional PMF):** Given a joint probability table for two assets' returns, compute all conditional probabilities and verify they sum to 1.
+
+**Problem 2 (Conditional PDF):** For $f(y_1, y_2) = 8y_1y_2$ on $0 < y_1 < y_2 < 1$, find $f(y_1|y_2)$ and compute $P(Y_1 < 0.3 | Y_2 = 0.5)$.
+
+**Problem 3 (Testing Independence):** Determine whether the following pairs are independent:
+(a) $f(y_1, y_2) = e^{-y_1-y_2}$ on $y_1 > 0, y_2 > 0$
+(b) $f(y_1, y_2) = 24y_1y_2$ on $0 < y_1 < 1, 0 < y_2 < 1-y_1$
+
+**Problem 4 (Financial Application):** A portfolio has two assets. If returns are independent with given marginal distributions, find the probability both assets have positive returns.
+:::
+
+## 👋 Thank You! {.smaller .center}
+
+::: {.columns}
+::: {.column width="50%"}
+**📬 Contact Information:**
+
+Samir Orujov, PhD
+
+Assistant Professor
+
+School of Business
+
+ADA University
+
+📧 Email: [sorujov@ada.edu.az](mailto:sorujov@ada.edu.az)
+
+🏢 Office: D312
+
+⏰ Office Hours: By appointment
+:::
+
+::: {.column width="50%"}
+**📅 Next Class:**
+
+**Topic:** Expected Values, Covariance, and Correlation
+
+**Reading:** Chapter 5, Sections 5.5-5.7
+
+**Preparation:** Review expected value and variance from Chapter 4
+
+**⏰ Reminders:**
+
+✅ Complete Practice Problems 1-4
+
+✅ Think about real-world examples of dependent variables
+
+✅ Consider: How does dependence affect portfolio risk?
+
+✅ Work hard!
+:::
+:::
+
+## ❓ Questions? {.center}
+
+::: {.callout-note}
+## 💬 Open Discussion
+
+**Key Topics for Discussion:**
+
+- Why is independence such an important concept in statistics and finance?
+
+- When is it reasonable to assume independence between random variables?
+
+- How does dependence between asset returns affect the risk-return tradeoff in portfolios?
+
+- What are some real-world examples where independence is clearly violated?
+:::
