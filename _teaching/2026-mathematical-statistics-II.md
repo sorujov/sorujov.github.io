@@ -667,104 +667,174 @@ classes: wide
 
 ---
 
-<div id="assessment">
-<h1>📊 Assessment Details</h1>
-
-## Grading Components
-
-- **Quizzes (15%)**: Two quizzes conducted in weeks 4 and 10, serving as preparation for midterm and final exams
-- **Homework (10%)**: 10 problem sets assigned weekly or biweekly via WebWork platform
-- **Midterm Exam (35%)**: Scheduled for March 18, 2026, conducted via WebWork
-- **Final Exam (40%)**: Scheduled for May 6, 2026, conducted via WebWork
-- **Bonus Points (up to 10%)**: Earned through attendance (3 points), active participation (3 points), and professional conduct (4 points)
-
-## Important Notes
-
-- Exams are largely based on problem sets - understanding homework solutions is crucial
-- Attendance is tracked via QR-code system on course webpage (sorujov.github.io)
-- Professional conduct includes punctuality, respectful behavior, and academic integrity
-- No grade curve will be applied to final grades
-
-## Grading Scale
-
-| Letter Grade | Percentage | Description |
-|--------------|------------|-------------|
-| A | 94-100% | Excellent to outstanding performance |
-| A- | 90-93% | Excellent performance in most respects |
-| B+ | 87-89% | Very good performance |
-| B | 83-86% | Good performance |
-| B- | 80-82% | Good performance overall, but with some weaknesses |
-| C+ | 77-79% | Satisfactory to good performance |
-| C | 73-76% | Satisfactory performance |
-| C- | 70-72% | Adequate evidence of learning |
-| D+ | 67-69% | Evidence of learning |
-| D | 60-66% | Some evidence of learning |
-| F | 0-59% | Poor performance |
-
+<div class="assessment-section" id="assessment">
+  <h2 class="section-header">📊 Assessment Strategy & Academic Standards</h2>
+  
+  <div class="platform-highlight">
+    <div class="platform-icon">🖥️</div>
+    <h3>WebWork Platform Integration</h3>
+    <p>All assessments conducted through the WebWork platform with immediate feedback and adaptive learning</p>
+  </div>
+  
+  <div class="assessment-timeline">
+    <h3>📅 Assessment Timeline</h3>
+    <div class="timeline-grid">
+      <div class="timeline-item">
+        <div class="timeline-date">Weeks 4 & 10</div>
+        <div class="timeline-content">
+          <h4>Quizzes</h4>
+          <div class="percentage">15%</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">Weekly/Biweekly</div>
+        <div class="timeline-content">
+          <h4>Homework</h4>
+          <div class="percentage">10%</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">March 18, 2026</div>
+        <div class="timeline-content">
+          <h4>Midterm Exam</h4>
+          <div class="percentage">35%</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">May 6, 2026</div>
+        <div class="timeline-content">
+          <h4>Final Exam</h4>
+          <div class="percentage">40%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="grading-scale">
+    <h3>🎯 Grading Scale</h3>
+    <div class="grade-grid">
+      <div class="grade-item grade-a">
+        <div class="grade-letter">A</div>
+        <div class="grade-range">94-100%</div>
+        <div class="grade-desc">Excellent to outstanding performance</div>
+      </div>
+      <div class="grade-item grade-a-minus">
+        <div class="grade-letter">A-</div>
+        <div class="grade-range">90-93%</div>
+        <div class="grade-desc">Excellent performance in most respects</div>
+      </div>
+      <div class="grade-item grade-b-plus">
+        <div class="grade-letter">B+</div>
+        <div class="grade-range">87-89%</div>
+        <div class="grade-desc">Very good performance</div>
+      </div>
+      <div class="grade-item grade-b">
+        <div class="grade-letter">B</div>
+        <div class="grade-range">83-86%</div>
+        <div class="grade-desc">Good performance</div>
+      </div>
+      <div class="grade-item grade-b-minus">
+        <div class="grade-letter">B-</div>
+        <div class="grade-range">80-82%</div>
+        <div class="grade-desc">Good performance overall, but with some weaknesses</div>
+      </div>
+      <div class="grade-item grade-c-plus">
+        <div class="grade-letter">C+</div>
+        <div class="grade-range">77-79%</div>
+        <div class="grade-desc">Satisfactory to good performance</div>
+      </div>
+      <div class="grade-item grade-c">
+        <div class="grade-letter">C</div>
+        <div class="grade-range">73-76%</div>
+        <div class="grade-desc">Satisfactory performance</div>
+      </div>
+      <div class="grade-item grade-c-minus">
+        <div class="grade-letter">C-</div>
+        <div class="grade-range">70-72%</div>
+        <div class="grade-desc">Adequate evidence of learning</div>
+      </div>
+    </div>
+  </div>
 </div>
 
 ---
 
-<div id="literature">
-<h1>📚 Course Literature</h1>
-
-## Required Textbook
-
-**Wackerly, D. D., Mendenhall, W., & Scheaffer, R. L.** (2002, 2008). *Mathematical Statistics with Applications* (7th edition).
-
-## Recommended Resources
-
-- **Lecture Notes**: Professor Gaule's lecture notes and course webpage materials (sorujov.github.io)
-- **Additional Materials**: Available at [Dropbox folder](https://www.dropbox.com/sh/emx6gmx2nu0i56z/AAA5v9wCiTGX4G44QhD61Vn7a?dl=0)
-- **Software**: R and Estat programs for computational practice
-
-**Note**: Course closely follows the lecture notes, and most homework problems are from the provided resources.
-
+<div class="evaluation-section" id="student-evaluations">
+  <h2 class="section-header">⭐ Student Evaluations - Spring 2026</h2>
+  
+  <div class="eval-intro">
+    <p><em>Student evaluation data will be available after the Spring 2026 semester.</em></p>
+  </div>
 </div>
 
 ---
 
-<div id="student-evaluations">
-<h1>⭐ Student Evaluations</h1>
-
-<div class="eval-intro">
-  <p><em>Student evaluation data will be available after the Spring 2026 semester.</em></p>
-</div>
-
+<div class="literature-section" id="literature">
+  <h2 class="section-header">📚 Course Literature</h2>
+  
+  <div class="books-grid">
+    <div class="book-item primary">
+      <div class="book-icon">📖</div>
+      <h3>Primary Textbook</h3>
+      <h4>Mathematical Statistics with Applications</h4>
+      <p><strong>Authors:</strong> Wackerly, D. D., Mendenhall, W., & Scheaffer, R. L.</p>
+      <p><strong>Edition:</strong> 7th Edition (2008)</p>
+      <p><strong>Publisher:</strong> Cengage Learning</p>
+    </div>
+    
+    <div class="book-item secondary">
+      <div class="book-icon">📘</div>
+      <h3>Additional Resources</h3>
+      <h4>Course Materials</h4>
+      <p><strong>Lecture Notes:</strong> Available at sorujov.github.io</p>
+      <p><strong>Software:</strong> R and Estat programs for computational practice</p>
+      <p><strong>Additional Materials:</strong> <a href="https://www.dropbox.com/sh/emx6gmx2nu0i56z/AAA5v9wCiTGX4G44QhD61Vn7a?dl=0" target="_blank">Dropbox folder</a></p>
+    </div>
+  </div>
 </div>
 
 ---
 
-<div id="technical-notes">
-<h1>⚙️ Technical Notes</h1>
-
-## Software and Tools
-
-Students will use **R** and **Estat** programs to complement theoretical learning. These tools are essential for:
-
-- Data analysis and visualization
-- Statistical computations
-- Simulation studies
-- Verification of theoretical results
-
-## WebWork Platform
-
-All homework assignments and exams are conducted through the **WebWork** platform:
-
-- Provides immediate feedback on answers
-- Allows multiple attempts for homework problems
-- Mirrors the exam environment for practice
-- Accessible through the course webpage
-
-## Course Webpage
-
-Access all course materials at: **[sorujov.github.io](http://sorujov.github.io)**
-
-- Interactive lectures
-- Homework assignments
-- QR code attendance system
-- Additional resources and announcements
-
+<div class="technical-section" id="technical-notes">
+  <h2 class="section-header">⚙️ Technical Notes for Interactive Lectures</h2>
+  
+  <div class="tech-grid">
+    <div class="tech-item">
+      <div class="tech-icon">🖥️</div>
+      <h4>Optimal Experience</h4>
+      <p>Use fullscreen mode (F11) for mathematical visualizations</p>
+    </div>
+    
+    <div class="tech-item">
+      <div class="tech-icon">⌨️</div>
+      <h4>Navigation</h4>
+      <p>Arrow keys or on-screen buttons for slide progression</p>
+    </div>
+    
+    <div class="tech-item">
+      <div class="tech-icon">🌐</div>
+      <h4>Requirements</h4>
+      <p>Modern browser with JavaScript enabled, WebWork platform access</p>
+    </div>
+    
+    <div class="tech-item">
+      <div class="tech-icon">🧮</div>
+      <h4>Statistical Software</h4>
+      <p>R and Estat for data analysis, visualization, and computational verification</p>
+    </div>
+    
+    <div class="tech-item">
+      <div class="tech-icon">📊</div>
+      <h4>Assessment Integration</h4>
+      <p>Interactive exercises synchronized with WebWork assignments</p>
+    </div>
+    
+    <div class="tech-item">
+      <div class="tech-icon">🎓</div>
+      <h4>Academic Integrity</h4>
+      <p>All coursework conducted in accordance with ADA University Honor Code standards</p>
+    </div>
+  </div>
 </div>
 
 ---
@@ -1158,6 +1228,215 @@ html {
   border-radius: 10px;
 }
 
+/* Enhanced Assessment Section */
+.assessment-section {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 2.5rem;
+  border-radius: 15px;
+  margin: 2rem 0;
+}
+
+.platform-highlight {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+
+.platform-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.assessment-timeline h3 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.timeline-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.timeline-item {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1.2rem;
+  border-radius: 8px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+
+.timeline-date {
+  font-size: 0.85rem;
+  opacity: 0.8;
+  margin-bottom: 0.5rem;
+}
+
+.timeline-content h4 {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.timeline-item .percentage {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #FFD700;
+}
+
+.grading-scale h3 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.grade-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.grade-item {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1.2rem;
+  border-radius: 8px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+
+.grade-letter {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.grade-range {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #FFD700;
+  margin-bottom: 0.3rem;
+}
+
+.grade-desc {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+/* Evaluation Section */
+.evaluation-section {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 3rem 2rem;
+  margin: 2rem 0;
+  border-radius: 15px;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #2c3e50;
+}
+
+/* Literature Section */
+.literature-section {
+  background: #f8f9ff;
+  padding: 2rem;
+  border-radius: 15px;
+  margin: 2rem 0;
+}
+
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.book-item {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #667eea;
+}
+
+.book-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.book-item h3 {
+  color: #667eea;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.book-item h4 {
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.book-item p {
+  margin: 0.3rem 0;
+  color: #7f8c8d;
+  line-height: 1.4;
+}
+
+.book-item a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.book-item a:hover {
+  text-decoration: underline;
+}
+
+/* Technical Section */
+.technical-section {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 2rem;
+  border-radius: 15px;
+  margin: 2rem 0;
+}
+
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.2rem;
+  margin-top: 1.5rem;
+}
+
+.tech-item {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1.2rem;
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.tech-icon {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.tech-item h4 {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.tech-item p {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  line-height: 1.4;
+}
+
+/* Mobile Responsiveness */
 @media (max-width: 768px) {
   .lecture-buttons {
     flex-direction: column;
@@ -1170,6 +1449,20 @@ html {
   .objectives-grid,
   .assessment-grid {
     grid-template-columns: 1fr;
+  }
+  
+  .timeline-grid,
+  .grade-grid,
+  .books-grid,
+  .tech-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .assessment-section,
+  .literature-section,
+  .technical-section,
+  .evaluation-section {
+    padding: 1.5rem;
   }
 }
 </style>
