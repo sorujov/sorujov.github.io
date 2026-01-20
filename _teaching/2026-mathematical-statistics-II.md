@@ -202,11 +202,11 @@ classes: wide
     </div>
 
     <div class="lecture-buttons">
-      <a href="/lectures/math-stat-2/01-multivariate/index.html" class="btn btn--primary">
-        🚀 Interactive Lecture
+      <a href="/lectures/math_stat_2_spring_2026/chapter_5/multivariate_lecture1.html" class="btn btn--primary">
+        🚀 Lecture 1: Bivariate Distributions
       </a>
-      <a href="/lectures/math-stat-2/01-multivariate/homework.pdf" class="btn btn--primary">
-        📄 Homework PDF
+      <a href="/lectures/math_stat_2_spring_2026/chapter_5/multivariate_lecture2.html" class="btn btn--primary">
+        🚀 Lecture 2: Marginal & Conditional Distributions
       </a>
     </div>
 
@@ -230,11 +230,8 @@ classes: wide
     </div>
 
     <div class="lecture-buttons">
-      <a href="/lectures/math-stat-2/02-covariance/index.html" class="btn btn--primary">
-        🚀 Interactive Lecture
-      </a>
-      <a href="/lectures/math-stat-2/02-covariance/homework.pdf" class="btn btn--primary">
-        📄 Homework PDF
+      <a href="/lectures/math_stat_2_spring_2026/chapter_5/multivariate_lecture3.html" class="btn btn--primary">
+        🚀 Lecture 1: Expected Values & Covariance
       </a>
     </div>
 
@@ -262,11 +259,14 @@ classes: wide
     </div>
 
     <div class="lecture-buttons">
-      <a href="/lectures/math-stat-2/03-functions/index.html" class="btn btn--primary">
-        🚀 Interactive Lecture
+      <a href="/lectures/math_stat_2_spring_2026/chapter_6/functions_rv_lecture1.html" class="btn btn--primary">
+        🚀 Lecture 1: Distribution Function Method
       </a>
-      <a href="/lectures/math-stat-2/03-functions/homework.pdf" class="btn btn--primary">
-        📄 Homework PDF
+      <a href="/lectures/math_stat_2_spring_2026/chapter_6/functions_rv_lecture2.html" class="btn btn--primary">
+        🚀 Lecture 2: Method of Transformations & MGF
+      </a>
+      <a href="/lectures/math_stat_2_spring_2026/chapter_6/functions_rv_lecture3.html" class="btn btn--primary">
+        🚀 Lecture 3: Multivariate Transformations
       </a>
     </div>
 

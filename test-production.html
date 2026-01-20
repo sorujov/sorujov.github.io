@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Blackboard Attendance Test - Production with Retry</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 40px; 
+      max-width: 700px; 
+      margin: 0 auto; 
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    h1 { 
+      color: #333; 
+      margin-top: 0;
+      font-size: 28px;
+    }
+    button { 
+      padding: 18px 35px; 
+      font-size: 18px; 
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white; 
+      border: none; 
+      border-radius: 8px; 
+      cursor: pointer;
+      margin: 10px 0;
+      width: 100%;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    button:hover { 
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    }
+    button:active {
+      transform: translateY(0);
+    }
+    #result { 
+      background: #f9f9f9; 
+      padding: 25px; 
+      margin-top: 25px; 
+      border-radius: 8px; 
+      white-space: pre-wrap; 
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      border-left: 4px solid #667eea;
+      max-height: 500px;
+      overflow-y: auto;
+    }
+    .success { color: #22c55e; font-weight: bold; }
+    .failed { color: #ef4444; font-weight: bold; }
+    .info { 
+      background: linear-gradient(135deg, #e0e7ff 0%, #ede9fe 100%);
+      padding: 20px; 
+      border-radius: 8px; 
+      margin: 25px 0;
+      border-left: 4px solid #667eea;
+    }
+    .info strong {
+      color: #4c1d95;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: #22c55e;
+      color: white;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #667eea;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🚀 QR Attendance System Test</h1>
+    
+    <div class="info">
+      <strong>✅ Status:</strong> LIVE - Production with Auto-Retry<span class="badge">NEW</span><br>
+      <strong>📅 Deployed:</strong> Dec 8, 2025, 5:03 PM<br>
+      <strong>📚 Course:</strong> Mathematical Statistics I (_16980_1)<br>
+      <strong>🔗 Features:</strong> Google Sheets + Blackboard Ultra + Retry Logic<br>
+      <strong>⚡ Max Retries:</strong> 3 attempts (1s, 2s, 4s delays)
+    </div>
+    
+    <button onclick="testRealStudent()">🎓 Test with Rafet Abaszade</button>
+    
+    <div id="result">Click button to test production system with retry logic...</div>
+  </div>
+
+  <script>
+    function testRealStudent() {
+      const resultDiv = document.getElementById('result');
+      const button = document.querySelector('button');
+      
+      button.disabled = true;
+      button.innerHTML = '<span class="loading"></span> Testing...';
+      
+      resultDiv.innerHTML = `⏳ Sending to production endpoint (with retry)...
+
+This will:
+• Write attendance to Google Sheet
+• Attempt to sync with Blackboard (up to 3 retries)
+• Handle temporary server errors automatically
+
+Please wait...`;
+      
+      const startTime = Date.now();
+      
+      fetch('https://script.google.com/macros/s/AKfycbxSp-W1kF3aB2JH-QYmf28bR1Fm1Cd1PXDCKdGQ-HMRHXLZfz2FP7-a5IbEKV9VuFD5Wg/exec', {
+        method: 'POST',
+        body: JSON.stringify({
+          email: 'rabaszade19617@ada.edu.az',
+          name: 'Rafet Abaszade',
+          sessionTime: new Date().toLocaleString('en-US', {timeZone: 'Asia/Baku'}),
+          latitude: 40.4081,
+          longitude: 49.8461,
+          distance: 15
+        })
+      })
+      .then(r => r.json())
+      .then(data => {
+        const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
+        
+        resultDiv.innerHTML = `
+⏱️  Total Response Time: ${elapsed}s
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 PRODUCTION TEST RESULTS (WITH RETRY)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📝 <strong>Google Sheets:</strong> ${data.success ? '<span class="success">✓ RECORDED</span>' : '<span class="failed">✗ FAILED</span>'}
+🎓 <strong>Blackboard:</strong> ${data.blackboard === 'synced' ? '<span class="success">✓ SYNCED</span>' : '<span class="failed">✗ FAILED</span>'}
+
+${data.blackboard === 'synced' ? 
+`<span class="success">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ ATTENDANCE MARKED SUCCESSFULLY!
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
+
+📋 <strong>Student Details:</strong>
+   • Name: Rafet Abaszade
+   • Email: rabaszade19617@ada.edu.az
+   • Blackboard User ID: ${data.bbDetails.userId}
+   • Meeting ID: ${data.bbDetails.meetingId}
+   • Status: <span class="success">Present ✓</span>
+   • Timestamp: ${new Date().toLocaleString('en-US', {timeZone: 'Asia/Baku'})}
+
+🔍 <strong>Verification Steps:</strong>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   1. Open: https://ada.blackboard.com
+   2. Navigate: Mathematical Statistics I
+   3. Click: Course Tools → Attendance
+   4. Check: Today's date (Dec 8, 2025)
+   5. Verify: Rafet Abaszade = Present ✓
+
+🎉 <strong>System Status:</strong> Fully operational!
+   → Next class: Students scan QR → Auto-sync
+   → Retry logic handles temporary outages
+   → Attendance always saved to Google Sheets
+` 
+: 
+`<span class="failed">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+❌ BLACKBOARD SYNC FAILED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
+
+<strong>Error:</strong> ${data.bbError}
+
+⚠️  <strong>Important:</strong>
+   • Google Sheet was updated successfully ✓
+   • Attendance is saved (manual Blackboard update possible)
+   • Retry logic attempted to recover from errors
+   
+📊 <strong>Possible Causes:</strong>
+   • Blackboard server temporarily down (HTTP 503)
+   • Network connectivity issue
+   • Rate limiting (too many requests)
+   • Student not found in Blackboard roster
+   
+🔧 <strong>Recommended Actions:</strong>
+   1. Check Apps Script execution logs
+   2. Verify Blackboard server status
+   3. Confirm student is enrolled in course
+   4. Try again in a few minutes
+`}
+
+📄 <strong>Full API Response:</strong>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${JSON.stringify(data, null, 2)}
+
+${elapsed > 10 ? '\n⚠️  Response took longer than expected (retry delays active)' : ''}
+        `;
+        
+        button.disabled = false;
+        button.innerHTML = '🎓 Test with Rafet Abaszade';
+      })
+      .catch(err => {
+        resultDiv.innerHTML = `
+<span class="failed">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+❌ REQUEST FAILED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
+
+<strong>Error:</strong> ${err.message}
+
+<strong>Possible Causes:</strong>
+• Network connection lost
+• Apps Script endpoint changed
+• CORS policy blocking request
+• Browser security settings
+
+<strong>Current Endpoint:</strong>
+https://script.google.com/macros/s/AKfycbxSp-W1kF3aB2JH-QYmf28bR1Fm1Cd1PXDCKdGQ-HMRHXLZfz2FP7-a5IbEKV9VuFD5Wg/exec
+
+
+<strong>Troubleshooting:</strong>
+1. Check your internet connection
+2. Verify deployment URL is correct
+3. Try refreshing the page
+4. Check browser console for errors (F12)
+        `;
+        
+        button.disabled = false;
+        button.innerHTML = '🎓 Test with Rafet Abaszade';
+      });
+    }
+  </script>
+</body>
+</html>

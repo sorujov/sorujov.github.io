@@ -10,7 +10,7 @@ date: today
 format:
   revealjs:
     theme: default
-    logo: ADA.png
+    logo: ../ADA.png
     transition: slide
     slide-number: c/t
     chalkboard: true
@@ -58,7 +58,7 @@ By the end of this lecture, you will be able to:
 
 ## 📋 Overview {.smaller}
 
-::: {style="font-size:50px"}
+::: {style="font-size:38px"}
 ::: {.callout-note}
 ## 📚 Topics Covered Today
 
@@ -76,7 +76,7 @@ By the end of this lecture, you will be able to:
 :::
 :::
 
-## 📖 Why Study Multivariate Distributions? {.smaller}
+## 📖 Why Study Multivariate Distributions? {.smaller .r-fit-text}
 
 ::: {.callout-note}
 ## 🎯 Motivation
@@ -326,13 +326,13 @@ $$= \int_0^1 3y_1 \cdot \frac{y_1}{2} \, dy_1 = \frac{3}{2} \int_0^1 y_1^2 \, dy
 
 ## 🎮 Interactive: Bivariate Probability Surface {.smaller}
 
-::: {style="font-size: 0.8em;"}
+::: {style="font-size: 0.65em;"}
 
 **Explore Bivariate Densities:** Adjust parameters to see how the joint density surface changes.
 
 ::: {.columns}
 
-::: {.column width="30%"}
+::: {.column width="28%"}
 
 ```{ojs}
 //| echo: false
@@ -352,26 +352,26 @@ viewof beta = Inputs.range([0.5, 3], {
 // Calculate normalizing constant for f(y1,y2) = c * y1^alpha * y2^beta on [0,1]x[0,1]
 c_constant = (alpha + 1) * (beta + 1)
 
-md`**Density Function:**  
-$f(y_1, y_2) = ${c_constant.toFixed(2)} \cdot y_1^{${alpha.toFixed(2)}} \cdot y_2^{${beta.toFixed(2)}}$
-
-**on** $[0,1] \times [0,1]$
-
-**Normalizing constant:**  
-$c = (\\alpha+1)(\\beta+1) = ${c_constant.toFixed(2)}$`
+html`<div style="font-size: 0.9em;">
+<p><strong>Density Function:</strong></p>
+<p><em>f</em>(y<sub>1</sub>, y<sub>2</sub>) = ${c_constant.toFixed(2)} · y<sub>1</sub><sup>${alpha.toFixed(2)}</sup> · y<sub>2</sub><sup>${beta.toFixed(2)}</sup></p>
+<p><strong>on</strong> [0,1] × [0,1]</p>
+<p><strong>Normalizing constant:</strong><br/>
+<em>c</em> = (α+1)(β+1) = ${c_constant.toFixed(2)}</p>
+</div>`
 ```
 
 **Observations:**  
 
-- Higher α increases density near $y_1 = 1$
+- Higher α → density near y₁ = 1
 
-- Higher β increases density near $y_2 = 1$
+- Higher β → density near y₂ = 1
 
-- The surface integrates to 1
+- Surface integrates to 1
 
 :::
 
-::: {.column width="70%"}
+::: {.column width="72%"}
 
 ```{ojs}
 //| echo: false
@@ -394,15 +394,15 @@ density_data = {
 }
 
 Plot.plot({
-  width: 750,
-  height: 500,
-  marginLeft: 60,
-  marginBottom: 50,
+  width: 800,
+  height: 480,
+  marginLeft: 50,
+  marginBottom: 45,
   color: {
     type: "linear",
     scheme: "viridis",
     legend: true,
-    label: "Density f(y₁, y₂)"
+    label: "Density"
   },
   x: {
     label: "y₁",
@@ -421,8 +421,7 @@ Plot.plot({
       thresholds: 20
     }),
     Plot.frame()
-  ],
-  caption: html`<b>Contour Plot:</b> Joint density f(y₁, y₂) = ${c_constant.toFixed(2)}·y₁<sup>${alpha.toFixed(1)}</sup>·y₂<sup>${beta.toFixed(1)}</sup>`
+  ]
 })
 ```
 
@@ -516,9 +515,9 @@ $$f_2(y_2) = \int_{y_2}^{1} 3y_1 \, dy_1 = \frac{3}{2}[y_1^2]_{y_2}^{1} = \frac{
 
 **Business Insight:** The marginal distribution of amount sold helps the firm understand sales patterns independently of stocking decisions.
 
-## 🤝 Think-Pair-Share: Investment Decision {.r-fit-text}
+## 🤝 Think-Pair-Share: Investment Decision {.smaller .r-fit-text}
 
-::: {style="font-size: 30px"}
+::: {style="font-size: 26px"}
 ::: {.callout-note}
 ## 💭 Student Engagement Activity (4 minutes)
 
@@ -546,9 +545,9 @@ $$f_2(y_2) = \int_{y_2}^{1} 3y_1 \, dy_1 = \frac{3}{2}[y_1^2]_{y_2}^{1} = \frac{
 :::
 :::
 
-## 💰 Case Study: Portfolio Returns Analysis (Real Data)
+## 💰 Case Study: Portfolio Returns Analysis (Real Data) {.smaller}
 
-::: {style="font-size:35px"}
+::: {style="font-size:28px"}
 ::: {.columns}
 ::: {.column width="50%"}
 ::: {.callout-note}
@@ -587,7 +586,7 @@ We analyze **daily returns** for **Apple (AAPL)** and **Microsoft (MSFT)** stock
 
 ## 💰 Case Study: Data Collection {.smaller}
 
-::: {style="font-size:26px"}
+::: {style="font-size:22px"}
 ::: {.columns}
 ::: {.column width="50%"}
 
@@ -662,7 +661,7 @@ cat(sprintf("Corr(AAPL, MSFT): %.4f\n",
 
 ## 💰 Case Study: Joint Distribution Visualization {.smaller}
 
-::: {style="font-size:26px"}
+::: {style="font-size:22px"}
 ::: {.columns}
 ::: {.column width="50%"}
 
@@ -724,7 +723,7 @@ ggplot(returns_df, aes(x = AAPL, y = MSFT)) +
 
 ## 💰 Case Study: Marginal Distributions {.smaller}
 
-::: {style="font-size:26px"}
+::: {style="font-size:22px"}
 ::: {.columns}
 ::: {.column width="50%"}
 
@@ -792,7 +791,7 @@ ggplot(returns_df, aes(x = MSFT)) +
 
 ## 💰 Case Study: Key Findings {.smaller}
 
-::: {style="font-size: 32.5px;"}
+::: {style="font-size: 26px;"}
 ::: {.callout-important}
 ## 📊 Analysis Results
 
@@ -867,7 +866,7 @@ For a continuous bivariate random variable $(Y_1, Y_2)$ with joint pdf $f(y_1, y
 
 ## 📝 Summary {.smaller}
 
-::: {style="font-size: 32.5px"}
+::: {style="font-size: 28px"}
 ::: {.summary-box}
 **✅ Key Takeaways**
 

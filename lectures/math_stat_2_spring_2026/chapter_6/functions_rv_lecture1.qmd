@@ -1,0 +1,674 @@
+---
+title: "Mathematical Statistics"
+subtitle: "Functions of Random Variables: Distribution Function Method"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: default
+    logo: ../ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    footer: "Mathematical Statistics - Functions of Random Variables"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+---
+
+## 🎯 Learning Objectives {.smaller}
+
+::: {.learning-objectives}
+By the end of this lecture, you will be able to:
+
+- Understand **why** finding distributions of functions of random variables is essential in statistics and finance
+
+- Apply the **distribution function method** to find the pdf of $U = g(Y)$ for univariate transformations
+
+- Handle **non-monotonic transformations** by partitioning the domain appropriately
+
+- Find the distribution of **functions of multiple random variables** using the CDF approach
+
+- Apply these techniques to **financial transformations** such as returns, log-returns, and portfolio values
+:::
+
+## 📋 Overview {.smaller}
+
+::: {style="font-size:38px"}
+::: {.callout-note}
+## 📚 Topics Covered Today
+
+::: {.incremental}
+- **Introduction to Transformations** – Why study functions of random variables?
+
+- **The Distribution Function Method** – Finding $F_U(u) = P(U \leq u)$ then differentiating
+
+- **Monotonic Transformations** – Increasing and decreasing functions
+
+- **Non-Monotonic Transformations** – Handling functions like $U = Y^2$
+
+- **Case Study** – Stock returns as transformations of prices
+:::
+:::
+:::
+
+## 📖 Why Study Functions of Random Variables? {.smaller .r-fit-text}
+
+::: {.callout-note}
+## 🎯 Motivation
+
+In practice, we often observe one random variable but need to know the distribution of a **function** of that variable:
+
+::: {.columns}
+::: {.column width="50%"}
+::: {.fragment}
+**Finance Applications:**
+
+- Stock prices → Returns: $R = \frac{P_t - P_{t-1}}{P_{t-1}}$
+- Prices → Log-returns: $r = \ln(P_t/P_{t-1})$
+- Individual returns → Portfolio value
+- Asset values → Option payoffs
+:::
+:::
+
+::: {.column width="50%"}
+::: {.fragment}
+**Statistical Applications:**
+
+- Sample mean $\bar{Y}$ from individual $Y_i$'s
+- Sample variance $S^2$ from data
+- Test statistics (t, F, χ²)
+- Maximum/minimum values
+:::
+:::
+:::
+:::
+
+**Key Question:** Given the distribution of $Y$, how do we find the distribution of $U = g(Y)$?
+
+## 📖 Three Main Methods {.smaller}
+
+::: {.callout-note}
+## 📝 Overview of Techniques
+
+We will study three approaches to find the distribution of $U = g(Y)$:
+
+**1. Distribution Function Method (Today)**
+$$F_U(u) = P(U \leq u) = P(g(Y) \leq u)$$
+Then differentiate: $f_U(u) = \frac{d}{du}F_U(u)$
+
+**2. Method of Transformations (Next Lecture)**
+Direct formula using the inverse function and its derivative
+
+**3. Moment-Generating Function Method (Next Lecture)**
+Find $M_U(t)$ and identify the distribution
+:::
+
+**Key Insight:** The distribution function method is the most **general** approach—it always works!
+
+## 📖 Definition: The Distribution Function Method {.smaller}
+
+::: {.callout-note}
+## 📝 Method of Distribution Functions
+
+To find the probability distribution of $U = g(Y)$:
+
+**Step 1:** Find the CDF of $U$:
+$$F_U(u) = P(U \leq u) = P(g(Y) \leq u)$$
+
+**Step 2:** Express $P(g(Y) \leq u)$ in terms of events involving $Y$
+
+**Step 3:** Use the known distribution of $Y$ to compute the probability
+
+**Step 4:** Differentiate to get the pdf:
+$$f_U(u) = \frac{d}{du}F_U(u)$$
+:::
+
+**Principle:** Convert the problem about $U$ into a problem about $Y$, which we already understand!
+
+## 📌 Example 1: Linear Transformation {.smaller}
+
+**Problem:** Let $Y$ have pdf $f_Y(y) = 2y$ for $0 < y < 1$. Find the distribution of $U = 3Y + 1$.
+
+**Solution:**
+
+. . .
+
+**Step 1:** Find the range of $U$. Since $0 < Y < 1$, we have $1 < U < 4$.
+
+. . .
+
+**Step 2:** Find $F_U(u) = P(U \leq u) = P(3Y + 1 \leq u) = P(Y \leq \frac{u-1}{3})$
+
+. . .
+
+**Step 3:** Compute using $F_Y$:
+$$F_U(u) = \int_0^{(u-1)/3} 2y \, dy = y^2 \Big|_0^{(u-1)/3} = \frac{(u-1)^2}{9}$$
+
+. . .
+
+**Step 4:** Differentiate:
+$$f_U(u) = \frac{d}{du}\left[\frac{(u-1)^2}{9}\right] = \frac{2(u-1)}{9} \quad \text{for } 1 < u < 4$$
+
+## 📌 Example 2: Square Transformation {.smaller}
+
+**Problem:** Let $Y \sim N(0, 1)$. Find the distribution of $U = Y^2$.
+
+**Solution:**
+
+. . .
+
+**Step 1:** Range of $U$: Since $Y \in (-\infty, \infty)$, we have $U \geq 0$.
+
+. . .
+
+**Step 2:** For $u > 0$:
+$$F_U(u) = P(Y^2 \leq u) = P(-\sqrt{u} \leq Y \leq \sqrt{u})$$
+
+. . .
+
+**Step 3:** Using standard normal CDF $\Phi$:
+$$F_U(u) = \Phi(\sqrt{u}) - \Phi(-\sqrt{u}) = 2\Phi(\sqrt{u}) - 1$$
+
+. . .
+
+**Step 4:** Differentiate using chain rule:
+$$f_U(u) = 2\phi(\sqrt{u}) \cdot \frac{1}{2\sqrt{u}} = \frac{1}{\sqrt{2\pi u}}e^{-u/2}$$
+
+This is the **Chi-square distribution with 1 degree of freedom**: $U \sim \chi^2(1)$!
+
+## 🧮 Theorem: Chi-Square from Normal {.smaller}
+
+::: {.callout-important}
+## Theorem 6.1: Square of Standard Normal
+
+If $Y \sim N(0, 1)$, then $U = Y^2 \sim \chi^2(1)$.
+
+More generally, if $Y_1, Y_2, \ldots, Y_n$ are independent $N(0,1)$ random variables, then:
+
+$$U = Y_1^2 + Y_2^2 + \cdots + Y_n^2 \sim \chi^2(n)$$
+
+The chi-square distribution with $n$ degrees of freedom has pdf:
+$$f(u) = \frac{1}{2^{n/2}\Gamma(n/2)}u^{n/2-1}e^{-u/2} \quad \text{for } u > 0$$
+:::
+
+**Financial Application:** This result is fundamental for testing portfolio variance!
+
+## 🎮 Interactive: Transformation Visualizer {.smaller}
+
+::: {style="font-size: 0.8em;"}
+
+**Explore:** See how the distribution changes under $U = Y^2$
+
+::: {.columns}
+
+::: {.column width="35%"}
+
+```{ojs}
+//| echo: false
+
+viewof n_samples = Inputs.range([100, 5000], {
+  value: 1000, 
+  step: 100, 
+  label: "Sample size:"
+})
+
+// Generate standard normal samples
+normalSamples = {
+  const samples = [];
+  for (let i = 0; i < n_samples; i++) {
+    // Box-Muller transform
+    const u1 = Math.random();
+    const u2 = Math.random();
+    const z = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+    samples.push({y: z, u: z * z});
+  }
+  return samples;
+}
+
+// Chi-square(1) theoretical PDF
+chiSqPdf = {
+  const points = [];
+  for (let u = 0.01; u <= 8; u += 0.05) {
+    const pdf = Math.exp(-u/2) / Math.sqrt(2 * Math.PI * u);
+    points.push({u: u, pdf: pdf});
+  }
+  return points;
+}
+```
+
+**Transformation:** $U = Y^2$
+
+**Samples:** ${n_samples}
+
+:::
+
+::: {.column width="65%"}
+
+```{ojs}
+//| echo: false
+
+Plot.plot({
+  width: 450,
+  height: 300,
+  x: { domain: [0, 8], label: "U = Y²" },
+  y: { domain: [0, 1.5], label: "Density" },
+  marks: [
+    Plot.rectY(normalSamples, Plot.binX({y: "density"}, {x: "u", fill: "steelblue", fillOpacity: 0.6})),
+    Plot.line(chiSqPdf, {x: "u", y: "pdf", stroke: "red", strokeWidth: 2}),
+    Plot.ruleY([0])
+  ]
+})
+```
+
+**Red line:** Theoretical $\chi^2(1)$ pdf
+
+:::
+:::
+:::
+
+## 📌 Example 3: Functions of Two Variables {.smaller}
+
+**Problem:** Let $Y_1, Y_2$ be independent Uniform(0,1). Find the distribution of $U = Y_1 + Y_2$.
+
+**Solution:**
+
+. . .
+
+**Step 1:** Range of $U$: Since $0 < Y_1, Y_2 < 1$, we have $0 < U < 2$.
+
+. . .
+
+**Step 2:** For $0 < u < 1$:
+$$F_U(u) = P(Y_1 + Y_2 \leq u) = \int_0^u \int_0^{u-y_1} 1 \, dy_2 \, dy_1 = \int_0^u (u - y_1) \, dy_1 = \frac{u^2}{2}$$
+
+. . .
+
+For $1 \leq u < 2$: (integration region changes!)
+$$F_U(u) = 1 - \frac{(2-u)^2}{2}$$
+
+. . .
+
+**Step 3:** Differentiate:
+$$f_U(u) = \begin{cases} u & 0 < u < 1 \\ 2 - u & 1 \leq u < 2 \end{cases}$$
+
+This is the **triangular distribution**!
+
+## 📖 Visualizing the Sum of Uniforms {.smaller}
+
+::: {.columns}
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| fig-width: 5
+#| fig-height: 4
+
+library(tidyverse)
+
+# Generate sum of two uniforms
+set.seed(42)
+n <- 10000
+y1 <- runif(n)
+y2 <- runif(n)
+u <- y1 + y2
+
+# Theoretical triangular PDF
+u_theory <- seq(0, 2, 0.01)
+f_theory <- ifelse(u_theory < 1, u_theory, 2 - u_theory)
+
+# Plot
+ggplot() +
+  geom_histogram(aes(x = u, y = after_stat(density)), 
+                 bins = 50, fill = "steelblue", alpha = 0.6) +
+  geom_line(aes(x = u_theory, y = f_theory), 
+            color = "red", linewidth = 1.2) +
+  labs(title = "Distribution of U = Y₁ + Y₂",
+       subtitle = "Sum of two Uniform(0,1) variables",
+       x = "U", y = "Density") +
+  theme_minimal()
+```
+
+:::
+
+::: {.column width="50%"}
+::: {.fragment}
+**Key Observations:**
+
+- Sum of uniforms is **NOT** uniform!
+
+- The triangular shape emerges from the **convolution** of densities
+
+- Central Limit Theorem preview: Sum of more uniforms → approaches normal
+
+**Financial Insight:** This is why portfolio returns don't follow the same distribution as individual asset returns!
+:::
+:::
+:::
+
+## 💰 Case Study: Stock Returns Distribution {.smaller}
+
+::: {style="font-size:22px"}
+::: {.columns}
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+
+library(tidyverse)
+library(tidyquant)
+
+# Download Apple stock data
+aapl <- tq_get("AAPL", from = "2020-01-01", to = "2024-12-31")
+
+# Calculate different return transformations
+returns <- aapl %>%
+  mutate(
+    # Simple return: R = (P_t - P_{t-1}) / P_{t-1}
+    simple_return = (adjusted - lag(adjusted)) / lag(adjusted),
+    # Log return: r = ln(P_t / P_{t-1})
+    log_return = log(adjusted / lag(adjusted)),
+    # Squared return (for volatility)
+    sq_return = log_return^2
+  ) %>%
+  na.omit()
+
+# Summary statistics
+cat("Simple Returns:\n")
+cat(sprintf("  Mean: %.4f\n", mean(returns$simple_return)))
+cat(sprintf("  Std:  %.4f\n", sd(returns$simple_return)))
+
+cat("\nLog Returns:\n")
+cat(sprintf("  Mean: %.4f\n", mean(returns$log_return)))
+cat(sprintf("  Std:  %.4f\n", sd(returns$log_return)))
+```
+
+:::
+
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| fig-width: 6
+#| fig-height: 5
+
+# Compare simple vs log returns
+ggplot(returns) +
+  geom_histogram(aes(x = simple_return, y = after_stat(density), fill = "Simple"), 
+                 alpha = 0.5, bins = 50) +
+  geom_histogram(aes(x = log_return, y = after_stat(density), fill = "Log"), 
+                 alpha = 0.5, bins = 50) +
+  stat_function(fun = dnorm, 
+                args = list(mean = mean(returns$log_return), 
+                           sd = sd(returns$log_return)),
+                color = "red", linewidth = 1) +
+  labs(title = "AAPL Returns: Simple vs Log",
+       subtitle = "Red: Normal fit to log returns",
+       x = "Return", y = "Density", fill = "Type") +
+  theme_minimal() +
+  xlim(-0.15, 0.15)
+```
+
+:::
+:::
+:::
+
+## 💰 Case Study: Why Log Returns? {.smaller}
+
+::: {style="font-size:26px"}
+::: {.columns}
+::: {.column width="50%"}
+
+**The Transformation:**
+$$r_t = \ln\left(\frac{P_t}{P_{t-1}}\right) = \ln(P_t) - \ln(P_{t-1})$$
+
+If $\ln(P_t) \sim N(\mu, \sigma^2)$, then:
+$$r_t \sim N(\mu_r, \sigma_r^2)$$
+
+**Properties of Log Returns:**
+
+1. **Additive over time**: $r_{t:t+n} = r_t + r_{t+1} + \cdots + r_{t+n-1}$
+
+2. **Approximately normal** (by CLT for sums)
+
+3. **Symmetric** around zero
+
+:::
+
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| fig-width: 5
+#| fig-height: 4
+
+# Q-Q plot for normality check
+ggplot(returns, aes(sample = log_return)) +
+  stat_qq(color = "steelblue") +
+  stat_qq_line(color = "red") +
+  labs(title = "Q-Q Plot: Log Returns vs Normal",
+       subtitle = "Deviations in tails indicate fat tails",
+       x = "Theoretical Quantiles",
+       y = "Sample Quantiles") +
+  theme_minimal()
+```
+
+**Observation:** Heavy tails! Real returns have more extreme events than normal predicts.
+
+:::
+:::
+:::
+
+## 💰 Case Study: Key Findings {.smaller}
+
+::: {style="font-size: 26px;"}
+::: {.callout-important}
+## 📊 Analysis Results
+
+::: {.columns}
+
+::: {.column width="33%"}
+::: {.fragment}
+**Transformation Effects:**
+
+- Simple and log returns nearly identical for small returns
+
+- Log returns are symmetric; simple returns slightly skewed
+
+- Transformation choice affects statistical properties
+:::
+:::
+
+::: {.column width="33%"}
+::: {.fragment}
+**Normality Assessment:**
+
+- Log returns approximately normal in center
+
+- **Fat tails**: More extreme events than normal
+
+- Kurtosis > 3 indicates leptokurtic distribution
+:::
+:::
+
+::: {.column width="33%"}
+::: {.fragment}
+**Practical Implications:**
+
+1. **Use log returns** for multi-period analysis
+
+2. **Fat tails matter** for risk management
+
+3. **VaR estimates** using normal assumption understate risk
+:::
+:::
+
+:::
+:::
+:::
+
+## 📝 Quiz #1: Distribution Function Method {.smaller .quiz-question}
+
+To find the distribution of $U = g(Y)$ using the distribution function method, the correct first step is:
+
+- [Find $F_U(u) = P(U \leq u) = P(g(Y) \leq u)$]{.correct data-explanation="✅ Correct! The distribution function method starts by expressing the CDF of U in terms of events involving Y, then differentiates to get the pdf."}
+- Find the inverse function $g^{-1}(u)$
+- Compute the moment-generating function of $U$
+- Take the derivative of $g(Y)$
+
+## 📝 Quiz #2: Square Transformation {.smaller .quiz-question}
+
+If $Y \sim N(0, 1)$, what is the distribution of $U = Y^2$?
+
+- [Chi-square with 1 degree of freedom]{.correct data-explanation="✅ Correct! When you square a standard normal random variable, you get a chi-square distribution with 1 degree of freedom. This is a fundamental result used in hypothesis testing."}
+- Normal with mean 0 and variance 1
+- Exponential with mean 1
+- Uniform on (0, 1)
+
+## 📝 Quiz #3: Non-Monotonic Functions {.smaller .quiz-question}
+
+When applying the distribution function method to $U = Y^2$ where $Y$ can be positive or negative:
+
+- [We must account for both $Y = \sqrt{u}$ and $Y = -\sqrt{u}$ since $Y^2 \leq u$ means $-\sqrt{u} \leq Y \leq \sqrt{u}$]{.correct data-explanation="✅ Correct! Since squaring is not monotonic, we need to consider all values of Y that satisfy the inequality, which includes both positive and negative square roots."}
+- We only need the positive root $Y = \sqrt{u}$
+- The method cannot be applied to non-monotonic functions
+- We average the results from both roots
+
+## 📝 Quiz #4: Sum of Uniforms {.smaller .quiz-question}
+
+If $Y_1, Y_2$ are independent Uniform(0,1) random variables, what type of distribution does $U = Y_1 + Y_2$ have?
+
+- [Triangular distribution on (0, 2)]{.correct data-explanation="✅ Correct! The sum of two independent Uniform(0,1) variables follows a triangular distribution, not a uniform distribution. The pdf is f(u) = u for 0 < u < 1 and f(u) = 2 - u for 1 ≤ u < 2."}
+- Uniform distribution on (0, 2)
+- Normal distribution
+- Exponential distribution
+
+## 📝 Summary {.smaller}
+
+::: {style="font-size: 28px"}
+::: {.summary-box}
+**✅ Key Takeaways**
+
+- **Functions of random variables** arise constantly in statistics and finance (returns, test statistics, portfolio values)
+
+- The **distribution function method** is universal: Find $F_U(u) = P(g(Y) \leq u)$, then differentiate
+
+- For **monotonic functions**, the inequality $g(Y) \leq u$ simplifies directly
+
+- For **non-monotonic functions** like $Y^2$, partition the domain and sum probabilities
+
+- **Chi-square distribution**: $Y^2 \sim \chi^2(1)$ when $Y \sim N(0,1)$ — fundamental for inference
+
+- **Financial insight**: Log returns are preferred because they're additive and approximately normal
+:::
+:::
+
+## 📚 Practice Problems
+
+::: {.callout-tip}
+## 📝 Homework Problems
+
+**Problem 1 (Linear Transformation):** If $Y$ has pdf $f(y) = 3y^2$ for $0 < y < 1$, find the pdf of $U = 2Y - 1$.
+
+**Problem 2 (Square Root):** If $Y \sim \text{Uniform}(0, 4)$, find the distribution of $U = \sqrt{Y}$.
+
+**Problem 3 (Absolute Value):** If $Y \sim N(0, 1)$, find the pdf of $U = |Y|$. (This is the half-normal distribution.)
+
+**Problem 4 (Financial Application):** If log-price $\ln(P_t) \sim N(4, 0.04)$, find the distribution of the price $P_t$.
+
+**Problem 5 (Sum):** If $Y_1, Y_2, Y_3$ are independent Exponential(1), find $F_U(u)$ for $U = \min(Y_1, Y_2, Y_3)$.
+:::
+
+## 👋 Thank You! {.smaller .center}
+
+::: {.columns}
+::: {.column width="50%"}
+**📬 Contact Information:**
+
+Samir Orujov, PhD
+
+Assistant Professor
+
+School of Business
+
+ADA University
+
+📧 Email: [sorujov@ada.edu.az](mailto:sorujov@ada.edu.az)
+
+🏢 Office: D312
+
+⏰ Office Hours: By appointment
+:::
+
+::: {.column width="50%"}
+**📅 Next Class:**
+
+**Topic:** Method of Transformations & MGF Method
+
+**Reading:** Chapter 6, Sections 6.4-6.5
+
+**Preparation:** Review derivatives and inverse functions
+
+**⏰ Reminders:**
+
+✅ Complete Practice Problems 1-5
+
+✅ Review the chain rule from calculus
+
+✅ Think about when transformations are invertible
+
+✅ Work hard!
+:::
+:::
+
+## ❓ Questions? {.center}
+
+::: {.callout-note}
+## 💬 Open Discussion
+
+**Key Topics for Discussion:**
+
+- Why is the distribution function method considered the most general approach?
+
+- How do fat tails in return distributions affect risk management decisions?
+
+- What are some other financial quantities that are functions of random variables?
+
+- When might we prefer simple returns over log returns?
+:::
