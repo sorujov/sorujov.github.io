@@ -844,21 +844,21 @@ classes: wide
 
 | Week | Topic | Chapter(s) |
 |:----:|:------|:----------:|
-| 1 | Multivariate Probability Distributions | 5.5, 5.6, 5.7 |
-| 2 | Multivariate Probability Distributions | 5.8, 5.9, 5.11 |
-| 3 | Functions of Random Variables & Sampling Distributions | 6.1, 6.2, 6.5, 6.7 & 7 |
-| 4 | Sampling Distributions and the Central Limit Theorem | 7 |
-| 5 | Sampling Distributions and the Central Limit Theorem | 7 |
-| 6 | Estimation | 8 |
-| 7 | Estimation | 8 |
-| 8 | Estimation & **Midterm Exam (March 18)** | 8 |
-| 9 | Hypothesis Testing | 10 |
-| 10 | Hypothesis Testing | 10 |
-| 11 | Hypothesis Testing | 10 |
-| 12 | Properties of Point Estimators and Methods of Estimation | 9 |
-| 13 | Properties of Point Estimators and Methods of Estimation | 9 |
-| 14 | Linear Models and Estimation by Least Squares | 11 |
-| 15 | Review | - |
+| 1 | Multivariate Probability Distributions | 5.5-5.7 |
+| 2 | Covariance and Correlation | 5.8-5.11 |
+| 3 | Functions of Random Variables | 6.1, 6.2, 6.5, 6.7 |
+| 4 | Sampling Distributions | 7 |
+| 5 | Central Limit Theorem | 7 |
+| 6 | Applications of CLT | 7 |
+| 7 | Point Estimation | 8 |
+| 8 | Interval Estimation & **Midterm Exam (March 18)** | 8 |
+| 9 | Properties of Estimators | 9 |
+| 10 | Fundamentals of Hypothesis Testing | 10 |
+| 11 | Tests for Means and Proportions | 10 |
+| 12 | Two-Sample Tests | 10 |
+| 13 | Method of Moments & Maximum Likelihood | 9 |
+| 14 | Linear Models & Least Squares | 11 |
+| 15 | Review & Final Preparation | - |
 
 **Final Exam**: May 6, 2026
 
