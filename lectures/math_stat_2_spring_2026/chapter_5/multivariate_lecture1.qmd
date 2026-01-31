@@ -56,7 +56,7 @@ By the end of this lecture, you will be able to:
 - Apply multivariate distribution concepts to **portfolio analysis** and financial risk assessment using real market data
 :::
 
-## 📋 Overview {.smaller}
+## 📋 Overview
 
 ::: {style="font-size:38px"}
 ::: {.callout-note}
@@ -76,7 +76,7 @@ By the end of this lecture, you will be able to:
 :::
 :::
 
-## 📖 Why Study Multivariate Distributions? {.smaller .r-fit-text}
+## 📖 Why Study Multivariate Distributions?
 
 ::: {.callout-note}
 ## 🎯 Motivation
@@ -110,7 +110,7 @@ In the real world, random variables rarely occur in isolation. We often need to 
 
 **Key Question:** How do we mathematically describe the **joint behavior** of two or more random variables?
 
-## 📖 Definition: Joint Probability Function (Discrete) {.smaller}
+## 📖 Definition: Joint Probability Function (Discrete) {.larger}
 
 ::: {.callout-note}
 ## 📝 Definition 5.1: Bivariate Probability Function
@@ -126,20 +126,30 @@ for all pairs $(y_1, y_2)$ in the joint sample space.
 
 **Notation:** We write $(Y_1, Y_2)$ to denote a **bivariate random variable** (or random vector) consisting of two components.
 
-## 🧮 Theorem: Properties of Joint Probability Functions {.smaller}
+## 🧮 Theorem: Properties of Joint Probability Functions {.larger}
 
 ::: {.callout-important}
 ## Theorem 5.1: Properties of Joint Probability Functions
 
 For any joint probability function $p(y_1, y_2)$:
 
+::: {.columns}
+
+::: {.column width='50%' .fragment}
+
 **Property 1 (Non-negativity):**
 $$p(y_1, y_2) \geq 0 \quad \text{for all } (y_1, y_2)$$
+
+:::
+
+::: {.column width='50%' .fragment}
 
 **Property 2 (Normalization):**
 $$\sum_{y_1} \sum_{y_2} p(y_1, y_2) = 1$$
 
 The double sum is taken over all possible pairs $(y_1, y_2)$ in the sample space.
+:::
+:::
 :::
 
 **Intuition:** Probabilities must be non-negative and sum to 1 across all possible outcomes—the same principles as univariate distributions, extended to pairs!
@@ -161,19 +171,15 @@ $$p(y_1, y_2) = P(Y_1 = y_1) \cdot P(Y_2 = y_2) = \frac{1}{6} \cdot \frac{1}{6} 
 for all $y_1, y_2 \in \{1, 2, 3, 4, 5, 6\}$.
 
 ::: {.columns}
-::: {.column width="50%"}
-::: {.fragment}
+::: {.column weight='50%' .fragment}
 **Sample Space:** 36 equally likely outcomes
 
 $(1,1), (1,2), \ldots, (6,6)$
 :::
-:::
 
-::: {.column width="50%"}
-::: {.fragment}
+::: {.column weight='50%' .fragment}
 **Verification:**
 $$\sum_{y_1=1}^{6} \sum_{y_2=1}^{6} \frac{1}{36} = 36 \cdot \frac{1}{36} = 1 \checkmark$$
-:::
 :::
 :::
 
@@ -183,17 +189,16 @@ $$\sum_{y_1=1}^{6} \sum_{y_2=1}^{6} \frac{1}{36} = 36 \cdot \frac{1}{36} = 1 \ch
 
 **Solution:**
 
-. . .
-
+::: {.columns}
+::: {.column weight='50%' .fragment}
 The joint probability function is:
 
 $$p(y_1, y_2) = \frac{\binom{4}{y_1} \binom{3}{y_2}}{\binom{7}{3}}$$
 
-. . .
-
 where $y_1 + y_2 = 3$, $y_1 \in \{0, 1, 2, 3\}$, $y_2 \in \{0, 1, 2, 3\}$.
+:::
 
-::: {.fragment}
+::: {.column weight='50%' .fragment}
 **Joint Probability Table:**
 
 | $y_1 \backslash y_2$ | 0 | 1 | 2 | 3 |
@@ -204,6 +209,7 @@ where $y_1 + y_2 = 3$, $y_1 \in \{0, 1, 2, 3\}$, $y_2 \in \{0, 1, 2, 3\}$.
 | **3** | $\frac{4}{35}$ | 0 | 0 | 0 |
 
 **Note:** Only cells where $y_1 + y_2 = 3$ have non-zero probabilities.
+:::
 :::
 
 ## 📖 Definition: Joint Distribution Function {.smaller}
@@ -220,9 +226,36 @@ for $-\infty < y_1 < \infty$ and $-\infty < y_2 < \infty$.
 **Interpretation:** $F(y_1, y_2)$ gives the probability that $Y_1$ is at most $y_1$ **and** $Y_2$ is at most $y_2$.
 :::
 
-**Geometric View:** $F(y_1, y_2)$ represents the probability accumulated in the "southwest rectangle" from $(-\infty, -\infty)$ to $(y_1, y_2)$.
+::: {.callout-tip}
+## 📐 Geometric Interpretation
 
-## 🧮 Theorem: Properties of Joint CDFs {.smaller}
+**The "Southwest Rectangle":** $F(y_1, y_2)$ represents the probability accumulated in the rectangular region from $(-\infty, -\infty)$ to $(y_1, y_2)$.
+
+
+::: {.columns}
+::: {.column width="50%"}
+**For Discrete Variables:**
+
+- Sum all probabilities $p(y_1', y_2')$ where $y_1' \leq y_1$ and $y_2' \leq y_2$
+- Think: "All points to the left and below $(y_1, y_2)$"
+
+$$F(y_1, y_2) = \sum_{y_1' \leq y_1} \sum_{y_2' \leq y_2} p(y_1', y_2')$$
+:::
+
+::: {.column width="50%"}
+**For Continuous Variables:**
+
+- Integrate the joint pdf over the region
+- The volume under $f(y_1, y_2)$ from $-\infty$ to the point $(y_1, y_2)$
+
+$$F(y_1, y_2) = \int_{-\infty}^{y_1} \int_{-\infty}^{y_2} f(t_1, t_2) \, dt_2 \, dt_1$$
+:::
+:::
+
+**Visual:** Imagine looking at the $(y_1, y_2)$ plane. The CDF at point $(a, b)$ captures all probability mass in the quadrant below and to the left of that point.
+:::
+
+## 🧮 Theorem: Properties of Joint CDFs {.larger}
 
 ::: {.callout-important}
 ## Theorem 5.2: Properties of Bivariate CDFs
@@ -240,9 +273,9 @@ For any joint distribution function $F(y_1, y_2)$:
 
 **Intuition:** The CDF starts at 0, increases monotonically, and approaches 1 as both variables go to infinity.
 
-## 📖 Definition: Joint Probability Density Function (Continuous) {.smaller}
+## 📖 Definition: Joint Probability Density Function (Continuous) {.larger}
 
-::: {.callout-note}
+::: {.callout-note style="margin-top: -10px;"}
 ## 📝 Definition 5.3: Joint Probability Density Function
 
 Random variables $Y_1$ and $Y_2$ are said to be **jointly continuous** if their joint distribution function $F(y_1, y_2)$ can be written as:
@@ -257,24 +290,37 @@ $$f(y_1, y_2) = \frac{\partial^2 F(y_1, y_2)}{\partial y_1 \, \partial y_2}$$
 where this derivative exists.
 :::
 
-## 🧮 Theorem: Properties of Joint PDFs {.smaller}
+## 🧮 Theorem: Properties of Joint PDFs {.larger}
 
 ::: {.callout-important}
 ## Theorem 5.3: Properties of Joint Probability Density Functions
 
 For any joint pdf $f(y_1, y_2)$:
 
+::: {.columns}
+::: {.column weight='50%'}
 **Property 1 (Non-negativity):**
 $$f(y_1, y_2) \geq 0 \quad \text{for all } (y_1, y_2)$$
 
+:::
+
+::: {.column weight='50%'}
+
 **Property 2 (Normalization):**
 $$\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(y_1, y_2) \, dy_1 \, dy_2 = 1$$
+
+:::
+:::
 
 **Probability Calculation:**
 $$P[(Y_1, Y_2) \in A] = \iint_A f(y_1, y_2) \, dy_1 \, dy_2$$
 :::
 
+<div style="margin-top: -20px !important;">
+
 **Geometric Interpretation:** The **volume** under the surface $z = f(y_1, y_2)$ over region $A$ gives the probability.
+
+</div>
 
 ## 📌 Example 3: Uniform Distribution on Unit Square {.smaller}
 
@@ -282,21 +328,29 @@ $$P[(Y_1, Y_2) \in A] = \iint_A f(y_1, y_2) \, dy_1 \, dy_2$$
 
 **Solution:**
 
-. . .
+::: {.columns}
+::: {.column weight='50%' .fragment}
 
 Since the particle is equally likely to land anywhere:
 
 $$f(y_1, y_2) = \begin{cases} 1 & \text{if } 0 \leq y_1 \leq 1, \, 0 \leq y_2 \leq 1 \\ 0 & \text{otherwise} \end{cases}$$
 
-. . .
 
 **Verification:** $\int_0^1 \int_0^1 1 \, dy_1 \, dy_2 = 1 \checkmark$
 
-. . .
+:::
+
+::: {.column weight='50%' .fragment}
 
 **Finding $P(Y_1 + Y_2 \leq 1)$:**
 
-$$P(Y_1 + Y_2 \leq 1) = \int_0^1 \int_0^{1-y_1} 1 \, dy_2 \, dy_1 = \int_0^1 (1 - y_1) \, dy_1 = \left[ y_1 - \frac{y_1^2}{2} \right]_0^1 = \frac{1}{2}$$
+$$P(Y_1 + Y_2 \leq 1) = \int_0^1 \int_0^{1-y_1} 1 \, dy_2 \, dy_1 = \int_0^1 (1 - y_1) \, dy_1$$
+$$= \left[ y_1 - \frac{y_1^2}{2} \right]_0^1 = \frac{1}{2}$$
+
+:::
+:::
+
+. . .
 
 **Geometric:** This is the area of the triangle below the line $y_1 + y_2 = 1$ within the unit square.
 
@@ -310,19 +364,29 @@ Find the probability that less than half of the inventory is sold.
 
 **Solution:**
 
-. . .
-
+::: {.columns}
+::: {.column weight='50%' .fragment}
 We need $P(Y_2 < Y_1/2)$.
 
-. . .
-
 $$P\left(Y_2 < \frac{Y_1}{2}\right) = \int_0^1 \int_0^{y_1/2} 3y_1 \, dy_2 \, dy_1$$
+:::
+
+::: {.column weight='50%' .fragment}
+**Calculation:**
+
+$$= \int_0^1 3y_1 \cdot \frac{y_1}{2} \, dy_1 = \frac{3}{2} \int_0^1 y_1^2 \, dy_1$$
+$$= \frac{3}{2} \cdot \frac{1}{3} = \boxed{\frac{1}{2}}$$
+:::
+:::
 
 . . .
 
-$$= \int_0^1 3y_1 \cdot \frac{y_1}{2} \, dy_1 = \frac{3}{2} \int_0^1 y_1^2 \, dy_1 = \frac{3}{2} \cdot \frac{1}{3} = \boxed{\frac{1}{2}}$$
+::: {style="margin-top: -10px;"}
 
 **Business Insight:** There's a 50% chance of selling less than half the inventory—important for inventory planning!
+
+:::
+
 
 ## 🎮 Interactive: Bivariate Probability Surface {.smaller}
 
@@ -458,8 +522,7 @@ $$f_1(y_1) = \int_{-\infty}^{\infty} f(y_1, y_2) \, dy_2 \quad \text{and} \quad 
 Recall the joint probability table with constraint $y_1 + y_2 = 3$:
 
 ::: {.columns}
-::: {.column width="50%"}
-::: {.fragment}
+::: {.column weight='50%' .fragment}
 **Marginal of $Y_1$ (sum across rows):**
 
 $p_1(0) = \frac{1}{35}$ (all Democrats)
@@ -470,10 +533,8 @@ $p_1(2) = \frac{18}{35}$
 
 $p_1(3) = \frac{4}{35}$ (all Republicans)
 :::
-:::
 
-::: {.column width="50%"}
-::: {.fragment}
+::: {.column weight='50%' .fragment}
 **Marginal of $Y_2$ (sum down columns):**
 
 $p_2(0) = \frac{4}{35}$ (no Democrats)
@@ -483,7 +544,6 @@ $p_2(1) = \frac{18}{35}$
 $p_2(2) = \frac{12}{35}$
 
 $p_2(3) = \frac{1}{35}$ (all Democrats)
-:::
 :::
 :::
 
@@ -497,21 +557,28 @@ $p_2(3) = \frac{1}{35}$ (all Democrats)
 
 **Solution:**
 
-. . .
-
+::: {.columns}
+::: {.column weight='50%' .fragment}
 **Marginal of $Y_1$ (amount stocked):**
 
-$$f_1(y_1) = \int_0^{y_1} 3y_1 \, dy_2 = 3y_1 \cdot y_1 = 3y_1^2 \quad \text{for } 0 \leq y_1 \leq 1$$
+$$f_1(y_1) = \int_0^{y_1} 3y_1 \, dy_2 = 3y_1 \cdot y_1 = 3y_1^2$$
 
-. . .
-
-**Marginal of $Y_2$ (amount sold):**
-
-$$f_2(y_2) = \int_{y_2}^{1} 3y_1 \, dy_1 = \frac{3}{2}[y_1^2]_{y_2}^{1} = \frac{3}{2}(1 - y_2^2) \quad \text{for } 0 \leq y_2 \leq 1$$
-
-. . .
+for $0 \leq y_1 \leq 1$
 
 **Verification:** $\int_0^1 3y_1^2 \, dy_1 = [y_1^3]_0^1 = 1 \checkmark$
+:::
+
+::: {.column weight='50%' .fragment}
+**Marginal of $Y_2$ (amount sold):**
+
+$$f_2(y_2) = \int_{y_2}^{1} 3y_1 \, dy_1 = \frac{3}{2}[y_1^2]_{y_2}^{1}$$
+$$= \frac{3}{2}(1 - y_2^2)$$
+
+for $0 \leq y_2 \leq 1$
+:::
+:::
+
+. . .
 
 **Business Insight:** The marginal distribution of amount sold helps the firm understand sales patterns independently of stocking decisions.
 
@@ -545,9 +612,9 @@ $$f_2(y_2) = \int_{y_2}^{1} 3y_1 \, dy_1 = \frac{3}{2}[y_1^2]_{y_2}^{1} = \frac{
 :::
 :::
 
-## 💰 Case Study: Portfolio Returns Analysis (Real Data) {.smaller}
+## 💰 Case Study: Portfolio Returns Analysis (Real Data) {.larger}
 
-::: {style="font-size:28px"}
+::: {style="font-size:40px"}
 ::: {.columns}
 ::: {.column width="50%"}
 ::: {.callout-note}
@@ -586,9 +653,9 @@ We analyze **daily returns** for **Apple (AAPL)** and **Microsoft (MSFT)** stock
 
 ## 💰 Case Study: Data Collection {.smaller}
 
-::: {style="font-size:22px"}
+::: {style="font-size:20px"}
 ::: {.columns}
-::: {.column width="50%"}
+::: {.column width="33%"}
 
 ```{r}
 #| echo: true
@@ -610,6 +677,17 @@ getSymbols("AAPL", from = start_date,
            to = end_date, auto.assign = TRUE)
 getSymbols("MSFT", from = start_date, 
            to = end_date, auto.assign = TRUE)
+```
+
+:::
+
+::: {.column width="33%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
 
 # Calculate daily log returns
 aapl_returns <- dailyReturn(AAPL, type = "log")
@@ -622,14 +700,14 @@ returns_df <- data.frame(
   MSFT = as.numeric(msft_returns)
 ) %>% na.omit()
 
-cat(sprintf("Number of observations: %d\n", nrow(returns_df)))
-cat(sprintf("Date range: %s to %s\n", 
+cat(sprintf("Observations: %d\n", nrow(returns_df)))
+cat(sprintf("Range: %s to %s\n", 
             min(returns_df$Date), max(returns_df$Date)))
 ```
 
 :::
 
-::: {.column width="50%"}
+::: {.column width="33%"}
 
 ```{r}
 #| echo: true
@@ -641,17 +719,13 @@ cat(sprintf("Date range: %s to %s\n",
 cat("=== AAPL Returns ===\n")
 cat(sprintf("Mean: %.4f%%\n", mean(returns_df$AAPL) * 100))
 cat(sprintf("Std Dev: %.4f%%\n", sd(returns_df$AAPL) * 100))
-cat(sprintf("Min: %.4f%%\n", min(returns_df$AAPL) * 100))
-cat(sprintf("Max: %.4f%%\n", max(returns_df$AAPL) * 100))
 
 cat("\n=== MSFT Returns ===\n")
 cat(sprintf("Mean: %.4f%%\n", mean(returns_df$MSFT) * 100))
 cat(sprintf("Std Dev: %.4f%%\n", sd(returns_df$MSFT) * 100))
-cat(sprintf("Min: %.4f%%\n", min(returns_df$MSFT) * 100))
-cat(sprintf("Max: %.4f%%\n", max(returns_df$MSFT) * 100))
 
 cat("\n=== Correlation ===\n")
-cat(sprintf("Corr(AAPL, MSFT): %.4f\n", 
+cat(sprintf("Corr: %.4f\n", 
             cor(returns_df$AAPL, returns_df$MSFT)))
 ```
 
@@ -661,7 +735,7 @@ cat(sprintf("Corr(AAPL, MSFT): %.4f\n",
 
 ## 💰 Case Study: Joint Distribution Visualization {.smaller}
 
-::: {style="font-size:22px"}
+::: {style="font-size:20px"}
 ::: {.columns}
 ::: {.column width="50%"}
 
@@ -723,7 +797,7 @@ ggplot(returns_df, aes(x = AAPL, y = MSFT)) +
 
 ## 💰 Case Study: Marginal Distributions {.smaller}
 
-::: {style="font-size:22px"}
+::: {style="font-size:40px"}
 ::: {.columns}
 ::: {.column width="50%"}
 
@@ -789,9 +863,9 @@ ggplot(returns_df, aes(x = MSFT)) +
 :::
 :::
 
-## 💰 Case Study: Key Findings {.smaller}
+## 💰 Case Study: Key Findings {.larger}
 
-::: {style="font-size: 26px;"}
+::: {style="font-size: 40px;"}
 ::: {.callout-important}
 ## 📊 Analysis Results
 

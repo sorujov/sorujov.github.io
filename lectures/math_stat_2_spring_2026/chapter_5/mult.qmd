@@ -1,0 +1,791 @@
+---
+title: "Mathematical Statistics"
+subtitle: "Chapter 5: Multivariate Distributions – Conditional Distributions & Independence"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: default
+    logo: ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    footer: "Mathematical Statistics - Ch.5: Multivariate Distributions (Part 2)"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+---
+
+## 🎯 Learning Objectives {.smaller}
+
+::: {.learning-objectives}
+By the end of this lecture, you will be able to:
+
+- **Derive** conditional probability functions for discrete random variables
+
+- **Calculate** conditional density functions for continuous random variables
+
+- **Apply** the definition of independence to verify whether random variables are independent
+
+- **Use** the factorization theorem to quickly check independence
+
+- **Interpret** conditional distributions in financial risk scenarios
+:::
+
+## 📋 Overview {.smaller}
+
+::: {style="font-size:38px"}
+::: {.callout-note}
+## 📚 Topics Covered Today
+
+::: {.incremental}
+- **Conditional Distributions (Discrete)** – Probability given information about another variable
+
+- **Conditional Distributions (Continuous)** – Conditional density functions
+
+- **Independent Random Variables** – Definition and properties
+
+- **Factorization Theorem** – Quick test for independence
+
+- **Case Study** – Conditional VaR (Value-at-Risk) in portfolio management
+:::
+:::
+:::
+
+## 📖 Why Conditional Distributions? {.smaller .r-fit-text}
+
+::: {.callout-note}
+## 🎯 Motivation
+
+Understanding how one variable behaves **given information about another** is crucial for prediction, risk management, and decision-making.
+
+::: {.columns}
+::: {.column width="50%"}
+::: {.fragment}
+**Finance Applications:**
+
+- Credit risk given macroeconomic conditions
+- Stock returns given market movements
+- Default probability given credit rating
+- Portfolio VaR given stress scenarios
+:::
+:::
+
+::: {.column width="50%"}
+::: {.fragment}
+**Azerbaijan Context:**
+
+- Oil revenue given OPEC decisions
+- Manat volatility given oil prices
+- Bank profitability given interest rates
+- Insurance claims given weather events
+:::
+:::
+:::
+:::
+
+**Key Question:** How do we describe the distribution of $Y_1$ when we **know** the value of $Y_2$?
+
+## 📖 Definition: Conditional Probability Function (Discrete) {.smaller}
+
+::: {.callout-note}
+## 📝 Definition 5.5: Conditional Probability Function
+
+If $Y_1$ and $Y_2$ are jointly discrete random variables with joint probability function $p(y_1, y_2)$ and marginal probability functions $p_1(y_1)$ and $p_2(y_2)$, then the **conditional discrete probability function** of $Y_1$ given $Y_2$ is:
+
+$$p(y_1|y_2) = P(Y_1 = y_1 | Y_2 = y_2) = \frac{P(Y_1 = y_1, Y_2 = y_2)}{P(Y_2 = y_2)} = \frac{p(y_1, y_2)}{p_2(y_2)}$$
+
+provided that $p_2(y_2) > 0$.
+:::
+
+**Key insight:** This is just the conditional probability formula $P(A|B) = P(A \cap B)/P(B)$ applied to random variables!
+
+## 📌 Example 1: Committee Selection {.smaller}
+
+**Problem:** From 3 Republicans, 2 Democrats, 1 Independent, select a committee of 2. Let $Y_1$ = number of Republicans, $Y_2$ = number of Democrats. Find $P(Y_1 = 1 | Y_2 = 1)$.
+
+**Solution:**
+
+. . .
+
+From Lecture 1, we have the joint distribution:
+
+| $y_1 \backslash y_2$ | 0 | 1 | 2 | **Total** |
+|:---:|:---:|:---:|:---:|:---:|
+| 0 | 0 | 2/15 | 1/15 | 3/15 |
+| 1 | 3/15 | 6/15 | 0 | 9/15 |
+| 2 | 3/15 | 0 | 0 | 3/15 |
+| **Total** | 6/15 | **8/15** | 1/15 | 1 |
+
+. . .
+
+$$P(Y_1 = 1 | Y_2 = 1) = \frac{p(1,1)}{p_2(1)} = \frac{6/15}{8/15} = \frac{6}{8} = \frac{3}{4}$$
+
+## 📌 Example 1: Complete Conditional Distribution {.smaller}
+
+**Problem:** Find the complete conditional distribution of $Y_1$ given $Y_2 = 1$.
+
+**Solution:**
+
+::: {.columns}
+::: {.column width="50%"}
+$$P(Y_1 = 0 | Y_2 = 1) = \frac{p(0,1)}{p_2(1)} = \frac{2/15}{8/15} = \frac{1}{4}$$
+
+$$P(Y_1 = 1 | Y_2 = 1) = \frac{p(1,1)}{p_2(1)} = \frac{6/15}{8/15} = \frac{3}{4}$$
+
+$$P(Y_1 = 2 | Y_2 = 1) = \frac{p(2,1)}{p_2(1)} = \frac{0}{8/15} = 0$$
+:::
+
+::: {.column width="50%"}
+::: {.fragment}
+**Interpretation:**
+
+Given that exactly one Democrat is on the committee:
+
+- 25% chance of zero Republicans
+- 75% chance of one Republican  
+- 0% chance of two Republicans
+
+**Verification:** $\frac{1}{4} + \frac{3}{4} + 0 = 1$ ✓
+:::
+:::
+:::
+
+## 📖 Definition: Conditional Density Function (Continuous) {.smaller}
+
+::: {.callout-note}
+## 📝 Definition 5.7: Conditional Density Function
+
+Let $Y_1$ and $Y_2$ be jointly continuous random variables with joint density $f(y_1, y_2)$ and marginal densities $f_1(y_1)$ and $f_2(y_2)$. 
+
+For any $y_2$ such that $f_2(y_2) > 0$, the **conditional density** of $Y_1$ given $Y_2 = y_2$ is:
+
+$$f(y_1|y_2) = \frac{f(y_1, y_2)}{f_2(y_2)}$$
+
+Similarly, for any $y_1$ such that $f_1(y_1) > 0$:
+
+$$f(y_2|y_1) = \frac{f(y_1, y_2)}{f_1(y_1)}$$
+:::
+
+**Note:** The conditional density is **undefined** when the marginal density equals zero!
+
+## 📌 Example 2: Soft-Drink Machine {.smaller}
+
+**Problem:** Let $Y_2$ = amount in supply (gallons), $Y_1$ = amount sold ($Y_1 \leq Y_2$). Joint density:
+$$f(y_1, y_2) = \begin{cases} 1/2, & 0 \leq y_1 \leq y_2 \leq 2 \\ 0, & \text{elsewhere} \end{cases}$$
+
+Find the conditional density of $Y_1$ given $Y_2 = y_2$.
+
+. . .
+
+**Solution:** First find $f_2(y_2)$:
+$$f_2(y_2) = \int_0^{y_2} \frac{1}{2} \, dy_1 = \frac{y_2}{2}, \quad 0 \leq y_2 \leq 2$$
+
+. . .
+
+Then:
+$$f(y_1|y_2) = \frac{f(y_1, y_2)}{f_2(y_2)} = \frac{1/2}{y_2/2} = \frac{1}{y_2}, \quad 0 \leq y_1 \leq y_2$$
+
+**Interpretation:** Given supply $y_2$, sales are **uniform** on $[0, y_2]$!
+
+## 📌 Example 2: Conditional Probability {.smaller}
+
+**Problem:** Find $P(Y_1 \leq 0.5 | Y_2 = 1.5)$ — the probability that sales are at most 0.5 gallons given supply of 1.5 gallons.
+
+**Solution:**
+
+. . .
+
+Using the conditional density $f(y_1|y_2 = 1.5) = \frac{1}{1.5}$ for $0 \leq y_1 \leq 1.5$:
+
+$$P(Y_1 \leq 0.5 | Y_2 = 1.5) = \int_0^{0.5} \frac{1}{1.5} \, dy_1 = \frac{0.5}{1.5} = \frac{1}{3}$$
+
+. . .
+
+**Compare with $Y_2 = 2$:**
+$$P(Y_1 \leq 0.5 | Y_2 = 2) = \int_0^{0.5} \frac{1}{2} \, dy_1 = \frac{0.5}{2} = \frac{1}{4}$$
+
+**Insight:** The conditional probability depends on the conditioning value!
+
+## 📖 Definition: Independent Random Variables {.smaller}
+
+::: {.callout-note}
+## 📝 Definition 5.8: Independence
+
+Let $Y_1$ have distribution function $F_1(y_1)$, $Y_2$ have distribution function $F_2(y_2)$, and let $Y_1$ and $Y_2$ have joint distribution function $F(y_1, y_2)$. 
+
+Then $Y_1$ and $Y_2$ are **independent** if and only if:
+
+$$F(y_1, y_2) = F_1(y_1) \cdot F_2(y_2)$$
+
+for every pair of real numbers $(y_1, y_2)$.
+
+If $Y_1$ and $Y_2$ are not independent, they are said to be **dependent**.
+:::
+
+**Intuition:** Joint CDF factors into a product of marginal CDFs.
+
+## 🧮 Theorem: Characterization of Independence {.smaller}
+
+::: {.callout-important}
+## Theorem 5.4: Independence via Probability/Density Functions
+
+**Discrete case:** $Y_1$ and $Y_2$ are independent if and only if:
+$$p(y_1, y_2) = p_1(y_1) \cdot p_2(y_2) \quad \text{for all } (y_1, y_2)$$
+
+**Continuous case:** $Y_1$ and $Y_2$ are independent if and only if:
+$$f(y_1, y_2) = f_1(y_1) \cdot f_2(y_2) \quad \text{for all } (y_1, y_2)$$
+:::
+
+**Key insight:** Independence means the joint distribution **factors** into the product of marginals for **ALL** values.
+
+## 📌 Example 3: Testing Independence (Discrete) {.smaller}
+
+**Problem:** For the die-tossing experiment ($Y_1$ = die 1, $Y_2$ = die 2), are $Y_1$ and $Y_2$ independent?
+
+**Solution:**
+
+. . .
+
+We have $p(y_1, y_2) = 1/36$ for all $y_1, y_2 \in \{1,2,3,4,5,6\}$.
+
+. . .
+
+Marginal distributions: $p_1(y_1) = 1/6$ and $p_2(y_2) = 1/6$
+
+. . .
+
+Check: $p_1(y_1) \cdot p_2(y_2) = \frac{1}{6} \cdot \frac{1}{6} = \frac{1}{36} = p(y_1, y_2)$ ✓
+
+. . .
+
+**Conclusion:** $Y_1$ and $Y_2$ are **INDEPENDENT**.
+
+This makes intuitive sense: the outcome on one die doesn't affect the other!
+
+## 📌 Example 4: Testing Independence (Discrete) {.smaller}
+
+**Problem:** In Example 1 (committee selection), are $Y_1$ (Republicans) and $Y_2$ (Democrats) independent?
+
+**Solution:**
+
+. . .
+
+From the joint distribution table, we have $p(0, 0) = 0$.
+
+. . .
+
+But the marginals give: $p_1(0) = 3/15$ and $p_2(0) = 6/15$
+
+. . .
+
+$$p_1(0) \cdot p_2(0) = \frac{3}{15} \cdot \frac{6}{15} = \frac{18}{225} = \frac{2}{25} \neq 0 = p(0, 0)$$
+
+. . .
+
+**Conclusion:** $Y_1$ and $Y_2$ are **DEPENDENT**.
+
+**Intuition:** If we select zero Republicans, we must have selected either Democrats or Independents, affecting $Y_2$.
+
+## 📌 Example 5: Testing Independence (Continuous) {.smaller}
+
+**Problem:** Let $f(y_1, y_2) = 6y_1y_2^2$ for $0 \leq y_1 \leq 1, 0 \leq y_2 \leq 1$. Are $Y_1$ and $Y_2$ independent?
+
+**Solution:**
+
+. . .
+
+Find marginals:
+$$f_1(y_1) = \int_0^1 6y_1y_2^2 \, dy_2 = 6y_1 \cdot \frac{1}{3} = 2y_1, \quad 0 \leq y_1 \leq 1$$
+
+$$f_2(y_2) = \int_0^1 6y_1y_2^2 \, dy_1 = 6y_2^2 \cdot \frac{1}{2} = 3y_2^2, \quad 0 \leq y_2 \leq 1$$
+
+. . .
+
+Check: $f_1(y_1) \cdot f_2(y_2) = 2y_1 \cdot 3y_2^2 = 6y_1y_2^2 = f(y_1, y_2)$ ✓
+
+**Conclusion:** $Y_1$ and $Y_2$ are **INDEPENDENT**.
+
+## 📌 Example 6: Dependent Variables {.smaller}
+
+**Problem:** Let $f(y_1, y_2) = 2$ for $0 \leq y_2 \leq y_1 \leq 1$. Are $Y_1$ and $Y_2$ independent?
+
+**Solution:**
+
+. . .
+
+Find marginals:
+$$f_1(y_1) = \int_0^{y_1} 2 \, dy_2 = 2y_1, \quad 0 \leq y_1 \leq 1$$
+
+$$f_2(y_2) = \int_{y_2}^1 2 \, dy_1 = 2(1-y_2), \quad 0 \leq y_2 \leq 1$$
+
+. . .
+
+Check: $f_1(y_1) \cdot f_2(y_2) = 2y_1 \cdot 2(1-y_2) = 4y_1(1-y_2) \neq 2 = f(y_1, y_2)$
+
+. . .
+
+**Conclusion:** $Y_1$ and $Y_2$ are **DEPENDENT**.
+
+**Key observation:** The region $0 \leq y_2 \leq y_1 \leq 1$ (triangular) immediately suggests dependence!
+
+## 🧮 Theorem: Factorization Criterion {.smaller}
+
+::: {.callout-important}
+## Theorem 5.5: Quick Test for Independence
+
+Let $Y_1$ and $Y_2$ have a joint density $f(y_1, y_2)$ that is positive if and only if $a \leq y_1 \leq b$ and $c \leq y_2 \leq d$, for constants $a, b, c, d$; and $f(y_1, y_2) = 0$ otherwise.
+
+Then $Y_1$ and $Y_2$ are **independent** if and only if:
+$$f(y_1, y_2) = g(y_1) \cdot h(y_2)$$
+
+where $g(y_1)$ is a nonnegative function of $y_1$ alone and $h(y_2)$ is a nonnegative function of $y_2$ alone.
+:::
+
+**Important:** The region of support must be **rectangular** (constants $a, b, c, d$). If the region is not rectangular, variables are typically dependent!
+
+## 📌 Example 7: Using Factorization Theorem {.smaller}
+
+**Problem:** Does $f(y_1, y_2) = 2y_1$ for $0 \leq y_1 \leq 1, 0 \leq y_2 \leq 1$ give independent variables?
+
+**Solution:**
+
+. . .
+
+**Step 1:** Check the region — $[0,1] \times [0,1]$ is rectangular ✓
+
+. . .
+
+**Step 2:** Can we factor?
+
+$$f(y_1, y_2) = 2y_1 = \underbrace{y_1}_{g(y_1)} \cdot \underbrace{2}_{h(y_2)}$$
+
+. . .
+
+Yes! The joint density factors into a function of $y_1$ only times a function of $y_2$ only.
+
+**Conclusion:** $Y_1$ and $Y_2$ are **INDEPENDENT**.
+
+Note: $g(y_1) = y_1$ and $h(y_2) = 2$ are not themselves density functions, but that's okay!
+
+## 🎮 Interactive: Independence Test {.smaller}
+
+::: {style="font-size: 0.8em;"}
+
+**Explore: When does $f(y_1, y_2) = c \cdot y_1^a \cdot y_2^b$ give independent variables?**
+
+::: {.columns}
+
+::: {.column width="30%"}
+
+```{ojs}
+//| echo: false
+
+viewof power_a = Inputs.range([0, 2], {
+  value: 1, 
+  step: 0.5, 
+  label: "Power a:"
+})
+
+viewof power_b = Inputs.range([0, 2], {
+  value: 1, 
+  step: 0.5, 
+  label: "Power b:"
+})
+
+independence_check = {
+  // f(y1,y2) = c * y1^a * y2^b factors automatically!
+  return "✅ INDEPENDENT (factors into g(y₁)×h(y₂))";
+}
+```
+
+**Status:** ${independence_check}
+
+**Formula:** $f(y_1, y_2) = c \cdot y_1^{${power_a}} \cdot y_2^{${power_b}}$
+
+:::
+
+::: {.column width="70%"}
+
+```{ojs}
+//| echo: false
+
+// Generate contour data for joint density
+jointData = {
+  const n = 40;
+  const data = [];
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      const y1 = i / (n - 1);
+      const y2 = j / (n - 1);
+      const density = Math.pow(y1, power_a) * Math.pow(y2, power_b);
+      data.push({y1, y2, density});
+    }
+  }
+  return data;
+}
+
+Plot.plot({
+  width: 450,
+  height: 400,
+  color: {scheme: "YlOrRd", legend: true, label: "Density"},
+  x: { domain: [0, 1], label: "Y₁" },
+  y: { domain: [0, 1], label: "Y₂" },
+  marks: [
+    Plot.contour(jointData, {
+      x: "y1", y: "y2", fill: "density",
+      blur: 3, thresholds: 20
+    }),
+    Plot.text([{x: 0.5, y: 1.1, text: "Joint Density Contours (rectangular region → can factor)"}], {
+      x: "x", y: "y", text: "text", fontSize: 12
+    })
+  ]
+})
+```
+
+:::
+:::
+:::
+
+## 💰 Case Study: Conditional Analysis of Bank Returns {.smaller}
+
+::: {style="font-size:22px"}
+::: {.columns}
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+
+library(tidyverse)
+library(tidyquant)
+
+# Get bank stock data
+symbols <- c("JPM", "BAC")
+prices <- tq_get(symbols, from = "2022-01-01")
+
+returns <- prices %>%
+  group_by(symbol) %>%
+  tq_transmute(select = adjusted,
+               mutate_fun = periodReturn,
+               period = "daily") %>%
+  pivot_wider(names_from = symbol, 
+              values_from = daily.returns) %>%
+  na.omit()
+
+# Conditional analysis: JPM returns given BAC performance
+returns <- returns %>%
+  mutate(
+    BAC_state = case_when(
+      BAC < quantile(BAC, 0.25) ~ "BAC Down (Q1)",
+      BAC > quantile(BAC, 0.75) ~ "BAC Up (Q4)",
+      TRUE ~ "BAC Normal"
+    )
+  )
+
+# Conditional summary statistics
+cond_stats <- returns %>%
+  group_by(BAC_state) %>%
+  summarise(
+    `Mean JPM` = mean(JPM) * 100,
+    `SD JPM` = sd(JPM) * 100,
+    `n` = n()
+  )
+
+knitr::kable(cond_stats, digits = 3,
+             caption = "JPM Returns (%) Conditional on BAC")
+```
+
+:::
+
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| fig-width: 6
+#| fig-height: 5
+
+# Visualize conditional distributions
+ggplot(returns, aes(x = JPM, fill = BAC_state)) +
+  geom_density(alpha = 0.5) +
+  labs(title = "Conditional Density of JPM Returns",
+       subtitle = "f(JPM | BAC state)",
+       x = "JPM Daily Return",
+       y = "Density",
+       fill = "Condition") +
+  theme_minimal(base_size = 12) +
+  scale_fill_manual(values = c("red", "gray", "green"))
+```
+
+:::
+:::
+:::
+
+## 💰 Case Study: Testing Independence {.smaller}
+
+::: {style="font-size:22px"}
+::: {.columns}
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+
+# Statistical test for independence
+# Chi-square test on discretized returns
+returns_discrete <- returns %>%
+  mutate(
+    JPM_cat = cut(JPM, breaks = 5),
+    BAC_cat = cut(BAC, breaks = 5)
+  )
+
+# Contingency table
+cont_table <- table(returns_discrete$JPM_cat, 
+                    returns_discrete$BAC_cat)
+
+# Chi-square test
+chi_test <- chisq.test(cont_table)
+
+cat("Chi-Square Test for Independence:\n")
+cat("X² =", round(chi_test$statistic, 2), "\n")
+cat("df =", chi_test$parameter, "\n")
+cat("p-value <", format.pval(chi_test$p.value), "\n")
+cat("\nConclusion:", 
+    ifelse(chi_test$p.value < 0.05, 
+           "REJECT independence (dependent)", 
+           "Cannot reject independence"))
+```
+
+:::
+
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| fig-width: 6
+#| fig-height: 5
+
+# Scatter plot with regression
+ggplot(returns, aes(x = BAC, y = JPM)) +
+  geom_point(alpha = 0.4, color = "steelblue") +
+  geom_smooth(method = "lm", color = "red", se = TRUE) +
+  labs(title = "JPM vs BAC Returns",
+       subtitle = "Strong dependence visible",
+       x = "BAC Daily Return",
+       y = "JPM Daily Return") +
+  theme_minimal(base_size = 12) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  geom_vline(xintercept = 0, linetype = "dashed")
+```
+
+:::
+:::
+:::
+
+## 💰 Case Study: Key Findings {.smaller}
+
+::: {style="font-size: 26px;"}
+::: {.callout-important}
+## 📊 Analysis Results
+
+::: {.columns}
+
+::: {.column width="33%"}
+::: {.fragment}
+**Conditional Behavior:**
+
+- When BAC falls, JPM tends to fall
+
+- Conditional mean shifts significantly
+
+- Conditional volatility also changes
+:::
+:::
+
+::: {.column width="33%"}
+::: {.fragment}
+**Independence Test:**
+
+- Chi-square strongly rejects independence
+
+- Clear positive dependence
+
+- Returns move together
+:::
+:::
+
+::: {.column width="33%"}
+::: {.fragment}
+**Portfolio Implications:**
+
+1. **Diversification limited**: Same-sector stocks dependent
+
+2. **Risk modeling**: Must use joint distributions
+
+3. **Stress testing**: Conditional analysis essential
+:::
+:::
+
+:::
+:::
+:::
+
+## 📝 Quiz #1: Conditional Probability {.smaller .quiz-question}
+
+If $p(1,2) = 0.15$ and $p_2(2) = 0.30$, what is $P(Y_1 = 1 | Y_2 = 2)$?
+
+- [0.50]{.correct data-explanation="✅ Correct! By Definition 5.5: $P(Y_1 = 1 | Y_2 = 2) = p(1,2)/p_2(2) = 0.15/0.30 = 0.50$."}
+- 0.15
+- 0.30
+- 0.45
+
+## 📝 Quiz #2: Independence Condition {.smaller .quiz-question}
+
+For continuous random variables, which condition is equivalent to independence?
+
+- [$f(y_1, y_2) = f_1(y_1) \cdot f_2(y_2)$ for all $(y_1, y_2)$]{.correct data-explanation="✅ Correct! By Theorem 5.4, independence requires the joint density to factor into the product of marginals for ALL values."}
+- $f(y_1|y_2) = f_2(y_2)$ for all $y_2$
+- $f(y_1, y_2) = f_1(y_1) + f_2(y_2)$ for all $(y_1, y_2)$
+- $f(y_1, y_2) > 0$ for all $(y_1, y_2)$
+
+## 📝 Quiz #3: Factorization Theorem {.smaller .quiz-question}
+
+$f(y_1, y_2) = 12y_1^2y_2$ for $0 \leq y_1 \leq 1, 0 \leq y_2 \leq 1$. Are $Y_1$ and $Y_2$ independent?
+
+- [Yes, because $f(y_1,y_2) = g(y_1) \cdot h(y_2)$ with rectangular support]{.correct data-explanation="✅ Correct! The region is rectangular and $f(y_1,y_2) = 12y_1^2y_2 = (y_1^2)(12y_2)$ factors into a function of $y_1$ times a function of $y_2$."}
+- No, because the powers are different
+- No, because the constant 12 cannot be split
+- Cannot determine without computing marginals
+
+## 📝 Quiz #4: Dependent Variables {.smaller .quiz-question}
+
+$f(y_1, y_2) = 8y_1y_2$ for $0 < y_1 < y_2 < 1$. Why are $Y_1$ and $Y_2$ dependent?
+
+- [The region of support is not rectangular]{.correct data-explanation="✅ Correct! The constraint $y_1 < y_2$ creates a triangular (non-rectangular) region. When the support is not rectangular, Theorem 5.5 cannot be applied and variables are typically dependent."}
+- The density cannot be factored
+- The coefficient 8 is too large
+- The marginal densities don't exist
+
+## 📝 Summary {.smaller}
+
+::: {style="font-size: 28px"}
+::: {.summary-box}
+**✅ Key Takeaways**
+
+- **Conditional distributions** describe behavior of one variable given information about another
+
+- **Discrete case:** $p(y_1|y_2) = p(y_1, y_2)/p_2(y_2)$ when $p_2(y_2) > 0$
+
+- **Continuous case:** $f(y_1|y_2) = f(y_1, y_2)/f_2(y_2)$ when $f_2(y_2) > 0$
+
+- **Independence:** Joint = Product of marginals for ALL values; independent $\Rightarrow$ $f(y_1|y_2) = f_1(y_1)$
+
+- **Factorization theorem:** Rectangular support + density factors $\Rightarrow$ independence
+:::
+:::
+
+## 📚 Practice Problems
+
+::: {.callout-tip}
+## 📝 Homework Problems
+
+**Problem 1 (Conditional Discrete):** Using the committee selection example, find the complete conditional distribution of $Y_2$ given $Y_1 = 1$.
+
+**Problem 2 (Conditional Continuous):** If $f(y_1, y_2) = 4y_1y_2$ for $0 < y_1 < 1, 0 < y_2 < 1$, find $f(y_1|y_2)$ and verify it's a valid density.
+
+**Problem 3 (Independence):** Determine if $f(y_1, y_2) = 2$ for $0 < y_1 + y_2 < 1$ gives independent variables.
+
+**Problem 4 (Financial Application):** If stock $A$ returns have conditional distribution $f(r_A|r_B) = \frac{1}{\sigma\sqrt{2\pi}}\exp\left(-\frac{(r_A - \rho r_B)^2}{2\sigma^2}\right)$ given market return $r_B$, are $R_A$ and $R_B$ independent?
+:::
+
+## 👋 Thank You! {.smaller .center}
+
+::: {.columns}
+::: {.column width="50%"}
+**📬 Contact Information:**
+
+Samir Orujov, PhD
+
+Assistant Professor
+
+School of Business
+
+ADA University
+
+📧 Email: [sorujov@ada.edu.az](mailto:sorujov@ada.edu.az)
+
+🏢 Office: D312
+
+⏰ Office Hours: By appointment
+:::
+
+::: {.column width="50%"}
+**📅 Next Class:**
+
+**Topic:** Expected Values, Covariance, and Correlation
+
+**Reading:** Chapter 5, Sections 5.5-5.8
+
+**Preparation:** Review variance and expected value formulas
+
+**⏰ Reminders:**
+
+✅ Complete Practice Problems 1-4
+
+✅ Review integration by parts
+
+✅ Think about how correlation relates to dependence
+
+✅ Work hard!
+:::
+:::
+
+## ❓ Questions? {.center}
+
+::: {.callout-note}
+## 💬 Open Discussion
+
+**Key Topics for Discussion:**
+
+- How does conditional expectation relate to regression?
+
+- Can two variables be dependent but have zero correlation?
+
+- How do we use independence in portfolio theory?
+
+- What's the relationship between statistical independence and economic independence?
+:::
