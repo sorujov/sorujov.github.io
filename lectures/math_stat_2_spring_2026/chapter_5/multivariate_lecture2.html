@@ -6,11 +6,11 @@
 <script src="multivariate_lecture2_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="multivariate_lecture2_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="multivariate_lecture2_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="multivariate_lecture2_files/libs/quarto-html/quarto-syntax-highlighting-795e9e8eca1e12b12abcb09a27409631.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.8.27">
+<link href="multivariate_lecture2_files/libs/quarto-html/quarto-syntax-highlighting-e41caad1b6b9b62eb3087831f3b4c651.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.25">
 
   <meta name="author" content="Samir Orujov, PhD">
-  <meta name="dcterms.date" content="2026-01-20">
+  <meta name="dcterms.date" content="2026-02-03">
   <title>Mathematical Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -191,6 +191,10 @@
   </style>
   <script type="module" src="multivariate_lecture2_files/libs/quarto-ojs/quarto-ojs-runtime.js"></script>
   <link href="multivariate_lecture2_files/libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+  <link href="multivariate_lecture2_files/libs/countdown-0.6.0/countdown.css" rel="stylesheet">
+
+  <script src="multivariate_lecture2_files/libs/countdown-0.6.0/countdown.js"></script>
+
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -198,7 +202,7 @@
 
 <section id="title-slide" class="quarto-title-block center">
   <h1 class="title">Mathematical Statistics</h1>
-  <p class="subtitle">Conditional Distributions and Independence</p>
+  <p class="subtitle">Chapter 5: Multivariate Distributions – Conditional Distributions &amp; Independence</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -214,24 +218,25 @@ Samir Orujov, PhD
     </div>
 </div>
 
-  <p class="date">2026-01-20</p>
+  <p class="date">2026-02-03</p>
 </section>
 <section id="learning-objectives" class="slide level2 smaller">
 <h2>🎯 Learning Objectives</h2>
 <div class="learning-objectives">
-<p>By the end of this lecture, you will be able to:</p>
+<div style="font-size:38px">
+<p>📚 By the end of this lecture, you will be able to:</p>
 <ul>
-<li><p>Compute <strong>conditional probability distributions</strong> for both discrete and continuous bivariate random variables</p></li>
-<li><p>Apply the <strong>multiplicative law</strong> to decompose joint distributions into marginal and conditional components</p></li>
-<li><p>Define and verify <strong>statistical independence</strong> of random variables using distribution function and density criteria</p></li>
-<li><p>Use <strong>Theorem 5.5</strong> to efficiently check independence without computing marginal distributions</p></li>
-<li><p>Interpret independence and dependence in <strong>financial contexts</strong> such as portfolio diversification and correlated asset returns</p></li>
+<li class="fragment"><p><strong>Derive</strong> conditional probability functions for discrete random variables</p></li>
+<li class="fragment"><p><strong>Calculate</strong> conditional density functions for continuous random variables</p></li>
+<li class="fragment"><p><strong>Apply</strong> the definition of independence to verify whether random variables are independent</p></li>
+<li class="fragment"><p><strong>Use</strong> the factorization theorem to quickly check independence</p></li>
+<li class="fragment"><p><strong>Interpret</strong> conditional distributions in portfolio risk and asset allocation scenarios</p></li>
 </ul>
 </div>
+</div>
 </section>
-<section id="overview" class="slide level2 smaller">
+<section id="overview" class="slide level2">
 <h2>📋 Overview</h2>
-<div style="font-size:50px">
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -241,119 +246,160 @@ Samir Orujov, PhD
 <p><strong>📚 Topics Covered Today</strong></p>
 </div>
 <div class="callout-content">
+<div style="font-size:32px">
 <ul>
-<li class="fragment"><p><strong>Conditional Distributions (Discrete)</strong> – Computing probabilities given partial information</p></li>
-<li class="fragment"><p><strong>Conditional Distributions (Continuous)</strong> – Conditional densities and the “slicing” interpretation</p></li>
-<li class="fragment"><p><strong>Independence of Random Variables</strong> – Definition, properties, and verification methods</p></li>
-<li class="fragment"><p><strong>Theorem 5.5: Easy Independence Check</strong> – Factorization criterion for rectangular support</p></li>
-<li class="fragment"><p><strong>Case Study</strong> – Are stock and bond returns independent? Testing with real market data</p></li>
+<li class="fragment"><p><strong>Conditional Distributions (Discrete)</strong> – Probability given information about another variable</p></li>
+<li class="fragment"><p><strong>Conditional Distributions (Continuous)</strong> – Conditional density functions</p></li>
+<li class="fragment"><p><strong>Independent Random Variables</strong> – Definition and properties</p></li>
+<li class="fragment"><p><strong>Factorization Theorem</strong> – Quick test for independence</p></li>
+<li class="fragment"><p><strong>Case Study</strong> – Conditional analysis of banking sector returns</p></li>
 </ul>
 </div>
 </div>
 </div>
 </div>
 </section>
-<section id="motivation-why-conditional-distributions" class="slide level2 smaller">
-<h2>📖 Motivation: Why Conditional Distributions?</h2>
+<section id="why-conditional-distributions" class="slide level2">
+<h2>📖 Why Conditional Distributions?</h2>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>🎯 The Power of Partial Information</strong></p>
+<p><strong>🎯 Motivation</strong></p>
 </div>
 <div class="callout-content">
-<p>In many situations, we have <strong>partial information</strong> about a random outcome and want to update our probabilities accordingly:</p>
+<div style="font-size:33px">
+<p>Understanding how one variable behaves <strong>given information about another</strong> is crucial for prediction, risk management, and decision-making.</p>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="fragment">
-<p><strong>Finance Examples:</strong></p>
+<p><strong>Finance Applications:</strong></p>
 <ul>
-<li>Given that the market is up, what’s the probability a specific stock is up?</li>
-<li>Given yesterday’s return, what’s today’s expected return?</li>
-<li>Given a credit rating, what’s the default probability?</li>
+<li>Credit risk given macroeconomic conditions</li>
+<li>Stock returns given market movements</li>
+<li>Default probability given credit rating</li>
+<li>Portfolio VaR given stress scenarios</li>
 </ul>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="fragment">
-<p><strong>Other Examples:</strong></p>
+<p><strong>Azerbaijan Context:</strong></p>
 <ul>
-<li>Given a patient’s age, what’s the probability of a disease?</li>
-<li>Given high temperature, what’s the probability of rain?</li>
-<li>Given a test score in math, what’s the expected score in physics?</li>
+<li>Oil revenue given OPEC decisions</li>
+<li>Manat volatility given oil prices</li>
+<li>PASHA Bank profitability given interest rates</li>
+<li>Insurance claims given weather events</li>
 </ul>
 </div>
 </div></div>
 </div>
 </div>
 </div>
-<p><strong>Key Insight:</strong> Conditional distributions capture how knowledge of one variable <strong>changes our beliefs</strong> about another.</p>
+</div>
 </section>
-<section id="recall-multiplicative-law-of-probability" class="slide level2 smaller">
-<h2>📖 Recall: Multiplicative Law of Probability</h2>
-<div class="callout callout-tip callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>🔗 Connection to Chapter 2</strong></p>
-</div>
-<div class="callout-content">
-<p>From basic probability, we know the <strong>multiplicative law</strong>:</p>
-<p><span class="math display">\[P(A \cap B) = P(A) \cdot P(B|A) = P(B) \cdot P(A|B)\]</span></p>
-<p>For random variables, this becomes:</p>
-<p><span class="math display">\[p(y_1, y_2) = p_1(y_1) \cdot p(y_2|y_1) = p_2(y_2) \cdot p(y_1|y_2)\]</span></p>
-<p><strong>Interpretation:</strong> The joint probability can be decomposed into a marginal probability times a conditional probability.</p>
-</div>
-</div>
-</div>
-<p>This relationship leads us to the formal definition of conditional distributions.</p>
-</section>
-<section id="definition-conditional-probability-function-discrete" class="slide level2 smaller">
+<section id="definition-conditional-probability-function-discrete" class="slide level2 larger">
 <h2>📖 Definition: Conditional Probability Function (Discrete)</h2>
+<div style="font-size:40px;">
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>📝 Definition 5.5: Conditional Discrete Probability Function</strong></p>
+<p><strong>📝 Definition 5.5: Conditional Probability Function</strong></p>
 </div>
 <div class="callout-content">
-<p>If <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> are discrete random variables with joint probability function <span class="math inline">\(p(y_1, y_2)\)</span> and marginal <span class="math inline">\(p_2(y_2) &gt; 0\)</span>, then the <strong>conditional probability function</strong> of <span class="math inline">\(Y_1\)</span> given <span class="math inline">\(Y_2 = y_2\)</span> is:</p>
-<p><span class="math display">\[p(y_1|y_2) = \frac{p(y_1, y_2)}{p_2(y_2)}\]</span></p>
-<p>Similarly, the conditional probability function of <span class="math inline">\(Y_2\)</span> given <span class="math inline">\(Y_1 = y_1\)</span> (when <span class="math inline">\(p_1(y_1) &gt; 0\)</span>) is:</p>
-<p><span class="math display">\[p(y_2|y_1) = \frac{p(y_1, y_2)}{p_1(y_1)}\]</span></p>
+<p>If <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> are jointly discrete random variables with joint probability function <span class="math inline">\(p(y_1, y_2)\)</span> and marginal probability functions <span class="math inline">\(p_1(y_1)\)</span> and <span class="math inline">\(p_2(y_2)\)</span>, then the <strong>conditional discrete probability function</strong> of <span class="math inline">\(Y_1\)</span> given <span class="math inline">\(Y_2\)</span> is:</p>
+<p><span class="math display">\[p(y_1|y_2) = P(Y_1 = y_1 | Y_2 = y_2) = \frac{p(y_1, y_2)}{p_2(y_2)}\]</span></p>
+<p>provided that <span class="math inline">\(p_2(y_2) &gt; 0\)</span>.</p>
+<div class="fragment" style="font-size:30px;">
+<p><strong>Key insight:</strong> This is Bayes’ rule <span class="math inline">\(P(A|B) = P(A \cap B)/P(B)\)</span> applied to random variables!</p>
 </div>
 </div>
 </div>
-<p><strong>Verification:</strong> For any fixed <span class="math inline">\(y_2\)</span>, the conditional pmf sums to 1: <span class="math inline">\(\sum_{y_1} p(y_1|y_2) = 1\)</span></p>
-</section>
-<section id="example-1-committee-selection---conditional-probability" class="slide level2 smaller">
-<h2>📌 Example 1: Committee Selection - Conditional Probability</h2>
-<p><strong>Problem:</strong> In the committee selection example (4 Republicans, 3 Democrats, committee of 3), find <span class="math inline">\(P(Y_1 = 2 | Y_2 = 1)\)</span>—the probability of exactly 2 Republicans given exactly 1 Democrat is selected.</p>
-<p><strong>Solution:</strong></p>
-<div class="fragment">
-<p>Recall: <span class="math inline">\(Y_1\)</span> = number of Republicans, <span class="math inline">\(Y_2\)</span> = number of Democrats, with <span class="math inline">\(Y_1 + Y_2 = 3\)</span>.</p>
 </div>
-<div class="fragment">
-<p><strong>Step 1: Find <span class="math inline">\(p(2, 1)\)</span> from the joint distribution</strong></p>
-<p><span class="math display">\[p(2, 1) = \frac{\binom{4}{2}\binom{3}{1}}{\binom{7}{3}} = \frac{6 \cdot 3}{35} = \frac{18}{35}\]</span></p>
-</div>
-<div class="fragment">
-<p><strong>Step 2: Find <span class="math inline">\(p_2(1)\)</span> (marginal probability of 1 Democrat)</strong></p>
-<p><span class="math display">\[p_2(1) = p(2, 1) = \frac{18}{35}\]</span> (only one way to get exactly 1 Democrat with the constraint)</p>
-</div>
-<div class="fragment">
-<p><strong>Step 3: Compute conditional probability</strong></p>
-<p><span class="math display">\[p(Y_1 = 2 | Y_2 = 1) = \frac{p(2, 1)}{p_2(1)} = \frac{18/35}{18/35} = 1\]</span></p>
-<p><strong>Interpretation:</strong> If exactly 1 Democrat is selected, we <strong>must</strong> have exactly 2 Republicans (since the committee has 3 members).</p>
 </div>
 </section>
-<section id="definition-conditional-density-function-continuous" class="slide level2 smaller">
+<section id="example-1-portfolio-asset-selection" class="slide level2 smaller">
+<h2>📌 Example 1: Portfolio Asset Selection</h2>
+<p><strong>Problem:</strong> A fund manager selects 2 assets from a pool of 3 tech stocks, 2 bank stocks, and 1 commodity ETF. Let <span class="math inline">\(Y_1\)</span> = number of tech stocks, <span class="math inline">\(Y_2\)</span> = number of bank stocks selected. Find <span class="math inline">\(P(Y_1 = 1 | Y_2 = 1)\)</span>.</p>
+<div class="fragment">
+<p><strong>Solution:</strong> From the joint distribution:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">\(y_1 \backslash y_2\)</span></th>
+<th style="text-align: center;">0</th>
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;"><strong>Total</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">2/15</td>
+<td style="text-align: center;">1/15</td>
+<td style="text-align: center;">3/15</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">3/15</td>
+<td style="text-align: center;">6/15</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">9/15</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">3/15</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">3/15</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><strong>Total</strong></td>
+<td style="text-align: center;">6/15</td>
+<td style="text-align: center;"><strong>8/15</strong></td>
+<td style="text-align: center;">1/15</td>
+<td style="text-align: center;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fragment">
+<p><span class="math display">\[P(Y_1 = 1 | Y_2 = 1) = \frac{p(1,1)}{p_2(1)} = \frac{6/15}{8/15} = \frac{6}{8} = \frac{3}{4}\]</span></p>
+</div>
+</section>
+<section id="example-1-complete-conditional-distribution" class="slide level2">
+<h2>📌 Example 1: Complete Conditional Distribution</h2>
+<div style="font-size: 34px;">
+<p><strong>Problem:</strong> Find the complete conditional distribution of <span class="math inline">\(Y_1\)</span> (tech stocks) given <span class="math inline">\(Y_2 = 1\)</span> (one bank stock selected).</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><span class="math display">\[P(Y_1 = 0 | Y_2 = 1) = \frac{2/15}{8/15} = \frac{1}{4}\]</span></p>
+<p><span class="math display">\[P(Y_1 = 1 | Y_2 = 1) = \frac{6/15}{8/15} = \frac{3}{4}\]</span></p>
+<p><span class="math display">\[P(Y_1 = 2 | Y_2 = 1) = \frac{0}{8/15} = 0\]</span></p>
+</div><div class="column" style="width:50%;">
+<div class="fragment">
+<p><strong>Portfolio Interpretation:</strong></p>
+<p>Given one bank stock in portfolio:</p>
+<ul>
+<li>25% chance of zero tech stocks</li>
+<li>75% chance of one tech stock<br>
+</li>
+<li>0% chance of two tech stocks</li>
+</ul>
+<p><strong>Verification:</strong> <span class="math inline">\(\frac{1}{4} + \frac{3}{4} + 0 = 1\)</span> ✓</p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="definition-conditional-density-function-continuous" class="slide level2 larger">
 <h2>📖 Definition: Conditional Density Function (Continuous)</h2>
+<div style="font-size:36px;">
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -363,92 +409,290 @@ Samir Orujov, PhD
 <p><strong>📝 Definition 5.7: Conditional Density Function</strong></p>
 </div>
 <div class="callout-content">
-<p>If <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> are jointly continuous random variables with joint pdf <span class="math inline">\(f(y_1, y_2)\)</span> and marginal pdf <span class="math inline">\(f_2(y_2) &gt; 0\)</span>, the <strong>conditional density function</strong> of <span class="math inline">\(Y_1\)</span> given <span class="math inline">\(Y_2 = y_2\)</span> is:</p>
+<p>Let <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> be jointly continuous random variables with joint density <span class="math inline">\(f(y_1, y_2)\)</span> and marginal densities <span class="math inline">\(f_1(y_1)\)</span> and <span class="math inline">\(f_2(y_2)\)</span>.</p>
+<p>For any <span class="math inline">\(y_2\)</span> such that <span class="math inline">\(f_2(y_2) &gt; 0\)</span>, the <strong>conditional density</strong> of <span class="math inline">\(Y_1\)</span> given <span class="math inline">\(Y_2 = y_2\)</span> is:</p>
 <p><span class="math display">\[f(y_1|y_2) = \frac{f(y_1, y_2)}{f_2(y_2)}\]</span></p>
-<p>The <strong>conditional distribution function</strong> is:</p>
-<p><span class="math display">\[F(y_1|y_2) = P(Y_1 \leq y_1 | Y_2 = y_2) = \int_{-\infty}^{y_1} f(t|y_2) \, dt\]</span></p>
+<p>Similarly: <span class="math inline">\(f(y_2|y_1) = \frac{f(y_1, y_2)}{f_1(y_1)}\)</span> when <span class="math inline">\(f_1(y_1) &gt; 0\)</span></p>
+<div class="fragment" style="font-size:28px;">
+<p><strong>Note:</strong> The conditional density is <strong>undefined</strong> when the marginal density equals zero!</p>
 </div>
 </div>
 </div>
-<p><strong>Geometric Interpretation:</strong> The conditional density is like taking a “slice” through the joint density surface at a fixed value of <span class="math inline">\(y_2\)</span>, then renormalizing to integrate to 1.</p>
-</section>
-<section id="example-2-soft-drink-machine-conditional-density" class="slide level2 smaller">
-<h2>📌 Example 2: Soft-Drink Machine (Conditional Density)</h2>
-<p><strong>Problem:</strong> A soft-drink machine has <span class="math inline">\(Y_1\)</span> = amount sold (in gallons) and <span class="math inline">\(Y_2\)</span> = amount in supply, with joint pdf:</p>
-<p><span class="math display">\[f(y_1, y_2) = \frac{1}{2} \quad \text{for } 0 \leq y_1 \leq y_2 \leq 2\]</span></p>
-<p>Find <span class="math inline">\(P(Y_1 &lt; 0.5 | Y_2 = 1.5)\)</span> and <span class="math inline">\(P(Y_1 &lt; 0.5 | Y_2 = 2)\)</span>.</p>
-<p><strong>Solution:</strong></p>
-<div class="fragment">
-<p><strong>Step 1: Find marginal <span class="math inline">\(f_2(y_2)\)</span></strong></p>
-<p><span class="math display">\[f_2(y_2) = \int_0^{y_2} \frac{1}{2} \, dy_1 = \frac{y_2}{2} \quad \text{for } 0 \leq y_2 \leq 2\]</span></p>
 </div>
-<div class="fragment">
-<p><strong>Step 2: Find conditional density <span class="math inline">\(f(y_1|y_2)\)</span></strong></p>
-<p><span class="math display">\[f(y_1|y_2) = \frac{f(y_1, y_2)}{f_2(y_2)} = \frac{1/2}{y_2/2} = \frac{1}{y_2} \quad \text{for } 0 \leq y_1 \leq y_2\]</span></p>
-</div>
-<div class="fragment">
-<p><strong>Step 3: Compute conditional probabilities</strong></p>
-<p><span class="math display">\[P(Y_1 &lt; 0.5 | Y_2 = 1.5) = \int_0^{0.5} \frac{1}{1.5} \, dy_1 = \frac{0.5}{1.5} = \boxed{\frac{1}{3}}\]</span></p>
-<p><span class="math display">\[P(Y_1 &lt; 0.5 | Y_2 = 2) = \int_0^{0.5} \frac{1}{2} \, dy_1 = \frac{0.5}{2} = \boxed{\frac{1}{4}}\]</span></p>
 </div>
 </section>
-<section id="example-2-interpretation" class="slide level2 smaller">
-<h2>📌 Example 2: Interpretation</h2>
+<section id="example-2-trading-volume-given-liquidity" class="slide level2 smaller">
+<h2>📌 Example 2: Trading Volume Given Liquidity</h2>
+<p><strong>Problem:</strong> Let <span class="math inline">\(Y_2\)</span> = available liquidity (millions AZN), <span class="math inline">\(Y_1\)</span> = actual trade volume (<span class="math inline">\(Y_1 \leq Y_2\)</span>). Joint density: <span class="math display">\[f(y_1, y_2) = \begin{cases} 1/2, &amp; 0 \leq y_1 \leq y_2 \leq 2 \\ 0, &amp; \text{elsewhere} \end{cases}\]</span></p>
+<p>Find <span class="math inline">\(f(y_1|y_2)\)</span>.</p>
+<div class="fragment">
+<p><strong>Solution:</strong> First find the marginal density of liquidity <span class="math inline">\(f_2(y_2)\)</span>: <span class="math display">\[f_2(y_2) = \int_0^{y_2} \frac{1}{2} \, dy_1 = \frac{y_2}{2}, \quad 0 \leq y_2 \leq 2\]</span></p>
+</div>
+<div class="fragment">
+<p>Then: <span class="math display">\[f(y_1|y_2) = \frac{1/2}{y_2/2} = \frac{1}{y_2}, \quad 0 \leq y_1 \leq y_2\]</span></p>
+<p><strong>Interpretation:</strong> Given liquidity <span class="math inline">\(y_2\)</span>, trade volume is <strong>uniform</strong> on <span class="math inline">\([0, y_2]\)</span>!</p>
+</div>
+</section>
+<section id="example-2-conditional-probability-calculation" class="slide level2 smaller">
+<h2>📌 Example 2: Conditional Probability Calculation</h2>
+<p><strong>Problem:</strong> Find <span class="math inline">\(P(Y_1 \leq 0.5 | Y_2 = 1.5)\)</span> — probability trade volume ≤ 0.5M given liquidity of 1.5M AZN.</p>
+<div class="fragment">
+<p><strong>Solution:</strong> Using <span class="math inline">\(f(y_1|y_2 = 1.5) = \frac{1}{1.5}\)</span> for <span class="math inline">\(0 \leq y_1 \leq 1.5\)</span>:</p>
+<p><span class="math display">\[P(Y_1 \leq 0.5 | Y_2 = 1.5) = \int_0^{0.5} \frac{1}{1.5} \, dy_1 = \frac{0.5}{1.5} = \frac{1}{3}\]</span></p>
+</div>
+<div class="fragment">
+<p><strong>Compare with higher liquidity <span class="math inline">\(Y_2 = 2\)</span>M:</strong> <span class="math display">\[P(Y_1 \leq 0.5 | Y_2 = 2) = \int_0^{0.5} \frac{1}{2} \, dy_1 = \frac{1}{4}\]</span></p>
+<p><strong>Trading Insight:</strong> More liquidity → lower probability of small trades!</p>
+</div>
+</section>
+<section id="definition-independent-random-variables" class="slide level2 larger">
+<h2>📖 Definition: Independent Random Variables</h2>
+<div style="font-size:36px;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📝 Definition 5.8: Independence</strong></p>
+</div>
+<div class="callout-content">
+<p>Let <span class="math inline">\(Y_1\)</span> have distribution function <span class="math inline">\(F_1(y_1)\)</span>, <span class="math inline">\(Y_2\)</span> have distribution function <span class="math inline">\(F_2(y_2)\)</span>, and let <span class="math inline">\((Y_1, Y_2)\)</span> have joint distribution function <span class="math inline">\(F(y_1, y_2)\)</span>.</p>
+<p>Then <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> are <strong>independent</strong> if and only if:</p>
+<p><span class="math display">\[F(y_1, y_2) = F_1(y_1) \cdot F_2(y_2)\]</span></p>
+<p>for every pair of real numbers <span class="math inline">\((y_1, y_2)\)</span>.</p>
+<p>If <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> are not independent, they are said to be <strong>dependent</strong>.</p>
+<div class="fragment" style="font-size:28px;">
+<p><strong>Portfolio Intuition:</strong> Joint CDF factors into a product of marginal CDFs → no information about one asset tells you anything about the other!</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="theorem-characterization-of-independence" class="slide level2 larger">
+<h2>🧮 Theorem: Characterization of Independence</h2>
+<div style="font-size:36px;">
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>📊 Key Insight: Conditional Probabilities Change!</strong></p>
+<p><strong>Theorem 5.4: Independence via Probability/Density Functions</strong></p>
 </div>
 <div class="callout-content">
-<p>Notice that:</p>
-<ul>
-<li><span class="math inline">\(P(Y_1 &lt; 0.5 | Y_2 = 1.5) = 1/3 \approx 33.3\%\)</span></li>
-<li><span class="math inline">\(P(Y_1 &lt; 0.5 | Y_2 = 2) = 1/4 = 25\%\)</span></li>
-</ul>
-<p><strong>The probability of selling less than 0.5 gallons depends on how much is in supply!</strong></p>
+<div class="columns">
+<div class="column fragment" style="width:50%;">
+<p><strong>Discrete case:</strong> <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> are independent if and only if: <span class="math display">\[p(y_1, y_2) = p_1(y_1) \cdot p_2(y_2) \quad \text{for all } (y_1, y_2)\]</span></p>
+</div><div class="column fragment" style="width:50%;">
+<p><strong>Continuous case:</strong> <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> are independent if and only if: <span class="math display">\[f(y_1, y_2) = f_1(y_1) \cdot f_2(y_2) \quad \text{for all } (y_1, y_2)\]</span></p>
+</div></div>
+<div class="fragment" style="font-size:28px;">
+<p><strong>Key insight:</strong> Independence means the joint distribution <strong>factors</strong> into the product of marginals for <strong>ALL</strong> values — essential for portfolio diversification theory!</p>
 </div>
 </div>
 </div>
-<p><strong>Business Interpretation:</strong></p>
-<ul>
-<li>With a smaller supply (1.5 gallons), there’s a higher chance of low sales because customers may not find what they want</li>
-<li>With a larger supply (2 gallons), sales tend to be higher, so low sales are less likely</li>
-<li>This demonstrates <strong>dependence</strong> between supply and sales—they are NOT independent!</li>
-</ul>
+</div>
+</div>
 </section>
-<section id="interactive-conditional-distribution-visualizer" class="slide level2 smaller">
-<h2>🎮 Interactive: Conditional Distribution Visualizer</h2>
-<div style="font-size: 0.8em;">
-<p><strong>Explore Conditional Densities:</strong> See how the conditional distribution changes as you vary the conditioning value.</p>
+<section id="example-3-testing-independence-loan-defaults" class="slide level2 smaller">
+<h2>📌 Example 3: Testing Independence (Loan Defaults)</h2>
+<p><strong>Problem:</strong> A bank has two independent loan portfolios. Let <span class="math inline">\(Y_1\)</span> = default category for portfolio 1, <span class="math inline">\(Y_2\)</span> = default category for portfolio 2 (each rated 1-6 risk levels). Each has uniform distribution. Are <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> independent?</p>
+<div class="fragment">
+<p>Since portfolios are managed independently: <span class="math inline">\(p(y_1, y_2) = 1/36\)</span> for all <span class="math inline">\(y_1, y_2 \in \{1,2,3,4,5,6\}\)</span>.</p>
+</div>
+<div class="fragment">
+<p>Marginals: <span class="math inline">\(p_1(y_1) = 1/6\)</span> and <span class="math inline">\(p_2(y_2) = 1/6\)</span></p>
+</div>
+<div class="fragment">
+<p>Check: <span class="math inline">\(p_1(y_1) \cdot p_2(y_2) = \frac{1}{6} \cdot \frac{1}{6} = \frac{1}{36} = p(y_1, y_2)\)</span> ✓</p>
+</div>
+<div class="fragment">
+<p><strong>Conclusion:</strong> <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> are <strong>INDEPENDENT</strong>.</p>
+<p><strong>Banking interpretation:</strong> Separately managed portfolios → diversification benefit!</p>
+</div>
+</section>
+<section id="example-4-dependence-in-portfolio-selection" class="slide level2 smaller">
+<h2>📌 Example 4: Dependence in Portfolio Selection</h2>
+<p><strong>Problem:</strong> In Example 1 (asset selection), are <span class="math inline">\(Y_1\)</span> (tech stocks) and <span class="math inline">\(Y_2\)</span> (bank stocks) independent?</p>
+<div class="fragment">
+<p>From the joint distribution: <span class="math inline">\(p(0, 0) = 0\)</span></p>
+</div>
+<div class="fragment">
+<p>But marginals give: <span class="math inline">\(p_1(0) = 3/15\)</span> and <span class="math inline">\(p_2(0) = 6/15\)</span></p>
+</div>
+<div class="fragment">
+<p><span class="math display">\[p_1(0) \cdot p_2(0) = \frac{3}{15} \cdot \frac{6}{15} = \frac{2}{25} \neq 0 = p(0, 0)\]</span></p>
+</div>
+<div class="fragment">
+<p><strong>Conclusion:</strong> <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> are <strong>DEPENDENT</strong>.</p>
+<p><strong>Portfolio intuition:</strong> If we select zero tech stocks, we must have selected bank stocks or the commodity ETF!</p>
+</div>
+</section>
+<section id="example-5-testing-independence-stock-returns" class="slide level2 smaller">
+<h2>📌 Example 5: Testing Independence (Stock Returns)</h2>
+<p><strong>Problem:</strong> Let <span class="math inline">\(Y_1\)</span> = normalized return of AAPL, <span class="math inline">\(Y_2\)</span> = normalized return of a commodity ETF. Joint density: <span class="math inline">\(f(y_1, y_2) = 6y_1y_2^2\)</span> for <span class="math inline">\(0 \leq y_1 \leq 1, 0 \leq y_2 \leq 1\)</span>. Are they independent?</p>
+<div class="fragment">
+<p>Find marginals: <span class="math display">\[f_1(y_1) = \int_0^1 6y_1y_2^2 \, dy_2 = 6y_1 \cdot \frac{1}{3} = 2y_1, \quad 0 \leq y_1 \leq 1\]</span></p>
+<p><span class="math display">\[f_2(y_2) = \int_0^1 6y_1y_2^2 \, dy_1 = 6y_2^2 \cdot \frac{1}{2} = 3y_2^2, \quad 0 \leq y_2 \leq 1\]</span></p>
+</div>
+<div class="fragment">
+<p>Check: <span class="math inline">\(f_1(y_1) \cdot f_2(y_2) = 2y_1 \cdot 3y_2^2 = 6y_1y_2^2 = f(y_1, y_2)\)</span> ✓</p>
+<p><strong>Conclusion:</strong> <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> are <strong>INDEPENDENT</strong> — great for diversification!</p>
+</div>
+</section>
+<section id="example-6-dependent-bond-returns" class="slide level2 smaller">
+<h2>📌 Example 6: Dependent Bond Returns</h2>
+<p><strong>Problem:</strong> Let <span class="math inline">\(Y_1\)</span> = short-term bond return, <span class="math inline">\(Y_2\)</span> = long-term bond return, where short-term never exceeds long-term. Joint density: <span class="math inline">\(f(y_1, y_2) = 2\)</span> for <span class="math inline">\(0 \leq y_2 \leq y_1 \leq 1\)</span>. Are they independent?</p>
+<div class="fragment">
+<p>Find marginals: <span class="math display">\[f_1(y_1) = \int_0^{y_1} 2 \, dy_2 = 2y_1, \quad f_2(y_2) = \int_{y_2}^1 2 \, dy_1 = 2(1-y_2)\]</span></p>
+</div>
+<div class="fragment">
+<p>Check: <span class="math inline">\(f_1(y_1) \cdot f_2(y_2) = 4y_1(1-y_2) \neq 2 = f(y_1, y_2)\)</span></p>
+</div>
+<div class="fragment">
+<p><strong>Conclusion:</strong> <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> are <strong>DEPENDENT</strong>.</p>
+<p><strong>Key observation:</strong> The triangular region <span class="math inline">\(0 \leq y_2 \leq y_1 \leq 1\)</span> signals dependence — term structure creates relationship!</p>
+</div>
+</section>
+<section id="theorem-factorization-criterion" class="slide level2 larger">
+<h2>🧮 Theorem: Factorization Criterion</h2>
+<div style="font-size:32px;">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Theorem 5.5: Quick Test for Independence</strong></p>
+</div>
+<div class="callout-content">
+<p>Let <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> have a joint density <span class="math inline">\(f(y_1, y_2)\)</span> that is positive if and only if <span class="math inline">\(a \leq y_1 \leq b\)</span> and <span class="math inline">\(c \leq y_2 \leq d\)</span>, for constants <span class="math inline">\(a, b, c, d\)</span>; and <span class="math inline">\(f(y_1, y_2) = 0\)</span> otherwise.</p>
+<p>Then <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> are <strong>independent</strong> if and only if: <span class="math display">\[f(y_1, y_2) = g(y_1) \cdot h(y_2)\]</span></p>
+<p>where <span class="math inline">\(g(y_1)\)</span> is a nonnegative function of <span class="math inline">\(y_1\)</span> alone and <span class="math inline">\(h(y_2)\)</span> is a nonnegative function of <span class="math inline">\(y_2\)</span> alone.</p>
+<div class="fragment" style="font-size:26px;">
+<p><strong>Risk Management Insight:</strong> Support must be <strong>rectangular</strong>. Non-rectangular support (like budget constraints) → typically dependent!</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="example-7-interest-rate-factorization" class="slide level2 smaller">
+<h2>📌 Example 7: Interest Rate Factorization</h2>
+<p><strong>Problem:</strong> Let <span class="math inline">\(Y_1\)</span> = normalized US interest rate, <span class="math inline">\(Y_2\)</span> = normalized EU interest rate. Joint density: <span class="math inline">\(f(y_1, y_2) = 2y_1\)</span> for <span class="math inline">\(0 \leq y_1 \leq 1, 0 \leq y_2 \leq 1\)</span>. Are they independent?</p>
+<div class="fragment">
+<p><strong>Step 1:</strong> Check the region — <span class="math inline">\([0,1] \times [0,1]\)</span> is rectangular ✓</p>
+</div>
+<div class="fragment">
+<p><strong>Step 2:</strong> Can we factor?</p>
+<p><span class="math display">\[f(y_1, y_2) = 2y_1 = \underbrace{y_1}_{g(y_1)} \cdot \underbrace{2}_{h(y_2)}\]</span></p>
+<p>Yes! The joint density factors.</p>
+</div>
+<div class="fragment">
+<p><strong>Conclusion:</strong> <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> are <strong>INDEPENDENT</strong>.</p>
+<p><strong>Economic note:</strong> If central banks set rates independently, this model applies!</p>
+</div>
+</section>
+<section id="interactive-why-support-shape-determines-independence" class="slide level2 smaller">
+<h2>🎮 Interactive: Why Support Shape Determines Independence</h2>
+<div style="font-size: 0.60em; margin-top: -12px;">
 <div class="columns">
 <div class="column" style="width:30%;">
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="253" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 252;"><span id="cb1-253"><a href=""></a>viewof y2_cond <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> {</span>
-<span id="cb1-254"><a href=""></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">1.5</span><span class="op">,</span> </span>
-<span id="cb1-255"><a href=""></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span> </span>
-<span id="cb1-256"><a href=""></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Conditioning value y₂:"</span></span>
-<span id="cb1-257"><a href=""></a>})</span>
-<span id="cb1-258"><a href=""></a></span>
-<span id="cb1-259"><a href=""></a><span class="co">// For f(y1,y2) = 1/2 on 0 &lt;= y1 &lt;= y2 &lt;= 2</span></span>
-<span id="cb1-260"><a href=""></a><span class="co">// Marginal f2(y2) = y2/2</span></span>
-<span id="cb1-261"><a href=""></a><span class="co">// Conditional f(y1|y2) = 1/y2 on [0, y2]</span></span>
-<span id="cb1-262"><a href=""></a></span>
-<span id="cb1-263"><a href=""></a><span class="fu">md</span><span class="vs">`**Joint density:**  </span></span>
-<span id="cb1-264"><a href=""></a><span class="vs">$f(y_1, y_2) = </span><span class="sc">\\</span><span class="vs">frac{1}{2}$  </span></span>
-<span id="cb1-265"><a href=""></a><span class="vs">on $0 </span><span class="sc">\\</span><span class="vs">leq y_1 </span><span class="sc">\\</span><span class="vs">leq y_2 </span><span class="sc">\\</span><span class="vs">leq 2$</span></span>
-<span id="cb1-266"><a href=""></a></span>
-<span id="cb1-267"><a href=""></a><span class="vs">**Marginal:**  </span></span>
-<span id="cb1-268"><a href=""></a><span class="vs">$f_2(y_2) = </span><span class="sc">\\</span><span class="vs">frac{y_2}{2} = </span><span class="sc">${</span>(y2_cond<span class="op">/</span><span class="dv">2</span>)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="vs">$</span></span>
-<span id="cb1-269"><a href=""></a></span>
-<span id="cb1-270"><a href=""></a><span class="vs">**Conditional:**  </span></span>
-<span id="cb1-271"><a href=""></a><span class="vs">$f(y_1|y_2=</span><span class="sc">${</span>y2_cond<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">) = </span><span class="sc">\\</span><span class="vs">frac{1}{</span><span class="sc">${</span>y2_cond<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">} = </span><span class="sc">${</span>(<span class="dv">1</span><span class="op">/</span>y2_cond)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="vs">$</span></span>
-<span id="cb1-272"><a href=""></a></span>
-<span id="cb1-273"><a href=""></a><span class="vs">on $[0, </span><span class="sc">${</span>y2_cond<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">]$`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="412" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 411;"><span id="cb1-412"><a href=""></a>viewof power_a <span class="op">=</span> {</span>
+<span id="cb1-413"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">3</span>]<span class="op">,</span> {</span>
+<span id="cb1-414"><a href=""></a>    <span class="dt">value</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb1-415"><a href=""></a>    <span class="dt">step</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span></span>
+<span id="cb1-416"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Power a (for y₁):"</span></span>
+<span id="cb1-417"><a href=""></a>  })<span class="op">;</span></span>
+<span id="cb1-418"><a href=""></a></span>
+<span id="cb1-419"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'pointerdown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-420"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'touchstart'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-421"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'mousedown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-422"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'click'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-423"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'wheel'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-424"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'pointermove'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-425"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'touchmove'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-426"><a href=""></a></span>
+<span id="cb1-427"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb1-428"><a href=""></a>}</span>
+<span id="cb1-429"><a href=""></a></span>
+<span id="cb1-430"><a href=""></a>viewof power_b <span class="op">=</span> {</span>
+<span id="cb1-431"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">3</span>]<span class="op">,</span> {</span>
+<span id="cb1-432"><a href=""></a>    <span class="dt">value</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb1-433"><a href=""></a>    <span class="dt">step</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span></span>
+<span id="cb1-434"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Power b (for y₂):"</span></span>
+<span id="cb1-435"><a href=""></a>  })<span class="op">;</span></span>
+<span id="cb1-436"><a href=""></a></span>
+<span id="cb1-437"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'pointerdown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-438"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'touchstart'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-439"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'mousedown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-440"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'click'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-441"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'wheel'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-442"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'pointermove'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-443"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'touchmove'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-444"><a href=""></a></span>
+<span id="cb1-445"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb1-446"><a href=""></a>}</span>
+<span id="cb1-447"><a href=""></a></span>
+<span id="cb1-448"><a href=""></a>viewof region_type <span class="op">=</span> {</span>
+<span id="cb1-449"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">radio</span>([<span class="st">"Rectangular"</span><span class="op">,</span> <span class="st">"Triangular"</span>]<span class="op">,</span> {</span>
+<span id="cb1-450"><a href=""></a>    <span class="dt">value</span><span class="op">:</span> <span class="st">"Rectangular"</span><span class="op">,</span></span>
+<span id="cb1-451"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Support Region:"</span></span>
+<span id="cb1-452"><a href=""></a>  })<span class="op">;</span></span>
+<span id="cb1-453"><a href=""></a></span>
+<span id="cb1-454"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'pointerdown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-455"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'touchstart'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-456"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'mousedown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-457"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'click'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-458"><a href=""></a></span>
+<span id="cb1-459"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb1-460"><a href=""></a>}</span>
+<span id="cb1-461"><a href=""></a></span>
+<span id="cb1-462"><a href=""></a>viewof sliceY1 <span class="op">=</span> {</span>
+<span id="cb1-463"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.05</span><span class="op">,</span> <span class="fl">0.95</span>]<span class="op">,</span> {</span>
+<span id="cb1-464"><a href=""></a>    <span class="dt">value</span><span class="op">:</span> <span class="fl">0.6</span><span class="op">,</span></span>
+<span id="cb1-465"><a href=""></a>    <span class="dt">step</span><span class="op">:</span> <span class="fl">0.05</span><span class="op">,</span></span>
+<span id="cb1-466"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Slice at Y₁ ="</span></span>
+<span id="cb1-467"><a href=""></a>  })<span class="op">;</span></span>
+<span id="cb1-468"><a href=""></a></span>
+<span id="cb1-469"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'pointerdown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-470"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'touchstart'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-471"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'mousedown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-472"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'click'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-473"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'wheel'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-474"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'pointermove'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-475"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'touchmove'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-476"><a href=""></a></span>
+<span id="cb1-477"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb1-478"><a href=""></a>}</span>
+<span id="cb1-479"><a href=""></a></span>
+<span id="cb1-480"><a href=""></a>formula_html <span class="op">=</span> <span class="fu">html</span><span class="vs">`&lt;span style="font-size: 1.05em;"&gt;f(y₁, y₂) = c · y₁&lt;sup&gt;</span><span class="sc">${</span>power_a<span class="sc">}</span><span class="vs">&lt;/sup&gt; · y₂&lt;sup&gt;</span><span class="sc">${</span>power_b<span class="sc">}</span><span class="vs">&lt;/sup&gt;&lt;/span&gt;`</span><span class="op">;</span></span>
+<span id="cb1-481"><a href=""></a></span>
+<span id="cb1-482"><a href=""></a>verdict_html <span class="op">=</span> region_type <span class="op">===</span> <span class="st">"Rectangular"</span></span>
+<span id="cb1-483"><a href=""></a>  <span class="op">?</span> <span class="fu">html</span><span class="vs">`&lt;span style="color: #1a7f37; font-weight: 700;"&gt;INDEPENDENT&lt;/span&gt;`</span></span>
+<span id="cb1-484"><a href=""></a>  <span class="op">:</span> <span class="fu">html</span><span class="vs">`&lt;span style="color: #b42318; font-weight: 700;"&gt;DEPENDENT&lt;/span&gt;`</span><span class="op">;</span></span>
+<span id="cb1-485"><a href=""></a></span>
+<span id="cb1-486"><a href=""></a>lesson_html <span class="op">=</span> region_type <span class="op">===</span> <span class="st">"Rectangular"</span></span>
+<span id="cb1-487"><a href=""></a>  <span class="op">?</span> <span class="fu">html</span><span class="vs">`&lt;div style="background: #d4edda; padding: 6px; border-radius: 5px; border-left: 3px solid #1a7f37; font-size: 0.95em;"&gt;&lt;strong&gt;Support:&lt;/strong&gt; 0 &amp;lt; Y₁ &amp;lt; 1, 0 &amp;lt; Y₂ &amp;lt; 1&lt;br&gt;Y₂'s range &lt;strong&gt;never&lt;/strong&gt; changes with Y₁.&lt;/div&gt;`</span></span>
+<span id="cb1-488"><a href=""></a>  <span class="op">:</span> <span class="fu">html</span><span class="vs">`&lt;div style="background: #f8d7da; padding: 6px; border-radius: 5px; border-left: 3px solid #b42318; font-size: 0.95em;"&gt;&lt;strong&gt;Support:&lt;/strong&gt; 0 &amp;lt; Y₂ ≤ Y₁ &amp;lt; 1&lt;br&gt;Knowing Y₁ &lt;strong&gt;restricts&lt;/strong&gt; Y₂ (lower triangle!).&lt;/div&gt;`</span><span class="op">;</span></span>
+<span id="cb1-489"><a href=""></a></span>
+<span id="cb1-490"><a href=""></a><span class="fu">md</span><span class="vs">`**Key insight:** Independence needs both (1) density factors AND (2) rectangular support.</span></span>
+<span id="cb1-491"><a href=""></a></span>
+<span id="cb1-492"><a href=""></a><span class="sc">${</span>viewof power_a<span class="sc">}</span></span>
+<span id="cb1-493"><a href=""></a><span class="sc">${</span>viewof power_b<span class="sc">}</span></span>
+<span id="cb1-494"><a href=""></a><span class="sc">${</span>viewof region_type<span class="sc">}</span></span>
+<span id="cb1-495"><a href=""></a><span class="sc">${</span>viewof sliceY1<span class="sc">}</span></span>
+<span id="cb1-496"><a href=""></a></span>
+<span id="cb1-497"><a href=""></a><span class="vs">**Formula:** </span><span class="sc">${</span>formula_html<span class="sc">}</span></span>
+<span id="cb1-498"><a href=""></a></span>
+<span id="cb1-499"><a href=""></a><span class="vs">**Verdict:** </span><span class="sc">${</span>verdict_html<span class="sc">}</span></span>
+<span id="cb1-500"><a href=""></a></span>
+<span id="cb1-501"><a href=""></a><span class="sc">${</span>lesson_html<span class="sc">}</span><span class="vs">`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -459,76 +703,149 @@ Samir Orujov, PhD
 </div>
 <div class="cell-output cell-output-display">
 <div>
-<div id="ojs-cell-1-2" data-nodetype="expression">
+<div id="ojs-cell-1-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-4" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-5" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-6" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-7" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-8" data-nodetype="expression">
 
 </div>
 </div>
 </div>
 </div>
-<p><strong>Observations:</strong></p>
-<ul>
-<li><p>As <span class="math inline">\(y_2\)</span> increases, the conditional density becomes flatter (more spread out)</p></li>
-<li><p>The conditional density always integrates to 1 over its support</p></li>
-</ul>
 </div><div class="column" style="width:70%;">
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="290" data-source-offset="-38"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 289;"><span id="cb2-290"><a href=""></a>cond_y1_vals <span class="op">=</span> d3<span class="op">.</span><span class="fu">range</span>(<span class="dv">0</span><span class="op">,</span> y2_cond <span class="op">+</span> <span class="fl">0.01</span><span class="op">,</span> <span class="fl">0.01</span>)</span>
-<span id="cb2-291"><a href=""></a></span>
-<span id="cb2-292"><a href=""></a>cond_density_data <span class="op">=</span> cond_y1_vals<span class="op">.</span><span class="fu">map</span>(y1 <span class="kw">=&gt;</span> ({</span>
-<span id="cb2-293"><a href=""></a>  <span class="dt">y1</span><span class="op">:</span> y1<span class="op">,</span></span>
-<span id="cb2-294"><a href=""></a>  <span class="dt">density</span><span class="op">:</span> <span class="dv">1</span><span class="op">/</span>y2_cond</span>
-<span id="cb2-295"><a href=""></a>}))</span>
-<span id="cb2-296"><a href=""></a></span>
-<span id="cb2-297"><a href=""></a><span class="co">// Also show what happens outside support</span></span>
-<span id="cb2-298"><a href=""></a>full_y1_range <span class="op">=</span> d3<span class="op">.</span><span class="fu">range</span>(<span class="dv">0</span><span class="op">,</span> <span class="fl">2.1</span><span class="op">,</span> <span class="fl">0.01</span>)</span>
-<span id="cb2-299"><a href=""></a></span>
-<span id="cb2-300"><a href=""></a>full_density_data <span class="op">=</span> full_y1_range<span class="op">.</span><span class="fu">map</span>(y1 <span class="kw">=&gt;</span> ({</span>
-<span id="cb2-301"><a href=""></a>  <span class="dt">y1</span><span class="op">:</span> y1<span class="op">,</span></span>
-<span id="cb2-302"><a href=""></a>  <span class="dt">density</span><span class="op">:</span> y1 <span class="op">&lt;=</span> y2_cond <span class="op">?</span> <span class="dv">1</span><span class="op">/</span>y2_cond <span class="op">:</span> <span class="dv">0</span></span>
-<span id="cb2-303"><a href=""></a>}))</span>
-<span id="cb2-304"><a href=""></a></span>
-<span id="cb2-305"><a href=""></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
-<span id="cb2-306"><a href=""></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">750</span><span class="op">,</span></span>
-<span id="cb2-307"><a href=""></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">450</span><span class="op">,</span></span>
-<span id="cb2-308"><a href=""></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">60</span><span class="op">,</span></span>
-<span id="cb2-309"><a href=""></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
-<span id="cb2-310"><a href=""></a>  <span class="dt">x</span><span class="op">:</span> {</span>
-<span id="cb2-311"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"y₁ (amount sold)"</span><span class="op">,</span></span>
-<span id="cb2-312"><a href=""></a>    <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="fl">2.2</span>]</span>
-<span id="cb2-313"><a href=""></a>  }<span class="op">,</span></span>
-<span id="cb2-314"><a href=""></a>  <span class="dt">y</span><span class="op">:</span> {</span>
-<span id="cb2-315"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Conditional Density f(y₁|y₂)"</span><span class="op">,</span></span>
-<span id="cb2-316"><a href=""></a>    <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="fl">2.5</span>]</span>
-<span id="cb2-317"><a href=""></a>  }<span class="op">,</span></span>
-<span id="cb2-318"><a href=""></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
-<span id="cb2-319"><a href=""></a>    Plot<span class="op">.</span><span class="fu">areaY</span>(cond_density_data<span class="op">,</span> {</span>
-<span id="cb2-320"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"y1"</span><span class="op">,</span> </span>
-<span id="cb2-321"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"density"</span><span class="op">,</span> </span>
-<span id="cb2-322"><a href=""></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"steelblue"</span><span class="op">,</span> </span>
-<span id="cb2-323"><a href=""></a>      <span class="dt">opacity</span><span class="op">:</span> <span class="fl">0.5</span></span>
-<span id="cb2-324"><a href=""></a>    })<span class="op">,</span></span>
-<span id="cb2-325"><a href=""></a>    Plot<span class="op">.</span><span class="fu">line</span>(full_density_data<span class="op">,</span> {</span>
-<span id="cb2-326"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"y1"</span><span class="op">,</span> </span>
-<span id="cb2-327"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"density"</span><span class="op">,</span> </span>
-<span id="cb2-328"><a href=""></a>      <span class="dt">stroke</span><span class="op">:</span> <span class="st">"darkblue"</span><span class="op">,</span> </span>
-<span id="cb2-329"><a href=""></a>      <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">3</span></span>
-<span id="cb2-330"><a href=""></a>    })<span class="op">,</span></span>
-<span id="cb2-331"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([y2_cond]<span class="op">,</span> {</span>
-<span id="cb2-332"><a href=""></a>      <span class="dt">stroke</span><span class="op">:</span> <span class="st">"red"</span><span class="op">,</span> </span>
-<span id="cb2-333"><a href=""></a>      <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span> </span>
-<span id="cb2-334"><a href=""></a>      <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"5,5"</span></span>
-<span id="cb2-335"><a href=""></a>    })<span class="op">,</span></span>
-<span id="cb2-336"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])<span class="op">,</span></span>
-<span id="cb2-337"><a href=""></a>    Plot<span class="op">.</span><span class="fu">text</span>([[y2_cond <span class="op">+</span> <span class="fl">0.1</span><span class="op">,</span> <span class="fl">0.5</span>]]<span class="op">,</span> {</span>
-<span id="cb2-338"><a href=""></a>      <span class="dt">text</span><span class="op">:</span> [<span class="vs">`y₂ = </span><span class="sc">${</span>y2_cond<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">`</span>]<span class="op">,</span></span>
-<span id="cb2-339"><a href=""></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"red"</span><span class="op">,</span></span>
-<span id="cb2-340"><a href=""></a>      <span class="dt">fontSize</span><span class="op">:</span> <span class="dv">14</span></span>
-<span id="cb2-341"><a href=""></a>    })</span>
-<span id="cb2-342"><a href=""></a>  ]<span class="op">,</span></span>
-<span id="cb2-343"><a href=""></a>  <span class="dt">caption</span><span class="op">:</span> <span class="fu">html</span><span class="vs">`&lt;b&gt;Conditional density:&lt;/b&gt; f(y₁|y₂=</span><span class="sc">${</span>y2_cond<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">) = </span><span class="sc">${</span>(<span class="dv">1</span><span class="op">/</span>y2_cond)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="vs"> on [0, </span><span class="sc">${</span>y2_cond<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">]. &lt;span style="color:red"&gt;┊&lt;/span&gt; Upper bound`</span></span>
-<span id="cb2-344"><a href=""></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="511" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 510;"><span id="cb2-511"><a href=""></a>jointDataInteractive <span class="op">=</span> {</span>
+<span id="cb2-512"><a href=""></a>  <span class="kw">const</span> n <span class="op">=</span> <span class="dv">80</span><span class="op">;</span></span>
+<span id="cb2-513"><a href=""></a>  <span class="kw">const</span> data <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb2-514"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb2-515"><a href=""></a>    <span class="cf">for</span> (<span class="kw">let</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> n<span class="op">;</span> j<span class="op">++</span>) {</span>
+<span id="cb2-516"><a href=""></a>      <span class="kw">const</span> y1 <span class="op">=</span> i <span class="op">/</span> (n <span class="op">-</span> <span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb2-517"><a href=""></a>      <span class="kw">const</span> y2 <span class="op">=</span> j <span class="op">/</span> (n <span class="op">-</span> <span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb2-518"><a href=""></a></span>
+<span id="cb2-519"><a href=""></a>      <span class="kw">const</span> inRegion <span class="op">=</span> region_type <span class="op">===</span> <span class="st">"Triangular"</span> <span class="op">?</span> (y2 <span class="op">&lt;=</span> y1) <span class="op">:</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb2-520"><a href=""></a></span>
+<span id="cb2-521"><a href=""></a>      <span class="cf">if</span> (inRegion) {</span>
+<span id="cb2-522"><a href=""></a>        <span class="kw">const</span> density <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(y1 <span class="op">+</span> <span class="fl">0.01</span><span class="op">,</span> power_a) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(y2 <span class="op">+</span> <span class="fl">0.01</span><span class="op">,</span> power_b)<span class="op">;</span></span>
+<span id="cb2-523"><a href=""></a>        data<span class="op">.</span><span class="fu">push</span>({y1<span class="op">,</span> y2<span class="op">,</span> density})<span class="op">;</span></span>
+<span id="cb2-524"><a href=""></a>      }</span>
+<span id="cb2-525"><a href=""></a>    }</span>
+<span id="cb2-526"><a href=""></a>  }</span>
+<span id="cb2-527"><a href=""></a>  </span>
+<span id="cb2-528"><a href=""></a>  <span class="co">// For triangular region, add zero-density boundary points to prevent contour bleeding</span></span>
+<span id="cb2-529"><a href=""></a>  <span class="cf">if</span> (region_type <span class="op">===</span> <span class="st">"Triangular"</span>) {</span>
+<span id="cb2-530"><a href=""></a>    <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb2-531"><a href=""></a>      <span class="kw">const</span> y1 <span class="op">=</span> i <span class="op">/</span> (n <span class="op">-</span> <span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb2-532"><a href=""></a>      <span class="cf">for</span> (<span class="kw">let</span> j <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">ceil</span>(y1 <span class="op">*</span> (n<span class="op">-</span><span class="dv">1</span>)) <span class="op">+</span> <span class="dv">1</span><span class="op">;</span> j <span class="op">&lt;</span> n<span class="op">;</span> j<span class="op">++</span>) {</span>
+<span id="cb2-533"><a href=""></a>        <span class="kw">const</span> y2 <span class="op">=</span> j <span class="op">/</span> (n <span class="op">-</span> <span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb2-534"><a href=""></a>        data<span class="op">.</span><span class="fu">push</span>({y1<span class="op">,</span> y2<span class="op">,</span> <span class="dt">density</span><span class="op">:</span> <span class="dv">0</span>})<span class="op">;</span></span>
+<span id="cb2-535"><a href=""></a>      }</span>
+<span id="cb2-536"><a href=""></a>    }</span>
+<span id="cb2-537"><a href=""></a>  }</span>
+<span id="cb2-538"><a href=""></a>  </span>
+<span id="cb2-539"><a href=""></a>  <span class="cf">return</span> data<span class="op">;</span></span>
+<span id="cb2-540"><a href=""></a>}</span>
+<span id="cb2-541"><a href=""></a></span>
+<span id="cb2-542"><a href=""></a>constraintLine <span class="op">=</span> region_type <span class="op">===</span> <span class="st">"Triangular"</span></span>
+<span id="cb2-543"><a href=""></a>  <span class="op">?</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({<span class="dt">length</span><span class="op">:</span> <span class="dv">100</span>}<span class="op">,</span> (_<span class="op">,</span> i) <span class="kw">=&gt;</span> ({<span class="dt">y1</span><span class="op">:</span> i <span class="op">/</span> <span class="dv">99</span><span class="op">,</span> <span class="dt">y2</span><span class="op">:</span> i <span class="op">/</span> <span class="dv">99</span>}))</span>
+<span id="cb2-544"><a href=""></a>  <span class="op">:</span> []<span class="op">;</span></span>
+<span id="cb2-545"><a href=""></a></span>
+<span id="cb2-546"><a href=""></a><span class="co">// Create a vertical band to highlight the conditioning slice</span></span>
+<span id="cb2-547"><a href=""></a>sliceBand <span class="op">=</span> (() <span class="kw">=&gt;</span> {</span>
+<span id="cb2-548"><a href=""></a>  <span class="kw">const</span> bandwidth <span class="op">=</span> <span class="fl">0.015</span><span class="op">;</span></span>
+<span id="cb2-549"><a href=""></a>  <span class="kw">const</span> ymax <span class="op">=</span> region_type <span class="op">===</span> <span class="st">"Triangular"</span> <span class="op">?</span> sliceY1 <span class="op">:</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb2-550"><a href=""></a>  </span>
+<span id="cb2-551"><a href=""></a>  <span class="cf">return</span> [{</span>
+<span id="cb2-552"><a href=""></a>    <span class="dt">x1</span><span class="op">:</span> sliceY1 <span class="op">-</span> bandwidth<span class="op">,</span></span>
+<span id="cb2-553"><a href=""></a>    <span class="dt">x2</span><span class="op">:</span> sliceY1 <span class="op">+</span> bandwidth<span class="op">,</span></span>
+<span id="cb2-554"><a href=""></a>    <span class="dt">y1</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb2-555"><a href=""></a>    <span class="dt">y2</span><span class="op">:</span> ymax</span>
+<span id="cb2-556"><a href=""></a>  }]<span class="op">;</span></span>
+<span id="cb2-557"><a href=""></a>})()<span class="op">;</span></span>
+<span id="cb2-558"><a href=""></a></span>
+<span id="cb2-559"><a href=""></a><span class="co">// Points for the conditional range marker</span></span>
+<span id="cb2-560"><a href=""></a>conditionalDots <span class="op">=</span> (() <span class="kw">=&gt;</span> {</span>
+<span id="cb2-561"><a href=""></a>  <span class="kw">const</span> points <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb2-562"><a href=""></a>  <span class="kw">const</span> ymax <span class="op">=</span> region_type <span class="op">===</span> <span class="st">"Triangular"</span> <span class="op">?</span> sliceY1 <span class="op">:</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb2-563"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;=</span> <span class="dv">35</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb2-564"><a href=""></a>    points<span class="op">.</span><span class="fu">push</span>({<span class="dt">y1</span><span class="op">:</span> sliceY1<span class="op">,</span> <span class="dt">y2</span><span class="op">:</span> (i <span class="op">/</span> <span class="dv">35</span>) <span class="op">*</span> ymax})<span class="op">;</span></span>
+<span id="cb2-565"><a href=""></a>  }</span>
+<span id="cb2-566"><a href=""></a>  <span class="cf">return</span> points<span class="op">;</span></span>
+<span id="cb2-567"><a href=""></a>})()<span class="op">;</span></span>
+<span id="cb2-568"><a href=""></a></span>
+<span id="cb2-569"><a href=""></a>plot <span class="op">=</span> Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb2-570"><a href=""></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">600</span><span class="op">,</span></span>
+<span id="cb2-571"><a href=""></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">380</span><span class="op">,</span></span>
+<span id="cb2-572"><a href=""></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">55</span><span class="op">,</span></span>
+<span id="cb2-573"><a href=""></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">45</span><span class="op">,</span></span>
+<span id="cb2-574"><a href=""></a>  <span class="dt">color</span><span class="op">:</span> {<span class="dt">scheme</span><span class="op">:</span> <span class="st">"YlOrRd"</span><span class="op">,</span> <span class="dt">legend</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Density"</span>}<span class="op">,</span></span>
+<span id="cb2-575"><a href=""></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Y₁"</span>}<span class="op">,</span></span>
+<span id="cb2-576"><a href=""></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Y₂"</span>}<span class="op">,</span></span>
+<span id="cb2-577"><a href=""></a>  <span class="dt">title</span><span class="op">:</span> region_type <span class="op">===</span> <span class="st">"Rectangular"</span></span>
+<span id="cb2-578"><a href=""></a>    <span class="op">?</span> <span class="st">"Rectangle: Support is 0&lt;Y₁&lt;1, 0&lt;Y₂&lt;1 (full square)"</span></span>
+<span id="cb2-579"><a href=""></a>    <span class="op">:</span> <span class="st">"Triangle: Support is 0&lt;Y₂≤Y₁&lt;1 (LOWER triangle)"</span><span class="op">,</span></span>
+<span id="cb2-580"><a href=""></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb2-581"><a href=""></a>    Plot<span class="op">.</span><span class="fu">contour</span>(jointDataInteractive<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"y1"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y2"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"density"</span><span class="op">,</span> <span class="dt">blur</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">thresholds</span><span class="op">:</span> <span class="dv">14</span>})<span class="op">,</span></span>
+<span id="cb2-582"><a href=""></a>    <span class="co">// Vertical band highlighting the slice</span></span>
+<span id="cb2-583"><a href=""></a>    Plot<span class="op">.</span><span class="fu">rect</span>(sliceBand<span class="op">,</span> {<span class="dt">x1</span><span class="op">:</span> <span class="st">"x1"</span><span class="op">,</span> <span class="dt">x2</span><span class="op">:</span> <span class="st">"x2"</span><span class="op">,</span> <span class="dt">y1</span><span class="op">:</span> <span class="st">"y1"</span><span class="op">,</span> <span class="dt">y2</span><span class="op">:</span> <span class="st">"y2"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#3b82f6"</span><span class="op">,</span> <span class="dt">fillOpacity</span><span class="op">:</span> <span class="fl">0.12</span>})<span class="op">,</span></span>
+<span id="cb2-584"><a href=""></a>    <span class="co">// Constraint boundary</span></span>
+<span id="cb2-585"><a href=""></a>    constraintLine<span class="op">.</span><span class="at">length</span> <span class="op">?</span> Plot<span class="op">.</span><span class="fu">line</span>(constraintLine<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"y1"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y2"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#1f2937"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">3</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"8,4"</span>}) <span class="op">:</span> <span class="kw">null</span><span class="op">,</span></span>
+<span id="cb2-586"><a href=""></a>    <span class="co">// Conditional range dots</span></span>
+<span id="cb2-587"><a href=""></a>    Plot<span class="op">.</span><span class="fu">dot</span>(conditionalDots<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"y1"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y2"</span><span class="op">,</span> <span class="dt">r</span><span class="op">:</span> <span class="dv">3</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#1d4ed8"</span><span class="op">,</span> <span class="dt">opacity</span><span class="op">:</span> <span class="fl">0.9</span>})<span class="op">,</span></span>
+<span id="cb2-588"><a href=""></a>    <span class="co">// Slice marker line</span></span>
+<span id="cb2-589"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([sliceY1]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"#1d4ed8"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">3</span>})<span class="op">,</span></span>
+<span id="cb2-590"><a href=""></a>    <span class="co">// Constraint label</span></span>
+<span id="cb2-591"><a href=""></a>    constraintLine<span class="op">.</span><span class="at">length</span> <span class="op">?</span> Plot<span class="op">.</span><span class="fu">text</span>([{<span class="dt">y1</span><span class="op">:</span> <span class="fl">0.78</span><span class="op">,</span> <span class="dt">y2</span><span class="op">:</span> <span class="fl">0.84</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> <span class="st">"y₂ = y₁"</span>}]<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"y1"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y2"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> <span class="st">"text"</span><span class="op">,</span> <span class="dt">fontSize</span><span class="op">:</span> <span class="dv">13</span><span class="op">,</span> <span class="dt">fontWeight</span><span class="op">:</span> <span class="st">"bold"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#1f2937"</span>}) <span class="op">:</span> <span class="kw">null</span><span class="op">,</span></span>
+<span id="cb2-592"><a href=""></a>    Plot<span class="op">.</span><span class="fu">frame</span>()</span>
+<span id="cb2-593"><a href=""></a>  ]<span class="op">.</span><span class="fu">filter</span>(<span class="bu">Boolean</span>)</span>
+<span id="cb2-594"><a href=""></a>})<span class="op">;</span></span>
+<span id="cb2-595"><a href=""></a></span>
+<span id="cb2-596"><a href=""></a><span class="fu">html</span><span class="vs">`&lt;div&gt;</span></span>
+<span id="cb2-597"><a href=""></a><span class="vs">  </span><span class="sc">${</span>plot<span class="sc">}</span></span>
+<span id="cb2-598"><a href=""></a><span class="vs">  &lt;div style="margin-top: 5px; font-size: 0.9em; line-height: 1.3;"&gt;</span></span>
+<span id="cb2-599"><a href=""></a><span class="vs">    &lt;strong style="color: #1d4ed8;"&gt;Blue band at Y₁=</span><span class="sc">${</span>sliceY1<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">:&lt;/strong&gt; Shows Y₂'s feasible range. </span><span class="sc">${</span>region_type <span class="op">===</span> <span class="st">"Triangular"</span> <span class="op">?</span> <span class="vs">`Only [0, </span><span class="sc">${</span>sliceY1<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">] allowed.`</span> <span class="op">:</span> <span class="st">"Always [0, 1] allowed."</span><span class="sc">}</span></span>
+<span id="cb2-600"><a href=""></a><span class="vs">  &lt;/div&gt;</span></span>
+<span id="cb2-601"><a href=""></a><span class="vs">&lt;/div&gt;`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -560,7 +877,14 @@ Samir Orujov, PhD
 </div>
 <div class="cell-output cell-output-display">
 <div>
-<div id="ojs-cell-2-5" data-nodetype="expression">
+<div id="ojs-cell-2-5" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-6" data-nodetype="expression">
 
 </div>
 </div>
@@ -569,543 +893,229 @@ Samir Orujov, PhD
 </div></div>
 </div>
 </section>
-<section id="definition-independent-random-variables" class="slide level2 smaller">
-<h2>📖 Definition: Independent Random Variables</h2>
+<section id="think-pair-share-independence-check" class="slide level2 larger">
+<h2>🤝 Think-Pair-Share: Independence Check</h2>
+<div style="font-size: 36px;">
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>📝 Definition 5.8: Independence of Random Variables</strong></p>
+<p><strong>💭 Activity (4 minutes)</strong></p>
 </div>
 <div class="callout-content">
-<p>Two random variables <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> are said to be <strong>independent</strong> if and only if:</p>
-<p><span class="math display">\[F(y_1, y_2) = F_1(y_1) \cdot F_2(y_2) \quad \text{for all } (y_1, y_2)\]</span></p>
-<p>where <span class="math inline">\(F(y_1, y_2)\)</span> is the joint CDF and <span class="math inline">\(F_1, F_2\)</span> are the marginal CDFs.</p>
-<p><strong>Equivalent Conditions (Theorem 5.4):</strong></p>
-<ul>
-<li><p><strong>Discrete case:</strong> <span class="math inline">\(p(y_1, y_2) = p_1(y_1) \cdot p_2(y_2)\)</span> for all <span class="math inline">\((y_1, y_2)\)</span></p></li>
-<li><p><strong>Continuous case:</strong> <span class="math inline">\(f(y_1, y_2) = f_1(y_1) \cdot f_2(y_2)\)</span> for all <span class="math inline">\((y_1, y_2)\)</span></p></li>
-</ul>
-</div>
-</div>
-</div>
-<p><strong>Intuition:</strong> Independence means knowing the value of <span class="math inline">\(Y_1\)</span> provides <strong>no information</strong> about <span class="math inline">\(Y_2\)</span>, and vice versa. The variables do not “influence” each other.</p>
-</section>
-<section id="example-3-dice-tossing---showing-independence" class="slide level2 smaller">
-<h2>📌 Example 3: Dice Tossing - Showing Independence</h2>
-<p><strong>Problem:</strong> For two fair dice tosses, verify that <span class="math inline">\(Y_1\)</span> (die 1) and <span class="math inline">\(Y_2\)</span> (die 2) are independent.</p>
-<p><strong>Solution:</strong></p>
-<div class="fragment">
-<p><strong>Joint probability function:</strong> <span class="math display">\[p(y_1, y_2) = \frac{1}{36} \quad \text{for all } y_1, y_2 \in \{1, 2, 3, 4, 5, 6\}\]</span></p>
-</div>
-<div class="fragment">
-<p><strong>Marginal distributions:</strong> <span class="math display">\[p_1(y_1) = \sum_{y_2=1}^{6} \frac{1}{36} = \frac{6}{36} = \frac{1}{6} \quad \text{for } y_1 \in \{1, \ldots, 6\}\]</span></p>
-<p><span class="math display">\[p_2(y_2) = \frac{1}{6} \quad \text{(by symmetry)}\]</span></p>
-</div>
-<div class="fragment">
-<p><strong>Check factorization:</strong> <span class="math display">\[p_1(y_1) \cdot p_2(y_2) = \frac{1}{6} \cdot \frac{1}{6} = \frac{1}{36} = p(y_1, y_2) \checkmark\]</span></p>
-<p><strong>Conclusion:</strong> Since <span class="math inline">\(p(y_1, y_2) = p_1(y_1) \cdot p_2(y_2)\)</span> for all <span class="math inline">\((y_1, y_2)\)</span>, the dice outcomes are <strong>independent</strong>.</p>
-</div>
-</section>
-<section id="example-4-committee-selection---showing-dependence" class="slide level2 smaller">
-<h2>📌 Example 4: Committee Selection - Showing Dependence</h2>
-<p><strong>Problem:</strong> For the committee selection (4 Republicans, 3 Democrats, select 3), are <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> independent?</p>
-<p><strong>Solution:</strong></p>
-<div class="fragment">
-<p>Recall: <span class="math inline">\(p(2, 1) = \frac{18}{35}\)</span></p>
-<p><strong>Marginal distributions:</strong></p>
-<p><span class="math inline">\(p_1(2) = \frac{18}{35}\)</span> (computed by summing over <span class="math inline">\(y_2\)</span>)</p>
-<p><span class="math inline">\(p_2(1) = \frac{18}{35}\)</span> (computed by summing over <span class="math inline">\(y_1\)</span>)</p>
-</div>
-<div class="fragment">
-<p><strong>Check if <span class="math inline">\(p(2, 1) = p_1(2) \cdot p_2(1)\)</span>:</strong></p>
-<p><span class="math display">\[p_1(2) \cdot p_2(1) = \frac{18}{35} \cdot \frac{18}{35} = \frac{324}{1225} \neq \frac{18}{35} = p(2, 1)\]</span></p>
-</div>
-<div class="fragment">
-<p><strong>Conclusion:</strong> Since <span class="math inline">\(p(y_1, y_2) \neq p_1(y_1) \cdot p_2(y_2)\)</span>, the variables are <strong>NOT independent</strong>.</p>
-<p><strong>Intuition:</strong> Knowing the number of Republicans tells you exactly how many Democrats (since total is fixed at 3).</p>
-</div>
-</section>
-<section id="example-5-continuous-case---showing-independence" class="slide level2 smaller">
-<h2>📌 Example 5: Continuous Case - Showing Independence</h2>
-<p><strong>Problem:</strong> Let <span class="math inline">\(f(y_1, y_2) = 6y_1 y_2^2\)</span> for <span class="math inline">\(0 &lt; y_1 &lt; 1\)</span> and <span class="math inline">\(0 &lt; y_2 &lt; 1\)</span>. Are <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> independent?</p>
-<p><strong>Solution:</strong></p>
-<div class="fragment">
-<p><strong>Find marginal <span class="math inline">\(f_1(y_1)\)</span>:</strong> <span class="math display">\[f_1(y_1) = \int_0^1 6y_1 y_2^2 \, dy_2 = 6y_1 \cdot \frac{1}{3} = 2y_1 \quad \text{for } 0 &lt; y_1 &lt; 1\]</span></p>
-</div>
-<div class="fragment">
-<p><strong>Find marginal <span class="math inline">\(f_2(y_2)\)</span>:</strong> <span class="math display">\[f_2(y_2) = \int_0^1 6y_1 y_2^2 \, dy_1 = 6y_2^2 \cdot \frac{1}{2} = 3y_2^2 \quad \text{for } 0 &lt; y_2 &lt; 1\]</span></p>
-</div>
-<div class="fragment">
-<p><strong>Check factorization:</strong> <span class="math display">\[f_1(y_1) \cdot f_2(y_2) = 2y_1 \cdot 3y_2^2 = 6y_1 y_2^2 = f(y_1, y_2) \checkmark\]</span></p>
-<p><strong>Conclusion:</strong> <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> are <strong>independent</strong>.</p>
-</div>
-</section>
-<section id="example-6-non-rectangular-support---showing-dependence" class="slide level2 smaller">
-<h2>📌 Example 6: Non-Rectangular Support - Showing Dependence</h2>
-<p><strong>Problem:</strong> For the gasoline problem with <span class="math inline">\(f(y_1, y_2) = 3y_1\)</span> on <span class="math inline">\(0 \leq y_2 \leq y_1 \leq 1\)</span>, are <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> independent?</p>
-<p><strong>Solution:</strong></p>
-<div class="fragment">
-<p>From Lecture 1, we found:</p>
-<ul>
-<li><span class="math inline">\(f_1(y_1) = 3y_1^2\)</span> for <span class="math inline">\(0 \leq y_1 \leq 1\)</span></li>
-<li><span class="math inline">\(f_2(y_2) = \frac{3}{2}(1 - y_2^2)\)</span> for <span class="math inline">\(0 \leq y_2 \leq 1\)</span></li>
-</ul>
-</div>
-<div class="fragment">
-<p><strong>Check at a specific point, say <span class="math inline">\((y_1, y_2) = (0.5, 0.3)\)</span>:</strong></p>
-<p><span class="math display">\[f_1(0.5) \cdot f_2(0.3) = 3(0.5)^2 \cdot \frac{3}{2}(1 - 0.09) = 0.75 \cdot 1.365 = 1.024\]</span></p>
-<p><span class="math display">\[f(0.5, 0.3) = 3(0.5) = 1.5\]</span></p>
-</div>
-<div class="fragment">
-<p>Since <span class="math inline">\(1.024 \neq 1.5\)</span>, we have <span class="math inline">\(f(y_1, y_2) \neq f_1(y_1) \cdot f_2(y_2)\)</span>.</p>
-<p><strong>Conclusion:</strong> <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> are <strong>NOT independent</strong>.</p>
-<p><strong>Key Insight:</strong> The constraint <span class="math inline">\(y_2 \leq y_1\)</span> (you can’t sell more than you have) creates dependence!</p>
-</div>
-</section>
-<section id="theorem-5.5-easy-independence-check" class="slide level2 smaller">
-<h2>🧮 Theorem 5.5: Easy Independence Check</h2>
-<div class="callout callout-important callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Theorem 5.5: Factorization Criterion for Independence</strong></p>
-</div>
-<div class="callout-content">
-<p>Let <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> have joint pdf <span class="math inline">\(f(y_1, y_2)\)</span>. If:</p>
-<ol type="1">
-<li><p>The region where <span class="math inline">\(f(y_1, y_2) &gt; 0\)</span> is a <strong>rectangle</strong> (possibly infinite): <span class="math inline">\(\{(y_1, y_2): a &lt; y_1 &lt; b, c &lt; y_2 &lt; d\}\)</span></p></li>
-<li><p>The joint density <strong>factors</strong> as: <span class="math inline">\(f(y_1, y_2) = g(y_1) \cdot h(y_2)\)</span> for some functions <span class="math inline">\(g\)</span> and <span class="math inline">\(h\)</span></p></li>
-</ol>
-<p>Then <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> are <strong>independent</strong>, with marginals proportional to <span class="math inline">\(g\)</span> and <span class="math inline">\(h\)</span>.</p>
-</div>
-</div>
-</div>
-<p><strong>Power of Theorem 5.5:</strong> You can verify independence <strong>without computing marginals explicitly!</strong></p>
-<p><strong>Example:</strong> <span class="math inline">\(f(y_1, y_2) = 6y_1 y_2^2\)</span> on <span class="math inline">\([0,1] \times [0,1]\)</span> (rectangle) factors as <span class="math inline">\(g(y_1) = y_1\)</span> and <span class="math inline">\(h(y_2) = y_2^2\)</span>, so <span class="math inline">\(Y_1 \perp Y_2\)</span>.</p>
-</section>
-<section id="example-7-using-theorem-5.5" class="slide level2 smaller">
-<h2>📌 Example 7: Using Theorem 5.5</h2>
-<p><strong>Problem:</strong> Let <span class="math inline">\(f(y_1, y_2) = 2y_1\)</span> for <span class="math inline">\(0 &lt; y_1 &lt; 1\)</span> and <span class="math inline">\(0 &lt; y_2 &lt; 1\)</span>. Use Theorem 5.5 to determine if <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> are independent.</p>
-<p><strong>Solution:</strong></p>
-<div class="fragment">
-<p><strong>Step 1: Check the support</strong></p>
-<p>The region <span class="math inline">\(\{0 &lt; y_1 &lt; 1, 0 &lt; y_2 &lt; 1\}\)</span> is the unit square—a <strong>rectangle</strong>. ✓</p>
-</div>
-<div class="fragment">
-<p><strong>Step 2: Check factorization</strong></p>
-<p><span class="math display">\[f(y_1, y_2) = 2y_1 = (2y_1) \cdot (1) = g(y_1) \cdot h(y_2)\]</span></p>
-<p>where <span class="math inline">\(g(y_1) = 2y_1\)</span> and <span class="math inline">\(h(y_2) = 1\)</span>. ✓</p>
-</div>
-<div class="fragment">
-<p><strong>Conclusion:</strong> By Theorem 5.5, <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> are <strong>independent</strong>.</p>
-<p><strong>Observation:</strong> Even though <span class="math inline">\(f(y_1, y_2)\)</span> only depends on <span class="math inline">\(y_1\)</span>, this doesn’t automatically mean dependence! The rectangular support allows factorization, implying <span class="math inline">\(Y_2 \sim \text{Uniform}(0,1)\)</span>.</p>
-</div>
-</section>
-<section id="interactive-independence-vs-dependence" class="slide level2 smaller">
-<h2>🎮 Interactive: Independence vs Dependence</h2>
-<div style="font-size: 0.8em;">
-<p><strong>Compare Distributions:</strong> Toggle between independent and dependent bivariate densities.</p>
+<p><strong>Problem:</strong> A portfolio model has joint density <span class="math inline">\(f(y_1, y_2) = 24y_1y_2\)</span> for normalized returns where <span class="math inline">\(0 &lt; y_1 &lt; 1\)</span>, <span class="math inline">\(0 &lt; y_2 &lt; 1\)</span>, and <span class="math inline">\(y_1 + y_2 &lt; 1\)</span> (budget constraint).</p>
 <div class="columns">
-<div class="column" style="width:30%;">
-<div class="cell">
-<details class="code-fold hidden">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb3" data-startfrom="535" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 534;"><span id="cb3-535"><a href=""></a>viewof dist_type <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">radio</span>(</span>
-<span id="cb3-536"><a href=""></a>  [<span class="st">"Independent"</span><span class="op">,</span> <span class="st">"Dependent"</span>]<span class="op">,</span> </span>
-<span id="cb3-537"><a href=""></a>  {<span class="dt">value</span><span class="op">:</span> <span class="st">"Independent"</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Distribution Type:"</span>}</span>
-<span id="cb3-538"><a href=""></a>)</span>
-<span id="cb3-539"><a href=""></a></span>
-<span id="cb3-540"><a href=""></a><span class="fu">md</span><span class="vs">`**</span><span class="sc">${</span>dist_type<span class="sc">}</span><span class="vs"> Variables**</span></span>
-<span id="cb3-541"><a href=""></a></span>
-<span id="cb3-542"><a href=""></a><span class="sc">${</span>dist_type <span class="op">===</span> <span class="st">"Independent"</span> <span class="op">?</span> </span>
-<span id="cb3-543"><a href=""></a>  <span class="st">"**Joint pdf:** $f(y_1, y_2) = 4y_1 y_2$</span><span class="sc">\n\n</span><span class="st">on $[0,1] </span><span class="sc">\\</span><span class="st">times [0,1]$</span><span class="sc">\n\n</span><span class="st">**Marginals:**</span><span class="sc">\n</span><span class="st">- $f_1(y_1) = 2y_1$</span><span class="sc">\n</span><span class="st">- $f_2(y_2) = 2y_2$</span><span class="sc">\n\n</span><span class="st">**Check:** $f = f_1 </span><span class="sc">\\</span><span class="st">cdot f_2$ ✓"</span> <span class="op">:</span> </span>
-<span id="cb3-544"><a href=""></a>  <span class="st">"**Joint pdf:** $f(y_1, y_2) = 3y_1$</span><span class="sc">\n\n</span><span class="st">on $0 </span><span class="sc">\\</span><span class="st">leq y_2 </span><span class="sc">\\</span><span class="st">leq y_1 </span><span class="sc">\\</span><span class="st">leq 1$</span><span class="sc">\n\n</span><span class="st">**Marginals:**</span><span class="sc">\n</span><span class="st">- $f_1(y_1) = 3y_1^2$</span><span class="sc">\n</span><span class="st">- $f_2(y_2) = </span><span class="sc">\\</span><span class="st">frac{3}{2}(1-y_2^2)$</span><span class="sc">\n\n</span><span class="st">**Check:** $f </span><span class="sc">\\</span><span class="st">neq f_1 </span><span class="sc">\\</span><span class="st">cdot f_2$ ✗"</span><span class="sc">}</span><span class="vs">`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-3-1" data-nodetype="declaration">
-
-</div>
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-3-2" data-nodetype="expression">
-
-</div>
-</div>
-</div>
-</div>
-</div><div class="column" style="width:70%;">
-<div class="cell">
-<details class="code-fold hidden">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb4" data-startfrom="555" data-source-offset="-53"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 554;"><span id="cb4-555"><a href=""></a>grid_size2 <span class="op">=</span> <span class="dv">40</span></span>
-<span id="cb4-556"><a href=""></a>y1_vals2 <span class="op">=</span> d3<span class="op">.</span><span class="fu">range</span>(<span class="fl">0.02</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">/</span>grid_size2)</span>
-<span id="cb4-557"><a href=""></a>y2_vals2 <span class="op">=</span> d3<span class="op">.</span><span class="fu">range</span>(<span class="fl">0.02</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">/</span>grid_size2)</span>
-<span id="cb4-558"><a href=""></a></span>
-<span id="cb4-559"><a href=""></a>indep_dep_data <span class="op">=</span> {</span>
-<span id="cb4-560"><a href=""></a>  <span class="kw">let</span> data <span class="op">=</span> []<span class="op">;</span></span>
-<span id="cb4-561"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> y1 <span class="kw">of</span> y1_vals2) {</span>
-<span id="cb4-562"><a href=""></a>    <span class="cf">for</span> (<span class="kw">let</span> y2 <span class="kw">of</span> y2_vals2) {</span>
-<span id="cb4-563"><a href=""></a>      <span class="kw">let</span> density<span class="op">;</span></span>
-<span id="cb4-564"><a href=""></a>      <span class="cf">if</span> (dist_type <span class="op">===</span> <span class="st">"Independent"</span>) {</span>
-<span id="cb4-565"><a href=""></a>        <span class="co">// f(y1, y2) = 4*y1*y2 on [0,1]x[0,1]</span></span>
-<span id="cb4-566"><a href=""></a>        density <span class="op">=</span> <span class="dv">4</span> <span class="op">*</span> y1 <span class="op">*</span> y2<span class="op">;</span></span>
-<span id="cb4-567"><a href=""></a>      } <span class="cf">else</span> {</span>
-<span id="cb4-568"><a href=""></a>        <span class="co">// f(y1, y2) = 3*y1 on 0 &lt;= y2 &lt;= y1 &lt;= 1</span></span>
-<span id="cb4-569"><a href=""></a>        density <span class="op">=</span> (y2 <span class="op">&lt;=</span> y1) <span class="op">?</span> <span class="dv">3</span> <span class="op">*</span> y1 <span class="op">:</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb4-570"><a href=""></a>      }</span>
-<span id="cb4-571"><a href=""></a>      data<span class="op">.</span><span class="fu">push</span>({<span class="dt">y1</span><span class="op">:</span> y1<span class="op">,</span> <span class="dt">y2</span><span class="op">:</span> y2<span class="op">,</span> <span class="dt">density</span><span class="op">:</span> density})<span class="op">;</span></span>
-<span id="cb4-572"><a href=""></a>    }</span>
-<span id="cb4-573"><a href=""></a>  }</span>
-<span id="cb4-574"><a href=""></a>  <span class="cf">return</span> data<span class="op">;</span></span>
-<span id="cb4-575"><a href=""></a>}</span>
-<span id="cb4-576"><a href=""></a></span>
-<span id="cb4-577"><a href=""></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
-<span id="cb4-578"><a href=""></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">750</span><span class="op">,</span></span>
-<span id="cb4-579"><a href=""></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">500</span><span class="op">,</span></span>
-<span id="cb4-580"><a href=""></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">60</span><span class="op">,</span></span>
-<span id="cb4-581"><a href=""></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
-<span id="cb4-582"><a href=""></a>  <span class="dt">color</span><span class="op">:</span> {</span>
-<span id="cb4-583"><a href=""></a>    <span class="dt">type</span><span class="op">:</span> <span class="st">"linear"</span><span class="op">,</span></span>
-<span id="cb4-584"><a href=""></a>    <span class="dt">scheme</span><span class="op">:</span> dist_type <span class="op">===</span> <span class="st">"Independent"</span> <span class="op">?</span> <span class="st">"blues"</span> <span class="op">:</span> <span class="st">"oranges"</span><span class="op">,</span></span>
-<span id="cb4-585"><a href=""></a>    <span class="dt">legend</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
-<span id="cb4-586"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Density"</span></span>
-<span id="cb4-587"><a href=""></a>  }<span class="op">,</span></span>
-<span id="cb4-588"><a href=""></a>  <span class="dt">x</span><span class="op">:</span> {</span>
-<span id="cb4-589"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"y₁"</span><span class="op">,</span></span>
-<span id="cb4-590"><a href=""></a>    <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]</span>
-<span id="cb4-591"><a href=""></a>  }<span class="op">,</span></span>
-<span id="cb4-592"><a href=""></a>  <span class="dt">y</span><span class="op">:</span> {</span>
-<span id="cb4-593"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"y₂"</span><span class="op">,</span></span>
-<span id="cb4-594"><a href=""></a>    <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]</span>
-<span id="cb4-595"><a href=""></a>  }<span class="op">,</span></span>
-<span id="cb4-596"><a href=""></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
-<span id="cb4-597"><a href=""></a>    Plot<span class="op">.</span><span class="fu">contour</span>(indep_dep_data<span class="op">,</span> {</span>
-<span id="cb4-598"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"y1"</span><span class="op">,</span></span>
-<span id="cb4-599"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"y2"</span><span class="op">,</span></span>
-<span id="cb4-600"><a href=""></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"density"</span><span class="op">,</span></span>
-<span id="cb4-601"><a href=""></a>      <span class="dt">blur</span><span class="op">:</span> <span class="dv">3</span><span class="op">,</span></span>
-<span id="cb4-602"><a href=""></a>      <span class="dt">thresholds</span><span class="op">:</span> <span class="dv">15</span></span>
-<span id="cb4-603"><a href=""></a>    })<span class="op">,</span></span>
-<span id="cb4-604"><a href=""></a>    dist_type <span class="op">===</span> <span class="st">"Dependent"</span> <span class="op">?</span> Plot<span class="op">.</span><span class="fu">line</span>([[<span class="dv">0</span><span class="op">,</span><span class="dv">0</span>]<span class="op">,</span> [<span class="dv">1</span><span class="op">,</span><span class="dv">1</span>]]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"white"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"5,5"</span>}) <span class="op">:</span> <span class="kw">null</span><span class="op">,</span></span>
-<span id="cb4-605"><a href=""></a>    Plot<span class="op">.</span><span class="fu">frame</span>()</span>
-<span id="cb4-606"><a href=""></a>  ]<span class="op">,</span></span>
-<span id="cb4-607"><a href=""></a>  <span class="dt">caption</span><span class="op">:</span> dist_type <span class="op">===</span> <span class="st">"Independent"</span> <span class="op">?</span> </span>
-<span id="cb4-608"><a href=""></a>    <span class="fu">html</span><span class="vs">`&lt;b&gt;Independent:&lt;/b&gt; Contours are "aligned" with axes (rectangular pattern)`</span> <span class="op">:</span></span>
-<span id="cb4-609"><a href=""></a>    <span class="fu">html</span><span class="vs">`&lt;b&gt;Dependent:&lt;/b&gt; Contours follow constraint y₂ ≤ y₁ (triangular support)`</span></span>
-<span id="cb4-610"><a href=""></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-4-1" data-nodetype="declaration">
-
-</div>
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-4-2" data-nodetype="declaration">
-
-</div>
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-4-3" data-nodetype="declaration">
-
-</div>
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-4-4" data-nodetype="declaration">
-
-</div>
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-4-5" data-nodetype="expression">
-
-</div>
-</div>
-</div>
-</div>
+<div class="column" style="width:33%;">
+<p><strong>🧠 Think (1 min):</strong></p>
+<ul>
+<li>What shape is the support region?</li>
+<li>Can the density factor?</li>
+</ul>
+</div><div class="column" style="width:33%;">
+<p><strong>👫 Pair (2 min):</strong></p>
+<ul>
+<li>Sketch the region together</li>
+<li>Discuss: rectangular or not?</li>
+</ul>
+</div><div class="column" style="width:33%;">
+<p><strong>🗣️ Share (1 min):</strong></p>
+<ul>
+<li>Conclusion: Independent or dependent?</li>
+<li>Why?</li>
+</ul>
 </div></div>
 </div>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<countdown-timer class="countdown" id="timer_15b52309" minutes="4" seconds="0" warn-when="60" update-every="1" play-sound="true" tabindex="0" style="right:0;bottom:0;--countdown-font-size:1.5em;--countdown-color-running-background:#31b09e;--countdown-color-running-text:white;--countdown-color-finished-background:#cc3311;--countdown-color-finished-text:white;"></countdown-timer>
+</div>
+</div>
 </section>
-<section id="think-pair-share-risk-assessment" class="slide level2">
-<h2>🤝 Think-Pair-Share: Risk Assessment</h2>
-<div style="font-size: 28px">
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>💭 Student Engagement Activity (5 minutes)</strong></p>
-</div>
-<div class="callout-content">
-<p><strong>Scenario:</strong> A company is evaluating two investment projects with the following joint probability distribution for success:</p>
+<section id="case-study-conditional-analysis-of-bank-returns" class="slide level2 smaller">
+<h2>💰 Case Study: Conditional Analysis of Bank Returns</h2>
+<div style="font-size: 0.75em; margin-top: -5px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell">
+<details class="code-fold">
+<summary>📊 Show Data Loading Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb3-2"><a href=""></a><span class="fu">library</span>(tidyquant)</span>
+<span id="cb3-3"><a href=""></a></span>
+<span id="cb3-4"><a href=""></a><span class="co"># Get Azerbaijan-relevant bank stocks: JPM and BAC</span></span>
+<span id="cb3-5"><a href=""></a><span class="co"># (similar to PASHA Bank and Kapital Bank dynamics)</span></span>
+<span id="cb3-6"><a href=""></a>symbols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"JPM"</span>, <span class="st">"BAC"</span>)</span>
+<span id="cb3-7"><a href=""></a>prices <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(symbols, <span class="at">from =</span> <span class="st">"2022-01-01"</span>)</span>
+<span id="cb3-8"><a href=""></a></span>
+<span id="cb3-9"><a href=""></a>returns <span class="ot">&lt;-</span> prices <span class="sc">%&gt;%</span></span>
+<span id="cb3-10"><a href=""></a>  <span class="fu">group_by</span>(symbol) <span class="sc">%&gt;%</span></span>
+<span id="cb3-11"><a href=""></a>  <span class="fu">tq_transmute</span>(<span class="at">select =</span> adjusted,</span>
+<span id="cb3-12"><a href=""></a>               <span class="at">mutate_fun =</span> periodReturn,</span>
+<span id="cb3-13"><a href=""></a>               <span class="at">period =</span> <span class="st">"daily"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-14"><a href=""></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> symbol, </span>
+<span id="cb3-15"><a href=""></a>              <span class="at">values_from =</span> daily.returns) <span class="sc">%&gt;%</span></span>
+<span id="cb3-16"><a href=""></a>  <span class="fu">na.omit</span>()</span>
+<span id="cb3-17"><a href=""></a></span>
+<span id="cb3-18"><a href=""></a><span class="co"># Conditional analysis: JPM given BAC quartiles</span></span>
+<span id="cb3-19"><a href=""></a>returns <span class="ot">&lt;-</span> returns <span class="sc">%&gt;%</span></span>
+<span id="cb3-20"><a href=""></a>  <span class="fu">mutate</span>(</span>
+<span id="cb3-21"><a href=""></a>    <span class="at">BAC_state =</span> <span class="fu">case_when</span>(</span>
+<span id="cb3-22"><a href=""></a>      BAC <span class="sc">&lt;</span> <span class="fu">quantile</span>(BAC, <span class="fl">0.25</span>) <span class="sc">~</span> <span class="st">"BAC Down (Q1)"</span>,</span>
+<span id="cb3-23"><a href=""></a>      BAC <span class="sc">&gt;</span> <span class="fu">quantile</span>(BAC, <span class="fl">0.75</span>) <span class="sc">~</span> <span class="st">"BAC Up (Q4)"</span>,</span>
+<span id="cb3-24"><a href=""></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"BAC Normal"</span></span>
+<span id="cb3-25"><a href=""></a>    )</span>
+<span id="cb3-26"><a href=""></a>  )</span>
+<span id="cb3-27"><a href=""></a></span>
+<span id="cb3-28"><a href=""></a><span class="co"># Conditional statistics</span></span>
+<span id="cb3-29"><a href=""></a>cond_stats <span class="ot">&lt;-</span> returns <span class="sc">%&gt;%</span></span>
+<span id="cb3-30"><a href=""></a>  <span class="fu">group_by</span>(BAC_state) <span class="sc">%&gt;%</span></span>
+<span id="cb3-31"><a href=""></a>  <span class="fu">summarise</span>(</span>
+<span id="cb3-32"><a href=""></a>    <span class="st">`</span><span class="at">Mean JPM (%)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">mean</span>(JPM) <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb3-33"><a href=""></a>    <span class="st">`</span><span class="at">SD JPM (%)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sd</span>(JPM) <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb3-34"><a href=""></a>    <span class="at">n =</span> <span class="fu">n</span>()</span>
+<span id="cb3-35"><a href=""></a>  )</span>
+<span id="cb3-36"><a href=""></a></span>
+<span id="cb3-37"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(cond_stats, <span class="at">digits =</span> <span class="dv">3</span>,</span>
+<span id="cb3-38"><a href=""></a>             <span class="at">caption =</span> <span class="st">"JPM Returns Conditional on BAC State"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
 <table class="caption-top">
+<caption>JPM Returns Conditional on BAC State</caption>
 <thead>
 <tr class="header">
-<th style="text-align: center;">Project A &nbsp;Project B</th>
-<th style="text-align: center;">Fail (0)</th>
-<th style="text-align: center;">Succeed (1)</th>
+<th style="text-align: left;">BAC_state</th>
+<th style="text-align: right;">Mean JPM (%)</th>
+<th style="text-align: right;">SD JPM (%)</th>
+<th style="text-align: right;">n</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;"><strong>Fail (0)</strong></td>
-<td style="text-align: center;">0.20</td>
-<td style="text-align: center;">0.15</td>
+<td style="text-align: left;">BAC Down (Q1)</td>
+<td style="text-align: right;">-1.509</td>
+<td style="text-align: right;">1.360</td>
+<td style="text-align: right;">256</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;"><strong>Succeed (1)</strong></td>
-<td style="text-align: center;">0.10</td>
-<td style="text-align: center;">0.55</td>
+<td style="text-align: left;">BAC Normal</td>
+<td style="text-align: right;">0.179</td>
+<td style="text-align: right;">0.878</td>
+<td style="text-align: right;">512</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BAC Up (Q4)</td>
+<td style="text-align: right;">1.496</td>
+<td style="text-align: right;">1.398</td>
+<td style="text-align: right;">256</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Think (1.5 minutes):</strong> Work individually</p>
-<ul>
-<li>If Project A succeeds, what is <span class="math inline">\(P(\text{Project B succeeds} | \text{Project A succeeds})\)</span>?</li>
-<li>If Project A fails, what is <span class="math inline">\(P(\text{Project B succeeds} | \text{Project A fails})\)</span>?</li>
-<li>Are the project outcomes independent?</li>
-</ul>
-<p><strong>Pair (2 minutes):</strong> Discuss with a partner</p>
-<ul>
-<li>Compare your calculations</li>
-<li>What does this dependence/independence mean for the company’s risk?</li>
-</ul>
-<p><strong>Share (1.5 minutes):</strong> Class discussion</p>
-<ul>
-<li>How should this affect the company’s diversification strategy?</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="case-study-are-stock-returns-independent-real-data" class="slide level2">
-<h2>💰 Case Study: Are Stock Returns Independent? (Real Data)</h2>
-<div style="font-size:35px">
-<div class="columns">
-<div class="column" style="width:50%;">
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>📈 Testing Independence with Real Data</strong></p>
-</div>
-<div class="callout-content">
-<p><strong>Context</strong>: A fundamental question in portfolio theory is whether asset returns are independent. If returns are independent, diversification is maximally effective.</p>
-<p><strong>Key Questions</strong>:</p>
-<ul>
-<li><p>Are stock (SPY) and bond (TLT) returns independent?</p></li>
-<li><p>How do we test independence with real data?</p></li>
-<li><p>What does dependence imply for portfolio construction?</p></li>
-</ul>
-</div>
 </div>
 </div>
 </div><div class="column" style="width:50%;">
-<div class="callout callout-tip callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>📊 Data Source</strong></p>
-</div>
-<div class="callout-content">
-<p>We analyze <strong>daily returns</strong> for:</p>
-<ul>
-<li><strong>SPY</strong>: S&amp;P 500 ETF (stocks)</li>
-<li><strong>TLT</strong>: 20+ Year Treasury Bond ETF (bonds)</li>
-</ul>
-<p><strong>Source</strong>: Yahoo Finance API via <code>quantmod</code> package</p>
-<p><strong>Period</strong>: Last 3 years of daily data</p>
-<p><strong>Why these assets?</strong>: Traditional portfolio theory suggests stocks and bonds should have low or negative correlation</p>
+<div class="cell">
+<details class="code-fold">
+<summary>📊 Show Visualization Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="co"># Visualize conditional distributions</span></span>
+<span id="cb4-2"><a href=""></a><span class="fu">ggplot</span>(returns, <span class="fu">aes</span>(<span class="at">x =</span> JPM, <span class="at">fill =</span> BAC_state)) <span class="sc">+</span></span>
+<span id="cb4-3"><a href=""></a>  <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb4-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Conditional Density: f(JPM | BAC state)"</span>,</span>
+<span id="cb4-5"><a href=""></a>       <span class="at">subtitle =</span> <span class="st">"Bank sector dependence"</span>,</span>
+<span id="cb4-6"><a href=""></a>       <span class="at">x =</span> <span class="st">"JPM Daily Return"</span>,</span>
+<span id="cb4-7"><a href=""></a>       <span class="at">y =</span> <span class="st">"Density"</span>,</span>
+<span id="cb4-8"><a href=""></a>       <span class="at">fill =</span> <span class="st">"Condition"</span>) <span class="sc">+</span></span>
+<span id="cb4-9"><a href=""></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>) <span class="sc">+</span></span>
+<span id="cb4-10"><a href=""></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"red"</span>, <span class="st">"gray50"</span>, <span class="st">"green4"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="multivariate_lecture2_files/figure-revealjs/unnamed-chunk-5-1.png" width="576"></p>
+</figure>
 </div>
 </div>
 </div>
 </div></div>
 </div>
 </section>
-<section id="case-study-data-collection-and-summary" class="slide level2 smaller">
-<h2>💰 Case Study: Data Collection and Summary</h2>
-<div style="font-size:26px">
+<section id="case-study-testing-independence" class="slide level2 smaller">
+<h2>💰 Case Study: Testing Independence</h2>
+<div style="font-size: 0.75em; margin-top: -5px;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell">
 <details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="co"># Load required libraries</span></span>
-<span id="cb5-2"><a href=""></a><span class="fu">library</span>(quantmod)</span>
-<span id="cb5-3"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb5-4"><a href=""></a><span class="fu">library</span>(knitr)</span>
-<span id="cb5-5"><a href=""></a></span>
-<span id="cb5-6"><a href=""></a><span class="co"># Set date range (last 3 years)</span></span>
-<span id="cb5-7"><a href=""></a>end_date <span class="ot">&lt;-</span> <span class="fu">Sys.Date</span>()</span>
-<span id="cb5-8"><a href=""></a>start_date <span class="ot">&lt;-</span> end_date <span class="sc">-</span> (<span class="dv">3</span> <span class="sc">*</span> <span class="dv">365</span>)</span>
-<span id="cb5-9"><a href=""></a></span>
-<span id="cb5-10"><a href=""></a><span class="co"># Download data</span></span>
-<span id="cb5-11"><a href=""></a><span class="fu">getSymbols</span>(<span class="st">"SPY"</span>, <span class="at">from =</span> start_date, </span>
-<span id="cb5-12"><a href=""></a>           <span class="at">to =</span> end_date, <span class="at">auto.assign =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<summary>📊 Show Chi-Square Test Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="co"># Statistical test for independence</span></span>
+<span id="cb5-2"><a href=""></a>returns_discrete <span class="ot">&lt;-</span> returns <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href=""></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-4"><a href=""></a>    <span class="at">JPM_cat =</span> <span class="fu">cut</span>(JPM, <span class="at">breaks =</span> <span class="dv">5</span>),</span>
+<span id="cb5-5"><a href=""></a>    <span class="at">BAC_cat =</span> <span class="fu">cut</span>(BAC, <span class="at">breaks =</span> <span class="dv">5</span>)</span>
+<span id="cb5-6"><a href=""></a>  )</span>
+<span id="cb5-7"><a href=""></a></span>
+<span id="cb5-8"><a href=""></a><span class="co"># Contingency table and chi-square test</span></span>
+<span id="cb5-9"><a href=""></a>cont_table <span class="ot">&lt;-</span> <span class="fu">table</span>(returns_discrete<span class="sc">$</span>JPM_cat, </span>
+<span id="cb5-10"><a href=""></a>                    returns_discrete<span class="sc">$</span>BAC_cat)</span>
+<span id="cb5-11"><a href=""></a>chi_test <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(cont_table)</span>
+<span id="cb5-12"><a href=""></a></span>
+<span id="cb5-13"><a href=""></a><span class="fu">cat</span>(<span class="st">"Chi-Square Test for Independence:</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "SPY"</code></pre>
+<pre><code>Chi-Square Test for Independence:</code></pre>
 </div>
 <details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">getSymbols</span>(<span class="st">"TLT"</span>, <span class="at">from =</span> start_date, </span>
-<span id="cb7-2"><a href=""></a>           <span class="at">to =</span> end_date, <span class="at">auto.assign =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<summary>📊 Show Chi-Square Test Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"X² ="</span>, <span class="fu">round</span>(chi_test<span class="sc">$</span>statistic, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "TLT"</code></pre>
+<pre><code>X² = 918.31 </code></pre>
 </div>
 <details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="co"># Calculate daily log returns</span></span>
-<span id="cb9-2"><a href=""></a>spy_returns <span class="ot">&lt;-</span> <span class="fu">dailyReturn</span>(SPY, <span class="at">type =</span> <span class="st">"log"</span>)</span>
-<span id="cb9-3"><a href=""></a>tlt_returns <span class="ot">&lt;-</span> <span class="fu">dailyReturn</span>(TLT, <span class="at">type =</span> <span class="st">"log"</span>)</span>
-<span id="cb9-4"><a href=""></a></span>
-<span id="cb9-5"><a href=""></a><span class="co"># Combine into data frame</span></span>
-<span id="cb9-6"><a href=""></a>returns_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb9-7"><a href=""></a>  <span class="at">Date =</span> <span class="fu">index</span>(spy_returns),</span>
-<span id="cb9-8"><a href=""></a>  <span class="at">SPY =</span> <span class="fu">as.numeric</span>(spy_returns),</span>
-<span id="cb9-9"><a href=""></a>  <span class="at">TLT =</span> <span class="fu">as.numeric</span>(tlt_returns)</span>
-<span id="cb9-10"><a href=""></a>) <span class="sc">%&gt;%</span> <span class="fu">na.omit</span>()</span>
-<span id="cb9-11"><a href=""></a></span>
-<span id="cb9-12"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Observations: %d</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">nrow</span>(returns_df)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<summary>📊 Show Chi-Square Test Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"df ="</span>, chi_test<span class="sc">$</span>parameter, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Observations: 750</code></pre>
+<pre><code>df = 16 </code></pre>
 </div>
 <details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Period: %s to %s</span><span class="sc">\n</span><span class="st">"</span>, </span>
-<span id="cb11-2"><a href=""></a>            <span class="fu">min</span>(returns_df<span class="sc">$</span>Date), <span class="fu">max</span>(returns_df<span class="sc">$</span>Date)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<summary>📊 Show Chi-Square Test Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"p-value &lt;"</span>, <span class="fu">format.pval</span>(chi_test<span class="sc">$</span>p.value), <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Period: 2023-01-23 to 2026-01-16</code></pre>
+<pre><code>p-value &lt; &lt; 2.22e-16 </code></pre>
+</div>
+<details class="code-fold">
+<summary>📊 Show Chi-Square Test Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Conclusion:"</span>, </span>
+<span id="cb13-2"><a href=""></a>    <span class="fu">ifelse</span>(chi_test<span class="sc">$</span>p.value <span class="sc">&lt;</span> <span class="fl">0.05</span>, </span>
+<span id="cb13-3"><a href=""></a>           <span class="st">"REJECT H₀ → Returns are DEPENDENT"</span>, </span>
+<span id="cb13-4"><a href=""></a>           <span class="st">"Cannot reject H₀"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Conclusion: REJECT H₀ → Returns are DEPENDENT</code></pre>
 </div>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="cell">
 <details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="co"># Summary statistics</span></span>
-<span id="cb13-2"><a href=""></a><span class="fu">cat</span>(<span class="st">"=== SPY (Stocks) ===</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>=== SPY (Stocks) ===</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Mean: %.4f%%</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">mean</span>(returns_df<span class="sc">$</span>SPY) <span class="sc">*</span> <span class="dv">100</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Mean: 0.0741%</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Std Dev: %.4f%%</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">sd</span>(returns_df<span class="sc">$</span>SPY) <span class="sc">*</span> <span class="dv">100</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Std Dev: 0.9558%</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">=== TLT (Bonds) ===</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-=== TLT (Bonds) ===</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Mean: %.4f%%</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">mean</span>(returns_df<span class="sc">$</span>TLT) <span class="sc">*</span> <span class="dv">100</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Mean: -0.0246%</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Std Dev: %.4f%%</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">sd</span>(returns_df<span class="sc">$</span>TLT) <span class="sc">*</span> <span class="dv">100</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Std Dev: 0.9339%</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="co"># Correlation (preview of Section 5.7)</span></span>
-<span id="cb25-2"><a href=""></a>corr_val <span class="ot">&lt;-</span> <span class="fu">cor</span>(returns_df<span class="sc">$</span>SPY, returns_df<span class="sc">$</span>TLT)</span>
-<span id="cb25-3"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">=== Correlation ===</span><span class="sc">\n</span><span class="st">"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-=== Correlation ===</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Corr(SPY, TLT): %.4f</span><span class="sc">\n</span><span class="st">"</span>, corr_val))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Corr(SPY, TLT): 0.1025</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a><span class="co"># If independent, correlation should be near 0</span></span>
-<span id="cb29-2"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Note: If independent, correlation ≈ 0</span><span class="sc">\n</span><span class="st">"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Note: If independent, correlation ≈ 0</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Observed correlation suggests %s</span><span class="sc">\n</span><span class="st">"</span>,</span>
-<span id="cb31-2"><a href=""></a>            <span class="fu">ifelse</span>(<span class="fu">abs</span>(corr_val) <span class="sc">&lt;</span> <span class="fl">0.1</span>, <span class="st">"possible independence"</span>,</span>
-<span id="cb31-3"><a href=""></a>                   <span class="st">"dependence"</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Observed correlation suggests dependence</code></pre>
-</div>
-</div>
-</div></div>
-</div>
-</section>
-<section id="case-study-visual-tests-of-independence" class="slide level2 smaller">
-<h2>💰 Case Study: Visual Tests of Independence</h2>
-<div style="font-size:26px">
-<div class="columns">
-<div class="column" style="width:50%;">
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="co"># Scatter plot - if independent, no pattern</span></span>
-<span id="cb33-2"><a href=""></a><span class="fu">ggplot</span>(returns_df, <span class="fu">aes</span>(<span class="at">x =</span> SPY, <span class="at">y =</span> TLT)) <span class="sc">+</span></span>
-<span id="cb33-3"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
-<span id="cb33-4"><a href=""></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">se =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
-<span id="cb33-5"><a href=""></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
-<span id="cb33-6"><a href=""></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
-<span id="cb33-7"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"SPY vs TLT Daily Returns"</span>,</span>
-<span id="cb33-8"><a href=""></a>       <span class="at">subtitle =</span> <span class="st">"Looking for patterns (independence = no pattern)"</span>,</span>
-<span id="cb33-9"><a href=""></a>       <span class="at">x =</span> <span class="st">"SPY Return (Stocks)"</span>,</span>
-<span id="cb33-10"><a href=""></a>       <span class="at">y =</span> <span class="st">"TLT Return (Bonds)"</span>) <span class="sc">+</span></span>
-<span id="cb33-11"><a href=""></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<summary>📊 Show Scatter Plot Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a><span class="co"># Scatter plot showing dependence</span></span>
+<span id="cb15-2"><a href=""></a><span class="fu">ggplot</span>(returns, <span class="fu">aes</span>(<span class="at">x =</span> BAC, <span class="at">y =</span> JPM)) <span class="sc">+</span></span>
+<span id="cb15-3"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>, <span class="at">color =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb15-4"><a href=""></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">se =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb15-5"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"JPM vs BAC Daily Returns"</span>,</span>
+<span id="cb15-6"><a href=""></a>       <span class="at">subtitle =</span> <span class="fu">paste</span>(<span class="st">"Correlation:"</span>, </span>
+<span id="cb15-7"><a href=""></a>                        <span class="fu">round</span>(<span class="fu">cor</span>(returns<span class="sc">$</span>JPM, returns<span class="sc">$</span>BAC), <span class="dv">3</span>)),</span>
+<span id="cb15-8"><a href=""></a>       <span class="at">x =</span> <span class="st">"BAC Daily Return"</span>,</span>
+<span id="cb15-9"><a href=""></a>       <span class="at">y =</span> <span class="st">"JPM Daily Return"</span>) <span class="sc">+</span></span>
+<span id="cb15-10"><a href=""></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>) <span class="sc">+</span></span>
+<span id="cb15-11"><a href=""></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb15-12"><a href=""></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1115,175 +1125,12 @@ Note: If independent, correlation ≈ 0</code></pre>
 </div>
 </div>
 </div>
-</div><div class="column" style="width:50%;">
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a><span class="co"># Conditional density comparison</span></span>
-<span id="cb34-2"><a href=""></a><span class="co"># If independent, density of TLT should not change based on SPY</span></span>
-<span id="cb34-3"><a href=""></a></span>
-<span id="cb34-4"><a href=""></a><span class="co"># Divide SPY into terciles</span></span>
-<span id="cb34-5"><a href=""></a>returns_df <span class="ot">&lt;-</span> returns_df <span class="sc">%&gt;%</span></span>
-<span id="cb34-6"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">SPY_tercile =</span> <span class="fu">cut</span>(SPY, </span>
-<span id="cb34-7"><a href=""></a>                           <span class="at">breaks =</span> <span class="fu">quantile</span>(SPY, <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>, <span class="dv">1</span>)),</span>
-<span id="cb34-8"><a href=""></a>                           <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"SPY Low"</span>, <span class="st">"SPY Mid"</span>, <span class="st">"SPY High"</span>),</span>
-<span id="cb34-9"><a href=""></a>                           <span class="at">include.lowest =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb34-10"><a href=""></a></span>
-<span id="cb34-11"><a href=""></a><span class="co"># Plot conditional distributions</span></span>
-<span id="cb34-12"><a href=""></a><span class="fu">ggplot</span>(returns_df, <span class="fu">aes</span>(<span class="at">x =</span> TLT, <span class="at">fill =</span> SPY_tercile)) <span class="sc">+</span></span>
-<span id="cb34-13"><a href=""></a>  <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb34-14"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"TLT Returns by SPY Performance"</span>,</span>
-<span id="cb34-15"><a href=""></a>       <span class="at">subtitle =</span> <span class="st">"If independent, distributions should overlap"</span>,</span>
-<span id="cb34-16"><a href=""></a>       <span class="at">x =</span> <span class="st">"TLT Return (Bonds)"</span>,</span>
-<span id="cb34-17"><a href=""></a>       <span class="at">y =</span> <span class="st">"Density"</span>,</span>
-<span id="cb34-18"><a href=""></a>       <span class="at">fill =</span> <span class="st">"SPY Tercile"</span>) <span class="sc">+</span></span>
-<span id="cb34-19"><a href=""></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>) <span class="sc">+</span></span>
-<span id="cb34-20"><a href=""></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"red"</span>, <span class="st">"gray"</span>, <span class="st">"green"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output-display">
-<div>
-<figure>
-<p><img data-src="multivariate_lecture2_files/figure-revealjs/unnamed-chunk-8-1.png" width="576"></p>
-</figure>
-</div>
-</div>
-</div>
 </div></div>
 </div>
 </section>
-<section id="case-study-formal-independence-test" class="slide level2 smaller">
-<h2>💰 Case Study: Formal Independence Test</h2>
-<div style="font-size:26px">
-<div class="columns">
-<div class="column" style="width:50%;">
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a><span class="co"># Chi-square test of independence</span></span>
-<span id="cb35-2"><a href=""></a><span class="co"># Discretize returns into categories</span></span>
-<span id="cb35-3"><a href=""></a>returns_df <span class="ot">&lt;-</span> returns_df <span class="sc">%&gt;%</span></span>
-<span id="cb35-4"><a href=""></a>  <span class="fu">mutate</span>(</span>
-<span id="cb35-5"><a href=""></a>    <span class="at">SPY_cat =</span> <span class="fu">cut</span>(SPY, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="cn">Inf</span>, <span class="sc">-</span><span class="fl">0.01</span>, <span class="fl">0.01</span>, <span class="cn">Inf</span>),</span>
-<span id="cb35-6"><a href=""></a>                  <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Down"</span>, <span class="st">"Flat"</span>, <span class="st">"Up"</span>)),</span>
-<span id="cb35-7"><a href=""></a>    <span class="at">TLT_cat =</span> <span class="fu">cut</span>(TLT, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="cn">Inf</span>, <span class="sc">-</span><span class="fl">0.01</span>, <span class="fl">0.01</span>, <span class="cn">Inf</span>),</span>
-<span id="cb35-8"><a href=""></a>                  <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Down"</span>, <span class="st">"Flat"</span>, <span class="st">"Up"</span>))</span>
-<span id="cb35-9"><a href=""></a>  )</span>
-<span id="cb35-10"><a href=""></a></span>
-<span id="cb35-11"><a href=""></a><span class="co"># Contingency table</span></span>
-<span id="cb35-12"><a href=""></a>cont_table <span class="ot">&lt;-</span> <span class="fu">table</span>(returns_df<span class="sc">$</span>SPY_cat, returns_df<span class="sc">$</span>TLT_cat)</span>
-<span id="cb35-13"><a href=""></a><span class="fu">cat</span>(<span class="st">"Contingency Table:</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Contingency Table:</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="fu">print</span>(cont_table)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>      
-       Down Flat  Up
-  Down   19   41  16
-  Flat   65  473  54
-  Up     10   54  18</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="co"># Chi-square test</span></span>
-<span id="cb39-2"><a href=""></a>chi_test <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(cont_table)</span>
-<span id="cb39-3"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Chi-square statistic: %.2f</span><span class="sc">\n</span><span class="st">"</span>, chi_test<span class="sc">$</span>statistic))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Chi-square statistic: 34.11</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Degrees of freedom: %d</span><span class="sc">\n</span><span class="st">"</span>, chi_test<span class="sc">$</span>parameter))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Degrees of freedom: 4</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"P-value: %.6f</span><span class="sc">\n</span><span class="st">"</span>, chi_test<span class="sc">$</span>p.value))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>P-value: 0.000001</code></pre>
-</div>
-</div>
-</div><div class="column" style="width:50%;">
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a><span class="co"># Interpretation</span></span>
-<span id="cb45-2"><a href=""></a><span class="fu">cat</span>(<span class="st">"=== Test Interpretation ===</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>=== Test Interpretation ===</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a><span class="cf">if</span>(chi_test<span class="sc">$</span>p.value <span class="sc">&lt;</span> <span class="fl">0.05</span>) {</span>
-<span id="cb47-2"><a href=""></a>  <span class="fu">cat</span>(<span class="st">"Result: REJECT independence (p &lt; 0.05)</span><span class="sc">\n\n</span><span class="st">"</span>)</span>
-<span id="cb47-3"><a href=""></a>  <span class="fu">cat</span>(<span class="st">"SPY and TLT returns are NOT independent.</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb47-4"><a href=""></a>  <span class="fu">cat</span>(<span class="st">"The relationship is statistically significant.</span><span class="sc">\n\n</span><span class="st">"</span>)</span>
-<span id="cb47-5"><a href=""></a>} <span class="cf">else</span> {</span>
-<span id="cb47-6"><a href=""></a>  <span class="fu">cat</span>(<span class="st">"Result: Cannot reject independence (p &gt;= 0.05)</span><span class="sc">\n\n</span><span class="st">"</span>)</span>
-<span id="cb47-7"><a href=""></a>  <span class="fu">cat</span>(<span class="st">"Insufficient evidence against independence.</span><span class="sc">\n\n</span><span class="st">"</span>)</span>
-<span id="cb47-8"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Result: REJECT independence (p &lt; 0.05)
-
-SPY and TLT returns are NOT independent.
-The relationship is statistically significant.</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a><span class="co"># Expected vs observed</span></span>
-<span id="cb49-2"><a href=""></a><span class="fu">cat</span>(<span class="st">"Expected counts (if independent):</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Expected counts (if independent):</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href=""></a><span class="fu">print</span>(<span class="fu">round</span>(chi_test<span class="sc">$</span>expected, <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>      
-       Down  Flat   Up
-  Down  9.5  57.6  8.9
-  Flat 74.2 448.3 69.5
-  Up   10.3  62.1  9.6</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Residuals (Obs - Expected):</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Residuals (Obs - Expected):</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href=""></a><span class="fu">print</span>(<span class="fu">round</span>(chi_test<span class="sc">$</span>observed <span class="sc">-</span> chi_test<span class="sc">$</span>expected, <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>      
-        Down  Flat    Up
-  Down   9.5 -16.6   7.1
-  Flat  -9.2  24.7 -15.5
-  Up    -0.3  -8.1   8.4</code></pre>
-</div>
-</div>
-</div></div>
-</div>
-</section>
-<section id="case-study-key-findings" class="slide level2 smaller">
+<section id="case-study-key-findings" class="slide level2">
 <h2>💰 Case Study: Key Findings</h2>
-<div style="font-size: 32.5px;">
+<div style="font-size:32px;">
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -1296,29 +1143,29 @@ Residuals (Obs - Expected):</code></pre>
 <div class="columns">
 <div class="column" style="width:33%;">
 <div class="fragment">
-<p><strong>Evidence Against Independence:</strong></p>
+<p><strong>Conditional Behavior:</strong></p>
 <ul>
-<li><p>Chi-square test typically rejects independence</p></li>
-<li><p>Scatter plot shows negative relationship</p></li>
-<li><p>Conditional distributions shift based on SPY performance</p></li>
+<li>When BAC falls, JPM tends to fall</li>
+<li>Conditional mean shifts significantly</li>
+<li>Conditional volatility also changes</li>
 </ul>
 </div>
 </div><div class="column" style="width:33%;">
 <div class="fragment">
-<p><strong>Economic Interpretation:</strong></p>
+<p><strong>Independence Test:</strong></p>
 <ul>
-<li><p>Stocks and bonds often move in <strong>opposite directions</strong></p></li>
-<li><p>“Flight to safety”: When stocks fall, investors buy bonds</p></li>
-<li><p>This negative correlation is the basis for stock-bond portfolio diversification</p></li>
+<li>Chi-square strongly rejects independence</li>
+<li>Clear positive dependence</li>
+<li>Returns move together</li>
 </ul>
 </div>
 </div><div class="column" style="width:33%;">
 <div class="fragment">
 <p><strong>Portfolio Implications:</strong></p>
 <ol type="1">
-<li><p><strong>Diversification works</strong>: Negative correlation reduces overall portfolio risk</p></li>
-<li><p><strong>Not perfect hedge</strong>: Correlation varies over time</p></li>
-<li><p><strong>Crisis periods</strong>: Correlations can break down (both assets fall together)</p></li>
+<li><strong>Diversification limited</strong>: Same-sector stocks dependent</li>
+<li><strong>Risk modeling</strong>: Must use joint distributions</li>
+<li><strong>Stress testing</strong>: Conditional analysis essential</li>
 </ol>
 </div>
 </div></div>
@@ -1327,53 +1174,81 @@ Residuals (Obs - Expected):</code></pre>
 </div>
 </div>
 </section>
-<section id="quiz-1-conditional-probability-computation" class="slide level2 smaller quiz-question">
-<h2>📝 Quiz #1: Conditional Probability Computation</h2>
-<p>If <span class="math inline">\(p(y_1, y_2) = 0.15\)</span> and <span class="math inline">\(p_2(y_2) = 0.30\)</span>, what is <span class="math inline">\(p(y_1 | y_2)\)</span>?</p>
+<section id="quiz-1-conditional-probability" class="slide level2 quiz-question">
+<h2>📝 Quiz #1: Conditional Probability</h2>
+<div style="font-size: 36px;">
+<p>If <span class="math inline">\(p(1,2) = 0.15\)</span> and <span class="math inline">\(p_2(2) = 0.30\)</span>, what is <span class="math inline">\(P(Y_1 = 1 | Y_2 = 2)\)</span>?</p>
 <ul>
-<li><span class="correct" data-explanation="✅ Correct! p(y₁|y₂) = p(y₁,y₂)/p₂(y₂) = 0.15/0.30 = 0.50">0.50</span></li>
+<li><span class="correct" data-explanation="✅ Correct! By Definition 5.5: $P(Y_1 = 1 | Y_2 = 2) = p(1,2)/p_2(2) = 0.15/0.30 = 0.50$.">0.50</span></li>
 <li>0.15</li>
+<li>0.30</li>
 <li>0.45</li>
-<li>2.00</li>
 </ul>
+</div>
 </section>
-<section id="quiz-2-identifying-independence" class="slide level2 smaller quiz-question">
-<h2>📝 Quiz #2: Identifying Independence</h2>
-<p>Let <span class="math inline">\(f(y_1, y_2) = 2e^{-y_1}e^{-2y_2}\)</span> for <span class="math inline">\(y_1 &gt; 0\)</span> and <span class="math inline">\(y_2 &gt; 0\)</span>. Are <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> independent?</p>
+<section id="quiz-2-independence-condition" class="slide level2 quiz-question">
+<h2>📝 Quiz #2: Independence Condition</h2>
+<div style="font-size: 32px;">
+<p>For continuous random variables, which condition is equivalent to independence?</p>
 <ul>
-<li><span class="correct" data-explanation="✅ Correct! The density factors as g(y₁)·h(y₂) = (e^{-y₁})·(2e^{-2y₂}) and the support (0,∞)×(0,∞) is rectangular, so by Theorem 5.5, they are independent.">Yes, because the joint density factors and the support is rectangular</span></li>
-<li>Yes, because the density is positive everywhere</li>
-<li>No, because the density depends on both <span class="math inline">\(y_1\)</span> and <span class="math inline">\(y_2\)</span></li>
+<li><span class="correct" data-explanation="✅ Correct! By Theorem 5.4, independence requires the joint density to factor into the product of marginals for ALL values."><span class="math inline">\(f(y_1, y_2) = f_1(y_1) \cdot f_2(y_2)\)</span> for all <span class="math inline">\((y_1, y_2)\)</span></span></li>
+<li><span class="math inline">\(f(y_1|y_2) = f_2(y_2)\)</span> for all <span class="math inline">\(y_2\)</span></li>
+<li><span class="math inline">\(f(y_1, y_2) = f_1(y_1) + f_2(y_2)\)</span> for all <span class="math inline">\((y_1, y_2)\)</span></li>
+<li><span class="math inline">\(f(y_1, y_2) &gt; 0\)</span> for all <span class="math inline">\((y_1, y_2)\)</span></li>
+</ul>
+</div>
+</section>
+<section id="quiz-3-factorization-theorem" class="slide level2 quiz-question">
+<h2>📝 Quiz #3: Factorization Theorem</h2>
+<div style="font-size: 32px;">
+<p><span class="math inline">\(f(y_1, y_2) = 12y_1^2y_2\)</span> for <span class="math inline">\(0 \leq y_1 \leq 1, 0 \leq y_2 \leq 1\)</span>. Are <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> independent?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Correct! The region is rectangular and $f(y_1,y_2) = 12y_1^2y_2 = (y_1^2)(12y_2)$ factors into a function of $y_1$ times a function of $y_2$.">Yes, because <span class="math inline">\(f(y_1,y_2) = g(y_1) \cdot h(y_2)\)</span> with rectangular support</span></li>
+<li>No, because the powers are different</li>
+<li>No, because the constant 12 cannot be split</li>
 <li>Cannot determine without computing marginals</li>
 </ul>
+</div>
 </section>
-<section id="quiz-3-independence-and-conditional-distributions" class="slide level2 smaller quiz-question">
-<h2>📝 Quiz #3: Independence and Conditional Distributions</h2>
-<p>If <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> are independent, what is true about the conditional distribution <span class="math inline">\(f(y_1|y_2)\)</span>?</p>
+<section id="quiz-4-dependent-variables" class="slide level2 quiz-question">
+<h2>📝 Quiz #4: Dependent Variables</h2>
+<div style="font-size: 34px;">
+<p><span class="math inline">\(f(y_1, y_2) = 8y_1y_2\)</span> for <span class="math inline">\(0 &lt; y_1 &lt; y_2 &lt; 1\)</span>. Why are <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> dependent?</p>
 <ul>
-<li><span class="correct" data-explanation="✅ Correct! If independent, f(y₁|y₂) = f(y₁,y₂)/f₂(y₂) = f₁(y₁)·f₂(y₂)/f₂(y₂) = f₁(y₁). Knowing y₂ doesn't change the distribution of Y₁.">It equals the marginal distribution <span class="math inline">\(f_1(y_1)\)</span></span></li>
-<li>It equals zero</li>
-<li>It equals the joint distribution <span class="math inline">\(f(y_1, y_2)\)</span></li>
-<li>It depends on the specific value of <span class="math inline">\(y_2\)</span></li>
+<li><span class="correct" data-explanation="✅ Correct! The constraint $y_1 < y_2$ creates a triangular (non-rectangular) region. When the support is not rectangular, Theorem 5.5 cannot be applied and variables are typically dependent.">The region of support is not rectangular</span></li>
+<li>The density cannot be factored</li>
+<li>The coefficient 8 is too large</li>
+<li>The marginal densities don’t exist</li>
 </ul>
+</div>
 </section>
-<section id="summary" class="slide level2 smaller">
+<section id="summary" class="slide level2 larger">
 <h2>📝 Summary</h2>
-<div style="font-size: 32.5px">
-<div class="summary-box">
+<div style="font-size:36px;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
 <p><strong>✅ Key Takeaways</strong></p>
+</div>
+<div class="callout-content">
 <ul>
-<li><p><strong>Conditional distributions</strong> describe the probability distribution of one variable given the value of another: <span class="math inline">\(p(y_1|y_2) = p(y_1, y_2)/p_2(y_2)\)</span></p></li>
-<li><p><strong>Independence</strong> means the joint distribution factors into marginals: <span class="math inline">\(f(y_1, y_2) = f_1(y_1) \cdot f_2(y_2)\)</span>, equivalently, knowing <span class="math inline">\(Y_2\)</span> provides no information about <span class="math inline">\(Y_1\)</span></p></li>
-<li><p><strong>Theorem 5.5</strong> provides a quick check: if the support is rectangular and the density factors, the variables are independent</p></li>
-<li><p><strong>Non-rectangular support</strong> (like <span class="math inline">\(y_2 \leq y_1\)</span>) automatically implies dependence</p></li>
-<li><p><strong>Financial insight</strong>: Stock and bond returns are typically NOT independent—their negative correlation enables diversification benefits</p></li>
+<li class="fragment"><p><strong>Conditional distributions</strong> describe behavior of one variable given information about another</p></li>
+<li class="fragment"><p><strong>Discrete case:</strong> <span class="math inline">\(p(y_1|y_2) = p(y_1, y_2)/p_2(y_2)\)</span> when <span class="math inline">\(p_2(y_2) &gt; 0\)</span></p></li>
+<li class="fragment"><p><strong>Continuous case:</strong> <span class="math inline">\(f(y_1|y_2) = f(y_1, y_2)/f_2(y_2)\)</span> when <span class="math inline">\(f_2(y_2) &gt; 0\)</span></p></li>
+<li class="fragment"><p><strong>Independence:</strong> Joint = Product of marginals for ALL values</p></li>
+<li class="fragment"><p><strong>Factorization theorem:</strong> Rectangular support + density factors → independence</p></li>
 </ul>
+</div>
+</div>
 </div>
 </div>
 </section>
 <section id="practice-problems" class="slide level2">
 <h2>📚 Practice Problems</h2>
+<div style="font-size: 32px;">
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -1383,40 +1258,44 @@ Residuals (Obs - Expected):</code></pre>
 <p><strong>📝 Homework Problems</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Problem 1 (Conditional PMF):</strong> Given a joint probability table for two assets’ returns, compute all conditional probabilities and verify they sum to 1.</p>
-<p><strong>Problem 2 (Conditional PDF):</strong> For <span class="math inline">\(f(y_1, y_2) = 8y_1y_2\)</span> on <span class="math inline">\(0 &lt; y_1 &lt; y_2 &lt; 1\)</span>, find <span class="math inline">\(f(y_1|y_2)\)</span> and compute <span class="math inline">\(P(Y_1 &lt; 0.3 | Y_2 = 0.5)\)</span>.</p>
-<p><strong>Problem 3 (Testing Independence):</strong> Determine whether the following pairs are independent: (a) <span class="math inline">\(f(y_1, y_2) = e^{-y_1-y_2}\)</span> on <span class="math inline">\(y_1 &gt; 0, y_2 &gt; 0\)</span> (b) <span class="math inline">\(f(y_1, y_2) = 24y_1y_2\)</span> on <span class="math inline">\(0 &lt; y_1 &lt; 1, 0 &lt; y_2 &lt; 1-y_1\)</span></p>
-<p><strong>Problem 4 (Financial Application):</strong> A portfolio has two assets. If returns are independent with given marginal distributions, find the probability both assets have positive returns.</p>
+<p><strong>Problem 1 (Conditional Discrete):</strong> Using the portfolio asset selection example, find the complete conditional distribution of <span class="math inline">\(Y_2\)</span> (bank stocks) given <span class="math inline">\(Y_1 = 1\)</span> (one tech stock selected).</p>
+<p><strong>Problem 2 (Conditional Continuous):</strong> If stock returns have <span class="math inline">\(f(y_1, y_2) = 4y_1y_2\)</span> for <span class="math inline">\(0 &lt; y_1 &lt; 1, 0 &lt; y_2 &lt; 1\)</span>, find <span class="math inline">\(f(y_1|y_2)\)</span> and verify it’s a valid density.</p>
+<p><strong>Problem 3 (Independence):</strong> A risk model has <span class="math inline">\(f(y_1, y_2) = 2\)</span> for <span class="math inline">\(0 &lt; y_1 + y_2 &lt; 1\)</span>. Determine if the risk factors are independent.</p>
+<p><strong>Problem 4 (Azerbaijan Application):</strong> Download SOCAR and Brent crude oil price data. Test whether their daily returns are independent using a chi-square test.</p>
+</div>
 </div>
 </div>
 </div>
 </section>
-<section id="thank-you" class="slide level2 smaller center">
+<section id="thank-you" class="slide level2 center">
 <h2>👋 Thank You!</h2>
+<div style="font-size: 32px;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <p><strong>📬 Contact Information:</strong></p>
 <p>Samir Orujov, PhD</p>
 <p>Assistant Professor</p>
-<p>School of Business</p>
-<p>ADA University</p>
+<p>School of Business, ADA University</p>
 <p>📧 Email: <a href="mailto:sorujov@ada.edu.az">sorujov@ada.edu.az</a></p>
 <p>🏢 Office: D312</p>
 <p>⏰ Office Hours: By appointment</p>
 </div><div class="column" style="width:50%;">
 <p><strong>📅 Next Class:</strong></p>
 <p><strong>Topic:</strong> Expected Values, Covariance, and Correlation</p>
-<p><strong>Reading:</strong> Chapter 5, Sections 5.5-5.7</p>
-<p><strong>Preparation:</strong> Review expected value and variance from Chapter 4</p>
+<p><strong>Reading:</strong> Chapter 5, Sections 5.5-5.8</p>
+<p><strong>Preparation:</strong> Review variance and expected value formulas</p>
 <p><strong>⏰ Reminders:</strong></p>
-<p>✅ Complete Practice Problems 1-4</p>
-<p>✅ Think about real-world examples of dependent variables</p>
-<p>✅ Consider: How does dependence affect portfolio risk?</p>
-<p>✅ Work hard!</p>
+<ul>
+<li>✅ Complete Practice Problems 1-4</li>
+<li>✅ Review integration by parts</li>
+<li>✅ Think about correlation vs dependence</li>
+</ul>
 </div></div>
+</div>
 </section>
 <section id="questions" class="slide level2 center">
 <h2>❓ Questions?</h2>
+<div style="font-size: 36px;">
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -1428,11 +1307,12 @@ Residuals (Obs - Expected):</code></pre>
 <div class="callout-content">
 <p><strong>Key Topics for Discussion:</strong></p>
 <ul>
-<li><p>Why is independence such an important concept in statistics and finance?</p></li>
-<li><p>When is it reasonable to assume independence between random variables?</p></li>
-<li><p>How does dependence between asset returns affect the risk-return tradeoff in portfolios?</p></li>
-<li><p>What are some real-world examples where independence is clearly violated?</p></li>
+<li><p>How does conditional expectation relate to regression?</p></li>
+<li><p>Can two variables be dependent but have zero correlation?</p></li>
+<li><p>How do we use independence in portfolio theory?</p></li>
+<li><p>What’s the relationship between statistical independence and economic independence?</p></li>
 </ul>
+</div>
 </div>
 </div>
 </div>
@@ -1440,9 +1320,9 @@ Residuals (Obs - Expected):</code></pre>
 </section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
-<p><img src="ADA.png" class="slide-logo"></p>
+<p><img src="../ADA.png" class="slide-logo"></p>
 <div class="footer footer-default">
-<p>Mathematical Statistics - Conditional Distributions and Independence</p>
+<p>Mathematical Statistics - Ch.5: Multivariate Distributions (Part 2)</p>
 </div>
 </div></div>
 
@@ -1589,7 +1469,7 @@ Residuals (Obs - Expected):</code></pre>
         defaultTiming: null,
 
         // Enable slide navigation via mouse wheel
-        mouseWheel: false,
+        mouseWheel: true,
 
         // The display mode that will be used to show slides
         display: 'block',
@@ -1629,7 +1509,12 @@ Residuals (Obs - Expected):</code></pre>
         height: 720,
 
         // Factor of the display size that should remain empty around the content
-        margin: 0.1,
+        margin: 4.0e-2,
+
+        // Bounds for smallest/largest possible scale to apply to content
+        minScale: 0.2,
+
+        maxScale: 2,
 
         math: {
           mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
@@ -1659,7 +1544,7 @@ Residuals (Obs - Expected):</code></pre>
       });
     </script>
     <script type="ojs-module-contents">
-    eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6Ilxudmlld29mIHkyX2NvbmQgPSBJbnB1dHMucmFuZ2UoWzAuNSwgMl0sIHtcbiAgdmFsdWU6IDEuNSwgXG4gIHN0ZXA6IDAuMSwgXG4gIGxhYmVsOiBcIkNvbmRpdGlvbmluZyB2YWx1ZSB54oKCOlwiXG59KVxuXG4vLyBGb3IgZih5MSx5MikgPSAxLzIgb24gMCA8PSB5MSA8PSB5MiA8PSAyXG4vLyBNYXJnaW5hbCBmMih5MikgPSB5Mi8yXG4vLyBDb25kaXRpb25hbCBmKHkxfHkyKSA9IDEveTIgb24gWzAsIHkyXVxuXG5tZGAqKkpvaW50IGRlbnNpdHk6KiogIFxuJGYoeV8xLCB5XzIpID0gXFxcXGZyYWN7MX17Mn0kICBcbm9uICQwIFxcXFxsZXEgeV8xIFxcXFxsZXEgeV8yIFxcXFxsZXEgMiRcblxuKipNYXJnaW5hbDoqKiAgXG4kZl8yKHlfMikgPSBcXFxcZnJhY3t5XzJ9ezJ9ID0gJHsoeTJfY29uZC8yKS50b0ZpeGVkKDMpfSRcblxuKipDb25kaXRpb25hbDoqKiAgXG4kZih5XzF8eV8yPSR7eTJfY29uZC50b0ZpeGVkKDEpfSkgPSBcXFxcZnJhY3sxfXske3kyX2NvbmQudG9GaXhlZCgxKX19ID0gJHsoMS95Ml9jb25kKS50b0ZpeGVkKDMpfSRcblxub24gJFswLCAke3kyX2NvbmQudG9GaXhlZCgxKX1dJGBcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMiIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6IlxuLy8gR2VuZXJhdGUgY29uZGl0aW9uYWwgZGVuc2l0eSBkYXRhXG5jb25kX3kxX3ZhbHMgPSBkMy5yYW5nZSgwLCB5Ml9jb25kICsgMC4wMSwgMC4wMSlcblxuY29uZF9kZW5zaXR5X2RhdGEgPSBjb25kX3kxX3ZhbHMubWFwKHkxID0+ICh7XG4gIHkxOiB5MSxcbiAgZGVuc2l0eTogMS95Ml9jb25kXG59KSlcblxuLy8gQWxzbyBzaG93IHdoYXQgaGFwcGVucyBvdXRzaWRlIHN1cHBvcnRcbmZ1bGxfeTFfcmFuZ2UgPSBkMy5yYW5nZSgwLCAyLjEsIDAuMDEpXG5cbmZ1bGxfZGVuc2l0eV9kYXRhID0gZnVsbF95MV9yYW5nZS5tYXAoeTEgPT4gKHtcbiAgeTE6IHkxLFxuICBkZW5zaXR5OiB5MSA8PSB5Ml9jb25kID8gMS95Ml9jb25kIDogMFxufSkpXG5cblBsb3QucGxvdCh7XG4gIHdpZHRoOiA3NTAsXG4gIGhlaWdodDogNDUwLFxuICBtYXJnaW5MZWZ0OiA2MCxcbiAgbWFyZ2luQm90dG9tOiA1MCxcbiAgeDoge1xuICAgIGxhYmVsOiBcInnigoEgKGFtb3VudCBzb2xkKVwiLFxuICAgIGRvbWFpbjogWzAsIDIuMl1cbiAgfSxcbiAgeToge1xuICAgIGxhYmVsOiBcIkNvbmRpdGlvbmFsIERlbnNpdHkgZih54oKBfHnigoIpXCIsXG4gICAgZG9tYWluOiBbMCwgMi41XVxuICB9LFxuICBtYXJrczogW1xuICAgIFBsb3QuYXJlYVkoY29uZF9kZW5zaXR5X2RhdGEsIHtcbiAgICAgIHg6IFwieTFcIiwgXG4gICAgICB5OiBcImRlbnNpdHlcIiwgXG4gICAgICBmaWxsOiBcInN0ZWVsYmx1ZVwiLCBcbiAgICAgIG9wYWNpdHk6IDAuNVxuICAgIH0pLFxuICAgIFBsb3QubGluZShmdWxsX2RlbnNpdHlfZGF0YSwge1xuICAgICAgeDogXCJ5MVwiLCBcbiAgICAgIHk6IFwiZGVuc2l0eVwiLCBcbiAgICAgIHN0cm9rZTogXCJkYXJrYmx1ZVwiLCBcbiAgICAgIHN0cm9rZVdpZHRoOiAzXG4gICAgfSksXG4gICAgUGxvdC5ydWxlWChbeTJfY29uZF0sIHtcbiAgICAgIHN0cm9rZTogXCJyZWRcIiwgXG4gICAgICBzdHJva2VXaWR0aDogMiwgXG4gICAgICBzdHJva2VEYXNoYXJyYXk6IFwiNSw1XCJcbiAgICB9KSxcbiAgICBQbG90LnJ1bGVZKFswXSksXG4gICAgUGxvdC50ZXh0KFtbeTJfY29uZCArIDAuMSwgMC41XV0sIHtcbiAgICAgIHRleHQ6IFtgeeKCgiA9ICR7eTJfY29uZC50b0ZpeGVkKDEpfWBdLFxuICAgICAgZmlsbDogXCJyZWRcIixcbiAgICAgIGZvbnRTaXplOiAxNFxuICAgIH0pXG4gIF0sXG4gIGNhcHRpb246IGh0bWxgPGI+Q29uZGl0aW9uYWwgZGVuc2l0eTo8L2I+IGYoeeKCgXx54oKCPSR7eTJfY29uZC50b0ZpeGVkKDEpfSkgPSAkeygxL3kyX2NvbmQpLnRvRml4ZWQoMyl9IG9uIFswLCAke3kyX2NvbmQudG9GaXhlZCgxKX1dLiA8c3BhbiBzdHlsZT1cImNvbG9yOnJlZFwiPuKUijwvc3Bhbj4gVXBwZXIgYm91bmRgXG59KVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC0zIiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoiXG52aWV3b2YgZGlzdF90eXBlID0gSW5wdXRzLnJhZGlvKFxuICBbXCJJbmRlcGVuZGVudFwiLCBcIkRlcGVuZGVudFwiXSwgXG4gIHt2YWx1ZTogXCJJbmRlcGVuZGVudFwiLCBsYWJlbDogXCJEaXN0cmlidXRpb24gVHlwZTpcIn1cbilcblxubWRgKioke2Rpc3RfdHlwZX0gVmFyaWFibGVzKipcblxuJHtkaXN0X3R5cGUgPT09IFwiSW5kZXBlbmRlbnRcIiA/IFxuICBcIioqSm9pbnQgcGRmOioqICRmKHlfMSwgeV8yKSA9IDR5XzEgeV8yJFxcblxcbm9uICRbMCwxXSBcXFxcdGltZXMgWzAsMV0kXFxuXFxuKipNYXJnaW5hbHM6KipcXG4tICRmXzEoeV8xKSA9IDJ5XzEkXFxuLSAkZl8yKHlfMikgPSAyeV8yJFxcblxcbioqQ2hlY2s6KiogJGYgPSBmXzEgXFxcXGNkb3QgZl8yJCDinJNcIiA6IFxuICBcIioqSm9pbnQgcGRmOioqICRmKHlfMSwgeV8yKSA9IDN5XzEkXFxuXFxub24gJDAgXFxcXGxlcSB5XzIgXFxcXGxlcSB5XzEgXFxcXGxlcSAxJFxcblxcbioqTWFyZ2luYWxzOioqXFxuLSAkZl8xKHlfMSkgPSAzeV8xXjIkXFxuLSAkZl8yKHlfMikgPSBcXFxcZnJhY3szfXsyfSgxLXlfMl4yKSRcXG5cXG4qKkNoZWNrOioqICRmIFxcXFxuZXEgZl8xIFxcXFxjZG90IGZfMiQg4pyXXCJ9YFxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC00IiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoiXG4vLyBHZW5lcmF0ZSBjb250b3VyIGRhdGEgYmFzZWQgb24gZGlzdHJpYnV0aW9uIHR5cGVcbmdyaWRfc2l6ZTIgPSA0MFxueTFfdmFsczIgPSBkMy5yYW5nZSgwLjAyLCAxLCAxL2dyaWRfc2l6ZTIpXG55Ml92YWxzMiA9IGQzLnJhbmdlKDAuMDIsIDEsIDEvZ3JpZF9zaXplMilcblxuaW5kZXBfZGVwX2RhdGEgPSB7XG4gIGxldCBkYXRhID0gW107XG4gIGZvciAobGV0IHkxIG9mIHkxX3ZhbHMyKSB7XG4gICAgZm9yIChsZXQgeTIgb2YgeTJfdmFsczIpIHtcbiAgICAgIGxldCBkZW5zaXR5O1xuICAgICAgaWYgKGRpc3RfdHlwZSA9PT0gXCJJbmRlcGVuZGVudFwiKSB7XG4gICAgICAgIC8vIGYoeTEsIHkyKSA9IDQqeTEqeTIgb24gWzAsMV14WzAsMV1cbiAgICAgICAgZGVuc2l0eSA9IDQgKiB5MSAqIHkyO1xuICAgICAgfSBlbHNlIHtcbiAgICAgICAgLy8gZih5MSwgeTIpID0gMyp5MSBvbiAwIDw9IHkyIDw9IHkxIDw9IDFcbiAgICAgICAgZGVuc2l0eSA9ICh5MiA8PSB5MSkgPyAzICogeTEgOiAwO1xuICAgICAgfVxuICAgICAgZGF0YS5wdXNoKHt5MTogeTEsIHkyOiB5MiwgZGVuc2l0eTogZGVuc2l0eX0pO1xuICAgIH1cbiAgfVxuICByZXR1cm4gZGF0YTtcbn1cblxuUGxvdC5wbG90KHtcbiAgd2lkdGg6IDc1MCxcbiAgaGVpZ2h0OiA1MDAsXG4gIG1hcmdpbkxlZnQ6IDYwLFxuICBtYXJnaW5Cb3R0b206IDUwLFxuICBjb2xvcjoge1xuICAgIHR5cGU6IFwibGluZWFyXCIsXG4gICAgc2NoZW1lOiBkaXN0X3R5cGUgPT09IFwiSW5kZXBlbmRlbnRcIiA/IFwiYmx1ZXNcIiA6IFwib3Jhbmdlc1wiLFxuICAgIGxlZ2VuZDogdHJ1ZSxcbiAgICBsYWJlbDogXCJEZW5zaXR5XCJcbiAgfSxcbiAgeDoge1xuICAgIGxhYmVsOiBcInnigoFcIixcbiAgICBkb21haW46IFswLCAxXVxuICB9LFxuICB5OiB7XG4gICAgbGFiZWw6IFwieeKCglwiLFxuICAgIGRvbWFpbjogWzAsIDFdXG4gIH0sXG4gIG1hcmtzOiBbXG4gICAgUGxvdC5jb250b3VyKGluZGVwX2RlcF9kYXRhLCB7XG4gICAgICB4OiBcInkxXCIsXG4gICAgICB5OiBcInkyXCIsXG4gICAgICBmaWxsOiBcImRlbnNpdHlcIixcbiAgICAgIGJsdXI6IDMsXG4gICAgICB0aHJlc2hvbGRzOiAxNVxuICAgIH0pLFxuICAgIGRpc3RfdHlwZSA9PT0gXCJEZXBlbmRlbnRcIiA/IFBsb3QubGluZShbWzAsMF0sIFsxLDFdXSwge3N0cm9rZTogXCJ3aGl0ZVwiLCBzdHJva2VXaWR0aDogMiwgc3Ryb2tlRGFzaGFycmF5OiBcIjUsNVwifSkgOiBudWxsLFxuICAgIFBsb3QuZnJhbWUoKVxuICBdLFxuICBjYXB0aW9uOiBkaXN0X3R5cGUgPT09IFwiSW5kZXBlbmRlbnRcIiA/IFxuICAgIGh0bWxgPGI+SW5kZXBlbmRlbnQ6PC9iPiBDb250b3VycyBhcmUgXCJhbGlnbmVkXCIgd2l0aCBheGVzIChyZWN0YW5ndWxhciBwYXR0ZXJuKWAgOlxuICAgIGh0bWxgPGI+RGVwZW5kZW50OjwvYj4gQ29udG91cnMgZm9sbG93IGNvbnN0cmFpbnQgeeKCgiDiiaQgeeKCgSAodHJpYW5ndWxhciBzdXBwb3J0KWBcbn0pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ3kyX2NvbmQnKSJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgnZGlzdF90eXBlJykifV19
+    eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6Ilxudmlld29mIHBvd2VyX2EgPSB7XG4gIGNvbnN0IGlucHV0ID0gSW5wdXRzLnJhbmdlKFswLCAzXSwge1xuICAgIHZhbHVlOiAxLFxuICAgIHN0ZXA6IDAuNSxcbiAgICBsYWJlbDogXCJQb3dlciBhIChmb3IgeeKCgSk6XCJcbiAgfSk7XG5cbiAgaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcigncG9pbnRlcmRvd24nLCBlID0+IGUuc3RvcFByb3BhZ2F0aW9uKCkpO1xuICBpbnB1dC5hZGRFdmVudExpc3RlbmVyKCd0b3VjaHN0YXJ0JywgZSA9PiBlLnN0b3BQcm9wYWdhdGlvbigpKTtcbiAgaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcignbW91c2Vkb3duJywgZSA9PiBlLnN0b3BQcm9wYWdhdGlvbigpKTtcbiAgaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcignY2xpY2snLCBlID0+IGUuc3RvcFByb3BhZ2F0aW9uKCkpO1xuICBpbnB1dC5hZGRFdmVudExpc3RlbmVyKCd3aGVlbCcsIGUgPT4gZS5zdG9wUHJvcGFnYXRpb24oKSk7XG4gIGlucHV0LmFkZEV2ZW50TGlzdGVuZXIoJ3BvaW50ZXJtb3ZlJywgZSA9PiBlLnN0b3BQcm9wYWdhdGlvbigpKTtcbiAgaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcigndG91Y2htb3ZlJywgZSA9PiBlLnN0b3BQcm9wYWdhdGlvbigpKTtcblxuICByZXR1cm4gaW5wdXQ7XG59XG5cbnZpZXdvZiBwb3dlcl9iID0ge1xuICBjb25zdCBpbnB1dCA9IElucHV0cy5yYW5nZShbMCwgM10sIHtcbiAgICB2YWx1ZTogMSxcbiAgICBzdGVwOiAwLjUsXG4gICAgbGFiZWw6IFwiUG93ZXIgYiAoZm9yIHnigoIpOlwiXG4gIH0pO1xuXG4gIGlucHV0LmFkZEV2ZW50TGlzdGVuZXIoJ3BvaW50ZXJkb3duJywgZSA9PiBlLnN0b3BQcm9wYWdhdGlvbigpKTtcbiAgaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcigndG91Y2hzdGFydCcsIGUgPT4gZS5zdG9wUHJvcGFnYXRpb24oKSk7XG4gIGlucHV0LmFkZEV2ZW50TGlzdGVuZXIoJ21vdXNlZG93bicsIGUgPT4gZS5zdG9wUHJvcGFnYXRpb24oKSk7XG4gIGlucHV0LmFkZEV2ZW50TGlzdGVuZXIoJ2NsaWNrJywgZSA9PiBlLnN0b3BQcm9wYWdhdGlvbigpKTtcbiAgaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcignd2hlZWwnLCBlID0+IGUuc3RvcFByb3BhZ2F0aW9uKCkpO1xuICBpbnB1dC5hZGRFdmVudExpc3RlbmVyKCdwb2ludGVybW92ZScsIGUgPT4gZS5zdG9wUHJvcGFnYXRpb24oKSk7XG4gIGlucHV0LmFkZEV2ZW50TGlzdGVuZXIoJ3RvdWNobW92ZScsIGUgPT4gZS5zdG9wUHJvcGFnYXRpb24oKSk7XG5cbiAgcmV0dXJuIGlucHV0O1xufVxuXG52aWV3b2YgcmVnaW9uX3R5cGUgPSB7XG4gIGNvbnN0IGlucHV0ID0gSW5wdXRzLnJhZGlvKFtcIlJlY3Rhbmd1bGFyXCIsIFwiVHJpYW5ndWxhclwiXSwge1xuICAgIHZhbHVlOiBcIlJlY3Rhbmd1bGFyXCIsXG4gICAgbGFiZWw6IFwiU3VwcG9ydCBSZWdpb246XCJcbiAgfSk7XG5cbiAgaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcigncG9pbnRlcmRvd24nLCBlID0+IGUuc3RvcFByb3BhZ2F0aW9uKCkpO1xuICBpbnB1dC5hZGRFdmVudExpc3RlbmVyKCd0b3VjaHN0YXJ0JywgZSA9PiBlLnN0b3BQcm9wYWdhdGlvbigpKTtcbiAgaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcignbW91c2Vkb3duJywgZSA9PiBlLnN0b3BQcm9wYWdhdGlvbigpKTtcbiAgaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcignY2xpY2snLCBlID0+IGUuc3RvcFByb3BhZ2F0aW9uKCkpO1xuXG4gIHJldHVybiBpbnB1dDtcbn1cblxudmlld29mIHNsaWNlWTEgPSB7XG4gIGNvbnN0IGlucHV0ID0gSW5wdXRzLnJhbmdlKFswLjA1LCAwLjk1XSwge1xuICAgIHZhbHVlOiAwLjYsXG4gICAgc3RlcDogMC4wNSxcbiAgICBsYWJlbDogXCJTbGljZSBhdCBZ4oKBID1cIlxuICB9KTtcblxuICBpbnB1dC5hZGRFdmVudExpc3RlbmVyKCdwb2ludGVyZG93bicsIGUgPT4gZS5zdG9wUHJvcGFnYXRpb24oKSk7XG4gIGlucHV0LmFkZEV2ZW50TGlzdGVuZXIoJ3RvdWNoc3RhcnQnLCBlID0+IGUuc3RvcFByb3BhZ2F0aW9uKCkpO1xuICBpbnB1dC5hZGRFdmVudExpc3RlbmVyKCdtb3VzZWRvd24nLCBlID0+IGUuc3RvcFByb3BhZ2F0aW9uKCkpO1xuICBpbnB1dC5hZGRFdmVudExpc3RlbmVyKCdjbGljaycsIGUgPT4gZS5zdG9wUHJvcGFnYXRpb24oKSk7XG4gIGlucHV0LmFkZEV2ZW50TGlzdGVuZXIoJ3doZWVsJywgZSA9PiBlLnN0b3BQcm9wYWdhdGlvbigpKTtcbiAgaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcigncG9pbnRlcm1vdmUnLCBlID0+IGUuc3RvcFByb3BhZ2F0aW9uKCkpO1xuICBpbnB1dC5hZGRFdmVudExpc3RlbmVyKCd0b3VjaG1vdmUnLCBlID0+IGUuc3RvcFByb3BhZ2F0aW9uKCkpO1xuXG4gIHJldHVybiBpbnB1dDtcbn1cblxuZm9ybXVsYV9odG1sID0gaHRtbGA8c3BhbiBzdHlsZT1cImZvbnQtc2l6ZTogMS4wNWVtO1wiPmYoeeKCgSwgeeKCgikgPSBjIMK3IHnigoE8c3VwPiR7cG93ZXJfYX08L3N1cD4gwrcgeeKCgjxzdXA+JHtwb3dlcl9ifTwvc3VwPjwvc3Bhbj5gO1xuXG52ZXJkaWN0X2h0bWwgPSByZWdpb25fdHlwZSA9PT0gXCJSZWN0YW5ndWxhclwiXG4gID8gaHRtbGA8c3BhbiBzdHlsZT1cImNvbG9yOiAjMWE3ZjM3OyBmb250LXdlaWdodDogNzAwO1wiPklOREVQRU5ERU5UPC9zcGFuPmBcbiAgOiBodG1sYDxzcGFuIHN0eWxlPVwiY29sb3I6ICNiNDIzMTg7IGZvbnQtd2VpZ2h0OiA3MDA7XCI+REVQRU5ERU5UPC9zcGFuPmA7XG5cbmxlc3Nvbl9odG1sID0gcmVnaW9uX3R5cGUgPT09IFwiUmVjdGFuZ3VsYXJcIlxuICA/IGh0bWxgPGRpdiBzdHlsZT1cImJhY2tncm91bmQ6ICNkNGVkZGE7IHBhZGRpbmc6IDZweDsgYm9yZGVyLXJhZGl1czogNXB4OyBib3JkZXItbGVmdDogM3B4IHNvbGlkICMxYTdmMzc7IGZvbnQtc2l6ZTogMC45NWVtO1wiPjxzdHJvbmc+U3VwcG9ydDo8L3N0cm9uZz4gMCAmbHQ7IFnigoEgJmx0OyAxLCAwICZsdDsgWeKCgiAmbHQ7IDE8YnI+WeKCgidzIHJhbmdlIDxzdHJvbmc+bmV2ZXI8L3N0cm9uZz4gY2hhbmdlcyB3aXRoIFnigoEuPC9kaXY+YFxuICA6IGh0bWxgPGRpdiBzdHlsZT1cImJhY2tncm91bmQ6ICNmOGQ3ZGE7IHBhZGRpbmc6IDZweDsgYm9yZGVyLXJhZGl1czogNXB4OyBib3JkZXItbGVmdDogM3B4IHNvbGlkICNiNDIzMTg7IGZvbnQtc2l6ZTogMC45NWVtO1wiPjxzdHJvbmc+U3VwcG9ydDo8L3N0cm9uZz4gMCAmbHQ7IFnigoIg4omkIFnigoEgJmx0OyAxPGJyPktub3dpbmcgWeKCgSA8c3Ryb25nPnJlc3RyaWN0czwvc3Ryb25nPiBZ4oKCIChsb3dlciB0cmlhbmdsZSEpLjwvZGl2PmA7XG5cbm1kYCoqS2V5IGluc2lnaHQ6KiogSW5kZXBlbmRlbmNlIG5lZWRzIGJvdGggKDEpIGRlbnNpdHkgZmFjdG9ycyBBTkQgKDIpIHJlY3Rhbmd1bGFyIHN1cHBvcnQuXG5cbiR7dmlld29mIHBvd2VyX2F9XG4ke3ZpZXdvZiBwb3dlcl9ifVxuJHt2aWV3b2YgcmVnaW9uX3R5cGV9XG4ke3ZpZXdvZiBzbGljZVkxfVxuXG4qKkZvcm11bGE6KiogJHtmb3JtdWxhX2h0bWx9XG5cbioqVmVyZGljdDoqKiAke3ZlcmRpY3RfaHRtbH1cblxuJHtsZXNzb25faHRtbH1gXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTIiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJcbmpvaW50RGF0YUludGVyYWN0aXZlID0ge1xuICBjb25zdCBuID0gODA7XG4gIGNvbnN0IGRhdGEgPSBbXTtcbiAgZm9yIChsZXQgaSA9IDA7IGkgPCBuOyBpKyspIHtcbiAgICBmb3IgKGxldCBqID0gMDsgaiA8IG47IGorKykge1xuICAgICAgY29uc3QgeTEgPSBpIC8gKG4gLSAxKTtcbiAgICAgIGNvbnN0IHkyID0gaiAvIChuIC0gMSk7XG5cbiAgICAgIGNvbnN0IGluUmVnaW9uID0gcmVnaW9uX3R5cGUgPT09IFwiVHJpYW5ndWxhclwiID8gKHkyIDw9IHkxKSA6IHRydWU7XG5cbiAgICAgIGlmIChpblJlZ2lvbikge1xuICAgICAgICBjb25zdCBkZW5zaXR5ID0gTWF0aC5wb3coeTEgKyAwLjAxLCBwb3dlcl9hKSAqIE1hdGgucG93KHkyICsgMC4wMSwgcG93ZXJfYik7XG4gICAgICAgIGRhdGEucHVzaCh7eTEsIHkyLCBkZW5zaXR5fSk7XG4gICAgICB9XG4gICAgfVxuICB9XG4gIFxuICAvLyBGb3IgdHJpYW5ndWxhciByZWdpb24sIGFkZCB6ZXJvLWRlbnNpdHkgYm91bmRhcnkgcG9pbnRzIHRvIHByZXZlbnQgY29udG91ciBibGVlZGluZ1xuICBpZiAocmVnaW9uX3R5cGUgPT09IFwiVHJpYW5ndWxhclwiKSB7XG4gICAgZm9yIChsZXQgaSA9IDA7IGkgPCBuOyBpKyspIHtcbiAgICAgIGNvbnN0IHkxID0gaSAvIChuIC0gMSk7XG4gICAgICBmb3IgKGxldCBqID0gTWF0aC5jZWlsKHkxICogKG4tMSkpICsgMTsgaiA8IG47IGorKykge1xuICAgICAgICBjb25zdCB5MiA9IGogLyAobiAtIDEpO1xuICAgICAgICBkYXRhLnB1c2goe3kxLCB5MiwgZGVuc2l0eTogMH0pO1xuICAgICAgfVxuICAgIH1cbiAgfVxuICBcbiAgcmV0dXJuIGRhdGE7XG59XG5cbmNvbnN0cmFpbnRMaW5lID0gcmVnaW9uX3R5cGUgPT09IFwiVHJpYW5ndWxhclwiXG4gID8gQXJyYXkuZnJvbSh7bGVuZ3RoOiAxMDB9LCAoXywgaSkgPT4gKHt5MTogaSAvIDk5LCB5MjogaSAvIDk5fSkpXG4gIDogW107XG5cbi8vIENyZWF0ZSBhIHZlcnRpY2FsIGJhbmQgdG8gaGlnaGxpZ2h0IHRoZSBjb25kaXRpb25pbmcgc2xpY2VcbnNsaWNlQmFuZCA9ICgoKSA9PiB7XG4gIGNvbnN0IGJhbmR3aWR0aCA9IDAuMDE1O1xuICBjb25zdCB5bWF4ID0gcmVnaW9uX3R5cGUgPT09IFwiVHJpYW5ndWxhclwiID8gc2xpY2VZMSA6IDE7XG4gIFxuICByZXR1cm4gW3tcbiAgICB4MTogc2xpY2VZMSAtIGJhbmR3aWR0aCxcbiAgICB4Mjogc2xpY2VZMSArIGJhbmR3aWR0aCxcbiAgICB5MTogMCxcbiAgICB5MjogeW1heFxuICB9XTtcbn0pKCk7XG5cbi8vIFBvaW50cyBmb3IgdGhlIGNvbmRpdGlvbmFsIHJhbmdlIG1hcmtlclxuY29uZGl0aW9uYWxEb3RzID0gKCgpID0+IHtcbiAgY29uc3QgcG9pbnRzID0gW107XG4gIGNvbnN0IHltYXggPSByZWdpb25fdHlwZSA9PT0gXCJUcmlhbmd1bGFyXCIgPyBzbGljZVkxIDogMTtcbiAgZm9yIChsZXQgaSA9IDA7IGkgPD0gMzU7IGkrKykge1xuICAgIHBvaW50cy5wdXNoKHt5MTogc2xpY2VZMSwgeTI6IChpIC8gMzUpICogeW1heH0pO1xuICB9XG4gIHJldHVybiBwb2ludHM7XG59KSgpO1xuXG5wbG90ID0gUGxvdC5wbG90KHtcbiAgd2lkdGg6IDYwMCxcbiAgaGVpZ2h0OiAzODAsXG4gIG1hcmdpbkxlZnQ6IDU1LFxuICBtYXJnaW5Cb3R0b206IDQ1LFxuICBjb2xvcjoge3NjaGVtZTogXCJZbE9yUmRcIiwgbGVnZW5kOiB0cnVlLCBsYWJlbDogXCJEZW5zaXR5XCJ9LFxuICB4OiB7ZG9tYWluOiBbMCwgMV0sIGxhYmVsOiBcIlnigoFcIn0sXG4gIHk6IHtkb21haW46IFswLCAxXSwgbGFiZWw6IFwiWeKCglwifSxcbiAgdGl0bGU6IHJlZ2lvbl90eXBlID09PSBcIlJlY3Rhbmd1bGFyXCJcbiAgICA/IFwiUmVjdGFuZ2xlOiBTdXBwb3J0IGlzIDA8WeKCgTwxLCAwPFnigoI8MSAoZnVsbCBzcXVhcmUpXCJcbiAgICA6IFwiVHJpYW5nbGU6IFN1cHBvcnQgaXMgMDxZ4oKC4omkWeKCgTwxIChMT1dFUiB0cmlhbmdsZSlcIixcbiAgbWFya3M6IFtcbiAgICBQbG90LmNvbnRvdXIoam9pbnREYXRhSW50ZXJhY3RpdmUsIHt4OiBcInkxXCIsIHk6IFwieTJcIiwgZmlsbDogXCJkZW5zaXR5XCIsIGJsdXI6IDEsIHRocmVzaG9sZHM6IDE0fSksXG4gICAgLy8gVmVydGljYWwgYmFuZCBoaWdobGlnaHRpbmcgdGhlIHNsaWNlXG4gICAgUGxvdC5yZWN0KHNsaWNlQmFuZCwge3gxOiBcIngxXCIsIHgyOiBcIngyXCIsIHkxOiBcInkxXCIsIHkyOiBcInkyXCIsIGZpbGw6IFwiIzNiODJmNlwiLCBmaWxsT3BhY2l0eTogMC4xMn0pLFxuICAgIC8vIENvbnN0cmFpbnQgYm91bmRhcnlcbiAgICBjb25zdHJhaW50TGluZS5sZW5ndGggPyBQbG90LmxpbmUoY29uc3RyYWludExpbmUsIHt4OiBcInkxXCIsIHk6IFwieTJcIiwgc3Ryb2tlOiBcIiMxZjI5MzdcIiwgc3Ryb2tlV2lkdGg6IDMsIHN0cm9rZURhc2hhcnJheTogXCI4LDRcIn0pIDogbnVsbCxcbiAgICAvLyBDb25kaXRpb25hbCByYW5nZSBkb3RzXG4gICAgUGxvdC5kb3QoY29uZGl0aW9uYWxEb3RzLCB7eDogXCJ5MVwiLCB5OiBcInkyXCIsIHI6IDMsIGZpbGw6IFwiIzFkNGVkOFwiLCBvcGFjaXR5OiAwLjl9KSxcbiAgICAvLyBTbGljZSBtYXJrZXIgbGluZVxuICAgIFBsb3QucnVsZVgoW3NsaWNlWTFdLCB7c3Ryb2tlOiBcIiMxZDRlZDhcIiwgc3Ryb2tlV2lkdGg6IDN9KSxcbiAgICAvLyBDb25zdHJhaW50IGxhYmVsXG4gICAgY29uc3RyYWludExpbmUubGVuZ3RoID8gUGxvdC50ZXh0KFt7eTE6IDAuNzgsIHkyOiAwLjg0LCB0ZXh0OiBcInnigoIgPSB54oKBXCJ9XSwge3g6IFwieTFcIiwgeTogXCJ5MlwiLCB0ZXh0OiBcInRleHRcIiwgZm9udFNpemU6IDEzLCBmb250V2VpZ2h0OiBcImJvbGRcIiwgZmlsbDogXCIjMWYyOTM3XCJ9KSA6IG51bGwsXG4gICAgUGxvdC5mcmFtZSgpXG4gIF0uZmlsdGVyKEJvb2xlYW4pXG59KTtcblxuaHRtbGA8ZGl2PlxuICAke3Bsb3R9XG4gIDxkaXYgc3R5bGU9XCJtYXJnaW4tdG9wOiA1cHg7IGZvbnQtc2l6ZTogMC45ZW07IGxpbmUtaGVpZ2h0OiAxLjM7XCI+XG4gICAgPHN0cm9uZyBzdHlsZT1cImNvbG9yOiAjMWQ0ZWQ4O1wiPkJsdWUgYmFuZCBhdCBZ4oKBPSR7c2xpY2VZMS50b0ZpeGVkKDIpfTo8L3N0cm9uZz4gU2hvd3MgWeKCgidzIGZlYXNpYmxlIHJhbmdlLiAke3JlZ2lvbl90eXBlID09PSBcIlRyaWFuZ3VsYXJcIiA/IGBPbmx5IFswLCAke3NsaWNlWTEudG9GaXhlZCgyKX1dIGFsbG93ZWQuYCA6IFwiQWx3YXlzIFswLCAxXSBhbGxvd2VkLlwifVxuICA8L2Rpdj5cbjwvZGl2PmBcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgncG93ZXJfYScpIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCdwb3dlcl9iJykifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ3JlZ2lvbl90eXBlJykifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ3NsaWNlWTEnKSJ9XX0=
     </script>
     <script type="module">
     if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
