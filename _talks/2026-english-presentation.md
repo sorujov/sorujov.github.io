@@ -155,7 +155,7 @@ This initiative strengthens Azerbaijan's position in the Speedtest Global Indexâ
 - **Slides:** Available for download above
 - **Video:** Coming soon
 - **Language:** English
-- **Date:** January 28, 2026
+- **Date:** January 27, 2026
 - **Representing:** Information and Communication Technologies Agency (ICTA)
 
 ---
