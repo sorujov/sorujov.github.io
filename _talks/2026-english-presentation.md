@@ -1,17 +1,55 @@
 ---
-title: "Internet Infrastructure and Fiber Coverage for Tourism Development"
+title: "Azerbaijan Hospitality Connectivity Summit - Ookla Speedtest Certified Launch"
 collection: talks
 type: "Talk"
 permalink: /talks/2026-ookla-hospitality-connectivity
 venue: "Ookla Speedtest Certified™ Hospitality Event"
 date: 2026-01-28
 location: "Baku, Azerbaijan"
-excerpt: "Presentation on behalf of ICTA about internet infrastructure improvements in Azerbaijan and the role of fiber coverage in tourism development at the Ookla Speedtest Certified™ for Hospitality launch event."
+excerpt: "Keynote presentation on Azerbaijan's digital transformation and fiber infrastructure at the Ookla Speedtest Certified™ launch event, with coverage by AzTV National Television."
 ---
 
-## Internet Infrastructure and Fiber Coverage for Tourism Development
+## Azerbaijan Hospitality Connectivity Summit
 
-Presentation delivered on behalf of the Information and Communication Technologies Agency (ICTA) at the launch of Ookla's Speedtest Certified™ for the Hospitality Sector in Baku. The event was jointly organized by ICTA, the Azerbaijan Tourism Board (ATB), and the Azerbaijan Hotel Association (AHA), with over 100 senior representatives from the tourism, telecommunications, and infrastructure sectors in attendance.
+Keynote presentation delivered on behalf of the Information and Communication Technologies Agency (ICTA) at the launch of Ookla's Speedtest Certified™ for the Hospitality Sector in Baku. The event was jointly organized by ICTA, the Azerbaijan Tourism Board (ATB), and the Azerbaijan Hotel Association (AHA), with over 100 senior representatives from the tourism, telecommunications, and infrastructure sectors in attendance.
+
+### 📺 AzTV National Television Coverage
+
+The event and my presentation were featured on AzTV, the national television of Azerbaijan:
+
+<div class="video-container">
+  <iframe width="560" height="315" 
+          src="https://www.youtube.com/embed/FBaPcOiPhYM?si=Qq2WsvyId7giOvOI" 
+          title="AzTV Coverage - Azerbaijan Hospitality Connectivity Summit" 
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          allowfullscreen>
+  </iframe>
+</div>
+
+<style>
+.video-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  height: 0;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  margin: 30px auto;
+  background: #000;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+</style>
 
 ### Presentation Slides
 
@@ -90,6 +128,27 @@ This initiative strengthens Azerbaijan's position in the Speedtest Global Index�
 📰 [Official Event Announcement - Ministry of Digital Development and Transport](https://mincom.gov.az/en/media-en/news/ookla-launches-initiative-to-boost-hospitality-connectivity-in-azerbaijan)
 
 🌐 [Ookla Speedtest Certified™](http://www.ookla.com/speedtest-certified/)
+
+---
+
+### 📸 Event Photos
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 30px 0;">
+  <img src="/images/connectivity_summit/pic_close.jpeg" alt="Ookla Summit Presentation" style="width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+  <img src="/images/connectivity_summit/pic_close2.JPG" alt="Keynote Speech" style="width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+  <img src="/images/connectivity_summit/WhatsApp Image 2026-01-27 at 14.16.22 (5).jpeg" alt="Summit Presentation" style="width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+  <img src="/images/connectivity_summit/WhatsApp Image 2026-01-27 at 14.16.23.jpeg" alt="Event Attendance" style="width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+  <img src="/images/connectivity_summit/WhatsApp Image 2026-01-27 at 14.16.22.jpeg" alt="Panel Discussion" style="width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+  <img src="/images/connectivity_summit/WhatsApp Image 2026-01-27 at 14.16.22 (1).jpeg" alt="Networking" style="width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+  <img src="/images/connectivity_summit/WhatsApp Image 2026-01-27 at 14.16.22 (2).jpeg" alt="Technical Session" style="width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+  <img src="/images/connectivity_summit/WhatsApp Image 2026-01-27 at 14.16.22 (4).jpeg" alt="Q&A Session" style="width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+  <img src="/images/connectivity_summit/WhatsApp Image 2026-01-27 at 14.16.21.jpeg" alt="Conference Venue" style="width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+  <img src="/images/connectivity_summit/WhatsApp Image 2026-01-27 at 14.16.21 (1).jpeg" alt="Industry Collaboration" style="width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+  <img src="/images/connectivity_summit/WhatsApp Image 2026-01-27 at 14.16.21 (2).jpeg" alt="Technical Discussion" style="width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+  <img src="/images/connectivity_summit/WhatsApp Image 2026-01-27 at 14.16.23 (1).jpeg" alt="Summit Engagement" style="width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+</div>
+
+---
 
 ### Materials
 
