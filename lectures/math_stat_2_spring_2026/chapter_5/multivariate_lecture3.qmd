@@ -19,6 +19,8 @@ format:
     width: 1280
     height: 720
     margin: 0.04
+    min-scale: 0.2
+    max-scale: 2.0
     footer: "Mathematical Statistics - Covariance and Correlation"
     incremental: false
     highlight-style: tango
@@ -26,6 +28,9 @@ format:
     menu: true
     progress: true
     history: true
+    mouse-wheel: true
+    overview: true
+    zoom: true
     quiz:
       checkKey: 'c'
       resetKey: 'r'
@@ -43,7 +48,7 @@ revealjs-plugins:
 
 ## 🎯 Learning Objectives
 
-::: {style="font-size: 28px"}
+::: {style="font-size: 35px"}
 ::: {.learning-objectives}
 By the end of this lecture, you will be able to:
 
@@ -61,7 +66,7 @@ By the end of this lecture, you will be able to:
 
 ## 📋 Overview
 
-::: {style="font-size: 30px"}
+::: {style="font-size: 50px"}
 ::: {.callout-note}
 ## 📚 Topics Covered Today
 
@@ -79,7 +84,7 @@ By the end of this lecture, you will be able to:
 
 ## 📖 Motivation: Why Covariance and Correlation?
 
-::: {style="font-size: 28px"}
+::: {style="font-size: 40px !important;"}
 ::: {.callout-note}
 ## 🎯 Measuring Relationships Between Variables
 
@@ -109,13 +114,15 @@ Understanding how two variables **move together** is fundamental in many applica
 :::
 :::
 
+. . . 
+
 ::: {style="font-size: 30px"}
 **Key Question:** How do we **quantify** the strength and direction of the linear relationship between two random variables?
 :::
 
-## 📖 Definition: Expected Value of a Function {.smaller}
+## 📖 Definition: Expected Value of a Function
 
-::: {style="font-size: 32px"}
+::: {style="font-size: 35px"}
 ::: {.callout-note}
 ## 📝 Definition 5.9: Expected Value of $g(Y_1, Y_2)$
 
@@ -128,6 +135,8 @@ $$E[g(Y_1, Y_2)] = \sum_{y_1} \sum_{y_2} g(y_1, y_2) \cdot p(y_1, y_2)$$
 $$E[g(Y_1, Y_2)] = \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} g(y_1, y_2) \cdot f(y_1, y_2) \, dy_1 \, dy_2$$
 :::
 :::
+
+. . .
 
 ::: {style="font-size: 34px"}
 **Key Insight:** We can find the expected value of **any function** of $(Y_1, Y_2)$ by weighting function values by probabilities (discrete) or densities (continuous).
@@ -183,7 +192,7 @@ $$E[Y_1] = \int_0^1 y_1 \cdot 2y_1 \, dy_1 = 2 \int_0^1 y_1^2 \, dy_1 = 2 \cdot 
 
 . . .
 
-::: {style="font-size: 32px"}
+::: {style="font-size: 30px"}
 **Method 2: Using joint density directly**
 
 $$E[Y_1] = \int_0^1 \int_0^1 y_1 \cdot 2y_1 \, dy_2 \, dy_1 = \int_0^1 2y_1^2 \left[ y_2 \right]_0^1 dy_1 = \frac{2}{3}$$
@@ -193,7 +202,7 @@ Both methods give the same answer!
 
 ## 🧮 Theorems on Expected Values
 
-::: {style="font-size: 32px"}
+::: {style="font-size: 50px !important;"}
 ::: {.callout-important}
 ## Theorems 5.6-5.8: Linearity of Expected Value
 
@@ -253,7 +262,7 @@ $$= 0.6(0.08) + 0.4(0.12) = 0.048 + 0.048 = \boxed{0.096 = 9.6\%}$$
 
 ## 🧮 Theorem 5.9: Independence and Expected Values
 
-::: {style="font-size: 32px"}
+::: {style="font-size: 30px; margin-top: -20px;"}
 ::: {.callout-important}
 ## Theorem 5.9: Product of Independent Variables
 
@@ -266,17 +275,25 @@ $$E[Y_1 \cdot Y_2] = E[Y_1] \cdot E[Y_2] \quad \text{(if independent)}$$
 :::
 :::
 
-::: {style="font-size: 32px"}
-**Warning:** The converse is NOT true! $E[Y_1 Y_2] = E[Y_1] E[Y_2]$ does not imply independence.
+::: {style="font-size: 28px; margin-top: -10px;"}
 
-**Verification (Example 1):** We found $E[Y_1 Y_2] = 1/3$ and $E[Y_1] = 2/3$. For independent case: We'd also need $E[Y_2] = 1/2$ (uniform on $[0,1]$).
+::: {.callout-warning}
+**Warning:** The converse is NOT true! $E[Y_1 Y_2] = E[Y_1] E[Y_2]$ does not imply independence.
+:::
+
+::: {.callout-tip style="margin-top: -10px;"}
+
+**Verification (Example 1):** We found $E[Y_1 Y_2] = 1/3$ and $E[Y_1] = 2/3$. 
+
+**For independent case:** We'd also need $E[Y_2] = 1/2$ (uniform on $[0,1]$).
 
 Check: $E[Y_1] \cdot E[Y_2] = (2/3)(1/2) = 1/3 = E[Y_1 Y_2]$ ✓
+:::
 :::
 
 ## 📖 Definition: Covariance
 
-::: {style="font-size: 32px"}
+::: {style="font-size: 37px"}
 ::: {.callout-note}
 ## 📝 Definition 5.10: Covariance
 
@@ -326,32 +343,38 @@ $$= E[Y_1 Y_2] - \mu_1 \mu_2 - \mu_1 \mu_2 + \mu_1 \mu_2 = E[Y_1 Y_2] - \mu_1 \m
 
 . . .
 
-::: {style="font-size: 32px"}
-**Solution:** From previous examples:
+**Solution:** 
+
+::: {.columns}
+::: {.column width="50%" .fragment style="font-size: 32px;"}
+
+From previous examples:
 
 - $E[Y_1] = 2/3$
 - $E[Y_2] = 1/2$ (uniform on $[0,1]$)
 - $E[Y_1 Y_2] = 1/3$
+
 :::
 
-. . .
+::: {.column width="50%" .fragment style="font-size: 32px;"}
 
-::: {style="font-size: 32px"}
 Using the computational formula:
 
 $$\text{Cov}(Y_1, Y_2) = E[Y_1 Y_2] - E[Y_1] \cdot E[Y_2]$$
 $$= \frac{1}{3} - \frac{2}{3} \cdot \frac{1}{2} = \frac{1}{3} - \frac{1}{3} = \boxed{0}$$
 :::
+:::
+
 
 . . .
 
-::: {style="font-size: 34px"}
+::: {style="font-size: 32px"}
 **Interpretation:** Zero covariance confirms independence (from Theorem 5.5). Stock returns have no linear relationship.
 :::
 
 ## 📖 Definition: Correlation Coefficient
 
-::: {style="font-size: 32px"}
+::: {style="font-size: 40px"}
 ::: {.callout-note}
 ## 📝 Definition 5.11: Correlation Coefficient
 
@@ -363,7 +386,7 @@ where $\sigma_1 = \sqrt{V(Y_1)}$ and $\sigma_2 = \sqrt{V(Y_2)}$ are the standard
 :::
 :::
 
-::: {style="font-size: 32px"}
+::: {style="font-size: 40px"}
 ::: {.callout-important}
 ## 🌟 Properties of Correlation
 
@@ -376,7 +399,7 @@ where $\sigma_1 = \sqrt{V(Y_1)}$ and $\sigma_2 = \sqrt{V(Y_2)}$ are the standard
 
 ## 📌 Correlation Interpretation Guide
 
-::: {style="font-size: 28px"}
+::: {style="font-size: 40px"}
 ::: {.columns}
 ::: {.column width="50%"}
 **Correlation Values:**
@@ -402,7 +425,7 @@ where $\sigma_1 = \sqrt{V(Y_1)}$ and $\sigma_2 = \sqrt{V(Y_2)}$ are the standard
 
 ## 🧮 Theorem 5.11: Variance of Linear Combinations
 
-::: {style="font-size: 32px"}
+::: {style="font-size: 30px"}
 ::: {.callout-important}
 ## Theorem 5.11: Portfolio Variance Formula
 
@@ -416,7 +439,7 @@ $$V(aY_1 + bY_2) = a^2 \sigma_1^2 + b^2 \sigma_2^2 + 2ab\rho\sigma_1\sigma_2$$
 :::
 :::
 
-::: {style="font-size: 32px"}
+::: {style="font-size: 30px"}
 **Special Cases:**
 
 - If $Y_1$ and $Y_2$ are **independent**: $\rho = 0$, so $V(aY_1 + bY_2) = a^2 V(Y_1) + b^2 V(Y_2)$
@@ -459,14 +482,28 @@ $$\sigma_p = \sqrt{0.0252} = 0.1587 = \boxed{15.87\%}$$
 
 ## 🤝 Think-Pair-Share Activity {.smaller}
 
-::: {style="font-size: 32px"}
+::: {style="font-size: 45px"}
 ::: {.callout-tip}
 ## 💭 Diversification Paradox
 
+
+
+::: {.columns}
+::: {.column width="33%" .fragment}
+
 **Scenario:** You have two investment options:
 
-- **Option A:** 100% in Stock X ($\mu = 10\%$, $\sigma = 25\%$)
-- **Option B:** 50% Stock X + 50% Stock Y ($\mu_Y = 8\%$, $\sigma_Y = 20\%$, $\rho = -0.3$)
+- **Option A:** 
+
+  - 100% in Stock X \newline
+($\mu = 10\%$, $\sigma = 25\%$)
+
+- **Option B:** 
+
+  - 50% Stock X + 50% Stock Y ($\mu_Y = 8\%$, $\sigma_Y = 20\%$, $\rho = -0.3$)
+:::
+
+::: {.column width="33%" .fragment}
 
 **Questions:**
 
@@ -474,6 +511,9 @@ $$\sigma_p = \sqrt{0.0252} = 0.1587 = \boxed{15.87\%}$$
 2. Calculate standard deviation for both options
 3. Which option would you choose and why?
 
+:::
+
+::: {.column width="34%" .fragment}
 **Activity:** (3 minutes)
 
 - **1 min:** Think individually and calculate
@@ -481,72 +521,50 @@ $$\sigma_p = \sqrt{0.0252} = 0.1587 = \boxed{15.87\%}$$
 - **1 min:** Share key insights with class
 :::
 :::
+:::
+:::
 
-```{ojs}
-//| echo: false
-// Countdown Timer
-viewof countdown = {
-  const totalSeconds = 180;
-  let remainingSeconds = totalSeconds;
-  let intervalId;
-  
-  const container = html`<div style="position: fixed; right: 0; bottom: 10px; text-align: center; font-size: 42px; color: #2c3e50; font-weight: bold; padding: 15px; background: #ecf0f1; border-radius: 10px; max-width: 350px; z-index: 1000;"></div>`;
-  
-  function updateDisplay() {
-    const minutes = Math.floor(remainingSeconds / 60);
-    const seconds = remainingSeconds % 60;
-    container.textContent = `⏱️ ${minutes}:${seconds.toString().padStart(2, '0')}`;
-    
-    if (remainingSeconds === 0) {
-      clearInterval(intervalId);
-      container.textContent = "⏰ Time's Up!";
-      container.style.background = "#e74c3c";
-      container.style.color = "#fff";
-    }
-  }
-  
-  function startTimer() {
-    if (intervalId) clearInterval(intervalId);
-    remainingSeconds = totalSeconds;
-    intervalId = setInterval(() => {
-      remainingSeconds--;
-      updateDisplay();
-      if (remainingSeconds <= 0) clearInterval(intervalId);
-    }, 1000);
-    updateDisplay();
-  }
-  
-  updateDisplay();
-  
-  const button = html`<button style="margin: 10px; padding: 10px 20px; font-size: 18px; cursor: pointer;">Start Timer</button>`;
-  button.onclick = startTimer;
-  
-  ['pointerdown', 'touchstart', 'mousedown', 'click'].forEach(e => 
-    button.addEventListener(e, ev => ev.stopPropagation())
-  );
-  
-  return html`<div>${container}${button}</div>`;
-}
+```{r}
+#| echo: false
+library(countdown)
+countdown(minutes = 3, seconds = 0,
+          top = 0, right = 0,
+          font_size = "1.5em",
+          color_running_background = "#31b09e",
+          color_running_text = "white",
+          color_finished_background = "#cc3311",
+          color_finished_text = "white",
+          color_warning_background = "#f7dc6f",
+          warn_when = 60,
+          play_sound = TRUE)
 ```
 
 ## 🤝 Think-Pair-Share: Solutions
 
-::: {style="font-size: 32px"}
+
+::: {style="font-size: 30px; margin-top: -20px;"}
 ::: {.columns}
-::: {.column width="50%"}
+::: {.column width="50%" .fragment}
 **Expected Returns:**
 
-Option A: $E[R_A] = 10\%$
+**Option A:** 
 
-Option B: $E[R_B] = 0.5(10\%) + 0.5(8\%) = 9\%$
+$$E[R_A] = 10\%$$
+
+
+
+**Option B:** 
+$$E[R_B] = 0.5(10\%) + 0.5(8\%) = 9\%$$
 :::
 
-::: {.column width="50%"}
+::: {.column width="50%" .fragment}
 **Standard Deviations:**
 
-Option A: $\sigma_A = 25\%$
+**Option A:**
 
-Option B:
+$$\sigma_A = 25\%$$
+
+**Option B:**
 $$\sigma_B^2 = (0.5)^2(0.25)^2 + (0.5)^2(0.20)^2$$
 $$+ 2(0.5)(0.5)(-0.3)(0.25)(0.20)$$
 $$= 0.015625 + 0.01 - 0.0075 = 0.018125$$
@@ -555,40 +573,72 @@ $$\sigma_B = 13.46\%$$
 :::
 :::
 
-::: {style="font-size: 34px"}
+. . .
+
+::: {style="font-size: 30px;"}
+::: {style="margin-top: -40px;"}
+
 **Key Insight:** Option B has lower return (9% vs 10%) but **much lower risk** (13.46% vs 25%)! The negative correlation provides powerful diversification. Most investors would prefer B for better risk-adjusted returns.
 :::
+:::
 
-## 📊 Interactive: Portfolio Risk vs Correlation {.smaller}
+## 🎯 Minimum Variance Portfolio: The Optimization Problem
 
+::: {style="font-size: 32px"}
+::: {.callout-important}
+## 📝 Mathematical Formulation
+
+**Given:**
+
+- Two assets with standard deviations $\sigma_1$ and $\sigma_2$ (volatilities)
+- Correlation coefficient $\rho$ between the assets
+- Portfolio weights: $w_1$ and $w_2$ where $w_1 + w_2 = 1$
+
+**Optimization Problem:**
+
+$$\min_{w_1, w_2} \quad \sigma_p^2 = w_1^2\sigma_1^2 + w_2^2\sigma_2^2 + 2w_1w_2\rho\sigma_1\sigma_2$$
+
+$$\text{subject to:} \quad w_1 + w_2 = 1, \quad w_1, w_2 \geq 0 \text{ (no short selling)}$$
+:::
+:::
+
+. . .
+
+::: {style="font-size: 32px"}
+**Solution (using calculus):**
+
+Substitute $w_2 = 1 - w_1$, take derivative with respect to $w_1$, and set to zero:
+
+$$w_1^* = \frac{\sigma_2^2 - \rho\sigma_1\sigma_2}{\sigma_1^2 + \sigma_2^2 - 2\rho\sigma_1\sigma_2}, \quad w_2^* = 1 - w_1^*$$
+
+**Key Insight:** Optimal weights depend on **both variances and correlation**!
+:::
+
+## 📊 Interactive: Minimum Variance Portfolio vs Correlation {.smaller}
+
+::: {style="font-size: 0.75em; margin-top: -5px;"}
+
+::::: columns
+::: {.column width="30%"}
 ```{ojs}
 //| echo: false
 
 viewof rho_slider = {
   const input = Inputs.range([-1, 1], {
-    value: 0.3, 
-    step: 0.1, 
+    value: 0.3,
+    step: 0.1,
     label: "Correlation (ρ):",
     format: d => d.toFixed(2)
   });
-  ['pointerdown', 'touchstart', 'mousedown', 'click', 'wheel', 
-   'pointermove', 'touchmove'].forEach(e => 
-    input.addEventListener(e, ev => ev.stopPropagation())
-  );
-  return input;
-}
-
-viewof w1_slider = {
-  const input = Inputs.range([0, 1], {
-    value: 0.5, 
-    step: 0.05, 
-    label: "Weight in Asset 1 (w₁):",
-    format: d => (d * 100).toFixed(1) + "%"
-  });
-  ['pointerdown', 'touchstart', 'mousedown', 'click', 'wheel', 
-   'pointermove', 'touchmove'].forEach(e => 
-    input.addEventListener(e, ev => ev.stopPropagation())
-  );
+  
+  input.addEventListener('pointerdown', e => e.stopPropagation());
+  input.addEventListener('touchstart', e => e.stopPropagation());
+  input.addEventListener('mousedown', e => e.stopPropagation());
+  input.addEventListener('click', e => e.stopPropagation());
+  input.addEventListener('wheel', e => e.stopPropagation());
+  input.addEventListener('pointermove', e => e.stopPropagation());
+  input.addEventListener('touchmove', e => e.stopPropagation());
+  
   return input;
 }
 ```
@@ -596,16 +646,25 @@ viewof w1_slider = {
 ```{ojs}
 //| echo: false
 
-// Portfolio calculations
+// Asset parameters
 sigma1 = 0.20  // 20% volatility for Asset 1
 sigma2 = 0.15  // 15% volatility for Asset 2
-w2 = 1 - w1_slider
 
-portfolio_variance = Math.pow(w1_slider * sigma1, 2) + 
-                     Math.pow(w2 * sigma2, 2) + 
-                     2 * w1_slider * w2 * rho_slider * sigma1 * sigma2
+// Calculate optimal minimum variance portfolio weight
+// w1* = (σ₂² - ρσ₁σ₂) / (σ₁² + σ₂² - 2ρσ₁σ₂)
+w1_optimal = (Math.pow(sigma2, 2) - rho_slider * sigma1 * sigma2) / 
+             (Math.pow(sigma1, 2) + Math.pow(sigma2, 2) - 2 * rho_slider * sigma1 * sigma2)
 
-portfolio_std = Math.sqrt(portfolio_variance)
+// Constrain to [0, 1] (no short selling)
+w1_star = Math.max(0, Math.min(1, w1_optimal))
+w2_star = 1 - w1_star
+
+// Minimum variance portfolio statistics
+min_var = Math.pow(w1_star * sigma1, 2) + 
+          Math.pow(w2_star * sigma2, 2) + 
+          2 * w1_star * w2_star * rho_slider * sigma1 * sigma2
+
+min_std = Math.sqrt(min_var)
 
 // Generate efficient frontier data
 weights = d3.range(0, 1.01, 0.01)
@@ -620,15 +679,17 @@ frontier_data = weights.map(w1 => {
   };
 })
 ```
+:::
 
+::: {.column width="70%"}
 ```{ojs}
 //| echo: false
 
 Plot.plot({
-  width: 600,
-  height: 380,
-  marginLeft: 55,
-  marginBottom: 35,
+  width: 820,
+  height: 460,
+  marginLeft: 60,
+  marginBottom: 40,
   x: {
     label: "Weight in Asset 1",
     domain: [0, 1],
@@ -646,17 +707,19 @@ Plot.plot({
       stroke: "#2ecc71",
       strokeWidth: 3
     }),
+    // Minimum variance portfolio point
     Plot.dot([{
-      x: w1_slider, 
-      y: portfolio_std
+      x: w1_star, 
+      y: min_std
     }], {
       x: "x",
       y: "y",
-      r: 6,
+      r: 8,
       fill: "#e74c3c",
       stroke: "#c0392b",
       strokeWidth: 2
     }),
+    // Individual assets
     Plot.dot([
       {x: 0, y: sigma2, label: "Asset 2"},
       {x: 1, y: sigma1, label: "Asset 1"}
@@ -667,22 +730,49 @@ Plot.plot({
       fill: "#3498db"
     }),
     Plot.text([
-      {x: 0, y: sigma2, label: "Asset 2", dy: -15},
-      {x: 1, y: sigma1, label: "Asset 1", dy: -15}
+      {x: 0.05, y: sigma2, label: "Asset 2", dx: 15},
+      {x: 0.95, y: sigma1, label: "Asset 1", dx: 15}
     ], {
       x: "x",
       y: "y",
       text: "label",
-      dy: "dy",
+      dx: "dx",
       fontSize: 12,
       fontWeight: "bold"
+    }),
+    // Label for minimum variance portfolio
+    Plot.text([{
+      x: w1_star, 
+      y: min_std+0.005, 
+      label: "Min Variance", 
+      dy: -20
+    }], {
+      x: "x",
+      y: "y",
+      text: "label",
+      dy: "dy",
+      fontSize: 11,
+      fontWeight: "bold",
+      fill: "#e74c3c"
     })
   ]
 })
 ```
+:::
+:::::
 
-::: {style="font-size: 24px; text-align: center; margin-top: 10px;"}
-**Portfolio:** w₁=${(w1_slider * 100).toFixed(0)}%, w₂=${(w2 * 100).toFixed(0)}% | σₚ=${(portfolio_std * 100).toFixed(2)}% | ρ=${rho_slider.toFixed(1)}
+```{ojs}
+//| echo: false
+
+html`<div style="text-align: center; font-size: 1.1em; margin-top: 10px;">
+<strong>Minimum Variance Portfolio:</strong> w₁* = ${(w1_star * 100).toFixed(1)}%, 
+w₂* = ${(w2_star * 100).toFixed(1)}% | 
+σₚ = ${(min_std * 100).toFixed(2)}% | 
+ρ = ${rho_slider.toFixed(2)}<br>
+<em style="font-size: 0.9em;">Optimal weights change with correlation! Lower ρ → greater diversification benefit</em>
+</div>`
+```
+
 :::
 
 ## 💰 Case Study: Real Portfolio Data {.smaller}
@@ -745,7 +835,7 @@ kable(summary_stats, digits = 2,
 
 ## 💰 Case Study: Correlation Matrix {.smaller}
 
-::: {style="font-size: 32px"}
+::: {style="font-size: 30px"}
 ```{r}
 #| echo: true
 #| message: false
@@ -862,7 +952,7 @@ ggplot(results, aes(x = StdDev, y = ExpReturn)) +
 
 ## 💰 Case Study: Key Findings
 
-::: {style="font-size: 28px"}
+::: {style="font-size: 45px"}
 ::: {.callout-important}
 ## 📊 Analysis Results
 
@@ -888,7 +978,7 @@ ggplot(results, aes(x = StdDev, y = ExpReturn)) +
 
 Equal-weight portfolio has lower risk:
 
-$$\sigma_p^2 = \sum_i w_i^2 \sigma_i^2 + 2\sum_{i<j} w_i w_j \rho_{ij} \sigma_i \sigma_j$$
+$$\sigma_p^2 = \sum_i w_i^2 \sigma_i^2 $$ $$+2\sum_{i<j} w_i w_j \rho_{ij} \sigma_i \sigma_j$$
 
 Low/negative ρ reduces variance!
 :::
@@ -956,7 +1046,7 @@ For a portfolio with $w_1 = w_2 = 0.5$, $\sigma_1 = \sigma_2 = 20\%$, and $\rho 
 
 ## 📝 Summary
 
-::: {style="font-size: 28px"}
+::: {style="font-size: 30px"}
 ::: {.summary-box}
 **✅ Key Takeaways**
 
@@ -976,7 +1066,7 @@ For a portfolio with $w_1 = w_2 = 0.5$, $\sigma_1 = \sigma_2 = 20\%$, and $\rho 
 
 ## 📚 Practice Problems
 
-::: {style="font-size: 28px"}
+::: {style="font-size: 45px"}
 ::: {.callout-tip}
 ## 📝 Homework Problems
 
@@ -1038,7 +1128,7 @@ ADA University
 
 ## ❓ Questions?
 
-::: {style="font-size: 28px"}
+::: {style="font-size: 45px"}
 ::: {.callout-note}
 ## 💬 Open Discussion
 
