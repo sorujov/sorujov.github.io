@@ -17,16 +17,39 @@ Keynote presentation delivered on behalf of the Information and Communication Te
 
 The event and my presentation were featured on AzTV, the national television of Azerbaijan:
 
-<div class="video-container" style="position: relative; width: 100%; max-width: 800px; padding-bottom: 56.25%; margin: 30px auto; background: #000; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
-  <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" 
-          src="https://www.youtube.com/embed/FBaPcOiPhYM?rel=0&modestbranding=1&playsinline=1" 
+<div class="video-container">
+  <iframe width="560" height="315" 
+          src="https://www.youtube.com/embed/FBaPcOiPhYM?si=Qq2WsvyId7giOvOI" 
           title="AzTV Coverage - Azerbaijan Hospitality Connectivity Summit" 
           frameborder="0" 
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" 
-          allowfullscreen
-          loading="lazy">
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          allowfullscreen>
   </iframe>
 </div>
+
+<style>
+.video-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  height: 0;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  margin: 30px auto;
+  background: #000;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+</style>
 
 ### Presentation Slides
 
