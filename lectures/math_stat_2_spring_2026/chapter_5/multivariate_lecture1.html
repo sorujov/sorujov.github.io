@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.8.25">
 
   <meta name="author" content="Samir Orujov, PhD">
-  <meta name="dcterms.date" content="2026-02-02">
+  <meta name="dcterms.date" content="2026-02-04">
   <title>Mathematical Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -218,7 +218,7 @@ Samir Orujov, PhD
     </div>
 </div>
 
-  <p class="date">2026-02-02</p>
+  <p class="date">2026-02-04</p>
 </section>
 <section id="learning-objectives" class="slide level2 smaller">
 <h2>🎯 Learning Objectives</h2>
@@ -583,55 +583,56 @@ Samir Orujov, PhD
 <span id="cb1-370"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.2</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> {</span>
 <span id="cb1-371"><a href=""></a>    <span class="dt">value</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> </span>
 <span id="cb1-372"><a href=""></a>    <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span> </span>
-<span id="cb1-373"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Threshold c:"</span></span>
-<span id="cb1-374"><a href=""></a>  })<span class="op">;</span></span>
-<span id="cb1-375"><a href=""></a>  </span>
-<span id="cb1-376"><a href=""></a>  <span class="co">// Prevent slide navigation when interacting with slider</span></span>
-<span id="cb1-377"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'pointerdown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb1-378"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'touchstart'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb1-379"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'mousedown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb1-380"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'click'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb1-381"><a href=""></a>  </span>
-<span id="cb1-382"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
-<span id="cb1-383"><a href=""></a>}</span>
-<span id="cb1-384"><a href=""></a></span>
-<span id="cb1-385"><a href=""></a><span class="co">// Calculate probability P(Y1 + Y2 &lt;= c)</span></span>
-<span id="cb1-386"><a href=""></a>prob_uniform <span class="op">=</span> {</span>
-<span id="cb1-387"><a href=""></a>  <span class="kw">const</span> c <span class="op">=</span> threshold<span class="op">;</span></span>
-<span id="cb1-388"><a href=""></a>  <span class="cf">if</span> (c <span class="op">&lt;=</span> <span class="dv">0</span>) <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb1-389"><a href=""></a>  <span class="cf">if</span> (c <span class="op">&gt;=</span> <span class="dv">2</span>) <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb1-390"><a href=""></a>  <span class="cf">if</span> (c <span class="op">&lt;=</span> <span class="dv">1</span>) {</span>
-<span id="cb1-391"><a href=""></a>    <span class="cf">return</span> c <span class="op">*</span> c <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
-<span id="cb1-392"><a href=""></a>  } <span class="cf">else</span> {</span>
-<span id="cb1-393"><a href=""></a>    <span class="cf">return</span> <span class="dv">1</span> <span class="op">-</span> (<span class="dv">2</span> <span class="op">-</span> c) <span class="op">*</span> (<span class="dv">2</span> <span class="op">-</span> c) <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
-<span id="cb1-394"><a href=""></a>  }</span>
-<span id="cb1-395"><a href=""></a>}</span>
-<span id="cb1-396"><a href=""></a></span>
-<span id="cb1-397"><a href=""></a><span class="fu">html</span><span class="vs">`&lt;div style="font-size: 1.15em; line-height: 1.4;"&gt;</span></span>
-<span id="cb1-398"><a href=""></a><span class="vs">&lt;p&gt;&lt;strong&gt;Density:&lt;/strong&gt; &lt;em&gt;f&lt;/em&gt;(y₁, y₂) = 1 on [0,1]²&lt;/p&gt;</span></span>
-<span id="cb1-399"><a href=""></a><span class="vs">&lt;hr style="margin: 8px 0;"/&gt;</span></span>
-<span id="cb1-400"><a href=""></a><span class="vs">&lt;p&gt;&lt;strong&gt;Region:&lt;/strong&gt; y₁ + y₂ ≤ </span><span class="sc">${</span>threshold<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">&lt;/p&gt;</span></span>
-<span id="cb1-401"><a href=""></a><span class="vs">&lt;hr style="margin: 8px 0;"/&gt;</span></span>
-<span id="cb1-402"><a href=""></a><span class="vs">&lt;p style="font-size: 1.6em; color: #2563eb; margin: 10px 0;"&gt;</span></span>
-<span id="cb1-403"><a href=""></a><span class="vs">&lt;strong&gt;P = </span><span class="sc">${</span>prob_uniform<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">4</span>)<span class="sc">}</span><span class="vs">&lt;/strong&gt;</span></span>
-<span id="cb1-404"><a href=""></a><span class="vs">&lt;/p&gt;</span></span>
-<span id="cb1-405"><a href=""></a><span class="vs">&lt;hr style="margin: 8px 0;"/&gt;</span></span>
-<span id="cb1-406"><a href=""></a><span class="vs">&lt;p style="font-size: 1em;"&gt;</span></span>
-<span id="cb1-407"><a href=""></a><span class="sc">${</span>threshold <span class="op">&lt;=</span> <span class="dv">1</span> <span class="op">?</span> </span>
-<span id="cb1-408"><a href=""></a>  <span class="vs">`c²/2 = </span><span class="sc">${</span>threshold<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">²/2`</span> <span class="op">:</span></span>
-<span id="cb1-409"><a href=""></a>  threshold <span class="op">&lt;</span> <span class="dv">2</span> <span class="op">?</span></span>
-<span id="cb1-410"><a href=""></a>  <span class="vs">`1 - (2-c)²/2`</span> <span class="op">:</span></span>
-<span id="cb1-411"><a href=""></a>  <span class="vs">`= 1 (full square)`</span></span>
-<span id="cb1-412"><a href=""></a><span class="sc">}</span></span>
-<span id="cb1-413"><a href=""></a><span class="vs">&lt;/p&gt;</span></span>
-<span id="cb1-414"><a href=""></a><span class="vs">&lt;hr style="margin: 8px 0;"/&gt;</span></span>
-<span id="cb1-415"><a href=""></a><span class="vs">&lt;p style="font-size: 1em;"&gt;&lt;strong&gt;Try:&lt;/strong&gt;&lt;/p&gt;</span></span>
-<span id="cb1-416"><a href=""></a><span class="vs">&lt;ul style="margin: 5px 0; padding-left: 18px; font-size: 1em;"&gt;</span></span>
-<span id="cb1-417"><a href=""></a><span class="vs">&lt;li&gt;c=1 → P=0.5&lt;/li&gt;</span></span>
-<span id="cb1-418"><a href=""></a><span class="vs">&lt;li&gt;c=2 → P=1&lt;/li&gt;</span></span>
-<span id="cb1-419"><a href=""></a><span class="vs">&lt;li&gt;c&lt;1 → small&lt;/li&gt;</span></span>
-<span id="cb1-420"><a href=""></a><span class="vs">&lt;/ul&gt;</span></span>
-<span id="cb1-421"><a href=""></a><span class="vs">&lt;/div&gt;`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-373"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Threshold c:"</span><span class="op">,</span></span>
+<span id="cb1-374"><a href=""></a>    <span class="dt">format</span><span class="op">:</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)</span>
+<span id="cb1-375"><a href=""></a>  })<span class="op">;</span></span>
+<span id="cb1-376"><a href=""></a>  </span>
+<span id="cb1-377"><a href=""></a>  <span class="co">// Prevent slide navigation when interacting with slider</span></span>
+<span id="cb1-378"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'pointerdown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-379"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'touchstart'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-380"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'mousedown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-381"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'click'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-382"><a href=""></a>  </span>
+<span id="cb1-383"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb1-384"><a href=""></a>}</span>
+<span id="cb1-385"><a href=""></a></span>
+<span id="cb1-386"><a href=""></a><span class="co">// Calculate probability P(Y1 + Y2 &lt;= c)</span></span>
+<span id="cb1-387"><a href=""></a>prob_uniform <span class="op">=</span> {</span>
+<span id="cb1-388"><a href=""></a>  <span class="kw">const</span> c <span class="op">=</span> threshold<span class="op">;</span></span>
+<span id="cb1-389"><a href=""></a>  <span class="cf">if</span> (c <span class="op">&lt;=</span> <span class="dv">0</span>) <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-390"><a href=""></a>  <span class="cf">if</span> (c <span class="op">&gt;=</span> <span class="dv">2</span>) <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-391"><a href=""></a>  <span class="cf">if</span> (c <span class="op">&lt;=</span> <span class="dv">1</span>) {</span>
+<span id="cb1-392"><a href=""></a>    <span class="cf">return</span> c <span class="op">*</span> c <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb1-393"><a href=""></a>  } <span class="cf">else</span> {</span>
+<span id="cb1-394"><a href=""></a>    <span class="cf">return</span> <span class="dv">1</span> <span class="op">-</span> (<span class="dv">2</span> <span class="op">-</span> c) <span class="op">*</span> (<span class="dv">2</span> <span class="op">-</span> c) <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb1-395"><a href=""></a>  }</span>
+<span id="cb1-396"><a href=""></a>}</span>
+<span id="cb1-397"><a href=""></a></span>
+<span id="cb1-398"><a href=""></a><span class="fu">html</span><span class="vs">`&lt;div style="font-size: 1.15em; line-height: 1.4;"&gt;</span></span>
+<span id="cb1-399"><a href=""></a><span class="vs">&lt;p&gt;&lt;strong&gt;Density:&lt;/strong&gt; &lt;em&gt;f&lt;/em&gt;(y₁, y₂) = 1 on [0,1]²&lt;/p&gt;</span></span>
+<span id="cb1-400"><a href=""></a><span class="vs">&lt;hr style="margin: 8px 0;"/&gt;</span></span>
+<span id="cb1-401"><a href=""></a><span class="vs">&lt;p&gt;&lt;strong&gt;Region:&lt;/strong&gt; y₁ + y₂ ≤ </span><span class="sc">${</span>threshold<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">&lt;/p&gt;</span></span>
+<span id="cb1-402"><a href=""></a><span class="vs">&lt;hr style="margin: 8px 0;"/&gt;</span></span>
+<span id="cb1-403"><a href=""></a><span class="vs">&lt;p style="font-size: 1.6em; color: #2563eb; margin: 10px 0;"&gt;</span></span>
+<span id="cb1-404"><a href=""></a><span class="vs">&lt;strong&gt;P = </span><span class="sc">${</span>prob_uniform<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">4</span>)<span class="sc">}</span><span class="vs">&lt;/strong&gt;</span></span>
+<span id="cb1-405"><a href=""></a><span class="vs">&lt;/p&gt;</span></span>
+<span id="cb1-406"><a href=""></a><span class="vs">&lt;hr style="margin: 8px 0;"/&gt;</span></span>
+<span id="cb1-407"><a href=""></a><span class="vs">&lt;p style="font-size: 1em;"&gt;</span></span>
+<span id="cb1-408"><a href=""></a><span class="sc">${</span>threshold <span class="op">&lt;=</span> <span class="dv">1</span> <span class="op">?</span> </span>
+<span id="cb1-409"><a href=""></a>  <span class="vs">`c²/2 = </span><span class="sc">${</span>threshold<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">²/2`</span> <span class="op">:</span></span>
+<span id="cb1-410"><a href=""></a>  threshold <span class="op">&lt;</span> <span class="dv">2</span> <span class="op">?</span></span>
+<span id="cb1-411"><a href=""></a>  <span class="vs">`1 - (2-c)²/2`</span> <span class="op">:</span></span>
+<span id="cb1-412"><a href=""></a>  <span class="vs">`= 1 (full square)`</span></span>
+<span id="cb1-413"><a href=""></a><span class="sc">}</span></span>
+<span id="cb1-414"><a href=""></a><span class="vs">&lt;/p&gt;</span></span>
+<span id="cb1-415"><a href=""></a><span class="vs">&lt;hr style="margin: 8px 0;"/&gt;</span></span>
+<span id="cb1-416"><a href=""></a><span class="vs">&lt;p style="font-size: 1em;"&gt;&lt;strong&gt;Try:&lt;/strong&gt;&lt;/p&gt;</span></span>
+<span id="cb1-417"><a href=""></a><span class="vs">&lt;ul style="margin: 5px 0; padding-left: 18px; font-size: 1em;"&gt;</span></span>
+<span id="cb1-418"><a href=""></a><span class="vs">&lt;li&gt;c=1 → P=0.5&lt;/li&gt;</span></span>
+<span id="cb1-419"><a href=""></a><span class="vs">&lt;li&gt;c=2 → P=1&lt;/li&gt;</span></span>
+<span id="cb1-420"><a href=""></a><span class="vs">&lt;li&gt;c&lt;1 → small&lt;/li&gt;</span></span>
+<span id="cb1-421"><a href=""></a><span class="vs">&lt;/ul&gt;</span></span>
+<span id="cb1-422"><a href=""></a><span class="vs">&lt;/div&gt;`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -659,54 +660,57 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="427" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 426;"><span id="cb2-427"><a href=""></a><span class="co">// 2D Top View Plot</span></span>
-<span id="cb2-428"><a href=""></a>{</span>
-<span id="cb2-429"><a href=""></a>  <span class="kw">const</span> width <span class="op">=</span> <span class="dv">460</span><span class="op">;</span></span>
-<span id="cb2-430"><a href=""></a>  <span class="kw">const</span> height <span class="op">=</span> <span class="dv">460</span><span class="op">;</span></span>
-<span id="cb2-431"><a href=""></a>  <span class="kw">const</span> margin <span class="op">=</span> <span class="dv">30</span><span class="op">;</span></span>
-<span id="cb2-432"><a href=""></a>  </span>
-<span id="cb2-433"><a href=""></a>  <span class="kw">const</span> n <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
-<span id="cb2-434"><a href=""></a>  <span class="kw">const</span> surface_data <span class="op">=</span> []<span class="op">;</span></span>
-<span id="cb2-435"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i<span class="op">++</span>) {</span>
-<span id="cb2-436"><a href=""></a>    <span class="cf">for</span> (<span class="kw">let</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;=</span> n<span class="op">;</span> j<span class="op">++</span>) {</span>
-<span id="cb2-437"><a href=""></a>      <span class="kw">const</span> y1 <span class="op">=</span> i <span class="op">/</span> n<span class="op">;</span></span>
-<span id="cb2-438"><a href=""></a>      <span class="kw">const</span> y2 <span class="op">=</span> j <span class="op">/</span> n<span class="op">;</span></span>
-<span id="cb2-439"><a href=""></a>      surface_data<span class="op">.</span><span class="fu">push</span>({</span>
-<span id="cb2-440"><a href=""></a>        <span class="dt">y1</span><span class="op">:</span> y1<span class="op">,</span></span>
-<span id="cb2-441"><a href=""></a>        <span class="dt">y2</span><span class="op">:</span> y2<span class="op">,</span></span>
-<span id="cb2-442"><a href=""></a>        <span class="dt">inRegion</span><span class="op">:</span> (y1 <span class="op">+</span> y2) <span class="op">&lt;=</span> threshold</span>
-<span id="cb2-443"><a href=""></a>      })<span class="op">;</span></span>
-<span id="cb2-444"><a href=""></a>    }</span>
-<span id="cb2-445"><a href=""></a>  }</span>
-<span id="cb2-446"><a href=""></a>  </span>
-<span id="cb2-447"><a href=""></a>  <span class="cf">return</span> Plot<span class="op">.</span><span class="fu">plot</span>({</span>
-<span id="cb2-448"><a href=""></a>    <span class="dt">width</span><span class="op">:</span> width<span class="op">,</span></span>
-<span id="cb2-449"><a href=""></a>    <span class="dt">height</span><span class="op">:</span> height<span class="op">,</span></span>
-<span id="cb2-450"><a href=""></a>    <span class="dt">margin</span><span class="op">:</span> margin<span class="op">,</span></span>
-<span id="cb2-451"><a href=""></a>    <span class="dt">style</span><span class="op">:</span> { <span class="dt">fontSize</span><span class="op">:</span> <span class="st">"12px"</span> }<span class="op">,</span></span>
-<span id="cb2-452"><a href=""></a>    <span class="dt">marks</span><span class="op">:</span> [</span>
-<span id="cb2-453"><a href=""></a>      Plot<span class="op">.</span><span class="fu">dot</span>(surface_data<span class="op">,</span> {</span>
-<span id="cb2-454"><a href=""></a>        <span class="dt">x</span><span class="op">:</span> <span class="st">"y1"</span><span class="op">,</span></span>
-<span id="cb2-455"><a href=""></a>        <span class="dt">y</span><span class="op">:</span> <span class="st">"y2"</span><span class="op">,</span></span>
-<span id="cb2-456"><a href=""></a>        <span class="dt">fill</span><span class="op">:</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">inRegion</span> <span class="op">?</span> <span class="st">"#3b82f6"</span> <span class="op">:</span> <span class="st">"#e5e7eb"</span><span class="op">,</span></span>
-<span id="cb2-457"><a href=""></a>        <span class="dt">r</span><span class="op">:</span> <span class="dv">6</span><span class="op">,</span></span>
-<span id="cb2-458"><a href=""></a>        <span class="dt">opacity</span><span class="op">:</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">inRegion</span> <span class="op">?</span> <span class="fl">0.9</span> <span class="op">:</span> <span class="fl">0.25</span></span>
-<span id="cb2-459"><a href=""></a>      })<span class="op">,</span></span>
-<span id="cb2-460"><a href=""></a>      Plot<span class="op">.</span><span class="fu">frame</span>({<span class="dt">stroke</span><span class="op">:</span> <span class="st">"black"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span>})<span class="op">,</span></span>
-<span id="cb2-461"><a href=""></a>      Plot<span class="op">.</span><span class="fu">line</span>(</span>
-<span id="cb2-462"><a href=""></a>        threshold <span class="op">&lt;=</span> <span class="dv">2</span> <span class="op">?</span> [</span>
-<span id="cb2-463"><a href=""></a>          {<span class="dt">y1</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">y2</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(threshold<span class="op">,</span> <span class="dv">1</span>)}<span class="op">,</span></span>
-<span id="cb2-464"><a href=""></a>          {<span class="dt">y1</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(threshold<span class="op">,</span> <span class="dv">1</span>)<span class="op">,</span> <span class="dt">y2</span><span class="op">:</span> <span class="dv">0</span>}</span>
-<span id="cb2-465"><a href=""></a>        ] <span class="op">:</span> []<span class="op">,</span></span>
-<span id="cb2-466"><a href=""></a>        { <span class="dt">x</span><span class="op">:</span> <span class="st">"y1"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y2"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"red"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">3</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"5,3"</span> }</span>
-<span id="cb2-467"><a href=""></a>      )<span class="op">,</span></span>
-<span id="cb2-468"><a href=""></a>      Plot<span class="op">.</span><span class="fu">text</span>([{<span class="dt">x</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="op">-</span><span class="fl">0.1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"y₁"</span>}]<span class="op">,</span> { <span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> <span class="st">"label"</span><span class="op">,</span> <span class="dt">fontSize</span><span class="op">:</span> <span class="dv">14</span><span class="op">,</span> <span class="dt">fontWeight</span><span class="op">:</span> <span class="st">"bold"</span> })<span class="op">,</span></span>
-<span id="cb2-469"><a href=""></a>      Plot<span class="op">.</span><span class="fu">text</span>([{<span class="dt">x</span><span class="op">:</span> <span class="op">-</span><span class="fl">0.1</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"y₂"</span>}]<span class="op">,</span> { <span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> <span class="st">"label"</span><span class="op">,</span> <span class="dt">fontSize</span><span class="op">:</span> <span class="dv">14</span><span class="op">,</span> <span class="dt">fontWeight</span><span class="op">:</span> <span class="st">"bold"</span> })</span>
-<span id="cb2-470"><a href=""></a>    ]<span class="op">,</span></span>
-<span id="cb2-471"><a href=""></a>    <span class="dt">x</span><span class="op">:</span> { <span class="dt">label</span><span class="op">:</span> <span class="kw">null</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> <span class="dt">ticks</span><span class="op">:</span> <span class="dv">5</span> }<span class="op">,</span></span>
-<span id="cb2-472"><a href=""></a>    <span class="dt">y</span><span class="op">:</span> { <span class="dt">label</span><span class="op">:</span> <span class="kw">null</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> <span class="dt">ticks</span><span class="op">:</span> <span class="dv">5</span> }</span>
-<span id="cb2-473"><a href=""></a>  })<span class="op">;</span></span>
-<span id="cb2-474"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="428" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 427;"><span id="cb2-428"><a href=""></a><span class="co">// 2D Top View Plot</span></span>
+<span id="cb2-429"><a href=""></a>{</span>
+<span id="cb2-430"><a href=""></a>  <span class="kw">const</span> width <span class="op">=</span> <span class="dv">460</span><span class="op">;</span></span>
+<span id="cb2-431"><a href=""></a>  <span class="kw">const</span> height <span class="op">=</span> <span class="dv">460</span><span class="op">;</span></span>
+<span id="cb2-432"><a href=""></a>  <span class="kw">const</span> margin <span class="op">=</span> <span class="dv">30</span><span class="op">;</span></span>
+<span id="cb2-433"><a href=""></a>  </span>
+<span id="cb2-434"><a href=""></a>  <span class="kw">const</span> n <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
+<span id="cb2-435"><a href=""></a>  <span class="kw">const</span> surface_data <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb2-436"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb2-437"><a href=""></a>    <span class="cf">for</span> (<span class="kw">let</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;=</span> n<span class="op">;</span> j<span class="op">++</span>) {</span>
+<span id="cb2-438"><a href=""></a>      <span class="kw">const</span> y1 <span class="op">=</span> i <span class="op">/</span> n<span class="op">;</span></span>
+<span id="cb2-439"><a href=""></a>      <span class="kw">const</span> y2 <span class="op">=</span> j <span class="op">/</span> n<span class="op">;</span></span>
+<span id="cb2-440"><a href=""></a>      surface_data<span class="op">.</span><span class="fu">push</span>({</span>
+<span id="cb2-441"><a href=""></a>        <span class="dt">y1</span><span class="op">:</span> y1<span class="op">,</span></span>
+<span id="cb2-442"><a href=""></a>        <span class="dt">y2</span><span class="op">:</span> y2<span class="op">,</span></span>
+<span id="cb2-443"><a href=""></a>        <span class="dt">inRegion</span><span class="op">:</span> (y1 <span class="op">+</span> y2) <span class="op">&lt;=</span> threshold</span>
+<span id="cb2-444"><a href=""></a>      })<span class="op">;</span></span>
+<span id="cb2-445"><a href=""></a>    }</span>
+<span id="cb2-446"><a href=""></a>  }</span>
+<span id="cb2-447"><a href=""></a>  </span>
+<span id="cb2-448"><a href=""></a>  <span class="cf">return</span> Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb2-449"><a href=""></a>    <span class="dt">width</span><span class="op">:</span> width<span class="op">,</span></span>
+<span id="cb2-450"><a href=""></a>    <span class="dt">height</span><span class="op">:</span> height<span class="op">,</span></span>
+<span id="cb2-451"><a href=""></a>    <span class="dt">margin</span><span class="op">:</span> margin<span class="op">,</span></span>
+<span id="cb2-452"><a href=""></a>    <span class="dt">style</span><span class="op">:</span> { <span class="dt">fontSize</span><span class="op">:</span> <span class="st">"12px"</span> }<span class="op">,</span></span>
+<span id="cb2-453"><a href=""></a>    <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb2-454"><a href=""></a>      Plot<span class="op">.</span><span class="fu">dot</span>(surface_data<span class="op">,</span> {</span>
+<span id="cb2-455"><a href=""></a>        <span class="dt">x</span><span class="op">:</span> <span class="st">"y1"</span><span class="op">,</span></span>
+<span id="cb2-456"><a href=""></a>        <span class="dt">y</span><span class="op">:</span> <span class="st">"y2"</span><span class="op">,</span></span>
+<span id="cb2-457"><a href=""></a>        <span class="dt">fill</span><span class="op">:</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">inRegion</span> <span class="op">?</span> <span class="st">"#3b82f6"</span> <span class="op">:</span> <span class="st">"#e5e7eb"</span><span class="op">,</span></span>
+<span id="cb2-458"><a href=""></a>        <span class="dt">r</span><span class="op">:</span> <span class="dv">6</span><span class="op">,</span></span>
+<span id="cb2-459"><a href=""></a>        <span class="dt">opacity</span><span class="op">:</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">inRegion</span> <span class="op">?</span> <span class="fl">0.9</span> <span class="op">:</span> <span class="fl">0.25</span></span>
+<span id="cb2-460"><a href=""></a>      })<span class="op">,</span></span>
+<span id="cb2-461"><a href=""></a>      Plot<span class="op">.</span><span class="fu">frame</span>({<span class="dt">stroke</span><span class="op">:</span> <span class="st">"black"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span>})<span class="op">,</span></span>
+<span id="cb2-462"><a href=""></a>      Plot<span class="op">.</span><span class="fu">line</span>(</span>
+<span id="cb2-463"><a href=""></a>        <span class="co">// Line y₁ + y₂ = c clipped to unit square [0,1]²</span></span>
+<span id="cb2-464"><a href=""></a>        <span class="co">// Start point: where line intersects y₁=0 or y₂=1</span></span>
+<span id="cb2-465"><a href=""></a>        <span class="co">// End point: where line intersects y₂=0 or y₁=1</span></span>
+<span id="cb2-466"><a href=""></a>        threshold <span class="op">&lt;=</span> <span class="dv">2</span> <span class="op">?</span> [</span>
+<span id="cb2-467"><a href=""></a>          {<span class="dt">y1</span><span class="op">:</span> threshold <span class="op">&lt;=</span> <span class="dv">1</span> <span class="op">?</span> <span class="dv">0</span> <span class="op">:</span> threshold <span class="op">-</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">y2</span><span class="op">:</span> threshold <span class="op">&lt;=</span> <span class="dv">1</span> <span class="op">?</span> threshold <span class="op">:</span> <span class="dv">1</span>}<span class="op">,</span></span>
+<span id="cb2-468"><a href=""></a>          {<span class="dt">y1</span><span class="op">:</span> threshold <span class="op">&lt;=</span> <span class="dv">1</span> <span class="op">?</span> threshold <span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">y2</span><span class="op">:</span> threshold <span class="op">&lt;=</span> <span class="dv">1</span> <span class="op">?</span> <span class="dv">0</span> <span class="op">:</span> threshold <span class="op">-</span> <span class="dv">1</span>}</span>
+<span id="cb2-469"><a href=""></a>        ] <span class="op">:</span> []<span class="op">,</span></span>
+<span id="cb2-470"><a href=""></a>        { <span class="dt">x</span><span class="op">:</span> <span class="st">"y1"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y2"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"red"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">3</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"5,3"</span> }</span>
+<span id="cb2-471"><a href=""></a>      )<span class="op">,</span></span>
+<span id="cb2-472"><a href=""></a>      Plot<span class="op">.</span><span class="fu">text</span>([{<span class="dt">x</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="op">-</span><span class="fl">0.1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"y₁"</span>}]<span class="op">,</span> { <span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> <span class="st">"label"</span><span class="op">,</span> <span class="dt">fontSize</span><span class="op">:</span> <span class="dv">14</span><span class="op">,</span> <span class="dt">fontWeight</span><span class="op">:</span> <span class="st">"bold"</span> })<span class="op">,</span></span>
+<span id="cb2-473"><a href=""></a>      Plot<span class="op">.</span><span class="fu">text</span>([{<span class="dt">x</span><span class="op">:</span> <span class="op">-</span><span class="fl">0.1</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"y₂"</span>}]<span class="op">,</span> { <span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> <span class="st">"label"</span><span class="op">,</span> <span class="dt">fontSize</span><span class="op">:</span> <span class="dv">14</span><span class="op">,</span> <span class="dt">fontWeight</span><span class="op">:</span> <span class="st">"bold"</span> })</span>
+<span id="cb2-474"><a href=""></a>    ]<span class="op">,</span></span>
+<span id="cb2-475"><a href=""></a>    <span class="dt">x</span><span class="op">:</span> { <span class="dt">label</span><span class="op">:</span> <span class="kw">null</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> <span class="dt">ticks</span><span class="op">:</span> <span class="dv">5</span> }<span class="op">,</span></span>
+<span id="cb2-476"><a href=""></a>    <span class="dt">y</span><span class="op">:</span> { <span class="dt">label</span><span class="op">:</span> <span class="kw">null</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> <span class="dt">ticks</span><span class="op">:</span> <span class="dv">5</span> }</span>
+<span id="cb2-477"><a href=""></a>  })<span class="op">;</span></span>
+<span id="cb2-478"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-2" data-nodetype="expression">
@@ -721,73 +725,107 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb3" data-startfrom="487" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 486;"><span id="cb3-487"><a href=""></a>Plotly <span class="op">=</span> <span class="pp">require</span>(<span class="st">"https://cdn.plot.ly/plotly-2.27.0.min.js"</span>)</span>
-<span id="cb3-488"><a href=""></a></span>
-<span id="cb3-489"><a href=""></a><span class="co">// 3D Surface Plot</span></span>
-<span id="cb3-490"><a href=""></a>{</span>
-<span id="cb3-491"><a href=""></a>  <span class="kw">const</span> n <span class="op">=</span> <span class="dv">25</span><span class="op">;</span></span>
-<span id="cb3-492"><a href=""></a>  <span class="kw">const</span> y1_grid <span class="op">=</span> []<span class="op">,</span> y2_grid <span class="op">=</span> []<span class="op">,</span> z_grid <span class="op">=</span> []<span class="op">,</span> color_grid <span class="op">=</span> []<span class="op">;</span></span>
-<span id="cb3-493"><a href=""></a>  </span>
-<span id="cb3-494"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i<span class="op">++</span>) y1_grid<span class="op">.</span><span class="fu">push</span>(i <span class="op">/</span> n)<span class="op">;</span></span>
-<span id="cb3-495"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;=</span> n<span class="op">;</span> j<span class="op">++</span>) y2_grid<span class="op">.</span><span class="fu">push</span>(j <span class="op">/</span> n)<span class="op">;</span></span>
-<span id="cb3-496"><a href=""></a>  </span>
-<span id="cb3-497"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;=</span> n<span class="op">;</span> j<span class="op">++</span>) {</span>
-<span id="cb3-498"><a href=""></a>    <span class="kw">const</span> z_row <span class="op">=</span> []<span class="op">,</span> color_row <span class="op">=</span> []<span class="op">;</span></span>
-<span id="cb3-499"><a href=""></a>    <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i<span class="op">++</span>) {</span>
-<span id="cb3-500"><a href=""></a>      z_row<span class="op">.</span><span class="fu">push</span>(<span class="dv">1</span>)<span class="op">;</span></span>
-<span id="cb3-501"><a href=""></a>      color_row<span class="op">.</span><span class="fu">push</span>((y1_grid[i] <span class="op">+</span> y2_grid[j]) <span class="op">&lt;=</span> threshold <span class="op">?</span> <span class="dv">1</span> <span class="op">:</span> <span class="dv">0</span>)<span class="op">;</span></span>
-<span id="cb3-502"><a href=""></a>    }</span>
-<span id="cb3-503"><a href=""></a>    z_grid<span class="op">.</span><span class="fu">push</span>(z_row)<span class="op">;</span></span>
-<span id="cb3-504"><a href=""></a>    color_grid<span class="op">.</span><span class="fu">push</span>(color_row)<span class="op">;</span></span>
-<span id="cb3-505"><a href=""></a>  }</span>
-<span id="cb3-506"><a href=""></a>  </span>
-<span id="cb3-507"><a href=""></a>  <span class="kw">const</span> data <span class="op">=</span> [{</span>
-<span id="cb3-508"><a href=""></a>    <span class="dt">type</span><span class="op">:</span> <span class="st">'surface'</span><span class="op">,</span> <span class="dt">x</span><span class="op">:</span> y1_grid<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> y2_grid<span class="op">,</span> <span class="dt">z</span><span class="op">:</span> z_grid<span class="op">,</span></span>
-<span id="cb3-509"><a href=""></a>    <span class="dt">surfacecolor</span><span class="op">:</span> color_grid<span class="op">,</span></span>
-<span id="cb3-510"><a href=""></a>    <span class="dt">colorscale</span><span class="op">:</span> [[<span class="dv">0</span><span class="op">,</span> <span class="st">'#e5e7eb'</span>]<span class="op">,</span> [<span class="dv">1</span><span class="op">,</span> <span class="st">'#3b82f6'</span>]]<span class="op">,</span></span>
-<span id="cb3-511"><a href=""></a>    <span class="dt">showscale</span><span class="op">:</span> <span class="kw">false</span><span class="op">,</span></span>
-<span id="cb3-512"><a href=""></a>    <span class="dt">contours</span><span class="op">:</span> { <span class="dt">z</span><span class="op">:</span> { <span class="dt">show</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">usecolormap</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">project</span><span class="op">:</span> {<span class="dt">z</span><span class="op">:</span> <span class="kw">true</span>} } }</span>
-<span id="cb3-513"><a href=""></a>  }]<span class="op">;</span></span>
-<span id="cb3-514"><a href=""></a>  </span>
-<span id="cb3-515"><a href=""></a>  <span class="cf">if</span> (threshold <span class="op">&lt;=</span> <span class="dv">2</span>) {</span>
-<span id="cb3-516"><a href=""></a>    <span class="kw">const</span> line_y1 <span class="op">=</span> []<span class="op">,</span> line_y2 <span class="op">=</span> []<span class="op">,</span> line_z <span class="op">=</span> []<span class="op">;</span></span>
-<span id="cb3-517"><a href=""></a>    <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;=</span> <span class="dv">50</span><span class="op">;</span> i<span class="op">++</span>) {</span>
-<span id="cb3-518"><a href=""></a>      <span class="kw">const</span> t <span class="op">=</span> i <span class="op">/</span> <span class="dv">50</span><span class="op">;</span></span>
-<span id="cb3-519"><a href=""></a>      <span class="kw">const</span> y1 <span class="op">=</span> t <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(threshold<span class="op">,</span> <span class="dv">1</span>)<span class="op">;</span></span>
-<span id="cb3-520"><a href=""></a>      <span class="kw">const</span> y2 <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(threshold <span class="op">-</span> y1<span class="op">,</span> <span class="dv">1</span>)<span class="op">;</span></span>
-<span id="cb3-521"><a href=""></a>      <span class="cf">if</span> (y1 <span class="op">&gt;=</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> y1 <span class="op">&lt;=</span> <span class="dv">1</span> <span class="op">&amp;&amp;</span> y2 <span class="op">&gt;=</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> y2 <span class="op">&lt;=</span> <span class="dv">1</span>) {</span>
-<span id="cb3-522"><a href=""></a>        line_y1<span class="op">.</span><span class="fu">push</span>(y1)<span class="op">;</span> line_y2<span class="op">.</span><span class="fu">push</span>(y2)<span class="op">;</span> line_z<span class="op">.</span><span class="fu">push</span>(<span class="dv">0</span>)<span class="op">;</span></span>
-<span id="cb3-523"><a href=""></a>      }</span>
-<span id="cb3-524"><a href=""></a>    }</span>
-<span id="cb3-525"><a href=""></a>    data<span class="op">.</span><span class="fu">push</span>({ <span class="dt">type</span><span class="op">:</span> <span class="st">'scatter3d'</span><span class="op">,</span> <span class="dt">mode</span><span class="op">:</span> <span class="st">'lines'</span><span class="op">,</span> <span class="dt">x</span><span class="op">:</span> line_y1<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> line_y2<span class="op">,</span> <span class="dt">z</span><span class="op">:</span> line_z<span class="op">,</span></span>
-<span id="cb3-526"><a href=""></a>      <span class="dt">line</span><span class="op">:</span> { <span class="dt">color</span><span class="op">:</span> <span class="st">'red'</span><span class="op">,</span> <span class="dt">width</span><span class="op">:</span> <span class="dv">5</span> }<span class="op">,</span> <span class="dt">showlegend</span><span class="op">:</span> <span class="kw">false</span> })<span class="op">;</span></span>
-<span id="cb3-527"><a href=""></a>  }</span>
-<span id="cb3-528"><a href=""></a>  </span>
-<span id="cb3-529"><a href=""></a>  <span class="kw">const</span> layout <span class="op">=</span> {</span>
-<span id="cb3-530"><a href=""></a>    <span class="dt">width</span><span class="op">:</span> <span class="dv">480</span><span class="op">,</span> <span class="dt">height</span><span class="op">:</span> <span class="dv">460</span><span class="op">,</span></span>
-<span id="cb3-531"><a href=""></a>    <span class="dt">margin</span><span class="op">:</span> {<span class="dt">l</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">r</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">b</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">t</span><span class="op">:</span> <span class="dv">0</span>}<span class="op">,</span></span>
-<span id="cb3-532"><a href=""></a>    <span class="dt">scene</span><span class="op">:</span> {</span>
-<span id="cb3-533"><a href=""></a>      <span class="dt">xaxis</span><span class="op">:</span> {<span class="dt">title</span><span class="op">:</span> <span class="st">'y₁'</span><span class="op">,</span> <span class="dt">range</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> <span class="dt">titlefont</span><span class="op">:</span> {<span class="dt">size</span><span class="op">:</span> <span class="dv">14</span>}}<span class="op">,</span></span>
-<span id="cb3-534"><a href=""></a>      <span class="dt">yaxis</span><span class="op">:</span> {<span class="dt">title</span><span class="op">:</span> <span class="st">'y₂'</span><span class="op">,</span> <span class="dt">range</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> <span class="dt">titlefont</span><span class="op">:</span> {<span class="dt">size</span><span class="op">:</span> <span class="dv">14</span>}}<span class="op">,</span></span>
-<span id="cb3-535"><a href=""></a>      <span class="dt">zaxis</span><span class="op">:</span> {<span class="dt">title</span><span class="op">:</span> <span class="st">'f(y₁,y₂)'</span><span class="op">,</span> <span class="dt">range</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="fl">1.2</span>]<span class="op">,</span> <span class="dt">titlefont</span><span class="op">:</span> {<span class="dt">size</span><span class="op">:</span> <span class="dv">12</span>}}<span class="op">,</span></span>
-<span id="cb3-536"><a href=""></a>      <span class="dt">camera</span><span class="op">:</span> { <span class="dt">eye</span><span class="op">:</span> {<span class="dt">x</span><span class="op">:</span> <span class="fl">1.5</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="fl">1.5</span><span class="op">,</span> <span class="dt">z</span><span class="op">:</span> <span class="fl">1.1</span>} }<span class="op">,</span></span>
-<span id="cb3-537"><a href=""></a>      <span class="dt">aspectmode</span><span class="op">:</span> <span class="st">'cube'</span></span>
-<span id="cb3-538"><a href=""></a>    }</span>
-<span id="cb3-539"><a href=""></a>  }<span class="op">;</span></span>
-<span id="cb3-540"><a href=""></a>  </span>
-<span id="cb3-541"><a href=""></a>  <span class="kw">const</span> div <span class="op">=</span> DOM<span class="op">.</span><span class="fu">element</span>(<span class="st">'div'</span>)<span class="op">;</span></span>
-<span id="cb3-542"><a href=""></a>  Plotly<span class="op">.</span><span class="fu">newPlot</span>(div<span class="op">,</span> data<span class="op">,</span> layout<span class="op">,</span> {<span class="dt">displayModeBar</span><span class="op">:</span> <span class="kw">false</span>})<span class="op">;</span></span>
-<span id="cb3-543"><a href=""></a>  </span>
-<span id="cb3-544"><a href=""></a>  div<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'pointerdown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb3-545"><a href=""></a>  div<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'touchstart'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb3-546"><a href=""></a>  div<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'mousedown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb3-547"><a href=""></a>  div<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'wheel'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb3-548"><a href=""></a>  div<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'pointermove'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb3-549"><a href=""></a>  div<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'touchmove'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb3-550"><a href=""></a>  div<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'mousemove'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb3-551"><a href=""></a>  </span>
-<span id="cb3-552"><a href=""></a>  <span class="cf">return</span> div<span class="op">;</span></span>
-<span id="cb3-553"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb3" data-startfrom="491" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 490;"><span id="cb3-491"><a href=""></a>Plotly <span class="op">=</span> <span class="pp">require</span>(<span class="st">"https://cdn.plot.ly/plotly-2.27.0.min.js"</span>)</span>
+<span id="cb3-492"><a href=""></a></span>
+<span id="cb3-493"><a href=""></a><span class="co">// 3D Surface Plot</span></span>
+<span id="cb3-494"><a href=""></a>{</span>
+<span id="cb3-495"><a href=""></a>  <span class="kw">const</span> n <span class="op">=</span> <span class="dv">25</span><span class="op">;</span></span>
+<span id="cb3-496"><a href=""></a>  <span class="kw">const</span> y1_grid <span class="op">=</span> []<span class="op">,</span> y2_grid <span class="op">=</span> []<span class="op">,</span> z_grid <span class="op">=</span> []<span class="op">,</span> color_grid <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb3-497"><a href=""></a>  </span>
+<span id="cb3-498"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i<span class="op">++</span>) y1_grid<span class="op">.</span><span class="fu">push</span>(i <span class="op">/</span> n)<span class="op">;</span></span>
+<span id="cb3-499"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;=</span> n<span class="op">;</span> j<span class="op">++</span>) y2_grid<span class="op">.</span><span class="fu">push</span>(j <span class="op">/</span> n)<span class="op">;</span></span>
+<span id="cb3-500"><a href=""></a>  </span>
+<span id="cb3-501"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;=</span> n<span class="op">;</span> j<span class="op">++</span>) {</span>
+<span id="cb3-502"><a href=""></a>    <span class="kw">const</span> z_row <span class="op">=</span> []<span class="op">,</span> color_row <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb3-503"><a href=""></a>    <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb3-504"><a href=""></a>      z_row<span class="op">.</span><span class="fu">push</span>(<span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb3-505"><a href=""></a>      color_row<span class="op">.</span><span class="fu">push</span>((y1_grid[i] <span class="op">+</span> y2_grid[j]) <span class="op">&lt;=</span> threshold <span class="op">?</span> <span class="dv">1</span> <span class="op">:</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb3-506"><a href=""></a>    }</span>
+<span id="cb3-507"><a href=""></a>    z_grid<span class="op">.</span><span class="fu">push</span>(z_row)<span class="op">;</span></span>
+<span id="cb3-508"><a href=""></a>    color_grid<span class="op">.</span><span class="fu">push</span>(color_row)<span class="op">;</span></span>
+<span id="cb3-509"><a href=""></a>  }</span>
+<span id="cb3-510"><a href=""></a>  </span>
+<span id="cb3-511"><a href=""></a>  <span class="kw">const</span> data <span class="op">=</span> [{</span>
+<span id="cb3-512"><a href=""></a>    <span class="dt">type</span><span class="op">:</span> <span class="st">'surface'</span><span class="op">,</span> <span class="dt">x</span><span class="op">:</span> y1_grid<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> y2_grid<span class="op">,</span> <span class="dt">z</span><span class="op">:</span> z_grid<span class="op">,</span></span>
+<span id="cb3-513"><a href=""></a>    <span class="dt">surfacecolor</span><span class="op">:</span> color_grid<span class="op">,</span></span>
+<span id="cb3-514"><a href=""></a>    <span class="dt">colorscale</span><span class="op">:</span> [[<span class="dv">0</span><span class="op">,</span> <span class="st">'#e5e7eb'</span>]<span class="op">,</span> [<span class="dv">1</span><span class="op">,</span> <span class="st">'#3b82f6'</span>]]<span class="op">,</span></span>
+<span id="cb3-515"><a href=""></a>    <span class="dt">showscale</span><span class="op">:</span> <span class="kw">false</span><span class="op">,</span></span>
+<span id="cb3-516"><a href=""></a>    <span class="dt">contours</span><span class="op">:</span> { <span class="dt">z</span><span class="op">:</span> { <span class="dt">show</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">usecolormap</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">project</span><span class="op">:</span> {<span class="dt">z</span><span class="op">:</span> <span class="kw">true</span>} } }</span>
+<span id="cb3-517"><a href=""></a>  }]<span class="op">;</span></span>
+<span id="cb3-518"><a href=""></a>  </span>
+<span id="cb3-519"><a href=""></a>  <span class="co">// Add dots filling the 3D volume within the integration region</span></span>
+<span id="cb3-520"><a href=""></a>  <span class="kw">const</span> dot_y1 <span class="op">=</span> []<span class="op">,</span> dot_y2 <span class="op">=</span> []<span class="op">,</span> dot_z <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb3-521"><a href=""></a>  <span class="kw">const</span> dot_spacing <span class="op">=</span> <span class="fl">0.15</span><span class="op">;</span></span>
+<span id="cb3-522"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">+=</span> dot_spacing) {</span>
+<span id="cb3-523"><a href=""></a>    <span class="cf">for</span> (<span class="kw">let</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;=</span> <span class="dv">1</span><span class="op">;</span> j <span class="op">+=</span> dot_spacing) {</span>
+<span id="cb3-524"><a href=""></a>      <span class="cf">if</span> (i <span class="op">+</span> j <span class="op">&lt;=</span> threshold) {</span>
+<span id="cb3-525"><a href=""></a>        <span class="cf">for</span> (<span class="kw">let</span> k <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> k <span class="op">&lt;=</span> <span class="dv">1</span><span class="op">;</span> k <span class="op">+=</span> dot_spacing) {</span>
+<span id="cb3-526"><a href=""></a>          dot_y1<span class="op">.</span><span class="fu">push</span>(i)<span class="op">;</span></span>
+<span id="cb3-527"><a href=""></a>          dot_y2<span class="op">.</span><span class="fu">push</span>(j)<span class="op">;</span></span>
+<span id="cb3-528"><a href=""></a>          dot_z<span class="op">.</span><span class="fu">push</span>(k)<span class="op">;</span></span>
+<span id="cb3-529"><a href=""></a>        }</span>
+<span id="cb3-530"><a href=""></a>      }</span>
+<span id="cb3-531"><a href=""></a>    }</span>
+<span id="cb3-532"><a href=""></a>  }</span>
+<span id="cb3-533"><a href=""></a>  <span class="cf">if</span> (dot_y1<span class="op">.</span><span class="at">length</span> <span class="op">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb3-534"><a href=""></a>    data<span class="op">.</span><span class="fu">push</span>({</span>
+<span id="cb3-535"><a href=""></a>      <span class="dt">type</span><span class="op">:</span> <span class="st">'scatter3d'</span><span class="op">,</span></span>
+<span id="cb3-536"><a href=""></a>      <span class="dt">mode</span><span class="op">:</span> <span class="st">'markers'</span><span class="op">,</span></span>
+<span id="cb3-537"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> dot_y1<span class="op">,</span></span>
+<span id="cb3-538"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> dot_y2<span class="op">,</span></span>
+<span id="cb3-539"><a href=""></a>      <span class="dt">z</span><span class="op">:</span> dot_z<span class="op">,</span></span>
+<span id="cb3-540"><a href=""></a>      <span class="dt">marker</span><span class="op">:</span> {</span>
+<span id="cb3-541"><a href=""></a>        <span class="dt">size</span><span class="op">:</span> <span class="fl">2.5</span><span class="op">,</span></span>
+<span id="cb3-542"><a href=""></a>        <span class="dt">color</span><span class="op">:</span> <span class="st">'#1e40af'</span><span class="op">,</span></span>
+<span id="cb3-543"><a href=""></a>        <span class="dt">opacity</span><span class="op">:</span> <span class="fl">0.5</span></span>
+<span id="cb3-544"><a href=""></a>      }<span class="op">,</span></span>
+<span id="cb3-545"><a href=""></a>      <span class="dt">showlegend</span><span class="op">:</span> <span class="kw">false</span></span>
+<span id="cb3-546"><a href=""></a>    })<span class="op">;</span></span>
+<span id="cb3-547"><a href=""></a>  }</span>
+<span id="cb3-548"><a href=""></a>  </span>
+<span id="cb3-549"><a href=""></a>  <span class="cf">if</span> (threshold <span class="op">&lt;=</span> <span class="dv">2</span>) {</span>
+<span id="cb3-550"><a href=""></a>    <span class="kw">const</span> line_y1 <span class="op">=</span> []<span class="op">,</span> line_y2 <span class="op">=</span> []<span class="op">,</span> line_z <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb3-551"><a href=""></a>    <span class="co">// Constraint line y₁ + y₂ = c clipped to unit square</span></span>
+<span id="cb3-552"><a href=""></a>    <span class="kw">const</span> start_y1 <span class="op">=</span> threshold <span class="op">&lt;=</span> <span class="dv">1</span> <span class="op">?</span> <span class="dv">0</span> <span class="op">:</span> threshold <span class="op">-</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb3-553"><a href=""></a>    <span class="kw">const</span> start_y2 <span class="op">=</span> threshold <span class="op">&lt;=</span> <span class="dv">1</span> <span class="op">?</span> threshold <span class="op">:</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb3-554"><a href=""></a>    <span class="kw">const</span> end_y1 <span class="op">=</span> threshold <span class="op">&lt;=</span> <span class="dv">1</span> <span class="op">?</span> threshold <span class="op">:</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb3-555"><a href=""></a>    <span class="kw">const</span> end_y2 <span class="op">=</span> threshold <span class="op">&lt;=</span> <span class="dv">1</span> <span class="op">?</span> <span class="dv">0</span> <span class="op">:</span> threshold <span class="op">-</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb3-556"><a href=""></a>    </span>
+<span id="cb3-557"><a href=""></a>    <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;=</span> <span class="dv">50</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb3-558"><a href=""></a>      <span class="kw">const</span> t <span class="op">=</span> i <span class="op">/</span> <span class="dv">50</span><span class="op">;</span></span>
+<span id="cb3-559"><a href=""></a>      <span class="kw">const</span> y1 <span class="op">=</span> start_y1 <span class="op">+</span> t <span class="op">*</span> (end_y1 <span class="op">-</span> start_y1)<span class="op">;</span></span>
+<span id="cb3-560"><a href=""></a>      <span class="kw">const</span> y2 <span class="op">=</span> start_y2 <span class="op">+</span> t <span class="op">*</span> (end_y2 <span class="op">-</span> start_y2)<span class="op">;</span></span>
+<span id="cb3-561"><a href=""></a>      line_y1<span class="op">.</span><span class="fu">push</span>(y1)<span class="op">;</span> line_y2<span class="op">.</span><span class="fu">push</span>(y2)<span class="op">;</span> line_z<span class="op">.</span><span class="fu">push</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb3-562"><a href=""></a>    }</span>
+<span id="cb3-563"><a href=""></a>    data<span class="op">.</span><span class="fu">push</span>({ <span class="dt">type</span><span class="op">:</span> <span class="st">'scatter3d'</span><span class="op">,</span> <span class="dt">mode</span><span class="op">:</span> <span class="st">'lines'</span><span class="op">,</span> <span class="dt">x</span><span class="op">:</span> line_y1<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> line_y2<span class="op">,</span> <span class="dt">z</span><span class="op">:</span> line_z<span class="op">,</span></span>
+<span id="cb3-564"><a href=""></a>      <span class="dt">line</span><span class="op">:</span> { <span class="dt">color</span><span class="op">:</span> <span class="st">'red'</span><span class="op">,</span> <span class="dt">width</span><span class="op">:</span> <span class="dv">5</span> }<span class="op">,</span> <span class="dt">showlegend</span><span class="op">:</span> <span class="kw">false</span> })<span class="op">;</span></span>
+<span id="cb3-565"><a href=""></a>  }</span>
+<span id="cb3-566"><a href=""></a>  </span>
+<span id="cb3-567"><a href=""></a>  <span class="kw">const</span> layout <span class="op">=</span> {</span>
+<span id="cb3-568"><a href=""></a>    <span class="dt">width</span><span class="op">:</span> <span class="dv">480</span><span class="op">,</span> <span class="dt">height</span><span class="op">:</span> <span class="dv">460</span><span class="op">,</span></span>
+<span id="cb3-569"><a href=""></a>    <span class="dt">margin</span><span class="op">:</span> {<span class="dt">l</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">r</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">b</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">t</span><span class="op">:</span> <span class="dv">0</span>}<span class="op">,</span></span>
+<span id="cb3-570"><a href=""></a>    <span class="dt">scene</span><span class="op">:</span> {</span>
+<span id="cb3-571"><a href=""></a>      <span class="dt">xaxis</span><span class="op">:</span> {<span class="dt">title</span><span class="op">:</span> <span class="st">'y₁'</span><span class="op">,</span> <span class="dt">range</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> <span class="dt">titlefont</span><span class="op">:</span> {<span class="dt">size</span><span class="op">:</span> <span class="dv">14</span>}}<span class="op">,</span></span>
+<span id="cb3-572"><a href=""></a>      <span class="dt">yaxis</span><span class="op">:</span> {<span class="dt">title</span><span class="op">:</span> <span class="st">'y₂'</span><span class="op">,</span> <span class="dt">range</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> <span class="dt">titlefont</span><span class="op">:</span> {<span class="dt">size</span><span class="op">:</span> <span class="dv">14</span>}}<span class="op">,</span></span>
+<span id="cb3-573"><a href=""></a>      <span class="dt">zaxis</span><span class="op">:</span> {<span class="dt">title</span><span class="op">:</span> <span class="st">'f(y₁,y₂)'</span><span class="op">,</span> <span class="dt">range</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="fl">1.2</span>]<span class="op">,</span> <span class="dt">titlefont</span><span class="op">:</span> {<span class="dt">size</span><span class="op">:</span> <span class="dv">12</span>}}<span class="op">,</span></span>
+<span id="cb3-574"><a href=""></a>      <span class="dt">camera</span><span class="op">:</span> { <span class="dt">eye</span><span class="op">:</span> {<span class="dt">x</span><span class="op">:</span> <span class="fl">1.5</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="fl">1.5</span><span class="op">,</span> <span class="dt">z</span><span class="op">:</span> <span class="fl">1.1</span>} }<span class="op">,</span></span>
+<span id="cb3-575"><a href=""></a>      <span class="dt">aspectmode</span><span class="op">:</span> <span class="st">'cube'</span></span>
+<span id="cb3-576"><a href=""></a>    }</span>
+<span id="cb3-577"><a href=""></a>  }<span class="op">;</span></span>
+<span id="cb3-578"><a href=""></a>  </span>
+<span id="cb3-579"><a href=""></a>  <span class="kw">const</span> div <span class="op">=</span> DOM<span class="op">.</span><span class="fu">element</span>(<span class="st">'div'</span>)<span class="op">;</span></span>
+<span id="cb3-580"><a href=""></a>  Plotly<span class="op">.</span><span class="fu">newPlot</span>(div<span class="op">,</span> data<span class="op">,</span> layout<span class="op">,</span> {<span class="dt">displayModeBar</span><span class="op">:</span> <span class="kw">false</span>})<span class="op">;</span></span>
+<span id="cb3-581"><a href=""></a>  </span>
+<span id="cb3-582"><a href=""></a>  div<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'pointerdown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb3-583"><a href=""></a>  div<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'touchstart'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb3-584"><a href=""></a>  div<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'mousedown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb3-585"><a href=""></a>  div<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'wheel'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb3-586"><a href=""></a>  div<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'pointermove'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb3-587"><a href=""></a>  div<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'touchmove'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb3-588"><a href=""></a>  div<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'mousemove'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb3-589"><a href=""></a>  </span>
+<span id="cb3-590"><a href=""></a>  <span class="cf">return</span> div<span class="op">;</span></span>
+<span id="cb3-591"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -838,56 +876,56 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb4" data-startfrom="601" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 600;"><span id="cb4-601"><a href=""></a>viewof alpha <span class="op">=</span> {</span>
-<span id="cb4-602"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">3</span>]<span class="op">,</span> {</span>
-<span id="cb4-603"><a href=""></a>    <span class="dt">value</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> </span>
-<span id="cb4-604"><a href=""></a>    <span class="dt">step</span><span class="op">:</span> <span class="fl">0.25</span><span class="op">,</span> </span>
-<span id="cb4-605"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"α (power of y₁):"</span></span>
-<span id="cb4-606"><a href=""></a>  })<span class="op">;</span></span>
-<span id="cb4-607"><a href=""></a>  </span>
-<span id="cb4-608"><a href=""></a>  <span class="co">// Prevent slide navigation when interacting with slider</span></span>
-<span id="cb4-609"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'pointerdown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb4-610"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'touchstart'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb4-611"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'mousedown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb4-612"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'click'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb4-613"><a href=""></a>  </span>
-<span id="cb4-614"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
-<span id="cb4-615"><a href=""></a>}</span>
-<span id="cb4-616"><a href=""></a></span>
-<span id="cb4-617"><a href=""></a>viewof beta <span class="op">=</span> {</span>
-<span id="cb4-618"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">3</span>]<span class="op">,</span> {</span>
-<span id="cb4-619"><a href=""></a>    <span class="dt">value</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> </span>
-<span id="cb4-620"><a href=""></a>    <span class="dt">step</span><span class="op">:</span> <span class="fl">0.25</span><span class="op">,</span> </span>
-<span id="cb4-621"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"β (power of y₂):"</span></span>
-<span id="cb4-622"><a href=""></a>  })<span class="op">;</span></span>
-<span id="cb4-623"><a href=""></a>  </span>
-<span id="cb4-624"><a href=""></a>  <span class="co">// Prevent slide navigation when interacting with slider</span></span>
-<span id="cb4-625"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'pointerdown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb4-626"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'touchstart'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb4-627"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'mousedown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb4-628"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'click'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb4-629"><a href=""></a>  </span>
-<span id="cb4-630"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
-<span id="cb4-631"><a href=""></a>}</span>
-<span id="cb4-632"><a href=""></a></span>
-<span id="cb4-633"><a href=""></a><span class="co">// Calculate normalizing constant for f(y1,y2) = c * y1^alpha * y2^beta on [0,1]x[0,1]</span></span>
-<span id="cb4-634"><a href=""></a>c_constant <span class="op">=</span> (alpha <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> (beta <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb4-635"><a href=""></a></span>
-<span id="cb4-636"><a href=""></a><span class="fu">html</span><span class="vs">`&lt;div style="font-size: 1.1em; line-height: 1.5;"&gt;</span></span>
-<span id="cb4-637"><a href=""></a><span class="vs">&lt;p&gt;&lt;strong&gt;Density:&lt;/strong&gt; &lt;em&gt;f&lt;/em&gt;(y&lt;sub&gt;1&lt;/sub&gt;, y&lt;sub&gt;2&lt;/sub&gt;) = </span><span class="sc">${</span>c_constant<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs"> · y&lt;sub&gt;1&lt;/sub&gt;&lt;sup&gt;</span><span class="sc">${</span>alpha<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">&lt;/sup&gt; · y&lt;sub&gt;2&lt;/sub&gt;&lt;sup&gt;</span><span class="sc">${</span>beta<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">&lt;/sup&gt; on [0,1]²&lt;/p&gt;</span></span>
-<span id="cb4-638"><a href=""></a><span class="vs">&lt;hr style="margin: 10px 0;"/&gt;</span></span>
-<span id="cb4-639"><a href=""></a><span class="vs">&lt;p&gt;&lt;strong&gt;Normalizing constant:&lt;/strong&gt; &lt;em&gt;c&lt;/em&gt; = (α+1)(β+1) = </span><span class="sc">${</span>c_constant<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">&lt;/p&gt;</span></span>
-<span id="cb4-640"><a href=""></a><span class="vs">&lt;hr style="margin: 10px 0;"/&gt;</span></span>
-<span id="cb4-641"><a href=""></a><span class="vs">&lt;p&gt;&lt;strong&gt;What to Observe:&lt;/strong&gt;&lt;/p&gt;</span></span>
-<span id="cb4-642"><a href=""></a><span class="vs">&lt;ul style="margin: 8px 0; padding-left: 20px;"&gt;</span></span>
-<span id="cb4-643"><a href=""></a><span class="vs">&lt;li&gt;&lt;strong&gt;α = β = 1&lt;/strong&gt;: Uniform (flat)&lt;/li&gt;</span></span>
-<span id="cb4-644"><a href=""></a><span class="vs">&lt;li&gt;&lt;strong&gt;Higher α&lt;/strong&gt;: Mass shifts to large y₁&lt;/li&gt;</span></span>
-<span id="cb4-645"><a href=""></a><span class="vs">&lt;li&gt;&lt;strong&gt;Higher β&lt;/strong&gt;: Mass shifts to large y₂&lt;/li&gt;</span></span>
-<span id="cb4-646"><a href=""></a><span class="vs">&lt;li&gt;&lt;strong&gt;Dark regions&lt;/strong&gt; = high density&lt;/li&gt;</span></span>
-<span id="cb4-647"><a href=""></a><span class="vs">&lt;/ul&gt;</span></span>
-<span id="cb4-648"><a href=""></a><span class="vs">&lt;hr style="margin: 10px 0;"/&gt;</span></span>
-<span id="cb4-649"><a href=""></a><span class="vs">&lt;p&gt;&lt;strong&gt;Real-World:&lt;/strong&gt; Think of y₁, y₂ as asset returns. Parameters model different risk profiles.&lt;/p&gt;</span></span>
-<span id="cb4-650"><a href=""></a><span class="vs">&lt;/div&gt;`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb4" data-startfrom="639" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 638;"><span id="cb4-639"><a href=""></a>viewof alpha <span class="op">=</span> {</span>
+<span id="cb4-640"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">3</span>]<span class="op">,</span> {</span>
+<span id="cb4-641"><a href=""></a>    <span class="dt">value</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> </span>
+<span id="cb4-642"><a href=""></a>    <span class="dt">step</span><span class="op">:</span> <span class="fl">0.25</span><span class="op">,</span> </span>
+<span id="cb4-643"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"α (power of y₁):"</span></span>
+<span id="cb4-644"><a href=""></a>  })<span class="op">;</span></span>
+<span id="cb4-645"><a href=""></a>  </span>
+<span id="cb4-646"><a href=""></a>  <span class="co">// Prevent slide navigation when interacting with slider</span></span>
+<span id="cb4-647"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'pointerdown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb4-648"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'touchstart'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb4-649"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'mousedown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb4-650"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'click'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb4-651"><a href=""></a>  </span>
+<span id="cb4-652"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb4-653"><a href=""></a>}</span>
+<span id="cb4-654"><a href=""></a></span>
+<span id="cb4-655"><a href=""></a>viewof beta <span class="op">=</span> {</span>
+<span id="cb4-656"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">3</span>]<span class="op">,</span> {</span>
+<span id="cb4-657"><a href=""></a>    <span class="dt">value</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> </span>
+<span id="cb4-658"><a href=""></a>    <span class="dt">step</span><span class="op">:</span> <span class="fl">0.25</span><span class="op">,</span> </span>
+<span id="cb4-659"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"β (power of y₂):"</span></span>
+<span id="cb4-660"><a href=""></a>  })<span class="op">;</span></span>
+<span id="cb4-661"><a href=""></a>  </span>
+<span id="cb4-662"><a href=""></a>  <span class="co">// Prevent slide navigation when interacting with slider</span></span>
+<span id="cb4-663"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'pointerdown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb4-664"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'touchstart'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb4-665"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'mousedown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb4-666"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'click'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb4-667"><a href=""></a>  </span>
+<span id="cb4-668"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb4-669"><a href=""></a>}</span>
+<span id="cb4-670"><a href=""></a></span>
+<span id="cb4-671"><a href=""></a><span class="co">// Calculate normalizing constant for f(y1,y2) = c * y1^alpha * y2^beta on [0,1]x[0,1]</span></span>
+<span id="cb4-672"><a href=""></a>c_constant <span class="op">=</span> (alpha <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> (beta <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb4-673"><a href=""></a></span>
+<span id="cb4-674"><a href=""></a><span class="fu">html</span><span class="vs">`&lt;div style="font-size: 1.1em; line-height: 1.5;"&gt;</span></span>
+<span id="cb4-675"><a href=""></a><span class="vs">&lt;p&gt;&lt;strong&gt;Density:&lt;/strong&gt; &lt;em&gt;f&lt;/em&gt;(y&lt;sub&gt;1&lt;/sub&gt;, y&lt;sub&gt;2&lt;/sub&gt;) = </span><span class="sc">${</span>c_constant<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs"> · y&lt;sub&gt;1&lt;/sub&gt;&lt;sup&gt;</span><span class="sc">${</span>alpha<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">&lt;/sup&gt; · y&lt;sub&gt;2&lt;/sub&gt;&lt;sup&gt;</span><span class="sc">${</span>beta<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">&lt;/sup&gt; on [0,1]²&lt;/p&gt;</span></span>
+<span id="cb4-676"><a href=""></a><span class="vs">&lt;hr style="margin: 10px 0;"/&gt;</span></span>
+<span id="cb4-677"><a href=""></a><span class="vs">&lt;p&gt;&lt;strong&gt;Normalizing constant:&lt;/strong&gt; &lt;em&gt;c&lt;/em&gt; = (α+1)(β+1) = </span><span class="sc">${</span>c_constant<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">&lt;/p&gt;</span></span>
+<span id="cb4-678"><a href=""></a><span class="vs">&lt;hr style="margin: 10px 0;"/&gt;</span></span>
+<span id="cb4-679"><a href=""></a><span class="vs">&lt;p&gt;&lt;strong&gt;What to Observe:&lt;/strong&gt;&lt;/p&gt;</span></span>
+<span id="cb4-680"><a href=""></a><span class="vs">&lt;ul style="margin: 8px 0; padding-left: 20px;"&gt;</span></span>
+<span id="cb4-681"><a href=""></a><span class="vs">&lt;li&gt;&lt;strong&gt;α = β = 1&lt;/strong&gt;: Uniform (flat)&lt;/li&gt;</span></span>
+<span id="cb4-682"><a href=""></a><span class="vs">&lt;li&gt;&lt;strong&gt;Higher α&lt;/strong&gt;: Mass shifts to large y₁&lt;/li&gt;</span></span>
+<span id="cb4-683"><a href=""></a><span class="vs">&lt;li&gt;&lt;strong&gt;Higher β&lt;/strong&gt;: Mass shifts to large y₂&lt;/li&gt;</span></span>
+<span id="cb4-684"><a href=""></a><span class="vs">&lt;li&gt;&lt;strong&gt;Dark regions&lt;/strong&gt; = high density&lt;/li&gt;</span></span>
+<span id="cb4-685"><a href=""></a><span class="vs">&lt;/ul&gt;</span></span>
+<span id="cb4-686"><a href=""></a><span class="vs">&lt;hr style="margin: 10px 0;"/&gt;</span></span>
+<span id="cb4-687"><a href=""></a><span class="vs">&lt;p&gt;&lt;strong&gt;Real-World:&lt;/strong&gt; Think of y₁, y₂ as asset returns. Parameters model different risk profiles.&lt;/p&gt;</span></span>
+<span id="cb4-688"><a href=""></a><span class="vs">&lt;/div&gt;`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -922,54 +960,54 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb5" data-startfrom="659" data-source-offset="-59"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 658;"><span id="cb5-659"><a href=""></a>grid_size <span class="op">=</span> <span class="dv">30</span></span>
-<span id="cb5-660"><a href=""></a>y1_vals <span class="op">=</span> d3<span class="op">.</span><span class="fu">range</span>(<span class="fl">0.02</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">/</span>grid_size)</span>
-<span id="cb5-661"><a href=""></a>y2_vals <span class="op">=</span> d3<span class="op">.</span><span class="fu">range</span>(<span class="fl">0.02</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">/</span>grid_size)</span>
-<span id="cb5-662"><a href=""></a></span>
-<span id="cb5-663"><a href=""></a><span class="co">// Generate density values</span></span>
-<span id="cb5-664"><a href=""></a>density_data <span class="op">=</span> {</span>
-<span id="cb5-665"><a href=""></a>  <span class="kw">let</span> data <span class="op">=</span> []<span class="op">;</span></span>
-<span id="cb5-666"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> y1 <span class="kw">of</span> y1_vals) {</span>
-<span id="cb5-667"><a href=""></a>    <span class="cf">for</span> (<span class="kw">let</span> y2 <span class="kw">of</span> y2_vals) {</span>
-<span id="cb5-668"><a href=""></a>      <span class="kw">let</span> density <span class="op">=</span> c_constant <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(y1<span class="op">,</span> alpha) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(y2<span class="op">,</span> beta)<span class="op">;</span></span>
-<span id="cb5-669"><a href=""></a>      data<span class="op">.</span><span class="fu">push</span>({<span class="dt">y1</span><span class="op">:</span> y1<span class="op">,</span> <span class="dt">y2</span><span class="op">:</span> y2<span class="op">,</span> <span class="dt">density</span><span class="op">:</span> density})<span class="op">;</span></span>
-<span id="cb5-670"><a href=""></a>    }</span>
-<span id="cb5-671"><a href=""></a>  }</span>
-<span id="cb5-672"><a href=""></a>  <span class="cf">return</span> data<span class="op">;</span></span>
-<span id="cb5-673"><a href=""></a>}</span>
-<span id="cb5-674"><a href=""></a></span>
-<span id="cb5-675"><a href=""></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
-<span id="cb5-676"><a href=""></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">820</span><span class="op">,</span></span>
-<span id="cb5-677"><a href=""></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">520</span><span class="op">,</span></span>
-<span id="cb5-678"><a href=""></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">55</span><span class="op">,</span></span>
-<span id="cb5-679"><a href=""></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
-<span id="cb5-680"><a href=""></a>  <span class="dt">marginTop</span><span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
-<span id="cb5-681"><a href=""></a>  <span class="dt">color</span><span class="op">:</span> {</span>
-<span id="cb5-682"><a href=""></a>    <span class="dt">type</span><span class="op">:</span> <span class="st">"linear"</span><span class="op">,</span></span>
-<span id="cb5-683"><a href=""></a>    <span class="dt">scheme</span><span class="op">:</span> <span class="st">"viridis"</span><span class="op">,</span></span>
-<span id="cb5-684"><a href=""></a>    <span class="dt">legend</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
-<span id="cb5-685"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Density"</span></span>
-<span id="cb5-686"><a href=""></a>  }<span class="op">,</span></span>
-<span id="cb5-687"><a href=""></a>  <span class="dt">x</span><span class="op">:</span> {</span>
-<span id="cb5-688"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"y₁ →"</span><span class="op">,</span></span>
-<span id="cb5-689"><a href=""></a>    <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span></span>
-<span id="cb5-690"><a href=""></a>    <span class="dt">labelOffset</span><span class="op">:</span> <span class="dv">40</span></span>
-<span id="cb5-691"><a href=""></a>  }<span class="op">,</span></span>
-<span id="cb5-692"><a href=""></a>  <span class="dt">y</span><span class="op">:</span> {</span>
-<span id="cb5-693"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"↑ y₂"</span><span class="op">,</span></span>
-<span id="cb5-694"><a href=""></a>    <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]</span>
-<span id="cb5-695"><a href=""></a>  }<span class="op">,</span></span>
-<span id="cb5-696"><a href=""></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
-<span id="cb5-697"><a href=""></a>    Plot<span class="op">.</span><span class="fu">contour</span>(density_data<span class="op">,</span> {</span>
-<span id="cb5-698"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"y1"</span><span class="op">,</span></span>
-<span id="cb5-699"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"y2"</span><span class="op">,</span></span>
-<span id="cb5-700"><a href=""></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"density"</span><span class="op">,</span></span>
-<span id="cb5-701"><a href=""></a>      <span class="dt">blur</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span></span>
-<span id="cb5-702"><a href=""></a>      <span class="dt">thresholds</span><span class="op">:</span> <span class="dv">25</span></span>
-<span id="cb5-703"><a href=""></a>    })<span class="op">,</span></span>
-<span id="cb5-704"><a href=""></a>    Plot<span class="op">.</span><span class="fu">frame</span>()</span>
-<span id="cb5-705"><a href=""></a>  ]</span>
-<span id="cb5-706"><a href=""></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb5" data-startfrom="697" data-source-offset="-59"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 696;"><span id="cb5-697"><a href=""></a>grid_size <span class="op">=</span> <span class="dv">30</span></span>
+<span id="cb5-698"><a href=""></a>y1_vals <span class="op">=</span> d3<span class="op">.</span><span class="fu">range</span>(<span class="fl">0.02</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">/</span>grid_size)</span>
+<span id="cb5-699"><a href=""></a>y2_vals <span class="op">=</span> d3<span class="op">.</span><span class="fu">range</span>(<span class="fl">0.02</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">/</span>grid_size)</span>
+<span id="cb5-700"><a href=""></a></span>
+<span id="cb5-701"><a href=""></a><span class="co">// Generate density values</span></span>
+<span id="cb5-702"><a href=""></a>density_data <span class="op">=</span> {</span>
+<span id="cb5-703"><a href=""></a>  <span class="kw">let</span> data <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb5-704"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> y1 <span class="kw">of</span> y1_vals) {</span>
+<span id="cb5-705"><a href=""></a>    <span class="cf">for</span> (<span class="kw">let</span> y2 <span class="kw">of</span> y2_vals) {</span>
+<span id="cb5-706"><a href=""></a>      <span class="kw">let</span> density <span class="op">=</span> c_constant <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(y1<span class="op">,</span> alpha) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(y2<span class="op">,</span> beta)<span class="op">;</span></span>
+<span id="cb5-707"><a href=""></a>      data<span class="op">.</span><span class="fu">push</span>({<span class="dt">y1</span><span class="op">:</span> y1<span class="op">,</span> <span class="dt">y2</span><span class="op">:</span> y2<span class="op">,</span> <span class="dt">density</span><span class="op">:</span> density})<span class="op">;</span></span>
+<span id="cb5-708"><a href=""></a>    }</span>
+<span id="cb5-709"><a href=""></a>  }</span>
+<span id="cb5-710"><a href=""></a>  <span class="cf">return</span> data<span class="op">;</span></span>
+<span id="cb5-711"><a href=""></a>}</span>
+<span id="cb5-712"><a href=""></a></span>
+<span id="cb5-713"><a href=""></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb5-714"><a href=""></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">820</span><span class="op">,</span></span>
+<span id="cb5-715"><a href=""></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">520</span><span class="op">,</span></span>
+<span id="cb5-716"><a href=""></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">55</span><span class="op">,</span></span>
+<span id="cb5-717"><a href=""></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
+<span id="cb5-718"><a href=""></a>  <span class="dt">marginTop</span><span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
+<span id="cb5-719"><a href=""></a>  <span class="dt">color</span><span class="op">:</span> {</span>
+<span id="cb5-720"><a href=""></a>    <span class="dt">type</span><span class="op">:</span> <span class="st">"linear"</span><span class="op">,</span></span>
+<span id="cb5-721"><a href=""></a>    <span class="dt">scheme</span><span class="op">:</span> <span class="st">"viridis"</span><span class="op">,</span></span>
+<span id="cb5-722"><a href=""></a>    <span class="dt">legend</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb5-723"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Density"</span></span>
+<span id="cb5-724"><a href=""></a>  }<span class="op">,</span></span>
+<span id="cb5-725"><a href=""></a>  <span class="dt">x</span><span class="op">:</span> {</span>
+<span id="cb5-726"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"y₁ →"</span><span class="op">,</span></span>
+<span id="cb5-727"><a href=""></a>    <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span></span>
+<span id="cb5-728"><a href=""></a>    <span class="dt">labelOffset</span><span class="op">:</span> <span class="dv">40</span></span>
+<span id="cb5-729"><a href=""></a>  }<span class="op">,</span></span>
+<span id="cb5-730"><a href=""></a>  <span class="dt">y</span><span class="op">:</span> {</span>
+<span id="cb5-731"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"↑ y₂"</span><span class="op">,</span></span>
+<span id="cb5-732"><a href=""></a>    <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]</span>
+<span id="cb5-733"><a href=""></a>  }<span class="op">,</span></span>
+<span id="cb5-734"><a href=""></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb5-735"><a href=""></a>    Plot<span class="op">.</span><span class="fu">contour</span>(density_data<span class="op">,</span> {</span>
+<span id="cb5-736"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"y1"</span><span class="op">,</span></span>
+<span id="cb5-737"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"y2"</span><span class="op">,</span></span>
+<span id="cb5-738"><a href=""></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"density"</span><span class="op">,</span></span>
+<span id="cb5-739"><a href=""></a>      <span class="dt">blur</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span></span>
+<span id="cb5-740"><a href=""></a>      <span class="dt">thresholds</span><span class="op">:</span> <span class="dv">25</span></span>
+<span id="cb5-741"><a href=""></a>    })<span class="op">,</span></span>
+<span id="cb5-742"><a href=""></a>    Plot<span class="op">.</span><span class="fu">frame</span>()</span>
+<span id="cb5-743"><a href=""></a>  ]</span>
+<span id="cb5-744"><a href=""></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -1208,7 +1246,7 @@ Samir Orujov, PhD
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_a9df18b7" minutes="4" seconds="0" warn-when="60" update-every="1" play-sound="true" tabindex="0" style="right:0;bottom:10;--countdown-font-size:1.5em;--countdown-color-running-background:#31b09e;--countdown-color-running-text:white;--countdown-color-finished-background:#cc3311;--countdown-color-finished-text:white;--countdown-color-warning-background:#f7dc6f;--countdown-color-warning-text:#3E3400FF;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_7f82a9f3" minutes="4" seconds="0" warn-when="60" update-every="1" play-sound="true" tabindex="0" style="right:0;bottom:10;--countdown-font-size:1.5em;--countdown-color-running-background:#31b09e;--countdown-color-running-text:white;--countdown-color-finished-background:#cc3311;--countdown-color-finished-text:white;--countdown-color-warning-background:#f7dc6f;--countdown-color-warning-text:#3E3400FF;"></countdown-timer>
 </div>
 </div>
 </section>
@@ -1302,10 +1340,10 @@ Samir Orujov, PhD
 <pre><code>🍎 APPLE (AAPL)</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   Mean Return: +0.048%</code></pre>
+<pre><code>   Mean Return: +0.068%</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   Volatility:  1.976%</code></pre>
+<pre><code>   Volatility:  1.988%</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min/Max:     -9.70% / +14.26%</code></pre>
@@ -1314,10 +1352,10 @@ Samir Orujov, PhD
 <pre><code>🟦 MICROSOFT (MSFT)</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   Mean Return: +0.018%</code></pre>
+<pre><code>   Mean Return: -0.001%</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   Volatility:  1.602%</code></pre>
+<pre><code>   Volatility:  1.613%</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min/Max:     -10.53% / +9.65%</code></pre>
@@ -1329,13 +1367,13 @@ Samir Orujov, PhD
 <pre><code>🔗 RELATIONSHIP</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   Correlation: 0.4257</code></pre>
+<pre><code>   Correlation: 0.4102</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   Observations: 250 days</code></pre>
+<pre><code>   Observations: 251 days</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   Period: 2025-02-03 to 2026-01-30</code></pre>
+<pre><code>   Period: 2025-02-04 to 2026-02-03</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -1913,7 +1951,7 @@ Samir Orujov, PhD
       });
     </script>
     <script type="ojs-module-contents">
-    eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6Ilxudmlld29mIHRocmVzaG9sZCA9IHtcbiAgY29uc3QgaW5wdXQgPSBJbnB1dHMucmFuZ2UoWzAuMiwgMl0sIHtcbiAgICB2YWx1ZTogMSwgXG4gICAgc3RlcDogMC4xLCBcbiAgICBsYWJlbDogXCJUaHJlc2hvbGQgYzpcIlxuICB9KTtcbiAgXG4gIC8vIFByZXZlbnQgc2xpZGUgbmF2aWdhdGlvbiB3aGVuIGludGVyYWN0aW5nIHdpdGggc2xpZGVyXG4gIGlucHV0LmFkZEV2ZW50TGlzdGVuZXIoJ3BvaW50ZXJkb3duJywgZSA9PiBlLnN0b3BQcm9wYWdhdGlvbigpKTtcbiAgaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcigndG91Y2hzdGFydCcsIGUgPT4gZS5zdG9wUHJvcGFnYXRpb24oKSk7XG4gIGlucHV0LmFkZEV2ZW50TGlzdGVuZXIoJ21vdXNlZG93bicsIGUgPT4gZS5zdG9wUHJvcGFnYXRpb24oKSk7XG4gIGlucHV0LmFkZEV2ZW50TGlzdGVuZXIoJ2NsaWNrJywgZSA9PiBlLnN0b3BQcm9wYWdhdGlvbigpKTtcbiAgXG4gIHJldHVybiBpbnB1dDtcbn1cblxuLy8gQ2FsY3VsYXRlIHByb2JhYmlsaXR5IFAoWTEgKyBZMiA8PSBjKVxucHJvYl91bmlmb3JtID0ge1xuICBjb25zdCBjID0gdGhyZXNob2xkO1xuICBpZiAoYyA8PSAwKSByZXR1cm4gMDtcbiAgaWYgKGMgPj0gMikgcmV0dXJuIDE7XG4gIGlmIChjIDw9IDEpIHtcbiAgICByZXR1cm4gYyAqIGMgLyAyO1xuICB9IGVsc2Uge1xuICAgIHJldHVybiAxIC0gKDIgLSBjKSAqICgyIC0gYykgLyAyO1xuICB9XG59XG5cbmh0bWxgPGRpdiBzdHlsZT1cImZvbnQtc2l6ZTogMS4xNWVtOyBsaW5lLWhlaWdodDogMS40O1wiPlxuPHA+PHN0cm9uZz5EZW5zaXR5Ojwvc3Ryb25nPiA8ZW0+ZjwvZW0+KHnigoEsIHnigoIpID0gMSBvbiBbMCwxXcKyPC9wPlxuPGhyIHN0eWxlPVwibWFyZ2luOiA4cHggMDtcIi8+XG48cD48c3Ryb25nPlJlZ2lvbjo8L3N0cm9uZz4geeKCgSArIHnigoIg4omkICR7dGhyZXNob2xkLnRvRml4ZWQoMSl9PC9wPlxuPGhyIHN0eWxlPVwibWFyZ2luOiA4cHggMDtcIi8+XG48cCBzdHlsZT1cImZvbnQtc2l6ZTogMS42ZW07IGNvbG9yOiAjMjU2M2ViOyBtYXJnaW46IDEwcHggMDtcIj5cbjxzdHJvbmc+UCA9ICR7cHJvYl91bmlmb3JtLnRvRml4ZWQoNCl9PC9zdHJvbmc+XG48L3A+XG48aHIgc3R5bGU9XCJtYXJnaW46IDhweCAwO1wiLz5cbjxwIHN0eWxlPVwiZm9udC1zaXplOiAxZW07XCI+XG4ke3RocmVzaG9sZCA8PSAxID8gXG4gIGBjwrIvMiA9ICR7dGhyZXNob2xkLnRvRml4ZWQoMSl9wrIvMmAgOlxuICB0aHJlc2hvbGQgPCAyID9cbiAgYDEgLSAoMi1jKcKyLzJgIDpcbiAgYD0gMSAoZnVsbCBzcXVhcmUpYFxufVxuPC9wPlxuPGhyIHN0eWxlPVwibWFyZ2luOiA4cHggMDtcIi8+XG48cCBzdHlsZT1cImZvbnQtc2l6ZTogMWVtO1wiPjxzdHJvbmc+VHJ5Ojwvc3Ryb25nPjwvcD5cbjx1bCBzdHlsZT1cIm1hcmdpbjogNXB4IDA7IHBhZGRpbmctbGVmdDogMThweDsgZm9udC1zaXplOiAxZW07XCI+XG48bGk+Yz0xIOKGkiBQPTAuNTwvbGk+XG48bGk+Yz0yIOKGkiBQPTE8L2xpPlxuPGxpPmM8MSDihpIgc21hbGw8L2xpPlxuPC91bD5cbjwvZGl2PmBcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMiIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6IlxuLy8gMkQgVG9wIFZpZXcgUGxvdFxue1xuICBjb25zdCB3aWR0aCA9IDQ2MDtcbiAgY29uc3QgaGVpZ2h0ID0gNDYwO1xuICBjb25zdCBtYXJnaW4gPSAzMDtcbiAgXG4gIGNvbnN0IG4gPSAyMDtcbiAgY29uc3Qgc3VyZmFjZV9kYXRhID0gW107XG4gIGZvciAobGV0IGkgPSAwOyBpIDw9IG47IGkrKykge1xuICAgIGZvciAobGV0IGogPSAwOyBqIDw9IG47IGorKykge1xuICAgICAgY29uc3QgeTEgPSBpIC8gbjtcbiAgICAgIGNvbnN0IHkyID0gaiAvIG47XG4gICAgICBzdXJmYWNlX2RhdGEucHVzaCh7XG4gICAgICAgIHkxOiB5MSxcbiAgICAgICAgeTI6IHkyLFxuICAgICAgICBpblJlZ2lvbjogKHkxICsgeTIpIDw9IHRocmVzaG9sZFxuICAgICAgfSk7XG4gICAgfVxuICB9XG4gIFxuICByZXR1cm4gUGxvdC5wbG90KHtcbiAgICB3aWR0aDogd2lkdGgsXG4gICAgaGVpZ2h0OiBoZWlnaHQsXG4gICAgbWFyZ2luOiBtYXJnaW4sXG4gICAgc3R5bGU6IHsgZm9udFNpemU6IFwiMTJweFwiIH0sXG4gICAgbWFya3M6IFtcbiAgICAgIFBsb3QuZG90KHN1cmZhY2VfZGF0YSwge1xuICAgICAgICB4OiBcInkxXCIsXG4gICAgICAgIHk6IFwieTJcIixcbiAgICAgICAgZmlsbDogZCA9PiBkLmluUmVnaW9uID8gXCIjM2I4MmY2XCIgOiBcIiNlNWU3ZWJcIixcbiAgICAgICAgcjogNixcbiAgICAgICAgb3BhY2l0eTogZCA9PiBkLmluUmVnaW9uID8gMC45IDogMC4yNVxuICAgICAgfSksXG4gICAgICBQbG90LmZyYW1lKHtzdHJva2U6IFwiYmxhY2tcIiwgc3Ryb2tlV2lkdGg6IDJ9KSxcbiAgICAgIFBsb3QubGluZShcbiAgICAgICAgdGhyZXNob2xkIDw9IDIgPyBbXG4gICAgICAgICAge3kxOiAwLCB5MjogTWF0aC5taW4odGhyZXNob2xkLCAxKX0sXG4gICAgICAgICAge3kxOiBNYXRoLm1pbih0aHJlc2hvbGQsIDEpLCB5MjogMH1cbiAgICAgICAgXSA6IFtdLFxuICAgICAgICB7IHg6IFwieTFcIiwgeTogXCJ5MlwiLCBzdHJva2U6IFwicmVkXCIsIHN0cm9rZVdpZHRoOiAzLCBzdHJva2VEYXNoYXJyYXk6IFwiNSwzXCIgfVxuICAgICAgKSxcbiAgICAgIFBsb3QudGV4dChbe3g6IDAuNSwgeTogLTAuMSwgbGFiZWw6IFwieeKCgVwifV0sIHsgeDogXCJ4XCIsIHk6IFwieVwiLCB0ZXh0OiBcImxhYmVsXCIsIGZvbnRTaXplOiAxNCwgZm9udFdlaWdodDogXCJib2xkXCIgfSksXG4gICAgICBQbG90LnRleHQoW3t4OiAtMC4xLCB5OiAwLjUsIGxhYmVsOiBcInnigoJcIn1dLCB7IHg6IFwieFwiLCB5OiBcInlcIiwgdGV4dDogXCJsYWJlbFwiLCBmb250U2l6ZTogMTQsIGZvbnRXZWlnaHQ6IFwiYm9sZFwiIH0pXG4gICAgXSxcbiAgICB4OiB7IGxhYmVsOiBudWxsLCBkb21haW46IFswLCAxXSwgdGlja3M6IDUgfSxcbiAgICB5OiB7IGxhYmVsOiBudWxsLCBkb21haW46IFswLCAxXSwgdGlja3M6IDUgfVxuICB9KTtcbn1cbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMyIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6IlxuUGxvdGx5ID0gcmVxdWlyZShcImh0dHBzOi8vY2RuLnBsb3QubHkvcGxvdGx5LTIuMjcuMC5taW4uanNcIilcblxuLy8gM0QgU3VyZmFjZSBQbG90XG57XG4gIGNvbnN0IG4gPSAyNTtcbiAgY29uc3QgeTFfZ3JpZCA9IFtdLCB5Ml9ncmlkID0gW10sIHpfZ3JpZCA9IFtdLCBjb2xvcl9ncmlkID0gW107XG4gIFxuICBmb3IgKGxldCBpID0gMDsgaSA8PSBuOyBpKyspIHkxX2dyaWQucHVzaChpIC8gbik7XG4gIGZvciAobGV0IGogPSAwOyBqIDw9IG47IGorKykgeTJfZ3JpZC5wdXNoKGogLyBuKTtcbiAgXG4gIGZvciAobGV0IGogPSAwOyBqIDw9IG47IGorKykge1xuICAgIGNvbnN0IHpfcm93ID0gW10sIGNvbG9yX3JvdyA9IFtdO1xuICAgIGZvciAobGV0IGkgPSAwOyBpIDw9IG47IGkrKykge1xuICAgICAgel9yb3cucHVzaCgxKTtcbiAgICAgIGNvbG9yX3Jvdy5wdXNoKCh5MV9ncmlkW2ldICsgeTJfZ3JpZFtqXSkgPD0gdGhyZXNob2xkID8gMSA6IDApO1xuICAgIH1cbiAgICB6X2dyaWQucHVzaCh6X3Jvdyk7XG4gICAgY29sb3JfZ3JpZC5wdXNoKGNvbG9yX3Jvdyk7XG4gIH1cbiAgXG4gIGNvbnN0IGRhdGEgPSBbe1xuICAgIHR5cGU6ICdzdXJmYWNlJywgeDogeTFfZ3JpZCwgeTogeTJfZ3JpZCwgejogel9ncmlkLFxuICAgIHN1cmZhY2Vjb2xvcjogY29sb3JfZ3JpZCxcbiAgICBjb2xvcnNjYWxlOiBbWzAsICcjZTVlN2ViJ10sIFsxLCAnIzNiODJmNiddXSxcbiAgICBzaG93c2NhbGU6IGZhbHNlLFxuICAgIGNvbnRvdXJzOiB7IHo6IHsgc2hvdzogdHJ1ZSwgdXNlY29sb3JtYXA6IHRydWUsIHByb2plY3Q6IHt6OiB0cnVlfSB9IH1cbiAgfV07XG4gIFxuICBpZiAodGhyZXNob2xkIDw9IDIpIHtcbiAgICBjb25zdCBsaW5lX3kxID0gW10sIGxpbmVfeTIgPSBbXSwgbGluZV96ID0gW107XG4gICAgZm9yIChsZXQgaSA9IDA7IGkgPD0gNTA7IGkrKykge1xuICAgICAgY29uc3QgdCA9IGkgLyA1MDtcbiAgICAgIGNvbnN0IHkxID0gdCAqIE1hdGgubWluKHRocmVzaG9sZCwgMSk7XG4gICAgICBjb25zdCB5MiA9IE1hdGgubWluKHRocmVzaG9sZCAtIHkxLCAxKTtcbiAgICAgIGlmICh5MSA+PSAwICYmIHkxIDw9IDEgJiYgeTIgPj0gMCAmJiB5MiA8PSAxKSB7XG4gICAgICAgIGxpbmVfeTEucHVzaCh5MSk7IGxpbmVfeTIucHVzaCh5Mik7IGxpbmVfei5wdXNoKDApO1xuICAgICAgfVxuICAgIH1cbiAgICBkYXRhLnB1c2goeyB0eXBlOiAnc2NhdHRlcjNkJywgbW9kZTogJ2xpbmVzJywgeDogbGluZV95MSwgeTogbGluZV95MiwgejogbGluZV96LFxuICAgICAgbGluZTogeyBjb2xvcjogJ3JlZCcsIHdpZHRoOiA1IH0sIHNob3dsZWdlbmQ6IGZhbHNlIH0pO1xuICB9XG4gIFxuICBjb25zdCBsYXlvdXQgPSB7XG4gICAgd2lkdGg6IDQ4MCwgaGVpZ2h0OiA0NjAsXG4gICAgbWFyZ2luOiB7bDogMCwgcjogMCwgYjogMCwgdDogMH0sXG4gICAgc2NlbmU6IHtcbiAgICAgIHhheGlzOiB7dGl0bGU6ICd54oKBJywgcmFuZ2U6IFswLCAxXSwgdGl0bGVmb250OiB7c2l6ZTogMTR9fSxcbiAgICAgIHlheGlzOiB7dGl0bGU6ICd54oKCJywgcmFuZ2U6IFswLCAxXSwgdGl0bGVmb250OiB7c2l6ZTogMTR9fSxcbiAgICAgIHpheGlzOiB7dGl0bGU6ICdmKHnigoEseeKCgiknLCByYW5nZTogWzAsIDEuMl0sIHRpdGxlZm9udDoge3NpemU6IDEyfX0sXG4gICAgICBjYW1lcmE6IHsgZXllOiB7eDogMS41LCB5OiAxLjUsIHo6IDEuMX0gfSxcbiAgICAgIGFzcGVjdG1vZGU6ICdjdWJlJ1xuICAgIH1cbiAgfTtcbiAgXG4gIGNvbnN0IGRpdiA9IERPTS5lbGVtZW50KCdkaXYnKTtcbiAgUGxvdGx5Lm5ld1Bsb3QoZGl2LCBkYXRhLCBsYXlvdXQsIHtkaXNwbGF5TW9kZUJhcjogZmFsc2V9KTtcbiAgXG4gIGRpdi5hZGRFdmVudExpc3RlbmVyKCdwb2ludGVyZG93bicsIGUgPT4gZS5zdG9wUHJvcGFnYXRpb24oKSk7XG4gIGRpdi5hZGRFdmVudExpc3RlbmVyKCd0b3VjaHN0YXJ0JywgZSA9PiBlLnN0b3BQcm9wYWdhdGlvbigpKTtcbiAgZGl2LmFkZEV2ZW50TGlzdGVuZXIoJ21vdXNlZG93bicsIGUgPT4gZS5zdG9wUHJvcGFnYXRpb24oKSk7XG4gIGRpdi5hZGRFdmVudExpc3RlbmVyKCd3aGVlbCcsIGUgPT4gZS5zdG9wUHJvcGFnYXRpb24oKSk7XG4gIGRpdi5hZGRFdmVudExpc3RlbmVyKCdwb2ludGVybW92ZScsIGUgPT4gZS5zdG9wUHJvcGFnYXRpb24oKSk7XG4gIGRpdi5hZGRFdmVudExpc3RlbmVyKCd0b3VjaG1vdmUnLCBlID0+IGUuc3RvcFByb3BhZ2F0aW9uKCkpO1xuICBkaXYuYWRkRXZlbnRMaXN0ZW5lcignbW91c2Vtb3ZlJywgZSA9PiBlLnN0b3BQcm9wYWdhdGlvbigpKTtcbiAgXG4gIHJldHVybiBkaXY7XG59XG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTQiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJcbnZpZXdvZiBhbHBoYSA9IHtcbiAgY29uc3QgaW5wdXQgPSBJbnB1dHMucmFuZ2UoWzAuNSwgM10sIHtcbiAgICB2YWx1ZTogMSwgXG4gICAgc3RlcDogMC4yNSwgXG4gICAgbGFiZWw6IFwizrEgKHBvd2VyIG9mIHnigoEpOlwiXG4gIH0pO1xuICBcbiAgLy8gUHJldmVudCBzbGlkZSBuYXZpZ2F0aW9uIHdoZW4gaW50ZXJhY3Rpbmcgd2l0aCBzbGlkZXJcbiAgaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcigncG9pbnRlcmRvd24nLCBlID0+IGUuc3RvcFByb3BhZ2F0aW9uKCkpO1xuICBpbnB1dC5hZGRFdmVudExpc3RlbmVyKCd0b3VjaHN0YXJ0JywgZSA9PiBlLnN0b3BQcm9wYWdhdGlvbigpKTtcbiAgaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcignbW91c2Vkb3duJywgZSA9PiBlLnN0b3BQcm9wYWdhdGlvbigpKTtcbiAgaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcignY2xpY2snLCBlID0+IGUuc3RvcFByb3BhZ2F0aW9uKCkpO1xuICBcbiAgcmV0dXJuIGlucHV0O1xufVxuXG52aWV3b2YgYmV0YSA9IHtcbiAgY29uc3QgaW5wdXQgPSBJbnB1dHMucmFuZ2UoWzAuNSwgM10sIHtcbiAgICB2YWx1ZTogMSwgXG4gICAgc3RlcDogMC4yNSwgXG4gICAgbGFiZWw6IFwizrIgKHBvd2VyIG9mIHnigoIpOlwiXG4gIH0pO1xuICBcbiAgLy8gUHJldmVudCBzbGlkZSBuYXZpZ2F0aW9uIHdoZW4gaW50ZXJhY3Rpbmcgd2l0aCBzbGlkZXJcbiAgaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcigncG9pbnRlcmRvd24nLCBlID0+IGUuc3RvcFByb3BhZ2F0aW9uKCkpO1xuICBpbnB1dC5hZGRFdmVudExpc3RlbmVyKCd0b3VjaHN0YXJ0JywgZSA9PiBlLnN0b3BQcm9wYWdhdGlvbigpKTtcbiAgaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcignbW91c2Vkb3duJywgZSA9PiBlLnN0b3BQcm9wYWdhdGlvbigpKTtcbiAgaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcignY2xpY2snLCBlID0+IGUuc3RvcFByb3BhZ2F0aW9uKCkpO1xuICBcbiAgcmV0dXJuIGlucHV0O1xufVxuXG4vLyBDYWxjdWxhdGUgbm9ybWFsaXppbmcgY29uc3RhbnQgZm9yIGYoeTEseTIpID0gYyAqIHkxXmFscGhhICogeTJeYmV0YSBvbiBbMCwxXXhbMCwxXVxuY19jb25zdGFudCA9IChhbHBoYSArIDEpICogKGJldGEgKyAxKVxuXG5odG1sYDxkaXYgc3R5bGU9XCJmb250LXNpemU6IDEuMWVtOyBsaW5lLWhlaWdodDogMS41O1wiPlxuPHA+PHN0cm9uZz5EZW5zaXR5Ojwvc3Ryb25nPiA8ZW0+ZjwvZW0+KHk8c3ViPjE8L3N1Yj4sIHk8c3ViPjI8L3N1Yj4pID0gJHtjX2NvbnN0YW50LnRvRml4ZWQoMil9IMK3IHk8c3ViPjE8L3N1Yj48c3VwPiR7YWxwaGEudG9GaXhlZCgyKX08L3N1cD4gwrcgeTxzdWI+Mjwvc3ViPjxzdXA+JHtiZXRhLnRvRml4ZWQoMil9PC9zdXA+IG9uIFswLDFdwrI8L3A+XG48aHIgc3R5bGU9XCJtYXJnaW46IDEwcHggMDtcIi8+XG48cD48c3Ryb25nPk5vcm1hbGl6aW5nIGNvbnN0YW50Ojwvc3Ryb25nPiA8ZW0+YzwvZW0+ID0gKM6xKzEpKM6yKzEpID0gJHtjX2NvbnN0YW50LnRvRml4ZWQoMil9PC9wPlxuPGhyIHN0eWxlPVwibWFyZ2luOiAxMHB4IDA7XCIvPlxuPHA+PHN0cm9uZz5XaGF0IHRvIE9ic2VydmU6PC9zdHJvbmc+PC9wPlxuPHVsIHN0eWxlPVwibWFyZ2luOiA4cHggMDsgcGFkZGluZy1sZWZ0OiAyMHB4O1wiPlxuPGxpPjxzdHJvbmc+zrEgPSDOsiA9IDE8L3N0cm9uZz46IFVuaWZvcm0gKGZsYXQpPC9saT5cbjxsaT48c3Ryb25nPkhpZ2hlciDOsTwvc3Ryb25nPjogTWFzcyBzaGlmdHMgdG8gbGFyZ2UgeeKCgTwvbGk+XG48bGk+PHN0cm9uZz5IaWdoZXIgzrI8L3N0cm9uZz46IE1hc3Mgc2hpZnRzIHRvIGxhcmdlIHnigoI8L2xpPlxuPGxpPjxzdHJvbmc+RGFyayByZWdpb25zPC9zdHJvbmc+ID0gaGlnaCBkZW5zaXR5PC9saT5cbjwvdWw+XG48aHIgc3R5bGU9XCJtYXJnaW46IDEwcHggMDtcIi8+XG48cD48c3Ryb25nPlJlYWwtV29ybGQ6PC9zdHJvbmc+IFRoaW5rIG9mIHnigoEsIHnigoIgYXMgYXNzZXQgcmV0dXJucy4gUGFyYW1ldGVycyBtb2RlbCBkaWZmZXJlbnQgcmlzayBwcm9maWxlcy48L3A+XG48L2Rpdj5gXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTUiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJcbi8vIEdlbmVyYXRlIGdyaWQgZm9yIDNELWxpa2UgdmlzdWFsaXphdGlvbiB1c2luZyBjb250b3Vyc1xuZ3JpZF9zaXplID0gMzBcbnkxX3ZhbHMgPSBkMy5yYW5nZSgwLjAyLCAxLCAxL2dyaWRfc2l6ZSlcbnkyX3ZhbHMgPSBkMy5yYW5nZSgwLjAyLCAxLCAxL2dyaWRfc2l6ZSlcblxuLy8gR2VuZXJhdGUgZGVuc2l0eSB2YWx1ZXNcbmRlbnNpdHlfZGF0YSA9IHtcbiAgbGV0IGRhdGEgPSBbXTtcbiAgZm9yIChsZXQgeTEgb2YgeTFfdmFscykge1xuICAgIGZvciAobGV0IHkyIG9mIHkyX3ZhbHMpIHtcbiAgICAgIGxldCBkZW5zaXR5ID0gY19jb25zdGFudCAqIE1hdGgucG93KHkxLCBhbHBoYSkgKiBNYXRoLnBvdyh5MiwgYmV0YSk7XG4gICAgICBkYXRhLnB1c2goe3kxOiB5MSwgeTI6IHkyLCBkZW5zaXR5OiBkZW5zaXR5fSk7XG4gICAgfVxuICB9XG4gIHJldHVybiBkYXRhO1xufVxuXG5QbG90LnBsb3Qoe1xuICB3aWR0aDogODIwLFxuICBoZWlnaHQ6IDUyMCxcbiAgbWFyZ2luTGVmdDogNTUsXG4gIG1hcmdpbkJvdHRvbTogNTAsXG4gIG1hcmdpblRvcDogMTAsXG4gIGNvbG9yOiB7XG4gICAgdHlwZTogXCJsaW5lYXJcIixcbiAgICBzY2hlbWU6IFwidmlyaWRpc1wiLFxuICAgIGxlZ2VuZDogdHJ1ZSxcbiAgICBsYWJlbDogXCJEZW5zaXR5XCJcbiAgfSxcbiAgeDoge1xuICAgIGxhYmVsOiBcInnigoEg4oaSXCIsXG4gICAgZG9tYWluOiBbMCwgMV0sXG4gICAgbGFiZWxPZmZzZXQ6IDQwXG4gIH0sXG4gIHk6IHtcbiAgICBsYWJlbDogXCLihpEgeeKCglwiLFxuICAgIGRvbWFpbjogWzAsIDFdXG4gIH0sXG4gIG1hcmtzOiBbXG4gICAgUGxvdC5jb250b3VyKGRlbnNpdHlfZGF0YSwge1xuICAgICAgeDogXCJ5MVwiLFxuICAgICAgeTogXCJ5MlwiLFxuICAgICAgZmlsbDogXCJkZW5zaXR5XCIsXG4gICAgICBibHVyOiA1LFxuICAgICAgdGhyZXNob2xkczogMjVcbiAgICB9KSxcbiAgICBQbG90LmZyYW1lKClcbiAgXVxufSlcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgndGhyZXNob2xkJykifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ2FscGhhJykifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ2JldGEnKSJ9XX0=
+    eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6Ilxudmlld29mIHRocmVzaG9sZCA9IHtcbiAgY29uc3QgaW5wdXQgPSBJbnB1dHMucmFuZ2UoWzAuMiwgMl0sIHtcbiAgICB2YWx1ZTogMSwgXG4gICAgc3RlcDogMC4xLCBcbiAgICBsYWJlbDogXCJUaHJlc2hvbGQgYzpcIixcbiAgICBmb3JtYXQ6IGQgPT4gZC50b0ZpeGVkKDIpXG4gIH0pO1xuICBcbiAgLy8gUHJldmVudCBzbGlkZSBuYXZpZ2F0aW9uIHdoZW4gaW50ZXJhY3Rpbmcgd2l0aCBzbGlkZXJcbiAgaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcigncG9pbnRlcmRvd24nLCBlID0+IGUuc3RvcFByb3BhZ2F0aW9uKCkpO1xuICBpbnB1dC5hZGRFdmVudExpc3RlbmVyKCd0b3VjaHN0YXJ0JywgZSA9PiBlLnN0b3BQcm9wYWdhdGlvbigpKTtcbiAgaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcignbW91c2Vkb3duJywgZSA9PiBlLnN0b3BQcm9wYWdhdGlvbigpKTtcbiAgaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcignY2xpY2snLCBlID0+IGUuc3RvcFByb3BhZ2F0aW9uKCkpO1xuICBcbiAgcmV0dXJuIGlucHV0O1xufVxuXG4vLyBDYWxjdWxhdGUgcHJvYmFiaWxpdHkgUChZMSArIFkyIDw9IGMpXG5wcm9iX3VuaWZvcm0gPSB7XG4gIGNvbnN0IGMgPSB0aHJlc2hvbGQ7XG4gIGlmIChjIDw9IDApIHJldHVybiAwO1xuICBpZiAoYyA+PSAyKSByZXR1cm4gMTtcbiAgaWYgKGMgPD0gMSkge1xuICAgIHJldHVybiBjICogYyAvIDI7XG4gIH0gZWxzZSB7XG4gICAgcmV0dXJuIDEgLSAoMiAtIGMpICogKDIgLSBjKSAvIDI7XG4gIH1cbn1cblxuaHRtbGA8ZGl2IHN0eWxlPVwiZm9udC1zaXplOiAxLjE1ZW07IGxpbmUtaGVpZ2h0OiAxLjQ7XCI+XG48cD48c3Ryb25nPkRlbnNpdHk6PC9zdHJvbmc+IDxlbT5mPC9lbT4oeeKCgSwgeeKCgikgPSAxIG9uIFswLDFdwrI8L3A+XG48aHIgc3R5bGU9XCJtYXJnaW46IDhweCAwO1wiLz5cbjxwPjxzdHJvbmc+UmVnaW9uOjwvc3Ryb25nPiB54oKBICsgeeKCgiDiiaQgJHt0aHJlc2hvbGQudG9GaXhlZCgxKX08L3A+XG48aHIgc3R5bGU9XCJtYXJnaW46IDhweCAwO1wiLz5cbjxwIHN0eWxlPVwiZm9udC1zaXplOiAxLjZlbTsgY29sb3I6ICMyNTYzZWI7IG1hcmdpbjogMTBweCAwO1wiPlxuPHN0cm9uZz5QID0gJHtwcm9iX3VuaWZvcm0udG9GaXhlZCg0KX08L3N0cm9uZz5cbjwvcD5cbjxociBzdHlsZT1cIm1hcmdpbjogOHB4IDA7XCIvPlxuPHAgc3R5bGU9XCJmb250LXNpemU6IDFlbTtcIj5cbiR7dGhyZXNob2xkIDw9IDEgPyBcbiAgYGPCsi8yID0gJHt0aHJlc2hvbGQudG9GaXhlZCgxKX3Csi8yYCA6XG4gIHRocmVzaG9sZCA8IDIgP1xuICBgMSAtICgyLWMpwrIvMmAgOlxuICBgPSAxIChmdWxsIHNxdWFyZSlgXG59XG48L3A+XG48aHIgc3R5bGU9XCJtYXJnaW46IDhweCAwO1wiLz5cbjxwIHN0eWxlPVwiZm9udC1zaXplOiAxZW07XCI+PHN0cm9uZz5Ucnk6PC9zdHJvbmc+PC9wPlxuPHVsIHN0eWxlPVwibWFyZ2luOiA1cHggMDsgcGFkZGluZy1sZWZ0OiAxOHB4OyBmb250LXNpemU6IDFlbTtcIj5cbjxsaT5jPTEg4oaSIFA9MC41PC9saT5cbjxsaT5jPTIg4oaSIFA9MTwvbGk+XG48bGk+YzwxIOKGkiBzbWFsbDwvbGk+XG48L3VsPlxuPC9kaXY+YFxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC0yIiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoiXG4vLyAyRCBUb3AgVmlldyBQbG90XG57XG4gIGNvbnN0IHdpZHRoID0gNDYwO1xuICBjb25zdCBoZWlnaHQgPSA0NjA7XG4gIGNvbnN0IG1hcmdpbiA9IDMwO1xuICBcbiAgY29uc3QgbiA9IDIwO1xuICBjb25zdCBzdXJmYWNlX2RhdGEgPSBbXTtcbiAgZm9yIChsZXQgaSA9IDA7IGkgPD0gbjsgaSsrKSB7XG4gICAgZm9yIChsZXQgaiA9IDA7IGogPD0gbjsgaisrKSB7XG4gICAgICBjb25zdCB5MSA9IGkgLyBuO1xuICAgICAgY29uc3QgeTIgPSBqIC8gbjtcbiAgICAgIHN1cmZhY2VfZGF0YS5wdXNoKHtcbiAgICAgICAgeTE6IHkxLFxuICAgICAgICB5MjogeTIsXG4gICAgICAgIGluUmVnaW9uOiAoeTEgKyB5MikgPD0gdGhyZXNob2xkXG4gICAgICB9KTtcbiAgICB9XG4gIH1cbiAgXG4gIHJldHVybiBQbG90LnBsb3Qoe1xuICAgIHdpZHRoOiB3aWR0aCxcbiAgICBoZWlnaHQ6IGhlaWdodCxcbiAgICBtYXJnaW46IG1hcmdpbixcbiAgICBzdHlsZTogeyBmb250U2l6ZTogXCIxMnB4XCIgfSxcbiAgICBtYXJrczogW1xuICAgICAgUGxvdC5kb3Qoc3VyZmFjZV9kYXRhLCB7XG4gICAgICAgIHg6IFwieTFcIixcbiAgICAgICAgeTogXCJ5MlwiLFxuICAgICAgICBmaWxsOiBkID0+IGQuaW5SZWdpb24gPyBcIiMzYjgyZjZcIiA6IFwiI2U1ZTdlYlwiLFxuICAgICAgICByOiA2LFxuICAgICAgICBvcGFjaXR5OiBkID0+IGQuaW5SZWdpb24gPyAwLjkgOiAwLjI1XG4gICAgICB9KSxcbiAgICAgIFBsb3QuZnJhbWUoe3N0cm9rZTogXCJibGFja1wiLCBzdHJva2VXaWR0aDogMn0pLFxuICAgICAgUGxvdC5saW5lKFxuICAgICAgICAvLyBMaW5lIHnigoEgKyB54oKCID0gYyBjbGlwcGVkIHRvIHVuaXQgc3F1YXJlIFswLDFdwrJcbiAgICAgICAgLy8gU3RhcnQgcG9pbnQ6IHdoZXJlIGxpbmUgaW50ZXJzZWN0cyB54oKBPTAgb3IgeeKCgj0xXG4gICAgICAgIC8vIEVuZCBwb2ludDogd2hlcmUgbGluZSBpbnRlcnNlY3RzIHnigoI9MCBvciB54oKBPTFcbiAgICAgICAgdGhyZXNob2xkIDw9IDIgPyBbXG4gICAgICAgICAge3kxOiB0aHJlc2hvbGQgPD0gMSA/IDAgOiB0aHJlc2hvbGQgLSAxLCB5MjogdGhyZXNob2xkIDw9IDEgPyB0aHJlc2hvbGQgOiAxfSxcbiAgICAgICAgICB7eTE6IHRocmVzaG9sZCA8PSAxID8gdGhyZXNob2xkIDogMSwgeTI6IHRocmVzaG9sZCA8PSAxID8gMCA6IHRocmVzaG9sZCAtIDF9XG4gICAgICAgIF0gOiBbXSxcbiAgICAgICAgeyB4OiBcInkxXCIsIHk6IFwieTJcIiwgc3Ryb2tlOiBcInJlZFwiLCBzdHJva2VXaWR0aDogMywgc3Ryb2tlRGFzaGFycmF5OiBcIjUsM1wiIH1cbiAgICAgICksXG4gICAgICBQbG90LnRleHQoW3t4OiAwLjUsIHk6IC0wLjEsIGxhYmVsOiBcInnigoFcIn1dLCB7IHg6IFwieFwiLCB5OiBcInlcIiwgdGV4dDogXCJsYWJlbFwiLCBmb250U2l6ZTogMTQsIGZvbnRXZWlnaHQ6IFwiYm9sZFwiIH0pLFxuICAgICAgUGxvdC50ZXh0KFt7eDogLTAuMSwgeTogMC41LCBsYWJlbDogXCJ54oKCXCJ9XSwgeyB4OiBcInhcIiwgeTogXCJ5XCIsIHRleHQ6IFwibGFiZWxcIiwgZm9udFNpemU6IDE0LCBmb250V2VpZ2h0OiBcImJvbGRcIiB9KVxuICAgIF0sXG4gICAgeDogeyBsYWJlbDogbnVsbCwgZG9tYWluOiBbMCwgMV0sIHRpY2tzOiA1IH0sXG4gICAgeTogeyBsYWJlbDogbnVsbCwgZG9tYWluOiBbMCwgMV0sIHRpY2tzOiA1IH1cbiAgfSk7XG59XG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTMiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJcblBsb3RseSA9IHJlcXVpcmUoXCJodHRwczovL2Nkbi5wbG90Lmx5L3Bsb3RseS0yLjI3LjAubWluLmpzXCIpXG5cbi8vIDNEIFN1cmZhY2UgUGxvdFxue1xuICBjb25zdCBuID0gMjU7XG4gIGNvbnN0IHkxX2dyaWQgPSBbXSwgeTJfZ3JpZCA9IFtdLCB6X2dyaWQgPSBbXSwgY29sb3JfZ3JpZCA9IFtdO1xuICBcbiAgZm9yIChsZXQgaSA9IDA7IGkgPD0gbjsgaSsrKSB5MV9ncmlkLnB1c2goaSAvIG4pO1xuICBmb3IgKGxldCBqID0gMDsgaiA8PSBuOyBqKyspIHkyX2dyaWQucHVzaChqIC8gbik7XG4gIFxuICBmb3IgKGxldCBqID0gMDsgaiA8PSBuOyBqKyspIHtcbiAgICBjb25zdCB6X3JvdyA9IFtdLCBjb2xvcl9yb3cgPSBbXTtcbiAgICBmb3IgKGxldCBpID0gMDsgaSA8PSBuOyBpKyspIHtcbiAgICAgIHpfcm93LnB1c2goMSk7XG4gICAgICBjb2xvcl9yb3cucHVzaCgoeTFfZ3JpZFtpXSArIHkyX2dyaWRbal0pIDw9IHRocmVzaG9sZCA/IDEgOiAwKTtcbiAgICB9XG4gICAgel9ncmlkLnB1c2goel9yb3cpO1xuICAgIGNvbG9yX2dyaWQucHVzaChjb2xvcl9yb3cpO1xuICB9XG4gIFxuICBjb25zdCBkYXRhID0gW3tcbiAgICB0eXBlOiAnc3VyZmFjZScsIHg6IHkxX2dyaWQsIHk6IHkyX2dyaWQsIHo6IHpfZ3JpZCxcbiAgICBzdXJmYWNlY29sb3I6IGNvbG9yX2dyaWQsXG4gICAgY29sb3JzY2FsZTogW1swLCAnI2U1ZTdlYiddLCBbMSwgJyMzYjgyZjYnXV0sXG4gICAgc2hvd3NjYWxlOiBmYWxzZSxcbiAgICBjb250b3VyczogeyB6OiB7IHNob3c6IHRydWUsIHVzZWNvbG9ybWFwOiB0cnVlLCBwcm9qZWN0OiB7ejogdHJ1ZX0gfSB9XG4gIH1dO1xuICBcbiAgLy8gQWRkIGRvdHMgZmlsbGluZyB0aGUgM0Qgdm9sdW1lIHdpdGhpbiB0aGUgaW50ZWdyYXRpb24gcmVnaW9uXG4gIGNvbnN0IGRvdF95MSA9IFtdLCBkb3RfeTIgPSBbXSwgZG90X3ogPSBbXTtcbiAgY29uc3QgZG90X3NwYWNpbmcgPSAwLjE1O1xuICBmb3IgKGxldCBpID0gMDsgaSA8PSAxOyBpICs9IGRvdF9zcGFjaW5nKSB7XG4gICAgZm9yIChsZXQgaiA9IDA7IGogPD0gMTsgaiArPSBkb3Rfc3BhY2luZykge1xuICAgICAgaWYgKGkgKyBqIDw9IHRocmVzaG9sZCkge1xuICAgICAgICBmb3IgKGxldCBrID0gMDsgayA8PSAxOyBrICs9IGRvdF9zcGFjaW5nKSB7XG4gICAgICAgICAgZG90X3kxLnB1c2goaSk7XG4gICAgICAgICAgZG90X3kyLnB1c2goaik7XG4gICAgICAgICAgZG90X3oucHVzaChrKTtcbiAgICAgICAgfVxuICAgICAgfVxuICAgIH1cbiAgfVxuICBpZiAoZG90X3kxLmxlbmd0aCA+IDApIHtcbiAgICBkYXRhLnB1c2goe1xuICAgICAgdHlwZTogJ3NjYXR0ZXIzZCcsXG4gICAgICBtb2RlOiAnbWFya2VycycsXG4gICAgICB4OiBkb3RfeTEsXG4gICAgICB5OiBkb3RfeTIsXG4gICAgICB6OiBkb3RfeixcbiAgICAgIG1hcmtlcjoge1xuICAgICAgICBzaXplOiAyLjUsXG4gICAgICAgIGNvbG9yOiAnIzFlNDBhZicsXG4gICAgICAgIG9wYWNpdHk6IDAuNVxuICAgICAgfSxcbiAgICAgIHNob3dsZWdlbmQ6IGZhbHNlXG4gICAgfSk7XG4gIH1cbiAgXG4gIGlmICh0aHJlc2hvbGQgPD0gMikge1xuICAgIGNvbnN0IGxpbmVfeTEgPSBbXSwgbGluZV95MiA9IFtdLCBsaW5lX3ogPSBbXTtcbiAgICAvLyBDb25zdHJhaW50IGxpbmUgeeKCgSArIHnigoIgPSBjIGNsaXBwZWQgdG8gdW5pdCBzcXVhcmVcbiAgICBjb25zdCBzdGFydF95MSA9IHRocmVzaG9sZCA8PSAxID8gMCA6IHRocmVzaG9sZCAtIDE7XG4gICAgY29uc3Qgc3RhcnRfeTIgPSB0aHJlc2hvbGQgPD0gMSA/IHRocmVzaG9sZCA6IDE7XG4gICAgY29uc3QgZW5kX3kxID0gdGhyZXNob2xkIDw9IDEgPyB0aHJlc2hvbGQgOiAxO1xuICAgIGNvbnN0IGVuZF95MiA9IHRocmVzaG9sZCA8PSAxID8gMCA6IHRocmVzaG9sZCAtIDE7XG4gICAgXG4gICAgZm9yIChsZXQgaSA9IDA7IGkgPD0gNTA7IGkrKykge1xuICAgICAgY29uc3QgdCA9IGkgLyA1MDtcbiAgICAgIGNvbnN0IHkxID0gc3RhcnRfeTEgKyB0ICogKGVuZF95MSAtIHN0YXJ0X3kxKTtcbiAgICAgIGNvbnN0IHkyID0gc3RhcnRfeTIgKyB0ICogKGVuZF95MiAtIHN0YXJ0X3kyKTtcbiAgICAgIGxpbmVfeTEucHVzaCh5MSk7IGxpbmVfeTIucHVzaCh5Mik7IGxpbmVfei5wdXNoKDApO1xuICAgIH1cbiAgICBkYXRhLnB1c2goeyB0eXBlOiAnc2NhdHRlcjNkJywgbW9kZTogJ2xpbmVzJywgeDogbGluZV95MSwgeTogbGluZV95MiwgejogbGluZV96LFxuICAgICAgbGluZTogeyBjb2xvcjogJ3JlZCcsIHdpZHRoOiA1IH0sIHNob3dsZWdlbmQ6IGZhbHNlIH0pO1xuICB9XG4gIFxuICBjb25zdCBsYXlvdXQgPSB7XG4gICAgd2lkdGg6IDQ4MCwgaGVpZ2h0OiA0NjAsXG4gICAgbWFyZ2luOiB7bDogMCwgcjogMCwgYjogMCwgdDogMH0sXG4gICAgc2NlbmU6IHtcbiAgICAgIHhheGlzOiB7dGl0bGU6ICd54oKBJywgcmFuZ2U6IFswLCAxXSwgdGl0bGVmb250OiB7c2l6ZTogMTR9fSxcbiAgICAgIHlheGlzOiB7dGl0bGU6ICd54oKCJywgcmFuZ2U6IFswLCAxXSwgdGl0bGVmb250OiB7c2l6ZTogMTR9fSxcbiAgICAgIHpheGlzOiB7dGl0bGU6ICdmKHnigoEseeKCgiknLCByYW5nZTogWzAsIDEuMl0sIHRpdGxlZm9udDoge3NpemU6IDEyfX0sXG4gICAgICBjYW1lcmE6IHsgZXllOiB7eDogMS41LCB5OiAxLjUsIHo6IDEuMX0gfSxcbiAgICAgIGFzcGVjdG1vZGU6ICdjdWJlJ1xuICAgIH1cbiAgfTtcbiAgXG4gIGNvbnN0IGRpdiA9IERPTS5lbGVtZW50KCdkaXYnKTtcbiAgUGxvdGx5Lm5ld1Bsb3QoZGl2LCBkYXRhLCBsYXlvdXQsIHtkaXNwbGF5TW9kZUJhcjogZmFsc2V9KTtcbiAgXG4gIGRpdi5hZGRFdmVudExpc3RlbmVyKCdwb2ludGVyZG93bicsIGUgPT4gZS5zdG9wUHJvcGFnYXRpb24oKSk7XG4gIGRpdi5hZGRFdmVudExpc3RlbmVyKCd0b3VjaHN0YXJ0JywgZSA9PiBlLnN0b3BQcm9wYWdhdGlvbigpKTtcbiAgZGl2LmFkZEV2ZW50TGlzdGVuZXIoJ21vdXNlZG93bicsIGUgPT4gZS5zdG9wUHJvcGFnYXRpb24oKSk7XG4gIGRpdi5hZGRFdmVudExpc3RlbmVyKCd3aGVlbCcsIGUgPT4gZS5zdG9wUHJvcGFnYXRpb24oKSk7XG4gIGRpdi5hZGRFdmVudExpc3RlbmVyKCdwb2ludGVybW92ZScsIGUgPT4gZS5zdG9wUHJvcGFnYXRpb24oKSk7XG4gIGRpdi5hZGRFdmVudExpc3RlbmVyKCd0b3VjaG1vdmUnLCBlID0+IGUuc3RvcFByb3BhZ2F0aW9uKCkpO1xuICBkaXYuYWRkRXZlbnRMaXN0ZW5lcignbW91c2Vtb3ZlJywgZSA9PiBlLnN0b3BQcm9wYWdhdGlvbigpKTtcbiAgXG4gIHJldHVybiBkaXY7XG59XG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTQiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJcbnZpZXdvZiBhbHBoYSA9IHtcbiAgY29uc3QgaW5wdXQgPSBJbnB1dHMucmFuZ2UoWzAuNSwgM10sIHtcbiAgICB2YWx1ZTogMSwgXG4gICAgc3RlcDogMC4yNSwgXG4gICAgbGFiZWw6IFwizrEgKHBvd2VyIG9mIHnigoEpOlwiXG4gIH0pO1xuICBcbiAgLy8gUHJldmVudCBzbGlkZSBuYXZpZ2F0aW9uIHdoZW4gaW50ZXJhY3Rpbmcgd2l0aCBzbGlkZXJcbiAgaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcigncG9pbnRlcmRvd24nLCBlID0+IGUuc3RvcFByb3BhZ2F0aW9uKCkpO1xuICBpbnB1dC5hZGRFdmVudExpc3RlbmVyKCd0b3VjaHN0YXJ0JywgZSA9PiBlLnN0b3BQcm9wYWdhdGlvbigpKTtcbiAgaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcignbW91c2Vkb3duJywgZSA9PiBlLnN0b3BQcm9wYWdhdGlvbigpKTtcbiAgaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcignY2xpY2snLCBlID0+IGUuc3RvcFByb3BhZ2F0aW9uKCkpO1xuICBcbiAgcmV0dXJuIGlucHV0O1xufVxuXG52aWV3b2YgYmV0YSA9IHtcbiAgY29uc3QgaW5wdXQgPSBJbnB1dHMucmFuZ2UoWzAuNSwgM10sIHtcbiAgICB2YWx1ZTogMSwgXG4gICAgc3RlcDogMC4yNSwgXG4gICAgbGFiZWw6IFwizrIgKHBvd2VyIG9mIHnigoIpOlwiXG4gIH0pO1xuICBcbiAgLy8gUHJldmVudCBzbGlkZSBuYXZpZ2F0aW9uIHdoZW4gaW50ZXJhY3Rpbmcgd2l0aCBzbGlkZXJcbiAgaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcigncG9pbnRlcmRvd24nLCBlID0+IGUuc3RvcFByb3BhZ2F0aW9uKCkpO1xuICBpbnB1dC5hZGRFdmVudExpc3RlbmVyKCd0b3VjaHN0YXJ0JywgZSA9PiBlLnN0b3BQcm9wYWdhdGlvbigpKTtcbiAgaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcignbW91c2Vkb3duJywgZSA9PiBlLnN0b3BQcm9wYWdhdGlvbigpKTtcbiAgaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcignY2xpY2snLCBlID0+IGUuc3RvcFByb3BhZ2F0aW9uKCkpO1xuICBcbiAgcmV0dXJuIGlucHV0O1xufVxuXG4vLyBDYWxjdWxhdGUgbm9ybWFsaXppbmcgY29uc3RhbnQgZm9yIGYoeTEseTIpID0gYyAqIHkxXmFscGhhICogeTJeYmV0YSBvbiBbMCwxXXhbMCwxXVxuY19jb25zdGFudCA9IChhbHBoYSArIDEpICogKGJldGEgKyAxKVxuXG5odG1sYDxkaXYgc3R5bGU9XCJmb250LXNpemU6IDEuMWVtOyBsaW5lLWhlaWdodDogMS41O1wiPlxuPHA+PHN0cm9uZz5EZW5zaXR5Ojwvc3Ryb25nPiA8ZW0+ZjwvZW0+KHk8c3ViPjE8L3N1Yj4sIHk8c3ViPjI8L3N1Yj4pID0gJHtjX2NvbnN0YW50LnRvRml4ZWQoMil9IMK3IHk8c3ViPjE8L3N1Yj48c3VwPiR7YWxwaGEudG9GaXhlZCgyKX08L3N1cD4gwrcgeTxzdWI+Mjwvc3ViPjxzdXA+JHtiZXRhLnRvRml4ZWQoMil9PC9zdXA+IG9uIFswLDFdwrI8L3A+XG48aHIgc3R5bGU9XCJtYXJnaW46IDEwcHggMDtcIi8+XG48cD48c3Ryb25nPk5vcm1hbGl6aW5nIGNvbnN0YW50Ojwvc3Ryb25nPiA8ZW0+YzwvZW0+ID0gKM6xKzEpKM6yKzEpID0gJHtjX2NvbnN0YW50LnRvRml4ZWQoMil9PC9wPlxuPGhyIHN0eWxlPVwibWFyZ2luOiAxMHB4IDA7XCIvPlxuPHA+PHN0cm9uZz5XaGF0IHRvIE9ic2VydmU6PC9zdHJvbmc+PC9wPlxuPHVsIHN0eWxlPVwibWFyZ2luOiA4cHggMDsgcGFkZGluZy1sZWZ0OiAyMHB4O1wiPlxuPGxpPjxzdHJvbmc+zrEgPSDOsiA9IDE8L3N0cm9uZz46IFVuaWZvcm0gKGZsYXQpPC9saT5cbjxsaT48c3Ryb25nPkhpZ2hlciDOsTwvc3Ryb25nPjogTWFzcyBzaGlmdHMgdG8gbGFyZ2UgeeKCgTwvbGk+XG48bGk+PHN0cm9uZz5IaWdoZXIgzrI8L3N0cm9uZz46IE1hc3Mgc2hpZnRzIHRvIGxhcmdlIHnigoI8L2xpPlxuPGxpPjxzdHJvbmc+RGFyayByZWdpb25zPC9zdHJvbmc+ID0gaGlnaCBkZW5zaXR5PC9saT5cbjwvdWw+XG48aHIgc3R5bGU9XCJtYXJnaW46IDEwcHggMDtcIi8+XG48cD48c3Ryb25nPlJlYWwtV29ybGQ6PC9zdHJvbmc+IFRoaW5rIG9mIHnigoEsIHnigoIgYXMgYXNzZXQgcmV0dXJucy4gUGFyYW1ldGVycyBtb2RlbCBkaWZmZXJlbnQgcmlzayBwcm9maWxlcy48L3A+XG48L2Rpdj5gXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTUiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJcbi8vIEdlbmVyYXRlIGdyaWQgZm9yIDNELWxpa2UgdmlzdWFsaXphdGlvbiB1c2luZyBjb250b3Vyc1xuZ3JpZF9zaXplID0gMzBcbnkxX3ZhbHMgPSBkMy5yYW5nZSgwLjAyLCAxLCAxL2dyaWRfc2l6ZSlcbnkyX3ZhbHMgPSBkMy5yYW5nZSgwLjAyLCAxLCAxL2dyaWRfc2l6ZSlcblxuLy8gR2VuZXJhdGUgZGVuc2l0eSB2YWx1ZXNcbmRlbnNpdHlfZGF0YSA9IHtcbiAgbGV0IGRhdGEgPSBbXTtcbiAgZm9yIChsZXQgeTEgb2YgeTFfdmFscykge1xuICAgIGZvciAobGV0IHkyIG9mIHkyX3ZhbHMpIHtcbiAgICAgIGxldCBkZW5zaXR5ID0gY19jb25zdGFudCAqIE1hdGgucG93KHkxLCBhbHBoYSkgKiBNYXRoLnBvdyh5MiwgYmV0YSk7XG4gICAgICBkYXRhLnB1c2goe3kxOiB5MSwgeTI6IHkyLCBkZW5zaXR5OiBkZW5zaXR5fSk7XG4gICAgfVxuICB9XG4gIHJldHVybiBkYXRhO1xufVxuXG5QbG90LnBsb3Qoe1xuICB3aWR0aDogODIwLFxuICBoZWlnaHQ6IDUyMCxcbiAgbWFyZ2luTGVmdDogNTUsXG4gIG1hcmdpbkJvdHRvbTogNTAsXG4gIG1hcmdpblRvcDogMTAsXG4gIGNvbG9yOiB7XG4gICAgdHlwZTogXCJsaW5lYXJcIixcbiAgICBzY2hlbWU6IFwidmlyaWRpc1wiLFxuICAgIGxlZ2VuZDogdHJ1ZSxcbiAgICBsYWJlbDogXCJEZW5zaXR5XCJcbiAgfSxcbiAgeDoge1xuICAgIGxhYmVsOiBcInnigoEg4oaSXCIsXG4gICAgZG9tYWluOiBbMCwgMV0sXG4gICAgbGFiZWxPZmZzZXQ6IDQwXG4gIH0sXG4gIHk6IHtcbiAgICBsYWJlbDogXCLihpEgeeKCglwiLFxuICAgIGRvbWFpbjogWzAsIDFdXG4gIH0sXG4gIG1hcmtzOiBbXG4gICAgUGxvdC5jb250b3VyKGRlbnNpdHlfZGF0YSwge1xuICAgICAgeDogXCJ5MVwiLFxuICAgICAgeTogXCJ5MlwiLFxuICAgICAgZmlsbDogXCJkZW5zaXR5XCIsXG4gICAgICBibHVyOiA1LFxuICAgICAgdGhyZXNob2xkczogMjVcbiAgICB9KSxcbiAgICBQbG90LmZyYW1lKClcbiAgXVxufSlcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgndGhyZXNob2xkJykifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ2FscGhhJykifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ2JldGEnKSJ9XX0=
     </script>
     <script type="module">
     if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }

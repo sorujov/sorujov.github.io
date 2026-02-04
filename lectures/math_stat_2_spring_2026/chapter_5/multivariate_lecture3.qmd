@@ -18,6 +18,7 @@ format:
     navigation-mode: linear
     width: 1280
     height: 720
+    margin: 0.04
     footer: "Mathematical Statistics - Covariance and Correlation"
     incremental: false
     highlight-style: tango
@@ -40,44 +41,45 @@ revealjs-plugins:
   - quiz
 ---
 
-## 🎯 Learning Objectives {.smaller}
+## 🎯 Learning Objectives
 
+::: {style="font-size: 28px"}
 ::: {.learning-objectives}
 By the end of this lecture, you will be able to:
 
-- Compute **expected values of functions** of bivariate random variables using Definition 5.9
+- **Compute** expected values of functions of bivariate random variables using Definition 5.9
 
-- Apply **linearity properties** (Theorems 5.6-5.8) to simplify expected value calculations
+- **Apply** linearity properties (Theorems 5.6-5.8) to simplify expected value calculations
 
-- Calculate **covariance** using both the definition and computational formula (Theorem 5.10)
+- **Calculate** covariance using both the definition and computational formula (Theorem 5.10)
 
-- Compute and interpret the **correlation coefficient** as a standardized measure of linear association
+- **Compute and interpret** the correlation coefficient as a standardized measure of linear association
 
-- Apply the **portfolio variance formula** to analyze risk in multi-asset portfolios using real financial data
+- **Apply** the portfolio variance formula to analyze risk in multi-asset portfolios using real financial data
+:::
 :::
 
-## 📋 Overview {.smaller}
+## 📋 Overview
 
-::: {style="font-size:50px"}
+::: {style="font-size: 30px"}
 ::: {.callout-note}
 ## 📚 Topics Covered Today
 
-::: {.incremental}
 - **Expected Value of Functions** – Definition 5.9 and computing $E[g(Y_1, Y_2)]$
 
-- **Theorems on Expected Values** – Linearity and the fundamental result $E[Y_1 + Y_2] = E[Y_1] + E[Y_2]$
+- **Theorems on Expected Values** – Linearity and fundamental result $E[Y_1 + Y_2] = E[Y_1] + E[Y_2]$
 
-- **Covariance** – Definition, interpretation, and computational formula
+- **Covariance** – Definition, interpretation, computational formula
 
-- **Correlation Coefficient** – Standardized covariance, properties, and interpretation
+- **Correlation Coefficient** – Standardized covariance and properties
 
-- **Case Study** – Portfolio optimization with real multi-asset data
+- **Case Study** – Portfolio optimization with real data
 :::
 :::
-:::
 
-## 📖 Motivation: Why Covariance and Correlation? {.smaller}
+## 📖 Motivation: Why Covariance and Correlation?
 
+::: {style="font-size: 28px"}
 ::: {.callout-note}
 ## 🎯 Measuring Relationships Between Variables
 
@@ -105,11 +107,15 @@ Understanding how two variables **move together** is fundamental in many applica
 :::
 :::
 :::
+:::
 
+::: {style="font-size: 30px"}
 **Key Question:** How do we **quantify** the strength and direction of the linear relationship between two random variables?
+:::
 
 ## 📖 Definition: Expected Value of a Function {.smaller}
 
+::: {style="font-size: 32px"}
 ::: {.callout-note}
 ## 📝 Definition 5.9: Expected Value of $g(Y_1, Y_2)$
 
@@ -121,55 +127,73 @@ $$E[g(Y_1, Y_2)] = \sum_{y_1} \sum_{y_2} g(y_1, y_2) \cdot p(y_1, y_2)$$
 **Continuous Case:**
 $$E[g(Y_1, Y_2)] = \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} g(y_1, y_2) \cdot f(y_1, y_2) \, dy_1 \, dy_2$$
 :::
+:::
 
+::: {style="font-size: 34px"}
 **Key Insight:** We can find the expected value of **any function** of $(Y_1, Y_2)$ by weighting function values by probabilities (discrete) or densities (continuous).
+:::
 
-## 📌 Example 1: Computing $E[Y_1 \cdot Y_2]$ {.smaller}
+## 📌 Example 1: Computing $E[Y_1 \cdot Y_2]$
 
+::: {style="font-size: 32px"}
 **Problem:** Let $f(y_1, y_2) = 2y_1$ for $0 < y_1 < 1$ and $0 < y_2 < 1$. Find $E[Y_1 \cdot Y_2]$.
-
-**Solution:**
+:::
 
 . . .
 
-Using Definition 5.9 with $g(y_1, y_2) = y_1 \cdot y_2$:
+::: {style="font-size: 32px"}
+**Solution:** Using Definition 5.9 with $g(y_1, y_2) = y_1 \cdot y_2$:
 
 $$E[Y_1 Y_2] = \int_0^1 \int_0^1 y_1 y_2 \cdot 2y_1 \, dy_1 \, dy_2$$
+:::
 
 . . .
 
+::: {style="font-size: 32px"}
 $$= \int_0^1 \int_0^1 2y_1^2 y_2 \, dy_1 \, dy_2 = \int_0^1 2y_2 \left[ \frac{y_1^3}{3} \right]_0^1 dy_2$$
+:::
 
 . . .
 
+::: {style="font-size: 32px"}
 $$= \int_0^1 \frac{2y_2}{3} \, dy_2 = \frac{2}{3} \left[ \frac{y_2^2}{2} \right]_0^1 = \frac{2}{3} \cdot \frac{1}{2} = \boxed{\frac{1}{3}}$$
-
-**Financial Context:** If $Y_1$ represents one asset's return and $Y_2$ another's, $E[Y_1 Y_2]$ is crucial for portfolio variance calculations.
-
-## 📌 Example 2: Computing $E[Y_1]$ from Joint Density {.smaller}
-
-**Problem:** Using the same joint density $f(y_1, y_2) = 2y_1$ on $[0,1] \times [0,1]$, find $E[Y_1]$.
-
-**Solution:**
+:::
 
 . . .
 
+::: {style="font-size: 34px"}
+**Financial Context:** If $Y_1$ represents one asset's return and $Y_2$ another's, $E[Y_1 Y_2]$ is crucial for portfolio variance calculations.
+:::
+
+## 📌 Example 2: Computing $E[Y_1]$ from Joint Density
+
+::: {style="font-size: 32px"}
+**Problem:** Using the same joint density $f(y_1, y_2) = 2y_1$ on $[0,1] \times [0,1]$, find $E[Y_1]$.
+:::
+
+. . .
+
+::: {style="font-size: 32px"}
 **Method 1: Using marginal density**
 
 From Lecture 1: $f_1(y_1) = \int_0^1 2y_1 \, dy_2 = 2y_1$
 
 $$E[Y_1] = \int_0^1 y_1 \cdot 2y_1 \, dy_1 = 2 \int_0^1 y_1^2 \, dy_1 = 2 \cdot \frac{1}{3} = \boxed{\frac{2}{3}}$$
+:::
 
 . . .
 
+::: {style="font-size: 32px"}
 **Method 2: Using joint density directly**
 
-$$E[Y_1] = \int_0^1 \int_0^1 y_1 \cdot 2y_1 \, dy_2 \, dy_1 = \int_0^1 2y_1^2 \left[ y_2 \right]_0^1 dy_1 = \int_0^1 2y_1^2 \, dy_1 = \frac{2}{3}$$
+$$E[Y_1] = \int_0^1 \int_0^1 y_1 \cdot 2y_1 \, dy_2 \, dy_1 = \int_0^1 2y_1^2 \left[ y_2 \right]_0^1 dy_1 = \frac{2}{3}$$
 
 Both methods give the same answer!
+:::
 
-## 🧮 Theorems on Expected Values {.smaller}
+## 🧮 Theorems on Expected Values
 
+::: {style="font-size: 32px"}
 ::: {.callout-important}
 ## Theorems 5.6-5.8: Linearity of Expected Value
 
@@ -179,7 +203,9 @@ Both methods give the same answer!
 
 **Theorem 5.8:** $E[g_1(Y_1, Y_2) + g_2(Y_1, Y_2)] = E[g_1(Y_1, Y_2)] + E[g_2(Y_1, Y_2)]$
 :::
+:::
 
+::: {style="font-size: 32px"}
 ::: {.callout-tip}
 ## 🌟 Corollary: Fundamental Result
 
@@ -189,33 +215,45 @@ This holds **always**, regardless of whether $Y_1$ and $Y_2$ are independent!
 
 More generally: $E[aY_1 + bY_2 + c] = aE[Y_1] + bE[Y_2] + c$
 :::
+:::
 
-## 📌 Example 3: Expected Portfolio Return {.smaller}
+## 📌 Example 3: Expected Portfolio Return
 
+::: {style="font-size: 30px"}
 **Problem:** An investor holds a portfolio with weight $w_1 = 0.6$ in Stock A (expected return 8%) and $w_2 = 0.4$ in Stock B (expected return 12%). Find the expected portfolio return.
-
-**Solution:**
+:::
 
 . . .
 
+::: {style="font-size: 32px"}
 Let $Y_1$ = return on Stock A, $Y_2$ = return on Stock B.
 
 Portfolio return: $R_p = w_1 Y_1 + w_2 Y_2 = 0.6 Y_1 + 0.4 Y_2$
+:::
 
 . . .
 
+::: {style="font-size: 32px"}
 By linearity of expected value:
 
 $$E[R_p] = E[0.6 Y_1 + 0.4 Y_2] = 0.6 E[Y_1] + 0.4 E[Y_2]$$
+:::
 
 . . .
 
+::: {style="font-size: 32px"}
 $$= 0.6(0.08) + 0.4(0.12) = 0.048 + 0.048 = \boxed{0.096 = 9.6\%}$$
+:::
 
+. . .
+
+::: {style="font-size: 34px"}
 **Key Point:** Expected portfolio return is simply the weighted average of individual expected returns—**no covariance needed!**
+:::
 
-## 🧮 Theorem 5.9: Independence and Expected Values {.smaller}
+## 🧮 Theorem 5.9: Independence and Expected Values
 
+::: {style="font-size: 32px"}
 ::: {.callout-important}
 ## Theorem 5.9: Product of Independent Variables
 
@@ -226,17 +264,19 @@ $$E[g(Y_1) \cdot h(Y_2)] = E[g(Y_1)] \cdot E[h(Y_2)]$$
 **Special Case:**
 $$E[Y_1 \cdot Y_2] = E[Y_1] \cdot E[Y_2] \quad \text{(if independent)}$$
 :::
+:::
 
+::: {style="font-size: 32px"}
 **Warning:** The converse is NOT true! $E[Y_1 Y_2] = E[Y_1] E[Y_2]$ does not imply independence.
 
-**Verification (Example 1):** We found $E[Y_1 Y_2] = 1/3$ and $E[Y_1] = 2/3$. 
+**Verification (Example 1):** We found $E[Y_1 Y_2] = 1/3$ and $E[Y_1] = 2/3$. For independent case: We'd also need $E[Y_2] = 1/2$ (uniform on $[0,1]$).
 
-For independent case: We'd also need $E[Y_2] = 1/2$ (uniform on $[0,1]$).
+Check: $E[Y_1] \cdot E[Y_2] = (2/3)(1/2) = 1/3 = E[Y_1 Y_2]$ ✓
+:::
 
-Check: $E[Y_1] \cdot E[Y_2] = (2/3)(1/2) = 1/3 = E[Y_1 Y_2]$ ✓ (They ARE independent by Theorem 5.5!)
+## 📖 Definition: Covariance
 
-## 📖 Definition: Covariance {.smaller}
-
+::: {style="font-size: 32px"}
 ::: {.callout-note}
 ## 📝 Definition 5.10: Covariance
 
@@ -252,11 +292,15 @@ where $\mu_1 = E[Y_1]$ and $\mu_2 = E[Y_2]$.
 - **Negative covariance:** Variables tend to deviate in **opposite directions**
 - **Zero covariance:** No linear relationship (but variables may still be dependent!)
 :::
+:::
 
+::: {style="font-size: 34px"}
 **Notation:** $\text{Cov}(Y_1, Y_2) = \sigma_{12}$ or $\sigma_{Y_1 Y_2}$
+:::
 
-## 🧮 Theorem 5.10: Computational Formula for Covariance {.smaller}
+## 🧮 Theorem 5.10: Computational Formula for Covariance
 
+::: {style="font-size: 32px"}
 ::: {.callout-important}
 ## Theorem 5.10: Shortcut Formula
 
@@ -268,613 +312,465 @@ $$= E[Y_1 Y_2 - \mu_2 Y_1 - \mu_1 Y_2 + \mu_1 \mu_2]$$
 $$= E[Y_1 Y_2] - \mu_2 E[Y_1] - \mu_1 E[Y_2] + \mu_1 \mu_2$$
 $$= E[Y_1 Y_2] - \mu_1 \mu_2 - \mu_1 \mu_2 + \mu_1 \mu_2 = E[Y_1 Y_2] - \mu_1 \mu_2$$
 :::
-
-**Practical Advantage:** The computational formula is often easier to use than the definition!
-
-## 📌 Example 4: Computing Covariance (Gasoline Problem) {.smaller}
-
-**Problem:** For the gasoline inventory with $f(y_1, y_2) = 3y_1$ on $0 \leq y_2 \leq y_1 \leq 1$, find $\text{Cov}(Y_1, Y_2)$.
-
-**Solution:**
-
-. . .
-
-**Step 1: Find $E[Y_1]$ and $E[Y_2]$**
-
-$$E[Y_1] = \int_0^1 y_1 \cdot 3y_1^2 \, dy_1 = 3 \int_0^1 y_1^3 \, dy_1 = 3 \cdot \frac{1}{4} = \frac{3}{4}$$
-
-$$E[Y_2] = \int_0^1 y_2 \cdot \frac{3}{2}(1 - y_2^2) \, dy_2 = \frac{3}{2} \int_0^1 (y_2 - y_2^3) \, dy_2 = \frac{3}{2} \left( \frac{1}{2} - \frac{1}{4} \right) = \frac{3}{8}$$
-
-. . .
-
-**Step 2: Find $E[Y_1 Y_2]$**
-
-$$E[Y_1 Y_2] = \int_0^1 \int_0^{y_1} y_1 y_2 \cdot 3y_1 \, dy_2 \, dy_1 = \int_0^1 3y_1^2 \left[ \frac{y_2^2}{2} \right]_0^{y_1} dy_1 = \int_0^1 \frac{3y_1^4}{2} \, dy_1 = \frac{3}{10}$$
-
-. . .
-
-**Step 3: Compute covariance**
-
-$$\text{Cov}(Y_1, Y_2) = E[Y_1 Y_2] - E[Y_1] E[Y_2] = \frac{3}{10} - \frac{3}{4} \cdot \frac{3}{8} = \frac{3}{10} - \frac{9}{32} = \frac{48 - 45}{160} = \boxed{\frac{3}{160}}$$
-
-## 🧮 Theorem 5.11: Independence and Covariance {.smaller}
-
-::: {.callout-important}
-## Theorem 5.11: Independent Variables Have Zero Covariance
-
-If $Y_1$ and $Y_2$ are **independent**, then:
-
-$$\text{Cov}(Y_1, Y_2) = 0$$
-
-**Proof:** If independent, $E[Y_1 Y_2] = E[Y_1] E[Y_2]$ (Theorem 5.9).
-
-Therefore: $\text{Cov}(Y_1, Y_2) = E[Y_1 Y_2] - E[Y_1] E[Y_2] = 0$
 :::
 
-::: {.callout-warning}
-## ⚠️ Critical Warning: The Converse is FALSE!
-
-$\text{Cov}(Y_1, Y_2) = 0$ does **NOT** imply $Y_1$ and $Y_2$ are independent!
-
-**Example 5.24 in textbook:** $Y_2 = Y_1^2$ where $Y_1 \sim \text{Uniform}(-1, 1)$.
-
-Then $\text{Cov}(Y_1, Y_2) = 0$ but $Y_1$ and $Y_2$ are clearly **not** independent (one is a function of the other!).
-
-Zero covariance only means no **linear** relationship.
+::: {style="font-size: 34px"}
+**Key Insight:** If $Y_1$ and $Y_2$ are independent, then $E[Y_1 Y_2] = E[Y_1] E[Y_2]$, so $\text{Cov}(Y_1, Y_2) = 0$.
 :::
 
-## 📖 Definition: Correlation Coefficient {.smaller}
+## 📌 Example 4: Computing Covariance
 
+::: {style="font-size: 32px"}
+**Problem:** For the joint density from Example 1, $f(y_1, y_2) = 2y_1$ on $[0,1] \times [0,1]$, find $\text{Cov}(Y_1, Y_2)$.
+:::
+
+. . .
+
+::: {style="font-size: 32px"}
+**Solution:** From previous examples:
+
+- $E[Y_1] = 2/3$
+- $E[Y_2] = 1/2$ (uniform on $[0,1]$)
+- $E[Y_1 Y_2] = 1/3$
+:::
+
+. . .
+
+::: {style="font-size: 32px"}
+Using the computational formula:
+
+$$\text{Cov}(Y_1, Y_2) = E[Y_1 Y_2] - E[Y_1] \cdot E[Y_2]$$
+$$= \frac{1}{3} - \frac{2}{3} \cdot \frac{1}{2} = \frac{1}{3} - \frac{1}{3} = \boxed{0}$$
+:::
+
+. . .
+
+::: {style="font-size: 34px"}
+**Interpretation:** Zero covariance confirms independence (from Theorem 5.5). Stock returns have no linear relationship.
+:::
+
+## 📖 Definition: Correlation Coefficient
+
+::: {style="font-size: 32px"}
 ::: {.callout-note}
 ## 📝 Definition 5.11: Correlation Coefficient
 
-The **correlation coefficient** (or simply correlation) of $Y_1$ and $Y_2$ is:
+The **correlation coefficient** between $Y_1$ and $Y_2$ is:
 
-$$\rho = \rho_{Y_1 Y_2} = \frac{\text{Cov}(Y_1, Y_2)}{\sigma_1 \sigma_2} = \frac{\sigma_{12}}{\sigma_1 \sigma_2}$$
+$$\rho = \rho_{Y_1, Y_2} = \frac{\text{Cov}(Y_1, Y_2)}{\sigma_1 \sigma_2}$$
 
 where $\sigma_1 = \sqrt{V(Y_1)}$ and $\sigma_2 = \sqrt{V(Y_2)}$ are the standard deviations.
-
-**Properties:**
-
-- $-1 \leq \rho \leq 1$ (always!)
-- $\rho = 1$: Perfect positive linear relationship
-- $\rho = -1$: Perfect negative linear relationship
-- $\rho = 0$: No linear relationship (uncorrelated)
+:::
 :::
 
-**Advantage of Correlation:** It's **dimensionless** and standardized, making comparisons across different variable pairs meaningful.
-
-## 📌 Example 5: Computing Correlation {.smaller}
-
-**Problem:** For the gasoline problem, compute the correlation coefficient.
-
-**Solution:**
-
-. . .
-
-From Example 4: $\text{Cov}(Y_1, Y_2) = \frac{3}{160}$, $E[Y_1] = \frac{3}{4}$, $E[Y_2] = \frac{3}{8}$
-
-**Find variances:**
-
-$$E[Y_1^2] = \int_0^1 y_1^2 \cdot 3y_1^2 \, dy_1 = 3 \int_0^1 y_1^4 \, dy_1 = \frac{3}{5}$$
-
-$$V(Y_1) = E[Y_1^2] - (E[Y_1])^2 = \frac{3}{5} - \frac{9}{16} = \frac{48 - 45}{80} = \frac{3}{80}$$
-
-. . .
-
-$$E[Y_2^2] = \frac{3}{2} \int_0^1 y_2^2(1 - y_2^2) \, dy_2 = \frac{3}{2}\left(\frac{1}{3} - \frac{1}{5}\right) = \frac{1}{5}$$
-
-$$V(Y_2) = \frac{1}{5} - \frac{9}{64} = \frac{64 - 45}{320} = \frac{19}{320}$$
-
-. . .
-
-$$\rho = \frac{3/160}{\sqrt{3/80} \cdot \sqrt{19/320}} = \frac{3/160}{\sqrt{57/25600}} \approx \boxed{0.397}$$
-
-**Interpretation:** Moderate positive correlation—amount stocked and amount sold tend to move together.
-
-## 🧮 Portfolio Variance Formula {.smaller}
-
+::: {style="font-size: 32px"}
 ::: {.callout-important}
-## Variance of Linear Combinations
+## 🌟 Properties of Correlation
+
+1. **Bounded:** $-1 \leq \rho \leq 1$ always
+2. **Dimensionless:** No units, unlike covariance
+3. **Standardized:** Same interpretation across different scales
+4. **Perfect linear relationship:** $|\rho| = 1$ if and only if $Y_2 = a + bY_1$ for constants $a, b$
+:::
+:::
+
+## 📌 Correlation Interpretation Guide
+
+::: {style="font-size: 28px"}
+::: {.columns}
+::: {.column width="50%"}
+**Correlation Values:**
+
+- $\rho = +1$: Perfect positive linear
+- $\rho > 0.7$: Strong positive
+- $0.3 < \rho < 0.7$: Moderate positive
+- $-0.3 < \rho < 0.3$: Weak/no correlation
+- $\rho < -0.7$: Strong negative
+- $\rho = -1$: Perfect negative linear
+:::
+
+::: {.column width="50%"}
+**Financial Examples:**
+
+- Stocks in same sector: $\rho \approx 0.6-0.8$
+- Stocks and bonds: $\rho \approx -0.2$ to $+0.2$
+- Gold and USD: $\rho \approx -0.3$ to $-0.5$
+- S&P 500 vs individual stocks: $\rho \approx 0.4-0.9$
+:::
+:::
+:::
+
+## 🧮 Theorem 5.11: Variance of Linear Combinations
+
+::: {style="font-size: 32px"}
+::: {.callout-important}
+## Theorem 5.11: Portfolio Variance Formula
 
 For any constants $a$ and $b$:
 
-$$V(aY_1 + bY_2) = a^2 V(Y_1) + b^2 V(Y_2) + 2ab \cdot \text{Cov}(Y_1, Y_2)$$
+$$V(aY_1 + bY_2) = a^2 V(Y_1) + b^2 V(Y_2) + 2ab \text{ Cov}(Y_1, Y_2)$$
 
-Using correlation: 
+**In terms of correlation:**
+
 $$V(aY_1 + bY_2) = a^2 \sigma_1^2 + b^2 \sigma_2^2 + 2ab\rho\sigma_1\sigma_2$$
+:::
+:::
 
+::: {style="font-size: 32px"}
 **Special Cases:**
 
-- If **independent** ($\rho = 0$): $V(Y_1 + Y_2) = V(Y_1) + V(Y_2)$
-- If $\rho = 1$: $V(Y_1 + Y_2) = (\sigma_1 + \sigma_2)^2$ (no diversification benefit)
-- If $\rho = -1$: $V(Y_1 + Y_2) = (\sigma_1 - \sigma_2)^2$ (maximum diversification)
+- If $Y_1$ and $Y_2$ are **independent**: $\rho = 0$, so $V(aY_1 + bY_2) = a^2 V(Y_1) + b^2 V(Y_2)$
+- For a portfolio with weights $w_1$ and $w_2$: $$\sigma_p^2 = w_1^2\sigma_1^2 + w_2^2\sigma_2^2 + 2w_1w_2\rho\sigma_1\sigma_2$$
 :::
 
-This is the **foundation of Modern Portfolio Theory!**
+## 📌 Example 5: Portfolio Standard Deviation
 
-## 🎮 Interactive: Covariance Visualizer {.smaller}
+::: {style="font-size: 30px"}
+**Problem:** Portfolio with $w_1 = 0.6$ in Stock A ($\sigma_1 = 20\%$) and $w_2 = 0.4$ in Stock B ($\sigma_2 = 15\%$), with correlation $\rho = 0.5$. Find portfolio standard deviation.
+:::
 
-::: {style="font-size: 0.8em;"}
+. . .
 
-**Explore Covariance:** See how correlation affects the scatter pattern.
+::: {style="font-size: 32px"}
+**Solution:** Using the portfolio variance formula:
 
-::: {.columns}
+$$\sigma_p^2 = w_1^2\sigma_1^2 + w_2^2\sigma_2^2 + 2w_1w_2\rho\sigma_1\sigma_2$$
+:::
 
-::: {.column width="30%"}
+. . .
+
+::: {style="font-size: 32px"}
+$$= (0.6)^2(0.20)^2 + (0.4)^2(0.15)^2 + 2(0.6)(0.4)(0.5)(0.20)(0.15)$$
+:::
+
+. . .
+
+::: {style="font-size: 32px"}
+$$= 0.0144 + 0.0036 + 0.0072 = 0.0252$$
+
+$$\sigma_p = \sqrt{0.0252} = 0.1587 = \boxed{15.87\%}$$
+:::
+
+. . .
+
+::: {style="font-size: 34px"}
+**Key Insight:** Portfolio risk (15.87%) < weighted average of individual risks (18%) due to diversification!
+:::
+
+## 🤝 Think-Pair-Share Activity {.smaller}
+
+::: {style="font-size: 32px"}
+::: {.callout-tip}
+## 💭 Diversification Paradox
+
+**Scenario:** You have two investment options:
+
+- **Option A:** 100% in Stock X ($\mu = 10\%$, $\sigma = 25\%$)
+- **Option B:** 50% Stock X + 50% Stock Y ($\mu_Y = 8\%$, $\sigma_Y = 20\%$, $\rho = -0.3$)
+
+**Questions:**
+
+1. Calculate expected return for both options
+2. Calculate standard deviation for both options
+3. Which option would you choose and why?
+
+**Activity:** (3 minutes)
+
+- **1 min:** Think individually and calculate
+- **1 min:** Pair up and discuss your answers
+- **1 min:** Share key insights with class
+:::
+:::
 
 ```{ojs}
 //| echo: false
-
-viewof rho_slider = Inputs.range([-0.95, 0.95], {
-  value: 0.5, 
-  step: 0.05, 
-  label: "Correlation (ρ):"
-})
-
-viewof n_points = Inputs.range([50, 500], {
-  value: 200, 
-  step: 50, 
-  label: "Sample size:"
-})
-
-// Generate correlated data using Cholesky decomposition
-function generateCorrelatedData(n, rho) {
-  let data = [];
-  for (let i = 0; i < n; i++) {
-    // Box-Muller for standard normals
-    let u1 = Math.random(), u2 = Math.random();
-    let z1 = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
-    let z2 = Math.sqrt(-2 * Math.log(u1)) * Math.sin(2 * Math.PI * u2);
-    // Create correlation
-    let y1 = z1;
-    let y2 = rho * z1 + Math.sqrt(1 - rho * rho) * z2;
-    data.push({y1: y1, y2: y2});
+// Countdown Timer
+viewof countdown = {
+  const totalSeconds = 180;
+  let remainingSeconds = totalSeconds;
+  let intervalId;
+  
+  const container = html`<div style="position: fixed; right: 0; bottom: 10px; text-align: center; font-size: 42px; color: #2c3e50; font-weight: bold; padding: 15px; background: #ecf0f1; border-radius: 10px; max-width: 350px; z-index: 1000;"></div>`;
+  
+  function updateDisplay() {
+    const minutes = Math.floor(remainingSeconds / 60);
+    const seconds = remainingSeconds % 60;
+    container.textContent = `⏱️ ${minutes}:${seconds.toString().padStart(2, '0')}`;
+    
+    if (remainingSeconds === 0) {
+      clearInterval(intervalId);
+      container.textContent = "⏰ Time's Up!";
+      container.style.background = "#e74c3c";
+      container.style.color = "#fff";
+    }
   }
-  return data;
+  
+  function startTimer() {
+    if (intervalId) clearInterval(intervalId);
+    remainingSeconds = totalSeconds;
+    intervalId = setInterval(() => {
+      remainingSeconds--;
+      updateDisplay();
+      if (remainingSeconds <= 0) clearInterval(intervalId);
+    }, 1000);
+    updateDisplay();
+  }
+  
+  updateDisplay();
+  
+  const button = html`<button style="margin: 10px; padding: 10px 20px; font-size: 18px; cursor: pointer;">Start Timer</button>`;
+  button.onclick = startTimer;
+  
+  ['pointerdown', 'touchstart', 'mousedown', 'click'].forEach(e => 
+    button.addEventListener(e, ev => ev.stopPropagation())
+  );
+  
+  return html`<div>${container}${button}</div>`;
 }
-
-corr_data = generateCorrelatedData(n_points, rho_slider)
-
-// Compute sample statistics
-sample_cov = {
-  let n = corr_data.length;
-  let mean1 = d3.mean(corr_data, d => d.y1);
-  let mean2 = d3.mean(corr_data, d => d.y2);
-  let cov = d3.sum(corr_data, d => (d.y1 - mean1) * (d.y2 - mean2)) / (n - 1);
-  return cov;
-}
-
-sample_corr = {
-  let n = corr_data.length;
-  let mean1 = d3.mean(corr_data, d => d.y1);
-  let mean2 = d3.mean(corr_data, d => d.y2);
-  let var1 = d3.sum(corr_data, d => Math.pow(d.y1 - mean1, 2)) / (n - 1);
-  let var2 = d3.sum(corr_data, d => Math.pow(d.y2 - mean2, 2)) / (n - 1);
-  let cov = d3.sum(corr_data, d => (d.y1 - mean1) * (d.y2 - mean2)) / (n - 1);
-  return cov / Math.sqrt(var1 * var2);
-}
-
-md`**True ρ:** ${rho_slider.toFixed(2)}
-
-**Sample Covariance:** ${sample_cov.toFixed(3)}
-
-**Sample Correlation:** ${sample_corr.toFixed(3)}
-
-**Interpretation:**  
-${rho_slider > 0.3 ? "Positive: Y₁↑ tends with Y₂↑" : 
-  rho_slider < -0.3 ? "Negative: Y₁↑ tends with Y₂↓" : 
-  "Weak: Little linear relationship"}`
 ```
 
-:::
+## 🤝 Think-Pair-Share: Solutions
 
-::: {.column width="70%"}
-
-```{ojs}
-//| echo: false
-
-Plot.plot({
-  width: 750,
-  height: 500,
-  marginLeft: 60,
-  marginBottom: 50,
-  x: {
-    label: "Y₁",
-    domain: [-4, 4]
-  },
-  y: {
-    label: "Y₂",
-    domain: [-4, 4]
-  },
-  marks: [
-    Plot.dot(corr_data, {
-      x: "y1", 
-      y: "y2", 
-      fill: "steelblue",
-      opacity: 0.6,
-      r: 3
-    }),
-    Plot.linearRegressionY(corr_data, {
-      x: "y1",
-      y: "y2",
-      stroke: "red",
-      strokeWidth: 2
-    }),
-    Plot.ruleX([0], {stroke: "gray", strokeDasharray: "3,3"}),
-    Plot.ruleY([0], {stroke: "gray", strokeDasharray: "3,3"})
-  ],
-  caption: html`<b>Bivariate Normal Data:</b> ρ = ${rho_slider.toFixed(2)}. <span style="color:red">━</span> Regression line`
-})
-```
-
-:::
-
-:::
-
-:::
-
-## 🎮 Interactive: Portfolio Variance Calculator {.smaller}
-
-::: {style="font-size: 0.8em;"}
-
-**Portfolio Risk Analysis:** See how correlation affects diversification benefits.
-
+::: {style="font-size: 32px"}
 ::: {.columns}
+::: {.column width="50%"}
+**Expected Returns:**
 
-::: {.column width="35%"}
+Option A: $E[R_A] = 10\%$
+
+Option B: $E[R_B] = 0.5(10\%) + 0.5(8\%) = 9\%$
+:::
+
+::: {.column width="50%"}
+**Standard Deviations:**
+
+Option A: $\sigma_A = 25\%$
+
+Option B:
+$$\sigma_B^2 = (0.5)^2(0.25)^2 + (0.5)^2(0.20)^2$$
+$$+ 2(0.5)(0.5)(-0.3)(0.25)(0.20)$$
+$$= 0.015625 + 0.01 - 0.0075 = 0.018125$$
+$$\sigma_B = 13.46\%$$
+:::
+:::
+:::
+
+::: {style="font-size: 34px"}
+**Key Insight:** Option B has lower return (9% vs 10%) but **much lower risk** (13.46% vs 25%)! The negative correlation provides powerful diversification. Most investors would prefer B for better risk-adjusted returns.
+:::
+
+## 📊 Interactive: Portfolio Risk vs Correlation {.smaller}
 
 ```{ojs}
 //| echo: false
 
-viewof w1_port = Inputs.range([0, 1], {
-  value: 0.5, 
-  step: 0.05, 
-  label: "Weight in Asset 1 (w₁):"
-})
+viewof rho_slider = {
+  const input = Inputs.range([-1, 1], {
+    value: 0.3, 
+    step: 0.1, 
+    label: "Correlation (ρ):"
+  });
+  ['pointerdown', 'touchstart', 'mousedown', 'click', 'wheel', 
+   'pointermove', 'touchmove'].forEach(e => 
+    input.addEventListener(e, ev => ev.stopPropagation())
+  );
+  return input;
+}
 
-viewof rho_port = Inputs.range([-1, 1], {
-  value: 0.3, 
-  step: 0.1, 
-  label: "Correlation (ρ):"
-})
+viewof w1_slider = {
+  const input = Inputs.range([0, 1], {
+    value: 0.5, 
+    step: 0.05, 
+    label: "Weight in Asset 1 (w₁):"
+  });
+  ['pointerdown', 'touchstart', 'mousedown', 'click', 'wheel', 
+   'pointermove', 'touchmove'].forEach(e => 
+    input.addEventListener(e, ev => ev.stopPropagation())
+  );
+  return input;
+}
+```
 
-// Fixed parameters
-sigma1_port = 0.20  // 20% volatility
-sigma2_port = 0.30  // 30% volatility
-mu1_port = 0.08     // 8% expected return
-mu2_port = 0.12     // 12% expected return
-
-w2_port = 1 - w1_port
+```{ojs}
+//| echo: false
 
 // Portfolio calculations
-port_return = w1_port * mu1_port + w2_port * mu2_port
-port_variance = w1_port * w1_port * sigma1_port * sigma1_port + 
-                w2_port * w2_port * sigma2_port * sigma2_port + 
-                2 * w1_port * w2_port * rho_port * sigma1_port * sigma2_port
-port_std = Math.sqrt(port_variance)
+sigma1 = 0.20  // 20% volatility for Asset 1
+sigma2 = 0.15  // 15% volatility for Asset 2
+w2 = 1 - w1_slider
 
-md`**Asset Parameters:**  
-Asset 1: μ₁ = ${(mu1_port*100).toFixed(0)}%, σ₁ = ${(sigma1_port*100).toFixed(0)}%  
-Asset 2: μ₂ = ${(mu2_port*100).toFixed(0)}%, σ₂ = ${(sigma2_port*100).toFixed(0)}%
+portfolio_variance = Math.pow(w1_slider * sigma1, 2) + 
+                     Math.pow(w2 * sigma2, 2) + 
+                     2 * w1_slider * w2 * rho_slider * sigma1 * sigma2
 
-**Portfolio Weights:**  
-w₁ = ${(w1_port*100).toFixed(0)}%, w₂ = ${(w2_port*100).toFixed(0)}%
+portfolio_std = Math.sqrt(portfolio_variance)
 
-**Portfolio Results:**  
-E[Rₚ] = ${(port_return*100).toFixed(2)}%  
-σₚ = ${(port_std*100).toFixed(2)}%  
-
-**Diversification Benefit:**  
-Weighted avg σ: ${((w1_port*sigma1_port + w2_port*sigma2_port)*100).toFixed(2)}%  
-Actual σₚ: ${(port_std*100).toFixed(2)}%  
-Reduction: ${(((w1_port*sigma1_port + w2_port*sigma2_port) - port_std)*100).toFixed(2)}%`
+// Generate efficient frontier data
+weights = d3.range(0, 1.01, 0.01)
+frontier_data = weights.map(w1 => {
+  const w2 = 1 - w1;
+  const var_p = Math.pow(w1 * sigma1, 2) + 
+                Math.pow(w2 * sigma2, 2) + 
+                2 * w1 * w2 * rho_slider * sigma1 * sigma2;
+  return {
+    w1: w1,
+    std: Math.sqrt(var_p)
+  };
+})
 ```
-
-:::
-
-::: {.column width="65%"}
 
 ```{ojs}
 //| echo: false
-
-// Generate efficient frontier data
-frontier_data = {
-  let data = [];
-  for (let w = 0; w <= 1.001; w += 0.02) {
-    let w2 = 1 - w;
-    let ret = w * mu1_port + w2 * mu2_port;
-    let variance = w * w * sigma1_port * sigma1_port + 
-                   w2 * w2 * sigma2_port * sigma2_port + 
-                   2 * w * w2 * rho_port * sigma1_port * sigma2_port;
-    let std = Math.sqrt(variance);
-    data.push({weight: w, return: ret * 100, std: std * 100});
-  }
-  return data;
-}
-
-// Current portfolio point
-current_point = [{
-  std: port_std * 100,
-  return: port_return * 100
-}]
-
-// Individual assets
-asset_points = [
-  {std: sigma1_port * 100, return: mu1_port * 100, label: "Asset 1"},
-  {std: sigma2_port * 100, return: mu2_port * 100, label: "Asset 2"}
-]
 
 Plot.plot({
   width: 600,
-  height: 450,
-  marginLeft: 60,
-  marginBottom: 50,
+  height: 380,
+  marginLeft: 55,
+  marginBottom: 35,
   x: {
-    label: "Portfolio Risk (σ, %)",
-    domain: [0, 35]
+    label: "Weight in Asset 1",
+    domain: [0, 1],
+    grid: true
   },
   y: {
-    label: "Expected Return (%)",
-    domain: [6, 14]
+    label: "Portfolio Std Dev",
+    tickFormat: d => `${(d * 100).toFixed(1)}%`,
+    grid: true
   },
   marks: [
     Plot.line(frontier_data, {
-      x: "std", 
-      y: "return", 
-      stroke: "steelblue",
+      x: "w1", 
+      y: "std", 
+      stroke: "#2ecc71",
       strokeWidth: 3
     }),
-    Plot.dot(current_point, {
-      x: "std",
-      y: "return",
-      fill: "red",
-      r: 8
+    Plot.dot([{
+      x: w1_slider, 
+      y: portfolio_std
+    }], {
+      x: "x",
+      y: "y",
+      r: 6,
+      fill: "#e74c3c",
+      stroke: "#c0392b",
+      strokeWidth: 2
     }),
-    Plot.dot(asset_points, {
-      x: "std",
-      y: "return",
-      fill: "green",
-      r: 6
+    Plot.dot([
+      {x: 0, y: sigma2, label: "Asset 2"},
+      {x: 1, y: sigma1, label: "Asset 1"}
+    ], {
+      x: "x",
+      y: "y",
+      r: 5,
+      fill: "#3498db"
     }),
-    Plot.text(asset_points, {
-      x: "std",
-      y: "return",
+    Plot.text([
+      {x: 0, y: sigma2, label: "Asset 2", dy: -15},
+      {x: 1, y: sigma1, label: "Asset 1", dy: -15}
+    ], {
+      x: "x",
+      y: "y",
       text: "label",
-      dy: -12,
-      fill: "green"
-    }),
-    Plot.text(current_point, {
-      x: "std",
-      y: "return",
-      text: ["Current Portfolio"],
-      dy: -12,
-      fill: "red"
+      dy: "dy",
+      fontSize: 12,
+      fontWeight: "bold"
     })
-  ],
-  caption: html`<span style="color:steelblue;font-weight:bold">━</span> Efficient Frontier (ρ=${rho_port.toFixed(1)}) | <span style="color:red">●</span> Current | <span style="color:green">●</span> Individual Assets`
+  ]
 })
 ```
 
+::: {style="font-size: 24px; text-align: center; margin-top: 10px;"}
+**Portfolio:** w₁=${(w1_slider * 100).toFixed(0)}%, w₂=${(w2 * 100).toFixed(0)}% | σₚ=${(portfolio_std * 100).toFixed(2)}% | ρ=${rho_slider.toFixed(1)}
 :::
 
+## 💰 Case Study: Real Portfolio Data {.smaller}
+
+::: {style="font-size: 30px"}
+Using real data from 2010-2024:
+
+- **SPY** (S&P 500 ETF): Large-cap US stocks
+- **TLT** (20+ Year Treasury Bond ETF): Long-term government bonds
+- **GLD** (Gold ETF): Precious metals
 :::
-
-:::
-
-## 🤝 Think-Pair-Share: Diversification Benefits {.r-fit-text}
-
-::: {style="font-size: 28px"}
-::: {.callout-note}
-## 💭 Student Engagement Activity (5 minutes)
-
-**Scenario:** You have two assets with:
-
-- Asset A: Expected return = 10%, Standard deviation = 25%
-- Asset B: Expected return = 6%, Standard deviation = 15%
-
-**Think (1.5 minutes):** For a 50-50 portfolio ($w_1 = w_2 = 0.5$), calculate the portfolio variance when:
-
-- $\rho = 1$ (perfect positive correlation)
-- $\rho = 0$ (uncorrelated)
-- $\rho = -1$ (perfect negative correlation)
-
-**Pair (2 minutes):** Compare your results
-
-- When is diversification most beneficial?
-- What happens to portfolio risk as correlation decreases?
-
-**Share (1.5 minutes):** Class discussion
-
-- Real-world examples of assets with different correlations
-- Why is finding negatively correlated assets so valuable?
-:::
-:::
-
-## 💰 Case Study: Portfolio Optimization with Real Data
-
-::: {style="font-size:35px"}
-::: {.columns}
-::: {.column width="50%"}
-::: {.callout-note}
-## 📈 Multi-Asset Portfolio Analysis
-
-**Context**: We apply covariance and correlation concepts to build and analyze a diversified portfolio with real market data.
-
-**Key Questions**:
-
-- What is the correlation structure among different asset classes?
-
-- How does diversification reduce portfolio risk?
-
-- What portfolio weights minimize risk?
-
-:::
-:::
-
-::: {.column width="50%"}
-::: {.callout-tip}
-## 📊 Data Source
-
-We analyze **monthly returns** for three assets:
-
-- **SPY**: S&P 500 ETF (Stocks)
-- **TLT**: 20+ Year Treasury Bond ETF (Bonds)
-- **GLD**: Gold ETF (Commodities)
-
-**Source**: Yahoo Finance API via `quantmod`
-
-**Period**: Last 5 years of monthly returns
-
-**Why these assets?**: Traditional diversified portfolio spanning stocks, bonds, and commodities
-:::
-:::
-:::
-:::
-
-## 💰 Case Study: Data Collection and Summary Statistics {.smaller}
-
-::: {style="font-size:26px"}
-::: {.columns}
-::: {.column width="50%"}
 
 ```{r}
 #| echo: true
 #| message: false
 #| warning: false
 #| eval: true
+#| code-fold: true
 
-# Load required libraries
-library(quantmod)
+library(tidyquant)
 library(tidyverse)
 library(knitr)
-library(corrplot)
 
-# Set date range (last 5 years)
-end_date <- Sys.Date()
-start_date <- end_date - (5 * 365)
-
-# Download data
-getSymbols(c("SPY", "TLT", "GLD"), from = start_date, 
-           to = end_date, auto.assign = TRUE)
+# Download monthly returns
+symbols <- c("SPY", "TLT", "GLD")
+prices <- tq_get(symbols, 
+                 from = "2010-01-01", 
+                 to = "2024-12-31",
+                 get = "stock.prices")
 
 # Calculate monthly returns
-spy_monthly <- monthlyReturn(SPY, type = "log")
-tlt_monthly <- monthlyReturn(TLT, type = "log")
-gld_monthly <- monthlyReturn(GLD, type = "log")
+returns <- prices %>%
+  group_by(symbol) %>%
+  tq_transmute(select = adjusted,
+               mutate_fun = periodReturn,
+               period = "monthly",
+               col_rename = "return")
 
-# Combine into data frame
-returns_df <- data.frame(
-  Date = index(spy_monthly),
-  SPY = as.numeric(spy_monthly),
-  TLT = as.numeric(tlt_monthly),
-  GLD = as.numeric(gld_monthly)
-) %>% na.omit()
+# Convert to matrix format
+returns_matrix <- returns %>%
+  pivot_wider(names_from = symbol, values_from = return) %>%
+  select(-date) %>%
+  as.matrix()
 
-cat(sprintf("Number of months: %d\n", nrow(returns_df)))
-cat(sprintf("Period: %s to %s\n\n", 
-            min(returns_df$Date), max(returns_df$Date)))
-```
-
-:::
-
-::: {.column width="50%"}
-
-```{r}
-#| echo: true
-#| message: false
-#| warning: false
-#| eval: true
+# Compute statistics
+cov_matrix <- cov(returns_matrix) * 12  # Annualize
+cor_matrix <- cor(returns_matrix)
 
 # Summary statistics
 summary_stats <- data.frame(
-  Asset = c("SPY", "TLT", "GLD"),
-  Mean = c(mean(returns_df$SPY), 
-           mean(returns_df$TLT), 
-           mean(returns_df$GLD)) * 12 * 100,  # Annualized
-  StdDev = c(sd(returns_df$SPY), 
-             sd(returns_df$TLT), 
-             sd(returns_df$GLD)) * sqrt(12) * 100  # Annualized
+  Asset = symbols,
+  Mean = colMeans(returns_matrix) * 12 * 100,  # Annualized %
+  StdDev = apply(returns_matrix, 2, sd) * sqrt(12) * 100,  # Annualized %
+  Sharpe = (colMeans(returns_matrix) * 12) / (apply(returns_matrix, 2, sd) * sqrt(12))
 )
 
-cat("=== Annualized Statistics ===\n")
-print(summary_stats, row.names = FALSE)
-
-# Covariance matrix (annualized)
-returns_matrix <- as.matrix(returns_df[, c("SPY", "TLT", "GLD")])
-cov_matrix <- cov(returns_matrix) * 12  # Annualize
-
-cat("\n=== Annualized Covariance Matrix ===\n")
-print(round(cov_matrix * 10000, 2))  # In basis points squared
+kable(summary_stats, digits = 2, 
+      caption = "Asset Statistics (2010-2024, Annualized)")
 ```
 
-:::
-:::
-:::
+## 💰 Case Study: Correlation Matrix {.smaller}
 
-## 💰 Case Study: Correlation Matrix and Heatmap {.smaller}
-
-::: {style="font-size:26px"}
-::: {.columns}
-::: {.column width="50%"}
-
+::: {style="font-size: 32px"}
 ```{r}
 #| echo: true
 #| message: false
 #| warning: false
 #| eval: true
 
-# Correlation matrix
-corr_matrix <- cor(returns_matrix)
-
-cat("=== Correlation Matrix ===\n")
-print(round(corr_matrix, 3))
-
-# Interpretation
-cat("\n=== Interpretation ===\n")
-cat(sprintf("SPY-TLT correlation: %.3f\n", corr_matrix["SPY", "TLT"]))
-cat(sprintf("SPY-GLD correlation: %.3f\n", corr_matrix["SPY", "GLD"]))
-cat(sprintf("TLT-GLD correlation: %.3f\n", corr_matrix["TLT", "GLD"]))
-
-cat("\n")
-if(corr_matrix["SPY", "TLT"] < 0) {
-  cat("SPY and TLT: Negative correlation → Good for diversification!\n")
-} else {
-  cat("SPY and TLT: Positive correlation → Less diversification benefit\n")
-}
+# Display correlation matrix
+kable(cor_matrix, digits = 3,
+      caption = "Correlation Matrix")
 ```
-
 :::
 
-::: {.column width="50%"}
+::: {style="font-size: 34px"}
+::: {.callout-note}
+## 📊 Key Observations
 
-```{r}
-#| echo: true
-#| message: false
-#| warning: false
-#| eval: true
-#| fig-width: 5
-#| fig-height: 5
+- **SPY-TLT:** Low/slightly negative correlation → good diversification
+- **SPY-GLD:** Low positive correlation → some diversification benefit
+- **TLT-GLD:** Moderate positive correlation → less diversification between these two
 
-# Correlation heatmap
-corrplot(corr_matrix, 
-         method = "color",
-         type = "upper",
-         addCoef.col = "black",
-         tl.col = "black",
-         tl.srt = 45,
-         col = colorRampPalette(c("#BB4444", "#FFFFFF", "#4477AA"))(200),
-         title = "Correlation Matrix: SPY, TLT, GLD",
-         mar = c(0, 0, 2, 0))
-```
-
-:::
+**Investment Implication:** Combining stocks (SPY) with bonds (TLT) provides excellent risk reduction due to low correlation.
 :::
 :::
 
 ## 💰 Case Study: Portfolio Analysis {.smaller}
 
-::: {style="font-size:26px"}
+::: {style="font-size: 30px"}
 ::: {.columns}
 ::: {.column width="50%"}
 
@@ -908,7 +804,7 @@ for(name in names(portfolios)) {
   port_return <- sum(w * mu)
   port_var <- t(w) %*% cov_matrix %*% w
   port_std <- sqrt(port_var)
-  sharpe <- port_return / port_std  # Assuming rf = 0
+  sharpe <- port_return / port_std
   
   results <- rbind(results, data.frame(
     Portfolio = name,
@@ -918,7 +814,7 @@ for(name in names(portfolios)) {
   ))
 }
 
-print(results, row.names = FALSE)
+kable(results, digits = 2, row.names = FALSE)
 ```
 
 :::
@@ -930,15 +826,16 @@ print(results, row.names = FALSE)
 #| message: false
 #| warning: false
 #| eval: true
-#| fig-width: 6
-#| fig-height: 5
+#| fig-width: 5.5
+#| fig-height: 4.5
+
+library(ggplot2)
 
 # Plot portfolios on risk-return space
 ggplot(results, aes(x = StdDev, y = ExpReturn)) +
   geom_point(size = 4, color = "steelblue") +
   geom_text(aes(label = Portfolio), 
             vjust = -1, hjust = 0.5, size = 3) +
-  # Add individual assets
   geom_point(data = data.frame(
     StdDev = summary_stats$StdDev,
     ExpReturn = summary_stats$Mean
@@ -947,12 +844,13 @@ ggplot(results, aes(x = StdDev, y = ExpReturn)) +
     StdDev = summary_stats$StdDev,
     ExpReturn = summary_stats$Mean,
     label = c("SPY", "TLT", "GLD")
-  ), aes(label = label), vjust = 1.5, color = "red", size = 3) +
+  ), aes(label = label), vjust = 1.5, 
+  color = "red", size = 3) +
   labs(title = "Portfolio Risk-Return Analysis",
-       subtitle = "Comparing different allocation strategies",
+       subtitle = "Comparing allocation strategies",
        x = "Annualized Volatility (%)",
-       y = "Annualized Expected Return (%)") +
-  theme_minimal(base_size = 11) +
+       y = "Expected Return (%)") +
+  theme_minimal(base_size = 12) +
   xlim(0, max(summary_stats$StdDev) * 1.2)
 ```
 
@@ -960,9 +858,9 @@ ggplot(results, aes(x = StdDev, y = ExpReturn)) +
 :::
 :::
 
-## 💰 Case Study: Key Findings {.smaller}
+## 💰 Case Study: Key Findings
 
-::: {style="font-size: 32.5px;"}
+::: {style="font-size: 28px"}
 ::: {.callout-important}
 ## 📊 Analysis Results
 
@@ -972,23 +870,25 @@ ggplot(results, aes(x = StdDev, y = ExpReturn)) +
 ::: {.fragment}
 **Correlation Insights:**
 
-- SPY-TLT correlation varies over time but historically negative or low
+- SPY-TLT: Low/negative → good diversification
 
-- GLD provides additional diversification
+- SPY-GLD: Low positive → some benefit
 
-- Low correlations among asset classes enable risk reduction
+- TLT-GLD: Moderate positive
+
+- Low correlations reduce risk
 :::
 :::
 
 ::: {.column width="33%"}
 ::: {.fragment}
-**Portfolio Variance Formula in Action:**
+**Portfolio Variance:**
 
-The equal-weight portfolio typically has lower volatility than individual assets due to:
+Equal-weight portfolio has lower risk:
 
 $$\sigma_p^2 = \sum_i w_i^2 \sigma_i^2 + 2\sum_{i<j} w_i w_j \rho_{ij} \sigma_i \sigma_j$$
 
-With low/negative correlations, the cross-terms reduce total variance!
+Low/negative ρ reduces variance!
 :::
 :::
 
@@ -996,11 +896,11 @@ With low/negative correlations, the cross-terms reduce total variance!
 ::: {.fragment}
 **Investment Implications:**
 
-1. **Diversification works**: Multi-asset portfolios reduce risk
+1. Diversification works
 
-2. **Correlation matters**: Assets with low correlation provide greatest benefit
+2. Correlation matters most
 
-3. **Trade-off**: Conservative portfolios have lower return but also lower risk
+3. Trade-off: lower risk = lower return
 :::
 :::
 
@@ -1008,45 +908,53 @@ With low/negative correlations, the cross-terms reduce total variance!
 :::
 :::
 
-## 📝 Quiz #1: Computing Expected Value {.smaller .quiz-question}
+## 📝 Quiz #1: Computing Expected Value {.quiz-question}
 
+::: {style="font-size: 34px"}
 If $E[Y_1] = 5$, $E[Y_2] = 10$, what is $E[3Y_1 + 2Y_2 - 7]$?
 
 - [28]{.correct data-explanation="✅ Correct! By linearity: E[3Y₁ + 2Y₂ - 7] = 3E[Y₁] + 2E[Y₂] - 7 = 3(5) + 2(10) - 7 = 15 + 20 - 7 = 28"}
 - 35
 - 22
 - 15
+:::
 
-## 📝 Quiz #2: Covariance Computation {.smaller .quiz-question}
+## 📝 Quiz #2: Covariance Computation {.quiz-question}
 
+::: {style="font-size: 34px"}
 If $E[Y_1] = 2$, $E[Y_2] = 3$, and $E[Y_1 Y_2] = 7$, what is $\text{Cov}(Y_1, Y_2)$?
 
 - [1]{.correct data-explanation="✅ Correct! Using the computational formula: Cov(Y₁, Y₂) = E[Y₁Y₂] - E[Y₁]E[Y₂] = 7 - (2)(3) = 7 - 6 = 1"}
 - 6
 - 7
 - -1
+:::
 
-## 📝 Quiz #3: Independence and Covariance {.smaller .quiz-question}
+## 📝 Quiz #3: Independence and Covariance {.quiz-question}
 
+::: {style="font-size: 32px"}
 Which statement about covariance is TRUE?
 
 - [If two variables are independent, their covariance must be zero]{.correct data-explanation="✅ Correct! Independence implies E[Y₁Y₂] = E[Y₁]E[Y₂], so Cov = E[Y₁Y₂] - E[Y₁]E[Y₂] = 0. However, the converse is false—zero covariance does not imply independence."}
 - If covariance is zero, the variables must be independent
 - Covariance can be greater than 1
 - Covariance equals correlation divided by the product of standard deviations
+:::
 
-## 📝 Quiz #4: Portfolio Variance {.smaller .quiz-question}
+## 📝 Quiz #4: Portfolio Variance {.quiz-question}
 
+::: {style="font-size: 32px"}
 For a portfolio with $w_1 = w_2 = 0.5$, $\sigma_1 = \sigma_2 = 20\%$, and $\rho = 0$, what is the portfolio standard deviation?
 
 - [14.14%]{.correct data-explanation="✅ Correct! V(Rₚ) = 0.5²(0.20²) + 0.5²(0.20²) + 2(0.5)(0.5)(0)(0.20)(0.20) = 0.01 + 0.01 + 0 = 0.02. So σₚ = √0.02 = 0.1414 = 14.14%"}
 - 20%
 - 10%
 - 28.28%
+:::
 
-## 📝 Summary {.smaller}
+## 📝 Summary
 
-::: {style="font-size: 32.5px"}
+::: {style="font-size: 28px"}
 ::: {.summary-box}
 **✅ Key Takeaways**
 
@@ -1054,11 +962,11 @@ For a portfolio with $w_1 = w_2 = 0.5$, $\sigma_1 = \sigma_2 = 20\%$, and $\rho 
 
 - **Linearity**: $E[aY_1 + bY_2] = aE[Y_1] + bE[Y_2]$ always holds; $E[Y_1 Y_2] = E[Y_1]E[Y_2]$ only if independent
 
-- **Covariance** $\text{Cov}(Y_1, Y_2) = E[Y_1 Y_2] - E[Y_1]E[Y_2]$ measures linear association; computational formula is often easier
+- **Covariance** $\text{Cov}(Y_1, Y_2) = E[Y_1 Y_2] - E[Y_1]E[Y_2]$ measures linear association
 
-- **Correlation** $\rho = \text{Cov}(Y_1, Y_2)/(\sigma_1 \sigma_2)$ is standardized covariance with $-1 \leq \rho \leq 1$
+- **Correlation** $\rho = \text{Cov}(Y_1, Y_2)/(\sigma_1 \sigma_2)$ is standardized with $-1 \leq \rho \leq 1$
 
-- **Critical insight**: $\text{Cov} = 0$ does NOT imply independence! (Example 5.24)
+- **Critical insight**: $\text{Cov} = 0$ does NOT imply independence!
 
 - **Portfolio variance**: $V(w_1 Y_1 + w_2 Y_2) = w_1^2 V(Y_1) + w_2^2 V(Y_2) + 2w_1 w_2 \text{Cov}(Y_1, Y_2)$
 :::
@@ -1066,22 +974,25 @@ For a portfolio with $w_1 = w_2 = 0.5$, $\sigma_1 = \sigma_2 = 20\%$, and $\rho 
 
 ## 📚 Practice Problems
 
+::: {style="font-size: 28px"}
 ::: {.callout-tip}
 ## 📝 Homework Problems
 
-**Problem 1 (Expected Value):** For $f(y_1, y_2) = 8y_1y_2$ on $0 < y_1 < 1$, $0 < y_2 < 1$, find $E[Y_1 + Y_2]$ and $E[Y_1 Y_2]$.
+**Problem 1:** For $f(y_1, y_2) = 8y_1y_2$ on $0 < y_1 < 1$, $0 < y_2 < 1$, find $E[Y_1 + Y_2]$ and $E[Y_1 Y_2]$.
 
-**Problem 2 (Covariance):** For the joint pdf $f(y_1, y_2) = 2$ on $0 < y_1 < 1$, $0 < y_2 < y_1$, compute $\text{Cov}(Y_1, Y_2)$ and interpret.
+**Problem 2:** For $f(y_1, y_2) = 2$ on $0 < y_1 < 1$, $0 < y_2 < y_1$, compute $\text{Cov}(Y_1, Y_2)$.
 
-**Problem 3 (Correlation):** Two stocks have $\sigma_1 = 30\%$, $\sigma_2 = 20\%$, and $\text{Cov} = 0.024$. Find the correlation and interpret.
+**Problem 3:** Two stocks: $\sigma_1 = 30\%$, $\sigma_2 = 20\%$, $\text{Cov} = 0.024$. Find correlation.
 
-**Problem 4 (Portfolio):** A portfolio has weights $w_1 = 0.4$, $w_2 = 0.6$ with $\mu_1 = 12\%$, $\mu_2 = 8\%$, $\sigma_1 = 25\%$, $\sigma_2 = 15\%$, and $\rho = 0.3$. Find expected return and standard deviation.
+**Problem 4:** Portfolio: $w_1 = 0.4$, $w_2 = 0.6$, $\mu_1 = 12\%$, $\mu_2 = 8\%$, $\sigma_1 = 25\%$, $\sigma_2 = 15\%$, $\rho = 0.3$. Find expected return and standard deviation.
 
-**Problem 5 (Zero Covariance ≠ Independence):** Verify that for $Y_1 \sim \text{Uniform}(-1, 1)$ and $Y_2 = Y_1^2$, we have $\text{Cov}(Y_1, Y_2) = 0$ but the variables are not independent.
+**Problem 5:** Verify for $Y_1 \sim \text{Uniform}(-1, 1)$ and $Y_2 = Y_1^2$: $\text{Cov}(Y_1, Y_2) = 0$ but variables are dependent.
+:::
 :::
 
-## 👋 Thank You! {.smaller .center}
+## 👋 Thank You!
 
+::: {style="font-size: 32px"}
 ::: {.columns}
 ::: {.column width="50%"}
 **📬 Contact Information:**
@@ -1116,14 +1027,16 @@ ADA University
 
 ✅ Master the portfolio variance formula
 
-✅ Remember: Cov = 0 does NOT mean independence!
+✅ Remember: Cov = 0 ≠ independence!
 
 ✅ Work hard!
 :::
 :::
+:::
 
-## ❓ Questions? {.center}
+## ❓ Questions?
 
+::: {style="font-size: 28px"}
 ::: {.callout-note}
 ## 💬 Open Discussion
 
@@ -1136,4 +1049,5 @@ ADA University
 - How would you estimate covariance from sample data? What are the challenges?
 
 - What happens to diversification benefits during financial crises when correlations spike?
+:::
 :::

@@ -370,7 +370,8 @@ viewof threshold = {
   const input = Inputs.range([0.2, 2], {
     value: 1, 
     step: 0.1, 
-    label: "Threshold c:"
+    label: "Threshold c:",
+    format: d => d.toFixed(2)
   });
   
   // Prevent slide navigation when interacting with slider
@@ -461,9 +462,12 @@ ${threshold <= 1 ?
       }),
       Plot.frame({stroke: "black", strokeWidth: 2}),
       Plot.line(
+        // Line y₁ + y₂ = c clipped to unit square [0,1]²
+        // Start point: where line intersects y₁=0 or y₂=1
+        // End point: where line intersects y₂=0 or y₁=1
         threshold <= 2 ? [
-          {y1: 0, y2: Math.min(threshold, 1)},
-          {y1: Math.min(threshold, 1), y2: 0}
+          {y1: threshold <= 1 ? 0 : threshold - 1, y2: threshold <= 1 ? threshold : 1},
+          {y1: threshold <= 1 ? threshold : 1, y2: threshold <= 1 ? 0 : threshold - 1}
         ] : [],
         { x: "y1", y: "y2", stroke: "red", strokeWidth: 3, strokeDasharray: "5,3" }
       ),
@@ -512,15 +516,49 @@ Plotly = require("https://cdn.plot.ly/plotly-2.27.0.min.js")
     contours: { z: { show: true, usecolormap: true, project: {z: true} } }
   }];
   
+  // Add dots filling the 3D volume within the integration region
+  const dot_y1 = [], dot_y2 = [], dot_z = [];
+  const dot_spacing = 0.15;
+  for (let i = 0; i <= 1; i += dot_spacing) {
+    for (let j = 0; j <= 1; j += dot_spacing) {
+      if (i + j <= threshold) {
+        for (let k = 0; k <= 1; k += dot_spacing) {
+          dot_y1.push(i);
+          dot_y2.push(j);
+          dot_z.push(k);
+        }
+      }
+    }
+  }
+  if (dot_y1.length > 0) {
+    data.push({
+      type: 'scatter3d',
+      mode: 'markers',
+      x: dot_y1,
+      y: dot_y2,
+      z: dot_z,
+      marker: {
+        size: 2.5,
+        color: '#1e40af',
+        opacity: 0.5
+      },
+      showlegend: false
+    });
+  }
+  
   if (threshold <= 2) {
     const line_y1 = [], line_y2 = [], line_z = [];
+    // Constraint line y₁ + y₂ = c clipped to unit square
+    const start_y1 = threshold <= 1 ? 0 : threshold - 1;
+    const start_y2 = threshold <= 1 ? threshold : 1;
+    const end_y1 = threshold <= 1 ? threshold : 1;
+    const end_y2 = threshold <= 1 ? 0 : threshold - 1;
+    
     for (let i = 0; i <= 50; i++) {
       const t = i / 50;
-      const y1 = t * Math.min(threshold, 1);
-      const y2 = Math.min(threshold - y1, 1);
-      if (y1 >= 0 && y1 <= 1 && y2 >= 0 && y2 <= 1) {
-        line_y1.push(y1); line_y2.push(y2); line_z.push(0);
-      }
+      const y1 = start_y1 + t * (end_y1 - start_y1);
+      const y2 = start_y2 + t * (end_y2 - start_y2);
+      line_y1.push(y1); line_y2.push(y2); line_z.push(0);
     }
     data.push({ type: 'scatter3d', mode: 'lines', x: line_y1, y: line_y2, z: line_z,
       line: { color: 'red', width: 5 }, showlegend: false });
