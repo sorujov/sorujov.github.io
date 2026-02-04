@@ -137,7 +137,46 @@ author_profile: true
 </div>
 
 <div class="poetry-section">
-  <h3>🌙 Persian Poetry Translations</h3>
+  <h3>� Bilingual Poetry (Persian-Azeri)</h3>
+  <p>Original poems employing code-switching between Azeri Turkish and Persian, a technique rooted in the classical Azerbaijani literary tradition exemplified by masters like Fuzuli.</p>
+  
+  <div class="poem-grid">
+    {% assign bilingual_poems = site.poems | where: "language", "persian-azeri" | where: "type", "original" %}
+    {% for poem in bilingual_poems %}
+      <div class="poem-card">
+        <div class="poem-title">{{ poem.title }}</div>
+        <div class="poem-meta">
+          <span class="poem-language">Persian-Azeri</span>
+          <span class="poem-type">Original</span>
+        </div>
+        {% if poem.date %}
+          <div class="poem-meta">{{ poem.date | date: "%B %Y" }}</div>
+        {% endif %}
+        {% if poem.submission %}
+          <div class="poem-meta">Submitted to: {{ poem.submission }}</div>
+        {% endif %}
+        {% if poem.excerpt %}
+          <div class="poem-excerpt">{{ poem.excerpt | strip_html | truncate: 150 }}</div>
+        {% endif %}
+        <a href="{{ poem.url | relative_url }}" class="read-more">Read Full Poem →</a>
+      </div>
+    {% endfor %}
+    
+    {% if bilingual_poems.size == 0 %}
+      <div class="poem-card">
+        <div class="poem-title">Coming Soon</div>
+        <div class="poem-meta">
+          <span class="poem-language">Persian-Azeri</span>
+          <span class="poem-type">Original</span>
+        </div>
+        <div class="poem-excerpt">Bilingual poems in the classical Fuzuli tradition will be featured here.</div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<div class="poetry-section">
+  <h3>�🌙 Persian Poetry Translations</h3>
   <p>My translations of classical Persian poetry, particularly the mystical verses of Rumi and other Sufi masters, bridging cultures through the universal language of poetry.</p>
   
   <div class="poem-grid">
