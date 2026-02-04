@@ -208,6 +208,9 @@ classes: wide
       <a href="/lectures/math_stat_2_spring_2026/chapter_5/multivariate_lecture2.html" class="btn btn--primary">
         🚀 Lecture 2: Marginal & Conditional Distributions
       </a>
+            <a href="/lectures/math_stat_2_spring_2026/chapter_5/multivariate_lecture3.html" class="btn btn--primary">
+        🚀 Lecture 3: Expected Values, Covariance, and Correlation
+      </a>
     </div>
 
     <div class="video-lecture-section">
