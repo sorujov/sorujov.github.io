@@ -6,11 +6,11 @@
 <script src="functions_rv_lecture2_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="functions_rv_lecture2_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="functions_rv_lecture2_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="functions_rv_lecture2_files/libs/quarto-html/quarto-syntax-highlighting-795e9e8eca1e12b12abcb09a27409631.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.8.27">
+<link href="functions_rv_lecture2_files/libs/quarto-html/quarto-syntax-highlighting-e41caad1b6b9b62eb3087831f3b4c651.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.25">
 
   <meta name="author" content="Samir Orujov, PhD">
-  <meta name="dcterms.date" content="2026-01-20">
+  <meta name="dcterms.date" content="2026-02-08">
   <title>Mathematical Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -191,6 +191,10 @@
   </style>
   <script type="module" src="functions_rv_lecture2_files/libs/quarto-ojs/quarto-ojs-runtime.js"></script>
   <link href="functions_rv_lecture2_files/libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+  <link href="functions_rv_lecture2_files/libs/countdown-0.6.0/countdown.css" rel="stylesheet">
+
+  <script src="functions_rv_lecture2_files/libs/countdown-0.6.0/countdown.js"></script>
+
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -214,9 +218,9 @@ Samir Orujov, PhD
     </div>
 </div>
 
-  <p class="date">2026-01-20</p>
+  <p class="date">2026-02-08</p>
 </section>
-<section id="learning-objectives" class="slide level2 smaller">
+<section id="learning-objectives" class="slide level2">
 <h2>🎯 Learning Objectives</h2>
 <div class="learning-objectives">
 <p>By the end of this lecture, you will be able to:</p>
@@ -229,9 +233,9 @@ Samir Orujov, PhD
 </ul>
 </div>
 </section>
-<section id="overview" class="slide level2 smaller">
+<section id="overview" class="slide level2">
 <h2>📋 Overview</h2>
-<div style="font-size:38px">
+<div style="font-size:50px">
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -253,7 +257,47 @@ Samir Orujov, PhD
 </div>
 </div>
 </section>
-<section id="recall-distribution-function-method" class="slide level2 smaller">
+<section id="why-faster-transformation-methods" class="slide level2">
+<h2>📖 Why Faster Transformation Methods?</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>🎯 Motivation</strong></p>
+</div>
+<div class="callout-content">
+<div style="font-size:30px; margin-top: -20px;">
+<p>The distribution function method from last lecture <strong>works</strong> but can be tedious. In finance, we need <strong>efficient tools</strong>:</p>
+<div class="columns">
+<div class="column" style="margin-top: -20px;">
+<div class="fragment">
+<p><strong>Direct Formula Needed For:</strong></p>
+<ul>
+<li>Modeling stock prices as exponentials of normal returns (log-normal)</li>
+<li>Simulating asset paths from uniform random numbers</li>
+<li>Pricing derivatives requiring PDF transformations</li>
+<li>Converting between return types (simple vs log)</li>
+</ul>
+</div>
+</div><div class="column" style="margin-top: -20px;">
+<div class="fragment">
+<p><strong>MGF Method Needed For:</strong></p>
+<ul>
+<li>Finding portfolio return distributions (sums of asset returns)</li>
+<li>Proving normality of diversified portfolios</li>
+<li>Insurance claim aggregation (sum of exponentials)</li>
+<li>Testing portfolio variance with chi-square distributions</li>
+</ul>
+</div>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="recall-distribution-function-method" class="slide level2">
 <h2>📖 Recall: Distribution Function Method</h2>
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
@@ -277,7 +321,7 @@ Samir Orujov, PhD
 <p><strong>Today’s Question:</strong> Can we get a <strong>direct formula</strong> for <span class="math inline">\(f_U(u)\)</span> without going through the CDF?</p>
 <p><strong>Answer:</strong> Yes! The method of transformations provides exactly this shortcut.</p>
 </section>
-<section id="definition-method-of-transformations" class="slide level2 smaller">
+<section id="definition-method-of-transformations" class="slide level2">
 <h2>📖 Definition: Method of Transformations</h2>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
@@ -299,7 +343,7 @@ Samir Orujov, PhD
 </div>
 </div>
 </section>
-<section id="why-does-the-jacobian-appear" class="slide level2 smaller">
+<section id="why-does-the-jacobian-appear" class="slide level2">
 <h2>🧮 Why Does the Jacobian Appear?</h2>
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
@@ -311,8 +355,12 @@ Samir Orujov, PhD
 </div>
 <div class="callout-content">
 <p>Consider a small interval <span class="math inline">\([y, y + dy]\)</span> that maps to <span class="math inline">\([u, u + du]\)</span>.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
 <p><strong>Probability is conserved:</strong> <span class="math display">\[f_Y(y) \, dy = f_U(u) \, du\]</span></p>
+</div><div class="column" style="width:50%;">
 <p>Solving for <span class="math inline">\(f_U(u)\)</span>: <span class="math display">\[f_U(u) = f_Y(y) \cdot \frac{dy}{du} = f_Y(h(u)) \cdot |h'(u)|\]</span></p>
+</div></div>
 <p>The absolute value ensures the density is positive!</p>
 </div>
 </div>
@@ -332,25 +380,34 @@ Samir Orujov, PhD
 </ul>
 </div></div>
 </section>
-<section id="example-1-exponential-to-uniform" class="slide level2 smaller">
-<h2>📌 Example 1: Exponential to Uniform</h2>
-<p><strong>Problem:</strong> Let <span class="math inline">\(Y \sim \text{Exponential}(\beta)\)</span>. Find the distribution of <span class="math inline">\(U = 1 - e^{-Y/\beta}\)</span>.</p>
+<section id="example-1-simulating-default-times" class="slide level2 smaller">
+<h2>📌 Example 1: Simulating Default Times</h2>
+<p><strong>Problem:</strong> A bank models time-to-default of a loan as <span class="math inline">\(Y \sim \text{Exponential}(\beta)\)</span>. To simulate defaults using uniform random numbers, define <span class="math inline">\(U = 1 - e^{-Y/\beta}\)</span>. Find the distribution of <span class="math inline">\(U\)</span>.</p>
 <p><strong>Solution:</strong></p>
 <div class="fragment">
 <p><strong>Step 1:</strong> Identify <span class="math inline">\(g(y) = 1 - e^{-y/\beta}\)</span>. This is strictly increasing on <span class="math inline">\(y &gt; 0\)</span>.</p>
 </div>
 <div class="fragment">
-<p><strong>Step 2:</strong> Find the inverse. From <span class="math inline">\(u = 1 - e^{-y/\beta}\)</span>: <span class="math display">\[e^{-y/\beta} = 1 - u \implies y = -\beta \ln(1-u) = h(u)\]</span></p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="fragment">
+<p><strong>Step 2:</strong> Find the inverse. From <span class="math inline">\(u = 1 - e^{-y/\beta}\)</span>:</p>
+<p><span class="math display">\[e^{-y/\beta} = 1 - u \implies y = -\beta \ln(1-u) = h(u)\]</span></p>
 </div>
+</div><div class="column" style="width:50%;">
 <div class="fragment">
 <p><strong>Step 3:</strong> Compute the Jacobian: <span class="math display">\[h'(u) = \frac{d}{du}[-\beta \ln(1-u)] = \frac{\beta}{1-u}\]</span></p>
 </div>
+</div></div>
+</div>
 <div class="fragment">
-<p><strong>Step 4:</strong> Apply the formula. Since <span class="math inline">\(f_Y(y) = \frac{1}{\beta}e^{-y/\beta}\)</span>: <span class="math display">\[f_U(u) = \frac{1}{\beta}e^{-h(u)/\beta} \cdot \frac{\beta}{1-u} = \frac{1}{\beta}(1-u) \cdot \frac{\beta}{1-u} = 1\]</span></p>
-<p>for <span class="math inline">\(0 &lt; u &lt; 1\)</span>. <strong>This is Uniform(0,1)!</strong></p>
+<div style="margin-top: -20px;">
+<p><strong>Step 4:</strong> Apply the formula. Since <span class="math inline">\(f_Y(y) = \frac{1}{\beta}e^{-y/\beta}\)</span>: <span class="math display">\[f_U(u) = \frac{1}{\beta}e^{-h(u)/\beta} \cdot \frac{\beta}{1-u} = \frac{1}{\beta}(1-u) \cdot \frac{\beta}{1-u} = 1 \; \text{for} \; 0 &lt; u &lt; 1 \rightarrow \text{Uniform}(0,1)!\]</span></p>
+</div>
+<p><strong>Finance Application:</strong> Any exponential default time can be simulated from Uniform(0,1) – the basis of Monte Carlo credit risk models.</p>
 </div>
 </section>
-<section id="theorem-probability-integral-transform" class="slide level2 smaller">
+<section id="theorem-probability-integral-transform" class="slide level2">
 <h2>🧮 Theorem: Probability Integral Transform</h2>
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
@@ -362,18 +419,33 @@ Samir Orujov, PhD
 </div>
 <div class="callout-content">
 <p>Let <span class="math inline">\(Y\)</span> be a continuous random variable with CDF <span class="math inline">\(F_Y(y)\)</span>.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
 <p><strong>Part 1:</strong> If <span class="math inline">\(U = F_Y(Y)\)</span>, then <span class="math inline">\(U \sim \text{Uniform}(0, 1)\)</span>.</p>
+</div><div class="column" style="width:50%;">
 <p><strong>Part 2:</strong> Conversely, if <span class="math inline">\(U \sim \text{Uniform}(0, 1)\)</span>, then <span class="math inline">\(Y = F_Y^{-1}(U)\)</span> has CDF <span class="math inline">\(F_Y\)</span>.</p>
+</div></div>
 </div>
 </div>
 </div>
 <p><strong>Why This Matters:</strong></p>
+<div class="columns" style="font-size: 0.75em; margin-top: -20px;">
+<div class="column" style="width:33%;">
 <ul>
 <li><strong>Simulation:</strong> Generate any distribution from uniform random numbers!</li>
+</ul>
+</div><div class="column" style="width:33%;">
+<ul>
 <li><strong>Goodness-of-fit:</strong> Transform data to uniform for testing</li>
+</ul>
+</div><div class="column" style="width:34%;">
+<ul>
 <li><strong>Copulas:</strong> Model dependence using uniform marginals</li>
 </ul>
+</div></div>
+<div class="fragment">
 <p><strong>Finance Application:</strong> Generate correlated asset returns by transforming correlated uniforms.</p>
+</div>
 </section>
 <section id="example-2-log-normal-distribution" class="slide level2 smaller">
 <h2>📌 Example 2: Log-Normal Distribution</h2>
@@ -396,7 +468,7 @@ Samir Orujov, PhD
 <p>This is the <strong>Log-Normal distribution</strong>: <span class="math inline">\(U \sim \text{LogNormal}(\mu, \sigma^2)\)</span>.</p>
 </div>
 </section>
-<section id="the-log-normal-in-finance" class="slide level2 smaller">
+<section id="the-log-normal-in-finance" class="slide level2">
 <h2>📖 The Log-Normal in Finance</h2>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
@@ -413,7 +485,7 @@ Samir Orujov, PhD
 </div>
 </div>
 </div>
-<div class="columns">
+<div class="columns" style="font-size: 0.75em; margin-top: -20px;">
 <div class="column" style="width:50%;">
 <p><strong>Properties of Log-Normal:</strong></p>
 <ul>
@@ -430,29 +502,43 @@ Samir Orujov, PhD
 </section>
 <section id="interactive-log-normal-parameters" class="slide level2 smaller">
 <h2>🎮 Interactive: Log-Normal Parameters</h2>
-<div style="font-size: 0.8em;">
-<p><strong>Explore:</strong> How do <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span> affect the log-normal distribution?</p>
+<div style="font-size: 0.75em; margin-top: -8px;">
+<p><strong>Explore:</strong> How do <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span> affect the log-normal stock price distribution?</p>
 <div class="columns">
 <div class="column" style="width:30%;">
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="270" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 269;"><span id="cb1-270"><a href=""></a>viewof mu_ln <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="op">-</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> {</span>
-<span id="cb1-271"><a href=""></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> </span>
-<span id="cb1-272"><a href=""></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span> </span>
-<span id="cb1-273"><a href=""></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"μ (log-scale mean):"</span></span>
-<span id="cb1-274"><a href=""></a>})</span>
-<span id="cb1-275"><a href=""></a></span>
-<span id="cb1-276"><a href=""></a>viewof sigma_ln <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.1</span><span class="op">,</span> <span class="fl">1.5</span>]<span class="op">,</span> {</span>
-<span id="cb1-277"><a href=""></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> </span>
-<span id="cb1-278"><a href=""></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span> </span>
-<span id="cb1-279"><a href=""></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"σ (log-scale std):"</span></span>
-<span id="cb1-280"><a href=""></a>})</span>
-<span id="cb1-281"><a href=""></a></span>
-<span id="cb1-282"><a href=""></a><span class="co">// Log-normal statistics</span></span>
-<span id="cb1-283"><a href=""></a>ln_mean <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(mu_ln <span class="op">+</span> sigma_ln <span class="op">*</span> sigma_ln <span class="op">/</span> <span class="dv">2</span>)</span>
-<span id="cb1-284"><a href=""></a>ln_median <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(mu_ln)</span>
-<span id="cb1-285"><a href=""></a>ln_mode <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(mu_ln <span class="op">-</span> sigma_ln <span class="op">*</span> sigma_ln)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="350" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 349;"><span id="cb1-350"><a href=""></a>viewof mu_ln <span class="op">=</span> {</span>
+<span id="cb1-351"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="op">-</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> {</span>
+<span id="cb1-352"><a href=""></a>    <span class="dt">value</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb1-353"><a href=""></a>    <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span></span>
+<span id="cb1-354"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"μ (log-scale mean):"</span></span>
+<span id="cb1-355"><a href=""></a>  })<span class="op">;</span></span>
+<span id="cb1-356"><a href=""></a></span>
+<span id="cb1-357"><a href=""></a>  [<span class="st">'pointerdown'</span><span class="op">,</span> <span class="st">'touchstart'</span><span class="op">,</span> <span class="st">'mousedown'</span><span class="op">,</span> <span class="st">'click'</span><span class="op">,</span> <span class="st">'wheel'</span><span class="op">,</span> <span class="st">'pointermove'</span><span class="op">,</span> <span class="st">'touchmove'</span><span class="op">,</span> <span class="st">'mousemove'</span>]<span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span></span>
+<span id="cb1-358"><a href=""></a>    input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>())</span>
+<span id="cb1-359"><a href=""></a>  )<span class="op">;</span></span>
+<span id="cb1-360"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb1-361"><a href=""></a>}</span>
+<span id="cb1-362"><a href=""></a></span>
+<span id="cb1-363"><a href=""></a>viewof sigma_ln <span class="op">=</span> {</span>
+<span id="cb1-364"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.1</span><span class="op">,</span> <span class="fl">1.5</span>]<span class="op">,</span> {</span>
+<span id="cb1-365"><a href=""></a>    <span class="dt">value</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span></span>
+<span id="cb1-366"><a href=""></a>    <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span></span>
+<span id="cb1-367"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"σ (log-scale std):"</span></span>
+<span id="cb1-368"><a href=""></a>  })<span class="op">;</span></span>
+<span id="cb1-369"><a href=""></a></span>
+<span id="cb1-370"><a href=""></a>  [<span class="st">'pointerdown'</span><span class="op">,</span> <span class="st">'touchstart'</span><span class="op">,</span> <span class="st">'mousedown'</span><span class="op">,</span> <span class="st">'click'</span><span class="op">,</span> <span class="st">'wheel'</span><span class="op">,</span> <span class="st">'pointermove'</span><span class="op">,</span> <span class="st">'touchmove'</span><span class="op">,</span> <span class="st">'mousemove'</span>]<span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span></span>
+<span id="cb1-371"><a href=""></a>    input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>())</span>
+<span id="cb1-372"><a href=""></a>  )<span class="op">;</span></span>
+<span id="cb1-373"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb1-374"><a href=""></a>}</span>
+<span id="cb1-375"><a href=""></a></span>
+<span id="cb1-376"><a href=""></a><span class="co">// Log-normal statistics</span></span>
+<span id="cb1-377"><a href=""></a>ln_mean <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(mu_ln <span class="op">+</span> sigma_ln <span class="op">*</span> sigma_ln <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb1-378"><a href=""></a>ln_median <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(mu_ln)</span>
+<span id="cb1-379"><a href=""></a>ln_mode <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(mu_ln <span class="op">-</span> sigma_ln <span class="op">*</span> sigma_ln)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -497,28 +583,28 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="302" data-source-offset="-28"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 301;"><span id="cb2-302"><a href=""></a>lnPdf <span class="op">=</span> {</span>
-<span id="cb2-303"><a href=""></a>  <span class="kw">const</span> points <span class="op">=</span> []<span class="op">;</span></span>
-<span id="cb2-304"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> x <span class="op">=</span> <span class="fl">0.01</span><span class="op">;</span> x <span class="op">&lt;=</span> <span class="dv">8</span><span class="op">;</span> x <span class="op">+=</span> <span class="fl">0.05</span>) {</span>
-<span id="cb2-305"><a href=""></a>    <span class="kw">const</span> logx <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(x)<span class="op">;</span></span>
-<span id="cb2-306"><a href=""></a>    <span class="kw">const</span> pdf <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(<span class="op">-</span>(logx <span class="op">-</span> mu_ln) <span class="op">*</span> (logx <span class="op">-</span> mu_ln) <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> sigma_ln <span class="op">*</span> sigma_ln)) <span class="op">/</span> (x <span class="op">*</span> sigma_ln <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(<span class="dv">2</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span>))<span class="op">;</span></span>
-<span id="cb2-307"><a href=""></a>    points<span class="op">.</span><span class="fu">push</span>({<span class="dt">x</span><span class="op">:</span> x<span class="op">,</span> <span class="dt">pdf</span><span class="op">:</span> pdf})<span class="op">;</span></span>
-<span id="cb2-308"><a href=""></a>  }</span>
-<span id="cb2-309"><a href=""></a>  <span class="cf">return</span> points<span class="op">;</span></span>
-<span id="cb2-310"><a href=""></a>}</span>
-<span id="cb2-311"><a href=""></a></span>
-<span id="cb2-312"><a href=""></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
-<span id="cb2-313"><a href=""></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">480</span><span class="op">,</span></span>
-<span id="cb2-314"><a href=""></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">320</span><span class="op">,</span></span>
-<span id="cb2-315"><a href=""></a>  <span class="dt">x</span><span class="op">:</span> { <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">8</span>]<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"U = eʸ"</span> }<span class="op">,</span></span>
-<span id="cb2-316"><a href=""></a>  <span class="dt">y</span><span class="op">:</span> { <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Density"</span> }<span class="op">,</span></span>
-<span id="cb2-317"><a href=""></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
-<span id="cb2-318"><a href=""></a>    Plot<span class="op">.</span><span class="fu">line</span>(lnPdf<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"pdf"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"steelblue"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span>})<span class="op">,</span></span>
-<span id="cb2-319"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([ln_mean]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"red"</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"5,5"</span>})<span class="op">,</span></span>
-<span id="cb2-320"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([ln_median]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"green"</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"3,3"</span>})<span class="op">,</span></span>
-<span id="cb2-321"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
-<span id="cb2-322"><a href=""></a>  ]</span>
-<span id="cb2-323"><a href=""></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="396" data-source-offset="-28"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 395;"><span id="cb2-396"><a href=""></a>lnPdf <span class="op">=</span> {</span>
+<span id="cb2-397"><a href=""></a>  <span class="kw">const</span> points <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb2-398"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> x <span class="op">=</span> <span class="fl">0.01</span><span class="op">;</span> x <span class="op">&lt;=</span> <span class="dv">8</span><span class="op">;</span> x <span class="op">+=</span> <span class="fl">0.05</span>) {</span>
+<span id="cb2-399"><a href=""></a>    <span class="kw">const</span> logx <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(x)<span class="op">;</span></span>
+<span id="cb2-400"><a href=""></a>    <span class="kw">const</span> pdf <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(<span class="op">-</span>(logx <span class="op">-</span> mu_ln) <span class="op">*</span> (logx <span class="op">-</span> mu_ln) <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> sigma_ln <span class="op">*</span> sigma_ln)) <span class="op">/</span> (x <span class="op">*</span> sigma_ln <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(<span class="dv">2</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span>))<span class="op">;</span></span>
+<span id="cb2-401"><a href=""></a>    points<span class="op">.</span><span class="fu">push</span>({<span class="dt">x</span><span class="op">:</span> x<span class="op">,</span> <span class="dt">pdf</span><span class="op">:</span> pdf})<span class="op">;</span></span>
+<span id="cb2-402"><a href=""></a>  }</span>
+<span id="cb2-403"><a href=""></a>  <span class="cf">return</span> points<span class="op">;</span></span>
+<span id="cb2-404"><a href=""></a>}</span>
+<span id="cb2-405"><a href=""></a></span>
+<span id="cb2-406"><a href=""></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb2-407"><a href=""></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">620</span><span class="op">,</span></span>
+<span id="cb2-408"><a href=""></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">400</span><span class="op">,</span></span>
+<span id="cb2-409"><a href=""></a>  <span class="dt">x</span><span class="op">:</span> { <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">8</span>]<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"U = eʸ"</span> }<span class="op">,</span></span>
+<span id="cb2-410"><a href=""></a>  <span class="dt">y</span><span class="op">:</span> { <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Density"</span> }<span class="op">,</span></span>
+<span id="cb2-411"><a href=""></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb2-412"><a href=""></a>    Plot<span class="op">.</span><span class="fu">line</span>(lnPdf<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"pdf"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"steelblue"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span>})<span class="op">,</span></span>
+<span id="cb2-413"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([ln_mean]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"red"</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"5,5"</span>})<span class="op">,</span></span>
+<span id="cb2-414"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([ln_median]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"green"</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"3,3"</span>})<span class="op">,</span></span>
+<span id="cb2-415"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
+<span id="cb2-416"><a href=""></a>  ]</span>
+<span id="cb2-417"><a href=""></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -539,7 +625,7 @@ Samir Orujov, PhD
 </div></div>
 </div>
 </section>
-<section id="method-of-moment-generating-functions" class="slide level2 smaller">
+<section id="method-of-moment-generating-functions" class="slide level2">
 <h2>📖 Method of Moment-Generating Functions</h2>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
@@ -562,7 +648,7 @@ Samir Orujov, PhD
 <li>Avoiding complex integration</li>
 </ul>
 </section>
-<section id="key-mgf-property-sums-of-independent-rvs" class="slide level2 smaller">
+<section id="key-mgf-property-sums-of-independent-rvs" class="slide level2">
 <h2>🧮 Key MGF Property: Sums of Independent RVs</h2>
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
@@ -582,9 +668,9 @@ Samir Orujov, PhD
 </div>
 <p><strong>Power of This Result:</strong> Instead of complex convolution integrals, just multiply MGFs!</p>
 </section>
-<section id="example-3-sum-of-independent-normals" class="slide level2 smaller">
-<h2>📌 Example 3: Sum of Independent Normals</h2>
-<p><strong>Problem:</strong> If <span class="math inline">\(Y_1 \sim N(\mu_1, \sigma_1^2)\)</span> and <span class="math inline">\(Y_2 \sim N(\mu_2, \sigma_2^2)\)</span> are independent, find the distribution of <span class="math inline">\(U = Y_1 + Y_2\)</span>.</p>
+<section id="example-3-two-asset-portfolio-return" class="slide level2 smaller">
+<h2>📌 Example 3: Two-Asset Portfolio Return</h2>
+<p><strong>Problem:</strong> A portfolio holds two uncorrelated assets with returns <span class="math inline">\(Y_1 \sim N(\mu_1, \sigma_1^2)\)</span> and <span class="math inline">\(Y_2 \sim N(\mu_2, \sigma_2^2)\)</span>, independent. Find the distribution of the total return <span class="math inline">\(U = Y_1 + Y_2\)</span>.</p>
 <p><strong>Solution:</strong></p>
 <div class="fragment">
 <p><strong>Step 1:</strong> Recall the normal MGF: <span class="math inline">\(M_Y(t) = e^{\mu t + \sigma^2 t^2/2}\)</span></p>
@@ -598,12 +684,12 @@ Samir Orujov, PhD
 <div class="fragment">
 <p><strong>Step 3:</strong> Recognize this as the MGF of <span class="math inline">\(N(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2)\)</span></p>
 <p><span class="math display">\[\boxed{Y_1 + Y_2 \sim N(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2)}\]</span></p>
-<p><strong>Note:</strong> Variances <strong>add</strong> for independent variables!</p>
+<p><strong>Portfolio Insight:</strong> Variances <strong>add</strong> for uncorrelated assets – this is why diversification across truly independent markets reduces risk most effectively!</p>
 </div>
 </section>
-<section id="example-4-sum-of-independent-exponentials" class="slide level2 smaller">
-<h2>📌 Example 4: Sum of Independent Exponentials</h2>
-<p><strong>Problem:</strong> If <span class="math inline">\(Y_1, Y_2, \ldots, Y_n\)</span> are independent <span class="math inline">\(\text{Exponential}(\beta)\)</span>, find the distribution of <span class="math inline">\(U = \sum_{i=1}^n Y_i\)</span>.</p>
+<section id="example-4-total-insurance-claim-processing-time" class="slide level2 smaller">
+<h2>📌 Example 4: Total Insurance Claim Processing Time</h2>
+<p><strong>Problem:</strong> An insurance company processes <span class="math inline">\(n\)</span> independent claims, each taking <span class="math inline">\(Y_i \sim \text{Exponential}(\beta)\)</span> days. Find the distribution of total processing time <span class="math inline">\(U = \sum_{i=1}^n Y_i\)</span>.</p>
 <p><strong>Solution:</strong></p>
 <div class="fragment">
 <p><strong>Step 1:</strong> Exponential MGF: <span class="math inline">\(M_Y(t) = (1 - \beta t)^{-1}\)</span> for <span class="math inline">\(t &lt; 1/\beta\)</span></p>
@@ -614,12 +700,12 @@ Samir Orujov, PhD
 <div class="fragment">
 <p><strong>Step 3:</strong> Recognize as Gamma MGF with <span class="math inline">\(\alpha = n\)</span>:</p>
 <p><span class="math display">\[\boxed{U = \sum_{i=1}^n Y_i \sim \text{Gamma}(n, \beta)}\]</span></p>
-<p><strong>Interpretation:</strong> Sum of <span class="math inline">\(n\)</span> independent exponentials is Gamma!</p>
+<p><strong>Insurance Insight:</strong> Total time to process <span class="math inline">\(n\)</span> claims follows a Gamma distribution – actuaries use Gamma quantiles to plan staffing and reserves.</p>
 </div>
 </section>
-<section id="example-5-chi-square-as-sum-of-squared-normals" class="slide level2 smaller">
-<h2>📌 Example 5: Chi-Square as Sum of Squared Normals</h2>
-<p><strong>Problem:</strong> If <span class="math inline">\(Z_1, Z_2, \ldots, Z_n\)</span> are independent <span class="math inline">\(N(0, 1)\)</span>, what is the distribution of <span class="math inline">\(U = \sum_{i=1}^n Z_i^2\)</span>?</p>
+<section id="example-5-testing-portfolio-variance" class="slide level2 smaller">
+<h2>📌 Example 5: Testing Portfolio Variance</h2>
+<p><strong>Problem:</strong> A risk analyst standardizes <span class="math inline">\(n\)</span> independent asset returns to get <span class="math inline">\(Z_i \sim N(0,1)\)</span>. To test portfolio variance, they compute <span class="math inline">\(U = \sum_{i=1}^n Z_i^2\)</span>. What is the distribution of <span class="math inline">\(U\)</span>?</p>
 <p><strong>Solution:</strong></p>
 <div class="fragment">
 <p><strong>Step 1:</strong> We showed <span class="math inline">\(Z^2 \sim \chi^2(1)\)</span>, which has MGF: <span class="math inline">\(M_{Z^2}(t) = (1 - 2t)^{-1/2}\)</span></p>
@@ -630,162 +716,171 @@ Samir Orujov, PhD
 <div class="fragment">
 <p><strong>Step 3:</strong> This is the MGF of <span class="math inline">\(\chi^2(n)\)</span>:</p>
 <p><span class="math display">\[\boxed{\sum_{i=1}^n Z_i^2 \sim \chi^2(n)}\]</span></p>
-<p><strong>Connection:</strong> <span class="math inline">\(\chi^2(n) = \text{Gamma}(n/2, 2)\)</span>, matching the Gamma MGF form!</p>
+<div style="font-size: 0.75em; margin-top: -20px;">
+<p><strong>Risk Testing:</strong> The <span class="math inline">\(\chi^2\)</span> distribution underlies variance tests in portfolio risk management – risk managers use it to test if realized volatility exceeds model predictions.</p>
+</div>
+</div>
+</section>
+<section id="case-study-portfolio-return-data" class="slide level2">
+<h2>💰 Case Study: Portfolio Return Data</h2>
+<div style="font-size:35px">
+<p><strong>Scenario:</strong> 40% AAPL, 35% MSFT, 25% GOOG (daily log returns, 2020-2024)</p>
+<div class="cell">
+<details class="code-fold">
+<summary>📊 Show Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb3-2"><a href=""></a><span class="fu">library</span>(tidyquant)</span>
+<span id="cb3-3"><a href=""></a><span class="fu">library</span>(knitr)</span>
+<span id="cb3-4"><a href=""></a></span>
+<span id="cb3-5"><a href=""></a><span class="co"># Download data for 3 assets</span></span>
+<span id="cb3-6"><a href=""></a>symbols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"AAPL"</span>, <span class="st">"MSFT"</span>, <span class="st">"GOOG"</span>)</span>
+<span id="cb3-7"><a href=""></a>prices <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(symbols, <span class="at">from =</span> <span class="st">"2020-01-01"</span>, <span class="at">to =</span> <span class="st">"2024-12-31"</span>)</span>
+<span id="cb3-8"><a href=""></a></span>
+<span id="cb3-9"><a href=""></a><span class="co"># Calculate log returns</span></span>
+<span id="cb3-10"><a href=""></a>returns <span class="ot">&lt;-</span> prices <span class="sc">%&gt;%</span></span>
+<span id="cb3-11"><a href=""></a>  <span class="fu">group_by</span>(symbol) <span class="sc">%&gt;%</span></span>
+<span id="cb3-12"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">log_ret =</span> <span class="fu">log</span>(adjusted <span class="sc">/</span> <span class="fu">lag</span>(adjusted))) <span class="sc">%&gt;%</span></span>
+<span id="cb3-13"><a href=""></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb3-14"><a href=""></a>  <span class="fu">select</span>(date, symbol, log_ret) <span class="sc">%&gt;%</span></span>
+<span id="cb3-15"><a href=""></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> symbol, <span class="at">values_from =</span> log_ret)</span>
+<span id="cb3-16"><a href=""></a></span>
+<span id="cb3-17"><a href=""></a><span class="co"># Portfolio weights</span></span>
+<span id="cb3-18"><a href=""></a>w <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">AAPL =</span> <span class="fl">0.4</span>, <span class="at">MSFT =</span> <span class="fl">0.35</span>, <span class="at">GOOG =</span> <span class="fl">0.25</span>)</span>
+<span id="cb3-19"><a href=""></a></span>
+<span id="cb3-20"><a href=""></a><span class="co"># Portfolio return (weighted sum)</span></span>
+<span id="cb3-21"><a href=""></a>returns <span class="ot">&lt;-</span> returns <span class="sc">%&gt;%</span></span>
+<span id="cb3-22"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">portfolio =</span> w[<span class="st">"AAPL"</span>]<span class="sc">*</span>AAPL <span class="sc">+</span> w[<span class="st">"MSFT"</span>]<span class="sc">*</span>MSFT <span class="sc">+</span> w[<span class="st">"GOOG"</span>]<span class="sc">*</span>GOOG)</span>
+<span id="cb3-23"><a href=""></a></span>
+<span id="cb3-24"><a href=""></a><span class="co"># Summary statistics table</span></span>
+<span id="cb3-25"><a href=""></a>summary_stats <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb3-26"><a href=""></a>  <span class="at">Asset =</span> <span class="fu">c</span>(<span class="st">"AAPL"</span>, <span class="st">"MSFT"</span>, <span class="st">"GOOG"</span>, <span class="st">"Portfolio"</span>),</span>
+<span id="cb3-27"><a href=""></a>  <span class="at">Weight =</span> <span class="fu">c</span>(<span class="st">"40%"</span>, <span class="st">"35%"</span>, <span class="st">"25%"</span>, <span class="st">"—"</span>),</span>
+<span id="cb3-28"><a href=""></a>  <span class="at">Mean =</span> <span class="fu">c</span>(<span class="fu">mean</span>(returns<span class="sc">$</span>AAPL), <span class="fu">mean</span>(returns<span class="sc">$</span>MSFT),</span>
+<span id="cb3-29"><a href=""></a>           <span class="fu">mean</span>(returns<span class="sc">$</span>GOOG), <span class="fu">mean</span>(returns<span class="sc">$</span>portfolio)) <span class="sc">*</span> <span class="dv">252</span> <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb3-30"><a href=""></a>  <span class="at">StdDev =</span> <span class="fu">c</span>(<span class="fu">sd</span>(returns<span class="sc">$</span>AAPL), <span class="fu">sd</span>(returns<span class="sc">$</span>MSFT),</span>
+<span id="cb3-31"><a href=""></a>             <span class="fu">sd</span>(returns<span class="sc">$</span>GOOG), <span class="fu">sd</span>(returns<span class="sc">$</span>portfolio)) <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">252</span>) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb3-32"><a href=""></a>)</span>
+<span id="cb3-33"><a href=""></a></span>
+<span id="cb3-34"><a href=""></a><span class="fu">kable</span>(summary_stats, <span class="at">digits =</span> <span class="dv">2</span>,</span>
+<span id="cb3-35"><a href=""></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Asset"</span>, <span class="st">"Weight"</span>, <span class="st">"Ann. Mean (%)"</span>, <span class="st">"Ann. SD (%)"</span>),</span>
+<span id="cb3-36"><a href=""></a>      <span class="at">caption =</span> <span class="st">"Daily Log Return Statistics (Annualized)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top">
+<caption>Daily Log Return Statistics (Annualized)</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Asset</th>
+<th style="text-align: left;">Weight</th>
+<th style="text-align: right;">Ann. Mean (%)</th>
+<th style="text-align: right;">Ann. SD (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">AAPL</td>
+<td style="text-align: left;">40%</td>
+<td style="text-align: right;">24.93</td>
+<td style="text-align: right;">31.66</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MSFT</td>
+<td style="text-align: left;">35%</td>
+<td style="text-align: right;">20.41</td>
+<td style="text-align: right;">30.53</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GOOG</td>
+<td style="text-align: left;">25%</td>
+<td style="text-align: right;">20.86</td>
+<td style="text-align: right;">32.42</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Portfolio</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: right;">22.33</td>
+<td style="text-align: right;">28.40</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </section>
 <section id="case-study-portfolio-return-distribution" class="slide level2 smaller">
 <h2>💰 Case Study: Portfolio Return Distribution</h2>
-<div style="font-size:22px">
-<div class="columns">
-<div class="column" style="width:50%;">
-<div class="cell">
+<div style="font-size:30px">
+<p><strong>Does the portfolio return look normal?</strong> MGF theory predicts yes, if returns are approximately normal and independent.</p>
+<div class="cell" data-layout-align="center">
 <details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb3-2"><a href=""></a><span class="fu">library</span>(tidyquant)</span>
-<span id="cb3-3"><a href=""></a></span>
-<span id="cb3-4"><a href=""></a><span class="co"># Download data for 3 assets</span></span>
-<span id="cb3-5"><a href=""></a>symbols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"AAPL"</span>, <span class="st">"MSFT"</span>, <span class="st">"GOOG"</span>)</span>
-<span id="cb3-6"><a href=""></a>prices <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(symbols, <span class="at">from =</span> <span class="st">"2020-01-01"</span>, <span class="at">to =</span> <span class="st">"2024-12-31"</span>)</span>
-<span id="cb3-7"><a href=""></a></span>
-<span id="cb3-8"><a href=""></a><span class="co"># Calculate log returns</span></span>
-<span id="cb3-9"><a href=""></a>returns <span class="ot">&lt;-</span> prices <span class="sc">%&gt;%</span></span>
-<span id="cb3-10"><a href=""></a>  <span class="fu">group_by</span>(symbol) <span class="sc">%&gt;%</span></span>
-<span id="cb3-11"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">log_ret =</span> <span class="fu">log</span>(adjusted <span class="sc">/</span> <span class="fu">lag</span>(adjusted))) <span class="sc">%&gt;%</span></span>
-<span id="cb3-12"><a href=""></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb3-13"><a href=""></a>  <span class="fu">select</span>(date, symbol, log_ret) <span class="sc">%&gt;%</span></span>
-<span id="cb3-14"><a href=""></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> symbol, <span class="at">values_from =</span> log_ret)</span>
-<span id="cb3-15"><a href=""></a></span>
-<span id="cb3-16"><a href=""></a><span class="co"># Portfolio weights</span></span>
-<span id="cb3-17"><a href=""></a>w <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">AAPL =</span> <span class="fl">0.4</span>, <span class="at">MSFT =</span> <span class="fl">0.35</span>, <span class="at">GOOG =</span> <span class="fl">0.25</span>)</span>
-<span id="cb3-18"><a href=""></a></span>
-<span id="cb3-19"><a href=""></a><span class="co"># Portfolio return (weighted sum)</span></span>
-<span id="cb3-20"><a href=""></a>returns <span class="ot">&lt;-</span> returns <span class="sc">%&gt;%</span></span>
-<span id="cb3-21"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">portfolio =</span> w[<span class="st">"AAPL"</span>]<span class="sc">*</span>AAPL <span class="sc">+</span> w[<span class="st">"MSFT"</span>]<span class="sc">*</span>MSFT <span class="sc">+</span> w[<span class="st">"GOOG"</span>]<span class="sc">*</span>GOOG)</span>
-<span id="cb3-22"><a href=""></a></span>
-<span id="cb3-23"><a href=""></a><span class="co"># Compare individual vs portfolio stats</span></span>
-<span id="cb3-24"><a href=""></a><span class="fu">cat</span>(<span class="st">"Individual Asset Statistics:</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Individual Asset Statistics:</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"AAPL - Mean: %.4f, SD: %.4f</span><span class="sc">\n</span><span class="st">"</span>, </span>
-<span id="cb5-2"><a href=""></a>            <span class="fu">mean</span>(returns<span class="sc">$</span>AAPL), <span class="fu">sd</span>(returns<span class="sc">$</span>AAPL)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>AAPL - Mean: 0.0010, SD: 0.0199</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"MSFT - Mean: %.4f, SD: %.4f</span><span class="sc">\n</span><span class="st">"</span>, </span>
-<span id="cb7-2"><a href=""></a>            <span class="fu">mean</span>(returns<span class="sc">$</span>MSFT), <span class="fu">sd</span>(returns<span class="sc">$</span>MSFT)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>MSFT - Mean: 0.0008, SD: 0.0192</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"GOOG - Mean: %.4f, SD: %.4f</span><span class="sc">\n</span><span class="st">"</span>, </span>
-<span id="cb9-2"><a href=""></a>            <span class="fu">mean</span>(returns<span class="sc">$</span>GOOG), <span class="fu">sd</span>(returns<span class="sc">$</span>GOOG)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>GOOG - Mean: 0.0008, SD: 0.0204</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Portfolio - Mean: %.4f, SD: %.4f</span><span class="sc">\n</span><span class="st">"</span>, </span>
-<span id="cb11-2"><a href=""></a>            <span class="fu">mean</span>(returns<span class="sc">$</span>portfolio), <span class="fu">sd</span>(returns<span class="sc">$</span>portfolio)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Portfolio - Mean: 0.0009, SD: 0.0179</code></pre>
-</div>
-</div>
-</div><div class="column" style="width:50%;">
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="co"># Plot portfolio return distribution</span></span>
-<span id="cb13-2"><a href=""></a><span class="fu">ggplot</span>(returns, <span class="fu">aes</span>(<span class="at">x =</span> portfolio)) <span class="sc">+</span></span>
-<span id="cb13-3"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(density)), </span>
-<span id="cb13-4"><a href=""></a>                 <span class="at">bins =</span> <span class="dv">50</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb13-5"><a href=""></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm,</span>
-<span id="cb13-6"><a href=""></a>                <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="fu">mean</span>(returns<span class="sc">$</span>portfolio),</span>
-<span id="cb13-7"><a href=""></a>                           <span class="at">sd =</span> <span class="fu">sd</span>(returns<span class="sc">$</span>portfolio)),</span>
-<span id="cb13-8"><a href=""></a>                <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb13-9"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Portfolio Return Distribution"</span>,</span>
-<span id="cb13-10"><a href=""></a>       <span class="at">subtitle =</span> <span class="st">"40% AAPL, 35% MSFT, 25% GOOG"</span>,</span>
-<span id="cb13-11"><a href=""></a>       <span class="at">x =</span> <span class="st">"Daily Log Return"</span>, <span class="at">y =</span> <span class="st">"Density"</span>) <span class="sc">+</span></span>
-<span id="cb13-12"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<summary>📊 Show Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="co"># Plot portfolio return distribution</span></span>
+<span id="cb4-2"><a href=""></a><span class="fu">ggplot</span>(returns, <span class="fu">aes</span>(<span class="at">x =</span> portfolio)) <span class="sc">+</span></span>
+<span id="cb4-3"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(density)),</span>
+<span id="cb4-4"><a href=""></a>                 <span class="at">bins =</span> <span class="dv">50</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb4-5"><a href=""></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm,</span>
+<span id="cb4-6"><a href=""></a>                <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="fu">mean</span>(returns<span class="sc">$</span>portfolio),</span>
+<span id="cb4-7"><a href=""></a>                           <span class="at">sd =</span> <span class="fu">sd</span>(returns<span class="sc">$</span>portfolio)),</span>
+<span id="cb4-8"><a href=""></a>                <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb4-9"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Portfolio Return Distribution"</span>,</span>
+<span id="cb4-10"><a href=""></a>       <span class="at">subtitle =</span> <span class="st">"40% AAPL, 35% MSFT, 25% GOOG | Red = Normal fit"</span>,</span>
+<span id="cb4-11"><a href=""></a>       <span class="at">x =</span> <span class="st">"Daily Log Return"</span>, <span class="at">y =</span> <span class="st">"Density"</span>) <span class="sc">+</span></span>
+<span id="cb4-12"><a href=""></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="functions_rv_lecture2_files/figure-revealjs/unnamed-chunk-4-1.png" width="576"></p>
+<p><img data-src="functions_rv_lecture2_files/figure-revealjs/unnamed-chunk-4-1.png" class="quarto-figure quarto-figure-center" width="768"></p>
 </figure>
 </div>
 </div>
 </div>
-</div></div>
 </div>
 </section>
-<section id="case-study-why-portfolio-sd-weighted-average-sd" class="slide level2 smaller">
-<h2>💰 Case Study: Why Portfolio SD &lt; Weighted Average SD</h2>
-<div style="font-size:26px">
+<section id="case-study-correlation-portfolio-math" class="slide level2">
+<h2>💰 Case Study: Correlation &amp; Portfolio Math</h2>
+<div style="font-size:38px;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell">
 <details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="co"># Correlation matrix</span></span>
-<span id="cb14-2"><a href=""></a>cor_matrix <span class="ot">&lt;-</span> <span class="fu">cor</span>(returns <span class="sc">%&gt;%</span> <span class="fu">select</span>(AAPL, MSFT, GOOG))</span>
-<span id="cb14-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"Correlation Matrix:</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<summary>📊 Show Analysis Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="co"># Correlation matrix</span></span>
+<span id="cb5-2"><a href=""></a>cor_matrix <span class="ot">&lt;-</span> <span class="fu">cor</span>(returns <span class="sc">%&gt;%</span> <span class="fu">select</span>(AAPL, MSFT, GOOG))</span>
+<span id="cb5-3"><a href=""></a><span class="fu">kable</span>(cor_matrix, <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">caption =</span> <span class="st">"Correlation Matrix"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Correlation Matrix:</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="fu">print</span>(<span class="fu">round</span>(cor_matrix, <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>      AAPL  MSFT  GOOG
-AAPL 1.000 0.751 0.651
-MSFT 0.751 1.000 0.745
-GOOG 0.651 0.745 1.000</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="co"># Weighted average of individual SDs</span></span>
-<span id="cb18-2"><a href=""></a>weighted_avg_sd <span class="ot">&lt;-</span> <span class="fu">sum</span>(w <span class="sc">*</span> <span class="fu">c</span>(<span class="fu">sd</span>(returns<span class="sc">$</span>AAPL), </span>
-<span id="cb18-3"><a href=""></a>                              <span class="fu">sd</span>(returns<span class="sc">$</span>MSFT), </span>
-<span id="cb18-4"><a href=""></a>                              <span class="fu">sd</span>(returns<span class="sc">$</span>GOOG)))</span>
-<span id="cb18-5"><a href=""></a></span>
-<span id="cb18-6"><a href=""></a><span class="co"># Actual portfolio SD</span></span>
-<span id="cb18-7"><a href=""></a>portfolio_sd <span class="ot">&lt;-</span> <span class="fu">sd</span>(returns<span class="sc">$</span>portfolio)</span>
-<span id="cb18-8"><a href=""></a></span>
-<span id="cb18-9"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Weighted Avg SD: %.4f</span><span class="sc">\n</span><span class="st">"</span>, weighted_avg_sd))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Weighted Avg SD: 0.0198</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Actual Portfolio SD: %.4f</span><span class="sc">\n</span><span class="st">"</span>, portfolio_sd))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Actual Portfolio SD: 0.0179</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Risk Reduction: %.1f%%</span><span class="sc">\n</span><span class="st">"</span>, </span>
-<span id="cb22-2"><a href=""></a>            <span class="dv">100</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> portfolio_sd<span class="sc">/</span>weighted_avg_sd)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Risk Reduction: 9.7%</code></pre>
+<div class="cell-output-display">
+<table class="caption-top">
+<caption>Correlation Matrix</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">AAPL</th>
+<th style="text-align: right;">MSFT</th>
+<th style="text-align: right;">GOOG</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">AAPL</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.751</td>
+<td style="text-align: right;">0.651</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MSFT</td>
+<td style="text-align: right;">0.751</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.745</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GOOG</td>
+<td style="text-align: right;">0.651</td>
+<td style="text-align: right;">0.745</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div><div class="column" style="width:50%;">
@@ -793,15 +888,69 @@ Weighted Avg SD: 0.0198</code></pre>
 <p><strong>The Math (from MGF perspective):</strong></p>
 <p>If returns were independent: <span class="math display">\[V(R_p) = w_1^2\sigma_1^2 + w_2^2\sigma_2^2 + w_3^2\sigma_3^2\]</span></p>
 <p>With correlation: <span class="math display">\[V(R_p) = \sum_i w_i^2\sigma_i^2 + 2\sum_{i&lt;j}w_i w_j \rho_{ij}\sigma_i\sigma_j\]</span></p>
-<p>Since <span class="math inline">\(\rho_{ij} &lt; 1\)</span>, portfolio variance is <strong>less than</strong> the case with perfect correlation!</p>
-<p><strong>This is the mathematical foundation of diversification!</strong></p>
 </div>
 </div></div>
 </div>
+<div class="fragment">
+<p>Since <span class="math inline">\(\rho_{ij} &lt; 1\)</span>, portfolio variance is <strong>less than</strong> the case with perfect correlation!</p>
+</div>
 </section>
-<section id="case-study-key-findings" class="slide level2 smaller">
+<section id="case-study-diversification-benefit" class="slide level2 smaller">
+<h2>💰 Case Study: Diversification Benefit</h2>
+<div style="font-size:50px;">
+<div class="cell">
+<details class="code-fold">
+<summary>📊 Show Analysis Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="co"># Weighted average of individual SDs</span></span>
+<span id="cb6-2"><a href=""></a>weighted_avg_sd <span class="ot">&lt;-</span> <span class="fu">sum</span>(w <span class="sc">*</span> <span class="fu">c</span>(<span class="fu">sd</span>(returns<span class="sc">$</span>AAPL),</span>
+<span id="cb6-3"><a href=""></a>                              <span class="fu">sd</span>(returns<span class="sc">$</span>MSFT),</span>
+<span id="cb6-4"><a href=""></a>                              <span class="fu">sd</span>(returns<span class="sc">$</span>GOOG)))</span>
+<span id="cb6-5"><a href=""></a></span>
+<span id="cb6-6"><a href=""></a><span class="co"># Actual portfolio SD</span></span>
+<span id="cb6-7"><a href=""></a>portfolio_sd <span class="ot">&lt;-</span> <span class="fu">sd</span>(returns<span class="sc">$</span>portfolio)</span>
+<span id="cb6-8"><a href=""></a></span>
+<span id="cb6-9"><a href=""></a><span class="co"># Risk reduction table</span></span>
+<span id="cb6-10"><a href=""></a>risk_comparison <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb6-11"><a href=""></a>  <span class="at">Metric =</span> <span class="fu">c</span>(<span class="st">"Weighted Avg SD"</span>, <span class="st">"Actual Portfolio SD"</span>, <span class="st">"Risk Reduction"</span>),</span>
+<span id="cb6-12"><a href=""></a>  <span class="at">Value =</span> <span class="fu">c</span>(<span class="fu">sprintf</span>(<span class="st">"%.4f"</span>, weighted_avg_sd),</span>
+<span id="cb6-13"><a href=""></a>            <span class="fu">sprintf</span>(<span class="st">"%.4f"</span>, portfolio_sd),</span>
+<span id="cb6-14"><a href=""></a>            <span class="fu">sprintf</span>(<span class="st">"%.1f%%"</span>, <span class="dv">100</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> portfolio_sd<span class="sc">/</span>weighted_avg_sd)))</span>
+<span id="cb6-15"><a href=""></a>)</span>
+<span id="cb6-16"><a href=""></a></span>
+<span id="cb6-17"><a href=""></a><span class="fu">kable</span>(risk_comparison, <span class="at">caption =</span> <span class="st">"Diversification Benefit"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top">
+<caption>Diversification Benefit</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Metric</th>
+<th style="text-align: left;">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Weighted Avg SD</td>
+<td style="text-align: left;">0.0198</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Actual Portfolio SD</td>
+<td style="text-align: left;">0.0179</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Risk Reduction</td>
+<td style="text-align: left;">9.7%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>This is the mathematical foundation of diversification!</strong></p>
+</div>
+</section>
+<section id="case-study-key-findings" class="slide level2">
 <h2>💰 Case Study: Key Findings</h2>
-<div style="font-size: 26px;">
+<div style="font-size: 47px">
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -845,41 +994,85 @@ Weighted Avg SD: 0.0198</code></pre>
 </div>
 </div>
 </section>
+<section id="think-pair-share-choosing-the-right" class="slide level2">
+<h2>🤝 Think-Pair-Share: Choosing the Right</h2>
+<div style="font-size: 40px;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>💭 Activity (4 minutes)</strong></p>
+</div>
+<div class="callout-content">
+<p>A hedge fund analyst needs to find the distribution of a weighted portfolio return <span class="math inline">\(R_p = 0.5R_1 + 0.3R_2 + 0.2R_3\)</span> where each <span class="math inline">\(R_i \sim N(\mu_i, \sigma_i^2)\)</span> independently.</p>
+<div class="columns">
+<div class="column" style="width:33%;">
+<p><strong>🧠 Think (1 min):</strong></p>
+<ul>
+<li>Which method is most efficient: distribution function, transformation, or MGF?</li>
+<li>What makes this problem easy for MGFs?</li>
+</ul>
+</div><div class="column" style="width:33%;">
+<p><strong>👫 Pair (2 min):</strong></p>
+<ul>
+<li>Compare your method choices</li>
+<li>Work out <span class="math inline">\(M_{R_p}(t)\)</span> together</li>
+<li>What distribution do you recognize?</li>
+</ul>
+</div><div class="column" style="width:33%;">
+<p><strong>🗣️ Share (1 min):</strong></p>
+<ul>
+<li>What is the final distribution of <span class="math inline">\(R_p\)</span>?</li>
+<li>How would correlation change your approach?</li>
+</ul>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<countdown-timer class="countdown" id="timer_f7c6e732" minutes="4" seconds="0" warn-when="60" update-every="1" play-sound="true" tabindex="0" style="top:1;right:0;--countdown-font-size:1.5em;--countdown-color-running-background:#31b09e;--countdown-color-running-text:white;--countdown-color-finished-background:#cc3311;--countdown-color-finished-text:white;--countdown-color-warning-background:#f7dc6f;--countdown-color-warning-text:#3E3400FF;"></countdown-timer>
+</div>
+</div>
+</section>
 <section id="quiz-1-transformation-method" class="slide level2 smaller quiz-question">
 <h2>📝 Quiz #1: Transformation Method</h2>
-<p>If <span class="math inline">\(Y\)</span> has pdf <span class="math inline">\(f_Y(y)\)</span> and <span class="math inline">\(U = g(Y)\)</span> where <span class="math inline">\(g\)</span> is strictly increasing with inverse <span class="math inline">\(h = g^{-1}\)</span>, the pdf of <span class="math inline">\(U\)</span> is:</p>
+<p>A risk analyst models a stock return <span class="math inline">\(Y\)</span> with pdf <span class="math inline">\(f_Y(y)\)</span>. To convert to a price ratio <span class="math inline">\(U = e^Y\)</span> (strictly increasing, inverse <span class="math inline">\(h(u) = \ln(u)\)</span>), the pdf of <span class="math inline">\(U\)</span> is:</p>
 <ul>
-<li><span class="correct" data-explanation="✅ Correct! The transformation formula requires multiplying the original pdf evaluated at the inverse by the absolute value of the derivative of the inverse (the Jacobian)."><span class="math inline">\(f_U(u) = f_Y(h(u)) \cdot |h'(u)|\)</span></span></li>
-<li><span class="math inline">\(f_U(u) = f_Y(g(u)) \cdot |g'(u)|\)</span></li>
-<li><span class="math inline">\(f_U(u) = f_Y(h(u))\)</span></li>
-<li><span class="math inline">\(f_U(u) = f_Y(h(u)) / |h'(u)|\)</span></li>
+<li><span class="correct" data-explanation="✅ Correct! The transformation formula gives f_U(u) = f_Y(h(u)) * |h'(u)|. Here h(u) = ln(u) and h'(u) = 1/u, so f_U(u) = f_Y(ln(u)) / u. This is exactly how the log-normal distribution arises!"><span class="math inline">\(f_U(u) = f_Y(\ln(u)) \cdot \frac{1}{u}\)</span></span></li>
+<li><span class="math inline">\(f_U(u) = f_Y(e^u) \cdot e^u\)</span></li>
+<li><span class="math inline">\(f_U(u) = f_Y(\ln(u))\)</span></li>
+<li><span class="math inline">\(f_U(u) = f_Y(\ln(u)) \cdot u\)</span></li>
 </ul>
 </section>
-<section id="quiz-2-log-normal-distribution" class="slide level2 smaller quiz-question">
-<h2>📝 Quiz #2: Log-Normal Distribution</h2>
-<p>If <span class="math inline">\(Y \sim N(\mu, \sigma^2)\)</span>, what is the distribution of <span class="math inline">\(U = e^Y\)</span>?</p>
+<section id="quiz-2-stock-price-distribution" class="slide level2 smaller quiz-question">
+<h2>📝 Quiz #2: Stock Price Distribution</h2>
+<p>If daily log-returns of a stock follow <span class="math inline">\(Y \sim N(\mu, \sigma^2)\)</span>, and the price ratio is <span class="math inline">\(S/S_0 = e^Y\)</span>, what distribution does <span class="math inline">\(S/S_0\)</span> follow?</p>
 <ul>
-<li><span class="correct" data-explanation="✅ Correct! The exponential of a normal random variable follows a log-normal distribution. This is the theoretical foundation for stock price models in finance.">Log-Normal<span class="math inline">\((\mu, \sigma^2)\)</span></span></li>
+<li><span class="correct" data-explanation="✅ Correct! Since S/S₀ = eʸ and Y is normal, the ratio follows a log-normal distribution. This is the theoretical foundation of the Black-Scholes model for stock prices.">Log-Normal<span class="math inline">\((\mu, \sigma^2)\)</span></span></li>
 <li>Normal<span class="math inline">\((\mu, \sigma^2)\)</span></li>
 <li>Exponential<span class="math inline">\((e^\mu)\)</span></li>
 <li>Gamma<span class="math inline">\((\mu, \sigma^2)\)</span></li>
 </ul>
 </section>
-<section id="quiz-3-mgf-of-sums" class="slide level2 smaller quiz-question">
-<h2>📝 Quiz #3: MGF of Sums</h2>
-<p>If <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> are independent with MGFs <span class="math inline">\(M_1(t)\)</span> and <span class="math inline">\(M_2(t)\)</span>, what is <span class="math inline">\(M_{Y_1+Y_2}(t)\)</span>?</p>
+<section id="quiz-3-portfolio-return-mgf" class="slide level2 smaller quiz-question">
+<h2>📝 Quiz #3: Portfolio Return MGF</h2>
+<p>Two uncorrelated assets have return MGFs <span class="math inline">\(M_1(t)\)</span> and <span class="math inline">\(M_2(t)\)</span>. Total portfolio return is <span class="math inline">\(R = R_1 + R_2\)</span>. What is <span class="math inline">\(M_R(t)\)</span>?</p>
 <ul>
-<li><span class="correct" data-explanation="✅ Correct! For independent random variables, the MGF of the sum is the product of the individual MGFs. This property makes the MGF method powerful for analyzing sums."><span class="math inline">\(M_1(t) \cdot M_2(t)\)</span></span></li>
+<li><span class="correct" data-explanation="✅ Correct! For independent random variables, the MGF of the sum equals the product of individual MGFs. This makes analyzing portfolio return distributions remarkably simple when assets are uncorrelated."><span class="math inline">\(M_1(t) \cdot M_2(t)\)</span></span></li>
 <li><span class="math inline">\(M_1(t) + M_2(t)\)</span></li>
 <li><span class="math inline">\(M_1(t) / M_2(t)\)</span></li>
 <li><span class="math inline">\(M_1(M_2(t))\)</span></li>
 </ul>
 </section>
-<section id="quiz-4-sum-of-exponentials" class="slide level2 smaller quiz-question">
-<h2>📝 Quiz #4: Sum of Exponentials</h2>
-<p>If <span class="math inline">\(Y_1, Y_2, \ldots, Y_5\)</span> are independent Exponential<span class="math inline">\((\beta)\)</span> random variables, what is the distribution of their sum?</p>
+<section id="quiz-4-insurance-claim-aggregation" class="slide level2 smaller quiz-question">
+<h2>📝 Quiz #4: Insurance Claim Aggregation</h2>
+<p>An insurer processes 5 independent claims, each with processing time Exponential<span class="math inline">\((\beta)\)</span>. Using the MGF method, the distribution of total processing time is:</p>
 <ul>
-<li><span class="correct" data-explanation="✅ Correct! The sum of n independent exponential(β) random variables follows a Gamma(n, β) distribution. This can be proven using the MGF method by multiplying the exponential MGFs.">Gamma<span class="math inline">\((5, \beta)\)</span></span></li>
+<li><span class="correct" data-explanation="✅ Correct! Each exponential MGF is (1-βt)⁻¹. Multiplying 5 gives (1-βt)⁻⁵, the MGF of Gamma(5, β). Actuaries use this to plan staffing for claim processing.">Gamma<span class="math inline">\((5, \beta)\)</span></span></li>
 <li>Exponential<span class="math inline">\((5\beta)\)</span></li>
 <li>Normal<span class="math inline">\((5\beta, 5\beta^2)\)</span></li>
 <li>Chi-square<span class="math inline">\((5)\)</span></li>
@@ -887,16 +1080,15 @@ Weighted Avg SD: 0.0198</code></pre>
 </section>
 <section id="summary" class="slide level2 smaller">
 <h2>📝 Summary</h2>
-<div style="font-size: 28px">
+<div style="font-size: 35px">
 <div class="summary-box">
 <p><strong>✅ Key Takeaways</strong></p>
 <ul>
-<li><p><strong>Transformation method</strong>: <span class="math inline">\(f_U(u) = f_Y(h(u)) \cdot |h'(u)|\)</span> for monotonic <span class="math inline">\(g\)</span> with inverse <span class="math inline">\(h\)</span></p></li>
-<li><p><strong>Jacobian</strong> <span class="math inline">\(|h'(u)|\)</span> accounts for stretching/compressing of probability density</p></li>
-<li><p><strong>Probability integral transform</strong>: <span class="math inline">\(F_Y(Y) \sim \text{Uniform}(0,1)\)</span> — foundation for simulation</p></li>
-<li><p><strong>Log-normal distribution</strong>: <span class="math inline">\(e^Y\)</span> where <span class="math inline">\(Y \sim N(\mu, \sigma^2)\)</span> — models positive quantities like stock prices</p></li>
+<li><p><strong>Transformation method</strong>: <span class="math inline">\(f_U(u) = f_Y(h(u)) \cdot |h'(u)|\)</span> for monotonic <span class="math inline">\(g\)</span> with inverse <span class="math inline">\(h\)</span> — the Jacobian accounts for stretching/compressing</p></li>
+<li><p><strong>Probability integral transform</strong>: <span class="math inline">\(F_Y(Y) \sim \text{Uniform}(0,1)\)</span> — foundation for Monte Carlo simulation</p></li>
+<li><p><strong>Log-normal distribution</strong>: <span class="math inline">\(e^Y\)</span> where <span class="math inline">\(Y \sim N(\mu, \sigma^2)\)</span> — models stock prices and other positive quantities</p></li>
 <li><p><strong>MGF method</strong>: For sums of independent RVs, <span class="math inline">\(M_{\sum Y_i}(t) = \prod M_{Y_i}(t)\)</span></p></li>
-<li><p><strong>Key results</strong>: Sum of normals is normal; sum of exponentials is gamma; sum of <span class="math inline">\(\chi^2(1)\)</span> is <span class="math inline">\(\chi^2(n)\)</span></p></li>
+<li><p><strong>Key results</strong>: Normals sum to normal, exponentials to gamma, <span class="math inline">\(\chi^2(1)\)</span>’s to <span class="math inline">\(\chi^2(n)\)</span> — proven elegantly via MGFs</p></li>
 </ul>
 </div>
 </div>
@@ -912,11 +1104,11 @@ Weighted Avg SD: 0.0198</code></pre>
 <p><strong>📝 Homework Problems</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Problem 1 (Transformation):</strong> If <span class="math inline">\(Y \sim \text{Exponential}(2)\)</span>, use the transformation method to find the pdf of <span class="math inline">\(U = Y^{1/3}\)</span>.</p>
-<p><strong>Problem 2 (Log-Normal):</strong> If stock price <span class="math inline">\(S \sim \text{LogNormal}(4, 0.09)\)</span>, find <span class="math inline">\(E[S]\)</span> and <span class="math inline">\(P(S &gt; 60)\)</span>.</p>
-<p><strong>Problem 3 (MGF - Sum of Poissons):</strong> If <span class="math inline">\(Y_1 \sim \text{Poisson}(\lambda_1)\)</span> and <span class="math inline">\(Y_2 \sim \text{Poisson}(\lambda_2)\)</span> are independent, use MGFs to show <span class="math inline">\(Y_1 + Y_2 \sim \text{Poisson}(\lambda_1 + \lambda_2)\)</span>.</p>
-<p><strong>Problem 4 (Chi-Square):</strong> If <span class="math inline">\(Z_1, \ldots, Z_{10}\)</span> are independent <span class="math inline">\(N(0,1)\)</span>, find <span class="math inline">\(P(\sum Z_i^2 &gt; 18.31)\)</span>.</p>
-<p><strong>Problem 5 (Portfolio):</strong> Two assets have independent returns with <span class="math inline">\(N(0.08, 0.04)\)</span> and <span class="math inline">\(N(0.05, 0.01)\)</span>. Find the distribution of a 60-40 portfolio return.</p>
+<p><strong>Problem 1 (Transformation – Risk):</strong> An insurance loss is modeled as <span class="math inline">\(Y \sim \text{Exponential}(2)\)</span>. Use the transformation method to find the pdf of the cube-root loss severity <span class="math inline">\(U = Y^{1/3}\)</span>.</p>
+<p><strong>Problem 2 (Log-Normal – Stock Pricing):</strong> A stock price follows <span class="math inline">\(S \sim \text{LogNormal}(4, 0.09)\)</span>. Find <span class="math inline">\(E[S]\)</span> and <span class="math inline">\(P(S &gt; 60)\)</span>.</p>
+<p><strong>Problem 3 (MGF – Claim Counts):</strong> Two branch offices have independent claim counts <span class="math inline">\(Y_1 \sim \text{Poisson}(\lambda_1)\)</span> and <span class="math inline">\(Y_2 \sim \text{Poisson}(\lambda_2)\)</span>. Use MGFs to show total claims <span class="math inline">\(Y_1 + Y_2 \sim \text{Poisson}(\lambda_1 + \lambda_2)\)</span>.</p>
+<p><strong>Problem 4 (Chi-Square – Variance Test):</strong> A risk analyst standardizes 10 independent daily returns to get <span class="math inline">\(Z_i \sim N(0,1)\)</span>. Find <span class="math inline">\(P(\sum Z_i^2 &gt; 18.31)\)</span> to test if realized variance is unexpectedly high.</p>
+<p><strong>Problem 5 (Portfolio):</strong> A pension fund holds two uncorrelated asset classes with returns <span class="math inline">\(N(0.08, 0.04)\)</span> and <span class="math inline">\(N(0.05, 0.01)\)</span>. Find the distribution of the 60-40 portfolio return using the MGF method.</p>
 </div>
 </div>
 </div>
@@ -975,7 +1167,7 @@ eyJjb250ZW50cyI6WyAgeyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiaW5saW5lIjoidHJ1ZSIsInNv
 </section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
-<p><img src="ADA.png" class="slide-logo"></p>
+<p><img src="../ADA.png" class="slide-logo"></p>
 <div class="footer footer-default">
 <p>Mathematical Statistics - Transformations and MGF Method</p>
 </div>
@@ -1124,7 +1316,7 @@ eyJjb250ZW50cyI6WyAgeyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiaW5saW5lIjoidHJ1ZSIsInNv
         defaultTiming: null,
 
         // Enable slide navigation via mouse wheel
-        mouseWheel: false,
+        mouseWheel: true,
 
         // The display mode that will be used to show slides
         display: 'block',
@@ -1164,7 +1356,12 @@ eyJjb250ZW50cyI6WyAgeyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiaW5saW5lIjoidHJ1ZSIsInNv
         height: 720,
 
         // Factor of the display size that should remain empty around the content
-        margin: 0.1,
+        margin: 4.0e-2,
+
+        // Bounds for smallest/largest possible scale to apply to content
+        minScale: 0.2,
+
+        maxScale: 2,
 
         math: {
           mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
@@ -1194,7 +1391,7 @@ eyJjb250ZW50cyI6WyAgeyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiaW5saW5lIjoidHJ1ZSIsInNv
       });
     </script>
     <script type="ojs-module-contents">
-    eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6Ilxudmlld29mIG11X2xuID0gSW5wdXRzLnJhbmdlKFstMSwgMl0sIHtcbiAgdmFsdWU6IDAsIFxuICBzdGVwOiAwLjEsIFxuICBsYWJlbDogXCLOvCAobG9nLXNjYWxlIG1lYW4pOlwiXG59KVxuXG52aWV3b2Ygc2lnbWFfbG4gPSBJbnB1dHMucmFuZ2UoWzAuMSwgMS41XSwge1xuICB2YWx1ZTogMC41LCBcbiAgc3RlcDogMC4xLCBcbiAgbGFiZWw6IFwiz4MgKGxvZy1zY2FsZSBzdGQpOlwiXG59KVxuXG4vLyBMb2ctbm9ybWFsIHN0YXRpc3RpY3NcbmxuX21lYW4gPSBNYXRoLmV4cChtdV9sbiArIHNpZ21hX2xuICogc2lnbWFfbG4gLyAyKVxubG5fbWVkaWFuID0gTWF0aC5leHAobXVfbG4pXG5sbl9tb2RlID0gTWF0aC5leHAobXVfbG4gLSBzaWdtYV9sbiAqIHNpZ21hX2xuKVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC0yIiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoiXG4vLyBHZW5lcmF0ZSBsb2ctbm9ybWFsIFBERlxubG5QZGYgPSB7XG4gIGNvbnN0IHBvaW50cyA9IFtdO1xuICBmb3IgKGxldCB4ID0gMC4wMTsgeCA8PSA4OyB4ICs9IDAuMDUpIHtcbiAgICBjb25zdCBsb2d4ID0gTWF0aC5sb2coeCk7XG4gICAgY29uc3QgcGRmID0gTWF0aC5leHAoLShsb2d4IC0gbXVfbG4pICogKGxvZ3ggLSBtdV9sbikgLyAoMiAqIHNpZ21hX2xuICogc2lnbWFfbG4pKSAvICh4ICogc2lnbWFfbG4gKiBNYXRoLnNxcnQoMiAqIE1hdGguUEkpKTtcbiAgICBwb2ludHMucHVzaCh7eDogeCwgcGRmOiBwZGZ9KTtcbiAgfVxuICByZXR1cm4gcG9pbnRzO1xufVxuXG5QbG90LnBsb3Qoe1xuICB3aWR0aDogNDgwLFxuICBoZWlnaHQ6IDMyMCxcbiAgeDogeyBkb21haW46IFswLCA4XSwgbGFiZWw6IFwiVSA9IGXKuFwiIH0sXG4gIHk6IHsgZG9tYWluOiBbMCwgMl0sIGxhYmVsOiBcIkRlbnNpdHlcIiB9LFxuICBtYXJrczogW1xuICAgIFBsb3QubGluZShsblBkZiwge3g6IFwieFwiLCB5OiBcInBkZlwiLCBzdHJva2U6IFwic3RlZWxibHVlXCIsIHN0cm9rZVdpZHRoOiAyfSksXG4gICAgUGxvdC5ydWxlWChbbG5fbWVhbl0sIHtzdHJva2U6IFwicmVkXCIsIHN0cm9rZURhc2hhcnJheTogXCI1LDVcIn0pLFxuICAgIFBsb3QucnVsZVgoW2xuX21lZGlhbl0sIHtzdHJva2U6IFwiZ3JlZW5cIiwgc3Ryb2tlRGFzaGFycmF5OiBcIjMsM1wifSksXG4gICAgUGxvdC5ydWxlWShbMF0pXG4gIF1cbn0pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ211X2xuJykifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ3NpZ21hX2xuJykifV19
+    eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6Ilxudmlld29mIG11X2xuID0ge1xuICBjb25zdCBpbnB1dCA9IElucHV0cy5yYW5nZShbLTEsIDJdLCB7XG4gICAgdmFsdWU6IDAsXG4gICAgc3RlcDogMC4xLFxuICAgIGxhYmVsOiBcIs68IChsb2ctc2NhbGUgbWVhbik6XCJcbiAgfSk7XG5cbiAgWydwb2ludGVyZG93bicsICd0b3VjaHN0YXJ0JywgJ21vdXNlZG93bicsICdjbGljaycsICd3aGVlbCcsICdwb2ludGVybW92ZScsICd0b3VjaG1vdmUnLCAnbW91c2Vtb3ZlJ10uZm9yRWFjaChlID0+XG4gICAgaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcihlLCBldiA9PiBldi5zdG9wUHJvcGFnYXRpb24oKSlcbiAgKTtcbiAgcmV0dXJuIGlucHV0O1xufVxuXG52aWV3b2Ygc2lnbWFfbG4gPSB7XG4gIGNvbnN0IGlucHV0ID0gSW5wdXRzLnJhbmdlKFswLjEsIDEuNV0sIHtcbiAgICB2YWx1ZTogMC41LFxuICAgIHN0ZXA6IDAuMSxcbiAgICBsYWJlbDogXCLPgyAobG9nLXNjYWxlIHN0ZCk6XCJcbiAgfSk7XG5cbiAgWydwb2ludGVyZG93bicsICd0b3VjaHN0YXJ0JywgJ21vdXNlZG93bicsICdjbGljaycsICd3aGVlbCcsICdwb2ludGVybW92ZScsICd0b3VjaG1vdmUnLCAnbW91c2Vtb3ZlJ10uZm9yRWFjaChlID0+XG4gICAgaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcihlLCBldiA9PiBldi5zdG9wUHJvcGFnYXRpb24oKSlcbiAgKTtcbiAgcmV0dXJuIGlucHV0O1xufVxuXG4vLyBMb2ctbm9ybWFsIHN0YXRpc3RpY3NcbmxuX21lYW4gPSBNYXRoLmV4cChtdV9sbiArIHNpZ21hX2xuICogc2lnbWFfbG4gLyAyKVxubG5fbWVkaWFuID0gTWF0aC5leHAobXVfbG4pXG5sbl9tb2RlID0gTWF0aC5leHAobXVfbG4gLSBzaWdtYV9sbiAqIHNpZ21hX2xuKVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC0yIiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoiXG4vLyBHZW5lcmF0ZSBsb2ctbm9ybWFsIFBERlxubG5QZGYgPSB7XG4gIGNvbnN0IHBvaW50cyA9IFtdO1xuICBmb3IgKGxldCB4ID0gMC4wMTsgeCA8PSA4OyB4ICs9IDAuMDUpIHtcbiAgICBjb25zdCBsb2d4ID0gTWF0aC5sb2coeCk7XG4gICAgY29uc3QgcGRmID0gTWF0aC5leHAoLShsb2d4IC0gbXVfbG4pICogKGxvZ3ggLSBtdV9sbikgLyAoMiAqIHNpZ21hX2xuICogc2lnbWFfbG4pKSAvICh4ICogc2lnbWFfbG4gKiBNYXRoLnNxcnQoMiAqIE1hdGguUEkpKTtcbiAgICBwb2ludHMucHVzaCh7eDogeCwgcGRmOiBwZGZ9KTtcbiAgfVxuICByZXR1cm4gcG9pbnRzO1xufVxuXG5QbG90LnBsb3Qoe1xuICB3aWR0aDogNjIwLFxuICBoZWlnaHQ6IDQwMCxcbiAgeDogeyBkb21haW46IFswLCA4XSwgbGFiZWw6IFwiVSA9IGXKuFwiIH0sXG4gIHk6IHsgZG9tYWluOiBbMCwgMl0sIGxhYmVsOiBcIkRlbnNpdHlcIiB9LFxuICBtYXJrczogW1xuICAgIFBsb3QubGluZShsblBkZiwge3g6IFwieFwiLCB5OiBcInBkZlwiLCBzdHJva2U6IFwic3RlZWxibHVlXCIsIHN0cm9rZVdpZHRoOiAyfSksXG4gICAgUGxvdC5ydWxlWChbbG5fbWVhbl0sIHtzdHJva2U6IFwicmVkXCIsIHN0cm9rZURhc2hhcnJheTogXCI1LDVcIn0pLFxuICAgIFBsb3QucnVsZVgoW2xuX21lZGlhbl0sIHtzdHJva2U6IFwiZ3JlZW5cIiwgc3Ryb2tlRGFzaGFycmF5OiBcIjMsM1wifSksXG4gICAgUGxvdC5ydWxlWShbMF0pXG4gIF1cbn0pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ211X2xuJykifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ3NpZ21hX2xuJykifV19
     </script>
     <script type="module">
     if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
