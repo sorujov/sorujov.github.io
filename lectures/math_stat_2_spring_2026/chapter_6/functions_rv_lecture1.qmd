@@ -1,6 +1,6 @@
 ---
 title: "Mathematical Statistics"
-subtitle: "Functions of Random Variables: Distribution Function Method"
+subtitle: "Functions of Random Variables: Introduction and Distribution Functions"
 author:
   - name: "Samir Orujov, PhD"
     affiliations:
@@ -18,6 +18,9 @@ format:
     navigation-mode: linear
     width: 1280
     height: 720
+    margin: 0.04
+    min-scale: 0.2
+    max-scale: 2.0
     footer: "Mathematical Statistics - Functions of Random Variables"
     incremental: false
     highlight-style: tango
@@ -25,6 +28,9 @@ format:
     menu: true
     progress: true
     history: true
+    mouse-wheel: true
+    overview: true
+    zoom: true
     quiz:
       checkKey: 'c'
       resetKey: 'r'
@@ -42,581 +48,1121 @@ revealjs-plugins:
 
 ## 🎯 Learning Objectives {.smaller}
 
-::: {.learning-objectives}
-By the end of this lecture, you will be able to:
+::::: learning-objectives
+:::: {style="font-size:35px"}
+📚 By the end of this lecture, you will be able to:
 
-- Understand **why** finding distributions of functions of random variables is essential in statistics and finance
+::: incremental
+-   Identify and formulate **functions of random variables** in financial contexts such as portfolio returns, option payoffs, and risk metrics
 
-- Apply the **distribution function method** to find the pdf of $U = g(Y)$ for univariate transformations
+-   Compute probability distributions of **discrete transformations** using the probability function method for financial applications
 
-- Handle **non-monotonic transformations** by partitioning the domain appropriately
+-   Apply the **method of distribution functions** to derive probability distributions of transformed continuous random variables
 
-- Find the distribution of **functions of multiple random variables** using the CDF approach
+-   Calculate probabilities for **derived distributions** such as sums, differences, and ratios of stock returns using CDFs
 
-- Apply these techniques to **financial transformations** such as returns, log-returns, and portfolio values
+-   Implement statistical transformations in R to analyze **real financial data** and validate theoretical distributions
 :::
+::::
+:::::
 
-## 📋 Overview {.smaller}
+## 📋 Overview
 
-::: {style="font-size:38px"}
-::: {.callout-note}
+::::: {.callout-note}
 ## 📚 Topics Covered Today
 
-::: {.incremental}
-- **Introduction to Transformations** – Why study functions of random variables?
+:::: {style="font-size:32px"}
+::: incremental
+-   **Why Functions of Random Variables?** – Motivation from portfolio theory, derivatives pricing, and risk management
 
-- **The Distribution Function Method** – Finding $F_U(u) = P(U \leq u)$ then differentiating
+-   **Finding Probability Distributions** – Techniques for deriving distributions of transformations
 
-- **Monotonic Transformations** – Increasing and decreasing functions
+-   **Method of Distribution Functions** – Using CDFs to find distributions of $U = g(Y)$ for continuous random variables
 
-- **Non-Monotonic Transformations** – Handling functions like $U = Y^2$
+-   **Financial Applications** – Portfolio returns, option payoffs, profit/loss distributions
 
-- **Case Study** – Stock returns as transformations of prices
+-   **Case Study** – Analyzing transformed stock returns using real market data
 :::
-:::
-:::
+::::
+:::::
 
-## 📖 Why Study Functions of Random Variables? {.smaller .r-fit-text}
+## 📖 Why Study Functions of Random Variables?
 
-::: {.callout-note}
+::::::::: {.callout-note}
 ## 🎯 Motivation
 
-In practice, we often observe one random variable but need to know the distribution of a **function** of that variable:
+:::::::: {style="font-size:30px"}
+In finance and economics, we constantly work with **transformations of random variables**:
 
-::: {.columns}
-::: {.column width="50%"}
-::: {.fragment}
-**Finance Applications:**
+::::::: columns
+:::: {.column width="50%"}
+::: fragment
+**Portfolio & Investment:**
 
-- Stock prices → Returns: $R = \frac{P_t - P_{t-1}}{P_{t-1}}$
-- Prices → Log-returns: $r = \ln(P_t/P_{t-1})$
-- Individual returns → Portfolio value
-- Asset values → Option payoffs
+-   Portfolio return = weighted sum of individual stock returns
+-   Profit/Loss = Stock price - Purchase price
+-   Return on investment = (Final - Initial) / Initial
+-   Option payoffs = max(S - K, 0)
 :::
+::::
+
+:::: {.column width="50%"}
+::: fragment
+**Risk Management:**
+
+-   Value at Risk (VaR) transformations
+-   Portfolio variance from covariances
+-   Credit ratings from default probabilities
+-   Exchange rate conversions
 :::
+::::
+:::::::
+::::::::
+:::::::::
 
-::: {.column width="50%"}
-::: {.fragment}
-**Statistical Applications:**
+## 💡 Real-World Example {.larger}
 
-- Sample mean $\bar{Y}$ from individual $Y_i$'s
-- Sample variance $S^2$ from data
-- Test statistics (t, F, χ²)
-- Maximum/minimum values
-:::
-:::
-:::
-:::
+:::::: {style="font-size:32px"}
+::::: columns
+:::: {.column width="60%"}
+::: fragment
+**Scenario:** You invest in a stock with uncertain return $Y$ (in %). Your initial investment is \$10,000.
 
-**Key Question:** Given the distribution of $Y$, how do we find the distribution of $U = g(Y)$?
-
-## 📖 Three Main Methods {.smaller}
-
-::: {.callout-note}
-## 📝 Overview of Techniques
-
-We will study three approaches to find the distribution of $U = g(Y)$:
-
-**1. Distribution Function Method (Today)**
-$$F_U(u) = P(U \leq u) = P(g(Y) \leq u)$$
-Then differentiate: $f_U(u) = \frac{d}{du}F_U(u)$
-
-**2. Method of Transformations (Next Lecture)**
-Direct formula using the inverse function and its derivative
-
-**3. Moment-Generating Function Method (Next Lecture)**
-Find $M_U(t)$ and identify the distribution
-:::
-
-**Key Insight:** The distribution function method is the most **general** approach—it always works!
-
-## 📖 Definition: The Distribution Function Method {.smaller}
-
-::: {.callout-note}
-## 📝 Method of Distribution Functions
-
-To find the probability distribution of $U = g(Y)$:
-
-**Step 1:** Find the CDF of $U$:
-$$F_U(u) = P(U \leq u) = P(g(Y) \leq u)$$
-
-**Step 2:** Express $P(g(Y) \leq u)$ in terms of events involving $Y$
-
-**Step 3:** Use the known distribution of $Y$ to compute the probability
-
-**Step 4:** Differentiate to get the pdf:
-$$f_U(u) = \frac{d}{du}F_U(u)$$
-:::
-
-**Principle:** Convert the problem about $U$ into a problem about $Y$, which we already understand!
-
-## 📌 Example 1: Linear Transformation {.smaller}
-
-**Problem:** Let $Y$ have pdf $f_Y(y) = 2y$ for $0 < y < 1$. Find the distribution of $U = 3Y + 1$.
-
-**Solution:**
-
-. . .
-
-**Step 1:** Find the range of $U$. Since $0 < Y < 1$, we have $1 < U < 4$.
-
-. . .
-
-**Step 2:** Find $F_U(u) = P(U \leq u) = P(3Y + 1 \leq u) = P(Y \leq \frac{u-1}{3})$
-
-. . .
-
-**Step 3:** Compute using $F_Y$:
-$$F_U(u) = \int_0^{(u-1)/3} 2y \, dy = y^2 \Big|_0^{(u-1)/3} = \frac{(u-1)^2}{9}$$
-
-. . .
-
-**Step 4:** Differentiate:
-$$f_U(u) = \frac{d}{du}\left[\frac{(u-1)^2}{9}\right] = \frac{2(u-1)}{9} \quad \text{for } 1 < u < 4$$
-
-## 📌 Example 2: Square Transformation {.smaller}
-
-**Problem:** Let $Y \sim N(0, 1)$. Find the distribution of $U = Y^2$.
-
-**Solution:**
-
-. . .
-
-**Step 1:** Range of $U$: Since $Y \in (-\infty, \infty)$, we have $U \geq 0$.
-
-. . .
-
-**Step 2:** For $u > 0$:
-$$F_U(u) = P(Y^2 \leq u) = P(-\sqrt{u} \leq Y \leq \sqrt{u})$$
-
-. . .
-
-**Step 3:** Using standard normal CDF $\Phi$:
-$$F_U(u) = \Phi(\sqrt{u}) - \Phi(-\sqrt{u}) = 2\Phi(\sqrt{u}) - 1$$
-
-. . .
-
-**Step 4:** Differentiate using chain rule:
-$$f_U(u) = 2\phi(\sqrt{u}) \cdot \frac{1}{2\sqrt{u}} = \frac{1}{\sqrt{2\pi u}}e^{-u/2}$$
-
-This is the **Chi-square distribution with 1 degree of freedom**: $U \sim \chi^2(1)$!
-
-## 🧮 Theorem: Chi-Square from Normal {.smaller}
+Your **profit** is a function of the return:
+$$U = 10000 \times \frac{Y}{100}$$
 
 ::: {.callout-important}
-## Theorem 6.1: Square of Standard Normal
-
-If $Y \sim N(0, 1)$, then $U = Y^2 \sim \chi^2(1)$.
-
-More generally, if $Y_1, Y_2, \ldots, Y_n$ are independent $N(0,1)$ random variables, then:
-
-$$U = Y_1^2 + Y_2^2 + \cdots + Y_n^2 \sim \chi^2(n)$$
-
-The chi-square distribution with $n$ degrees of freedom has pdf:
-$$f(u) = \frac{1}{2^{n/2}\Gamma(n/2)}u^{n/2-1}e^{-u/2} \quad \text{for } u > 0$$
-:::
-
-**Financial Application:** This result is fundamental for testing portfolio variance!
-
-## 🎮 Interactive: Transformation Visualizer {.smaller}
-
-::: {style="font-size: 0.8em;"}
-
-**Explore:** See how the distribution changes under $U = Y^2$
-
-::: {.columns}
-
-::: {.column width="35%"}
-
-```{ojs}
-//| echo: false
-
-viewof n_samples = Inputs.range([100, 5000], {
-  value: 1000, 
-  step: 100, 
-  label: "Sample size:"
-})
-
-// Generate standard normal samples
-normalSamples = {
-  const samples = [];
-  for (let i = 0; i < n_samples; i++) {
-    // Box-Muller transform
-    const u1 = Math.random();
-    const u2 = Math.random();
-    const z = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
-    samples.push({y: z, u: z * z});
-  }
-  return samples;
-}
-
-// Chi-square(1) theoretical PDF
-chiSqPdf = {
-  const points = [];
-  for (let u = 0.01; u <= 8; u += 0.05) {
-    const pdf = Math.exp(-u/2) / Math.sqrt(2 * Math.PI * u);
-    points.push({u: u, pdf: pdf});
-  }
-  return points;
-}
-```
-
-**Transformation:** $U = Y^2$
-
-**Samples:** ${n_samples}
-
-:::
-
-::: {.column width="65%"}
-
-```{ojs}
-//| echo: false
-
-Plot.plot({
-  width: 450,
-  height: 300,
-  x: { domain: [0, 8], label: "U = Y²" },
-  y: { domain: [0, 1.5], label: "Density" },
-  marks: [
-    Plot.rectY(normalSamples, Plot.binX({y: "density"}, {x: "u", fill: "steelblue", fillOpacity: 0.6})),
-    Plot.line(chiSqPdf, {x: "u", y: "pdf", stroke: "red", strokeWidth: 2}),
-    Plot.ruleY([0])
-  ]
-})
-```
-
-**Red line:** Theoretical $\chi^2(1)$ pdf
-
+**Question:** If we know the probability distribution of $Y$ (the return), how do we find the probability distribution of $U$ (the profit)?
 :::
 :::
+::::
+
+:::: {.column .fragment width="40%"}
+**This is the central problem:**
+
+Given:
+
+-   Random variable $Y$
+-   Function $U = g(Y)$
+-   Distribution of $Y$
+
+Find:
+
+-   Distribution of $U$
+::::
+:::::
+::::::
+
+## 📖 Key Problem Statement {.larger}
+
+::::::: {.callout-important style="font-size:40px;"}
+## 🎯 Central Question of Chapter 6
+
+::::: columns
+:::: {.column width="50%"}
+Given:
+
+1.  Random variable(s): $Y$ or $(Y_1, Y_2, \ldots, Y_n)$
+2.  A function: $U = g(Y)$ or $U = g(Y_1, Y_2, \ldots, Y_n)$
+3.  The probability distribution of $Y$ (or joint distribution)
+
+**Find:** The probability distribution of $U = g(Y)$
+::::
+
+:::: {.column .fragment width="50%"}
+**Why does this matter?**
+
+-   Statistical inference often requires knowing distributions of **sample statistics** (e.g., $\bar{Y}$, $S^2$)
+-   Financial models require distributions of **derived quantities** (portfolio returns, option values)
+-   Risk management needs distributions of **transformed variables** (VaR, profit/loss)
+::::
+:::::
+:::::::
+
+## 🔍 Example 6.1: Profit from Investment (Discrete) 
+
+:::::: {style="font-size:30px !important; margin-top: -20px;"}
+::::: columns
+:::: {.column width="55%"}
+::: fragment
+**Problem:** A stock's return $Y$ (in \$) has the following probability distribution:
+
+| $y$    | -2   | -1   | 0    | 1    | 2    |
+|--------|------|------|------|------|------|
+| $p(y)$ | 0.10 | 0.20 | 0.30 | 0.25 | 0.15 |
+
+You bought 1 share for \$50. Your **profit** is:
+$$U = Y - 5 \text{ (subtracting transaction cost)}$$
+
+**Find:** The probability distribution of $U$.
 :::
+::::
 
-## 📌 Example 3: Functions of Two Variables {.smaller}
-
-**Problem:** Let $Y_1, Y_2$ be independent Uniform(0,1). Find the distribution of $U = Y_1 + Y_2$.
-
+:::: {.column .fragment width="45%"}
 **Solution:**
 
-. . .
+For each value of $y$, compute $u = y - 5$:
 
-**Step 1:** Range of $U$: Since $0 < Y_1, Y_2 < 1$, we have $0 < U < 2$.
+| $y$ | $u = y-5$ | $p(u)$ |
+|-----|-----------|--------|
+| -2  | -7        | 0.10   |
+| -1  | -6        | 0.20   |
+| 0   | -5        | 0.30   |
+| 1   | -4        | 0.25   |
+| 2   | -3        | 0.15   |
 
-. . .
+::: {.callout-tip}
+The probabilities remain the same! Only the values shift.
+:::
+::::
+:::::
+::::::
 
-**Step 2:** For $0 < u < 1$:
-$$F_U(u) = P(Y_1 + Y_2 \leq u) = \int_0^u \int_0^{u-y_1} 1 \, dy_2 \, dy_1 = \int_0^u (u - y_1) \, dy_1 = \frac{u^2}{2}$$
+## 📊 Visualizing the Transformation
 
-. . .
+```{ojs}
+//| echo: false
 
-For $1 \leq u < 2$: (integration region changes!)
-$$F_U(u) = 1 - \frac{(2-u)^2}{2}$$
+viewof shift_param = {
+  const wrapper = html`<div style="display: flex; align-items: center; gap: 10px;">
+    <span style="white-space: nowrap; font-size: 14px; font-weight: 500; min-width: 180px;">Transaction Cost (shift):</span>
+  </div>`;
+  const slider = Inputs.range([-10, 10], {value: -5, step: 0.5, label: ""});
+  wrapper.appendChild(slider);
+  
+  // Forward the value property from the slider to the wrapper
+  Object.defineProperty(wrapper, 'value', {
+    get: () => slider.value,
+    set: (v) => { slider.value = v; }
+  });
+  
+  ['pointerdown', 'touchstart', 'mousedown', 'click', 'wheel', 'pointermove', 'touchmove', 'mousemove'].forEach(e =>
+    wrapper.addEventListener(e, ev => ev.stopPropagation())
+  );
+  return wrapper;
+}
 
-. . .
+y_values = [-2, -1, 0, 1, 2]
+probs = [0.10, 0.20, 0.30, 0.25, 0.15]
+u_values = y_values.map(y => y + shift_param)
 
-**Step 3:** Differentiate:
-$$f_U(u) = \begin{cases} u & 0 < u < 1 \\ 2 - u & 1 \leq u < 2 \end{cases}$$
+{
+  const width = 1150;
+  const height = 550;
+  const margin = {top: 50, right: 50, bottom: 70, left: 80};
+  
+  const container = html`<div style="display: flex; justify-content: center; width: 100%;"></div>`;
+  
+  const svg = d3.create("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .attr("style", "background: white; font-size: 16px;");
+  
+  const x = d3.scaleLinear()
+    .domain([
+      Math.min(d3.min(y_values), d3.min(u_values)) - 2, 
+      Math.max(d3.max(y_values), d3.max(u_values)) + 2
+    ])
+    .range([margin.left, width - margin.right]);
+  
+  const y = d3.scaleLinear()
+    .domain([0, 0.35])
+    .range([height - margin.bottom, margin.top]);
+  
+  // Original Y distribution
+  svg.selectAll(".bar-y")
+    .data(y_values.map((val, i) => ({x: val, y: probs[i]})))
+    .join("rect")
+    .attr("class", "bar-y")
+    .attr("x", d => x(d.x) - 18)
+    .attr("y", d => y(d.y))
+    .attr("width", 36)
+    .attr("height", d => y(0) - y(d.y))
+    .attr("fill", "steelblue")
+    .attr("opacity", 0.5);
+  
+  // Transformed U distribution
+  svg.selectAll(".bar-u")
+    .data(u_values.map((val, i) => ({x: val, y: probs[i]})))
+    .join("rect")
+    .attr("class", "bar-u")
+    .attr("x", d => x(d.x) - 18)
+    .attr("y", d => y(d.y))
+    .attr("width", 36)
+    .attr("height", d => y(0) - y(d.y))
+    .attr("fill", "darkred")
+    .attr("opacity", 0.7);
+  
+  // Axes
+  svg.append("g")
+    .attr("transform", `translate(0,${height - margin.bottom})`)
+    .call(d3.axisBottom(x))
+    .style("font-size", "16px");
+  
+  svg.append("g")
+    .attr("transform", `translate(${margin.left},0)`)
+    .call(d3.axisLeft(y))
+    .style("font-size", "16px");
+  
+  // Labels
+  svg.append("text")
+    .attr("x", width / 2)
+    .attr("y", height - 15)
+    .attr("text-anchor", "middle")
+    .style("font-size", "20px")
+    .text("Value");
+  
+  svg.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("x", -height / 2)
+    .attr("y", 25)
+    .attr("text-anchor", "middle")
+    .style("font-size", "20px")
+    .text("Probability");
+  
+  svg.append("text")
+    .attr("x", width / 2)
+    .attr("y", 30)
+    .attr("text-anchor", "middle")
+    .style("font-size", "22px")
+    .style("font-weight", "bold")
+    .text(`Original Y (blue) vs Transformed U = Y + ${shift_param.toFixed(1)} (red)`);
+  
+  container.appendChild(svg.node());
+  return container;
+}
+```
 
-This is the **triangular distribution**!
+## 📖 General Approach for Discrete RVs {.larger}
 
-## 📖 Visualizing the Sum of Uniforms {.smaller}
+:::::: {.callout-note style="font-size:40px;"}
+## 📝 Method for Discrete Transformations
 
-::: {.columns}
-::: {.column width="50%"}
+Given: Discrete random variable $Y$ with probability function $p_Y(y)$
+
+Let: $U = g(Y)$ be a transformation
+
+**Steps to find** $p_U(u)$:
+
+::: incremental
+1.  List all possible values of $Y$: $y_1, y_2, \ldots$
+
+2.  Compute corresponding values of $U$: $u_i = g(y_i)$
+
+3.  For each unique value $u$, find all $y$ values that map to it
+
+4.  Sum probabilities: $p_U(u) = \sum_{y: g(y)=u} p_Y(y)$
+:::
+::::::
+
+## 🔍 Example 6.2: Non-One-to-One Function {.larger}
+
+:::::: {style="font-size:32px"}
+::::: columns
+:::: {.column .fragment width="46%"}
+**Problem:** Stock return $Y$ has distribution:
+
+| $y$    | -2   | -1   | 0    | 1    | 2    |
+|--------|------|------|------|------|------|
+| $p(y)$ | 0.10 | 0.20 | 0.30 | 0.25 | 0.15 |
+
+Define **absolute return**:
+$$U = |Y|^2$$
+
+Find $p_U(u)$.
+::::
+
+:::: {.column .fragment width="30%"}
+**Mapping:** Multiple $y$ values map to same $u$:
+
+| $y$ | $u = y^2$ | $p_Y(y)$ |
+|-----|-----------|----------|
+| -2  | 4         | 0.10     |
+| -1  | 1         | 0.20     |
+| 0   | 0         | 0.30     |
+| 1   | 1         | 0.25     |
+| 2   | 4         | 0.15     |
+::::
+
+:::: {.column .fragment width="24%"}
+**Solution:** Combine probabilities for same $u$:
+
+| $u$ | $p_U(u)$ |
+|-----|----------|
+| 0   | 0.30     |
+| 1   | 0.45     |
+| 4   | 0.25     |
+
+::: {.callout-tip}
+$p_U(1) = p_Y(-1) + p_Y(1)$
+
+$= 0.20 + 0.25 = 0.45$
+:::
+::::
+:::::
+::::::
+
+## 📖 Method of Distribution Functions (Continuous) {.smaller}
+
+::::::: {.callout-important style="font-size:32px;"}
+## 🔧 Method of Distribution Functions
+
+**For continuous random variables**, we use CDFs to find distributions:
+
+::::: columns
+:::: {.column width="50%"}
+**Given:**
+
+-   Continuous RV $Y$ with pdf $f_Y(y)$ and CDF $F_Y(y)$
+-   Transformation $U = g(Y)$
+::::
+
+:::: {.column .fragment width="50%"}
+**Steps:**
+
+1.  Find CDF of $U$: $F_U(u) = P(U \leq u) = P(g(Y) \leq u)$
+
+2.  Convert to inequality in $Y$: $P(Y \in A_u)$ where $A_u = \{y: g(y) \leq u\}$
+
+3.  Differentiate to get pdf: $f_U(u) = \frac{d}{du}F_U(u)$
+::::
+:::::
+:::::::
+
+## 🔍 Example 6.3: Linear Transformation
+
+:::::: {style="font-size:30px; margin-top:-20px;"}
+::::: columns
+:::: {.column width="50%"}
+::: fragment
+**Problem:** Daily stock return $Y \sim \text{Uniform}(0, 1)$, so $f_Y(y) = 1$ for $0 \leq y \leq 1$.
+
+An investor scales and shifts the return: $U = 2Y + 1$
+
+**Find:** The pdf of $U$.
+:::
+
+::: fragment
+**Solution:**
+
+1.  **Find support of U:** Since $0 \leq Y \leq 1$, then $1 \leq U \leq 3$
+
+2.  **Find CDF:** For $1 \leq u \leq 3$:
+    $$F_U(u) = P(U \leq u) = P(2Y + 1 \leq u) $$
+    $$ = P\left(Y \leq \frac{u-1}{2}\right) = F_Y\left(\frac{u-1}{2}\right)$$
+:::
+::::
+
+:::: {.column .fragment width="50%"}
+**Solution (continued):**
+
+3.  **Since** $Y \sim \text{Uniform}(0,1)$: $F_Y(y) = y$, so $F_U(u) = \frac{u-1}{2}$
+
+4.  **Differentiate:**
+    $$f_U(u) = \frac{d}{du}\left(\frac{u-1}{2}\right) = \frac{1}{2}, \quad 1 \leq u \leq 3$$
+
+::: {.callout-tip}
+$U \sim \text{Uniform}(1, 3)$ — Linear transformation of uniform is uniform!
+:::
+::::
+:::::
+::::::
+
+## 📊 Interactive: Linear Transformation of Uniform
+
+```{ojs}
+//| echo: false
+
+viewof scale_a = {
+  const wrapper = html`<div style="display: flex; align-items: center; gap: 10px;">
+    <span style="white-space: nowrap; font-size: 14px; font-weight: 500; min-width: 160px;">Scale parameter (a):</span>
+  </div>`;
+  const slider = Inputs.range([0.5, 5], {value: 2, step: 0.1, label: ""});
+  wrapper.appendChild(slider);
+  
+  // Forward the value property from the slider to the wrapper
+  Object.defineProperty(wrapper, 'value', {
+    get: () => slider.value,
+    set: (v) => { slider.value = v; }
+  });
+  
+  ['pointerdown', 'touchstart', 'mousedown', 'click', 'wheel', 'pointermove', 'touchmove', 'mousemove'].forEach(e =>
+    wrapper.addEventListener(e, ev => ev.stopPropagation())
+  );
+  return wrapper;
+}
+
+viewof shift_b = {
+  const wrapper = html`<div style="display: flex; align-items: center; gap: 10px;">
+    <span style="white-space: nowrap; font-size: 14px; font-weight: 500; min-width: 160px;">Shift parameter (b):</span>
+  </div>`;
+  const slider = Inputs.range([-2, 5], {value: 1, step: 0.1, label: ""});
+  wrapper.appendChild(slider);
+  
+  // Forward the value property from the slider to the wrapper
+  Object.defineProperty(wrapper, 'value', {
+    get: () => slider.value,
+    set: (v) => { slider.value = v; }
+  });
+  
+  ['pointerdown', 'touchstart', 'mousedown', 'click', 'wheel', 'pointermove', 'touchmove', 'mousemove'].forEach(e =>
+    wrapper.addEventListener(e, ev => ev.stopPropagation())
+  );
+  return wrapper;
+}
+
+u_min = shift_b
+u_max = scale_a + shift_b
+f_u = 1 / scale_a
+
+{
+  const width = 1000;
+  const height = 440;
+  const margin = {top: 40, right: 40, bottom: 60, left: 70};
+  
+  const svg = d3.create("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .attr("style", "background: white; font-size: 16px;");
+  
+  const x = d3.scaleLinear()
+    .domain([-1, Math.max(6, u_max + 1)])
+    .range([margin.left, width - margin.right]);
+  
+  const y_scale = d3.scaleLinear()
+    .domain([0, 1.5])
+    .range([height - margin.bottom, margin.top]);
+  
+  // Original Y ~ Uniform(0,1)
+  svg.append("rect")
+    .attr("x", x(0))
+    .attr("y", y_scale(1))
+    .attr("width", x(1) - x(0))
+    .attr("height", y_scale(0) - y_scale(1))
+    .attr("fill", "steelblue")
+    .attr("opacity", 0.4);
+  
+  // Transformed U ~ Uniform(b, a+b)
+  svg.append("rect")
+    .attr("x", x(u_min))
+    .attr("y", y_scale(f_u))
+    .attr("width", x(u_max) - x(u_min))
+    .attr("height", y_scale(0) - y_scale(f_u))
+    .attr("fill", "darkred")
+    .attr("opacity", 0.6);
+  
+  // Axes
+  svg.append("g")
+    .attr("transform", `translate(0,${height - margin.bottom})`)
+    .call(d3.axisBottom(x))
+    .style("font-size", "14px");
+  
+  svg.append("g")
+    .attr("transform", `translate(${margin.left},0)`)
+    .call(d3.axisLeft(y_scale))
+    .style("font-size", "14px");
+  
+  // Labels
+  svg.append("text")
+    .attr("x", width / 2)
+    .attr("y", height - 10)
+    .attr("text-anchor", "middle")
+    .style("font-size", "18px")
+    .text("Value");
+  
+  svg.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("x", -height / 2)
+    .attr("y", 20)
+    .attr("text-anchor", "middle")
+    .style("font-size", "18px")
+    .text("Density");
+  
+  svg.append("text")
+    .attr("x", width / 2)
+    .attr("y", 25)
+    .attr("text-anchor", "middle")
+    .style("font-size", "20px")
+    .style("font-weight", "bold")
+    .text(`Y ~ Uniform(0,1) → U = ${scale_a.toFixed(1)}Y + ${shift_b.toFixed(1)}`);
+  
+  return svg.node();
+}
+```
+
+## 🔍 Example 6.4: Nonlinear Transformation {.larger}
+
+:::::: {style="font-size:36px; margin-top:-20px;"}
+::::: columns
+:::: {.column width="50%"}
+::: fragment
+**Problem:** Stock return $Y \sim \text{Uniform}(0, 1)$.
+
+Define **squared return**: $U = Y^2$
+
+**Find:** The pdf of $U$.
+:::
+
+::: fragment
+**Solution:**
+
+1.  **Support:** If $0 \leq Y \leq 1$, then $0 \leq U \leq 1$
+
+2.  **CDF:** For $0 \leq u \leq 1$:
+    $$F_U(u) = P(U \leq u) = P(Y^2 \leq u) $$
+    $$= P(Y \leq \sqrt{u}) = \sqrt{u}$$
+:::
+::::
+
+:::: {.column .fragment width="50%"}
+**Solution (continued):**
+
+3.  **PDF:** Differentiate:
+    $$f_U(u) = \frac{d}{du}(\sqrt{u}) = \frac{1}{2\sqrt{u}}, \quad 0 < u < 1$$
+
+::: {.callout-warning}
+**Note:** The density goes to infinity as $u \to 0^+$! This is valid because $\int_0^1 \frac{1}{2\sqrt{u}} du = 1$.
+:::
+::::
+:::::
+::::::
+
+## 📊 Comparing Linear vs Nonlinear Transformations
+
+::::: columns
+:::: {.column width="30%"}
+```{ojs}
+//| echo: false
+
+viewof trans_type = {
+  const wrapper = html`<div style="margin-top: 20px;">
+    <div style="font-size: 18px; font-weight: 600; margin-bottom: 15px; color: #2c3e50;">
+      Select Transformation:
+    </div>
+  </div>`;
+  
+  const radio = Inputs.radio(
+    ["Linear: U = 2Y + 1", "Quadratic: U = Y²", "Cubic: U = Y³", "Square Root: U = √Y"],
+    {value: "Quadratic: U = Y²", label: ""}
+  );
+  wrapper.appendChild(radio);
+  
+  // Forward the value property
+  Object.defineProperty(wrapper, 'value', {
+    get: () => radio.value,
+    set: (v) => { radio.value = v; }
+  });
+  
+  return wrapper;
+}
+```
+
+::: {.callout-tip style="font-size: 20px; margin-top: 28px;"}
+**Key Insight:**
+
+- **Linear**: Preserves uniform shape
+- **Quadratic**: Density → ∞ as u → 0
+- **Cubic**: Higher concentration near 0
+- **Square Root**: Linear increase in density
+:::
+::::
+
+:::: {.column width="70%"}
+```{ojs}
+//| echo: false
+
+y_grid = Array.from({length: 300}, (_, i) => i / 299)
+
+u_transformed = y_grid.map(y => {
+  if (trans_type === "Linear: U = 2Y + 1") return 2 * y + 1;
+  if (trans_type === "Quadratic: U = Y²") return y * y;
+  if (trans_type === "Cubic: U = Y³") return y * y * y;
+  if (trans_type === "Square Root: U = √Y") return Math.sqrt(y);
+})
+
+f_u_values = y_grid.map((y, i) => {
+  const u = u_transformed[i];
+  if (trans_type === "Linear: U = 2Y + 1") return {u: u, f: 0.5};
+  if (trans_type === "Quadratic: U = Y²") return {u: u, f: 0.5 / Math.sqrt(Math.max(u, 0.001))};
+  if (trans_type === "Cubic: U = Y³") return {u: u, f: (1/3) / Math.pow(Math.max(u, 0.001), 2/3)};
+  if (trans_type === "Square Root: U = √Y") return {u: u, f: 2 * u};
+}).filter(d => d.u >= 0 && d.u <= 5 && d.f < 100)
+
+{
+  const width = 850;
+  const height = 550;
+  const margin = {top: 60, right: 40, bottom: 70, left: 80};
+  
+  const container = html`<div style="display: flex; justify-content: center; width: 100%;"></div>`;
+  
+  const svg = d3.create("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .attr("style", "background: white; font-size: 16px;");
+  
+  // Fixed domains to zoom the plot while maintaining equal scale
+  const maxF = 2;     // y-axis limit
+  const maxU = 3.5;   // x-axis limit
+  
+  // Calculate scale to maintain aspect ratio (same pixels per unit on both axes)
+  const plotHeight = height - margin.bottom - margin.top;
+  const plotWidth = width - margin.right - margin.left;
+  
+  // Use the smaller scale to ensure both axes fit
+  const pixelsPerUnitY = plotHeight / maxF;
+  const pixelsPerUnitX = plotWidth / maxU;
+  const pixelsPerUnit = Math.min(pixelsPerUnitY, pixelsPerUnitX);
+  
+  // Recalculate actual plot dimensions with equal scale
+  const actualPlotWidth = pixelsPerUnit * maxU;
+  const actualPlotHeight = pixelsPerUnit * maxF;
+  
+  const x = d3.scaleLinear()
+    .domain([0, maxU])
+    .range([margin.left, margin.left + actualPlotWidth]);
+  
+  const y_scale = d3.scaleLinear()
+    .domain([0, maxF])
+    .range([height - margin.bottom, height - margin.bottom - actualPlotHeight]);
+  
+  // Original Y ~ Uniform(0,1) distribution - now truly square with width=1, height=1
+  svg.append("rect")
+    .attr("x", x(0))
+    .attr("y", y_scale(1))
+    .attr("width", x(1) - x(0))
+    .attr("height", y_scale(0) - y_scale(1))
+    .attr("fill", "steelblue")
+    .attr("opacity", 0.5)
+    .attr("stroke", "steelblue")
+    .attr("stroke-width", 4);
+  
+  // Add label for original distribution
+  svg.append("text")
+    .attr("x", x(0.5))
+    .attr("y", y_scale(1) - 10)
+    .attr("text-anchor", "middle")
+    .style("font-size", "15px")
+    .style("fill", "steelblue")
+    .style("font-weight", "bold")
+    .text("Y ~ Uniform(0,1)");
+  
+  // Transformed distribution - clip at maxF for stability
+  const area = d3.area()
+    .x(d => x(d.u))
+    .y0(y_scale(0))
+    .y1(d => y_scale(Math.min(d.f, maxF)));
+  
+  svg.append("path")
+    .datum(f_u_values)
+    .attr("fill", "darkred")
+    .attr("fill-opacity", 0.5)
+    .attr("stroke", "darkred")
+    .attr("stroke-width", 3)
+    .attr("d", area);
+  
+  // Axes
+  svg.append("g")
+    .attr("transform", `translate(0,${height - margin.bottom})`)
+    .call(d3.axisBottom(x).ticks(8))
+    .style("font-size", "15px");
+  
+  svg.append("g")
+    .attr("transform", `translate(${margin.left},0)`)
+    .call(d3.axisLeft(y_scale).ticks(6))
+    .style("font-size", "15px");
+  
+  // Axis labels
+  svg.append("text")
+    .attr("x", width / 2)
+    .attr("y", height - 20)
+    .attr("text-anchor", "middle")
+    .style("font-size", "19px")
+    .style("font-weight", "600")
+    .text("Value");
+  
+  svg.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("x", -height / 2)
+    .attr("y", 25)
+    .attr("text-anchor", "middle")
+    .style("font-size", "19px")
+    .style("font-weight", "600")
+    .text("Density");
+  
+  // Title
+  svg.append("text")
+    .attr("x", width / 2)
+    .attr("y", 30)
+    .attr("text-anchor", "middle")
+    .style("font-size", "21px")
+    .style("font-weight", "bold")
+    .text(`Transformation: ${trans_type}`);
+  
+  container.appendChild(svg.node());
+  return container;
+}
+```
+::::
+:::::
+
+## 🧮 Theorem 6.1: General Distribution Function Method {.larger}
+
+::::::: {.callout-important style="font-size:38px;"}
+## Theorem 6.1: Distribution Function Technique
+
+Let $Y$ have CDF $F_Y(y)$ and pdf $f_Y(y)$. Let $U = g(Y)$ where $g$ is an **increasing** function with inverse $g^{-1}$.
+
+Then the pdf of $U$ is:
+
+$$f_U(u) = f_Y(g^{-1}(u)) \left| \frac{d}{du} g^{-1}(u) \right|$$
+
+:::: {.fragment}
+::: {style="font-size:34px"}
+**Intuition:** The Jacobian $\left| \frac{d}{du} g^{-1}(u) \right|$ accounts for how the transformation "stretches" or "compresses" probability.
+
+**Important:** If $g$ is **decreasing**, the same formula works with the absolute value of the derivative.
+:::
+::::
+:::::::
+
+## 💼 Think-Pair-Share: Portfolio Returns {.smaller}
+
+::::: columns
+:::: {.column width="45%"}
+::: {.callout-note style="font-size:30px;"}
+## 📋 Scenario
+
+You invest in two stocks:
+
+-   **Stock A:** $Y_A \sim \text{Normal}(\mu_A = 0.08, \sigma_A = 0.15)$
+-   **Stock B:** $Y_B \sim \text{Normal}(\mu_B = 0.12, \sigma_B = 0.20)$
+
+You allocate **60% to A** and **40% to B**.
+
+Portfolio return:
+$$U = 0.6 Y_A + 0.4 Y_B$$
+:::
+::::
+
+:::: {.column width="55%"}
+::: {.callout-tip style="font-size:28px;"}
+## ❓ Discussion Questions
+
+**1.** What method would you use to find the distribution of $U$?
+
+**2.** If $Y_A$ and $Y_B$ are independent, what is the distribution of $U$?
+
+**3.** How would correlation between $Y_A$ and $Y_B$ affect your answer?
+:::
+
+::: {style="margin-top:20px; font-size:26px; text-align:center; color:#2c3e50; font-weight:600;"}
+⏱️ Discuss with your neighbor for 5 minutes
+:::
+::::
+:::::
 
 ```{r}
+#| echo: false
+library(countdown)
+countdown(minutes = 5, seconds = 0,
+          top = 0, right = 0,
+          font_size = "1.5em",
+          color_running_background = "#31b09e",
+          color_running_text = "white",
+          color_finished_background = "#cc3311",
+          color_finished_text = "white",
+          color_warning_background = "#f7dc6f",
+          warn_when = 60,
+          play_sound = TRUE)
+```
+
+## 📊 Case Study: Demonstrating Y² Transformation
+
+::::: columns
+:::: {.column width="32%"}
+::: {.callout-note style="font-size:32px"}
+## 💼 Visualizing the Quadratic Transformation
+
+**Key Learning:** When $Y \sim \text{Uniform}(0,1)$ and $U = Y^2$, we expect:
+
+$$f_U(u) = \frac{1}{2\sqrt{u}}$$
+
+Let's verify this with simulation!
+
+**Method:**
+- Generate 10,000 samples from Uniform(0,1)
+- Transform to $U = Y^2$
+- Compare empirical histogram to theoretical density
+:::
+::::
+
+:::: {.column width="68%"}
+```{r}
 #| echo: true
-#| message: false
-#| warning: false
-#| eval: true
-#| fig-width: 5
-#| fig-height: 4
+#| code-fold: true
+#| code-summary: "📊 Show Code"
+#| fig-width: 9
+#| fig-height: 4.5
 
 library(tidyverse)
 
-# Generate sum of two uniforms
-set.seed(42)
+# Generate samples from Uniform(0,1)
+set.seed(123)
 n <- 10000
-y1 <- runif(n)
-y2 <- runif(n)
-u <- y1 + y2
+y_samples <- runif(n, 0, 1)
+u_samples <- y_samples^2
 
-# Theoretical triangular PDF
-u_theory <- seq(0, 2, 0.01)
-f_theory <- ifelse(u_theory < 1, u_theory, 2 - u_theory)
+# Theoretical density for U = Y²
+u_seq <- seq(0.01, 1, length.out = 200)
+f_u_theoretical <- 1 / (2 * sqrt(u_seq))
 
-# Plot
+# Create comparison plot
 ggplot() +
-  geom_histogram(aes(x = u, y = after_stat(density)), 
-                 bins = 50, fill = "steelblue", alpha = 0.6) +
-  geom_line(aes(x = u_theory, y = f_theory), 
-            color = "red", linewidth = 1.2) +
-  labs(title = "Distribution of U = Y₁ + Y₂",
-       subtitle = "Sum of two Uniform(0,1) variables",
-       x = "U", y = "Density") +
-  theme_minimal()
+  # Empirical histogram
+  geom_histogram(aes(x = u_samples, y = after_stat(density)), 
+                 bins = 50, fill = "darkred", alpha = 0.5, color = "white") +
+  # Theoretical density
+  geom_line(aes(x = u_seq, y = f_u_theoretical), 
+            color = "blue", linewidth = 2) +
+  # Annotations
+  annotate("text", x = 0.7, y = 3, 
+           label = "Theoretical: f[U](u)==frac(1,2*sqrt(u))",
+           parse = TRUE, size = 6, color = "blue") +
+  annotate("text", x = 0.7, y = 2.5, 
+           label = "Empirical: 10,000 samples",
+           size = 5, color = "darkred") +
+  labs(title = "Transformation U = Y² where Y ~ Uniform(0,1)",
+       subtitle = "Notice: Density → ∞ as u → 0, matching our theoretical result!",
+       x = "u = y²", y = "Density f_U(u)") +
+  theme_minimal(base_size = 16) +
+  coord_cartesian(ylim = c(0, 4))
 ```
+::::
+:::::
 
+## 📊 Case Study: Real Stock Portfolio Transformation
+
+::::: columns
+:::: {.column width="35%"}
+::: {.callout-note style="font-size:30px"}
+## 💼 Linear Transformation of Stock Returns
+
+**Scenario:** Portfolio with:
+- 60% Apple (AAPL)
+- 40% Microsoft (MSFT)
+- Monthly data: 2020-2024
+
+**Transformation:**
+$$R_p = 0.6 \cdot R_{AAPL} + 0.4 \cdot R_{MSFT}$$
+
+**Key Question:** How does the portfolio return distribution compare to individual stocks?
 :::
+::::
 
-::: {.column width="50%"}
-::: {.fragment}
-**Key Observations:**
-
-- Sum of uniforms is **NOT** uniform!
-
-- The triangular shape emerges from the **convolution** of densities
-
-- Central Limit Theorem preview: Sum of more uniforms → approaches normal
-
-**Financial Insight:** This is why portfolio returns don't follow the same distribution as individual asset returns!
-:::
-:::
-:::
-
-## 💰 Case Study: Stock Returns Distribution {.smaller}
-
-::: {style="font-size:22px"}
-::: {.columns}
-::: {.column width="50%"}
-
+:::: {.column width="65%"}
 ```{r}
 #| echo: true
+#| code-fold: true
+#| code-summary: "📊 Show Code"
 #| message: false
 #| warning: false
-#| eval: true
+#| fig-width: 7.5
+#| fig-height: 4
 
 library(tidyverse)
 library(tidyquant)
 
-# Download Apple stock data
-aapl <- tq_get("AAPL", from = "2020-01-01", to = "2024-12-31")
+# Download monthly returns for AAPL and MSFT (2020-2024)
+stocks <- c("AAPL", "MSFT")
+prices <- tq_get(stocks, 
+                 from = "2020-01-01", 
+                 to = "2024-12-31",
+                 get = "stock.prices")
 
-# Calculate different return transformations
-returns <- aapl %>%
-  mutate(
-    # Simple return: R = (P_t - P_{t-1}) / P_{t-1}
-    simple_return = (adjusted - lag(adjusted)) / lag(adjusted),
-    # Log return: r = ln(P_t / P_{t-1})
-    log_return = log(adjusted / lag(adjusted)),
-    # Squared return (for volatility)
-    sq_return = log_return^2
+# Calculate monthly returns
+returns <- prices %>%
+  group_by(symbol) %>%
+  tq_transmute(select = adjusted,
+               mutate_fun = periodReturn,
+               period = "monthly",
+               col_rename = "return")
+
+# Pivot to wide format
+returns_wide <- returns %>%
+  pivot_wider(names_from = symbol, values_from = return) %>%
+  drop_na()
+
+# Create portfolio returns (60% AAPL, 40% MSFT)
+returns_wide <- returns_wide %>%
+  mutate(Portfolio = 0.6 * AAPL + 0.4 * MSFT)
+
+# Plot distributions
+returns_wide %>%
+  select(date, AAPL, MSFT, Portfolio) %>%
+  pivot_longer(-date, names_to = "Asset", values_to = "Return") %>%
+  ggplot(aes(x = Return, fill = Asset, color = Asset)) +
+  geom_density(alpha = 0.4, linewidth = 1.2) +
+  scale_fill_manual(values = c("AAPL" = "#3498db", 
+                                "MSFT" = "#e74c3c", 
+                                "Portfolio" = "#2ecc71")) +
+  scale_color_manual(values = c("AAPL" = "#2980b9", 
+                                 "MSFT" = "#c0392b", 
+                                 "Portfolio" = "#27ae60")) +
+  labs(title = "Distribution of Monthly Returns (2020-2024)",
+       subtitle = "Portfolio = 60% AAPL + 40% MSFT",
+       x = "Monthly Return", y = "Density") +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "top")
+```
+::::
+:::::
+
+## 📊 Case Study: Portfolio Statistics
+
+::: {style="font-size:30px"}
+```{r}
+#| echo: true
+#| code-fold: true
+#| code-summary: "📊 Show Code"
+#| message: false
+#| warning: false
+
+library(knitr)
+
+# Calculate summary statistics
+stats <- returns_wide %>%
+  summarise(
+    across(c(AAPL, MSFT, Portfolio),
+           list(
+             Mean = ~mean(., na.rm = TRUE) * 12 * 100,  # Annualized %
+             SD = ~sd(., na.rm = TRUE) * sqrt(12) * 100,  # Annualized %
+             Sharpe = ~(mean(., na.rm = TRUE) / sd(., na.rm = TRUE)) * sqrt(12)
+           ),
+           .names = "{.col}_{.fn}"
+    )
   ) %>%
-  na.omit()
+  pivot_longer(everything(), 
+               names_to = c("Asset", ".value"),
+               names_pattern = "(.*)_(.*)") %>%
+  mutate(across(where(is.numeric), ~round(., 2)))
 
-# Summary statistics
-cat("Simple Returns:\n")
-cat(sprintf("  Mean: %.4f\n", mean(returns$simple_return)))
-cat(sprintf("  Std:  %.4f\n", sd(returns$simple_return)))
-
-cat("\nLog Returns:\n")
-cat(sprintf("  Mean: %.4f\n", mean(returns$log_return)))
-cat(sprintf("  Std:  %.4f\n", sd(returns$log_return)))
+kable(stats, caption = "Annualized Statistics: AAPL, MSFT, and 60/40 Portfolio")
 ```
-
 :::
 
-::: {.column width="50%"}
+::: {.callout-important style="font-size:32px; margin-top:-10px;"}
+### 🔑 Key Insights
 
-```{r}
-#| echo: true
-#| message: false
-#| warning: false
-#| eval: true
-#| fig-width: 6
-#| fig-height: 5
-
-# Compare simple vs log returns
-ggplot(returns) +
-  geom_histogram(aes(x = simple_return, y = after_stat(density), fill = "Simple"), 
-                 alpha = 0.5, bins = 50) +
-  geom_histogram(aes(x = log_return, y = after_stat(density), fill = "Log"), 
-                 alpha = 0.5, bins = 50) +
-  stat_function(fun = dnorm, 
-                args = list(mean = mean(returns$log_return), 
-                           sd = sd(returns$log_return)),
-                color = "red", linewidth = 1) +
-  labs(title = "AAPL Returns: Simple vs Log",
-       subtitle = "Red: Normal fit to log returns",
-       x = "Return", y = "Density", fill = "Type") +
-  theme_minimal() +
-  xlim(-0.15, 0.15)
-```
-
-:::
-:::
-:::
-
-## 💰 Case Study: Why Log Returns? {.smaller}
-
-::: {style="font-size:26px"}
-::: {.columns}
-::: {.column width="50%"}
-
-**The Transformation:**
-$$r_t = \ln\left(\frac{P_t}{P_{t-1}}\right) = \ln(P_t) - \ln(P_{t-1})$$
-
-If $\ln(P_t) \sim N(\mu, \sigma^2)$, then:
-$$r_t \sim N(\mu_r, \sigma_r^2)$$
-
-**Properties of Log Returns:**
-
-1. **Additive over time**: $r_{t:t+n} = r_t + r_{t+1} + \cdots + r_{t+n-1}$
-
-2. **Approximately normal** (by CLT for sums)
-
-3. **Symmetric** around zero
-
-:::
-
-::: {.column width="50%"}
-
-```{r}
-#| echo: true
-#| message: false
-#| warning: false
-#| eval: true
-#| fig-width: 5
-#| fig-height: 4
-
-# Q-Q plot for normality check
-ggplot(returns, aes(sample = log_return)) +
-  stat_qq(color = "steelblue") +
-  stat_qq_line(color = "red") +
-  labs(title = "Q-Q Plot: Log Returns vs Normal",
-       subtitle = "Deviations in tails indicate fat tails",
-       x = "Theoretical Quantiles",
-       y = "Sample Quantiles") +
-  theme_minimal()
-```
-
-**Observation:** Heavy tails! Real returns have more extreme events than normal predicts.
-
-:::
-:::
-:::
-
-## 💰 Case Study: Key Findings {.smaller}
-
-::: {style="font-size: 26px;"}
-::: {.callout-important}
-## 📊 Analysis Results
+**Linear Transformation Property:**
 
 ::: {.columns}
 
-::: {.column width="33%"}
-::: {.fragment}
-**Transformation Effects:**
-
-- Simple and log returns nearly identical for small returns
-
-- Log returns are symmetric; simple returns slightly skewed
-
-- Transformation choice affects statistical properties
-:::
+::: {.column width="50%" .fragment}
+- Portfolio return is a **weighted sum** of individual returns
+- $E[R_p] = 0.6 \cdot E[R_{AAPL}] + 0.4 \cdot E[R_{MSFT}]$ (linearity!)
 :::
 
-::: {.column width="33%"}
-::: {.fragment}
-**Normality Assessment:**
-
-- Log returns approximately normal in center
-
-- **Fat tails**: More extreme events than normal
-
-- Kurtosis > 3 indicates leptokurtic distribution
-:::
-:::
-
-::: {.column width="33%"}
-::: {.fragment}
-**Practical Implications:**
-
-1. **Use log returns** for multi-period analysis
-
-2. **Fat tails matter** for risk management
-
-3. **VaR estimates** using normal assumption understate risk
-:::
+::: {.column width="50%" .fragment}
+- Portfolio volatility depends on **correlation** between stocks
+- **Diversification benefit:** Portfolio SD typically lower than weighted average of individual SDs
 :::
 
 :::
 :::
+
+## 📝 Quiz #1: Linear Transformations {.quiz-question}
+
+::: {style="font-size:34px"}
+A stock return Y follows a Uniform(0, 2) distribution. You transform it to U = 3Y + 1. What is the distribution of U?
+
+- Uniform(0, 6)
+- [Uniform(1, 7)]{.correct data-explanation="✅ Correct! Linear transformation of uniform is uniform. Since Y ∈ [0, 2], then U = 3Y + 1 ∈ [1, 7]. The pdf is f_U(u) = 1/6 for 1 ≤ u ≤ 7."}
+- Uniform(3, 7)
+- Normal(4, 1)
 :::
 
-## 📝 Quiz #1: Distribution Function Method {.smaller .quiz-question}
+## 📝 Quiz #2: Quadratic Transformation {.quiz-question}
 
-To find the distribution of $U = g(Y)$ using the distribution function method, the correct first step is:
+::: {style="font-size:34px"}
+If $Y \sim \text{Uniform}(0, 1)$ and $U = Y^2$, what is $f_U(0.25)$?
 
-- [Find $F_U(u) = P(U \leq u) = P(g(Y) \leq u)$]{.correct data-explanation="✅ Correct! The distribution function method starts by expressing the CDF of U in terms of events involving Y, then differentiates to get the pdf."}
-- Find the inverse function $g^{-1}(u)$
-- Compute the moment-generating function of $U$
-- Take the derivative of $g(Y)$
-
-## 📝 Quiz #2: Square Transformation {.smaller .quiz-question}
-
-If $Y \sim N(0, 1)$, what is the distribution of $U = Y^2$?
-
-- [Chi-square with 1 degree of freedom]{.correct data-explanation="✅ Correct! When you square a standard normal random variable, you get a chi-square distribution with 1 degree of freedom. This is a fundamental result used in hypothesis testing."}
-- Normal with mean 0 and variance 1
-- Exponential with mean 1
-- Uniform on (0, 1)
-
-## 📝 Quiz #3: Non-Monotonic Functions {.smaller .quiz-question}
-
-When applying the distribution function method to $U = Y^2$ where $Y$ can be positive or negative:
-
-- [We must account for both $Y = \sqrt{u}$ and $Y = -\sqrt{u}$ since $Y^2 \leq u$ means $-\sqrt{u} \leq Y \leq \sqrt{u}$]{.correct data-explanation="✅ Correct! Since squaring is not monotonic, we need to consider all values of Y that satisfy the inequality, which includes both positive and negative square roots."}
-- We only need the positive root $Y = \sqrt{u}$
-- The method cannot be applied to non-monotonic functions
-- We average the results from both roots
-
-## 📝 Quiz #4: Sum of Uniforms {.smaller .quiz-question}
-
-If $Y_1, Y_2$ are independent Uniform(0,1) random variables, what type of distribution does $U = Y_1 + Y_2$ have?
-
-- [Triangular distribution on (0, 2)]{.correct data-explanation="✅ Correct! The sum of two independent Uniform(0,1) variables follows a triangular distribution, not a uniform distribution. The pdf is f(u) = u for 0 < u < 1 and f(u) = 2 - u for 1 ≤ u < 2."}
-- Uniform distribution on (0, 2)
-- Normal distribution
-- Exponential distribution
-
-## 📝 Summary {.smaller}
-
-::: {style="font-size: 28px"}
-::: {.summary-box}
-**✅ Key Takeaways**
-
-- **Functions of random variables** arise constantly in statistics and finance (returns, test statistics, portfolio values)
-
-- The **distribution function method** is universal: Find $F_U(u) = P(g(Y) \leq u)$, then differentiate
-
-- For **monotonic functions**, the inequality $g(Y) \leq u$ simplifies directly
-
-- For **non-monotonic functions** like $Y^2$, partition the domain and sum probabilities
-
-- **Chi-square distribution**: $Y^2 \sim \chi^2(1)$ when $Y \sim N(0,1)$ — fundamental for inference
-
-- **Financial insight**: Log returns are preferred because they're additive and approximately normal
-:::
+- 0.25
+- 0.5
+- [1.0]{.correct data-explanation="✅ Correct! Using f_U(u) = 1/(2√u) for 0 < u < 1: f_U(0.25) = 1/(2√0.25) = 1/(2×0.5) = 1.0"}
+- 2.0
 :::
 
-## 📚 Practice Problems
+## 📝 Quiz #3: Distribution Function Method {.quiz-question}
 
-::: {.callout-tip}
-## 📝 Homework Problems
+::: {style="font-size:34px"}
+Why do we use the method of distribution functions for continuous RVs instead of directly transforming the pdf?
 
-**Problem 1 (Linear Transformation):** If $Y$ has pdf $f(y) = 3y^2$ for $0 < y < 1$, find the pdf of $U = 2Y - 1$.
-
-**Problem 2 (Square Root):** If $Y \sim \text{Uniform}(0, 4)$, find the distribution of $U = \sqrt{Y}$.
-
-**Problem 3 (Absolute Value):** If $Y \sim N(0, 1)$, find the pdf of $U = |Y|$. (This is the half-normal distribution.)
-
-**Problem 4 (Financial Application):** If log-price $\ln(P_t) \sim N(4, 0.04)$, find the distribution of the price $P_t$.
-
-**Problem 5 (Sum):** If $Y_1, Y_2, Y_3$ are independent Exponential(1), find $F_U(u)$ for $U = \min(Y_1, Y_2, Y_3)$.
+- It's computationally faster
+- [The CDF method properly accounts for the change in probability measure]{.correct data-explanation="✅ Correct! The CDF method correctly handles probability transformations. Direct pdf transformation would miss the Jacobian factor needed to preserve total probability of 1."}
+- PDFs cannot be transformed
+- It gives the same result either way
 :::
 
-## 👋 Thank You! {.smaller .center}
+## 📝 Quiz #4: Non-One-to-One Functions {.quiz-question}
 
+::: {style="font-size:34px"}
+For discrete RV Y with transformation U = g(Y), if g is not one-to-one, what do we do?
+
+- The transformation is invalid
+- We must use a different method
+- [Sum probabilities of all y values that map to each u]{.correct data-explanation="✅ Correct! We use p_U(u) = Σ_{y: g(y)=u} p_Y(y) to combine probabilities from all y values that produce the same u value."}
+- The pdf becomes undefined
+:::
+
+## 📚 Summary {.larger}
+
+:::::: {style="font-size:38px"}
+::: incremental
+**Key Takeaways:**
+
+-   **Functions of random variables** are ubiquitous in finance: portfolio returns, option payoffs, risk metrics
+
+-   **Discrete case:** Transform values and preserve/sum probabilities
+
+-   **Continuous case:** Use the **method of distribution functions** (CDF approach)
+
+-   **Linear transformations** preserve distributional families (e.g., uniform → uniform, normal → normal)
+
+-   **Nonlinear transformations** can dramatically change the shape of distributions
+
+-   **Real data** often requires empirical validation of theoretical distributions
+:::
+::::::
+
+## 📝 Practice Problems {.smaller}
+
+:::::: {style="font-size:34px"}
+::::: columns
+:::: {.column width="50%"}
+**Problem 1:**
+
+If $Y \sim \text{Exponential}(\lambda = 0.5)$ and $U = 2Y$, find $f_U(u)$.
+
+**Problem 2:**
+
+Stock return $Y \sim \text{Normal}(0.10, 0.04)$. An option payoff is $U = \max(Y - 0.08, 0)$. Describe how you would find $F_U(u)$.
+::::
+
+:::: {.column width="50%"}
+**Problem 3:**
+
+Two stocks have returns $Y_1$ and $Y_2$. Portfolio return is $U = 0.5Y_1 + 0.5Y_2$. If both are independent Uniform(0, 1), find $f_U(u)$.
+
+**Problem 4:**
+
+Prove that if $Y \sim \text{Uniform}(a, b)$ and $U = cY + d$ (with $c > 0$), then $U \sim \text{Uniform}(ca + d, cb + d)$.
+::::
+:::::
+::::::
+
+## 👋 Thank You!
+
+::: {style="font-size: 32px"}
 ::: {.columns}
 ::: {.column width="50%"}
 **📬 Contact Information:**
@@ -639,15 +1185,15 @@ ADA University
 ::: {.column width="50%"}
 **📅 Next Class:**
 
-**Topic:** Method of Transformations & MGF Method
+**Topic:** Method of Transformations (Theorem 6.2)
 
-**Reading:** Chapter 6, Sections 6.4-6.5
+**Reading:** Wackerly Sections 6.4-6.5
 
 **Preparation:** Review derivatives and inverse functions
 
 **⏰ Reminders:**
 
-✅ Complete Practice Problems 1-5
+✅ Complete Practice Problems 1-4
 
 ✅ Review the chain rule from calculus
 
@@ -656,9 +1202,11 @@ ADA University
 ✅ Work hard!
 :::
 :::
+:::
 
-## ❓ Questions? {.center}
+## ❓ Questions?
 
+::: {style="font-size: 45px"}
 ::: {.callout-note}
 ## 💬 Open Discussion
 
@@ -671,4 +1219,7 @@ ADA University
 - What are some other financial quantities that are functions of random variables?
 
 - When might we prefer simple returns over log returns?
+
+- In practice, when would you use empirical methods vs theoretical transformation methods?
+:::
 :::

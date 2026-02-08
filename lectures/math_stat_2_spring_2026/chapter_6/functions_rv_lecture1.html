@@ -6,11 +6,11 @@
 <script src="functions_rv_lecture1_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="functions_rv_lecture1_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="functions_rv_lecture1_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="functions_rv_lecture1_files/libs/quarto-html/quarto-syntax-highlighting-795e9e8eca1e12b12abcb09a27409631.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.8.27">
+<link href="functions_rv_lecture1_files/libs/quarto-html/quarto-syntax-highlighting-e41caad1b6b9b62eb3087831f3b4c651.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.25">
 
   <meta name="author" content="Samir Orujov, PhD">
-  <meta name="dcterms.date" content="2026-01-20">
+  <meta name="dcterms.date" content="2026-02-08">
   <title>Mathematical Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -191,6 +191,10 @@
   </style>
   <script type="module" src="functions_rv_lecture1_files/libs/quarto-ojs/quarto-ojs-runtime.js"></script>
   <link href="functions_rv_lecture1_files/libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+  <link href="functions_rv_lecture1_files/libs/countdown-0.6.0/countdown.css" rel="stylesheet">
+
+  <script src="functions_rv_lecture1_files/libs/countdown-0.6.0/countdown.js"></script>
+
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -198,7 +202,7 @@
 
 <section id="title-slide" class="quarto-title-block center">
   <h1 class="title">Mathematical Statistics</h1>
-  <p class="subtitle">Functions of Random Variables: Distribution Function Method</p>
+  <p class="subtitle">Functions of Random Variables: Introduction and Distribution Functions</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -214,24 +218,25 @@ Samir Orujov, PhD
     </div>
 </div>
 
-  <p class="date">2026-01-20</p>
+  <p class="date">2026-02-08</p>
 </section>
 <section id="learning-objectives" class="slide level2 smaller">
 <h2>🎯 Learning Objectives</h2>
 <div class="learning-objectives">
-<p>By the end of this lecture, you will be able to:</p>
+<div style="font-size:35px">
+<p>📚 By the end of this lecture, you will be able to:</p>
 <ul>
-<li><p>Understand <strong>why</strong> finding distributions of functions of random variables is essential in statistics and finance</p></li>
-<li><p>Apply the <strong>distribution function method</strong> to find the pdf of <span class="math inline">\(U = g(Y)\)</span> for univariate transformations</p></li>
-<li><p>Handle <strong>non-monotonic transformations</strong> by partitioning the domain appropriately</p></li>
-<li><p>Find the distribution of <strong>functions of multiple random variables</strong> using the CDF approach</p></li>
-<li><p>Apply these techniques to <strong>financial transformations</strong> such as returns, log-returns, and portfolio values</p></li>
+<li class="fragment"><p>Identify and formulate <strong>functions of random variables</strong> in financial contexts such as portfolio returns, option payoffs, and risk metrics</p></li>
+<li class="fragment"><p>Compute probability distributions of <strong>discrete transformations</strong> using the probability function method for financial applications</p></li>
+<li class="fragment"><p>Apply the <strong>method of distribution functions</strong> to derive probability distributions of transformed continuous random variables</p></li>
+<li class="fragment"><p>Calculate probabilities for <strong>derived distributions</strong> such as sums, differences, and ratios of stock returns using CDFs</p></li>
+<li class="fragment"><p>Implement statistical transformations in R to analyze <strong>real financial data</strong> and validate theoretical distributions</p></li>
 </ul>
 </div>
+</div>
 </section>
-<section id="overview" class="slide level2 smaller">
+<section id="overview" class="slide level2">
 <h2>📋 Overview</h2>
-<div style="font-size:38px">
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -241,19 +246,20 @@ Samir Orujov, PhD
 <p><strong>📚 Topics Covered Today</strong></p>
 </div>
 <div class="callout-content">
+<div style="font-size:32px">
 <ul>
-<li class="fragment"><p><strong>Introduction to Transformations</strong> – Why study functions of random variables?</p></li>
-<li class="fragment"><p><strong>The Distribution Function Method</strong> – Finding <span class="math inline">\(F_U(u) = P(U \leq u)\)</span> then differentiating</p></li>
-<li class="fragment"><p><strong>Monotonic Transformations</strong> – Increasing and decreasing functions</p></li>
-<li class="fragment"><p><strong>Non-Monotonic Transformations</strong> – Handling functions like <span class="math inline">\(U = Y^2\)</span></p></li>
-<li class="fragment"><p><strong>Case Study</strong> – Stock returns as transformations of prices</p></li>
+<li class="fragment"><p><strong>Why Functions of Random Variables?</strong> – Motivation from portfolio theory, derivatives pricing, and risk management</p></li>
+<li class="fragment"><p><strong>Finding Probability Distributions</strong> – Techniques for deriving distributions of transformations</p></li>
+<li class="fragment"><p><strong>Method of Distribution Functions</strong> – Using CDFs to find distributions of <span class="math inline">\(U = g(Y)\)</span> for continuous random variables</p></li>
+<li class="fragment"><p><strong>Financial Applications</strong> – Portfolio returns, option payoffs, profit/loss distributions</p></li>
+<li class="fragment"><p><strong>Case Study</strong> – Analyzing transformed stock returns using real market data</p></li>
 </ul>
 </div>
 </div>
 </div>
 </div>
 </section>
-<section id="why-study-functions-of-random-variables" class="slide level2 smaller">
+<section id="why-study-functions-of-random-variables" class="slide level2">
 <h2>📖 Why Study Functions of Random Variables?</h2>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
@@ -264,167 +270,306 @@ Samir Orujov, PhD
 <p><strong>🎯 Motivation</strong></p>
 </div>
 <div class="callout-content">
-<p>In practice, we often observe one random variable but need to know the distribution of a <strong>function</strong> of that variable:</p>
+<div style="font-size:30px">
+<p>In finance and economics, we constantly work with <strong>transformations of random variables</strong>:</p>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="fragment">
-<p><strong>Finance Applications:</strong></p>
+<p><strong>Portfolio &amp; Investment:</strong></p>
 <ul>
-<li>Stock prices → Returns: <span class="math inline">\(R = \frac{P_t - P_{t-1}}{P_{t-1}}\)</span></li>
-<li>Prices → Log-returns: <span class="math inline">\(r = \ln(P_t/P_{t-1})\)</span></li>
-<li>Individual returns → Portfolio value</li>
-<li>Asset values → Option payoffs</li>
+<li>Portfolio return = weighted sum of individual stock returns</li>
+<li>Profit/Loss = Stock price - Purchase price</li>
+<li>Return on investment = (Final - Initial) / Initial</li>
+<li>Option payoffs = max(S - K, 0)</li>
 </ul>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="fragment">
-<p><strong>Statistical Applications:</strong></p>
+<p><strong>Risk Management:</strong></p>
 <ul>
-<li>Sample mean <span class="math inline">\(\bar{Y}\)</span> from individual <span class="math inline">\(Y_i\)</span>’s</li>
-<li>Sample variance <span class="math inline">\(S^2\)</span> from data</li>
-<li>Test statistics (t, F, χ²)</li>
-<li>Maximum/minimum values</li>
+<li>Value at Risk (VaR) transformations</li>
+<li>Portfolio variance from covariances</li>
+<li>Credit ratings from default probabilities</li>
+<li>Exchange rate conversions</li>
 </ul>
 </div>
 </div></div>
 </div>
 </div>
 </div>
-<p><strong>Key Question:</strong> Given the distribution of <span class="math inline">\(Y\)</span>, how do we find the distribution of <span class="math inline">\(U = g(Y)\)</span>?</p>
-</section>
-<section id="three-main-methods" class="slide level2 smaller">
-<h2>📖 Three Main Methods</h2>
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>📝 Overview of Techniques</strong></p>
-</div>
-<div class="callout-content">
-<p>We will study three approaches to find the distribution of <span class="math inline">\(U = g(Y)\)</span>:</p>
-<p><strong>1. Distribution Function Method (Today)</strong> <span class="math display">\[F_U(u) = P(U \leq u) = P(g(Y) \leq u)\]</span> Then differentiate: <span class="math inline">\(f_U(u) = \frac{d}{du}F_U(u)\)</span></p>
-<p><strong>2. Method of Transformations (Next Lecture)</strong> Direct formula using the inverse function and its derivative</p>
-<p><strong>3. Moment-Generating Function Method (Next Lecture)</strong> Find <span class="math inline">\(M_U(t)\)</span> and identify the distribution</p>
-</div>
-</div>
-</div>
-<p><strong>Key Insight:</strong> The distribution function method is the most <strong>general</strong> approach—it always works!</p>
-</section>
-<section id="definition-the-distribution-function-method" class="slide level2 smaller">
-<h2>📖 Definition: The Distribution Function Method</h2>
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>📝 Method of Distribution Functions</strong></p>
-</div>
-<div class="callout-content">
-<p>To find the probability distribution of <span class="math inline">\(U = g(Y)\)</span>:</p>
-<p><strong>Step 1:</strong> Find the CDF of <span class="math inline">\(U\)</span>: <span class="math display">\[F_U(u) = P(U \leq u) = P(g(Y) \leq u)\]</span></p>
-<p><strong>Step 2:</strong> Express <span class="math inline">\(P(g(Y) \leq u)\)</span> in terms of events involving <span class="math inline">\(Y\)</span></p>
-<p><strong>Step 3:</strong> Use the known distribution of <span class="math inline">\(Y\)</span> to compute the probability</p>
-<p><strong>Step 4:</strong> Differentiate to get the pdf: <span class="math display">\[f_U(u) = \frac{d}{du}F_U(u)\]</span></p>
-</div>
-</div>
-</div>
-<p><strong>Principle:</strong> Convert the problem about <span class="math inline">\(U\)</span> into a problem about <span class="math inline">\(Y\)</span>, which we already understand!</p>
-</section>
-<section id="example-1-linear-transformation" class="slide level2 smaller">
-<h2>📌 Example 1: Linear Transformation</h2>
-<p><strong>Problem:</strong> Let <span class="math inline">\(Y\)</span> have pdf <span class="math inline">\(f_Y(y) = 2y\)</span> for <span class="math inline">\(0 &lt; y &lt; 1\)</span>. Find the distribution of <span class="math inline">\(U = 3Y + 1\)</span>.</p>
-<p><strong>Solution:</strong></p>
-<div class="fragment">
-<p><strong>Step 1:</strong> Find the range of <span class="math inline">\(U\)</span>. Since <span class="math inline">\(0 &lt; Y &lt; 1\)</span>, we have <span class="math inline">\(1 &lt; U &lt; 4\)</span>.</p>
-</div>
-<div class="fragment">
-<p><strong>Step 2:</strong> Find <span class="math inline">\(F_U(u) = P(U \leq u) = P(3Y + 1 \leq u) = P(Y \leq \frac{u-1}{3})\)</span></p>
-</div>
-<div class="fragment">
-<p><strong>Step 3:</strong> Compute using <span class="math inline">\(F_Y\)</span>: <span class="math display">\[F_U(u) = \int_0^{(u-1)/3} 2y \, dy = y^2 \Big|_0^{(u-1)/3} = \frac{(u-1)^2}{9}\]</span></p>
-</div>
-<div class="fragment">
-<p><strong>Step 4:</strong> Differentiate: <span class="math display">\[f_U(u) = \frac{d}{du}\left[\frac{(u-1)^2}{9}\right] = \frac{2(u-1)}{9} \quad \text{for } 1 &lt; u &lt; 4\]</span></p>
 </div>
 </section>
-<section id="example-2-square-transformation" class="slide level2 smaller">
-<h2>📌 Example 2: Square Transformation</h2>
-<p><strong>Problem:</strong> Let <span class="math inline">\(Y \sim N(0, 1)\)</span>. Find the distribution of <span class="math inline">\(U = Y^2\)</span>.</p>
-<p><strong>Solution:</strong></p>
+<section id="real-world-example" class="slide level2 larger">
+<h2>💡 Real-World Example</h2>
+<div style="font-size:32px">
+<div class="columns">
+<div class="column" style="width:60%;">
 <div class="fragment">
-<p><strong>Step 1:</strong> Range of <span class="math inline">\(U\)</span>: Since <span class="math inline">\(Y \in (-\infty, \infty)\)</span>, we have <span class="math inline">\(U \geq 0\)</span>.</p>
-</div>
-<div class="fragment">
-<p><strong>Step 2:</strong> For <span class="math inline">\(u &gt; 0\)</span>: <span class="math display">\[F_U(u) = P(Y^2 \leq u) = P(-\sqrt{u} \leq Y \leq \sqrt{u})\]</span></p>
-</div>
-<div class="fragment">
-<p><strong>Step 3:</strong> Using standard normal CDF <span class="math inline">\(\Phi\)</span>: <span class="math display">\[F_U(u) = \Phi(\sqrt{u}) - \Phi(-\sqrt{u}) = 2\Phi(\sqrt{u}) - 1\]</span></p>
-</div>
-<div class="fragment">
-<p><strong>Step 4:</strong> Differentiate using chain rule: <span class="math display">\[f_U(u) = 2\phi(\sqrt{u}) \cdot \frac{1}{2\sqrt{u}} = \frac{1}{\sqrt{2\pi u}}e^{-u/2}\]</span></p>
-<p>This is the <strong>Chi-square distribution with 1 degree of freedom</strong>: <span class="math inline">\(U \sim \chi^2(1)\)</span>!</p>
-</div>
-</section>
-<section id="theorem-chi-square-from-normal" class="slide level2 smaller">
-<h2>🧮 Theorem: Chi-Square from Normal</h2>
+<p><strong>Scenario:</strong> You invest in a stock with uncertain return <span class="math inline">\(Y\)</span> (in %). Your initial investment is $10,000.</p>
+<p>Your <strong>profit</strong> is a function of the return: <span class="math display">\[U = 10000 \times \frac{Y}{100}\]</span></p>
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Theorem 6.1: Square of Standard Normal</strong></p>
+<p><strong>Important</strong></p>
 </div>
 <div class="callout-content">
-<p>If <span class="math inline">\(Y \sim N(0, 1)\)</span>, then <span class="math inline">\(U = Y^2 \sim \chi^2(1)\)</span>.</p>
-<p>More generally, if <span class="math inline">\(Y_1, Y_2, \ldots, Y_n\)</span> are independent <span class="math inline">\(N(0,1)\)</span> random variables, then:</p>
-<p><span class="math display">\[U = Y_1^2 + Y_2^2 + \cdots + Y_n^2 \sim \chi^2(n)\]</span></p>
-<p>The chi-square distribution with <span class="math inline">\(n\)</span> degrees of freedom has pdf: <span class="math display">\[f(u) = \frac{1}{2^{n/2}\Gamma(n/2)}u^{n/2-1}e^{-u/2} \quad \text{for } u &gt; 0\]</span></p>
+<p><strong>Question:</strong> If we know the probability distribution of <span class="math inline">\(Y\)</span> (the return), how do we find the probability distribution of <span class="math inline">\(U\)</span> (the profit)?</p>
 </div>
 </div>
 </div>
-<p><strong>Financial Application:</strong> This result is fundamental for testing portfolio variance!</p>
+</div>
+</div><div class="column fragment" style="width:40%;">
+<p><strong>This is the central problem:</strong></p>
+<p>Given:</p>
+<ul>
+<li>Random variable <span class="math inline">\(Y\)</span></li>
+<li>Function <span class="math inline">\(U = g(Y)\)</span></li>
+<li>Distribution of <span class="math inline">\(Y\)</span></li>
+</ul>
+<p>Find:</p>
+<ul>
+<li>Distribution of <span class="math inline">\(U\)</span></li>
+</ul>
+</div></div>
+</div>
 </section>
-<section id="interactive-transformation-visualizer" class="slide level2 smaller">
-<h2>🎮 Interactive: Transformation Visualizer</h2>
-<div style="font-size: 0.8em;">
-<p><strong>Explore:</strong> See how the distribution changes under <span class="math inline">\(U = Y^2\)</span></p>
+<section id="key-problem-statement" class="slide level2 larger">
+<h2>📖 Key Problem Statement</h2>
+<div style="font-size:40px;">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>🎯 Central Question of Chapter 6</strong></p>
+</div>
+<div class="callout-content">
 <div class="columns">
-<div class="column" style="width:35%;">
+<div class="column" style="width:50%;">
+<p>Given:</p>
+<ol type="1">
+<li>Random variable(s): <span class="math inline">\(Y\)</span> or <span class="math inline">\((Y_1, Y_2, \ldots, Y_n)\)</span></li>
+<li>A function: <span class="math inline">\(U = g(Y)\)</span> or <span class="math inline">\(U = g(Y_1, Y_2, \ldots, Y_n)\)</span></li>
+<li>The probability distribution of <span class="math inline">\(Y\)</span> (or joint distribution)</li>
+</ol>
+<p><strong>Find:</strong> The probability distribution of <span class="math inline">\(U = g(Y)\)</span></p>
+</div><div class="column fragment" style="width:50%;">
+<p><strong>Why does this matter?</strong></p>
+<ul>
+<li>Statistical inference often requires knowing distributions of <strong>sample statistics</strong> (e.g., <span class="math inline">\(\bar{Y}\)</span>, <span class="math inline">\(S^2\)</span>)</li>
+<li>Financial models require distributions of <strong>derived quantities</strong> (portfolio returns, option values)</li>
+<li>Risk management needs distributions of <strong>transformed variables</strong> (VaR, profit/loss)</li>
+</ul>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="example-6.1-profit-from-investment-discrete" class="slide level2">
+<h2>🔍 Example 6.1: Profit from Investment (Discrete)</h2>
+<div style="font-size:30px !important; margin-top: -20px;">
+<div class="columns">
+<div class="column" style="width:55%;">
+<div class="fragment">
+<p><strong>Problem:</strong> A stock’s return <span class="math inline">\(Y\)</span> (in $) has the following probability distribution:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(y\)</span></th>
+<th>-2</th>
+<th>-1</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(p(y)\)</span></td>
+<td>0.10</td>
+<td>0.20</td>
+<td>0.30</td>
+<td>0.25</td>
+<td>0.15</td>
+</tr>
+</tbody>
+</table>
+<p>You bought 1 share for $50. Your <strong>profit</strong> is: <span class="math display">\[U = Y - 5 \text{ (subtracting transaction cost)}\]</span></p>
+<p><strong>Find:</strong> The probability distribution of <span class="math inline">\(U\)</span>.</p>
+</div>
+</div><div class="column fragment" style="width:45%;">
+<p><strong>Solution:</strong></p>
+<p>For each value of <span class="math inline">\(y\)</span>, compute <span class="math inline">\(u = y - 5\)</span>:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(y\)</span></th>
+<th><span class="math inline">\(u = y-5\)</span></th>
+<th><span class="math inline">\(p(u)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>-2</td>
+<td>-7</td>
+<td>0.10</td>
+</tr>
+<tr class="even">
+<td>-1</td>
+<td>-6</td>
+<td>0.20</td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>-5</td>
+<td>0.30</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>-4</td>
+<td>0.25</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>-3</td>
+<td>0.15</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p>The probabilities remain the same! Only the values shift.</p>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="visualizing-the-transformation" class="slide level2">
+<h2>📊 Visualizing the Transformation</h2>
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="234" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 233;"><span id="cb1-234"><a href=""></a>viewof n_samples <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">100</span><span class="op">,</span> <span class="dv">5000</span>]<span class="op">,</span> {</span>
-<span id="cb1-235"><a href=""></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">1000</span><span class="op">,</span> </span>
-<span id="cb1-236"><a href=""></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">100</span><span class="op">,</span> </span>
-<span id="cb1-237"><a href=""></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Sample size:"</span></span>
-<span id="cb1-238"><a href=""></a>})</span>
-<span id="cb1-239"><a href=""></a></span>
-<span id="cb1-240"><a href=""></a><span class="co">// Generate standard normal samples</span></span>
-<span id="cb1-241"><a href=""></a>normalSamples <span class="op">=</span> {</span>
-<span id="cb1-242"><a href=""></a>  <span class="kw">const</span> samples <span class="op">=</span> []<span class="op">;</span></span>
-<span id="cb1-243"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n_samples<span class="op">;</span> i<span class="op">++</span>) {</span>
-<span id="cb1-244"><a href=""></a>    <span class="co">// Box-Muller transform</span></span>
-<span id="cb1-245"><a href=""></a>    <span class="kw">const</span> u1 <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>()<span class="op">;</span></span>
-<span id="cb1-246"><a href=""></a>    <span class="kw">const</span> u2 <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>()<span class="op">;</span></span>
-<span id="cb1-247"><a href=""></a>    <span class="kw">const</span> z <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(<span class="op">-</span><span class="dv">2</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(u1)) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">cos</span>(<span class="dv">2</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">*</span> u2)<span class="op">;</span></span>
-<span id="cb1-248"><a href=""></a>    samples<span class="op">.</span><span class="fu">push</span>({<span class="dt">y</span><span class="op">:</span> z<span class="op">,</span> <span class="dt">u</span><span class="op">:</span> z <span class="op">*</span> z})<span class="op">;</span></span>
-<span id="cb1-249"><a href=""></a>  }</span>
-<span id="cb1-250"><a href=""></a>  <span class="cf">return</span> samples<span class="op">;</span></span>
-<span id="cb1-251"><a href=""></a>}</span>
-<span id="cb1-252"><a href=""></a></span>
-<span id="cb1-253"><a href=""></a><span class="co">// Chi-square(1) theoretical PDF</span></span>
-<span id="cb1-254"><a href=""></a>chiSqPdf <span class="op">=</span> {</span>
-<span id="cb1-255"><a href=""></a>  <span class="kw">const</span> points <span class="op">=</span> []<span class="op">;</span></span>
-<span id="cb1-256"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> u <span class="op">=</span> <span class="fl">0.01</span><span class="op">;</span> u <span class="op">&lt;=</span> <span class="dv">8</span><span class="op">;</span> u <span class="op">+=</span> <span class="fl">0.05</span>) {</span>
-<span id="cb1-257"><a href=""></a>    <span class="kw">const</span> pdf <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(<span class="op">-</span>u<span class="op">/</span><span class="dv">2</span>) <span class="op">/</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(<span class="dv">2</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">*</span> u)<span class="op">;</span></span>
-<span id="cb1-258"><a href=""></a>    points<span class="op">.</span><span class="fu">push</span>({<span class="dt">u</span><span class="op">:</span> u<span class="op">,</span> <span class="dt">pdf</span><span class="op">:</span> pdf})<span class="op">;</span></span>
-<span id="cb1-259"><a href=""></a>  }</span>
-<span id="cb1-260"><a href=""></a>  <span class="cf">return</span> points<span class="op">;</span></span>
-<span id="cb1-261"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="226" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 225;"><span id="cb1-226"><a href=""></a>viewof shift_param <span class="op">=</span> {</span>
+<span id="cb1-227"><a href=""></a>  <span class="kw">const</span> wrapper <span class="op">=</span> <span class="fu">html</span><span class="vs">`&lt;div style="display: flex; align-items: center; gap: 10px;"&gt;</span></span>
+<span id="cb1-228"><a href=""></a><span class="vs">    &lt;span style="white-space: nowrap; font-size: 14px; font-weight: 500; min-width: 180px;"&gt;Transaction Cost (shift):&lt;/span&gt;</span></span>
+<span id="cb1-229"><a href=""></a><span class="vs">  &lt;/div&gt;`</span><span class="op">;</span></span>
+<span id="cb1-230"><a href=""></a>  <span class="kw">const</span> slider <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="op">-</span><span class="dv">10</span><span class="op">,</span> <span class="dv">10</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="op">-</span><span class="dv">5</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">""</span>})<span class="op">;</span></span>
+<span id="cb1-231"><a href=""></a>  wrapper<span class="op">.</span><span class="fu">appendChild</span>(slider)<span class="op">;</span></span>
+<span id="cb1-232"><a href=""></a>  </span>
+<span id="cb1-233"><a href=""></a>  <span class="co">// Forward the value property from the slider to the wrapper</span></span>
+<span id="cb1-234"><a href=""></a>  <span class="bu">Object</span><span class="op">.</span><span class="fu">defineProperty</span>(wrapper<span class="op">,</span> <span class="st">'value'</span><span class="op">,</span> {</span>
+<span id="cb1-235"><a href=""></a>    <span class="kw">get</span><span class="op">:</span> () <span class="kw">=&gt;</span> slider<span class="op">.</span><span class="at">value</span><span class="op">,</span></span>
+<span id="cb1-236"><a href=""></a>    <span class="kw">set</span><span class="op">:</span> (v) <span class="kw">=&gt;</span> { slider<span class="op">.</span><span class="at">value</span> <span class="op">=</span> v<span class="op">;</span> }</span>
+<span id="cb1-237"><a href=""></a>  })<span class="op">;</span></span>
+<span id="cb1-238"><a href=""></a>  </span>
+<span id="cb1-239"><a href=""></a>  [<span class="st">'pointerdown'</span><span class="op">,</span> <span class="st">'touchstart'</span><span class="op">,</span> <span class="st">'mousedown'</span><span class="op">,</span> <span class="st">'click'</span><span class="op">,</span> <span class="st">'wheel'</span><span class="op">,</span> <span class="st">'pointermove'</span><span class="op">,</span> <span class="st">'touchmove'</span><span class="op">,</span> <span class="st">'mousemove'</span>]<span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span></span>
+<span id="cb1-240"><a href=""></a>    wrapper<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>())</span>
+<span id="cb1-241"><a href=""></a>  )<span class="op">;</span></span>
+<span id="cb1-242"><a href=""></a>  <span class="cf">return</span> wrapper<span class="op">;</span></span>
+<span id="cb1-243"><a href=""></a>}</span>
+<span id="cb1-244"><a href=""></a></span>
+<span id="cb1-245"><a href=""></a>y_values <span class="op">=</span> [<span class="op">-</span><span class="dv">2</span><span class="op">,</span> <span class="op">-</span><span class="dv">1</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">2</span>]</span>
+<span id="cb1-246"><a href=""></a>probs <span class="op">=</span> [<span class="fl">0.10</span><span class="op">,</span> <span class="fl">0.20</span><span class="op">,</span> <span class="fl">0.30</span><span class="op">,</span> <span class="fl">0.25</span><span class="op">,</span> <span class="fl">0.15</span>]</span>
+<span id="cb1-247"><a href=""></a>u_values <span class="op">=</span> y_values<span class="op">.</span><span class="fu">map</span>(y <span class="kw">=&gt;</span> y <span class="op">+</span> shift_param)</span>
+<span id="cb1-248"><a href=""></a></span>
+<span id="cb1-249"><a href=""></a>{</span>
+<span id="cb1-250"><a href=""></a>  <span class="kw">const</span> width <span class="op">=</span> <span class="dv">1150</span><span class="op">;</span></span>
+<span id="cb1-251"><a href=""></a>  <span class="kw">const</span> height <span class="op">=</span> <span class="dv">550</span><span class="op">;</span></span>
+<span id="cb1-252"><a href=""></a>  <span class="kw">const</span> margin <span class="op">=</span> {<span class="dt">top</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span> <span class="dt">right</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span> <span class="dt">bottom</span><span class="op">:</span> <span class="dv">70</span><span class="op">,</span> <span class="dt">left</span><span class="op">:</span> <span class="dv">80</span>}<span class="op">;</span></span>
+<span id="cb1-253"><a href=""></a>  </span>
+<span id="cb1-254"><a href=""></a>  <span class="kw">const</span> container <span class="op">=</span> <span class="fu">html</span><span class="vs">`&lt;div style="display: flex; justify-content: center; width: 100%;"&gt;&lt;/div&gt;`</span><span class="op">;</span></span>
+<span id="cb1-255"><a href=""></a>  </span>
+<span id="cb1-256"><a href=""></a>  <span class="kw">const</span> svg <span class="op">=</span> d3<span class="op">.</span><span class="fu">create</span>(<span class="st">"svg"</span>)</span>
+<span id="cb1-257"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"width"</span><span class="op">,</span> width)</span>
+<span id="cb1-258"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"height"</span><span class="op">,</span> height)</span>
+<span id="cb1-259"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"style"</span><span class="op">,</span> <span class="st">"background: white; font-size: 16px;"</span>)<span class="op">;</span></span>
+<span id="cb1-260"><a href=""></a>  </span>
+<span id="cb1-261"><a href=""></a>  <span class="kw">const</span> x <span class="op">=</span> d3<span class="op">.</span><span class="fu">scaleLinear</span>()</span>
+<span id="cb1-262"><a href=""></a>    <span class="op">.</span><span class="fu">domain</span>([</span>
+<span id="cb1-263"><a href=""></a>      <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(d3<span class="op">.</span><span class="fu">min</span>(y_values)<span class="op">,</span> d3<span class="op">.</span><span class="fu">min</span>(u_values)) <span class="op">-</span> <span class="dv">2</span><span class="op">,</span> </span>
+<span id="cb1-264"><a href=""></a>      <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(d3<span class="op">.</span><span class="fu">max</span>(y_values)<span class="op">,</span> d3<span class="op">.</span><span class="fu">max</span>(u_values)) <span class="op">+</span> <span class="dv">2</span></span>
+<span id="cb1-265"><a href=""></a>    ])</span>
+<span id="cb1-266"><a href=""></a>    <span class="op">.</span><span class="fu">range</span>([margin<span class="op">.</span><span class="at">left</span><span class="op">,</span> width <span class="op">-</span> margin<span class="op">.</span><span class="at">right</span>])<span class="op">;</span></span>
+<span id="cb1-267"><a href=""></a>  </span>
+<span id="cb1-268"><a href=""></a>  <span class="kw">const</span> y <span class="op">=</span> d3<span class="op">.</span><span class="fu">scaleLinear</span>()</span>
+<span id="cb1-269"><a href=""></a>    <span class="op">.</span><span class="fu">domain</span>([<span class="dv">0</span><span class="op">,</span> <span class="fl">0.35</span>])</span>
+<span id="cb1-270"><a href=""></a>    <span class="op">.</span><span class="fu">range</span>([height <span class="op">-</span> margin<span class="op">.</span><span class="at">bottom</span><span class="op">,</span> margin<span class="op">.</span><span class="at">top</span>])<span class="op">;</span></span>
+<span id="cb1-271"><a href=""></a>  </span>
+<span id="cb1-272"><a href=""></a>  <span class="co">// Original Y distribution</span></span>
+<span id="cb1-273"><a href=""></a>  svg<span class="op">.</span><span class="fu">selectAll</span>(<span class="st">".bar-y"</span>)</span>
+<span id="cb1-274"><a href=""></a>    <span class="op">.</span><span class="fu">data</span>(y_values<span class="op">.</span><span class="fu">map</span>((val<span class="op">,</span> i) <span class="kw">=&gt;</span> ({<span class="dt">x</span><span class="op">:</span> val<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> probs[i]})))</span>
+<span id="cb1-275"><a href=""></a>    <span class="op">.</span><span class="fu">join</span>(<span class="st">"rect"</span>)</span>
+<span id="cb1-276"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"class"</span><span class="op">,</span> <span class="st">"bar-y"</span>)</span>
+<span id="cb1-277"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> d <span class="kw">=&gt;</span> <span class="fu">x</span>(d<span class="op">.</span><span class="at">x</span>) <span class="op">-</span> <span class="dv">18</span>)</span>
+<span id="cb1-278"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> d <span class="kw">=&gt;</span> <span class="fu">y</span>(d<span class="op">.</span><span class="at">y</span>))</span>
+<span id="cb1-279"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"width"</span><span class="op">,</span> <span class="dv">36</span>)</span>
+<span id="cb1-280"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"height"</span><span class="op">,</span> d <span class="kw">=&gt;</span> <span class="fu">y</span>(<span class="dv">0</span>) <span class="op">-</span> <span class="fu">y</span>(d<span class="op">.</span><span class="at">y</span>))</span>
+<span id="cb1-281"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"fill"</span><span class="op">,</span> <span class="st">"steelblue"</span>)</span>
+<span id="cb1-282"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"opacity"</span><span class="op">,</span> <span class="fl">0.5</span>)<span class="op">;</span></span>
+<span id="cb1-283"><a href=""></a>  </span>
+<span id="cb1-284"><a href=""></a>  <span class="co">// Transformed U distribution</span></span>
+<span id="cb1-285"><a href=""></a>  svg<span class="op">.</span><span class="fu">selectAll</span>(<span class="st">".bar-u"</span>)</span>
+<span id="cb1-286"><a href=""></a>    <span class="op">.</span><span class="fu">data</span>(u_values<span class="op">.</span><span class="fu">map</span>((val<span class="op">,</span> i) <span class="kw">=&gt;</span> ({<span class="dt">x</span><span class="op">:</span> val<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> probs[i]})))</span>
+<span id="cb1-287"><a href=""></a>    <span class="op">.</span><span class="fu">join</span>(<span class="st">"rect"</span>)</span>
+<span id="cb1-288"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"class"</span><span class="op">,</span> <span class="st">"bar-u"</span>)</span>
+<span id="cb1-289"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> d <span class="kw">=&gt;</span> <span class="fu">x</span>(d<span class="op">.</span><span class="at">x</span>) <span class="op">-</span> <span class="dv">18</span>)</span>
+<span id="cb1-290"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> d <span class="kw">=&gt;</span> <span class="fu">y</span>(d<span class="op">.</span><span class="at">y</span>))</span>
+<span id="cb1-291"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"width"</span><span class="op">,</span> <span class="dv">36</span>)</span>
+<span id="cb1-292"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"height"</span><span class="op">,</span> d <span class="kw">=&gt;</span> <span class="fu">y</span>(<span class="dv">0</span>) <span class="op">-</span> <span class="fu">y</span>(d<span class="op">.</span><span class="at">y</span>))</span>
+<span id="cb1-293"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"fill"</span><span class="op">,</span> <span class="st">"darkred"</span>)</span>
+<span id="cb1-294"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"opacity"</span><span class="op">,</span> <span class="fl">0.7</span>)<span class="op">;</span></span>
+<span id="cb1-295"><a href=""></a>  </span>
+<span id="cb1-296"><a href=""></a>  <span class="co">// Axes</span></span>
+<span id="cb1-297"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"g"</span>)</span>
+<span id="cb1-298"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"transform"</span><span class="op">,</span> <span class="vs">`translate(0,</span><span class="sc">${</span>height <span class="op">-</span> margin<span class="op">.</span><span class="at">bottom</span><span class="sc">}</span><span class="vs">)`</span>)</span>
+<span id="cb1-299"><a href=""></a>    <span class="op">.</span><span class="fu">call</span>(d3<span class="op">.</span><span class="fu">axisBottom</span>(x))</span>
+<span id="cb1-300"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"16px"</span>)<span class="op">;</span></span>
+<span id="cb1-301"><a href=""></a>  </span>
+<span id="cb1-302"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"g"</span>)</span>
+<span id="cb1-303"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"transform"</span><span class="op">,</span> <span class="vs">`translate(</span><span class="sc">${</span>margin<span class="op">.</span><span class="at">left</span><span class="sc">}</span><span class="vs">,0)`</span>)</span>
+<span id="cb1-304"><a href=""></a>    <span class="op">.</span><span class="fu">call</span>(d3<span class="op">.</span><span class="fu">axisLeft</span>(y))</span>
+<span id="cb1-305"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"16px"</span>)<span class="op">;</span></span>
+<span id="cb1-306"><a href=""></a>  </span>
+<span id="cb1-307"><a href=""></a>  <span class="co">// Labels</span></span>
+<span id="cb1-308"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"text"</span>)</span>
+<span id="cb1-309"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> width <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb1-310"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> height <span class="op">-</span> <span class="dv">15</span>)</span>
+<span id="cb1-311"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"text-anchor"</span><span class="op">,</span> <span class="st">"middle"</span>)</span>
+<span id="cb1-312"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"20px"</span>)</span>
+<span id="cb1-313"><a href=""></a>    <span class="op">.</span><span class="fu">text</span>(<span class="st">"Value"</span>)<span class="op">;</span></span>
+<span id="cb1-314"><a href=""></a>  </span>
+<span id="cb1-315"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"text"</span>)</span>
+<span id="cb1-316"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"transform"</span><span class="op">,</span> <span class="st">"rotate(-90)"</span>)</span>
+<span id="cb1-317"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> <span class="op">-</span>height <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb1-318"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> <span class="dv">25</span>)</span>
+<span id="cb1-319"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"text-anchor"</span><span class="op">,</span> <span class="st">"middle"</span>)</span>
+<span id="cb1-320"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"20px"</span>)</span>
+<span id="cb1-321"><a href=""></a>    <span class="op">.</span><span class="fu">text</span>(<span class="st">"Probability"</span>)<span class="op">;</span></span>
+<span id="cb1-322"><a href=""></a>  </span>
+<span id="cb1-323"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"text"</span>)</span>
+<span id="cb1-324"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> width <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb1-325"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> <span class="dv">30</span>)</span>
+<span id="cb1-326"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"text-anchor"</span><span class="op">,</span> <span class="st">"middle"</span>)</span>
+<span id="cb1-327"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"22px"</span>)</span>
+<span id="cb1-328"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-weight"</span><span class="op">,</span> <span class="st">"bold"</span>)</span>
+<span id="cb1-329"><a href=""></a>    <span class="op">.</span><span class="fu">text</span>(<span class="vs">`Original Y (blue) vs Transformed U = Y + </span><span class="sc">${</span>shift_param<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs"> (red)`</span>)<span class="op">;</span></span>
+<span id="cb1-330"><a href=""></a>  </span>
+<span id="cb1-331"><a href=""></a>  container<span class="op">.</span><span class="fu">appendChild</span>(svg<span class="op">.</span><span class="fu">node</span>())<span class="op">;</span></span>
+<span id="cb1-332"><a href=""></a>  <span class="cf">return</span> container<span class="op">;</span></span>
+<span id="cb1-333"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -447,367 +592,1054 @@ Samir Orujov, PhD
 </div>
 </div>
 </div>
-</div>
-<p><strong>Transformation:</strong> <span class="math inline">\(U = Y^2\)</span></p>
-<p><strong>Samples:</strong> <span><span id="ojs-element-id-1"></span></span></p>
-</div><div class="column" style="width:65%;">
-<div class="cell">
-<details class="code-fold hidden">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="273" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 272;"><span id="cb2-273"><a href=""></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
-<span id="cb2-274"><a href=""></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">450</span><span class="op">,</span></span>
-<span id="cb2-275"><a href=""></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">300</span><span class="op">,</span></span>
-<span id="cb2-276"><a href=""></a>  <span class="dt">x</span><span class="op">:</span> { <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">8</span>]<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"U = Y²"</span> }<span class="op">,</span></span>
-<span id="cb2-277"><a href=""></a>  <span class="dt">y</span><span class="op">:</span> { <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="fl">1.5</span>]<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Density"</span> }<span class="op">,</span></span>
-<span id="cb2-278"><a href=""></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
-<span id="cb2-279"><a href=""></a>    Plot<span class="op">.</span><span class="fu">rectY</span>(normalSamples<span class="op">,</span> Plot<span class="op">.</span><span class="fu">binX</span>({<span class="dt">y</span><span class="op">:</span> <span class="st">"density"</span>}<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"u"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"steelblue"</span><span class="op">,</span> <span class="dt">fillOpacity</span><span class="op">:</span> <span class="fl">0.6</span>}))<span class="op">,</span></span>
-<span id="cb2-280"><a href=""></a>    Plot<span class="op">.</span><span class="fu">line</span>(chiSqPdf<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"u"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"pdf"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"red"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span>})<span class="op">,</span></span>
-<span id="cb2-281"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
-<span id="cb2-282"><a href=""></a>  ]</span>
-<span id="cb2-283"><a href=""></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div class="cell-output cell-output-display">
-<div id="ojs-cell-2" data-nodetype="expression">
+<div>
+<div id="ojs-cell-1-4" data-nodetype="declaration">
 
 </div>
 </div>
 </div>
-<p><strong>Red line:</strong> Theoretical <span class="math inline">\(\chi^2(1)\)</span> pdf</p>
-</div></div>
-</div>
-</section>
-<section id="example-3-functions-of-two-variables" class="slide level2 smaller">
-<h2>📌 Example 3: Functions of Two Variables</h2>
-<p><strong>Problem:</strong> Let <span class="math inline">\(Y_1, Y_2\)</span> be independent Uniform(0,1). Find the distribution of <span class="math inline">\(U = Y_1 + Y_2\)</span>.</p>
-<p><strong>Solution:</strong></p>
-<div class="fragment">
-<p><strong>Step 1:</strong> Range of <span class="math inline">\(U\)</span>: Since <span class="math inline">\(0 &lt; Y_1, Y_2 &lt; 1\)</span>, we have <span class="math inline">\(0 &lt; U &lt; 2\)</span>.</p>
-</div>
-<div class="fragment">
-<p><strong>Step 2:</strong> For <span class="math inline">\(0 &lt; u &lt; 1\)</span>: <span class="math display">\[F_U(u) = P(Y_1 + Y_2 \leq u) = \int_0^u \int_0^{u-y_1} 1 \, dy_2 \, dy_1 = \int_0^u (u - y_1) \, dy_1 = \frac{u^2}{2}\]</span></p>
-</div>
-<div class="fragment">
-<p>For <span class="math inline">\(1 \leq u &lt; 2\)</span>: (integration region changes!) <span class="math display">\[F_U(u) = 1 - \frac{(2-u)^2}{2}\]</span></p>
-</div>
-<div class="fragment">
-<p><strong>Step 3:</strong> Differentiate: <span class="math display">\[f_U(u) = \begin{cases} u &amp; 0 &lt; u &lt; 1 \\ 2 - u &amp; 1 \leq u &lt; 2 \end{cases}\]</span></p>
-<p>This is the <strong>triangular distribution</strong>!</p>
-</div>
-</section>
-<section id="visualizing-the-sum-of-uniforms" class="slide level2 smaller">
-<h2>📖 Visualizing the Sum of Uniforms</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb3-2"><a href=""></a></span>
-<span id="cb3-3"><a href=""></a><span class="co"># Generate sum of two uniforms</span></span>
-<span id="cb3-4"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb3-5"><a href=""></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
-<span id="cb3-6"><a href=""></a>y1 <span class="ot">&lt;-</span> <span class="fu">runif</span>(n)</span>
-<span id="cb3-7"><a href=""></a>y2 <span class="ot">&lt;-</span> <span class="fu">runif</span>(n)</span>
-<span id="cb3-8"><a href=""></a>u <span class="ot">&lt;-</span> y1 <span class="sc">+</span> y2</span>
-<span id="cb3-9"><a href=""></a></span>
-<span id="cb3-10"><a href=""></a><span class="co"># Theoretical triangular PDF</span></span>
-<span id="cb3-11"><a href=""></a>u_theory <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">2</span>, <span class="fl">0.01</span>)</span>
-<span id="cb3-12"><a href=""></a>f_theory <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(u_theory <span class="sc">&lt;</span> <span class="dv">1</span>, u_theory, <span class="dv">2</span> <span class="sc">-</span> u_theory)</span>
-<span id="cb3-13"><a href=""></a></span>
-<span id="cb3-14"><a href=""></a><span class="co"># Plot</span></span>
-<span id="cb3-15"><a href=""></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb3-16"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x =</span> u, <span class="at">y =</span> <span class="fu">after_stat</span>(density)), </span>
-<span id="cb3-17"><a href=""></a>                 <span class="at">bins =</span> <span class="dv">50</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb3-18"><a href=""></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> u_theory, <span class="at">y =</span> f_theory), </span>
-<span id="cb3-19"><a href=""></a>            <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb3-20"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of U = Y₁ + Y₂"</span>,</span>
-<span id="cb3-21"><a href=""></a>       <span class="at">subtitle =</span> <span class="st">"Sum of two Uniform(0,1) variables"</span>,</span>
-<span id="cb3-22"><a href=""></a>       <span class="at">x =</span> <span class="st">"U"</span>, <span class="at">y =</span> <span class="st">"Density"</span>) <span class="sc">+</span></span>
-<span id="cb3-23"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output-display">
+<div class="cell-output cell-output-display">
 <div>
-<figure>
-<p><img data-src="functions_rv_lecture1_files/figure-revealjs/unnamed-chunk-3-1.png" width="480"></p>
-</figure>
+<div id="ojs-cell-1-5" data-nodetype="expression">
+
 </div>
 </div>
 </div>
-</div><div class="column" style="width:50%;">
-<div class="fragment">
-<p><strong>Key Observations:</strong></p>
-<ul>
-<li><p>Sum of uniforms is <strong>NOT</strong> uniform!</p></li>
-<li><p>The triangular shape emerges from the <strong>convolution</strong> of densities</p></li>
-<li><p>Central Limit Theorem preview: Sum of more uniforms → approaches normal</p></li>
-</ul>
-<p><strong>Financial Insight:</strong> This is why portfolio returns don’t follow the same distribution as individual asset returns!</p>
-</div>
-</div></div>
-</section>
-<section id="case-study-stock-returns-distribution" class="slide level2 smaller">
-<h2>💰 Case Study: Stock Returns Distribution</h2>
-<div style="font-size:22px">
-<div class="columns">
-<div class="column" style="width:50%;">
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb4-2"><a href=""></a><span class="fu">library</span>(tidyquant)</span>
-<span id="cb4-3"><a href=""></a></span>
-<span id="cb4-4"><a href=""></a><span class="co"># Download Apple stock data</span></span>
-<span id="cb4-5"><a href=""></a>aapl <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">"AAPL"</span>, <span class="at">from =</span> <span class="st">"2020-01-01"</span>, <span class="at">to =</span> <span class="st">"2024-12-31"</span>)</span>
-<span id="cb4-6"><a href=""></a></span>
-<span id="cb4-7"><a href=""></a><span class="co"># Calculate different return transformations</span></span>
-<span id="cb4-8"><a href=""></a>returns <span class="ot">&lt;-</span> aapl <span class="sc">%&gt;%</span></span>
-<span id="cb4-9"><a href=""></a>  <span class="fu">mutate</span>(</span>
-<span id="cb4-10"><a href=""></a>    <span class="co"># Simple return: R = (P_t - P_{t-1}) / P_{t-1}</span></span>
-<span id="cb4-11"><a href=""></a>    <span class="at">simple_return =</span> (adjusted <span class="sc">-</span> <span class="fu">lag</span>(adjusted)) <span class="sc">/</span> <span class="fu">lag</span>(adjusted),</span>
-<span id="cb4-12"><a href=""></a>    <span class="co"># Log return: r = ln(P_t / P_{t-1})</span></span>
-<span id="cb4-13"><a href=""></a>    <span class="at">log_return =</span> <span class="fu">log</span>(adjusted <span class="sc">/</span> <span class="fu">lag</span>(adjusted)),</span>
-<span id="cb4-14"><a href=""></a>    <span class="co"># Squared return (for volatility)</span></span>
-<span id="cb4-15"><a href=""></a>    <span class="at">sq_return =</span> log_return<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb4-16"><a href=""></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb4-17"><a href=""></a>  <span class="fu">na.omit</span>()</span>
-<span id="cb4-18"><a href=""></a></span>
-<span id="cb4-19"><a href=""></a><span class="co"># Summary statistics</span></span>
-<span id="cb4-20"><a href=""></a><span class="fu">cat</span>(<span class="st">"Simple Returns:</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Simple Returns:</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"  Mean: %.4f</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">mean</span>(returns<span class="sc">$</span>simple_return)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>  Mean: 0.0012</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"  Std:  %.4f</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">sd</span>(returns<span class="sc">$</span>simple_return)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>  Std:  0.0200</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Log Returns:</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Log Returns:</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"  Mean: %.4f</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">mean</span>(returns<span class="sc">$</span>log_return)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>  Mean: 0.0010</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"  Std:  %.4f</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">sd</span>(returns<span class="sc">$</span>log_return)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>  Std:  0.0199</code></pre>
-</div>
-</div>
-</div><div class="column" style="width:50%;">
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="co"># Compare simple vs log returns</span></span>
-<span id="cb16-2"><a href=""></a><span class="fu">ggplot</span>(returns) <span class="sc">+</span></span>
-<span id="cb16-3"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x =</span> simple_return, <span class="at">y =</span> <span class="fu">after_stat</span>(density), <span class="at">fill =</span> <span class="st">"Simple"</span>), </span>
-<span id="cb16-4"><a href=""></a>                 <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">bins =</span> <span class="dv">50</span>) <span class="sc">+</span></span>
-<span id="cb16-5"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x =</span> log_return, <span class="at">y =</span> <span class="fu">after_stat</span>(density), <span class="at">fill =</span> <span class="st">"Log"</span>), </span>
-<span id="cb16-6"><a href=""></a>                 <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">bins =</span> <span class="dv">50</span>) <span class="sc">+</span></span>
-<span id="cb16-7"><a href=""></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm, </span>
-<span id="cb16-8"><a href=""></a>                <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="fu">mean</span>(returns<span class="sc">$</span>log_return), </span>
-<span id="cb16-9"><a href=""></a>                           <span class="at">sd =</span> <span class="fu">sd</span>(returns<span class="sc">$</span>log_return)),</span>
-<span id="cb16-10"><a href=""></a>                <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb16-11"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"AAPL Returns: Simple vs Log"</span>,</span>
-<span id="cb16-12"><a href=""></a>       <span class="at">subtitle =</span> <span class="st">"Red: Normal fit to log returns"</span>,</span>
-<span id="cb16-13"><a href=""></a>       <span class="at">x =</span> <span class="st">"Return"</span>, <span class="at">y =</span> <span class="st">"Density"</span>, <span class="at">fill =</span> <span class="st">"Type"</span>) <span class="sc">+</span></span>
-<span id="cb16-14"><a href=""></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb16-15"><a href=""></a>  <span class="fu">xlim</span>(<span class="sc">-</span><span class="fl">0.15</span>, <span class="fl">0.15</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output-display">
-<div>
-<figure>
-<p><img data-src="functions_rv_lecture1_files/figure-revealjs/unnamed-chunk-5-1.png" width="576"></p>
-</figure>
-</div>
-</div>
-</div>
-</div></div>
-</div>
-</section>
-<section id="case-study-why-log-returns" class="slide level2 smaller">
-<h2>💰 Case Study: Why Log Returns?</h2>
-<div style="font-size:26px">
-<div class="columns">
-<div class="column" style="width:50%;">
-<p><strong>The Transformation:</strong> <span class="math display">\[r_t = \ln\left(\frac{P_t}{P_{t-1}}\right) = \ln(P_t) - \ln(P_{t-1})\]</span></p>
-<p>If <span class="math inline">\(\ln(P_t) \sim N(\mu, \sigma^2)\)</span>, then: <span class="math display">\[r_t \sim N(\mu_r, \sigma_r^2)\]</span></p>
-<p><strong>Properties of Log Returns:</strong></p>
-<ol type="1">
-<li><p><strong>Additive over time</strong>: <span class="math inline">\(r_{t:t+n} = r_t + r_{t+1} + \cdots + r_{t+n-1}\)</span></p></li>
-<li><p><strong>Approximately normal</strong> (by CLT for sums)</p></li>
-<li><p><strong>Symmetric</strong> around zero</p></li>
-</ol>
-</div><div class="column" style="width:50%;">
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a><span class="co"># Q-Q plot for normality check</span></span>
-<span id="cb17-2"><a href=""></a><span class="fu">ggplot</span>(returns, <span class="fu">aes</span>(<span class="at">sample =</span> log_return)) <span class="sc">+</span></span>
-<span id="cb17-3"><a href=""></a>  <span class="fu">stat_qq</span>(<span class="at">color =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
-<span id="cb17-4"><a href=""></a>  <span class="fu">stat_qq_line</span>(<span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb17-5"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Q-Q Plot: Log Returns vs Normal"</span>,</span>
-<span id="cb17-6"><a href=""></a>       <span class="at">subtitle =</span> <span class="st">"Deviations in tails indicate fat tails"</span>,</span>
-<span id="cb17-7"><a href=""></a>       <span class="at">x =</span> <span class="st">"Theoretical Quantiles"</span>,</span>
-<span id="cb17-8"><a href=""></a>       <span class="at">y =</span> <span class="st">"Sample Quantiles"</span>) <span class="sc">+</span></span>
-<span id="cb17-9"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output-display">
-<div>
-<figure>
-<p><img data-src="functions_rv_lecture1_files/figure-revealjs/unnamed-chunk-6-1.png" width="480"></p>
-</figure>
-</div>
-</div>
-</div>
-<p><strong>Observation:</strong> Heavy tails! Real returns have more extreme events than normal predicts.</p>
-</div></div>
 </div>
 </section>
-<section id="case-study-key-findings" class="slide level2 smaller">
-<h2>💰 Case Study: Key Findings</h2>
-<div style="font-size: 26px;">
-<div class="callout callout-important callout-titled callout-style-default">
+<section id="general-approach-for-discrete-rvs" class="slide level2 larger">
+<h2>📖 General Approach for Discrete RVs</h2>
+<div style="font-size:40px;">
+<div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>📊 Analysis Results</strong></p>
+<p><strong>📝 Method for Discrete Transformations</strong></p>
 </div>
 <div class="callout-content">
-<div class="columns">
-<div class="column" style="width:33%;">
-<div class="fragment">
-<p><strong>Transformation Effects:</strong></p>
-<ul>
-<li><p>Simple and log returns nearly identical for small returns</p></li>
-<li><p>Log returns are symmetric; simple returns slightly skewed</p></li>
-<li><p>Transformation choice affects statistical properties</p></li>
-</ul>
-</div>
-</div><div class="column" style="width:33%;">
-<div class="fragment">
-<p><strong>Normality Assessment:</strong></p>
-<ul>
-<li><p>Log returns approximately normal in center</p></li>
-<li><p><strong>Fat tails</strong>: More extreme events than normal</p></li>
-<li><p>Kurtosis &gt; 3 indicates leptokurtic distribution</p></li>
-</ul>
-</div>
-</div><div class="column" style="width:33%;">
-<div class="fragment">
-<p><strong>Practical Implications:</strong></p>
+<p>Given: Discrete random variable <span class="math inline">\(Y\)</span> with probability function <span class="math inline">\(p_Y(y)\)</span></p>
+<p>Let: <span class="math inline">\(U = g(Y)\)</span> be a transformation</p>
+<p><strong>Steps to find</strong> <span class="math inline">\(p_U(u)\)</span>:</p>
 <ol type="1">
-<li><p><strong>Use log returns</strong> for multi-period analysis</p></li>
-<li><p><strong>Fat tails matter</strong> for risk management</p></li>
-<li><p><strong>VaR estimates</strong> using normal assumption understate risk</p></li>
+<li class="fragment"><p>List all possible values of <span class="math inline">\(Y\)</span>: <span class="math inline">\(y_1, y_2, \ldots\)</span></p></li>
+<li class="fragment"><p>Compute corresponding values of <span class="math inline">\(U\)</span>: <span class="math inline">\(u_i = g(y_i)\)</span></p></li>
+<li class="fragment"><p>For each unique value <span class="math inline">\(u\)</span>, find all <span class="math inline">\(y\)</span> values that map to it</p></li>
+<li class="fragment"><p>Sum probabilities: <span class="math inline">\(p_U(u) = \sum_{y: g(y)=u} p_Y(y)\)</span></p></li>
 </ol>
 </div>
-</div></div>
-</div>
 </div>
 </div>
 </div>
 </section>
-<section id="quiz-1-distribution-function-method" class="slide level2 smaller quiz-question">
-<h2>📝 Quiz #1: Distribution Function Method</h2>
-<p>To find the distribution of <span class="math inline">\(U = g(Y)\)</span> using the distribution function method, the correct first step is:</p>
-<ul>
-<li><span class="correct" data-explanation="✅ Correct! The distribution function method starts by expressing the CDF of U in terms of events involving Y, then differentiates to get the pdf.">Find <span class="math inline">\(F_U(u) = P(U \leq u) = P(g(Y) \leq u)\)</span></span></li>
-<li>Find the inverse function <span class="math inline">\(g^{-1}(u)\)</span></li>
-<li>Compute the moment-generating function of <span class="math inline">\(U\)</span></li>
-<li>Take the derivative of <span class="math inline">\(g(Y)\)</span></li>
-</ul>
-</section>
-<section id="quiz-2-square-transformation" class="slide level2 smaller quiz-question">
-<h2>📝 Quiz #2: Square Transformation</h2>
-<p>If <span class="math inline">\(Y \sim N(0, 1)\)</span>, what is the distribution of <span class="math inline">\(U = Y^2\)</span>?</p>
-<ul>
-<li><span class="correct" data-explanation="✅ Correct! When you square a standard normal random variable, you get a chi-square distribution with 1 degree of freedom. This is a fundamental result used in hypothesis testing.">Chi-square with 1 degree of freedom</span></li>
-<li>Normal with mean 0 and variance 1</li>
-<li>Exponential with mean 1</li>
-<li>Uniform on (0, 1)</li>
-</ul>
-</section>
-<section id="quiz-3-non-monotonic-functions" class="slide level2 smaller quiz-question">
-<h2>📝 Quiz #3: Non-Monotonic Functions</h2>
-<p>When applying the distribution function method to <span class="math inline">\(U = Y^2\)</span> where <span class="math inline">\(Y\)</span> can be positive or negative:</p>
-<ul>
-<li><span class="correct" data-explanation="✅ Correct! Since squaring is not monotonic, we need to consider all values of Y that satisfy the inequality, which includes both positive and negative square roots.">We must account for both <span class="math inline">\(Y = \sqrt{u}\)</span> and <span class="math inline">\(Y = -\sqrt{u}\)</span> since <span class="math inline">\(Y^2 \leq u\)</span> means <span class="math inline">\(-\sqrt{u} \leq Y \leq \sqrt{u}\)</span></span></li>
-<li>We only need the positive root <span class="math inline">\(Y = \sqrt{u}\)</span></li>
-<li>The method cannot be applied to non-monotonic functions</li>
-<li>We average the results from both roots</li>
-</ul>
-</section>
-<section id="quiz-4-sum-of-uniforms" class="slide level2 smaller quiz-question">
-<h2>📝 Quiz #4: Sum of Uniforms</h2>
-<p>If <span class="math inline">\(Y_1, Y_2\)</span> are independent Uniform(0,1) random variables, what type of distribution does <span class="math inline">\(U = Y_1 + Y_2\)</span> have?</p>
-<ul>
-<li><span class="correct" data-explanation="✅ Correct! The sum of two independent Uniform(0,1) variables follows a triangular distribution, not a uniform distribution. The pdf is f(u) = u for 0 < u < 1 and f(u) = 2 - u for 1 ≤ u < 2.">Triangular distribution on (0, 2)</span></li>
-<li>Uniform distribution on (0, 2)</li>
-<li>Normal distribution</li>
-<li>Exponential distribution</li>
-</ul>
-</section>
-<section id="summary" class="slide level2 smaller">
-<h2>📝 Summary</h2>
-<div style="font-size: 28px">
-<div class="summary-box">
-<p><strong>✅ Key Takeaways</strong></p>
-<ul>
-<li><p><strong>Functions of random variables</strong> arise constantly in statistics and finance (returns, test statistics, portfolio values)</p></li>
-<li><p>The <strong>distribution function method</strong> is universal: Find <span class="math inline">\(F_U(u) = P(g(Y) \leq u)\)</span>, then differentiate</p></li>
-<li><p>For <strong>monotonic functions</strong>, the inequality <span class="math inline">\(g(Y) \leq u\)</span> simplifies directly</p></li>
-<li><p>For <strong>non-monotonic functions</strong> like <span class="math inline">\(Y^2\)</span>, partition the domain and sum probabilities</p></li>
-<li><p><strong>Chi-square distribution</strong>: <span class="math inline">\(Y^2 \sim \chi^2(1)\)</span> when <span class="math inline">\(Y \sim N(0,1)\)</span> — fundamental for inference</p></li>
-<li><p><strong>Financial insight</strong>: Log returns are preferred because they’re additive and approximately normal</p></li>
-</ul>
-</div>
-</div>
-</section>
-<section id="practice-problems" class="slide level2">
-<h2>📚 Practice Problems</h2>
+<section id="example-6.2-non-one-to-one-function" class="slide level2 larger">
+<h2>🔍 Example 6.2: Non-One-to-One Function</h2>
+<div style="font-size:32px">
+<div class="columns">
+<div class="column fragment" style="width:46%;">
+<p><strong>Problem:</strong> Stock return <span class="math inline">\(Y\)</span> has distribution:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(y\)</span></th>
+<th>-2</th>
+<th>-1</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(p(y)\)</span></td>
+<td>0.10</td>
+<td>0.20</td>
+<td>0.30</td>
+<td>0.25</td>
+<td>0.15</td>
+</tr>
+</tbody>
+</table>
+<p>Define <strong>absolute return</strong>: <span class="math display">\[U = |Y|^2\]</span></p>
+<p>Find <span class="math inline">\(p_U(u)\)</span>.</p>
+</div><div class="column fragment" style="width:30%;">
+<p><strong>Mapping:</strong> Multiple <span class="math inline">\(y\)</span> values map to same <span class="math inline">\(u\)</span>:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(y\)</span></th>
+<th><span class="math inline">\(u = y^2\)</span></th>
+<th><span class="math inline">\(p_Y(y)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>-2</td>
+<td>4</td>
+<td>0.10</td>
+</tr>
+<tr class="even">
+<td>-1</td>
+<td>1</td>
+<td>0.20</td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>0</td>
+<td>0.30</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>1</td>
+<td>0.25</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>4</td>
+<td>0.15</td>
+</tr>
+</tbody>
+</table>
+</div><div class="column fragment" style="width:24%;">
+<p><strong>Solution:</strong> Combine probabilities for same <span class="math inline">\(u\)</span>:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(u\)</span></th>
+<th><span class="math inline">\(p_U(u)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0.30</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>0.45</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>0.25</td>
+</tr>
+</tbody>
+</table>
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>📝 Homework Problems</strong></p>
+<p><strong>Tip</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Problem 1 (Linear Transformation):</strong> If <span class="math inline">\(Y\)</span> has pdf <span class="math inline">\(f(y) = 3y^2\)</span> for <span class="math inline">\(0 &lt; y &lt; 1\)</span>, find the pdf of <span class="math inline">\(U = 2Y - 1\)</span>.</p>
-<p><strong>Problem 2 (Square Root):</strong> If <span class="math inline">\(Y \sim \text{Uniform}(0, 4)\)</span>, find the distribution of <span class="math inline">\(U = \sqrt{Y}\)</span>.</p>
-<p><strong>Problem 3 (Absolute Value):</strong> If <span class="math inline">\(Y \sim N(0, 1)\)</span>, find the pdf of <span class="math inline">\(U = |Y|\)</span>. (This is the half-normal distribution.)</p>
-<p><strong>Problem 4 (Financial Application):</strong> If log-price <span class="math inline">\(\ln(P_t) \sim N(4, 0.04)\)</span>, find the distribution of the price <span class="math inline">\(P_t\)</span>.</p>
-<p><strong>Problem 5 (Sum):</strong> If <span class="math inline">\(Y_1, Y_2, Y_3\)</span> are independent Exponential(1), find <span class="math inline">\(F_U(u)\)</span> for <span class="math inline">\(U = \min(Y_1, Y_2, Y_3)\)</span>.</p>
+<p><span class="math inline">\(p_U(1) = p_Y(-1) + p_Y(1)\)</span></p>
+<p><span class="math inline">\(= 0.20 + 0.25 = 0.45\)</span></p>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="method-of-distribution-functions-continuous" class="slide level2 smaller">
+<h2>📖 Method of Distribution Functions (Continuous)</h2>
+<div style="font-size:32px;">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>🔧 Method of Distribution Functions</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>For continuous random variables</strong>, we use CDFs to find distributions:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Given:</strong></p>
+<ul>
+<li>Continuous RV <span class="math inline">\(Y\)</span> with pdf <span class="math inline">\(f_Y(y)\)</span> and CDF <span class="math inline">\(F_Y(y)\)</span></li>
+<li>Transformation <span class="math inline">\(U = g(Y)\)</span></li>
+</ul>
+</div><div class="column fragment" style="width:50%;">
+<p><strong>Steps:</strong></p>
+<ol type="1">
+<li><p>Find CDF of <span class="math inline">\(U\)</span>: <span class="math inline">\(F_U(u) = P(U \leq u) = P(g(Y) \leq u)\)</span></p></li>
+<li><p>Convert to inequality in <span class="math inline">\(Y\)</span>: <span class="math inline">\(P(Y \in A_u)\)</span> where <span class="math inline">\(A_u = \{y: g(y) \leq u\}\)</span></p></li>
+<li><p>Differentiate to get pdf: <span class="math inline">\(f_U(u) = \frac{d}{du}F_U(u)\)</span></p></li>
+</ol>
+</div></div>
+</div>
 </div>
 </div>
 </div>
 </section>
-<section id="thank-you" class="slide level2 smaller center">
+<section id="example-6.3-linear-transformation" class="slide level2">
+<h2>🔍 Example 6.3: Linear Transformation</h2>
+<div style="font-size:30px; margin-top:-20px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="fragment">
+<p><strong>Problem:</strong> Daily stock return <span class="math inline">\(Y \sim \text{Uniform}(0, 1)\)</span>, so <span class="math inline">\(f_Y(y) = 1\)</span> for <span class="math inline">\(0 \leq y \leq 1\)</span>.</p>
+<p>An investor scales and shifts the return: <span class="math inline">\(U = 2Y + 1\)</span></p>
+<p><strong>Find:</strong> The pdf of <span class="math inline">\(U\)</span>.</p>
+</div>
+<div class="fragment">
+<p><strong>Solution:</strong></p>
+<ol type="1">
+<li><p><strong>Find support of U:</strong> Since <span class="math inline">\(0 \leq Y \leq 1\)</span>, then <span class="math inline">\(1 \leq U \leq 3\)</span></p></li>
+<li><p><strong>Find CDF:</strong> For <span class="math inline">\(1 \leq u \leq 3\)</span>: <span class="math display">\[F_U(u) = P(U \leq u) = P(2Y + 1 \leq u) \]</span> <span class="math display">\[ = P\left(Y \leq \frac{u-1}{2}\right) = F_Y\left(\frac{u-1}{2}\right)\]</span></p></li>
+</ol>
+</div>
+</div><div class="column fragment" style="width:50%;">
+<p><strong>Solution (continued):</strong></p>
+<ol start="3" type="1">
+<li><p><strong>Since</strong> <span class="math inline">\(Y \sim \text{Uniform}(0,1)\)</span>: <span class="math inline">\(F_Y(y) = y\)</span>, so <span class="math inline">\(F_U(u) = \frac{u-1}{2}\)</span></p></li>
+<li><p><strong>Differentiate:</strong> <span class="math display">\[f_U(u) = \frac{d}{du}\left(\frac{u-1}{2}\right) = \frac{1}{2}, \quad 1 \leq u \leq 3\]</span></p></li>
+</ol>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math inline">\(U \sim \text{Uniform}(1, 3)\)</span> — Linear transformation of uniform is uniform!</p>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="interactive-linear-transformation-of-uniform" class="slide level2">
+<h2>📊 Interactive: Linear Transformation of Uniform</h2>
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="476" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 475;"><span id="cb2-476"><a href=""></a>viewof scale_a <span class="op">=</span> {</span>
+<span id="cb2-477"><a href=""></a>  <span class="kw">const</span> wrapper <span class="op">=</span> <span class="fu">html</span><span class="vs">`&lt;div style="display: flex; align-items: center; gap: 10px;"&gt;</span></span>
+<span id="cb2-478"><a href=""></a><span class="vs">    &lt;span style="white-space: nowrap; font-size: 14px; font-weight: 500; min-width: 160px;"&gt;Scale parameter (a):&lt;/span&gt;</span></span>
+<span id="cb2-479"><a href=""></a><span class="vs">  &lt;/div&gt;`</span><span class="op">;</span></span>
+<span id="cb2-480"><a href=""></a>  <span class="kw">const</span> slider <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">5</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">""</span>})<span class="op">;</span></span>
+<span id="cb2-481"><a href=""></a>  wrapper<span class="op">.</span><span class="fu">appendChild</span>(slider)<span class="op">;</span></span>
+<span id="cb2-482"><a href=""></a>  </span>
+<span id="cb2-483"><a href=""></a>  <span class="co">// Forward the value property from the slider to the wrapper</span></span>
+<span id="cb2-484"><a href=""></a>  <span class="bu">Object</span><span class="op">.</span><span class="fu">defineProperty</span>(wrapper<span class="op">,</span> <span class="st">'value'</span><span class="op">,</span> {</span>
+<span id="cb2-485"><a href=""></a>    <span class="kw">get</span><span class="op">:</span> () <span class="kw">=&gt;</span> slider<span class="op">.</span><span class="at">value</span><span class="op">,</span></span>
+<span id="cb2-486"><a href=""></a>    <span class="kw">set</span><span class="op">:</span> (v) <span class="kw">=&gt;</span> { slider<span class="op">.</span><span class="at">value</span> <span class="op">=</span> v<span class="op">;</span> }</span>
+<span id="cb2-487"><a href=""></a>  })<span class="op">;</span></span>
+<span id="cb2-488"><a href=""></a>  </span>
+<span id="cb2-489"><a href=""></a>  [<span class="st">'pointerdown'</span><span class="op">,</span> <span class="st">'touchstart'</span><span class="op">,</span> <span class="st">'mousedown'</span><span class="op">,</span> <span class="st">'click'</span><span class="op">,</span> <span class="st">'wheel'</span><span class="op">,</span> <span class="st">'pointermove'</span><span class="op">,</span> <span class="st">'touchmove'</span><span class="op">,</span> <span class="st">'mousemove'</span>]<span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span></span>
+<span id="cb2-490"><a href=""></a>    wrapper<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>())</span>
+<span id="cb2-491"><a href=""></a>  )<span class="op">;</span></span>
+<span id="cb2-492"><a href=""></a>  <span class="cf">return</span> wrapper<span class="op">;</span></span>
+<span id="cb2-493"><a href=""></a>}</span>
+<span id="cb2-494"><a href=""></a></span>
+<span id="cb2-495"><a href=""></a>viewof shift_b <span class="op">=</span> {</span>
+<span id="cb2-496"><a href=""></a>  <span class="kw">const</span> wrapper <span class="op">=</span> <span class="fu">html</span><span class="vs">`&lt;div style="display: flex; align-items: center; gap: 10px;"&gt;</span></span>
+<span id="cb2-497"><a href=""></a><span class="vs">    &lt;span style="white-space: nowrap; font-size: 14px; font-weight: 500; min-width: 160px;"&gt;Shift parameter (b):&lt;/span&gt;</span></span>
+<span id="cb2-498"><a href=""></a><span class="vs">  &lt;/div&gt;`</span><span class="op">;</span></span>
+<span id="cb2-499"><a href=""></a>  <span class="kw">const</span> slider <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="op">-</span><span class="dv">2</span><span class="op">,</span> <span class="dv">5</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">""</span>})<span class="op">;</span></span>
+<span id="cb2-500"><a href=""></a>  wrapper<span class="op">.</span><span class="fu">appendChild</span>(slider)<span class="op">;</span></span>
+<span id="cb2-501"><a href=""></a>  </span>
+<span id="cb2-502"><a href=""></a>  <span class="co">// Forward the value property from the slider to the wrapper</span></span>
+<span id="cb2-503"><a href=""></a>  <span class="bu">Object</span><span class="op">.</span><span class="fu">defineProperty</span>(wrapper<span class="op">,</span> <span class="st">'value'</span><span class="op">,</span> {</span>
+<span id="cb2-504"><a href=""></a>    <span class="kw">get</span><span class="op">:</span> () <span class="kw">=&gt;</span> slider<span class="op">.</span><span class="at">value</span><span class="op">,</span></span>
+<span id="cb2-505"><a href=""></a>    <span class="kw">set</span><span class="op">:</span> (v) <span class="kw">=&gt;</span> { slider<span class="op">.</span><span class="at">value</span> <span class="op">=</span> v<span class="op">;</span> }</span>
+<span id="cb2-506"><a href=""></a>  })<span class="op">;</span></span>
+<span id="cb2-507"><a href=""></a>  </span>
+<span id="cb2-508"><a href=""></a>  [<span class="st">'pointerdown'</span><span class="op">,</span> <span class="st">'touchstart'</span><span class="op">,</span> <span class="st">'mousedown'</span><span class="op">,</span> <span class="st">'click'</span><span class="op">,</span> <span class="st">'wheel'</span><span class="op">,</span> <span class="st">'pointermove'</span><span class="op">,</span> <span class="st">'touchmove'</span><span class="op">,</span> <span class="st">'mousemove'</span>]<span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span></span>
+<span id="cb2-509"><a href=""></a>    wrapper<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>())</span>
+<span id="cb2-510"><a href=""></a>  )<span class="op">;</span></span>
+<span id="cb2-511"><a href=""></a>  <span class="cf">return</span> wrapper<span class="op">;</span></span>
+<span id="cb2-512"><a href=""></a>}</span>
+<span id="cb2-513"><a href=""></a></span>
+<span id="cb2-514"><a href=""></a>u_min <span class="op">=</span> shift_b</span>
+<span id="cb2-515"><a href=""></a>u_max <span class="op">=</span> scale_a <span class="op">+</span> shift_b</span>
+<span id="cb2-516"><a href=""></a>f_u <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> scale_a</span>
+<span id="cb2-517"><a href=""></a></span>
+<span id="cb2-518"><a href=""></a>{</span>
+<span id="cb2-519"><a href=""></a>  <span class="kw">const</span> width <span class="op">=</span> <span class="dv">1000</span><span class="op">;</span></span>
+<span id="cb2-520"><a href=""></a>  <span class="kw">const</span> height <span class="op">=</span> <span class="dv">440</span><span class="op">;</span></span>
+<span id="cb2-521"><a href=""></a>  <span class="kw">const</span> margin <span class="op">=</span> {<span class="dt">top</span><span class="op">:</span> <span class="dv">40</span><span class="op">,</span> <span class="dt">right</span><span class="op">:</span> <span class="dv">40</span><span class="op">,</span> <span class="dt">bottom</span><span class="op">:</span> <span class="dv">60</span><span class="op">,</span> <span class="dt">left</span><span class="op">:</span> <span class="dv">70</span>}<span class="op">;</span></span>
+<span id="cb2-522"><a href=""></a>  </span>
+<span id="cb2-523"><a href=""></a>  <span class="kw">const</span> svg <span class="op">=</span> d3<span class="op">.</span><span class="fu">create</span>(<span class="st">"svg"</span>)</span>
+<span id="cb2-524"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"width"</span><span class="op">,</span> width)</span>
+<span id="cb2-525"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"height"</span><span class="op">,</span> height)</span>
+<span id="cb2-526"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"style"</span><span class="op">,</span> <span class="st">"background: white; font-size: 16px;"</span>)<span class="op">;</span></span>
+<span id="cb2-527"><a href=""></a>  </span>
+<span id="cb2-528"><a href=""></a>  <span class="kw">const</span> x <span class="op">=</span> d3<span class="op">.</span><span class="fu">scaleLinear</span>()</span>
+<span id="cb2-529"><a href=""></a>    <span class="op">.</span><span class="fu">domain</span>([<span class="op">-</span><span class="dv">1</span><span class="op">,</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="dv">6</span><span class="op">,</span> u_max <span class="op">+</span> <span class="dv">1</span>)])</span>
+<span id="cb2-530"><a href=""></a>    <span class="op">.</span><span class="fu">range</span>([margin<span class="op">.</span><span class="at">left</span><span class="op">,</span> width <span class="op">-</span> margin<span class="op">.</span><span class="at">right</span>])<span class="op">;</span></span>
+<span id="cb2-531"><a href=""></a>  </span>
+<span id="cb2-532"><a href=""></a>  <span class="kw">const</span> y_scale <span class="op">=</span> d3<span class="op">.</span><span class="fu">scaleLinear</span>()</span>
+<span id="cb2-533"><a href=""></a>    <span class="op">.</span><span class="fu">domain</span>([<span class="dv">0</span><span class="op">,</span> <span class="fl">1.5</span>])</span>
+<span id="cb2-534"><a href=""></a>    <span class="op">.</span><span class="fu">range</span>([height <span class="op">-</span> margin<span class="op">.</span><span class="at">bottom</span><span class="op">,</span> margin<span class="op">.</span><span class="at">top</span>])<span class="op">;</span></span>
+<span id="cb2-535"><a href=""></a>  </span>
+<span id="cb2-536"><a href=""></a>  <span class="co">// Original Y ~ Uniform(0,1)</span></span>
+<span id="cb2-537"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"rect"</span>)</span>
+<span id="cb2-538"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> <span class="fu">x</span>(<span class="dv">0</span>))</span>
+<span id="cb2-539"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> <span class="fu">y_scale</span>(<span class="dv">1</span>))</span>
+<span id="cb2-540"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"width"</span><span class="op">,</span> <span class="fu">x</span>(<span class="dv">1</span>) <span class="op">-</span> <span class="fu">x</span>(<span class="dv">0</span>))</span>
+<span id="cb2-541"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"height"</span><span class="op">,</span> <span class="fu">y_scale</span>(<span class="dv">0</span>) <span class="op">-</span> <span class="fu">y_scale</span>(<span class="dv">1</span>))</span>
+<span id="cb2-542"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"fill"</span><span class="op">,</span> <span class="st">"steelblue"</span>)</span>
+<span id="cb2-543"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"opacity"</span><span class="op">,</span> <span class="fl">0.4</span>)<span class="op">;</span></span>
+<span id="cb2-544"><a href=""></a>  </span>
+<span id="cb2-545"><a href=""></a>  <span class="co">// Transformed U ~ Uniform(b, a+b)</span></span>
+<span id="cb2-546"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"rect"</span>)</span>
+<span id="cb2-547"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> <span class="fu">x</span>(u_min))</span>
+<span id="cb2-548"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> <span class="fu">y_scale</span>(f_u))</span>
+<span id="cb2-549"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"width"</span><span class="op">,</span> <span class="fu">x</span>(u_max) <span class="op">-</span> <span class="fu">x</span>(u_min))</span>
+<span id="cb2-550"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"height"</span><span class="op">,</span> <span class="fu">y_scale</span>(<span class="dv">0</span>) <span class="op">-</span> <span class="fu">y_scale</span>(f_u))</span>
+<span id="cb2-551"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"fill"</span><span class="op">,</span> <span class="st">"darkred"</span>)</span>
+<span id="cb2-552"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"opacity"</span><span class="op">,</span> <span class="fl">0.6</span>)<span class="op">;</span></span>
+<span id="cb2-553"><a href=""></a>  </span>
+<span id="cb2-554"><a href=""></a>  <span class="co">// Axes</span></span>
+<span id="cb2-555"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"g"</span>)</span>
+<span id="cb2-556"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"transform"</span><span class="op">,</span> <span class="vs">`translate(0,</span><span class="sc">${</span>height <span class="op">-</span> margin<span class="op">.</span><span class="at">bottom</span><span class="sc">}</span><span class="vs">)`</span>)</span>
+<span id="cb2-557"><a href=""></a>    <span class="op">.</span><span class="fu">call</span>(d3<span class="op">.</span><span class="fu">axisBottom</span>(x))</span>
+<span id="cb2-558"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"14px"</span>)<span class="op">;</span></span>
+<span id="cb2-559"><a href=""></a>  </span>
+<span id="cb2-560"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"g"</span>)</span>
+<span id="cb2-561"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"transform"</span><span class="op">,</span> <span class="vs">`translate(</span><span class="sc">${</span>margin<span class="op">.</span><span class="at">left</span><span class="sc">}</span><span class="vs">,0)`</span>)</span>
+<span id="cb2-562"><a href=""></a>    <span class="op">.</span><span class="fu">call</span>(d3<span class="op">.</span><span class="fu">axisLeft</span>(y_scale))</span>
+<span id="cb2-563"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"14px"</span>)<span class="op">;</span></span>
+<span id="cb2-564"><a href=""></a>  </span>
+<span id="cb2-565"><a href=""></a>  <span class="co">// Labels</span></span>
+<span id="cb2-566"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"text"</span>)</span>
+<span id="cb2-567"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> width <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb2-568"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> height <span class="op">-</span> <span class="dv">10</span>)</span>
+<span id="cb2-569"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"text-anchor"</span><span class="op">,</span> <span class="st">"middle"</span>)</span>
+<span id="cb2-570"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"18px"</span>)</span>
+<span id="cb2-571"><a href=""></a>    <span class="op">.</span><span class="fu">text</span>(<span class="st">"Value"</span>)<span class="op">;</span></span>
+<span id="cb2-572"><a href=""></a>  </span>
+<span id="cb2-573"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"text"</span>)</span>
+<span id="cb2-574"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"transform"</span><span class="op">,</span> <span class="st">"rotate(-90)"</span>)</span>
+<span id="cb2-575"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> <span class="op">-</span>height <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb2-576"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> <span class="dv">20</span>)</span>
+<span id="cb2-577"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"text-anchor"</span><span class="op">,</span> <span class="st">"middle"</span>)</span>
+<span id="cb2-578"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"18px"</span>)</span>
+<span id="cb2-579"><a href=""></a>    <span class="op">.</span><span class="fu">text</span>(<span class="st">"Density"</span>)<span class="op">;</span></span>
+<span id="cb2-580"><a href=""></a>  </span>
+<span id="cb2-581"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"text"</span>)</span>
+<span id="cb2-582"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> width <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb2-583"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> <span class="dv">25</span>)</span>
+<span id="cb2-584"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"text-anchor"</span><span class="op">,</span> <span class="st">"middle"</span>)</span>
+<span id="cb2-585"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"20px"</span>)</span>
+<span id="cb2-586"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-weight"</span><span class="op">,</span> <span class="st">"bold"</span>)</span>
+<span id="cb2-587"><a href=""></a>    <span class="op">.</span><span class="fu">text</span>(<span class="vs">`Y ~ Uniform(0,1) → U = </span><span class="sc">${</span>scale_a<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">Y + </span><span class="sc">${</span>shift_b<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb2-588"><a href=""></a>  </span>
+<span id="cb2-589"><a href=""></a>  <span class="cf">return</span> svg<span class="op">.</span><span class="fu">node</span>()<span class="op">;</span></span>
+<span id="cb2-590"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-4" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-5" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-6" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="example-6.4-nonlinear-transformation" class="slide level2 larger">
+<h2>🔍 Example 6.4: Nonlinear Transformation</h2>
+<div style="font-size:36px; margin-top:-20px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="fragment">
+<p><strong>Problem:</strong> Stock return <span class="math inline">\(Y \sim \text{Uniform}(0, 1)\)</span>.</p>
+<p>Define <strong>squared return</strong>: <span class="math inline">\(U = Y^2\)</span></p>
+<p><strong>Find:</strong> The pdf of <span class="math inline">\(U\)</span>.</p>
+</div>
+<div class="fragment">
+<p><strong>Solution:</strong></p>
+<ol type="1">
+<li><p><strong>Support:</strong> If <span class="math inline">\(0 \leq Y \leq 1\)</span>, then <span class="math inline">\(0 \leq U \leq 1\)</span></p></li>
+<li><p><strong>CDF:</strong> For <span class="math inline">\(0 \leq u \leq 1\)</span>: <span class="math display">\[F_U(u) = P(U \leq u) = P(Y^2 \leq u) \]</span> <span class="math display">\[= P(Y \leq \sqrt{u}) = \sqrt{u}\]</span></p></li>
+</ol>
+</div>
+</div><div class="column fragment" style="width:50%;">
+<p><strong>Solution (continued):</strong></p>
+<ol start="3" type="1">
+<li><strong>PDF:</strong> Differentiate: <span class="math display">\[f_U(u) = \frac{d}{du}(\sqrt{u}) = \frac{1}{2\sqrt{u}}, \quad 0 &lt; u &lt; 1\]</span></li>
+</ol>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Warning</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Note:</strong> The density goes to infinity as <span class="math inline">\(u \to 0^+\)</span>! This is valid because <span class="math inline">\(\int_0^1 \frac{1}{2\sqrt{u}} du = 1\)</span>.</p>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="comparing-linear-vs-nonlinear-transformations" class="slide level2">
+<h2>📊 Comparing Linear vs Nonlinear Transformations</h2>
+<div class="columns">
+<div class="column" style="width:30%;">
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb3" data-startfrom="635" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 634;"><span id="cb3-635"><a href=""></a>viewof trans_type <span class="op">=</span> {</span>
+<span id="cb3-636"><a href=""></a>  <span class="kw">const</span> wrapper <span class="op">=</span> <span class="fu">html</span><span class="vs">`&lt;div style="margin-top: 20px;"&gt;</span></span>
+<span id="cb3-637"><a href=""></a><span class="vs">    &lt;div style="font-size: 18px; font-weight: 600; margin-bottom: 15px; color: #2c3e50;"&gt;</span></span>
+<span id="cb3-638"><a href=""></a><span class="vs">      Select Transformation:</span></span>
+<span id="cb3-639"><a href=""></a><span class="vs">    &lt;/div&gt;</span></span>
+<span id="cb3-640"><a href=""></a><span class="vs">  &lt;/div&gt;`</span><span class="op">;</span></span>
+<span id="cb3-641"><a href=""></a>  </span>
+<span id="cb3-642"><a href=""></a>  <span class="kw">const</span> radio <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">radio</span>(</span>
+<span id="cb3-643"><a href=""></a>    [<span class="st">"Linear: U = 2Y + 1"</span><span class="op">,</span> <span class="st">"Quadratic: U = Y²"</span><span class="op">,</span> <span class="st">"Cubic: U = Y³"</span><span class="op">,</span> <span class="st">"Square Root: U = √Y"</span>]<span class="op">,</span></span>
+<span id="cb3-644"><a href=""></a>    {<span class="dt">value</span><span class="op">:</span> <span class="st">"Quadratic: U = Y²"</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">""</span>}</span>
+<span id="cb3-645"><a href=""></a>  )<span class="op">;</span></span>
+<span id="cb3-646"><a href=""></a>  wrapper<span class="op">.</span><span class="fu">appendChild</span>(radio)<span class="op">;</span></span>
+<span id="cb3-647"><a href=""></a>  </span>
+<span id="cb3-648"><a href=""></a>  <span class="co">// Forward the value property</span></span>
+<span id="cb3-649"><a href=""></a>  <span class="bu">Object</span><span class="op">.</span><span class="fu">defineProperty</span>(wrapper<span class="op">,</span> <span class="st">'value'</span><span class="op">,</span> {</span>
+<span id="cb3-650"><a href=""></a>    <span class="kw">get</span><span class="op">:</span> () <span class="kw">=&gt;</span> radio<span class="op">.</span><span class="at">value</span><span class="op">,</span></span>
+<span id="cb3-651"><a href=""></a>    <span class="kw">set</span><span class="op">:</span> (v) <span class="kw">=&gt;</span> { radio<span class="op">.</span><span class="at">value</span> <span class="op">=</span> v<span class="op">;</span> }</span>
+<span id="cb3-652"><a href=""></a>  })<span class="op">;</span></span>
+<span id="cb3-653"><a href=""></a>  </span>
+<span id="cb3-654"><a href=""></a>  <span class="cf">return</span> wrapper<span class="op">;</span></span>
+<span id="cb3-655"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div style="font-size: 20px; margin-top: 28px;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Key Insight:</strong></p>
+<ul>
+<li><strong>Linear</strong>: Preserves uniform shape</li>
+<li><strong>Quadratic</strong>: Density → ∞ as u → 0</li>
+<li><strong>Cubic</strong>: Higher concentration near 0</li>
+<li><strong>Square Root</strong>: Linear increase in density</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:70%;">
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb4" data-startfrom="674" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 673;"><span id="cb4-674"><a href=""></a>y_grid <span class="op">=</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({<span class="dt">length</span><span class="op">:</span> <span class="dv">300</span>}<span class="op">,</span> (_<span class="op">,</span> i) <span class="kw">=&gt;</span> i <span class="op">/</span> <span class="dv">299</span>)</span>
+<span id="cb4-675"><a href=""></a></span>
+<span id="cb4-676"><a href=""></a>u_transformed <span class="op">=</span> y_grid<span class="op">.</span><span class="fu">map</span>(y <span class="kw">=&gt;</span> {</span>
+<span id="cb4-677"><a href=""></a>  <span class="cf">if</span> (trans_type <span class="op">===</span> <span class="st">"Linear: U = 2Y + 1"</span>) <span class="cf">return</span> <span class="dv">2</span> <span class="op">*</span> y <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb4-678"><a href=""></a>  <span class="cf">if</span> (trans_type <span class="op">===</span> <span class="st">"Quadratic: U = Y²"</span>) <span class="cf">return</span> y <span class="op">*</span> y<span class="op">;</span></span>
+<span id="cb4-679"><a href=""></a>  <span class="cf">if</span> (trans_type <span class="op">===</span> <span class="st">"Cubic: U = Y³"</span>) <span class="cf">return</span> y <span class="op">*</span> y <span class="op">*</span> y<span class="op">;</span></span>
+<span id="cb4-680"><a href=""></a>  <span class="cf">if</span> (trans_type <span class="op">===</span> <span class="st">"Square Root: U = √Y"</span>) <span class="cf">return</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(y)<span class="op">;</span></span>
+<span id="cb4-681"><a href=""></a>})</span>
+<span id="cb4-682"><a href=""></a></span>
+<span id="cb4-683"><a href=""></a>f_u_values <span class="op">=</span> y_grid<span class="op">.</span><span class="fu">map</span>((y<span class="op">,</span> i) <span class="kw">=&gt;</span> {</span>
+<span id="cb4-684"><a href=""></a>  <span class="kw">const</span> u <span class="op">=</span> u_transformed[i]<span class="op">;</span></span>
+<span id="cb4-685"><a href=""></a>  <span class="cf">if</span> (trans_type <span class="op">===</span> <span class="st">"Linear: U = 2Y + 1"</span>) <span class="cf">return</span> {<span class="dt">u</span><span class="op">:</span> u<span class="op">,</span> <span class="dt">f</span><span class="op">:</span> <span class="fl">0.5</span>}<span class="op">;</span></span>
+<span id="cb4-686"><a href=""></a>  <span class="cf">if</span> (trans_type <span class="op">===</span> <span class="st">"Quadratic: U = Y²"</span>) <span class="cf">return</span> {<span class="dt">u</span><span class="op">:</span> u<span class="op">,</span> <span class="dt">f</span><span class="op">:</span> <span class="fl">0.5</span> <span class="op">/</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(u<span class="op">,</span> <span class="fl">0.001</span>))}<span class="op">;</span></span>
+<span id="cb4-687"><a href=""></a>  <span class="cf">if</span> (trans_type <span class="op">===</span> <span class="st">"Cubic: U = Y³"</span>) <span class="cf">return</span> {<span class="dt">u</span><span class="op">:</span> u<span class="op">,</span> <span class="dt">f</span><span class="op">:</span> (<span class="dv">1</span><span class="op">/</span><span class="dv">3</span>) <span class="op">/</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(u<span class="op">,</span> <span class="fl">0.001</span>)<span class="op">,</span> <span class="dv">2</span><span class="op">/</span><span class="dv">3</span>)}<span class="op">;</span></span>
+<span id="cb4-688"><a href=""></a>  <span class="cf">if</span> (trans_type <span class="op">===</span> <span class="st">"Square Root: U = √Y"</span>) <span class="cf">return</span> {<span class="dt">u</span><span class="op">:</span> u<span class="op">,</span> <span class="dt">f</span><span class="op">:</span> <span class="dv">2</span> <span class="op">*</span> u}<span class="op">;</span></span>
+<span id="cb4-689"><a href=""></a>})<span class="op">.</span><span class="fu">filter</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">u</span> <span class="op">&gt;=</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> d<span class="op">.</span><span class="at">u</span> <span class="op">&lt;=</span> <span class="dv">5</span> <span class="op">&amp;&amp;</span> d<span class="op">.</span><span class="at">f</span> <span class="op">&lt;</span> <span class="dv">100</span>)</span>
+<span id="cb4-690"><a href=""></a></span>
+<span id="cb4-691"><a href=""></a>{</span>
+<span id="cb4-692"><a href=""></a>  <span class="kw">const</span> width <span class="op">=</span> <span class="dv">850</span><span class="op">;</span></span>
+<span id="cb4-693"><a href=""></a>  <span class="kw">const</span> height <span class="op">=</span> <span class="dv">550</span><span class="op">;</span></span>
+<span id="cb4-694"><a href=""></a>  <span class="kw">const</span> margin <span class="op">=</span> {<span class="dt">top</span><span class="op">:</span> <span class="dv">60</span><span class="op">,</span> <span class="dt">right</span><span class="op">:</span> <span class="dv">40</span><span class="op">,</span> <span class="dt">bottom</span><span class="op">:</span> <span class="dv">70</span><span class="op">,</span> <span class="dt">left</span><span class="op">:</span> <span class="dv">80</span>}<span class="op">;</span></span>
+<span id="cb4-695"><a href=""></a>  </span>
+<span id="cb4-696"><a href=""></a>  <span class="kw">const</span> container <span class="op">=</span> <span class="fu">html</span><span class="vs">`&lt;div style="display: flex; justify-content: center; width: 100%;"&gt;&lt;/div&gt;`</span><span class="op">;</span></span>
+<span id="cb4-697"><a href=""></a>  </span>
+<span id="cb4-698"><a href=""></a>  <span class="kw">const</span> svg <span class="op">=</span> d3<span class="op">.</span><span class="fu">create</span>(<span class="st">"svg"</span>)</span>
+<span id="cb4-699"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"width"</span><span class="op">,</span> width)</span>
+<span id="cb4-700"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"height"</span><span class="op">,</span> height)</span>
+<span id="cb4-701"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"style"</span><span class="op">,</span> <span class="st">"background: white; font-size: 16px;"</span>)<span class="op">;</span></span>
+<span id="cb4-702"><a href=""></a>  </span>
+<span id="cb4-703"><a href=""></a>  <span class="co">// Fixed domains to zoom the plot while maintaining equal scale</span></span>
+<span id="cb4-704"><a href=""></a>  <span class="kw">const</span> maxF <span class="op">=</span> <span class="dv">2</span><span class="op">;</span>     <span class="co">// y-axis limit</span></span>
+<span id="cb4-705"><a href=""></a>  <span class="kw">const</span> maxU <span class="op">=</span> <span class="fl">3.5</span><span class="op">;</span>   <span class="co">// x-axis limit</span></span>
+<span id="cb4-706"><a href=""></a>  </span>
+<span id="cb4-707"><a href=""></a>  <span class="co">// Calculate scale to maintain aspect ratio (same pixels per unit on both axes)</span></span>
+<span id="cb4-708"><a href=""></a>  <span class="kw">const</span> plotHeight <span class="op">=</span> height <span class="op">-</span> margin<span class="op">.</span><span class="at">bottom</span> <span class="op">-</span> margin<span class="op">.</span><span class="at">top</span><span class="op">;</span></span>
+<span id="cb4-709"><a href=""></a>  <span class="kw">const</span> plotWidth <span class="op">=</span> width <span class="op">-</span> margin<span class="op">.</span><span class="at">right</span> <span class="op">-</span> margin<span class="op">.</span><span class="at">left</span><span class="op">;</span></span>
+<span id="cb4-710"><a href=""></a>  </span>
+<span id="cb4-711"><a href=""></a>  <span class="co">// Use the smaller scale to ensure both axes fit</span></span>
+<span id="cb4-712"><a href=""></a>  <span class="kw">const</span> pixelsPerUnitY <span class="op">=</span> plotHeight <span class="op">/</span> maxF<span class="op">;</span></span>
+<span id="cb4-713"><a href=""></a>  <span class="kw">const</span> pixelsPerUnitX <span class="op">=</span> plotWidth <span class="op">/</span> maxU<span class="op">;</span></span>
+<span id="cb4-714"><a href=""></a>  <span class="kw">const</span> pixelsPerUnit <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(pixelsPerUnitY<span class="op">,</span> pixelsPerUnitX)<span class="op">;</span></span>
+<span id="cb4-715"><a href=""></a>  </span>
+<span id="cb4-716"><a href=""></a>  <span class="co">// Recalculate actual plot dimensions with equal scale</span></span>
+<span id="cb4-717"><a href=""></a>  <span class="kw">const</span> actualPlotWidth <span class="op">=</span> pixelsPerUnit <span class="op">*</span> maxU<span class="op">;</span></span>
+<span id="cb4-718"><a href=""></a>  <span class="kw">const</span> actualPlotHeight <span class="op">=</span> pixelsPerUnit <span class="op">*</span> maxF<span class="op">;</span></span>
+<span id="cb4-719"><a href=""></a>  </span>
+<span id="cb4-720"><a href=""></a>  <span class="kw">const</span> x <span class="op">=</span> d3<span class="op">.</span><span class="fu">scaleLinear</span>()</span>
+<span id="cb4-721"><a href=""></a>    <span class="op">.</span><span class="fu">domain</span>([<span class="dv">0</span><span class="op">,</span> maxU])</span>
+<span id="cb4-722"><a href=""></a>    <span class="op">.</span><span class="fu">range</span>([margin<span class="op">.</span><span class="at">left</span><span class="op">,</span> margin<span class="op">.</span><span class="at">left</span> <span class="op">+</span> actualPlotWidth])<span class="op">;</span></span>
+<span id="cb4-723"><a href=""></a>  </span>
+<span id="cb4-724"><a href=""></a>  <span class="kw">const</span> y_scale <span class="op">=</span> d3<span class="op">.</span><span class="fu">scaleLinear</span>()</span>
+<span id="cb4-725"><a href=""></a>    <span class="op">.</span><span class="fu">domain</span>([<span class="dv">0</span><span class="op">,</span> maxF])</span>
+<span id="cb4-726"><a href=""></a>    <span class="op">.</span><span class="fu">range</span>([height <span class="op">-</span> margin<span class="op">.</span><span class="at">bottom</span><span class="op">,</span> height <span class="op">-</span> margin<span class="op">.</span><span class="at">bottom</span> <span class="op">-</span> actualPlotHeight])<span class="op">;</span></span>
+<span id="cb4-727"><a href=""></a>  </span>
+<span id="cb4-728"><a href=""></a>  <span class="co">// Original Y ~ Uniform(0,1) distribution - now truly square with width=1, height=1</span></span>
+<span id="cb4-729"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"rect"</span>)</span>
+<span id="cb4-730"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> <span class="fu">x</span>(<span class="dv">0</span>))</span>
+<span id="cb4-731"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> <span class="fu">y_scale</span>(<span class="dv">1</span>))</span>
+<span id="cb4-732"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"width"</span><span class="op">,</span> <span class="fu">x</span>(<span class="dv">1</span>) <span class="op">-</span> <span class="fu">x</span>(<span class="dv">0</span>))</span>
+<span id="cb4-733"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"height"</span><span class="op">,</span> <span class="fu">y_scale</span>(<span class="dv">0</span>) <span class="op">-</span> <span class="fu">y_scale</span>(<span class="dv">1</span>))</span>
+<span id="cb4-734"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"fill"</span><span class="op">,</span> <span class="st">"steelblue"</span>)</span>
+<span id="cb4-735"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"opacity"</span><span class="op">,</span> <span class="fl">0.5</span>)</span>
+<span id="cb4-736"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"stroke"</span><span class="op">,</span> <span class="st">"steelblue"</span>)</span>
+<span id="cb4-737"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"stroke-width"</span><span class="op">,</span> <span class="dv">4</span>)<span class="op">;</span></span>
+<span id="cb4-738"><a href=""></a>  </span>
+<span id="cb4-739"><a href=""></a>  <span class="co">// Add label for original distribution</span></span>
+<span id="cb4-740"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"text"</span>)</span>
+<span id="cb4-741"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> <span class="fu">x</span>(<span class="fl">0.5</span>))</span>
+<span id="cb4-742"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> <span class="fu">y_scale</span>(<span class="dv">1</span>) <span class="op">-</span> <span class="dv">10</span>)</span>
+<span id="cb4-743"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"text-anchor"</span><span class="op">,</span> <span class="st">"middle"</span>)</span>
+<span id="cb4-744"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"15px"</span>)</span>
+<span id="cb4-745"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"fill"</span><span class="op">,</span> <span class="st">"steelblue"</span>)</span>
+<span id="cb4-746"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-weight"</span><span class="op">,</span> <span class="st">"bold"</span>)</span>
+<span id="cb4-747"><a href=""></a>    <span class="op">.</span><span class="fu">text</span>(<span class="st">"Y ~ Uniform(0,1)"</span>)<span class="op">;</span></span>
+<span id="cb4-748"><a href=""></a>  </span>
+<span id="cb4-749"><a href=""></a>  <span class="co">// Transformed distribution - clip at maxF for stability</span></span>
+<span id="cb4-750"><a href=""></a>  <span class="kw">const</span> area <span class="op">=</span> d3<span class="op">.</span><span class="fu">area</span>()</span>
+<span id="cb4-751"><a href=""></a>    <span class="op">.</span><span class="fu">x</span>(d <span class="kw">=&gt;</span> <span class="fu">x</span>(d<span class="op">.</span><span class="at">u</span>))</span>
+<span id="cb4-752"><a href=""></a>    <span class="op">.</span><span class="fu">y0</span>(<span class="fu">y_scale</span>(<span class="dv">0</span>))</span>
+<span id="cb4-753"><a href=""></a>    <span class="op">.</span><span class="fu">y1</span>(d <span class="kw">=&gt;</span> <span class="fu">y_scale</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(d<span class="op">.</span><span class="at">f</span><span class="op">,</span> maxF)))<span class="op">;</span></span>
+<span id="cb4-754"><a href=""></a>  </span>
+<span id="cb4-755"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"path"</span>)</span>
+<span id="cb4-756"><a href=""></a>    <span class="op">.</span><span class="fu">datum</span>(f_u_values)</span>
+<span id="cb4-757"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"fill"</span><span class="op">,</span> <span class="st">"darkred"</span>)</span>
+<span id="cb4-758"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"fill-opacity"</span><span class="op">,</span> <span class="fl">0.5</span>)</span>
+<span id="cb4-759"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"stroke"</span><span class="op">,</span> <span class="st">"darkred"</span>)</span>
+<span id="cb4-760"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"stroke-width"</span><span class="op">,</span> <span class="dv">3</span>)</span>
+<span id="cb4-761"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"d"</span><span class="op">,</span> area)<span class="op">;</span></span>
+<span id="cb4-762"><a href=""></a>  </span>
+<span id="cb4-763"><a href=""></a>  <span class="co">// Axes</span></span>
+<span id="cb4-764"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"g"</span>)</span>
+<span id="cb4-765"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"transform"</span><span class="op">,</span> <span class="vs">`translate(0,</span><span class="sc">${</span>height <span class="op">-</span> margin<span class="op">.</span><span class="at">bottom</span><span class="sc">}</span><span class="vs">)`</span>)</span>
+<span id="cb4-766"><a href=""></a>    <span class="op">.</span><span class="fu">call</span>(d3<span class="op">.</span><span class="fu">axisBottom</span>(x)<span class="op">.</span><span class="fu">ticks</span>(<span class="dv">8</span>))</span>
+<span id="cb4-767"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"15px"</span>)<span class="op">;</span></span>
+<span id="cb4-768"><a href=""></a>  </span>
+<span id="cb4-769"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"g"</span>)</span>
+<span id="cb4-770"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"transform"</span><span class="op">,</span> <span class="vs">`translate(</span><span class="sc">${</span>margin<span class="op">.</span><span class="at">left</span><span class="sc">}</span><span class="vs">,0)`</span>)</span>
+<span id="cb4-771"><a href=""></a>    <span class="op">.</span><span class="fu">call</span>(d3<span class="op">.</span><span class="fu">axisLeft</span>(y_scale)<span class="op">.</span><span class="fu">ticks</span>(<span class="dv">6</span>))</span>
+<span id="cb4-772"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"15px"</span>)<span class="op">;</span></span>
+<span id="cb4-773"><a href=""></a>  </span>
+<span id="cb4-774"><a href=""></a>  <span class="co">// Axis labels</span></span>
+<span id="cb4-775"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"text"</span>)</span>
+<span id="cb4-776"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> width <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb4-777"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> height <span class="op">-</span> <span class="dv">20</span>)</span>
+<span id="cb4-778"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"text-anchor"</span><span class="op">,</span> <span class="st">"middle"</span>)</span>
+<span id="cb4-779"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"19px"</span>)</span>
+<span id="cb4-780"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-weight"</span><span class="op">,</span> <span class="st">"600"</span>)</span>
+<span id="cb4-781"><a href=""></a>    <span class="op">.</span><span class="fu">text</span>(<span class="st">"Value"</span>)<span class="op">;</span></span>
+<span id="cb4-782"><a href=""></a>  </span>
+<span id="cb4-783"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"text"</span>)</span>
+<span id="cb4-784"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"transform"</span><span class="op">,</span> <span class="st">"rotate(-90)"</span>)</span>
+<span id="cb4-785"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> <span class="op">-</span>height <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb4-786"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> <span class="dv">25</span>)</span>
+<span id="cb4-787"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"text-anchor"</span><span class="op">,</span> <span class="st">"middle"</span>)</span>
+<span id="cb4-788"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"19px"</span>)</span>
+<span id="cb4-789"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-weight"</span><span class="op">,</span> <span class="st">"600"</span>)</span>
+<span id="cb4-790"><a href=""></a>    <span class="op">.</span><span class="fu">text</span>(<span class="st">"Density"</span>)<span class="op">;</span></span>
+<span id="cb4-791"><a href=""></a>  </span>
+<span id="cb4-792"><a href=""></a>  <span class="co">// Title</span></span>
+<span id="cb4-793"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"text"</span>)</span>
+<span id="cb4-794"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> width <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb4-795"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> <span class="dv">30</span>)</span>
+<span id="cb4-796"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"text-anchor"</span><span class="op">,</span> <span class="st">"middle"</span>)</span>
+<span id="cb4-797"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"21px"</span>)</span>
+<span id="cb4-798"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-weight"</span><span class="op">,</span> <span class="st">"bold"</span>)</span>
+<span id="cb4-799"><a href=""></a>    <span class="op">.</span><span class="fu">text</span>(<span class="vs">`Transformation: </span><span class="sc">${</span>trans_type<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb4-800"><a href=""></a>  </span>
+<span id="cb4-801"><a href=""></a>  container<span class="op">.</span><span class="fu">appendChild</span>(svg<span class="op">.</span><span class="fu">node</span>())<span class="op">;</span></span>
+<span id="cb4-802"><a href=""></a>  <span class="cf">return</span> container<span class="op">;</span></span>
+<span id="cb4-803"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-4-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-4-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-4-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-4-4" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="theorem-6.1-general-distribution-function-method" class="slide level2 larger">
+<h2>🧮 Theorem 6.1: General Distribution Function Method</h2>
+<div style="font-size:38px;">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Theorem 6.1: Distribution Function Technique</strong></p>
+</div>
+<div class="callout-content">
+<p>Let <span class="math inline">\(Y\)</span> have CDF <span class="math inline">\(F_Y(y)\)</span> and pdf <span class="math inline">\(f_Y(y)\)</span>. Let <span class="math inline">\(U = g(Y)\)</span> where <span class="math inline">\(g\)</span> is an <strong>increasing</strong> function with inverse <span class="math inline">\(g^{-1}\)</span>.</p>
+<p>Then the pdf of <span class="math inline">\(U\)</span> is:</p>
+<p><span class="math display">\[f_U(u) = f_Y(g^{-1}(u)) \left| \frac{d}{du} g^{-1}(u) \right|\]</span></p>
+<div class="fragment">
+<div style="font-size:34px">
+<p><strong>Intuition:</strong> The Jacobian <span class="math inline">\(\left| \frac{d}{du} g^{-1}(u) \right|\)</span> accounts for how the transformation “stretches” or “compresses” probability.</p>
+<p><strong>Important:</strong> If <span class="math inline">\(g\)</span> is <strong>decreasing</strong>, the same formula works with the absolute value of the derivative.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="think-pair-share-portfolio-returns" class="slide level2 smaller">
+<h2>💼 Think-Pair-Share: Portfolio Returns</h2>
+<div class="columns">
+<div class="column" style="width:45%;">
+<div style="font-size:30px;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📋 Scenario</strong></p>
+</div>
+<div class="callout-content">
+<p>You invest in two stocks:</p>
+<ul>
+<li><strong>Stock A:</strong> <span class="math inline">\(Y_A \sim \text{Normal}(\mu_A = 0.08, \sigma_A = 0.15)\)</span></li>
+<li><strong>Stock B:</strong> <span class="math inline">\(Y_B \sim \text{Normal}(\mu_B = 0.12, \sigma_B = 0.20)\)</span></li>
+</ul>
+<p>You allocate <strong>60% to A</strong> and <strong>40% to B</strong>.</p>
+<p>Portfolio return: <span class="math display">\[U = 0.6 Y_A + 0.4 Y_B\]</span></p>
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:55%;">
+<div style="font-size:28px;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>❓ Discussion Questions</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>1.</strong> What method would you use to find the distribution of <span class="math inline">\(U\)</span>?</p>
+<p><strong>2.</strong> If <span class="math inline">\(Y_A\)</span> and <span class="math inline">\(Y_B\)</span> are independent, what is the distribution of <span class="math inline">\(U\)</span>?</p>
+<p><strong>3.</strong> How would correlation between <span class="math inline">\(Y_A\)</span> and <span class="math inline">\(Y_B\)</span> affect your answer?</p>
+</div>
+</div>
+</div>
+</div>
+<div style="margin-top:20px; font-size:26px; text-align:center; color:#2c3e50; font-weight:600;">
+<p>⏱️ Discuss with your neighbor for 5 minutes</p>
+</div>
+</div></div>
+<div class="cell">
+<div class="cell-output-display">
+<countdown-timer class="countdown" id="timer_8692414a" minutes="5" seconds="0" warn-when="60" update-every="1" play-sound="true" tabindex="0" style="top:0;right:0;--countdown-font-size:1.5em;--countdown-color-running-background:#31b09e;--countdown-color-running-text:white;--countdown-color-finished-background:#cc3311;--countdown-color-finished-text:white;--countdown-color-warning-background:#f7dc6f;--countdown-color-warning-text:#3E3400FF;"></countdown-timer>
+</div>
+</div>
+</section>
+<section id="case-study-demonstrating-y²-transformation" class="slide level2">
+<h2>📊 Case Study: Demonstrating Y² Transformation</h2>
+<div class="columns">
+<div class="column" style="width:32%;">
+<div style="font-size:32px">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>💼 Visualizing the Quadratic Transformation</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Key Learning:</strong> When <span class="math inline">\(Y \sim \text{Uniform}(0,1)\)</span> and <span class="math inline">\(U = Y^2\)</span>, we expect:</p>
+<p><span class="math display">\[f_U(u) = \frac{1}{2\sqrt{u}}\]</span></p>
+<p>Let’s verify this with simulation!</p>
+<p><strong>Method:</strong> - Generate 10,000 samples from Uniform(0,1) - Transform to <span class="math inline">\(U = Y^2\)</span> - Compare empirical histogram to theoretical density</p>
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:68%;">
+<div class="cell">
+<details class="code-fold">
+<summary>📊 Show Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb5-2"><a href=""></a></span>
+<span id="cb5-3"><a href=""></a><span class="co"># Generate samples from Uniform(0,1)</span></span>
+<span id="cb5-4"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb5-5"><a href=""></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb5-6"><a href=""></a>y_samples <span class="ot">&lt;-</span> <span class="fu">runif</span>(n, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb5-7"><a href=""></a>u_samples <span class="ot">&lt;-</span> y_samples<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb5-8"><a href=""></a></span>
+<span id="cb5-9"><a href=""></a><span class="co"># Theoretical density for U = Y²</span></span>
+<span id="cb5-10"><a href=""></a>u_seq <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.01</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">200</span>)</span>
+<span id="cb5-11"><a href=""></a>f_u_theoretical <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> (<span class="dv">2</span> <span class="sc">*</span> <span class="fu">sqrt</span>(u_seq))</span>
+<span id="cb5-12"><a href=""></a></span>
+<span id="cb5-13"><a href=""></a><span class="co"># Create comparison plot</span></span>
+<span id="cb5-14"><a href=""></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb5-15"><a href=""></a>  <span class="co"># Empirical histogram</span></span>
+<span id="cb5-16"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x =</span> u_samples, <span class="at">y =</span> <span class="fu">after_stat</span>(density)), </span>
+<span id="cb5-17"><a href=""></a>                 <span class="at">bins =</span> <span class="dv">50</span>, <span class="at">fill =</span> <span class="st">"darkred"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb5-18"><a href=""></a>  <span class="co"># Theoretical density</span></span>
+<span id="cb5-19"><a href=""></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> u_seq, <span class="at">y =</span> f_u_theoretical), </span>
+<span id="cb5-20"><a href=""></a>            <span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">linewidth =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb5-21"><a href=""></a>  <span class="co"># Annotations</span></span>
+<span id="cb5-22"><a href=""></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">0.7</span>, <span class="at">y =</span> <span class="dv">3</span>, </span>
+<span id="cb5-23"><a href=""></a>           <span class="at">label =</span> <span class="st">"Theoretical: f[U](u)==frac(1,2*sqrt(u))"</span>,</span>
+<span id="cb5-24"><a href=""></a>           <span class="at">parse =</span> <span class="cn">TRUE</span>, <span class="at">size =</span> <span class="dv">6</span>, <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb5-25"><a href=""></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">0.7</span>, <span class="at">y =</span> <span class="fl">2.5</span>, </span>
+<span id="cb5-26"><a href=""></a>           <span class="at">label =</span> <span class="st">"Empirical: 10,000 samples"</span>,</span>
+<span id="cb5-27"><a href=""></a>           <span class="at">size =</span> <span class="dv">5</span>, <span class="at">color =</span> <span class="st">"darkred"</span>) <span class="sc">+</span></span>
+<span id="cb5-28"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Transformation U = Y² where Y ~ Uniform(0,1)"</span>,</span>
+<span id="cb5-29"><a href=""></a>       <span class="at">subtitle =</span> <span class="st">"Notice: Density → ∞ as u → 0, matching our theoretical result!"</span>,</span>
+<span id="cb5-30"><a href=""></a>       <span class="at">x =</span> <span class="st">"u = y²"</span>, <span class="at">y =</span> <span class="st">"Density f_U(u)"</span>) <span class="sc">+</span></span>
+<span id="cb5-31"><a href=""></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">16</span>) <span class="sc">+</span></span>
+<span id="cb5-32"><a href=""></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="functions_rv_lecture1_files/figure-revealjs/unnamed-chunk-6-1.png" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="case-study-real-stock-portfolio-transformation" class="slide level2">
+<h2>📊 Case Study: Real Stock Portfolio Transformation</h2>
+<div class="columns">
+<div class="column" style="width:35%;">
+<div style="font-size:30px">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>💼 Linear Transformation of Stock Returns</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Scenario:</strong> Portfolio with: - 60% Apple (AAPL) - 40% Microsoft (MSFT) - Monthly data: 2020-2024</p>
+<p><strong>Transformation:</strong> <span class="math display">\[R_p = 0.6 \cdot R_{AAPL} + 0.4 \cdot R_{MSFT}\]</span></p>
+<p><strong>Key Question:</strong> How does the portfolio return distribution compare to individual stocks?</p>
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:65%;">
+<div class="cell">
+<details class="code-fold">
+<summary>📊 Show Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb6-2"><a href=""></a><span class="fu">library</span>(tidyquant)</span>
+<span id="cb6-3"><a href=""></a></span>
+<span id="cb6-4"><a href=""></a><span class="co"># Download monthly returns for AAPL and MSFT (2020-2024)</span></span>
+<span id="cb6-5"><a href=""></a>stocks <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"AAPL"</span>, <span class="st">"MSFT"</span>)</span>
+<span id="cb6-6"><a href=""></a>prices <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(stocks, </span>
+<span id="cb6-7"><a href=""></a>                 <span class="at">from =</span> <span class="st">"2020-01-01"</span>, </span>
+<span id="cb6-8"><a href=""></a>                 <span class="at">to =</span> <span class="st">"2024-12-31"</span>,</span>
+<span id="cb6-9"><a href=""></a>                 <span class="at">get =</span> <span class="st">"stock.prices"</span>)</span>
+<span id="cb6-10"><a href=""></a></span>
+<span id="cb6-11"><a href=""></a><span class="co"># Calculate monthly returns</span></span>
+<span id="cb6-12"><a href=""></a>returns <span class="ot">&lt;-</span> prices <span class="sc">%&gt;%</span></span>
+<span id="cb6-13"><a href=""></a>  <span class="fu">group_by</span>(symbol) <span class="sc">%&gt;%</span></span>
+<span id="cb6-14"><a href=""></a>  <span class="fu">tq_transmute</span>(<span class="at">select =</span> adjusted,</span>
+<span id="cb6-15"><a href=""></a>               <span class="at">mutate_fun =</span> periodReturn,</span>
+<span id="cb6-16"><a href=""></a>               <span class="at">period =</span> <span class="st">"monthly"</span>,</span>
+<span id="cb6-17"><a href=""></a>               <span class="at">col_rename =</span> <span class="st">"return"</span>)</span>
+<span id="cb6-18"><a href=""></a></span>
+<span id="cb6-19"><a href=""></a><span class="co"># Pivot to wide format</span></span>
+<span id="cb6-20"><a href=""></a>returns_wide <span class="ot">&lt;-</span> returns <span class="sc">%&gt;%</span></span>
+<span id="cb6-21"><a href=""></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> symbol, <span class="at">values_from =</span> return) <span class="sc">%&gt;%</span></span>
+<span id="cb6-22"><a href=""></a>  <span class="fu">drop_na</span>()</span>
+<span id="cb6-23"><a href=""></a></span>
+<span id="cb6-24"><a href=""></a><span class="co"># Create portfolio returns (60% AAPL, 40% MSFT)</span></span>
+<span id="cb6-25"><a href=""></a>returns_wide <span class="ot">&lt;-</span> returns_wide <span class="sc">%&gt;%</span></span>
+<span id="cb6-26"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">Portfolio =</span> <span class="fl">0.6</span> <span class="sc">*</span> AAPL <span class="sc">+</span> <span class="fl">0.4</span> <span class="sc">*</span> MSFT)</span>
+<span id="cb6-27"><a href=""></a></span>
+<span id="cb6-28"><a href=""></a><span class="co"># Plot distributions</span></span>
+<span id="cb6-29"><a href=""></a>returns_wide <span class="sc">%&gt;%</span></span>
+<span id="cb6-30"><a href=""></a>  <span class="fu">select</span>(date, AAPL, MSFT, Portfolio) <span class="sc">%&gt;%</span></span>
+<span id="cb6-31"><a href=""></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>date, <span class="at">names_to =</span> <span class="st">"Asset"</span>, <span class="at">values_to =</span> <span class="st">"Return"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-32"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Return, <span class="at">fill =</span> Asset, <span class="at">color =</span> Asset)) <span class="sc">+</span></span>
+<span id="cb6-33"><a href=""></a>  <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb6-34"><a href=""></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"AAPL"</span> <span class="ot">=</span> <span class="st">"#3498db"</span>, </span>
+<span id="cb6-35"><a href=""></a>                                <span class="st">"MSFT"</span> <span class="ot">=</span> <span class="st">"#e74c3c"</span>, </span>
+<span id="cb6-36"><a href=""></a>                                <span class="st">"Portfolio"</span> <span class="ot">=</span> <span class="st">"#2ecc71"</span>)) <span class="sc">+</span></span>
+<span id="cb6-37"><a href=""></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"AAPL"</span> <span class="ot">=</span> <span class="st">"#2980b9"</span>, </span>
+<span id="cb6-38"><a href=""></a>                                 <span class="st">"MSFT"</span> <span class="ot">=</span> <span class="st">"#c0392b"</span>, </span>
+<span id="cb6-39"><a href=""></a>                                 <span class="st">"Portfolio"</span> <span class="ot">=</span> <span class="st">"#27ae60"</span>)) <span class="sc">+</span></span>
+<span id="cb6-40"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of Monthly Returns (2020-2024)"</span>,</span>
+<span id="cb6-41"><a href=""></a>       <span class="at">subtitle =</span> <span class="st">"Portfolio = 60% AAPL + 40% MSFT"</span>,</span>
+<span id="cb6-42"><a href=""></a>       <span class="at">x =</span> <span class="st">"Monthly Return"</span>, <span class="at">y =</span> <span class="st">"Density"</span>) <span class="sc">+</span></span>
+<span id="cb6-43"><a href=""></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>) <span class="sc">+</span></span>
+<span id="cb6-44"><a href=""></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"top"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="functions_rv_lecture1_files/figure-revealjs/unnamed-chunk-7-1.png" width="720"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="case-study-portfolio-statistics" class="slide level2">
+<h2>📊 Case Study: Portfolio Statistics</h2>
+<div style="font-size:30px">
+<div class="cell">
+<details class="code-fold">
+<summary>📊 Show Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">library</span>(knitr)</span>
+<span id="cb7-2"><a href=""></a></span>
+<span id="cb7-3"><a href=""></a><span class="co"># Calculate summary statistics</span></span>
+<span id="cb7-4"><a href=""></a>stats <span class="ot">&lt;-</span> returns_wide <span class="sc">%&gt;%</span></span>
+<span id="cb7-5"><a href=""></a>  <span class="fu">summarise</span>(</span>
+<span id="cb7-6"><a href=""></a>    <span class="fu">across</span>(<span class="fu">c</span>(AAPL, MSFT, Portfolio),</span>
+<span id="cb7-7"><a href=""></a>           <span class="fu">list</span>(</span>
+<span id="cb7-8"><a href=""></a>             <span class="at">Mean =</span> <span class="sc">~</span><span class="fu">mean</span>(., <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">*</span> <span class="dv">12</span> <span class="sc">*</span> <span class="dv">100</span>,  <span class="co"># Annualized %</span></span>
+<span id="cb7-9"><a href=""></a>             <span class="at">SD =</span> <span class="sc">~</span><span class="fu">sd</span>(., <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">12</span>) <span class="sc">*</span> <span class="dv">100</span>,  <span class="co"># Annualized %</span></span>
+<span id="cb7-10"><a href=""></a>             <span class="at">Sharpe =</span> <span class="sc">~</span>(<span class="fu">mean</span>(., <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span> <span class="fu">sd</span>(., <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">12</span>)</span>
+<span id="cb7-11"><a href=""></a>           ),</span>
+<span id="cb7-12"><a href=""></a>           <span class="at">.names =</span> <span class="st">"{.col}_{.fn}"</span></span>
+<span id="cb7-13"><a href=""></a>    )</span>
+<span id="cb7-14"><a href=""></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb7-15"><a href=""></a>  <span class="fu">pivot_longer</span>(<span class="fu">everything</span>(), </span>
+<span id="cb7-16"><a href=""></a>               <span class="at">names_to =</span> <span class="fu">c</span>(<span class="st">"Asset"</span>, <span class="st">".value"</span>),</span>
+<span id="cb7-17"><a href=""></a>               <span class="at">names_pattern =</span> <span class="st">"(.*)_(.*)"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-18"><a href=""></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), <span class="sc">~</span><span class="fu">round</span>(., <span class="dv">2</span>)))</span>
+<span id="cb7-19"><a href=""></a></span>
+<span id="cb7-20"><a href=""></a><span class="fu">kable</span>(stats, <span class="at">caption =</span> <span class="st">"Annualized Statistics: AAPL, MSFT, and 60/40 Portfolio"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top">
+<caption>Annualized Statistics: AAPL, MSFT, and 60/40 Portfolio</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Asset</th>
+<th style="text-align: right;">Mean</th>
+<th style="text-align: right;">SD</th>
+<th style="text-align: right;">Sharpe</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">AAPL</td>
+<td style="text-align: right;">29.12</td>
+<td style="text-align: right;">28.93</td>
+<td style="text-align: right;">1.01</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MSFT</td>
+<td style="text-align: right;">22.91</td>
+<td style="text-align: right;">22.31</td>
+<td style="text-align: right;">1.03</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Portfolio</td>
+<td style="text-align: right;">26.64</td>
+<td style="text-align: right;">24.38</td>
+<td style="text-align: right;">1.09</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div style="font-size:32px; margin-top:-10px;">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>🔑 Key Insights</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Linear Transformation Property:</strong></p>
+<div class="columns">
+<div class="column fragment" style="width:50%;">
+<ul>
+<li>Portfolio return is a <strong>weighted sum</strong> of individual returns</li>
+<li><span class="math inline">\(E[R_p] = 0.6 \cdot E[R_{AAPL}] + 0.4 \cdot E[R_{MSFT}]\)</span> (linearity!)</li>
+</ul>
+</div><div class="column fragment" style="width:50%;">
+<ul>
+<li>Portfolio volatility depends on <strong>correlation</strong> between stocks</li>
+<li><strong>Diversification benefit:</strong> Portfolio SD typically lower than weighted average of individual SDs</li>
+</ul>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="quiz-1-linear-transformations" class="slide level2 quiz-question">
+<h2>📝 Quiz #1: Linear Transformations</h2>
+<div style="font-size:34px">
+<p>A stock return Y follows a Uniform(0, 2) distribution. You transform it to U = 3Y + 1. What is the distribution of U?</p>
+<ul>
+<li>Uniform(0, 6)</li>
+<li><span class="correct" data-explanation="✅ Correct! Linear transformation of uniform is uniform. Since Y ∈ [0, 2], then U = 3Y + 1 ∈ [1, 7]. The pdf is f_U(u) = 1/6 for 1 ≤ u ≤ 7.">Uniform(1, 7)</span></li>
+<li>Uniform(3, 7)</li>
+<li>Normal(4, 1)</li>
+</ul>
+</div>
+</section>
+<section id="quiz-2-quadratic-transformation" class="slide level2 quiz-question">
+<h2>📝 Quiz #2: Quadratic Transformation</h2>
+<div style="font-size:34px">
+<p>If <span class="math inline">\(Y \sim \text{Uniform}(0, 1)\)</span> and <span class="math inline">\(U = Y^2\)</span>, what is <span class="math inline">\(f_U(0.25)\)</span>?</p>
+<ul>
+<li>0.25</li>
+<li>0.5</li>
+<li><span class="correct" data-explanation="✅ Correct! Using f_U(u) = 1/(2√u) for 0 < u < 1: f_U(0.25) = 1/(2√0.25) = 1/(2×0.5) = 1.0">1.0</span></li>
+<li>2.0</li>
+</ul>
+</div>
+</section>
+<section id="quiz-3-distribution-function-method" class="slide level2 quiz-question">
+<h2>📝 Quiz #3: Distribution Function Method</h2>
+<div style="font-size:34px">
+<p>Why do we use the method of distribution functions for continuous RVs instead of directly transforming the pdf?</p>
+<ul>
+<li>It’s computationally faster</li>
+<li><span class="correct" data-explanation="✅ Correct! The CDF method correctly handles probability transformations. Direct pdf transformation would miss the Jacobian factor needed to preserve total probability of 1.">The CDF method properly accounts for the change in probability measure</span></li>
+<li>PDFs cannot be transformed</li>
+<li>It gives the same result either way</li>
+</ul>
+</div>
+</section>
+<section id="quiz-4-non-one-to-one-functions" class="slide level2 quiz-question">
+<h2>📝 Quiz #4: Non-One-to-One Functions</h2>
+<div style="font-size:34px">
+<p>For discrete RV Y with transformation U = g(Y), if g is not one-to-one, what do we do?</p>
+<ul>
+<li>The transformation is invalid</li>
+<li>We must use a different method</li>
+<li><span class="correct" data-explanation="✅ Correct! We use p_U(u) = Σ_{y: g(y)=u} p_Y(y) to combine probabilities from all y values that produce the same u value.">Sum probabilities of all y values that map to each u</span></li>
+<li>The pdf becomes undefined</li>
+</ul>
+</div>
+</section>
+<section id="summary" class="slide level2 larger">
+<h2>📚 Summary</h2>
+<div style="font-size:38px">
+<p><strong>Key Takeaways:</strong></p>
+<ul>
+<li class="fragment"><p><strong>Functions of random variables</strong> are ubiquitous in finance: portfolio returns, option payoffs, risk metrics</p></li>
+<li class="fragment"><p><strong>Discrete case:</strong> Transform values and preserve/sum probabilities</p></li>
+<li class="fragment"><p><strong>Continuous case:</strong> Use the <strong>method of distribution functions</strong> (CDF approach)</p></li>
+<li class="fragment"><p><strong>Linear transformations</strong> preserve distributional families (e.g., uniform → uniform, normal → normal)</p></li>
+<li class="fragment"><p><strong>Nonlinear transformations</strong> can dramatically change the shape of distributions</p></li>
+<li class="fragment"><p><strong>Real data</strong> often requires empirical validation of theoretical distributions</p></li>
+</ul>
+</div>
+</section>
+<section id="practice-problems" class="slide level2 smaller">
+<h2>📝 Practice Problems</h2>
+<div style="font-size:34px">
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Problem 1:</strong></p>
+<p>If <span class="math inline">\(Y \sim \text{Exponential}(\lambda = 0.5)\)</span> and <span class="math inline">\(U = 2Y\)</span>, find <span class="math inline">\(f_U(u)\)</span>.</p>
+<p><strong>Problem 2:</strong></p>
+<p>Stock return <span class="math inline">\(Y \sim \text{Normal}(0.10, 0.04)\)</span>. An option payoff is <span class="math inline">\(U = \max(Y - 0.08, 0)\)</span>. Describe how you would find <span class="math inline">\(F_U(u)\)</span>.</p>
+</div><div class="column" style="width:50%;">
+<p><strong>Problem 3:</strong></p>
+<p>Two stocks have returns <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span>. Portfolio return is <span class="math inline">\(U = 0.5Y_1 + 0.5Y_2\)</span>. If both are independent Uniform(0, 1), find <span class="math inline">\(f_U(u)\)</span>.</p>
+<p><strong>Problem 4:</strong></p>
+<p>Prove that if <span class="math inline">\(Y \sim \text{Uniform}(a, b)\)</span> and <span class="math inline">\(U = cY + d\)</span> (with <span class="math inline">\(c &gt; 0\)</span>), then <span class="math inline">\(U \sim \text{Uniform}(ca + d, cb + d)\)</span>.</p>
+</div></div>
+</div>
+</section>
+<section id="thank-you" class="slide level2">
 <h2>👋 Thank You!</h2>
+<div style="font-size: 32px">
 <div class="columns">
 <div class="column" style="width:50%;">
 <p><strong>📬 Contact Information:</strong></p>
@@ -820,18 +1652,20 @@ Log Returns:</code></pre>
 <p>⏰ Office Hours: By appointment</p>
 </div><div class="column" style="width:50%;">
 <p><strong>📅 Next Class:</strong></p>
-<p><strong>Topic:</strong> Method of Transformations &amp; MGF Method</p>
-<p><strong>Reading:</strong> Chapter 6, Sections 6.4-6.5</p>
+<p><strong>Topic:</strong> Method of Transformations (Theorem 6.2)</p>
+<p><strong>Reading:</strong> Wackerly Sections 6.4-6.5</p>
 <p><strong>Preparation:</strong> Review derivatives and inverse functions</p>
 <p><strong>⏰ Reminders:</strong></p>
-<p>✅ Complete Practice Problems 1-5</p>
+<p>✅ Complete Practice Problems 1-4</p>
 <p>✅ Review the chain rule from calculus</p>
 <p>✅ Think about when transformations are invertible</p>
 <p>✅ Work hard!</p>
 </div></div>
+</div>
 </section>
-<section id="questions" class="slide level2 center">
+<section id="questions" class="slide level2">
 <h2>❓ Questions?</h2>
+<div style="font-size: 45px">
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -847,16 +1681,13 @@ Log Returns:</code></pre>
 <li><p>How do fat tails in return distributions affect risk management decisions?</p></li>
 <li><p>What are some other financial quantities that are functions of random variables?</p></li>
 <li><p>When might we prefer simple returns over log returns?</p></li>
+<li><p>In practice, when would you use empirical methods vs theoretical transformation methods?</p></li>
 </ul>
 </div>
 </div>
 </div>
-
-<div class="ojs-auto-generated hidden">
-<script type="ojs-module-contents">
-eyJjb250ZW50cyI6WyAgeyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiaW5saW5lIjoidHJ1ZSIsInNvdXJjZSI6Imh0bC5odG1sYDxzcGFuPiR7bl9zYW1wbGVzfTwvc3Bhbj5gIiwgImNlbGxOYW1lIjoib2pzLWVsZW1lbnQtaWQtMSJ9XX0=
-</script>
 </div>
+
 </section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
@@ -1009,7 +1840,7 @@ eyJjb250ZW50cyI6WyAgeyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiaW5saW5lIjoidHJ1ZSIsInNv
         defaultTiming: null,
 
         // Enable slide navigation via mouse wheel
-        mouseWheel: false,
+        mouseWheel: true,
 
         // The display mode that will be used to show slides
         display: 'block',
@@ -1049,7 +1880,12 @@ eyJjb250ZW50cyI6WyAgeyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiaW5saW5lIjoidHJ1ZSIsInNv
         height: 720,
 
         // Factor of the display size that should remain empty around the content
-        margin: 0.1,
+        margin: 4.0e-2,
+
+        // Bounds for smallest/largest possible scale to apply to content
+        minScale: 0.2,
+
+        maxScale: 2,
 
         math: {
           mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
@@ -1079,7 +1915,7 @@ eyJjb250ZW50cyI6WyAgeyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiaW5saW5lIjoidHJ1ZSIsInNv
       });
     </script>
     <script type="ojs-module-contents">
-    eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6Ilxudmlld29mIG5fc2FtcGxlcyA9IElucHV0cy5yYW5nZShbMTAwLCA1MDAwXSwge1xuICB2YWx1ZTogMTAwMCwgXG4gIHN0ZXA6IDEwMCwgXG4gIGxhYmVsOiBcIlNhbXBsZSBzaXplOlwiXG59KVxuXG4vLyBHZW5lcmF0ZSBzdGFuZGFyZCBub3JtYWwgc2FtcGxlc1xubm9ybWFsU2FtcGxlcyA9IHtcbiAgY29uc3Qgc2FtcGxlcyA9IFtdO1xuICBmb3IgKGxldCBpID0gMDsgaSA8IG5fc2FtcGxlczsgaSsrKSB7XG4gICAgLy8gQm94LU11bGxlciB0cmFuc2Zvcm1cbiAgICBjb25zdCB1MSA9IE1hdGgucmFuZG9tKCk7XG4gICAgY29uc3QgdTIgPSBNYXRoLnJhbmRvbSgpO1xuICAgIGNvbnN0IHogPSBNYXRoLnNxcnQoLTIgKiBNYXRoLmxvZyh1MSkpICogTWF0aC5jb3MoMiAqIE1hdGguUEkgKiB1Mik7XG4gICAgc2FtcGxlcy5wdXNoKHt5OiB6LCB1OiB6ICogen0pO1xuICB9XG4gIHJldHVybiBzYW1wbGVzO1xufVxuXG4vLyBDaGktc3F1YXJlKDEpIHRoZW9yZXRpY2FsIFBERlxuY2hpU3FQZGYgPSB7XG4gIGNvbnN0IHBvaW50cyA9IFtdO1xuICBmb3IgKGxldCB1ID0gMC4wMTsgdSA8PSA4OyB1ICs9IDAuMDUpIHtcbiAgICBjb25zdCBwZGYgPSBNYXRoLmV4cCgtdS8yKSAvIE1hdGguc3FydCgyICogTWF0aC5QSSAqIHUpO1xuICAgIHBvaW50cy5wdXNoKHt1OiB1LCBwZGY6IHBkZn0pO1xuICB9XG4gIHJldHVybiBwb2ludHM7XG59XG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTIiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJcblBsb3QucGxvdCh7XG4gIHdpZHRoOiA0NTAsXG4gIGhlaWdodDogMzAwLFxuICB4OiB7IGRvbWFpbjogWzAsIDhdLCBsYWJlbDogXCJVID0gWcKyXCIgfSxcbiAgeTogeyBkb21haW46IFswLCAxLjVdLCBsYWJlbDogXCJEZW5zaXR5XCIgfSxcbiAgbWFya3M6IFtcbiAgICBQbG90LnJlY3RZKG5vcm1hbFNhbXBsZXMsIFBsb3QuYmluWCh7eTogXCJkZW5zaXR5XCJ9LCB7eDogXCJ1XCIsIGZpbGw6IFwic3RlZWxibHVlXCIsIGZpbGxPcGFjaXR5OiAwLjZ9KSksXG4gICAgUGxvdC5saW5lKGNoaVNxUGRmLCB7eDogXCJ1XCIsIHk6IFwicGRmXCIsIHN0cm9rZTogXCJyZWRcIiwgc3Ryb2tlV2lkdGg6IDJ9KSxcbiAgICBQbG90LnJ1bGVZKFswXSlcbiAgXVxufSlcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgnbl9zYW1wbGVzJykifV19
+    eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6Ilxudmlld29mIHNoaWZ0X3BhcmFtID0ge1xuICBjb25zdCB3cmFwcGVyID0gaHRtbGA8ZGl2IHN0eWxlPVwiZGlzcGxheTogZmxleDsgYWxpZ24taXRlbXM6IGNlbnRlcjsgZ2FwOiAxMHB4O1wiPlxuICAgIDxzcGFuIHN0eWxlPVwid2hpdGUtc3BhY2U6IG5vd3JhcDsgZm9udC1zaXplOiAxNHB4OyBmb250LXdlaWdodDogNTAwOyBtaW4td2lkdGg6IDE4MHB4O1wiPlRyYW5zYWN0aW9uIENvc3QgKHNoaWZ0KTo8L3NwYW4+XG4gIDwvZGl2PmA7XG4gIGNvbnN0IHNsaWRlciA9IElucHV0cy5yYW5nZShbLTEwLCAxMF0sIHt2YWx1ZTogLTUsIHN0ZXA6IDAuNSwgbGFiZWw6IFwiXCJ9KTtcbiAgd3JhcHBlci5hcHBlbmRDaGlsZChzbGlkZXIpO1xuICBcbiAgLy8gRm9yd2FyZCB0aGUgdmFsdWUgcHJvcGVydHkgZnJvbSB0aGUgc2xpZGVyIHRvIHRoZSB3cmFwcGVyXG4gIE9iamVjdC5kZWZpbmVQcm9wZXJ0eSh3cmFwcGVyLCAndmFsdWUnLCB7XG4gICAgZ2V0OiAoKSA9PiBzbGlkZXIudmFsdWUsXG4gICAgc2V0OiAodikgPT4geyBzbGlkZXIudmFsdWUgPSB2OyB9XG4gIH0pO1xuICBcbiAgWydwb2ludGVyZG93bicsICd0b3VjaHN0YXJ0JywgJ21vdXNlZG93bicsICdjbGljaycsICd3aGVlbCcsICdwb2ludGVybW92ZScsICd0b3VjaG1vdmUnLCAnbW91c2Vtb3ZlJ10uZm9yRWFjaChlID0+XG4gICAgd3JhcHBlci5hZGRFdmVudExpc3RlbmVyKGUsIGV2ID0+IGV2LnN0b3BQcm9wYWdhdGlvbigpKVxuICApO1xuICByZXR1cm4gd3JhcHBlcjtcbn1cblxueV92YWx1ZXMgPSBbLTIsIC0xLCAwLCAxLCAyXVxucHJvYnMgPSBbMC4xMCwgMC4yMCwgMC4zMCwgMC4yNSwgMC4xNV1cbnVfdmFsdWVzID0geV92YWx1ZXMubWFwKHkgPT4geSArIHNoaWZ0X3BhcmFtKVxuXG57XG4gIGNvbnN0IHdpZHRoID0gMTE1MDtcbiAgY29uc3QgaGVpZ2h0ID0gNTUwO1xuICBjb25zdCBtYXJnaW4gPSB7dG9wOiA1MCwgcmlnaHQ6IDUwLCBib3R0b206IDcwLCBsZWZ0OiA4MH07XG4gIFxuICBjb25zdCBjb250YWluZXIgPSBodG1sYDxkaXYgc3R5bGU9XCJkaXNwbGF5OiBmbGV4OyBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjsgd2lkdGg6IDEwMCU7XCI+PC9kaXY+YDtcbiAgXG4gIGNvbnN0IHN2ZyA9IGQzLmNyZWF0ZShcInN2Z1wiKVxuICAgIC5hdHRyKFwid2lkdGhcIiwgd2lkdGgpXG4gICAgLmF0dHIoXCJoZWlnaHRcIiwgaGVpZ2h0KVxuICAgIC5hdHRyKFwic3R5bGVcIiwgXCJiYWNrZ3JvdW5kOiB3aGl0ZTsgZm9udC1zaXplOiAxNnB4O1wiKTtcbiAgXG4gIGNvbnN0IHggPSBkMy5zY2FsZUxpbmVhcigpXG4gICAgLmRvbWFpbihbXG4gICAgICBNYXRoLm1pbihkMy5taW4oeV92YWx1ZXMpLCBkMy5taW4odV92YWx1ZXMpKSAtIDIsIFxuICAgICAgTWF0aC5tYXgoZDMubWF4KHlfdmFsdWVzKSwgZDMubWF4KHVfdmFsdWVzKSkgKyAyXG4gICAgXSlcbiAgICAucmFuZ2UoW21hcmdpbi5sZWZ0LCB3aWR0aCAtIG1hcmdpbi5yaWdodF0pO1xuICBcbiAgY29uc3QgeSA9IGQzLnNjYWxlTGluZWFyKClcbiAgICAuZG9tYWluKFswLCAwLjM1XSlcbiAgICAucmFuZ2UoW2hlaWdodCAtIG1hcmdpbi5ib3R0b20sIG1hcmdpbi50b3BdKTtcbiAgXG4gIC8vIE9yaWdpbmFsIFkgZGlzdHJpYnV0aW9uXG4gIHN2Zy5zZWxlY3RBbGwoXCIuYmFyLXlcIilcbiAgICAuZGF0YSh5X3ZhbHVlcy5tYXAoKHZhbCwgaSkgPT4gKHt4OiB2YWwsIHk6IHByb2JzW2ldfSkpKVxuICAgIC5qb2luKFwicmVjdFwiKVxuICAgIC5hdHRyKFwiY2xhc3NcIiwgXCJiYXIteVwiKVxuICAgIC5hdHRyKFwieFwiLCBkID0+IHgoZC54KSAtIDE4KVxuICAgIC5hdHRyKFwieVwiLCBkID0+IHkoZC55KSlcbiAgICAuYXR0cihcIndpZHRoXCIsIDM2KVxuICAgIC5hdHRyKFwiaGVpZ2h0XCIsIGQgPT4geSgwKSAtIHkoZC55KSlcbiAgICAuYXR0cihcImZpbGxcIiwgXCJzdGVlbGJsdWVcIilcbiAgICAuYXR0cihcIm9wYWNpdHlcIiwgMC41KTtcbiAgXG4gIC8vIFRyYW5zZm9ybWVkIFUgZGlzdHJpYnV0aW9uXG4gIHN2Zy5zZWxlY3RBbGwoXCIuYmFyLXVcIilcbiAgICAuZGF0YSh1X3ZhbHVlcy5tYXAoKHZhbCwgaSkgPT4gKHt4OiB2YWwsIHk6IHByb2JzW2ldfSkpKVxuICAgIC5qb2luKFwicmVjdFwiKVxuICAgIC5hdHRyKFwiY2xhc3NcIiwgXCJiYXItdVwiKVxuICAgIC5hdHRyKFwieFwiLCBkID0+IHgoZC54KSAtIDE4KVxuICAgIC5hdHRyKFwieVwiLCBkID0+IHkoZC55KSlcbiAgICAuYXR0cihcIndpZHRoXCIsIDM2KVxuICAgIC5hdHRyKFwiaGVpZ2h0XCIsIGQgPT4geSgwKSAtIHkoZC55KSlcbiAgICAuYXR0cihcImZpbGxcIiwgXCJkYXJrcmVkXCIpXG4gICAgLmF0dHIoXCJvcGFjaXR5XCIsIDAuNyk7XG4gIFxuICAvLyBBeGVzXG4gIHN2Zy5hcHBlbmQoXCJnXCIpXG4gICAgLmF0dHIoXCJ0cmFuc2Zvcm1cIiwgYHRyYW5zbGF0ZSgwLCR7aGVpZ2h0IC0gbWFyZ2luLmJvdHRvbX0pYClcbiAgICAuY2FsbChkMy5heGlzQm90dG9tKHgpKVxuICAgIC5zdHlsZShcImZvbnQtc2l6ZVwiLCBcIjE2cHhcIik7XG4gIFxuICBzdmcuYXBwZW5kKFwiZ1wiKVxuICAgIC5hdHRyKFwidHJhbnNmb3JtXCIsIGB0cmFuc2xhdGUoJHttYXJnaW4ubGVmdH0sMClgKVxuICAgIC5jYWxsKGQzLmF4aXNMZWZ0KHkpKVxuICAgIC5zdHlsZShcImZvbnQtc2l6ZVwiLCBcIjE2cHhcIik7XG4gIFxuICAvLyBMYWJlbHNcbiAgc3ZnLmFwcGVuZChcInRleHRcIilcbiAgICAuYXR0cihcInhcIiwgd2lkdGggLyAyKVxuICAgIC5hdHRyKFwieVwiLCBoZWlnaHQgLSAxNSlcbiAgICAuYXR0cihcInRleHQtYW5jaG9yXCIsIFwibWlkZGxlXCIpXG4gICAgLnN0eWxlKFwiZm9udC1zaXplXCIsIFwiMjBweFwiKVxuICAgIC50ZXh0KFwiVmFsdWVcIik7XG4gIFxuICBzdmcuYXBwZW5kKFwidGV4dFwiKVxuICAgIC5hdHRyKFwidHJhbnNmb3JtXCIsIFwicm90YXRlKC05MClcIilcbiAgICAuYXR0cihcInhcIiwgLWhlaWdodCAvIDIpXG4gICAgLmF0dHIoXCJ5XCIsIDI1KVxuICAgIC5hdHRyKFwidGV4dC1hbmNob3JcIiwgXCJtaWRkbGVcIilcbiAgICAuc3R5bGUoXCJmb250LXNpemVcIiwgXCIyMHB4XCIpXG4gICAgLnRleHQoXCJQcm9iYWJpbGl0eVwiKTtcbiAgXG4gIHN2Zy5hcHBlbmQoXCJ0ZXh0XCIpXG4gICAgLmF0dHIoXCJ4XCIsIHdpZHRoIC8gMilcbiAgICAuYXR0cihcInlcIiwgMzApXG4gICAgLmF0dHIoXCJ0ZXh0LWFuY2hvclwiLCBcIm1pZGRsZVwiKVxuICAgIC5zdHlsZShcImZvbnQtc2l6ZVwiLCBcIjIycHhcIilcbiAgICAuc3R5bGUoXCJmb250LXdlaWdodFwiLCBcImJvbGRcIilcbiAgICAudGV4dChgT3JpZ2luYWwgWSAoYmx1ZSkgdnMgVHJhbnNmb3JtZWQgVSA9IFkgKyAke3NoaWZ0X3BhcmFtLnRvRml4ZWQoMSl9IChyZWQpYCk7XG4gIFxuICBjb250YWluZXIuYXBwZW5kQ2hpbGQoc3ZnLm5vZGUoKSk7XG4gIHJldHVybiBjb250YWluZXI7XG59XG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTIiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJcbnZpZXdvZiBzY2FsZV9hID0ge1xuICBjb25zdCB3cmFwcGVyID0gaHRtbGA8ZGl2IHN0eWxlPVwiZGlzcGxheTogZmxleDsgYWxpZ24taXRlbXM6IGNlbnRlcjsgZ2FwOiAxMHB4O1wiPlxuICAgIDxzcGFuIHN0eWxlPVwid2hpdGUtc3BhY2U6IG5vd3JhcDsgZm9udC1zaXplOiAxNHB4OyBmb250LXdlaWdodDogNTAwOyBtaW4td2lkdGg6IDE2MHB4O1wiPlNjYWxlIHBhcmFtZXRlciAoYSk6PC9zcGFuPlxuICA8L2Rpdj5gO1xuICBjb25zdCBzbGlkZXIgPSBJbnB1dHMucmFuZ2UoWzAuNSwgNV0sIHt2YWx1ZTogMiwgc3RlcDogMC4xLCBsYWJlbDogXCJcIn0pO1xuICB3cmFwcGVyLmFwcGVuZENoaWxkKHNsaWRlcik7XG4gIFxuICAvLyBGb3J3YXJkIHRoZSB2YWx1ZSBwcm9wZXJ0eSBmcm9tIHRoZSBzbGlkZXIgdG8gdGhlIHdyYXBwZXJcbiAgT2JqZWN0LmRlZmluZVByb3BlcnR5KHdyYXBwZXIsICd2YWx1ZScsIHtcbiAgICBnZXQ6ICgpID0+IHNsaWRlci52YWx1ZSxcbiAgICBzZXQ6ICh2KSA9PiB7IHNsaWRlci52YWx1ZSA9IHY7IH1cbiAgfSk7XG4gIFxuICBbJ3BvaW50ZXJkb3duJywgJ3RvdWNoc3RhcnQnLCAnbW91c2Vkb3duJywgJ2NsaWNrJywgJ3doZWVsJywgJ3BvaW50ZXJtb3ZlJywgJ3RvdWNobW92ZScsICdtb3VzZW1vdmUnXS5mb3JFYWNoKGUgPT5cbiAgICB3cmFwcGVyLmFkZEV2ZW50TGlzdGVuZXIoZSwgZXYgPT4gZXYuc3RvcFByb3BhZ2F0aW9uKCkpXG4gICk7XG4gIHJldHVybiB3cmFwcGVyO1xufVxuXG52aWV3b2Ygc2hpZnRfYiA9IHtcbiAgY29uc3Qgd3JhcHBlciA9IGh0bWxgPGRpdiBzdHlsZT1cImRpc3BsYXk6IGZsZXg7IGFsaWduLWl0ZW1zOiBjZW50ZXI7IGdhcDogMTBweDtcIj5cbiAgICA8c3BhbiBzdHlsZT1cIndoaXRlLXNwYWNlOiBub3dyYXA7IGZvbnQtc2l6ZTogMTRweDsgZm9udC13ZWlnaHQ6IDUwMDsgbWluLXdpZHRoOiAxNjBweDtcIj5TaGlmdCBwYXJhbWV0ZXIgKGIpOjwvc3Bhbj5cbiAgPC9kaXY+YDtcbiAgY29uc3Qgc2xpZGVyID0gSW5wdXRzLnJhbmdlKFstMiwgNV0sIHt2YWx1ZTogMSwgc3RlcDogMC4xLCBsYWJlbDogXCJcIn0pO1xuICB3cmFwcGVyLmFwcGVuZENoaWxkKHNsaWRlcik7XG4gIFxuICAvLyBGb3J3YXJkIHRoZSB2YWx1ZSBwcm9wZXJ0eSBmcm9tIHRoZSBzbGlkZXIgdG8gdGhlIHdyYXBwZXJcbiAgT2JqZWN0LmRlZmluZVByb3BlcnR5KHdyYXBwZXIsICd2YWx1ZScsIHtcbiAgICBnZXQ6ICgpID0+IHNsaWRlci52YWx1ZSxcbiAgICBzZXQ6ICh2KSA9PiB7IHNsaWRlci52YWx1ZSA9IHY7IH1cbiAgfSk7XG4gIFxuICBbJ3BvaW50ZXJkb3duJywgJ3RvdWNoc3RhcnQnLCAnbW91c2Vkb3duJywgJ2NsaWNrJywgJ3doZWVsJywgJ3BvaW50ZXJtb3ZlJywgJ3RvdWNobW92ZScsICdtb3VzZW1vdmUnXS5mb3JFYWNoKGUgPT5cbiAgICB3cmFwcGVyLmFkZEV2ZW50TGlzdGVuZXIoZSwgZXYgPT4gZXYuc3RvcFByb3BhZ2F0aW9uKCkpXG4gICk7XG4gIHJldHVybiB3cmFwcGVyO1xufVxuXG51X21pbiA9IHNoaWZ0X2JcbnVfbWF4ID0gc2NhbGVfYSArIHNoaWZ0X2JcbmZfdSA9IDEgLyBzY2FsZV9hXG5cbntcbiAgY29uc3Qgd2lkdGggPSAxMDAwO1xuICBjb25zdCBoZWlnaHQgPSA0NDA7XG4gIGNvbnN0IG1hcmdpbiA9IHt0b3A6IDQwLCByaWdodDogNDAsIGJvdHRvbTogNjAsIGxlZnQ6IDcwfTtcbiAgXG4gIGNvbnN0IHN2ZyA9IGQzLmNyZWF0ZShcInN2Z1wiKVxuICAgIC5hdHRyKFwid2lkdGhcIiwgd2lkdGgpXG4gICAgLmF0dHIoXCJoZWlnaHRcIiwgaGVpZ2h0KVxuICAgIC5hdHRyKFwic3R5bGVcIiwgXCJiYWNrZ3JvdW5kOiB3aGl0ZTsgZm9udC1zaXplOiAxNnB4O1wiKTtcbiAgXG4gIGNvbnN0IHggPSBkMy5zY2FsZUxpbmVhcigpXG4gICAgLmRvbWFpbihbLTEsIE1hdGgubWF4KDYsIHVfbWF4ICsgMSldKVxuICAgIC5yYW5nZShbbWFyZ2luLmxlZnQsIHdpZHRoIC0gbWFyZ2luLnJpZ2h0XSk7XG4gIFxuICBjb25zdCB5X3NjYWxlID0gZDMuc2NhbGVMaW5lYXIoKVxuICAgIC5kb21haW4oWzAsIDEuNV0pXG4gICAgLnJhbmdlKFtoZWlnaHQgLSBtYXJnaW4uYm90dG9tLCBtYXJnaW4udG9wXSk7XG4gIFxuICAvLyBPcmlnaW5hbCBZIH4gVW5pZm9ybSgwLDEpXG4gIHN2Zy5hcHBlbmQoXCJyZWN0XCIpXG4gICAgLmF0dHIoXCJ4XCIsIHgoMCkpXG4gICAgLmF0dHIoXCJ5XCIsIHlfc2NhbGUoMSkpXG4gICAgLmF0dHIoXCJ3aWR0aFwiLCB4KDEpIC0geCgwKSlcbiAgICAuYXR0cihcImhlaWdodFwiLCB5X3NjYWxlKDApIC0geV9zY2FsZSgxKSlcbiAgICAuYXR0cihcImZpbGxcIiwgXCJzdGVlbGJsdWVcIilcbiAgICAuYXR0cihcIm9wYWNpdHlcIiwgMC40KTtcbiAgXG4gIC8vIFRyYW5zZm9ybWVkIFUgfiBVbmlmb3JtKGIsIGErYilcbiAgc3ZnLmFwcGVuZChcInJlY3RcIilcbiAgICAuYXR0cihcInhcIiwgeCh1X21pbikpXG4gICAgLmF0dHIoXCJ5XCIsIHlfc2NhbGUoZl91KSlcbiAgICAuYXR0cihcIndpZHRoXCIsIHgodV9tYXgpIC0geCh1X21pbikpXG4gICAgLmF0dHIoXCJoZWlnaHRcIiwgeV9zY2FsZSgwKSAtIHlfc2NhbGUoZl91KSlcbiAgICAuYXR0cihcImZpbGxcIiwgXCJkYXJrcmVkXCIpXG4gICAgLmF0dHIoXCJvcGFjaXR5XCIsIDAuNik7XG4gIFxuICAvLyBBeGVzXG4gIHN2Zy5hcHBlbmQoXCJnXCIpXG4gICAgLmF0dHIoXCJ0cmFuc2Zvcm1cIiwgYHRyYW5zbGF0ZSgwLCR7aGVpZ2h0IC0gbWFyZ2luLmJvdHRvbX0pYClcbiAgICAuY2FsbChkMy5heGlzQm90dG9tKHgpKVxuICAgIC5zdHlsZShcImZvbnQtc2l6ZVwiLCBcIjE0cHhcIik7XG4gIFxuICBzdmcuYXBwZW5kKFwiZ1wiKVxuICAgIC5hdHRyKFwidHJhbnNmb3JtXCIsIGB0cmFuc2xhdGUoJHttYXJnaW4ubGVmdH0sMClgKVxuICAgIC5jYWxsKGQzLmF4aXNMZWZ0KHlfc2NhbGUpKVxuICAgIC5zdHlsZShcImZvbnQtc2l6ZVwiLCBcIjE0cHhcIik7XG4gIFxuICAvLyBMYWJlbHNcbiAgc3ZnLmFwcGVuZChcInRleHRcIilcbiAgICAuYXR0cihcInhcIiwgd2lkdGggLyAyKVxuICAgIC5hdHRyKFwieVwiLCBoZWlnaHQgLSAxMClcbiAgICAuYXR0cihcInRleHQtYW5jaG9yXCIsIFwibWlkZGxlXCIpXG4gICAgLnN0eWxlKFwiZm9udC1zaXplXCIsIFwiMThweFwiKVxuICAgIC50ZXh0KFwiVmFsdWVcIik7XG4gIFxuICBzdmcuYXBwZW5kKFwidGV4dFwiKVxuICAgIC5hdHRyKFwidHJhbnNmb3JtXCIsIFwicm90YXRlKC05MClcIilcbiAgICAuYXR0cihcInhcIiwgLWhlaWdodCAvIDIpXG4gICAgLmF0dHIoXCJ5XCIsIDIwKVxuICAgIC5hdHRyKFwidGV4dC1hbmNob3JcIiwgXCJtaWRkbGVcIilcbiAgICAuc3R5bGUoXCJmb250LXNpemVcIiwgXCIxOHB4XCIpXG4gICAgLnRleHQoXCJEZW5zaXR5XCIpO1xuICBcbiAgc3ZnLmFwcGVuZChcInRleHRcIilcbiAgICAuYXR0cihcInhcIiwgd2lkdGggLyAyKVxuICAgIC5hdHRyKFwieVwiLCAyNSlcbiAgICAuYXR0cihcInRleHQtYW5jaG9yXCIsIFwibWlkZGxlXCIpXG4gICAgLnN0eWxlKFwiZm9udC1zaXplXCIsIFwiMjBweFwiKVxuICAgIC5zdHlsZShcImZvbnQtd2VpZ2h0XCIsIFwiYm9sZFwiKVxuICAgIC50ZXh0KGBZIH4gVW5pZm9ybSgwLDEpIOKGkiBVID0gJHtzY2FsZV9hLnRvRml4ZWQoMSl9WSArICR7c2hpZnRfYi50b0ZpeGVkKDEpfWApO1xuICBcbiAgcmV0dXJuIHN2Zy5ub2RlKCk7XG59XG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTMiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJcbnZpZXdvZiB0cmFuc190eXBlID0ge1xuICBjb25zdCB3cmFwcGVyID0gaHRtbGA8ZGl2IHN0eWxlPVwibWFyZ2luLXRvcDogMjBweDtcIj5cbiAgICA8ZGl2IHN0eWxlPVwiZm9udC1zaXplOiAxOHB4OyBmb250LXdlaWdodDogNjAwOyBtYXJnaW4tYm90dG9tOiAxNXB4OyBjb2xvcjogIzJjM2U1MDtcIj5cbiAgICAgIFNlbGVjdCBUcmFuc2Zvcm1hdGlvbjpcbiAgICA8L2Rpdj5cbiAgPC9kaXY+YDtcbiAgXG4gIGNvbnN0IHJhZGlvID0gSW5wdXRzLnJhZGlvKFxuICAgIFtcIkxpbmVhcjogVSA9IDJZICsgMVwiLCBcIlF1YWRyYXRpYzogVSA9IFnCslwiLCBcIkN1YmljOiBVID0gWcKzXCIsIFwiU3F1YXJlIFJvb3Q6IFUgPSDiiJpZXCJdLFxuICAgIHt2YWx1ZTogXCJRdWFkcmF0aWM6IFUgPSBZwrJcIiwgbGFiZWw6IFwiXCJ9XG4gICk7XG4gIHdyYXBwZXIuYXBwZW5kQ2hpbGQocmFkaW8pO1xuICBcbiAgLy8gRm9yd2FyZCB0aGUgdmFsdWUgcHJvcGVydHlcbiAgT2JqZWN0LmRlZmluZVByb3BlcnR5KHdyYXBwZXIsICd2YWx1ZScsIHtcbiAgICBnZXQ6ICgpID0+IHJhZGlvLnZhbHVlLFxuICAgIHNldDogKHYpID0+IHsgcmFkaW8udmFsdWUgPSB2OyB9XG4gIH0pO1xuICBcbiAgcmV0dXJuIHdyYXBwZXI7XG59XG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTQiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJcbnlfZ3JpZCA9IEFycmF5LmZyb20oe2xlbmd0aDogMzAwfSwgKF8sIGkpID0+IGkgLyAyOTkpXG5cbnVfdHJhbnNmb3JtZWQgPSB5X2dyaWQubWFwKHkgPT4ge1xuICBpZiAodHJhbnNfdHlwZSA9PT0gXCJMaW5lYXI6IFUgPSAyWSArIDFcIikgcmV0dXJuIDIgKiB5ICsgMTtcbiAgaWYgKHRyYW5zX3R5cGUgPT09IFwiUXVhZHJhdGljOiBVID0gWcKyXCIpIHJldHVybiB5ICogeTtcbiAgaWYgKHRyYW5zX3R5cGUgPT09IFwiQ3ViaWM6IFUgPSBZwrNcIikgcmV0dXJuIHkgKiB5ICogeTtcbiAgaWYgKHRyYW5zX3R5cGUgPT09IFwiU3F1YXJlIFJvb3Q6IFUgPSDiiJpZXCIpIHJldHVybiBNYXRoLnNxcnQoeSk7XG59KVxuXG5mX3VfdmFsdWVzID0geV9ncmlkLm1hcCgoeSwgaSkgPT4ge1xuICBjb25zdCB1ID0gdV90cmFuc2Zvcm1lZFtpXTtcbiAgaWYgKHRyYW5zX3R5cGUgPT09IFwiTGluZWFyOiBVID0gMlkgKyAxXCIpIHJldHVybiB7dTogdSwgZjogMC41fTtcbiAgaWYgKHRyYW5zX3R5cGUgPT09IFwiUXVhZHJhdGljOiBVID0gWcKyXCIpIHJldHVybiB7dTogdSwgZjogMC41IC8gTWF0aC5zcXJ0KE1hdGgubWF4KHUsIDAuMDAxKSl9O1xuICBpZiAodHJhbnNfdHlwZSA9PT0gXCJDdWJpYzogVSA9IFnCs1wiKSByZXR1cm4ge3U6IHUsIGY6ICgxLzMpIC8gTWF0aC5wb3coTWF0aC5tYXgodSwgMC4wMDEpLCAyLzMpfTtcbiAgaWYgKHRyYW5zX3R5cGUgPT09IFwiU3F1YXJlIFJvb3Q6IFUgPSDiiJpZXCIpIHJldHVybiB7dTogdSwgZjogMiAqIHV9O1xufSkuZmlsdGVyKGQgPT4gZC51ID49IDAgJiYgZC51IDw9IDUgJiYgZC5mIDwgMTAwKVxuXG57XG4gIGNvbnN0IHdpZHRoID0gODUwO1xuICBjb25zdCBoZWlnaHQgPSA1NTA7XG4gIGNvbnN0IG1hcmdpbiA9IHt0b3A6IDYwLCByaWdodDogNDAsIGJvdHRvbTogNzAsIGxlZnQ6IDgwfTtcbiAgXG4gIGNvbnN0IGNvbnRhaW5lciA9IGh0bWxgPGRpdiBzdHlsZT1cImRpc3BsYXk6IGZsZXg7IGp1c3RpZnktY29udGVudDogY2VudGVyOyB3aWR0aDogMTAwJTtcIj48L2Rpdj5gO1xuICBcbiAgY29uc3Qgc3ZnID0gZDMuY3JlYXRlKFwic3ZnXCIpXG4gICAgLmF0dHIoXCJ3aWR0aFwiLCB3aWR0aClcbiAgICAuYXR0cihcImhlaWdodFwiLCBoZWlnaHQpXG4gICAgLmF0dHIoXCJzdHlsZVwiLCBcImJhY2tncm91bmQ6IHdoaXRlOyBmb250LXNpemU6IDE2cHg7XCIpO1xuICBcbiAgLy8gRml4ZWQgZG9tYWlucyB0byB6b29tIHRoZSBwbG90IHdoaWxlIG1haW50YWluaW5nIGVxdWFsIHNjYWxlXG4gIGNvbnN0IG1heEYgPSAyOyAgICAgLy8geS1heGlzIGxpbWl0XG4gIGNvbnN0IG1heFUgPSAzLjU7ICAgLy8geC1heGlzIGxpbWl0XG4gIFxuICAvLyBDYWxjdWxhdGUgc2NhbGUgdG8gbWFpbnRhaW4gYXNwZWN0IHJhdGlvIChzYW1lIHBpeGVscyBwZXIgdW5pdCBvbiBib3RoIGF4ZXMpXG4gIGNvbnN0IHBsb3RIZWlnaHQgPSBoZWlnaHQgLSBtYXJnaW4uYm90dG9tIC0gbWFyZ2luLnRvcDtcbiAgY29uc3QgcGxvdFdpZHRoID0gd2lkdGggLSBtYXJnaW4ucmlnaHQgLSBtYXJnaW4ubGVmdDtcbiAgXG4gIC8vIFVzZSB0aGUgc21hbGxlciBzY2FsZSB0byBlbnN1cmUgYm90aCBheGVzIGZpdFxuICBjb25zdCBwaXhlbHNQZXJVbml0WSA9IHBsb3RIZWlnaHQgLyBtYXhGO1xuICBjb25zdCBwaXhlbHNQZXJVbml0WCA9IHBsb3RXaWR0aCAvIG1heFU7XG4gIGNvbnN0IHBpeGVsc1BlclVuaXQgPSBNYXRoLm1pbihwaXhlbHNQZXJVbml0WSwgcGl4ZWxzUGVyVW5pdFgpO1xuICBcbiAgLy8gUmVjYWxjdWxhdGUgYWN0dWFsIHBsb3QgZGltZW5zaW9ucyB3aXRoIGVxdWFsIHNjYWxlXG4gIGNvbnN0IGFjdHVhbFBsb3RXaWR0aCA9IHBpeGVsc1BlclVuaXQgKiBtYXhVO1xuICBjb25zdCBhY3R1YWxQbG90SGVpZ2h0ID0gcGl4ZWxzUGVyVW5pdCAqIG1heEY7XG4gIFxuICBjb25zdCB4ID0gZDMuc2NhbGVMaW5lYXIoKVxuICAgIC5kb21haW4oWzAsIG1heFVdKVxuICAgIC5yYW5nZShbbWFyZ2luLmxlZnQsIG1hcmdpbi5sZWZ0ICsgYWN0dWFsUGxvdFdpZHRoXSk7XG4gIFxuICBjb25zdCB5X3NjYWxlID0gZDMuc2NhbGVMaW5lYXIoKVxuICAgIC5kb21haW4oWzAsIG1heEZdKVxuICAgIC5yYW5nZShbaGVpZ2h0IC0gbWFyZ2luLmJvdHRvbSwgaGVpZ2h0IC0gbWFyZ2luLmJvdHRvbSAtIGFjdHVhbFBsb3RIZWlnaHRdKTtcbiAgXG4gIC8vIE9yaWdpbmFsIFkgfiBVbmlmb3JtKDAsMSkgZGlzdHJpYnV0aW9uIC0gbm93IHRydWx5IHNxdWFyZSB3aXRoIHdpZHRoPTEsIGhlaWdodD0xXG4gIHN2Zy5hcHBlbmQoXCJyZWN0XCIpXG4gICAgLmF0dHIoXCJ4XCIsIHgoMCkpXG4gICAgLmF0dHIoXCJ5XCIsIHlfc2NhbGUoMSkpXG4gICAgLmF0dHIoXCJ3aWR0aFwiLCB4KDEpIC0geCgwKSlcbiAgICAuYXR0cihcImhlaWdodFwiLCB5X3NjYWxlKDApIC0geV9zY2FsZSgxKSlcbiAgICAuYXR0cihcImZpbGxcIiwgXCJzdGVlbGJsdWVcIilcbiAgICAuYXR0cihcIm9wYWNpdHlcIiwgMC41KVxuICAgIC5hdHRyKFwic3Ryb2tlXCIsIFwic3RlZWxibHVlXCIpXG4gICAgLmF0dHIoXCJzdHJva2Utd2lkdGhcIiwgNCk7XG4gIFxuICAvLyBBZGQgbGFiZWwgZm9yIG9yaWdpbmFsIGRpc3RyaWJ1dGlvblxuICBzdmcuYXBwZW5kKFwidGV4dFwiKVxuICAgIC5hdHRyKFwieFwiLCB4KDAuNSkpXG4gICAgLmF0dHIoXCJ5XCIsIHlfc2NhbGUoMSkgLSAxMClcbiAgICAuYXR0cihcInRleHQtYW5jaG9yXCIsIFwibWlkZGxlXCIpXG4gICAgLnN0eWxlKFwiZm9udC1zaXplXCIsIFwiMTVweFwiKVxuICAgIC5zdHlsZShcImZpbGxcIiwgXCJzdGVlbGJsdWVcIilcbiAgICAuc3R5bGUoXCJmb250LXdlaWdodFwiLCBcImJvbGRcIilcbiAgICAudGV4dChcIlkgfiBVbmlmb3JtKDAsMSlcIik7XG4gIFxuICAvLyBUcmFuc2Zvcm1lZCBkaXN0cmlidXRpb24gLSBjbGlwIGF0IG1heEYgZm9yIHN0YWJpbGl0eVxuICBjb25zdCBhcmVhID0gZDMuYXJlYSgpXG4gICAgLngoZCA9PiB4KGQudSkpXG4gICAgLnkwKHlfc2NhbGUoMCkpXG4gICAgLnkxKGQgPT4geV9zY2FsZShNYXRoLm1pbihkLmYsIG1heEYpKSk7XG4gIFxuICBzdmcuYXBwZW5kKFwicGF0aFwiKVxuICAgIC5kYXR1bShmX3VfdmFsdWVzKVxuICAgIC5hdHRyKFwiZmlsbFwiLCBcImRhcmtyZWRcIilcbiAgICAuYXR0cihcImZpbGwtb3BhY2l0eVwiLCAwLjUpXG4gICAgLmF0dHIoXCJzdHJva2VcIiwgXCJkYXJrcmVkXCIpXG4gICAgLmF0dHIoXCJzdHJva2Utd2lkdGhcIiwgMylcbiAgICAuYXR0cihcImRcIiwgYXJlYSk7XG4gIFxuICAvLyBBeGVzXG4gIHN2Zy5hcHBlbmQoXCJnXCIpXG4gICAgLmF0dHIoXCJ0cmFuc2Zvcm1cIiwgYHRyYW5zbGF0ZSgwLCR7aGVpZ2h0IC0gbWFyZ2luLmJvdHRvbX0pYClcbiAgICAuY2FsbChkMy5heGlzQm90dG9tKHgpLnRpY2tzKDgpKVxuICAgIC5zdHlsZShcImZvbnQtc2l6ZVwiLCBcIjE1cHhcIik7XG4gIFxuICBzdmcuYXBwZW5kKFwiZ1wiKVxuICAgIC5hdHRyKFwidHJhbnNmb3JtXCIsIGB0cmFuc2xhdGUoJHttYXJnaW4ubGVmdH0sMClgKVxuICAgIC5jYWxsKGQzLmF4aXNMZWZ0KHlfc2NhbGUpLnRpY2tzKDYpKVxuICAgIC5zdHlsZShcImZvbnQtc2l6ZVwiLCBcIjE1cHhcIik7XG4gIFxuICAvLyBBeGlzIGxhYmVsc1xuICBzdmcuYXBwZW5kKFwidGV4dFwiKVxuICAgIC5hdHRyKFwieFwiLCB3aWR0aCAvIDIpXG4gICAgLmF0dHIoXCJ5XCIsIGhlaWdodCAtIDIwKVxuICAgIC5hdHRyKFwidGV4dC1hbmNob3JcIiwgXCJtaWRkbGVcIilcbiAgICAuc3R5bGUoXCJmb250LXNpemVcIiwgXCIxOXB4XCIpXG4gICAgLnN0eWxlKFwiZm9udC13ZWlnaHRcIiwgXCI2MDBcIilcbiAgICAudGV4dChcIlZhbHVlXCIpO1xuICBcbiAgc3ZnLmFwcGVuZChcInRleHRcIilcbiAgICAuYXR0cihcInRyYW5zZm9ybVwiLCBcInJvdGF0ZSgtOTApXCIpXG4gICAgLmF0dHIoXCJ4XCIsIC1oZWlnaHQgLyAyKVxuICAgIC5hdHRyKFwieVwiLCAyNSlcbiAgICAuYXR0cihcInRleHQtYW5jaG9yXCIsIFwibWlkZGxlXCIpXG4gICAgLnN0eWxlKFwiZm9udC1zaXplXCIsIFwiMTlweFwiKVxuICAgIC5zdHlsZShcImZvbnQtd2VpZ2h0XCIsIFwiNjAwXCIpXG4gICAgLnRleHQoXCJEZW5zaXR5XCIpO1xuICBcbiAgLy8gVGl0bGVcbiAgc3ZnLmFwcGVuZChcInRleHRcIilcbiAgICAuYXR0cihcInhcIiwgd2lkdGggLyAyKVxuICAgIC5hdHRyKFwieVwiLCAzMClcbiAgICAuYXR0cihcInRleHQtYW5jaG9yXCIsIFwibWlkZGxlXCIpXG4gICAgLnN0eWxlKFwiZm9udC1zaXplXCIsIFwiMjFweFwiKVxuICAgIC5zdHlsZShcImZvbnQtd2VpZ2h0XCIsIFwiYm9sZFwiKVxuICAgIC50ZXh0KGBUcmFuc2Zvcm1hdGlvbjogJHt0cmFuc190eXBlfWApO1xuICBcbiAgY29udGFpbmVyLmFwcGVuZENoaWxkKHN2Zy5ub2RlKCkpO1xuICByZXR1cm4gY29udGFpbmVyO1xufVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCdzaGlmdF9wYXJhbScpIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCdzY2FsZV9hJykifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ3NoaWZ0X2InKSJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgndHJhbnNfdHlwZScpIn1dfQ==
     </script>
     <script type="module">
     if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
