@@ -10,7 +10,7 @@ date: today
 format:
   revealjs:
     theme: default
-    logo: ADA.png
+    logo: ../ADA.png
     transition: slide
     slide-number: c/t
     chalkboard: true
@@ -18,6 +18,9 @@ format:
     navigation-mode: linear
     width: 1280
     height: 720
+    margin: 0.04
+    min-scale: 0.2
+    max-scale: 2.0
     footer: "Mathematical Statistics - Transformations and MGF Method"
     incremental: false
     highlight-style: tango
@@ -25,6 +28,9 @@ format:
     menu: true
     progress: true
     history: true
+    mouse-wheel: true
+    overview: true
+    zoom: true
     quiz:
       checkKey: 'c'
       resetKey: 'r'
@@ -40,7 +46,7 @@ revealjs-plugins:
   - quiz
 ---
 
-## 🎯 Learning Objectives {.smaller}
+## 🎯 Learning Objectives
 
 ::: {.learning-objectives}
 By the end of this lecture, you will be able to:
@@ -56,9 +62,9 @@ By the end of this lecture, you will be able to:
 - Apply these techniques to derive distributions of **portfolio returns** and **risk measures**
 :::
 
-## 📋 Overview {.smaller}
+## 📋 Overview 
 
-::: {style="font-size:38px"}
+::: {style="font-size:50px"}
 ::: {.callout-note}
 ## 📚 Topics Covered Today
 
@@ -76,7 +82,41 @@ By the end of this lecture, you will be able to:
 :::
 :::
 
-## 📖 Recall: Distribution Function Method {.smaller}
+## 📖 Why Faster Transformation Methods?
+
+::::::::: {.callout-note}
+## 🎯 Motivation
+
+:::::::: {style="font-size:30px; margin-top: -20px;"}
+The distribution function method from last lecture **works** but can be tedious. In finance, we need **efficient tools**:
+
+::::::: columns
+:::: {.column width="50%" style="margin-top: -20px;"}
+::: fragment
+**Direct Formula Needed For:**
+
+-   Modeling stock prices as exponentials of normal returns (log-normal)
+-   Simulating asset paths from uniform random numbers
+-   Pricing derivatives requiring PDF transformations
+-   Converting between return types (simple vs log)
+:::
+::::
+
+:::: {.column width="50%" style="margin-top: -20px;"}
+::: fragment
+**MGF Method Needed For:**
+
+-   Finding portfolio return distributions (sums of asset returns)
+-   Proving normality of diversified portfolios
+-   Insurance claim aggregation (sum of exponentials)
+-   Testing portfolio variance with chi-square distributions
+:::
+::::
+:::::::
+:::::::::
+:::::::::
+
+## 📖 Recall: Distribution Function Method
 
 ::: {.callout-tip}
 ## 🔗 From Last Lecture
@@ -94,7 +134,7 @@ The distribution function method works for **any** transformation:
 
 **Answer:** Yes! The method of transformations provides exactly this shortcut.
 
-## 📖 Definition: Method of Transformations {.smaller}
+## 📖 Definition: Method of Transformations
 
 ::: {.callout-note}
 ## 📝 Theorem 6.2: Univariate Transformation
@@ -114,18 +154,25 @@ for $u$ in the range of $g$.
 The term $|h'(u)| = |dy/du|$ is called the **Jacobian** of the transformation.
 :::
 
-## 🧮 Why Does the Jacobian Appear? {.smaller}
+## 🧮 Why Does the Jacobian Appear? 
 
 ::: {.callout-important}
 ## Intuition: Stretching and Compressing
 
 Consider a small interval $[y, y + dy]$ that maps to $[u, u + du]$.
 
+::: {.columns}
+::: {.column width="50%"}
 **Probability is conserved:**
 $$f_Y(y) \, dy = f_U(u) \, du$$
 
+:::
+
+::: {.column width="50%"}
 Solving for $f_U(u)$:
 $$f_U(u) = f_Y(y) \cdot \frac{dy}{du} = f_Y(h(u)) \cdot |h'(u)|$$
+:::
+:::
 
 The absolute value ensures the density is positive!
 :::
@@ -146,9 +193,9 @@ The absolute value ensures the density is positive!
 :::
 :::
 
-## 📌 Example 1: Exponential to Uniform {.smaller}
+## 📌 Example 1: Simulating Default Times {.smaller}
 
-**Problem:** Let $Y \sim \text{Exponential}(\beta)$. Find the distribution of $U = 1 - e^{-Y/\beta}$.
+**Problem:** A bank models time-to-default of a loan as $Y \sim \text{Exponential}(\beta)$. To simulate defaults using uniform random numbers, define $U = 1 - e^{-Y/\beta}$. Find the distribution of $U$.
 
 **Solution:**
 
@@ -158,38 +205,71 @@ The absolute value ensures the density is positive!
 
 . . .
 
+::: {.columns}
+::: {.column width="50%"}
+::: {.fragment}
 **Step 2:** Find the inverse. From $u = 1 - e^{-y/\beta}$:
+
 $$e^{-y/\beta} = 1 - u \implies y = -\beta \ln(1-u) = h(u)$$
+:::
+:::
 
-. . .
-
+::: {.column width="50%"}
+::: {.fragment}
 **Step 3:** Compute the Jacobian:
 $$h'(u) = \frac{d}{du}[-\beta \ln(1-u)] = \frac{\beta}{1-u}$$
+:::
+:::
+:::
 
 . . .
 
+::: {style="margin-top: -20px;"}
 **Step 4:** Apply the formula. Since $f_Y(y) = \frac{1}{\beta}e^{-y/\beta}$:
-$$f_U(u) = \frac{1}{\beta}e^{-h(u)/\beta} \cdot \frac{\beta}{1-u} = \frac{1}{\beta}(1-u) \cdot \frac{\beta}{1-u} = 1$$
+$$f_U(u) = \frac{1}{\beta}e^{-h(u)/\beta} \cdot \frac{\beta}{1-u} = \frac{1}{\beta}(1-u) \cdot \frac{\beta}{1-u} = 1 \; \text{for} \; 0 < u < 1 \rightarrow \text{Uniform}(0,1)!$$
 
-for $0 < u < 1$. **This is Uniform(0,1)!**
+:::
 
-## 🧮 Theorem: Probability Integral Transform {.smaller}
+**Finance Application:** Any exponential default time can be simulated from Uniform(0,1) -- the basis of Monte Carlo credit risk models.
+
+## 🧮 Theorem: Probability Integral Transform
 
 ::: {.callout-important}
 ## Theorem 6.3: Probability Integral Transform
 
 Let $Y$ be a continuous random variable with CDF $F_Y(y)$.
 
+::: {.columns}
+::: {.column width="50%"}
 **Part 1:** If $U = F_Y(Y)$, then $U \sim \text{Uniform}(0, 1)$.
 
+:::
+
+::: {.column width="50%"}
 **Part 2:** Conversely, if $U \sim \text{Uniform}(0, 1)$, then $Y = F_Y^{-1}(U)$ has CDF $F_Y$.
 :::
+:::
+:::
+
 
 **Why This Matters:**
 
+::: {.columns style="font-size: 0.75em; margin-top: -20px;"}
+
+::: {.column width="33%"}
 - **Simulation:** Generate any distribution from uniform random numbers!
+:::
+
+::: {.column width="33%"}
 - **Goodness-of-fit:** Transform data to uniform for testing
+:::
+
+::: {.column width="34%"}
 - **Copulas:** Model dependence using uniform marginals
+:::
+:::
+
+. . .
 
 **Finance Application:** Generate correlated asset returns by transforming correlated uniforms.
 
@@ -222,7 +302,7 @@ $$= \frac{1}{u\sigma\sqrt{2\pi}} \exp\left[-\frac{(\ln u - \mu)^2}{2\sigma^2}\ri
 
 This is the **Log-Normal distribution**: $U \sim \text{LogNormal}(\mu, \sigma^2)$.
 
-## 📖 The Log-Normal in Finance {.smaller}
+## 📖 The Log-Normal in Finance 
 
 ::: {.callout-note}
 ## 📝 Why Log-Normal for Stock Prices?
@@ -234,7 +314,7 @@ Then: $\ln(P_t) = \ln(P_0) + \sum_{i=1}^{t} r_i$
 By CLT, $\ln(P_t)$ is approximately normal, so $P_t = e^{\ln(P_t)}$ is **log-normal**.
 :::
 
-::: {.columns}
+::: {.columns style="font-size: 0.75em; margin-top: -20px;"}
 ::: {.column width="50%"}
 **Properties of Log-Normal:**
 
@@ -256,9 +336,9 @@ Solution: $S_t$ is log-normally distributed!
 
 ## 🎮 Interactive: Log-Normal Parameters {.smaller}
 
-::: {style="font-size: 0.8em;"}
+::: {style="font-size: 0.75em; margin-top: -8px;"}
 
-**Explore:** How do $\mu$ and $\sigma$ affect the log-normal distribution?
+**Explore:** How do $\mu$ and $\sigma$ affect the log-normal stock price distribution?
 
 ::: {.columns}
 
@@ -267,17 +347,31 @@ Solution: $S_t$ is log-normally distributed!
 ```{ojs}
 //| echo: false
 
-viewof mu_ln = Inputs.range([-1, 2], {
-  value: 0, 
-  step: 0.1, 
-  label: "μ (log-scale mean):"
-})
+viewof mu_ln = {
+  const input = Inputs.range([-1, 2], {
+    value: 0,
+    step: 0.1,
+    label: "μ (log-scale mean):"
+  });
 
-viewof sigma_ln = Inputs.range([0.1, 1.5], {
-  value: 0.5, 
-  step: 0.1, 
-  label: "σ (log-scale std):"
-})
+  ['pointerdown', 'touchstart', 'mousedown', 'click', 'wheel', 'pointermove', 'touchmove', 'mousemove'].forEach(e =>
+    input.addEventListener(e, ev => ev.stopPropagation())
+  );
+  return input;
+}
+
+viewof sigma_ln = {
+  const input = Inputs.range([0.1, 1.5], {
+    value: 0.5,
+    step: 0.1,
+    label: "σ (log-scale std):"
+  });
+
+  ['pointerdown', 'touchstart', 'mousedown', 'click', 'wheel', 'pointermove', 'touchmove', 'mousemove'].forEach(e =>
+    input.addEventListener(e, ev => ev.stopPropagation())
+  );
+  return input;
+}
 
 // Log-normal statistics
 ln_mean = Math.exp(mu_ln + sigma_ln * sigma_ln / 2)
@@ -310,8 +404,8 @@ lnPdf = {
 }
 
 Plot.plot({
-  width: 480,
-  height: 320,
+  width: 620,
+  height: 400,
   x: { domain: [0, 8], label: "U = eʸ" },
   y: { domain: [0, 2], label: "Density" },
   marks: [
@@ -329,7 +423,7 @@ Plot.plot({
 :::
 :::
 
-## 📖 Method of Moment-Generating Functions {.smaller}
+## 📖 Method of Moment-Generating Functions 
 
 ::: {.callout-note}
 ## 📝 Theorem 6.4: MGF Uniqueness
@@ -348,7 +442,7 @@ If two random variables have the **same moment-generating function** in a neighb
 - When the MGF has a recognizable form
 - Avoiding complex integration
 
-## 🧮 Key MGF Property: Sums of Independent RVs {.smaller}
+## 🧮 Key MGF Property: Sums of Independent RVs 
 
 ::: {.callout-important}
 ## Theorem 6.5: MGF of Sums
@@ -365,9 +459,9 @@ The last equality uses **independence**.
 
 **Power of This Result:** Instead of complex convolution integrals, just multiply MGFs!
 
-## 📌 Example 3: Sum of Independent Normals {.smaller}
+## 📌 Example 3: Two-Asset Portfolio Return {.smaller}
 
-**Problem:** If $Y_1 \sim N(\mu_1, \sigma_1^2)$ and $Y_2 \sim N(\mu_2, \sigma_2^2)$ are independent, find the distribution of $U = Y_1 + Y_2$.
+**Problem:** A portfolio holds two uncorrelated assets with returns $Y_1 \sim N(\mu_1, \sigma_1^2)$ and $Y_2 \sim N(\mu_2, \sigma_2^2)$, independent. Find the distribution of the total return $U = Y_1 + Y_2$.
 
 **Solution:**
 
@@ -390,11 +484,11 @@ $$= e^{(\mu_1 + \mu_2)t + (\sigma_1^2 + \sigma_2^2)t^2/2}$$
 
 $$\boxed{Y_1 + Y_2 \sim N(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2)}$$
 
-**Note:** Variances **add** for independent variables!
+**Portfolio Insight:** Variances **add** for uncorrelated assets -- this is why diversification across truly independent markets reduces risk most effectively!
 
-## 📌 Example 4: Sum of Independent Exponentials {.smaller}
+## 📌 Example 4: Total Insurance Claim Processing Time {.smaller}
 
-**Problem:** If $Y_1, Y_2, \ldots, Y_n$ are independent $\text{Exponential}(\beta)$, find the distribution of $U = \sum_{i=1}^n Y_i$.
+**Problem:** An insurance company processes $n$ independent claims, each taking $Y_i \sim \text{Exponential}(\beta)$ days. Find the distribution of total processing time $U = \sum_{i=1}^n Y_i$.
 
 **Solution:**
 
@@ -413,11 +507,11 @@ $$M_U(t) = \prod_{i=1}^n M_{Y_i}(t) = [(1 - \beta t)^{-1}]^n = (1 - \beta t)^{-n
 
 $$\boxed{U = \sum_{i=1}^n Y_i \sim \text{Gamma}(n, \beta)}$$
 
-**Interpretation:** Sum of $n$ independent exponentials is Gamma!
+**Insurance Insight:** Total time to process $n$ claims follows a Gamma distribution -- actuaries use Gamma quantiles to plan staffing and reserves.
 
-## 📌 Example 5: Chi-Square as Sum of Squared Normals {.smaller}
+## 📌 Example 5: Testing Portfolio Variance {.smaller}
 
-**Problem:** If $Z_1, Z_2, \ldots, Z_n$ are independent $N(0, 1)$, what is the distribution of $U = \sum_{i=1}^n Z_i^2$?
+**Problem:** A risk analyst standardizes $n$ independent asset returns to get $Z_i \sim N(0,1)$. To test portfolio variance, they compute $U = \sum_{i=1}^n Z_i^2$. What is the distribution of $U$?
 
 **Solution:**
 
@@ -436,22 +530,27 @@ $$M_U(t) = \prod_{i=1}^n (1 - 2t)^{-1/2} = (1 - 2t)^{-n/2}$$
 
 $$\boxed{\sum_{i=1}^n Z_i^2 \sim \chi^2(n)}$$
 
-**Connection:** $\chi^2(n) = \text{Gamma}(n/2, 2)$, matching the Gamma MGF form!
+::: {style="font-size: 0.75em; margin-top: -20px;"}
+**Risk Testing:** The $\chi^2$ distribution underlies variance tests in portfolio risk management -- risk managers use it to test if realized volatility exceeds model predictions.
+:::
 
-## 💰 Case Study: Portfolio Return Distribution {.smaller}
 
-::: {style="font-size:22px"}
-::: {.columns}
-::: {.column width="50%"}
+## 💰 Case Study: Portfolio Return Data 
+
+::: {style="font-size:35px"}
+**Scenario:** 40% AAPL, 35% MSFT, 25% GOOG (daily log returns, 2020-2024)
 
 ```{r}
 #| echo: true
+#| code-fold: true
+#| code-summary: "📊 Show Code"
 #| message: false
 #| warning: false
 #| eval: true
 
 library(tidyverse)
 library(tidyquant)
+library(knitr)
 
 # Download data for 3 assets
 symbols <- c("AAPL", "MSFT", "GOOG")
@@ -472,77 +571,70 @@ w <- c(AAPL = 0.4, MSFT = 0.35, GOOG = 0.25)
 returns <- returns %>%
   mutate(portfolio = w["AAPL"]*AAPL + w["MSFT"]*MSFT + w["GOOG"]*GOOG)
 
-# Compare individual vs portfolio stats
-cat("Individual Asset Statistics:\n")
-cat(sprintf("AAPL - Mean: %.4f, SD: %.4f\n", 
-            mean(returns$AAPL), sd(returns$AAPL)))
-cat(sprintf("MSFT - Mean: %.4f, SD: %.4f\n", 
-            mean(returns$MSFT), sd(returns$MSFT)))
-cat(sprintf("GOOG - Mean: %.4f, SD: %.4f\n", 
-            mean(returns$GOOG), sd(returns$GOOG)))
-cat(sprintf("\nPortfolio - Mean: %.4f, SD: %.4f\n", 
-            mean(returns$portfolio), sd(returns$portfolio)))
-```
+# Summary statistics table
+summary_stats <- data.frame(
+  Asset = c("AAPL", "MSFT", "GOOG", "Portfolio"),
+  Weight = c("40%", "35%", "25%", "—"),
+  Mean = c(mean(returns$AAPL), mean(returns$MSFT),
+           mean(returns$GOOG), mean(returns$portfolio)) * 252 * 100,
+  StdDev = c(sd(returns$AAPL), sd(returns$MSFT),
+             sd(returns$GOOG), sd(returns$portfolio)) * sqrt(252) * 100
+)
 
+kable(summary_stats, digits = 2,
+      col.names = c("Asset", "Weight", "Ann. Mean (%)", "Ann. SD (%)"),
+      caption = "Daily Log Return Statistics (Annualized)")
+```
 :::
 
-::: {.column width="50%"}
+## 💰 Case Study: Portfolio Return Distribution {.smaller}
+
+::: {style="font-size:30px"}
+**Does the portfolio return look normal?** MGF theory predicts yes, if returns are approximately normal and independent.
 
 ```{r}
 #| echo: true
+#| code-fold: true
+#| code-summary: "📊 Show Code"
 #| message: false
 #| warning: false
 #| eval: true
-#| fig-width: 6
-#| fig-height: 5
+#| fig-width: 8
+#| fig-height: 3.8
+#| fig-align: center
 
 # Plot portfolio return distribution
 ggplot(returns, aes(x = portfolio)) +
-  geom_histogram(aes(y = after_stat(density)), 
+  geom_histogram(aes(y = after_stat(density)),
                  bins = 50, fill = "steelblue", alpha = 0.7) +
   stat_function(fun = dnorm,
                 args = list(mean = mean(returns$portfolio),
                            sd = sd(returns$portfolio)),
                 color = "red", linewidth = 1.2) +
   labs(title = "Portfolio Return Distribution",
-       subtitle = "40% AAPL, 35% MSFT, 25% GOOG",
+       subtitle = "40% AAPL, 35% MSFT, 25% GOOG | Red = Normal fit",
        x = "Daily Log Return", y = "Density") +
-  theme_minimal()
+  theme_minimal(base_size = 14)
 ```
-
-:::
-:::
 :::
 
-## 💰 Case Study: Why Portfolio SD < Weighted Average SD {.smaller}
+## 💰 Case Study: Correlation & Portfolio Math 
 
-::: {style="font-size:26px"}
+::: {style="font-size:38px;"}
 ::: {.columns}
 ::: {.column width="50%"}
 
 ```{r}
 #| echo: true
+#| code-fold: true
+#| code-summary: "📊 Show Analysis Code"
 #| message: false
 #| warning: false
 #| eval: true
 
 # Correlation matrix
 cor_matrix <- cor(returns %>% select(AAPL, MSFT, GOOG))
-cat("Correlation Matrix:\n")
-print(round(cor_matrix, 3))
-
-# Weighted average of individual SDs
-weighted_avg_sd <- sum(w * c(sd(returns$AAPL), 
-                              sd(returns$MSFT), 
-                              sd(returns$GOOG)))
-
-# Actual portfolio SD
-portfolio_sd <- sd(returns$portfolio)
-
-cat(sprintf("\nWeighted Avg SD: %.4f\n", weighted_avg_sd))
-cat(sprintf("Actual Portfolio SD: %.4f\n", portfolio_sd))
-cat(sprintf("Risk Reduction: %.1f%%\n", 
-            100 * (1 - portfolio_sd/weighted_avg_sd)))
+kable(cor_matrix, digits = 3, caption = "Correlation Matrix")
 ```
 
 :::
@@ -557,17 +649,53 @@ $$V(R_p) = w_1^2\sigma_1^2 + w_2^2\sigma_2^2 + w_3^2\sigma_3^2$$
 With correlation:
 $$V(R_p) = \sum_i w_i^2\sigma_i^2 + 2\sum_{i<j}w_i w_j \rho_{ij}\sigma_i\sigma_j$$
 
+
+:::
+:::
+:::
+:::
+
+. . .
+
 Since $\rho_{ij} < 1$, portfolio variance is **less than** the case with perfect correlation!
+
+## 💰 Case Study: Diversification Benefit {.smaller}
+
+::: {style="font-size:50px;"}
+
+```{r}
+#| echo: true
+#| code-fold: true
+#| code-summary: "📊 Show Analysis Code"
+#| message: false
+#| warning: false
+#| eval: true
+
+# Weighted average of individual SDs
+weighted_avg_sd <- sum(w * c(sd(returns$AAPL),
+                              sd(returns$MSFT),
+                              sd(returns$GOOG)))
+
+# Actual portfolio SD
+portfolio_sd <- sd(returns$portfolio)
+
+# Risk reduction table
+risk_comparison <- data.frame(
+  Metric = c("Weighted Avg SD", "Actual Portfolio SD", "Risk Reduction"),
+  Value = c(sprintf("%.4f", weighted_avg_sd),
+            sprintf("%.4f", portfolio_sd),
+            sprintf("%.1f%%", 100 * (1 - portfolio_sd/weighted_avg_sd)))
+)
+
+kable(risk_comparison, caption = "Diversification Benefit")
+```
 
 **This is the mathematical foundation of diversification!**
 :::
-:::
-:::
-:::
 
-## 💰 Case Study: Key Findings {.smaller}
+## 💰 Case Study: Key Findings
 
-::: {style="font-size: 26px;"}
+::: {style="font-size: 47px"}
 ::: {.callout-important}
 ## 📊 Analysis Results
 
@@ -613,59 +741,106 @@ Since $\rho_{ij} < 1$, portfolio variance is **less than** the case with perfect
 :::
 :::
 
+## 🤝 Think-Pair-Share: Choosing the Right
+
+::::: {style="font-size: 40px;"}
+:::: callout-note
+## 💭 Activity (4 minutes)
+
+A hedge fund analyst needs to find the distribution of a weighted portfolio return $R_p = 0.5R_1 + 0.3R_2 + 0.2R_3$ where each $R_i \sim N(\mu_i, \sigma_i^2)$ independently.
+
+::: columns
+::: {.column width="33%"}
+**🧠 Think (1 min):**
+
+- Which method is most efficient: distribution function, transformation, or MGF?
+- What makes this problem easy for MGFs?
+:::
+
+::: {.column width="33%"}
+**👫 Pair (2 min):**
+
+- Compare your method choices
+- Work out $M_{R_p}(t)$ together
+- What distribution do you recognize?
+:::
+
+::: {.column width="33%"}
+**🗣️ Share (1 min):**
+
+- What is the final distribution of $R_p$?
+- How would correlation change your approach?
+:::
+:::
+::::
+:::::
+
+```{r}
+#| echo: false
+library(countdown)
+countdown(minutes = 4, seconds = 0,
+          top = 1, right = 0,
+          font_size = "1.5em",
+          color_running_background = "#31b09e",
+          color_running_text = "white",
+          color_finished_background = "#cc3311",
+          color_finished_text = "white",
+          color_warning_background = "#f7dc6f",
+          warn_when = 60,
+          play_sound = TRUE)
+```
+
 ## 📝 Quiz #1: Transformation Method {.smaller .quiz-question}
 
-If $Y$ has pdf $f_Y(y)$ and $U = g(Y)$ where $g$ is strictly increasing with inverse $h = g^{-1}$, the pdf of $U$ is:
+A risk analyst models a stock return $Y$ with pdf $f_Y(y)$. To convert to a price ratio $U = e^Y$ (strictly increasing, inverse $h(u) = \ln(u)$), the pdf of $U$ is:
 
-- [$f_U(u) = f_Y(h(u)) \cdot |h'(u)|$]{.correct data-explanation="✅ Correct! The transformation formula requires multiplying the original pdf evaluated at the inverse by the absolute value of the derivative of the inverse (the Jacobian)."}
-- $f_U(u) = f_Y(g(u)) \cdot |g'(u)|$
-- $f_U(u) = f_Y(h(u))$
-- $f_U(u) = f_Y(h(u)) / |h'(u)|$
+- [$f_U(u) = f_Y(\ln(u)) \cdot \frac{1}{u}$]{.correct data-explanation="✅ Correct! The transformation formula gives f_U(u) = f_Y(h(u)) * |h'(u)|. Here h(u) = ln(u) and h'(u) = 1/u, so f_U(u) = f_Y(ln(u)) / u. This is exactly how the log-normal distribution arises!"}
+- $f_U(u) = f_Y(e^u) \cdot e^u$
+- $f_U(u) = f_Y(\ln(u))$
+- $f_U(u) = f_Y(\ln(u)) \cdot u$
 
-## 📝 Quiz #2: Log-Normal Distribution {.smaller .quiz-question}
+## 📝 Quiz #2: Stock Price Distribution {.smaller .quiz-question}
 
-If $Y \sim N(\mu, \sigma^2)$, what is the distribution of $U = e^Y$?
+If daily log-returns of a stock follow $Y \sim N(\mu, \sigma^2)$, and the price ratio is $S/S_0 = e^Y$, what distribution does $S/S_0$ follow?
 
-- [Log-Normal$(\mu, \sigma^2)$]{.correct data-explanation="✅ Correct! The exponential of a normal random variable follows a log-normal distribution. This is the theoretical foundation for stock price models in finance."}
+- [Log-Normal$(\mu, \sigma^2)$]{.correct data-explanation="✅ Correct! Since S/S₀ = eʸ and Y is normal, the ratio follows a log-normal distribution. This is the theoretical foundation of the Black-Scholes model for stock prices."}
 - Normal$(\mu, \sigma^2)$
 - Exponential$(e^\mu)$
 - Gamma$(\mu, \sigma^2)$
 
-## 📝 Quiz #3: MGF of Sums {.smaller .quiz-question}
+## 📝 Quiz #3: Portfolio Return MGF {.smaller .quiz-question}
 
-If $Y_1$ and $Y_2$ are independent with MGFs $M_1(t)$ and $M_2(t)$, what is $M_{Y_1+Y_2}(t)$?
+Two uncorrelated assets have return MGFs $M_1(t)$ and $M_2(t)$. Total portfolio return is $R = R_1 + R_2$. What is $M_R(t)$?
 
-- [$M_1(t) \cdot M_2(t)$]{.correct data-explanation="✅ Correct! For independent random variables, the MGF of the sum is the product of the individual MGFs. This property makes the MGF method powerful for analyzing sums."}
+- [$M_1(t) \cdot M_2(t)$]{.correct data-explanation="✅ Correct! For independent random variables, the MGF of the sum equals the product of individual MGFs. This makes analyzing portfolio return distributions remarkably simple when assets are uncorrelated."}
 - $M_1(t) + M_2(t)$
 - $M_1(t) / M_2(t)$
 - $M_1(M_2(t))$
 
-## 📝 Quiz #4: Sum of Exponentials {.smaller .quiz-question}
+## 📝 Quiz #4: Insurance Claim Aggregation {.smaller .quiz-question}
 
-If $Y_1, Y_2, \ldots, Y_5$ are independent Exponential$(\beta)$ random variables, what is the distribution of their sum?
+An insurer processes 5 independent claims, each with processing time Exponential$(\beta)$. Using the MGF method, the distribution of total processing time is:
 
-- [Gamma$(5, \beta)$]{.correct data-explanation="✅ Correct! The sum of n independent exponential(β) random variables follows a Gamma(n, β) distribution. This can be proven using the MGF method by multiplying the exponential MGFs."}
+- [Gamma$(5, \beta)$]{.correct data-explanation="✅ Correct! Each exponential MGF is (1-βt)⁻¹. Multiplying 5 gives (1-βt)⁻⁵, the MGF of Gamma(5, β). Actuaries use this to plan staffing for claim processing."}
 - Exponential$(5\beta)$
 - Normal$(5\beta, 5\beta^2)$
 - Chi-square$(5)$
 
 ## 📝 Summary {.smaller}
 
-::: {style="font-size: 28px"}
+::: {style="font-size: 35px"}
 ::: {.summary-box}
 **✅ Key Takeaways**
 
-- **Transformation method**: $f_U(u) = f_Y(h(u)) \cdot |h'(u)|$ for monotonic $g$ with inverse $h$
+- **Transformation method**: $f_U(u) = f_Y(h(u)) \cdot |h'(u)|$ for monotonic $g$ with inverse $h$ — the Jacobian accounts for stretching/compressing
 
-- **Jacobian** $|h'(u)|$ accounts for stretching/compressing of probability density
+- **Probability integral transform**: $F_Y(Y) \sim \text{Uniform}(0,1)$ — foundation for Monte Carlo simulation
 
-- **Probability integral transform**: $F_Y(Y) \sim \text{Uniform}(0,1)$ — foundation for simulation
-
-- **Log-normal distribution**: $e^Y$ where $Y \sim N(\mu, \sigma^2)$ — models positive quantities like stock prices
+- **Log-normal distribution**: $e^Y$ where $Y \sim N(\mu, \sigma^2)$ — models stock prices and other positive quantities
 
 - **MGF method**: For sums of independent RVs, $M_{\sum Y_i}(t) = \prod M_{Y_i}(t)$
 
-- **Key results**: Sum of normals is normal; sum of exponentials is gamma; sum of $\chi^2(1)$ is $\chi^2(n)$
+- **Key results**: Normals sum to normal, exponentials to gamma, $\chi^2(1)$'s to $\chi^2(n)$ — proven elegantly via MGFs
 :::
 :::
 
@@ -674,15 +849,15 @@ If $Y_1, Y_2, \ldots, Y_5$ are independent Exponential$(\beta)$ random variables
 ::: {.callout-tip}
 ## 📝 Homework Problems
 
-**Problem 1 (Transformation):** If $Y \sim \text{Exponential}(2)$, use the transformation method to find the pdf of $U = Y^{1/3}$.
+**Problem 1 (Transformation -- Risk):** An insurance loss is modeled as $Y \sim \text{Exponential}(2)$. Use the transformation method to find the pdf of the cube-root loss severity $U = Y^{1/3}$.
 
-**Problem 2 (Log-Normal):** If stock price $S \sim \text{LogNormal}(4, 0.09)$, find $E[S]$ and $P(S > 60)$.
+**Problem 2 (Log-Normal -- Stock Pricing):** A stock price follows $S \sim \text{LogNormal}(4, 0.09)$. Find $E[S]$ and $P(S > 60)$.
 
-**Problem 3 (MGF - Sum of Poissons):** If $Y_1 \sim \text{Poisson}(\lambda_1)$ and $Y_2 \sim \text{Poisson}(\lambda_2)$ are independent, use MGFs to show $Y_1 + Y_2 \sim \text{Poisson}(\lambda_1 + \lambda_2)$.
+**Problem 3 (MGF -- Claim Counts):** Two branch offices have independent claim counts $Y_1 \sim \text{Poisson}(\lambda_1)$ and $Y_2 \sim \text{Poisson}(\lambda_2)$. Use MGFs to show total claims $Y_1 + Y_2 \sim \text{Poisson}(\lambda_1 + \lambda_2)$.
 
-**Problem 4 (Chi-Square):** If $Z_1, \ldots, Z_{10}$ are independent $N(0,1)$, find $P(\sum Z_i^2 > 18.31)$.
+**Problem 4 (Chi-Square -- Variance Test):** A risk analyst standardizes 10 independent daily returns to get $Z_i \sim N(0,1)$. Find $P(\sum Z_i^2 > 18.31)$ to test if realized variance is unexpectedly high.
 
-**Problem 5 (Portfolio):** Two assets have independent returns with $N(0.08, 0.04)$ and $N(0.05, 0.01)$. Find the distribution of a 60-40 portfolio return.
+**Problem 5 (Portfolio):** A pension fund holds two uncorrelated asset classes with returns $N(0.08, 0.04)$ and $N(0.05, 0.01)$. Find the distribution of the 60-40 portfolio return using the MGF method.
 :::
 
 ## 👋 Thank You! {.smaller .center}
