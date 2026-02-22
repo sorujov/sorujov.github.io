@@ -140,6 +140,19 @@
       return true;
     }
 
+    // Check if this device already submitted today
+    var todayKey = 'mathstat2-attend-' + new Date().toISOString().slice(0, 10);
+    if (localStorage.getItem(todayKey)) {
+      log('⚠ Attendance already submitted from this device today. One check-in per device per day.', true);
+      var checkinBtn = document.getElementById('checkin');
+      if (checkinBtn) {
+        checkinBtn.disabled = true;
+        checkinBtn.style.opacity = '0.5';
+        checkinBtn.style.cursor = 'not-allowed';
+      }
+      return;
+    }
+
     // Validate token first
     if (!validateToken()) {
       return;
@@ -337,6 +350,9 @@
           var result = await response.json();
 
           if (result.success) {
+            // Mark device as submitted for today
+            localStorage.setItem(todayKey, new Date().toISOString());
+
             // Mark token as used
             var token = urlParams.get('token');
             if (token) {
