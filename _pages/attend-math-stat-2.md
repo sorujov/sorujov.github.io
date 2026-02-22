@@ -8,8 +8,16 @@ classes: wide
 
 <div style="max-width: 500px; margin: 2rem auto; text-align: center;">
   <h2>📊 Confirm Your Attendance</h2>
-  <p>Course: Mathematical Statistics II (STAT 2312)</p>
-  
+  <p>Course: Mathematical Statistics II (STAT 2412)</p>
+
+  <div id="section-status-info" style="
+    margin: 15px 0;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    display: none;
+  "></div>
+
   <button id="checkin" type="button" style="
     background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
     color: white;
@@ -26,7 +34,7 @@ classes: wide
   ">
     ✓ Verify Location
   </button>
-  
+
   <div id="student-form" style="display: none; margin-top: 20px;">
     <form id="attendance-form">
       <input type="text" id="student-username" placeholder="Username (e.g., rabaszade19617)" required style="
@@ -54,7 +62,7 @@ classes: wide
       ">Submit Attendance</button>
     </form>
   </div>
-  
+
   <div id="out" style="
     margin-top: 20px;
     padding: 15px;
@@ -62,10 +70,10 @@ classes: wide
     min-height: 50px;
     background: #f8f9fa;
   "></div>
-  
+
   <div style="margin-top: 30px; padding: 15px; background: #fff3cd; border-radius: 8px; border-left: 4px solid #ffc107;">
     <p style="margin: 0; font-size: 0.9rem;"><strong>Note:</strong> You must be on ADA University campus to check in. Location access is required.</p>
   </div>
 </div>
 
-<script src="{{ site.baseurl }}/assets/js/attend-math-stat-2.js?v=20250131-1"></script>
+<script src="{{ site.baseurl }}/assets/js/attend-math-stat-2.js?v=20260222-1"></script>

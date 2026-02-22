@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.8.25">
 
   <meta name="author" content="Samir Orujov, PhD">
-  <meta name="dcterms.date" content="2026-02-08">
+  <meta name="dcterms.date" content="2026-02-22">
   <title>Mathematical Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -218,7 +218,7 @@ Samir Orujov, PhD
     </div>
 </div>
 
-  <p class="date">2026-02-08</p>
+  <p class="date">2026-02-22</p>
 </section>
 <section id="learning-objectives" class="slide level2">
 <h2>🎯 Learning Objectives</h2>
@@ -231,6 +231,12 @@ Samir Orujov, PhD
 <li><p>Recognize when the MGF method is <strong>more efficient</strong> than direct integration</p></li>
 <li><p>Apply these techniques to derive distributions of <strong>portfolio returns</strong> and <strong>risk measures</strong></p></li>
 </ul>
+</div>
+</section>
+<section id="attendance-check-in" class="slide level2 center" data-background-color="#f0f4ff">
+<h2>📱 Attendance Check-in</h2>
+<div id="qr-present" class="attendance-qr" data-status="present" style="min-height: 400px; display: flex; align-items: center; justify-content: center;">
+
 </div>
 </section>
 <section id="overview" class="slide level2">
@@ -509,36 +515,36 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="350" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 349;"><span id="cb1-350"><a href=""></a>viewof mu_ln <span class="op">=</span> {</span>
-<span id="cb1-351"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="op">-</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> {</span>
-<span id="cb1-352"><a href=""></a>    <span class="dt">value</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
-<span id="cb1-353"><a href=""></a>    <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span></span>
-<span id="cb1-354"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"μ (log-scale mean):"</span></span>
-<span id="cb1-355"><a href=""></a>  })<span class="op">;</span></span>
-<span id="cb1-356"><a href=""></a></span>
-<span id="cb1-357"><a href=""></a>  [<span class="st">'pointerdown'</span><span class="op">,</span> <span class="st">'touchstart'</span><span class="op">,</span> <span class="st">'mousedown'</span><span class="op">,</span> <span class="st">'click'</span><span class="op">,</span> <span class="st">'wheel'</span><span class="op">,</span> <span class="st">'pointermove'</span><span class="op">,</span> <span class="st">'touchmove'</span><span class="op">,</span> <span class="st">'mousemove'</span>]<span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span></span>
-<span id="cb1-358"><a href=""></a>    input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>())</span>
-<span id="cb1-359"><a href=""></a>  )<span class="op">;</span></span>
-<span id="cb1-360"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
-<span id="cb1-361"><a href=""></a>}</span>
-<span id="cb1-362"><a href=""></a></span>
-<span id="cb1-363"><a href=""></a>viewof sigma_ln <span class="op">=</span> {</span>
-<span id="cb1-364"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.1</span><span class="op">,</span> <span class="fl">1.5</span>]<span class="op">,</span> {</span>
-<span id="cb1-365"><a href=""></a>    <span class="dt">value</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span></span>
-<span id="cb1-366"><a href=""></a>    <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span></span>
-<span id="cb1-367"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"σ (log-scale std):"</span></span>
-<span id="cb1-368"><a href=""></a>  })<span class="op">;</span></span>
-<span id="cb1-369"><a href=""></a></span>
-<span id="cb1-370"><a href=""></a>  [<span class="st">'pointerdown'</span><span class="op">,</span> <span class="st">'touchstart'</span><span class="op">,</span> <span class="st">'mousedown'</span><span class="op">,</span> <span class="st">'click'</span><span class="op">,</span> <span class="st">'wheel'</span><span class="op">,</span> <span class="st">'pointermove'</span><span class="op">,</span> <span class="st">'touchmove'</span><span class="op">,</span> <span class="st">'mousemove'</span>]<span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span></span>
-<span id="cb1-371"><a href=""></a>    input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>())</span>
-<span id="cb1-372"><a href=""></a>  )<span class="op">;</span></span>
-<span id="cb1-373"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
-<span id="cb1-374"><a href=""></a>}</span>
-<span id="cb1-375"><a href=""></a></span>
-<span id="cb1-376"><a href=""></a><span class="co">// Log-normal statistics</span></span>
-<span id="cb1-377"><a href=""></a>ln_mean <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(mu_ln <span class="op">+</span> sigma_ln <span class="op">*</span> sigma_ln <span class="op">/</span> <span class="dv">2</span>)</span>
-<span id="cb1-378"><a href=""></a>ln_median <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(mu_ln)</span>
-<span id="cb1-379"><a href=""></a>ln_mode <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(mu_ln <span class="op">-</span> sigma_ln <span class="op">*</span> sigma_ln)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="358" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 357;"><span id="cb1-358"><a href=""></a>viewof mu_ln <span class="op">=</span> {</span>
+<span id="cb1-359"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="op">-</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> {</span>
+<span id="cb1-360"><a href=""></a>    <span class="dt">value</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb1-361"><a href=""></a>    <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span></span>
+<span id="cb1-362"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"μ (log-scale mean):"</span></span>
+<span id="cb1-363"><a href=""></a>  })<span class="op">;</span></span>
+<span id="cb1-364"><a href=""></a></span>
+<span id="cb1-365"><a href=""></a>  [<span class="st">'pointerdown'</span><span class="op">,</span> <span class="st">'touchstart'</span><span class="op">,</span> <span class="st">'mousedown'</span><span class="op">,</span> <span class="st">'click'</span><span class="op">,</span> <span class="st">'wheel'</span><span class="op">,</span> <span class="st">'pointermove'</span><span class="op">,</span> <span class="st">'touchmove'</span><span class="op">,</span> <span class="st">'mousemove'</span>]<span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span></span>
+<span id="cb1-366"><a href=""></a>    input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>())</span>
+<span id="cb1-367"><a href=""></a>  )<span class="op">;</span></span>
+<span id="cb1-368"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb1-369"><a href=""></a>}</span>
+<span id="cb1-370"><a href=""></a></span>
+<span id="cb1-371"><a href=""></a>viewof sigma_ln <span class="op">=</span> {</span>
+<span id="cb1-372"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.1</span><span class="op">,</span> <span class="fl">1.5</span>]<span class="op">,</span> {</span>
+<span id="cb1-373"><a href=""></a>    <span class="dt">value</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span></span>
+<span id="cb1-374"><a href=""></a>    <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span></span>
+<span id="cb1-375"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"σ (log-scale std):"</span></span>
+<span id="cb1-376"><a href=""></a>  })<span class="op">;</span></span>
+<span id="cb1-377"><a href=""></a></span>
+<span id="cb1-378"><a href=""></a>  [<span class="st">'pointerdown'</span><span class="op">,</span> <span class="st">'touchstart'</span><span class="op">,</span> <span class="st">'mousedown'</span><span class="op">,</span> <span class="st">'click'</span><span class="op">,</span> <span class="st">'wheel'</span><span class="op">,</span> <span class="st">'pointermove'</span><span class="op">,</span> <span class="st">'touchmove'</span><span class="op">,</span> <span class="st">'mousemove'</span>]<span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span></span>
+<span id="cb1-379"><a href=""></a>    input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>())</span>
+<span id="cb1-380"><a href=""></a>  )<span class="op">;</span></span>
+<span id="cb1-381"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb1-382"><a href=""></a>}</span>
+<span id="cb1-383"><a href=""></a></span>
+<span id="cb1-384"><a href=""></a><span class="co">// Log-normal statistics</span></span>
+<span id="cb1-385"><a href=""></a>ln_mean <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(mu_ln <span class="op">+</span> sigma_ln <span class="op">*</span> sigma_ln <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb1-386"><a href=""></a>ln_median <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(mu_ln)</span>
+<span id="cb1-387"><a href=""></a>ln_mode <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(mu_ln <span class="op">-</span> sigma_ln <span class="op">*</span> sigma_ln)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -583,28 +589,28 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="396" data-source-offset="-28"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 395;"><span id="cb2-396"><a href=""></a>lnPdf <span class="op">=</span> {</span>
-<span id="cb2-397"><a href=""></a>  <span class="kw">const</span> points <span class="op">=</span> []<span class="op">;</span></span>
-<span id="cb2-398"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> x <span class="op">=</span> <span class="fl">0.01</span><span class="op">;</span> x <span class="op">&lt;=</span> <span class="dv">8</span><span class="op">;</span> x <span class="op">+=</span> <span class="fl">0.05</span>) {</span>
-<span id="cb2-399"><a href=""></a>    <span class="kw">const</span> logx <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(x)<span class="op">;</span></span>
-<span id="cb2-400"><a href=""></a>    <span class="kw">const</span> pdf <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(<span class="op">-</span>(logx <span class="op">-</span> mu_ln) <span class="op">*</span> (logx <span class="op">-</span> mu_ln) <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> sigma_ln <span class="op">*</span> sigma_ln)) <span class="op">/</span> (x <span class="op">*</span> sigma_ln <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(<span class="dv">2</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span>))<span class="op">;</span></span>
-<span id="cb2-401"><a href=""></a>    points<span class="op">.</span><span class="fu">push</span>({<span class="dt">x</span><span class="op">:</span> x<span class="op">,</span> <span class="dt">pdf</span><span class="op">:</span> pdf})<span class="op">;</span></span>
-<span id="cb2-402"><a href=""></a>  }</span>
-<span id="cb2-403"><a href=""></a>  <span class="cf">return</span> points<span class="op">;</span></span>
-<span id="cb2-404"><a href=""></a>}</span>
-<span id="cb2-405"><a href=""></a></span>
-<span id="cb2-406"><a href=""></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
-<span id="cb2-407"><a href=""></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">620</span><span class="op">,</span></span>
-<span id="cb2-408"><a href=""></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">400</span><span class="op">,</span></span>
-<span id="cb2-409"><a href=""></a>  <span class="dt">x</span><span class="op">:</span> { <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">8</span>]<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"U = eʸ"</span> }<span class="op">,</span></span>
-<span id="cb2-410"><a href=""></a>  <span class="dt">y</span><span class="op">:</span> { <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Density"</span> }<span class="op">,</span></span>
-<span id="cb2-411"><a href=""></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
-<span id="cb2-412"><a href=""></a>    Plot<span class="op">.</span><span class="fu">line</span>(lnPdf<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"pdf"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"steelblue"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span>})<span class="op">,</span></span>
-<span id="cb2-413"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([ln_mean]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"red"</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"5,5"</span>})<span class="op">,</span></span>
-<span id="cb2-414"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([ln_median]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"green"</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"3,3"</span>})<span class="op">,</span></span>
-<span id="cb2-415"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
-<span id="cb2-416"><a href=""></a>  ]</span>
-<span id="cb2-417"><a href=""></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="404" data-source-offset="-28"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 403;"><span id="cb2-404"><a href=""></a>lnPdf <span class="op">=</span> {</span>
+<span id="cb2-405"><a href=""></a>  <span class="kw">const</span> points <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb2-406"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> x <span class="op">=</span> <span class="fl">0.01</span><span class="op">;</span> x <span class="op">&lt;=</span> <span class="dv">8</span><span class="op">;</span> x <span class="op">+=</span> <span class="fl">0.05</span>) {</span>
+<span id="cb2-407"><a href=""></a>    <span class="kw">const</span> logx <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(x)<span class="op">;</span></span>
+<span id="cb2-408"><a href=""></a>    <span class="kw">const</span> pdf <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(<span class="op">-</span>(logx <span class="op">-</span> mu_ln) <span class="op">*</span> (logx <span class="op">-</span> mu_ln) <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> sigma_ln <span class="op">*</span> sigma_ln)) <span class="op">/</span> (x <span class="op">*</span> sigma_ln <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(<span class="dv">2</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span>))<span class="op">;</span></span>
+<span id="cb2-409"><a href=""></a>    points<span class="op">.</span><span class="fu">push</span>({<span class="dt">x</span><span class="op">:</span> x<span class="op">,</span> <span class="dt">pdf</span><span class="op">:</span> pdf})<span class="op">;</span></span>
+<span id="cb2-410"><a href=""></a>  }</span>
+<span id="cb2-411"><a href=""></a>  <span class="cf">return</span> points<span class="op">;</span></span>
+<span id="cb2-412"><a href=""></a>}</span>
+<span id="cb2-413"><a href=""></a></span>
+<span id="cb2-414"><a href=""></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb2-415"><a href=""></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">620</span><span class="op">,</span></span>
+<span id="cb2-416"><a href=""></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">400</span><span class="op">,</span></span>
+<span id="cb2-417"><a href=""></a>  <span class="dt">x</span><span class="op">:</span> { <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">8</span>]<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"U = eʸ"</span> }<span class="op">,</span></span>
+<span id="cb2-418"><a href=""></a>  <span class="dt">y</span><span class="op">:</span> { <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Density"</span> }<span class="op">,</span></span>
+<span id="cb2-419"><a href=""></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb2-420"><a href=""></a>    Plot<span class="op">.</span><span class="fu">line</span>(lnPdf<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"pdf"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"steelblue"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span>})<span class="op">,</span></span>
+<span id="cb2-421"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([ln_mean]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"red"</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"5,5"</span>})<span class="op">,</span></span>
+<span id="cb2-422"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([ln_median]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"green"</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"3,3"</span>})<span class="op">,</span></span>
+<span id="cb2-423"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
+<span id="cb2-424"><a href=""></a>  ]</span>
+<span id="cb2-425"><a href=""></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -1034,7 +1040,7 @@ Samir Orujov, PhD
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_f7c6e732" minutes="4" seconds="0" warn-when="60" update-every="1" play-sound="true" tabindex="0" style="top:1;right:0;--countdown-font-size:1.5em;--countdown-color-running-background:#31b09e;--countdown-color-running-text:white;--countdown-color-finished-background:#cc3311;--countdown-color-finished-text:white;--countdown-color-warning-background:#f7dc6f;--countdown-color-warning-text:#3E3400FF;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_b6b7751d" minutes="4" seconds="0" warn-when="60" update-every="1" play-sound="true" tabindex="0" style="top:1;right:0;--countdown-font-size:1.5em;--countdown-color-running-background:#31b09e;--countdown-color-running-text:white;--countdown-color-finished-background:#cc3311;--countdown-color-finished-text:white;--countdown-color-warning-background:#f7dc6f;--countdown-color-warning-text:#3E3400FF;"></countdown-timer>
 </div>
 </div>
 </section>
@@ -1111,6 +1117,12 @@ Samir Orujov, PhD
 <p><strong>Problem 5 (Portfolio):</strong> A pension fund holds two uncorrelated asset classes with returns <span class="math inline">\(N(0.08, 0.04)\)</span> and <span class="math inline">\(N(0.05, 0.01)\)</span>. Find the distribution of the 60-40 portfolio return using the MGF method.</p>
 </div>
 </div>
+</div>
+</section>
+<section id="late-check-in" class="slide level2 center" data-background-color="#fff5f5">
+<h2>📱 Late Check-in</h2>
+<div id="qr-late" class="attendance-qr" data-status="late" style="min-height: 400px; display: flex; align-items: center; justify-content: center;">
+
 </div>
 </section>
 <section id="thank-you" class="slide level2 smaller center">
@@ -1645,6 +1657,8 @@ eyJjb250ZW50cyI6WyAgeyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiaW5saW5lIjoidHJ1ZSIsInNv
         }
       });
       </script>
+    <script src="../qrcode.min.js"></script>
+    <script src="../attendance-qr-slide.js"></script>
     
 
 </body></html>

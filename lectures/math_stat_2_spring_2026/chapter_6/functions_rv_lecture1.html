@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.8.25">
 
   <meta name="author" content="Samir Orujov, PhD">
-  <meta name="dcterms.date" content="2026-02-08">
+  <meta name="dcterms.date" content="2026-02-22">
   <title>Mathematical Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -218,7 +218,7 @@ Samir Orujov, PhD
     </div>
 </div>
 
-  <p class="date">2026-02-08</p>
+  <p class="date">2026-02-22</p>
 </section>
 <section id="learning-objectives" class="slide level2 smaller">
 <h2>🎯 Learning Objectives</h2>
@@ -233,6 +233,12 @@ Samir Orujov, PhD
 <li class="fragment"><p>Implement statistical transformations in R to analyze <strong>real financial data</strong> and validate theoretical distributions</p></li>
 </ul>
 </div>
+</div>
+</section>
+<section id="attendance-check-in" class="slide level2 center" data-background-color="#f0f4ff">
+<h2>📱 Attendance Check-in</h2>
+<div id="qr-present" class="attendance-qr" data-status="present" style="min-height: 400px; display: flex; align-items: center; justify-content: center;">
+
 </div>
 </section>
 <section id="overview" class="slide level2">
@@ -462,114 +468,114 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="226" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 225;"><span id="cb1-226"><a href=""></a>viewof shift_param <span class="op">=</span> {</span>
-<span id="cb1-227"><a href=""></a>  <span class="kw">const</span> wrapper <span class="op">=</span> <span class="fu">html</span><span class="vs">`&lt;div style="display: flex; align-items: center; gap: 10px;"&gt;</span></span>
-<span id="cb1-228"><a href=""></a><span class="vs">    &lt;span style="white-space: nowrap; font-size: 14px; font-weight: 500; min-width: 180px;"&gt;Transaction Cost (shift):&lt;/span&gt;</span></span>
-<span id="cb1-229"><a href=""></a><span class="vs">  &lt;/div&gt;`</span><span class="op">;</span></span>
-<span id="cb1-230"><a href=""></a>  <span class="kw">const</span> slider <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="op">-</span><span class="dv">10</span><span class="op">,</span> <span class="dv">10</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="op">-</span><span class="dv">5</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">""</span>})<span class="op">;</span></span>
-<span id="cb1-231"><a href=""></a>  wrapper<span class="op">.</span><span class="fu">appendChild</span>(slider)<span class="op">;</span></span>
-<span id="cb1-232"><a href=""></a>  </span>
-<span id="cb1-233"><a href=""></a>  <span class="co">// Forward the value property from the slider to the wrapper</span></span>
-<span id="cb1-234"><a href=""></a>  <span class="bu">Object</span><span class="op">.</span><span class="fu">defineProperty</span>(wrapper<span class="op">,</span> <span class="st">'value'</span><span class="op">,</span> {</span>
-<span id="cb1-235"><a href=""></a>    <span class="kw">get</span><span class="op">:</span> () <span class="kw">=&gt;</span> slider<span class="op">.</span><span class="at">value</span><span class="op">,</span></span>
-<span id="cb1-236"><a href=""></a>    <span class="kw">set</span><span class="op">:</span> (v) <span class="kw">=&gt;</span> { slider<span class="op">.</span><span class="at">value</span> <span class="op">=</span> v<span class="op">;</span> }</span>
-<span id="cb1-237"><a href=""></a>  })<span class="op">;</span></span>
-<span id="cb1-238"><a href=""></a>  </span>
-<span id="cb1-239"><a href=""></a>  [<span class="st">'pointerdown'</span><span class="op">,</span> <span class="st">'touchstart'</span><span class="op">,</span> <span class="st">'mousedown'</span><span class="op">,</span> <span class="st">'click'</span><span class="op">,</span> <span class="st">'wheel'</span><span class="op">,</span> <span class="st">'pointermove'</span><span class="op">,</span> <span class="st">'touchmove'</span><span class="op">,</span> <span class="st">'mousemove'</span>]<span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span></span>
-<span id="cb1-240"><a href=""></a>    wrapper<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>())</span>
-<span id="cb1-241"><a href=""></a>  )<span class="op">;</span></span>
-<span id="cb1-242"><a href=""></a>  <span class="cf">return</span> wrapper<span class="op">;</span></span>
-<span id="cb1-243"><a href=""></a>}</span>
-<span id="cb1-244"><a href=""></a></span>
-<span id="cb1-245"><a href=""></a>y_values <span class="op">=</span> [<span class="op">-</span><span class="dv">2</span><span class="op">,</span> <span class="op">-</span><span class="dv">1</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">2</span>]</span>
-<span id="cb1-246"><a href=""></a>probs <span class="op">=</span> [<span class="fl">0.10</span><span class="op">,</span> <span class="fl">0.20</span><span class="op">,</span> <span class="fl">0.30</span><span class="op">,</span> <span class="fl">0.25</span><span class="op">,</span> <span class="fl">0.15</span>]</span>
-<span id="cb1-247"><a href=""></a>u_values <span class="op">=</span> y_values<span class="op">.</span><span class="fu">map</span>(y <span class="kw">=&gt;</span> y <span class="op">+</span> shift_param)</span>
-<span id="cb1-248"><a href=""></a></span>
-<span id="cb1-249"><a href=""></a>{</span>
-<span id="cb1-250"><a href=""></a>  <span class="kw">const</span> width <span class="op">=</span> <span class="dv">1150</span><span class="op">;</span></span>
-<span id="cb1-251"><a href=""></a>  <span class="kw">const</span> height <span class="op">=</span> <span class="dv">550</span><span class="op">;</span></span>
-<span id="cb1-252"><a href=""></a>  <span class="kw">const</span> margin <span class="op">=</span> {<span class="dt">top</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span> <span class="dt">right</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span> <span class="dt">bottom</span><span class="op">:</span> <span class="dv">70</span><span class="op">,</span> <span class="dt">left</span><span class="op">:</span> <span class="dv">80</span>}<span class="op">;</span></span>
-<span id="cb1-253"><a href=""></a>  </span>
-<span id="cb1-254"><a href=""></a>  <span class="kw">const</span> container <span class="op">=</span> <span class="fu">html</span><span class="vs">`&lt;div style="display: flex; justify-content: center; width: 100%;"&gt;&lt;/div&gt;`</span><span class="op">;</span></span>
-<span id="cb1-255"><a href=""></a>  </span>
-<span id="cb1-256"><a href=""></a>  <span class="kw">const</span> svg <span class="op">=</span> d3<span class="op">.</span><span class="fu">create</span>(<span class="st">"svg"</span>)</span>
-<span id="cb1-257"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"width"</span><span class="op">,</span> width)</span>
-<span id="cb1-258"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"height"</span><span class="op">,</span> height)</span>
-<span id="cb1-259"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"style"</span><span class="op">,</span> <span class="st">"background: white; font-size: 16px;"</span>)<span class="op">;</span></span>
-<span id="cb1-260"><a href=""></a>  </span>
-<span id="cb1-261"><a href=""></a>  <span class="kw">const</span> x <span class="op">=</span> d3<span class="op">.</span><span class="fu">scaleLinear</span>()</span>
-<span id="cb1-262"><a href=""></a>    <span class="op">.</span><span class="fu">domain</span>([</span>
-<span id="cb1-263"><a href=""></a>      <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(d3<span class="op">.</span><span class="fu">min</span>(y_values)<span class="op">,</span> d3<span class="op">.</span><span class="fu">min</span>(u_values)) <span class="op">-</span> <span class="dv">2</span><span class="op">,</span> </span>
-<span id="cb1-264"><a href=""></a>      <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(d3<span class="op">.</span><span class="fu">max</span>(y_values)<span class="op">,</span> d3<span class="op">.</span><span class="fu">max</span>(u_values)) <span class="op">+</span> <span class="dv">2</span></span>
-<span id="cb1-265"><a href=""></a>    ])</span>
-<span id="cb1-266"><a href=""></a>    <span class="op">.</span><span class="fu">range</span>([margin<span class="op">.</span><span class="at">left</span><span class="op">,</span> width <span class="op">-</span> margin<span class="op">.</span><span class="at">right</span>])<span class="op">;</span></span>
-<span id="cb1-267"><a href=""></a>  </span>
-<span id="cb1-268"><a href=""></a>  <span class="kw">const</span> y <span class="op">=</span> d3<span class="op">.</span><span class="fu">scaleLinear</span>()</span>
-<span id="cb1-269"><a href=""></a>    <span class="op">.</span><span class="fu">domain</span>([<span class="dv">0</span><span class="op">,</span> <span class="fl">0.35</span>])</span>
-<span id="cb1-270"><a href=""></a>    <span class="op">.</span><span class="fu">range</span>([height <span class="op">-</span> margin<span class="op">.</span><span class="at">bottom</span><span class="op">,</span> margin<span class="op">.</span><span class="at">top</span>])<span class="op">;</span></span>
-<span id="cb1-271"><a href=""></a>  </span>
-<span id="cb1-272"><a href=""></a>  <span class="co">// Original Y distribution</span></span>
-<span id="cb1-273"><a href=""></a>  svg<span class="op">.</span><span class="fu">selectAll</span>(<span class="st">".bar-y"</span>)</span>
-<span id="cb1-274"><a href=""></a>    <span class="op">.</span><span class="fu">data</span>(y_values<span class="op">.</span><span class="fu">map</span>((val<span class="op">,</span> i) <span class="kw">=&gt;</span> ({<span class="dt">x</span><span class="op">:</span> val<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> probs[i]})))</span>
-<span id="cb1-275"><a href=""></a>    <span class="op">.</span><span class="fu">join</span>(<span class="st">"rect"</span>)</span>
-<span id="cb1-276"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"class"</span><span class="op">,</span> <span class="st">"bar-y"</span>)</span>
-<span id="cb1-277"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> d <span class="kw">=&gt;</span> <span class="fu">x</span>(d<span class="op">.</span><span class="at">x</span>) <span class="op">-</span> <span class="dv">18</span>)</span>
-<span id="cb1-278"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> d <span class="kw">=&gt;</span> <span class="fu">y</span>(d<span class="op">.</span><span class="at">y</span>))</span>
-<span id="cb1-279"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"width"</span><span class="op">,</span> <span class="dv">36</span>)</span>
-<span id="cb1-280"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"height"</span><span class="op">,</span> d <span class="kw">=&gt;</span> <span class="fu">y</span>(<span class="dv">0</span>) <span class="op">-</span> <span class="fu">y</span>(d<span class="op">.</span><span class="at">y</span>))</span>
-<span id="cb1-281"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"fill"</span><span class="op">,</span> <span class="st">"steelblue"</span>)</span>
-<span id="cb1-282"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"opacity"</span><span class="op">,</span> <span class="fl">0.5</span>)<span class="op">;</span></span>
-<span id="cb1-283"><a href=""></a>  </span>
-<span id="cb1-284"><a href=""></a>  <span class="co">// Transformed U distribution</span></span>
-<span id="cb1-285"><a href=""></a>  svg<span class="op">.</span><span class="fu">selectAll</span>(<span class="st">".bar-u"</span>)</span>
-<span id="cb1-286"><a href=""></a>    <span class="op">.</span><span class="fu">data</span>(u_values<span class="op">.</span><span class="fu">map</span>((val<span class="op">,</span> i) <span class="kw">=&gt;</span> ({<span class="dt">x</span><span class="op">:</span> val<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> probs[i]})))</span>
-<span id="cb1-287"><a href=""></a>    <span class="op">.</span><span class="fu">join</span>(<span class="st">"rect"</span>)</span>
-<span id="cb1-288"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"class"</span><span class="op">,</span> <span class="st">"bar-u"</span>)</span>
-<span id="cb1-289"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> d <span class="kw">=&gt;</span> <span class="fu">x</span>(d<span class="op">.</span><span class="at">x</span>) <span class="op">-</span> <span class="dv">18</span>)</span>
-<span id="cb1-290"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> d <span class="kw">=&gt;</span> <span class="fu">y</span>(d<span class="op">.</span><span class="at">y</span>))</span>
-<span id="cb1-291"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"width"</span><span class="op">,</span> <span class="dv">36</span>)</span>
-<span id="cb1-292"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"height"</span><span class="op">,</span> d <span class="kw">=&gt;</span> <span class="fu">y</span>(<span class="dv">0</span>) <span class="op">-</span> <span class="fu">y</span>(d<span class="op">.</span><span class="at">y</span>))</span>
-<span id="cb1-293"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"fill"</span><span class="op">,</span> <span class="st">"darkred"</span>)</span>
-<span id="cb1-294"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"opacity"</span><span class="op">,</span> <span class="fl">0.7</span>)<span class="op">;</span></span>
-<span id="cb1-295"><a href=""></a>  </span>
-<span id="cb1-296"><a href=""></a>  <span class="co">// Axes</span></span>
-<span id="cb1-297"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"g"</span>)</span>
-<span id="cb1-298"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"transform"</span><span class="op">,</span> <span class="vs">`translate(0,</span><span class="sc">${</span>height <span class="op">-</span> margin<span class="op">.</span><span class="at">bottom</span><span class="sc">}</span><span class="vs">)`</span>)</span>
-<span id="cb1-299"><a href=""></a>    <span class="op">.</span><span class="fu">call</span>(d3<span class="op">.</span><span class="fu">axisBottom</span>(x))</span>
-<span id="cb1-300"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"16px"</span>)<span class="op">;</span></span>
-<span id="cb1-301"><a href=""></a>  </span>
-<span id="cb1-302"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"g"</span>)</span>
-<span id="cb1-303"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"transform"</span><span class="op">,</span> <span class="vs">`translate(</span><span class="sc">${</span>margin<span class="op">.</span><span class="at">left</span><span class="sc">}</span><span class="vs">,0)`</span>)</span>
-<span id="cb1-304"><a href=""></a>    <span class="op">.</span><span class="fu">call</span>(d3<span class="op">.</span><span class="fu">axisLeft</span>(y))</span>
-<span id="cb1-305"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"16px"</span>)<span class="op">;</span></span>
-<span id="cb1-306"><a href=""></a>  </span>
-<span id="cb1-307"><a href=""></a>  <span class="co">// Labels</span></span>
-<span id="cb1-308"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"text"</span>)</span>
-<span id="cb1-309"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> width <span class="op">/</span> <span class="dv">2</span>)</span>
-<span id="cb1-310"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> height <span class="op">-</span> <span class="dv">15</span>)</span>
-<span id="cb1-311"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"text-anchor"</span><span class="op">,</span> <span class="st">"middle"</span>)</span>
-<span id="cb1-312"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"20px"</span>)</span>
-<span id="cb1-313"><a href=""></a>    <span class="op">.</span><span class="fu">text</span>(<span class="st">"Value"</span>)<span class="op">;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="234" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 233;"><span id="cb1-234"><a href=""></a>viewof shift_param <span class="op">=</span> {</span>
+<span id="cb1-235"><a href=""></a>  <span class="kw">const</span> wrapper <span class="op">=</span> <span class="fu">html</span><span class="vs">`&lt;div style="display: flex; align-items: center; gap: 10px;"&gt;</span></span>
+<span id="cb1-236"><a href=""></a><span class="vs">    &lt;span style="white-space: nowrap; font-size: 14px; font-weight: 500; min-width: 180px;"&gt;Transaction Cost (shift):&lt;/span&gt;</span></span>
+<span id="cb1-237"><a href=""></a><span class="vs">  &lt;/div&gt;`</span><span class="op">;</span></span>
+<span id="cb1-238"><a href=""></a>  <span class="kw">const</span> slider <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="op">-</span><span class="dv">10</span><span class="op">,</span> <span class="dv">10</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="op">-</span><span class="dv">5</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">""</span>})<span class="op">;</span></span>
+<span id="cb1-239"><a href=""></a>  wrapper<span class="op">.</span><span class="fu">appendChild</span>(slider)<span class="op">;</span></span>
+<span id="cb1-240"><a href=""></a>  </span>
+<span id="cb1-241"><a href=""></a>  <span class="co">// Forward the value property from the slider to the wrapper</span></span>
+<span id="cb1-242"><a href=""></a>  <span class="bu">Object</span><span class="op">.</span><span class="fu">defineProperty</span>(wrapper<span class="op">,</span> <span class="st">'value'</span><span class="op">,</span> {</span>
+<span id="cb1-243"><a href=""></a>    <span class="kw">get</span><span class="op">:</span> () <span class="kw">=&gt;</span> slider<span class="op">.</span><span class="at">value</span><span class="op">,</span></span>
+<span id="cb1-244"><a href=""></a>    <span class="kw">set</span><span class="op">:</span> (v) <span class="kw">=&gt;</span> { slider<span class="op">.</span><span class="at">value</span> <span class="op">=</span> v<span class="op">;</span> }</span>
+<span id="cb1-245"><a href=""></a>  })<span class="op">;</span></span>
+<span id="cb1-246"><a href=""></a>  </span>
+<span id="cb1-247"><a href=""></a>  [<span class="st">'pointerdown'</span><span class="op">,</span> <span class="st">'touchstart'</span><span class="op">,</span> <span class="st">'mousedown'</span><span class="op">,</span> <span class="st">'click'</span><span class="op">,</span> <span class="st">'wheel'</span><span class="op">,</span> <span class="st">'pointermove'</span><span class="op">,</span> <span class="st">'touchmove'</span><span class="op">,</span> <span class="st">'mousemove'</span>]<span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span></span>
+<span id="cb1-248"><a href=""></a>    wrapper<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>())</span>
+<span id="cb1-249"><a href=""></a>  )<span class="op">;</span></span>
+<span id="cb1-250"><a href=""></a>  <span class="cf">return</span> wrapper<span class="op">;</span></span>
+<span id="cb1-251"><a href=""></a>}</span>
+<span id="cb1-252"><a href=""></a></span>
+<span id="cb1-253"><a href=""></a>y_values <span class="op">=</span> [<span class="op">-</span><span class="dv">2</span><span class="op">,</span> <span class="op">-</span><span class="dv">1</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">2</span>]</span>
+<span id="cb1-254"><a href=""></a>probs <span class="op">=</span> [<span class="fl">0.10</span><span class="op">,</span> <span class="fl">0.20</span><span class="op">,</span> <span class="fl">0.30</span><span class="op">,</span> <span class="fl">0.25</span><span class="op">,</span> <span class="fl">0.15</span>]</span>
+<span id="cb1-255"><a href=""></a>u_values <span class="op">=</span> y_values<span class="op">.</span><span class="fu">map</span>(y <span class="kw">=&gt;</span> y <span class="op">+</span> shift_param)</span>
+<span id="cb1-256"><a href=""></a></span>
+<span id="cb1-257"><a href=""></a>{</span>
+<span id="cb1-258"><a href=""></a>  <span class="kw">const</span> width <span class="op">=</span> <span class="dv">1150</span><span class="op">;</span></span>
+<span id="cb1-259"><a href=""></a>  <span class="kw">const</span> height <span class="op">=</span> <span class="dv">550</span><span class="op">;</span></span>
+<span id="cb1-260"><a href=""></a>  <span class="kw">const</span> margin <span class="op">=</span> {<span class="dt">top</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span> <span class="dt">right</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span> <span class="dt">bottom</span><span class="op">:</span> <span class="dv">70</span><span class="op">,</span> <span class="dt">left</span><span class="op">:</span> <span class="dv">80</span>}<span class="op">;</span></span>
+<span id="cb1-261"><a href=""></a>  </span>
+<span id="cb1-262"><a href=""></a>  <span class="kw">const</span> container <span class="op">=</span> <span class="fu">html</span><span class="vs">`&lt;div style="display: flex; justify-content: center; width: 100%;"&gt;&lt;/div&gt;`</span><span class="op">;</span></span>
+<span id="cb1-263"><a href=""></a>  </span>
+<span id="cb1-264"><a href=""></a>  <span class="kw">const</span> svg <span class="op">=</span> d3<span class="op">.</span><span class="fu">create</span>(<span class="st">"svg"</span>)</span>
+<span id="cb1-265"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"width"</span><span class="op">,</span> width)</span>
+<span id="cb1-266"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"height"</span><span class="op">,</span> height)</span>
+<span id="cb1-267"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"style"</span><span class="op">,</span> <span class="st">"background: white; font-size: 16px;"</span>)<span class="op">;</span></span>
+<span id="cb1-268"><a href=""></a>  </span>
+<span id="cb1-269"><a href=""></a>  <span class="kw">const</span> x <span class="op">=</span> d3<span class="op">.</span><span class="fu">scaleLinear</span>()</span>
+<span id="cb1-270"><a href=""></a>    <span class="op">.</span><span class="fu">domain</span>([</span>
+<span id="cb1-271"><a href=""></a>      <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(d3<span class="op">.</span><span class="fu">min</span>(y_values)<span class="op">,</span> d3<span class="op">.</span><span class="fu">min</span>(u_values)) <span class="op">-</span> <span class="dv">2</span><span class="op">,</span> </span>
+<span id="cb1-272"><a href=""></a>      <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(d3<span class="op">.</span><span class="fu">max</span>(y_values)<span class="op">,</span> d3<span class="op">.</span><span class="fu">max</span>(u_values)) <span class="op">+</span> <span class="dv">2</span></span>
+<span id="cb1-273"><a href=""></a>    ])</span>
+<span id="cb1-274"><a href=""></a>    <span class="op">.</span><span class="fu">range</span>([margin<span class="op">.</span><span class="at">left</span><span class="op">,</span> width <span class="op">-</span> margin<span class="op">.</span><span class="at">right</span>])<span class="op">;</span></span>
+<span id="cb1-275"><a href=""></a>  </span>
+<span id="cb1-276"><a href=""></a>  <span class="kw">const</span> y <span class="op">=</span> d3<span class="op">.</span><span class="fu">scaleLinear</span>()</span>
+<span id="cb1-277"><a href=""></a>    <span class="op">.</span><span class="fu">domain</span>([<span class="dv">0</span><span class="op">,</span> <span class="fl">0.35</span>])</span>
+<span id="cb1-278"><a href=""></a>    <span class="op">.</span><span class="fu">range</span>([height <span class="op">-</span> margin<span class="op">.</span><span class="at">bottom</span><span class="op">,</span> margin<span class="op">.</span><span class="at">top</span>])<span class="op">;</span></span>
+<span id="cb1-279"><a href=""></a>  </span>
+<span id="cb1-280"><a href=""></a>  <span class="co">// Original Y distribution</span></span>
+<span id="cb1-281"><a href=""></a>  svg<span class="op">.</span><span class="fu">selectAll</span>(<span class="st">".bar-y"</span>)</span>
+<span id="cb1-282"><a href=""></a>    <span class="op">.</span><span class="fu">data</span>(y_values<span class="op">.</span><span class="fu">map</span>((val<span class="op">,</span> i) <span class="kw">=&gt;</span> ({<span class="dt">x</span><span class="op">:</span> val<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> probs[i]})))</span>
+<span id="cb1-283"><a href=""></a>    <span class="op">.</span><span class="fu">join</span>(<span class="st">"rect"</span>)</span>
+<span id="cb1-284"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"class"</span><span class="op">,</span> <span class="st">"bar-y"</span>)</span>
+<span id="cb1-285"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> d <span class="kw">=&gt;</span> <span class="fu">x</span>(d<span class="op">.</span><span class="at">x</span>) <span class="op">-</span> <span class="dv">18</span>)</span>
+<span id="cb1-286"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> d <span class="kw">=&gt;</span> <span class="fu">y</span>(d<span class="op">.</span><span class="at">y</span>))</span>
+<span id="cb1-287"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"width"</span><span class="op">,</span> <span class="dv">36</span>)</span>
+<span id="cb1-288"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"height"</span><span class="op">,</span> d <span class="kw">=&gt;</span> <span class="fu">y</span>(<span class="dv">0</span>) <span class="op">-</span> <span class="fu">y</span>(d<span class="op">.</span><span class="at">y</span>))</span>
+<span id="cb1-289"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"fill"</span><span class="op">,</span> <span class="st">"steelblue"</span>)</span>
+<span id="cb1-290"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"opacity"</span><span class="op">,</span> <span class="fl">0.5</span>)<span class="op">;</span></span>
+<span id="cb1-291"><a href=""></a>  </span>
+<span id="cb1-292"><a href=""></a>  <span class="co">// Transformed U distribution</span></span>
+<span id="cb1-293"><a href=""></a>  svg<span class="op">.</span><span class="fu">selectAll</span>(<span class="st">".bar-u"</span>)</span>
+<span id="cb1-294"><a href=""></a>    <span class="op">.</span><span class="fu">data</span>(u_values<span class="op">.</span><span class="fu">map</span>((val<span class="op">,</span> i) <span class="kw">=&gt;</span> ({<span class="dt">x</span><span class="op">:</span> val<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> probs[i]})))</span>
+<span id="cb1-295"><a href=""></a>    <span class="op">.</span><span class="fu">join</span>(<span class="st">"rect"</span>)</span>
+<span id="cb1-296"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"class"</span><span class="op">,</span> <span class="st">"bar-u"</span>)</span>
+<span id="cb1-297"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> d <span class="kw">=&gt;</span> <span class="fu">x</span>(d<span class="op">.</span><span class="at">x</span>) <span class="op">-</span> <span class="dv">18</span>)</span>
+<span id="cb1-298"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> d <span class="kw">=&gt;</span> <span class="fu">y</span>(d<span class="op">.</span><span class="at">y</span>))</span>
+<span id="cb1-299"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"width"</span><span class="op">,</span> <span class="dv">36</span>)</span>
+<span id="cb1-300"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"height"</span><span class="op">,</span> d <span class="kw">=&gt;</span> <span class="fu">y</span>(<span class="dv">0</span>) <span class="op">-</span> <span class="fu">y</span>(d<span class="op">.</span><span class="at">y</span>))</span>
+<span id="cb1-301"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"fill"</span><span class="op">,</span> <span class="st">"darkred"</span>)</span>
+<span id="cb1-302"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"opacity"</span><span class="op">,</span> <span class="fl">0.7</span>)<span class="op">;</span></span>
+<span id="cb1-303"><a href=""></a>  </span>
+<span id="cb1-304"><a href=""></a>  <span class="co">// Axes</span></span>
+<span id="cb1-305"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"g"</span>)</span>
+<span id="cb1-306"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"transform"</span><span class="op">,</span> <span class="vs">`translate(0,</span><span class="sc">${</span>height <span class="op">-</span> margin<span class="op">.</span><span class="at">bottom</span><span class="sc">}</span><span class="vs">)`</span>)</span>
+<span id="cb1-307"><a href=""></a>    <span class="op">.</span><span class="fu">call</span>(d3<span class="op">.</span><span class="fu">axisBottom</span>(x))</span>
+<span id="cb1-308"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"16px"</span>)<span class="op">;</span></span>
+<span id="cb1-309"><a href=""></a>  </span>
+<span id="cb1-310"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"g"</span>)</span>
+<span id="cb1-311"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"transform"</span><span class="op">,</span> <span class="vs">`translate(</span><span class="sc">${</span>margin<span class="op">.</span><span class="at">left</span><span class="sc">}</span><span class="vs">,0)`</span>)</span>
+<span id="cb1-312"><a href=""></a>    <span class="op">.</span><span class="fu">call</span>(d3<span class="op">.</span><span class="fu">axisLeft</span>(y))</span>
+<span id="cb1-313"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"16px"</span>)<span class="op">;</span></span>
 <span id="cb1-314"><a href=""></a>  </span>
-<span id="cb1-315"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"text"</span>)</span>
-<span id="cb1-316"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"transform"</span><span class="op">,</span> <span class="st">"rotate(-90)"</span>)</span>
-<span id="cb1-317"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> <span class="op">-</span>height <span class="op">/</span> <span class="dv">2</span>)</span>
-<span id="cb1-318"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> <span class="dv">25</span>)</span>
+<span id="cb1-315"><a href=""></a>  <span class="co">// Labels</span></span>
+<span id="cb1-316"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"text"</span>)</span>
+<span id="cb1-317"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> width <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb1-318"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> height <span class="op">-</span> <span class="dv">15</span>)</span>
 <span id="cb1-319"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"text-anchor"</span><span class="op">,</span> <span class="st">"middle"</span>)</span>
 <span id="cb1-320"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"20px"</span>)</span>
-<span id="cb1-321"><a href=""></a>    <span class="op">.</span><span class="fu">text</span>(<span class="st">"Probability"</span>)<span class="op">;</span></span>
+<span id="cb1-321"><a href=""></a>    <span class="op">.</span><span class="fu">text</span>(<span class="st">"Value"</span>)<span class="op">;</span></span>
 <span id="cb1-322"><a href=""></a>  </span>
 <span id="cb1-323"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"text"</span>)</span>
-<span id="cb1-324"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> width <span class="op">/</span> <span class="dv">2</span>)</span>
-<span id="cb1-325"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> <span class="dv">30</span>)</span>
-<span id="cb1-326"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"text-anchor"</span><span class="op">,</span> <span class="st">"middle"</span>)</span>
-<span id="cb1-327"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"22px"</span>)</span>
-<span id="cb1-328"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-weight"</span><span class="op">,</span> <span class="st">"bold"</span>)</span>
-<span id="cb1-329"><a href=""></a>    <span class="op">.</span><span class="fu">text</span>(<span class="vs">`Original Y (blue) vs Transformed U = Y + </span><span class="sc">${</span>shift_param<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs"> (red)`</span>)<span class="op">;</span></span>
+<span id="cb1-324"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"transform"</span><span class="op">,</span> <span class="st">"rotate(-90)"</span>)</span>
+<span id="cb1-325"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> <span class="op">-</span>height <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb1-326"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> <span class="dv">25</span>)</span>
+<span id="cb1-327"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"text-anchor"</span><span class="op">,</span> <span class="st">"middle"</span>)</span>
+<span id="cb1-328"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"20px"</span>)</span>
+<span id="cb1-329"><a href=""></a>    <span class="op">.</span><span class="fu">text</span>(<span class="st">"Probability"</span>)<span class="op">;</span></span>
 <span id="cb1-330"><a href=""></a>  </span>
-<span id="cb1-331"><a href=""></a>  container<span class="op">.</span><span class="fu">appendChild</span>(svg<span class="op">.</span><span class="fu">node</span>())<span class="op">;</span></span>
-<span id="cb1-332"><a href=""></a>  <span class="cf">return</span> container<span class="op">;</span></span>
-<span id="cb1-333"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-331"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"text"</span>)</span>
+<span id="cb1-332"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> width <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb1-333"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> <span class="dv">30</span>)</span>
+<span id="cb1-334"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"text-anchor"</span><span class="op">,</span> <span class="st">"middle"</span>)</span>
+<span id="cb1-335"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"22px"</span>)</span>
+<span id="cb1-336"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-weight"</span><span class="op">,</span> <span class="st">"bold"</span>)</span>
+<span id="cb1-337"><a href=""></a>    <span class="op">.</span><span class="fu">text</span>(<span class="vs">`Original Y (blue) vs Transformed U = Y + </span><span class="sc">${</span>shift_param<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs"> (red)`</span>)<span class="op">;</span></span>
+<span id="cb1-338"><a href=""></a>  </span>
+<span id="cb1-339"><a href=""></a>  container<span class="op">.</span><span class="fu">appendChild</span>(svg<span class="op">.</span><span class="fu">node</span>())<span class="op">;</span></span>
+<span id="cb1-340"><a href=""></a>  <span class="cf">return</span> container<span class="op">;</span></span>
+<span id="cb1-341"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -820,136 +826,136 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="476" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 475;"><span id="cb2-476"><a href=""></a>viewof scale_a <span class="op">=</span> {</span>
-<span id="cb2-477"><a href=""></a>  <span class="kw">const</span> wrapper <span class="op">=</span> <span class="fu">html</span><span class="vs">`&lt;div style="display: flex; align-items: center; gap: 10px;"&gt;</span></span>
-<span id="cb2-478"><a href=""></a><span class="vs">    &lt;span style="white-space: nowrap; font-size: 14px; font-weight: 500; min-width: 160px;"&gt;Scale parameter (a):&lt;/span&gt;</span></span>
-<span id="cb2-479"><a href=""></a><span class="vs">  &lt;/div&gt;`</span><span class="op">;</span></span>
-<span id="cb2-480"><a href=""></a>  <span class="kw">const</span> slider <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">5</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">""</span>})<span class="op">;</span></span>
-<span id="cb2-481"><a href=""></a>  wrapper<span class="op">.</span><span class="fu">appendChild</span>(slider)<span class="op">;</span></span>
-<span id="cb2-482"><a href=""></a>  </span>
-<span id="cb2-483"><a href=""></a>  <span class="co">// Forward the value property from the slider to the wrapper</span></span>
-<span id="cb2-484"><a href=""></a>  <span class="bu">Object</span><span class="op">.</span><span class="fu">defineProperty</span>(wrapper<span class="op">,</span> <span class="st">'value'</span><span class="op">,</span> {</span>
-<span id="cb2-485"><a href=""></a>    <span class="kw">get</span><span class="op">:</span> () <span class="kw">=&gt;</span> slider<span class="op">.</span><span class="at">value</span><span class="op">,</span></span>
-<span id="cb2-486"><a href=""></a>    <span class="kw">set</span><span class="op">:</span> (v) <span class="kw">=&gt;</span> { slider<span class="op">.</span><span class="at">value</span> <span class="op">=</span> v<span class="op">;</span> }</span>
-<span id="cb2-487"><a href=""></a>  })<span class="op">;</span></span>
-<span id="cb2-488"><a href=""></a>  </span>
-<span id="cb2-489"><a href=""></a>  [<span class="st">'pointerdown'</span><span class="op">,</span> <span class="st">'touchstart'</span><span class="op">,</span> <span class="st">'mousedown'</span><span class="op">,</span> <span class="st">'click'</span><span class="op">,</span> <span class="st">'wheel'</span><span class="op">,</span> <span class="st">'pointermove'</span><span class="op">,</span> <span class="st">'touchmove'</span><span class="op">,</span> <span class="st">'mousemove'</span>]<span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span></span>
-<span id="cb2-490"><a href=""></a>    wrapper<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>())</span>
-<span id="cb2-491"><a href=""></a>  )<span class="op">;</span></span>
-<span id="cb2-492"><a href=""></a>  <span class="cf">return</span> wrapper<span class="op">;</span></span>
-<span id="cb2-493"><a href=""></a>}</span>
-<span id="cb2-494"><a href=""></a></span>
-<span id="cb2-495"><a href=""></a>viewof shift_b <span class="op">=</span> {</span>
-<span id="cb2-496"><a href=""></a>  <span class="kw">const</span> wrapper <span class="op">=</span> <span class="fu">html</span><span class="vs">`&lt;div style="display: flex; align-items: center; gap: 10px;"&gt;</span></span>
-<span id="cb2-497"><a href=""></a><span class="vs">    &lt;span style="white-space: nowrap; font-size: 14px; font-weight: 500; min-width: 160px;"&gt;Shift parameter (b):&lt;/span&gt;</span></span>
-<span id="cb2-498"><a href=""></a><span class="vs">  &lt;/div&gt;`</span><span class="op">;</span></span>
-<span id="cb2-499"><a href=""></a>  <span class="kw">const</span> slider <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="op">-</span><span class="dv">2</span><span class="op">,</span> <span class="dv">5</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">""</span>})<span class="op">;</span></span>
-<span id="cb2-500"><a href=""></a>  wrapper<span class="op">.</span><span class="fu">appendChild</span>(slider)<span class="op">;</span></span>
-<span id="cb2-501"><a href=""></a>  </span>
-<span id="cb2-502"><a href=""></a>  <span class="co">// Forward the value property from the slider to the wrapper</span></span>
-<span id="cb2-503"><a href=""></a>  <span class="bu">Object</span><span class="op">.</span><span class="fu">defineProperty</span>(wrapper<span class="op">,</span> <span class="st">'value'</span><span class="op">,</span> {</span>
-<span id="cb2-504"><a href=""></a>    <span class="kw">get</span><span class="op">:</span> () <span class="kw">=&gt;</span> slider<span class="op">.</span><span class="at">value</span><span class="op">,</span></span>
-<span id="cb2-505"><a href=""></a>    <span class="kw">set</span><span class="op">:</span> (v) <span class="kw">=&gt;</span> { slider<span class="op">.</span><span class="at">value</span> <span class="op">=</span> v<span class="op">;</span> }</span>
-<span id="cb2-506"><a href=""></a>  })<span class="op">;</span></span>
-<span id="cb2-507"><a href=""></a>  </span>
-<span id="cb2-508"><a href=""></a>  [<span class="st">'pointerdown'</span><span class="op">,</span> <span class="st">'touchstart'</span><span class="op">,</span> <span class="st">'mousedown'</span><span class="op">,</span> <span class="st">'click'</span><span class="op">,</span> <span class="st">'wheel'</span><span class="op">,</span> <span class="st">'pointermove'</span><span class="op">,</span> <span class="st">'touchmove'</span><span class="op">,</span> <span class="st">'mousemove'</span>]<span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span></span>
-<span id="cb2-509"><a href=""></a>    wrapper<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>())</span>
-<span id="cb2-510"><a href=""></a>  )<span class="op">;</span></span>
-<span id="cb2-511"><a href=""></a>  <span class="cf">return</span> wrapper<span class="op">;</span></span>
-<span id="cb2-512"><a href=""></a>}</span>
-<span id="cb2-513"><a href=""></a></span>
-<span id="cb2-514"><a href=""></a>u_min <span class="op">=</span> shift_b</span>
-<span id="cb2-515"><a href=""></a>u_max <span class="op">=</span> scale_a <span class="op">+</span> shift_b</span>
-<span id="cb2-516"><a href=""></a>f_u <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> scale_a</span>
-<span id="cb2-517"><a href=""></a></span>
-<span id="cb2-518"><a href=""></a>{</span>
-<span id="cb2-519"><a href=""></a>  <span class="kw">const</span> width <span class="op">=</span> <span class="dv">1000</span><span class="op">;</span></span>
-<span id="cb2-520"><a href=""></a>  <span class="kw">const</span> height <span class="op">=</span> <span class="dv">380</span><span class="op">;</span></span>
-<span id="cb2-521"><a href=""></a>  <span class="kw">const</span> margin <span class="op">=</span> {<span class="dt">top</span><span class="op">:</span> <span class="dv">40</span><span class="op">,</span> <span class="dt">right</span><span class="op">:</span> <span class="dv">40</span><span class="op">,</span> <span class="dt">bottom</span><span class="op">:</span> <span class="dv">60</span><span class="op">,</span> <span class="dt">left</span><span class="op">:</span> <span class="dv">70</span>}<span class="op">;</span></span>
-<span id="cb2-522"><a href=""></a></span>
-<span id="cb2-523"><a href=""></a>  <span class="kw">const</span> svg <span class="op">=</span> d3<span class="op">.</span><span class="fu">create</span>(<span class="st">"svg"</span>)</span>
-<span id="cb2-524"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"width"</span><span class="op">,</span> width)</span>
-<span id="cb2-525"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"height"</span><span class="op">,</span> height)</span>
-<span id="cb2-526"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"style"</span><span class="op">,</span> <span class="st">"background: white; font-size: 16px;"</span>)<span class="op">;</span></span>
-<span id="cb2-527"><a href=""></a></span>
-<span id="cb2-528"><a href=""></a>  <span class="kw">const</span> maxX <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="dv">6</span><span class="op">,</span> u_max <span class="op">+</span> <span class="dv">1</span>)<span class="op">;</span></span>
-<span id="cb2-529"><a href=""></a>  <span class="kw">const</span> minX <span class="op">=</span> <span class="op">-</span><span class="dv">2</span><span class="op">;</span></span>
-<span id="cb2-530"><a href=""></a>  <span class="kw">const</span> maxY <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="fl">1.5</span><span class="op">,</span> f_u <span class="op">+</span> <span class="fl">0.3</span>)<span class="op">;</span></span>
-<span id="cb2-531"><a href=""></a></span>
-<span id="cb2-532"><a href=""></a>  <span class="kw">const</span> plotWidth <span class="op">=</span> width <span class="op">-</span> margin<span class="op">.</span><span class="at">left</span> <span class="op">-</span> margin<span class="op">.</span><span class="at">right</span><span class="op">;</span></span>
-<span id="cb2-533"><a href=""></a>  <span class="kw">const</span> plotHeight <span class="op">=</span> height <span class="op">-</span> margin<span class="op">.</span><span class="at">top</span> <span class="op">-</span> margin<span class="op">.</span><span class="at">bottom</span><span class="op">;</span></span>
-<span id="cb2-534"><a href=""></a></span>
-<span id="cb2-535"><a href=""></a>  <span class="co">// Equal scale: same pixels per unit on both axes</span></span>
-<span id="cb2-536"><a href=""></a>  <span class="kw">const</span> pixelsPerUnitX <span class="op">=</span> plotWidth <span class="op">/</span> (maxX <span class="op">-</span> minX)<span class="op">;</span></span>
-<span id="cb2-537"><a href=""></a>  <span class="kw">const</span> pixelsPerUnitY <span class="op">=</span> plotHeight <span class="op">/</span> maxY<span class="op">;</span></span>
-<span id="cb2-538"><a href=""></a>  <span class="kw">const</span> pixelsPerUnit <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(pixelsPerUnitX<span class="op">,</span> pixelsPerUnitY)<span class="op">;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="484" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 483;"><span id="cb2-484"><a href=""></a>viewof scale_a <span class="op">=</span> {</span>
+<span id="cb2-485"><a href=""></a>  <span class="kw">const</span> wrapper <span class="op">=</span> <span class="fu">html</span><span class="vs">`&lt;div style="display: flex; align-items: center; gap: 10px;"&gt;</span></span>
+<span id="cb2-486"><a href=""></a><span class="vs">    &lt;span style="white-space: nowrap; font-size: 14px; font-weight: 500; min-width: 160px;"&gt;Scale parameter (a):&lt;/span&gt;</span></span>
+<span id="cb2-487"><a href=""></a><span class="vs">  &lt;/div&gt;`</span><span class="op">;</span></span>
+<span id="cb2-488"><a href=""></a>  <span class="kw">const</span> slider <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">5</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">""</span>})<span class="op">;</span></span>
+<span id="cb2-489"><a href=""></a>  wrapper<span class="op">.</span><span class="fu">appendChild</span>(slider)<span class="op">;</span></span>
+<span id="cb2-490"><a href=""></a>  </span>
+<span id="cb2-491"><a href=""></a>  <span class="co">// Forward the value property from the slider to the wrapper</span></span>
+<span id="cb2-492"><a href=""></a>  <span class="bu">Object</span><span class="op">.</span><span class="fu">defineProperty</span>(wrapper<span class="op">,</span> <span class="st">'value'</span><span class="op">,</span> {</span>
+<span id="cb2-493"><a href=""></a>    <span class="kw">get</span><span class="op">:</span> () <span class="kw">=&gt;</span> slider<span class="op">.</span><span class="at">value</span><span class="op">,</span></span>
+<span id="cb2-494"><a href=""></a>    <span class="kw">set</span><span class="op">:</span> (v) <span class="kw">=&gt;</span> { slider<span class="op">.</span><span class="at">value</span> <span class="op">=</span> v<span class="op">;</span> }</span>
+<span id="cb2-495"><a href=""></a>  })<span class="op">;</span></span>
+<span id="cb2-496"><a href=""></a>  </span>
+<span id="cb2-497"><a href=""></a>  [<span class="st">'pointerdown'</span><span class="op">,</span> <span class="st">'touchstart'</span><span class="op">,</span> <span class="st">'mousedown'</span><span class="op">,</span> <span class="st">'click'</span><span class="op">,</span> <span class="st">'wheel'</span><span class="op">,</span> <span class="st">'pointermove'</span><span class="op">,</span> <span class="st">'touchmove'</span><span class="op">,</span> <span class="st">'mousemove'</span>]<span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span></span>
+<span id="cb2-498"><a href=""></a>    wrapper<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>())</span>
+<span id="cb2-499"><a href=""></a>  )<span class="op">;</span></span>
+<span id="cb2-500"><a href=""></a>  <span class="cf">return</span> wrapper<span class="op">;</span></span>
+<span id="cb2-501"><a href=""></a>}</span>
+<span id="cb2-502"><a href=""></a></span>
+<span id="cb2-503"><a href=""></a>viewof shift_b <span class="op">=</span> {</span>
+<span id="cb2-504"><a href=""></a>  <span class="kw">const</span> wrapper <span class="op">=</span> <span class="fu">html</span><span class="vs">`&lt;div style="display: flex; align-items: center; gap: 10px;"&gt;</span></span>
+<span id="cb2-505"><a href=""></a><span class="vs">    &lt;span style="white-space: nowrap; font-size: 14px; font-weight: 500; min-width: 160px;"&gt;Shift parameter (b):&lt;/span&gt;</span></span>
+<span id="cb2-506"><a href=""></a><span class="vs">  &lt;/div&gt;`</span><span class="op">;</span></span>
+<span id="cb2-507"><a href=""></a>  <span class="kw">const</span> slider <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="op">-</span><span class="dv">2</span><span class="op">,</span> <span class="dv">5</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">""</span>})<span class="op">;</span></span>
+<span id="cb2-508"><a href=""></a>  wrapper<span class="op">.</span><span class="fu">appendChild</span>(slider)<span class="op">;</span></span>
+<span id="cb2-509"><a href=""></a>  </span>
+<span id="cb2-510"><a href=""></a>  <span class="co">// Forward the value property from the slider to the wrapper</span></span>
+<span id="cb2-511"><a href=""></a>  <span class="bu">Object</span><span class="op">.</span><span class="fu">defineProperty</span>(wrapper<span class="op">,</span> <span class="st">'value'</span><span class="op">,</span> {</span>
+<span id="cb2-512"><a href=""></a>    <span class="kw">get</span><span class="op">:</span> () <span class="kw">=&gt;</span> slider<span class="op">.</span><span class="at">value</span><span class="op">,</span></span>
+<span id="cb2-513"><a href=""></a>    <span class="kw">set</span><span class="op">:</span> (v) <span class="kw">=&gt;</span> { slider<span class="op">.</span><span class="at">value</span> <span class="op">=</span> v<span class="op">;</span> }</span>
+<span id="cb2-514"><a href=""></a>  })<span class="op">;</span></span>
+<span id="cb2-515"><a href=""></a>  </span>
+<span id="cb2-516"><a href=""></a>  [<span class="st">'pointerdown'</span><span class="op">,</span> <span class="st">'touchstart'</span><span class="op">,</span> <span class="st">'mousedown'</span><span class="op">,</span> <span class="st">'click'</span><span class="op">,</span> <span class="st">'wheel'</span><span class="op">,</span> <span class="st">'pointermove'</span><span class="op">,</span> <span class="st">'touchmove'</span><span class="op">,</span> <span class="st">'mousemove'</span>]<span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span></span>
+<span id="cb2-517"><a href=""></a>    wrapper<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>())</span>
+<span id="cb2-518"><a href=""></a>  )<span class="op">;</span></span>
+<span id="cb2-519"><a href=""></a>  <span class="cf">return</span> wrapper<span class="op">;</span></span>
+<span id="cb2-520"><a href=""></a>}</span>
+<span id="cb2-521"><a href=""></a></span>
+<span id="cb2-522"><a href=""></a>u_min <span class="op">=</span> shift_b</span>
+<span id="cb2-523"><a href=""></a>u_max <span class="op">=</span> scale_a <span class="op">+</span> shift_b</span>
+<span id="cb2-524"><a href=""></a>f_u <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> scale_a</span>
+<span id="cb2-525"><a href=""></a></span>
+<span id="cb2-526"><a href=""></a>{</span>
+<span id="cb2-527"><a href=""></a>  <span class="kw">const</span> width <span class="op">=</span> <span class="dv">1000</span><span class="op">;</span></span>
+<span id="cb2-528"><a href=""></a>  <span class="kw">const</span> height <span class="op">=</span> <span class="dv">380</span><span class="op">;</span></span>
+<span id="cb2-529"><a href=""></a>  <span class="kw">const</span> margin <span class="op">=</span> {<span class="dt">top</span><span class="op">:</span> <span class="dv">40</span><span class="op">,</span> <span class="dt">right</span><span class="op">:</span> <span class="dv">40</span><span class="op">,</span> <span class="dt">bottom</span><span class="op">:</span> <span class="dv">60</span><span class="op">,</span> <span class="dt">left</span><span class="op">:</span> <span class="dv">70</span>}<span class="op">;</span></span>
+<span id="cb2-530"><a href=""></a></span>
+<span id="cb2-531"><a href=""></a>  <span class="kw">const</span> svg <span class="op">=</span> d3<span class="op">.</span><span class="fu">create</span>(<span class="st">"svg"</span>)</span>
+<span id="cb2-532"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"width"</span><span class="op">,</span> width)</span>
+<span id="cb2-533"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"height"</span><span class="op">,</span> height)</span>
+<span id="cb2-534"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"style"</span><span class="op">,</span> <span class="st">"background: white; font-size: 16px;"</span>)<span class="op">;</span></span>
+<span id="cb2-535"><a href=""></a></span>
+<span id="cb2-536"><a href=""></a>  <span class="kw">const</span> maxX <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="dv">6</span><span class="op">,</span> u_max <span class="op">+</span> <span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb2-537"><a href=""></a>  <span class="kw">const</span> minX <span class="op">=</span> <span class="op">-</span><span class="dv">2</span><span class="op">;</span></span>
+<span id="cb2-538"><a href=""></a>  <span class="kw">const</span> maxY <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="fl">1.5</span><span class="op">,</span> f_u <span class="op">+</span> <span class="fl">0.3</span>)<span class="op">;</span></span>
 <span id="cb2-539"><a href=""></a></span>
-<span id="cb2-540"><a href=""></a>  <span class="kw">const</span> actualPlotWidth <span class="op">=</span> pixelsPerUnit <span class="op">*</span> (maxX <span class="op">-</span> minX)<span class="op">;</span></span>
-<span id="cb2-541"><a href=""></a>  <span class="kw">const</span> actualPlotHeight <span class="op">=</span> pixelsPerUnit <span class="op">*</span> maxY<span class="op">;</span></span>
+<span id="cb2-540"><a href=""></a>  <span class="kw">const</span> plotWidth <span class="op">=</span> width <span class="op">-</span> margin<span class="op">.</span><span class="at">left</span> <span class="op">-</span> margin<span class="op">.</span><span class="at">right</span><span class="op">;</span></span>
+<span id="cb2-541"><a href=""></a>  <span class="kw">const</span> plotHeight <span class="op">=</span> height <span class="op">-</span> margin<span class="op">.</span><span class="at">top</span> <span class="op">-</span> margin<span class="op">.</span><span class="at">bottom</span><span class="op">;</span></span>
 <span id="cb2-542"><a href=""></a></span>
-<span id="cb2-543"><a href=""></a>  <span class="kw">const</span> x <span class="op">=</span> d3<span class="op">.</span><span class="fu">scaleLinear</span>()</span>
-<span id="cb2-544"><a href=""></a>    <span class="op">.</span><span class="fu">domain</span>([minX<span class="op">,</span> maxX])</span>
-<span id="cb2-545"><a href=""></a>    <span class="op">.</span><span class="fu">range</span>([margin<span class="op">.</span><span class="at">left</span><span class="op">,</span> margin<span class="op">.</span><span class="at">left</span> <span class="op">+</span> actualPlotWidth])<span class="op">;</span></span>
-<span id="cb2-546"><a href=""></a></span>
-<span id="cb2-547"><a href=""></a>  <span class="kw">const</span> y_scale <span class="op">=</span> d3<span class="op">.</span><span class="fu">scaleLinear</span>()</span>
-<span id="cb2-548"><a href=""></a>    <span class="op">.</span><span class="fu">domain</span>([<span class="dv">0</span><span class="op">,</span> maxY])</span>
-<span id="cb2-549"><a href=""></a>    <span class="op">.</span><span class="fu">range</span>([height <span class="op">-</span> margin<span class="op">.</span><span class="at">bottom</span><span class="op">,</span> height <span class="op">-</span> margin<span class="op">.</span><span class="at">bottom</span> <span class="op">-</span> actualPlotHeight])<span class="op">;</span></span>
+<span id="cb2-543"><a href=""></a>  <span class="co">// Equal scale: same pixels per unit on both axes</span></span>
+<span id="cb2-544"><a href=""></a>  <span class="kw">const</span> pixelsPerUnitX <span class="op">=</span> plotWidth <span class="op">/</span> (maxX <span class="op">-</span> minX)<span class="op">;</span></span>
+<span id="cb2-545"><a href=""></a>  <span class="kw">const</span> pixelsPerUnitY <span class="op">=</span> plotHeight <span class="op">/</span> maxY<span class="op">;</span></span>
+<span id="cb2-546"><a href=""></a>  <span class="kw">const</span> pixelsPerUnit <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(pixelsPerUnitX<span class="op">,</span> pixelsPerUnitY)<span class="op">;</span></span>
+<span id="cb2-547"><a href=""></a></span>
+<span id="cb2-548"><a href=""></a>  <span class="kw">const</span> actualPlotWidth <span class="op">=</span> pixelsPerUnit <span class="op">*</span> (maxX <span class="op">-</span> minX)<span class="op">;</span></span>
+<span id="cb2-549"><a href=""></a>  <span class="kw">const</span> actualPlotHeight <span class="op">=</span> pixelsPerUnit <span class="op">*</span> maxY<span class="op">;</span></span>
 <span id="cb2-550"><a href=""></a></span>
-<span id="cb2-551"><a href=""></a>  <span class="co">// Original Y ~ Uniform(0,1)</span></span>
-<span id="cb2-552"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"rect"</span>)</span>
-<span id="cb2-553"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> <span class="fu">x</span>(<span class="dv">0</span>))</span>
-<span id="cb2-554"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> <span class="fu">y_scale</span>(<span class="dv">1</span>))</span>
-<span id="cb2-555"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"width"</span><span class="op">,</span> <span class="fu">x</span>(<span class="dv">1</span>) <span class="op">-</span> <span class="fu">x</span>(<span class="dv">0</span>))</span>
-<span id="cb2-556"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"height"</span><span class="op">,</span> <span class="fu">y_scale</span>(<span class="dv">0</span>) <span class="op">-</span> <span class="fu">y_scale</span>(<span class="dv">1</span>))</span>
-<span id="cb2-557"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"fill"</span><span class="op">,</span> <span class="st">"steelblue"</span>)</span>
-<span id="cb2-558"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"opacity"</span><span class="op">,</span> <span class="fl">0.4</span>)<span class="op">;</span></span>
-<span id="cb2-559"><a href=""></a></span>
-<span id="cb2-560"><a href=""></a>  <span class="co">// Transformed U ~ Uniform(b, a+b)</span></span>
-<span id="cb2-561"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"rect"</span>)</span>
-<span id="cb2-562"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> <span class="fu">x</span>(u_min))</span>
-<span id="cb2-563"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> <span class="fu">y_scale</span>(f_u))</span>
-<span id="cb2-564"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"width"</span><span class="op">,</span> <span class="fu">x</span>(u_max) <span class="op">-</span> <span class="fu">x</span>(u_min))</span>
-<span id="cb2-565"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"height"</span><span class="op">,</span> <span class="fu">y_scale</span>(<span class="dv">0</span>) <span class="op">-</span> <span class="fu">y_scale</span>(f_u))</span>
-<span id="cb2-566"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"fill"</span><span class="op">,</span> <span class="st">"darkred"</span>)</span>
-<span id="cb2-567"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"opacity"</span><span class="op">,</span> <span class="fl">0.6</span>)<span class="op">;</span></span>
-<span id="cb2-568"><a href=""></a></span>
-<span id="cb2-569"><a href=""></a>  <span class="co">// Axes</span></span>
-<span id="cb2-570"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"g"</span>)</span>
-<span id="cb2-571"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"transform"</span><span class="op">,</span> <span class="vs">`translate(0,</span><span class="sc">${</span>height <span class="op">-</span> margin<span class="op">.</span><span class="at">bottom</span><span class="sc">}</span><span class="vs">)`</span>)</span>
-<span id="cb2-572"><a href=""></a>    <span class="op">.</span><span class="fu">call</span>(d3<span class="op">.</span><span class="fu">axisBottom</span>(x))</span>
-<span id="cb2-573"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"14px"</span>)<span class="op">;</span></span>
-<span id="cb2-574"><a href=""></a></span>
-<span id="cb2-575"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"g"</span>)</span>
-<span id="cb2-576"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"transform"</span><span class="op">,</span> <span class="vs">`translate(</span><span class="sc">${</span>margin<span class="op">.</span><span class="at">left</span><span class="sc">}</span><span class="vs">,0)`</span>)</span>
-<span id="cb2-577"><a href=""></a>    <span class="op">.</span><span class="fu">call</span>(d3<span class="op">.</span><span class="fu">axisLeft</span>(y_scale))</span>
-<span id="cb2-578"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"14px"</span>)<span class="op">;</span></span>
-<span id="cb2-579"><a href=""></a></span>
-<span id="cb2-580"><a href=""></a>  <span class="co">// Labels</span></span>
-<span id="cb2-581"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"text"</span>)</span>
-<span id="cb2-582"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> width <span class="op">/</span> <span class="dv">2</span>)</span>
-<span id="cb2-583"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> height <span class="op">-</span> <span class="dv">10</span>)</span>
-<span id="cb2-584"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"text-anchor"</span><span class="op">,</span> <span class="st">"middle"</span>)</span>
-<span id="cb2-585"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"18px"</span>)</span>
-<span id="cb2-586"><a href=""></a>    <span class="op">.</span><span class="fu">text</span>(<span class="st">"Value"</span>)<span class="op">;</span></span>
+<span id="cb2-551"><a href=""></a>  <span class="kw">const</span> x <span class="op">=</span> d3<span class="op">.</span><span class="fu">scaleLinear</span>()</span>
+<span id="cb2-552"><a href=""></a>    <span class="op">.</span><span class="fu">domain</span>([minX<span class="op">,</span> maxX])</span>
+<span id="cb2-553"><a href=""></a>    <span class="op">.</span><span class="fu">range</span>([margin<span class="op">.</span><span class="at">left</span><span class="op">,</span> margin<span class="op">.</span><span class="at">left</span> <span class="op">+</span> actualPlotWidth])<span class="op">;</span></span>
+<span id="cb2-554"><a href=""></a></span>
+<span id="cb2-555"><a href=""></a>  <span class="kw">const</span> y_scale <span class="op">=</span> d3<span class="op">.</span><span class="fu">scaleLinear</span>()</span>
+<span id="cb2-556"><a href=""></a>    <span class="op">.</span><span class="fu">domain</span>([<span class="dv">0</span><span class="op">,</span> maxY])</span>
+<span id="cb2-557"><a href=""></a>    <span class="op">.</span><span class="fu">range</span>([height <span class="op">-</span> margin<span class="op">.</span><span class="at">bottom</span><span class="op">,</span> height <span class="op">-</span> margin<span class="op">.</span><span class="at">bottom</span> <span class="op">-</span> actualPlotHeight])<span class="op">;</span></span>
+<span id="cb2-558"><a href=""></a></span>
+<span id="cb2-559"><a href=""></a>  <span class="co">// Original Y ~ Uniform(0,1)</span></span>
+<span id="cb2-560"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"rect"</span>)</span>
+<span id="cb2-561"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> <span class="fu">x</span>(<span class="dv">0</span>))</span>
+<span id="cb2-562"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> <span class="fu">y_scale</span>(<span class="dv">1</span>))</span>
+<span id="cb2-563"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"width"</span><span class="op">,</span> <span class="fu">x</span>(<span class="dv">1</span>) <span class="op">-</span> <span class="fu">x</span>(<span class="dv">0</span>))</span>
+<span id="cb2-564"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"height"</span><span class="op">,</span> <span class="fu">y_scale</span>(<span class="dv">0</span>) <span class="op">-</span> <span class="fu">y_scale</span>(<span class="dv">1</span>))</span>
+<span id="cb2-565"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"fill"</span><span class="op">,</span> <span class="st">"steelblue"</span>)</span>
+<span id="cb2-566"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"opacity"</span><span class="op">,</span> <span class="fl">0.4</span>)<span class="op">;</span></span>
+<span id="cb2-567"><a href=""></a></span>
+<span id="cb2-568"><a href=""></a>  <span class="co">// Transformed U ~ Uniform(b, a+b)</span></span>
+<span id="cb2-569"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"rect"</span>)</span>
+<span id="cb2-570"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> <span class="fu">x</span>(u_min))</span>
+<span id="cb2-571"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> <span class="fu">y_scale</span>(f_u))</span>
+<span id="cb2-572"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"width"</span><span class="op">,</span> <span class="fu">x</span>(u_max) <span class="op">-</span> <span class="fu">x</span>(u_min))</span>
+<span id="cb2-573"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"height"</span><span class="op">,</span> <span class="fu">y_scale</span>(<span class="dv">0</span>) <span class="op">-</span> <span class="fu">y_scale</span>(f_u))</span>
+<span id="cb2-574"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"fill"</span><span class="op">,</span> <span class="st">"darkred"</span>)</span>
+<span id="cb2-575"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"opacity"</span><span class="op">,</span> <span class="fl">0.6</span>)<span class="op">;</span></span>
+<span id="cb2-576"><a href=""></a></span>
+<span id="cb2-577"><a href=""></a>  <span class="co">// Axes</span></span>
+<span id="cb2-578"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"g"</span>)</span>
+<span id="cb2-579"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"transform"</span><span class="op">,</span> <span class="vs">`translate(0,</span><span class="sc">${</span>height <span class="op">-</span> margin<span class="op">.</span><span class="at">bottom</span><span class="sc">}</span><span class="vs">)`</span>)</span>
+<span id="cb2-580"><a href=""></a>    <span class="op">.</span><span class="fu">call</span>(d3<span class="op">.</span><span class="fu">axisBottom</span>(x))</span>
+<span id="cb2-581"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"14px"</span>)<span class="op">;</span></span>
+<span id="cb2-582"><a href=""></a></span>
+<span id="cb2-583"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"g"</span>)</span>
+<span id="cb2-584"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"transform"</span><span class="op">,</span> <span class="vs">`translate(</span><span class="sc">${</span>margin<span class="op">.</span><span class="at">left</span><span class="sc">}</span><span class="vs">,0)`</span>)</span>
+<span id="cb2-585"><a href=""></a>    <span class="op">.</span><span class="fu">call</span>(d3<span class="op">.</span><span class="fu">axisLeft</span>(y_scale))</span>
+<span id="cb2-586"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"14px"</span>)<span class="op">;</span></span>
 <span id="cb2-587"><a href=""></a></span>
-<span id="cb2-588"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"text"</span>)</span>
-<span id="cb2-589"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"transform"</span><span class="op">,</span> <span class="st">"rotate(-90)"</span>)</span>
-<span id="cb2-590"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> <span class="op">-</span>height <span class="op">/</span> <span class="dv">2</span>)</span>
-<span id="cb2-591"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> <span class="dv">20</span>)</span>
+<span id="cb2-588"><a href=""></a>  <span class="co">// Labels</span></span>
+<span id="cb2-589"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"text"</span>)</span>
+<span id="cb2-590"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> width <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb2-591"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> height <span class="op">-</span> <span class="dv">10</span>)</span>
 <span id="cb2-592"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"text-anchor"</span><span class="op">,</span> <span class="st">"middle"</span>)</span>
 <span id="cb2-593"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"18px"</span>)</span>
-<span id="cb2-594"><a href=""></a>    <span class="op">.</span><span class="fu">text</span>(<span class="st">"Density"</span>)<span class="op">;</span></span>
+<span id="cb2-594"><a href=""></a>    <span class="op">.</span><span class="fu">text</span>(<span class="st">"Value"</span>)<span class="op">;</span></span>
 <span id="cb2-595"><a href=""></a></span>
 <span id="cb2-596"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"text"</span>)</span>
-<span id="cb2-597"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> width <span class="op">/</span> <span class="dv">2</span>)</span>
-<span id="cb2-598"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> <span class="dv">25</span>)</span>
-<span id="cb2-599"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"text-anchor"</span><span class="op">,</span> <span class="st">"middle"</span>)</span>
-<span id="cb2-600"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"20px"</span>)</span>
-<span id="cb2-601"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-weight"</span><span class="op">,</span> <span class="st">"bold"</span>)</span>
-<span id="cb2-602"><a href=""></a>    <span class="op">.</span><span class="fu">text</span>(<span class="vs">`Y ~ Uniform(0,1) → U = </span><span class="sc">${</span>scale_a<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">Y + </span><span class="sc">${</span>shift_b<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb2-597"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"transform"</span><span class="op">,</span> <span class="st">"rotate(-90)"</span>)</span>
+<span id="cb2-598"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> <span class="op">-</span>height <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb2-599"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> <span class="dv">20</span>)</span>
+<span id="cb2-600"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"text-anchor"</span><span class="op">,</span> <span class="st">"middle"</span>)</span>
+<span id="cb2-601"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"18px"</span>)</span>
+<span id="cb2-602"><a href=""></a>    <span class="op">.</span><span class="fu">text</span>(<span class="st">"Density"</span>)<span class="op">;</span></span>
 <span id="cb2-603"><a href=""></a></span>
-<span id="cb2-604"><a href=""></a>  <span class="cf">return</span> svg<span class="op">.</span><span class="fu">node</span>()<span class="op">;</span></span>
-<span id="cb2-605"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-604"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"text"</span>)</span>
+<span id="cb2-605"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> width <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb2-606"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> <span class="dv">25</span>)</span>
+<span id="cb2-607"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"text-anchor"</span><span class="op">,</span> <span class="st">"middle"</span>)</span>
+<span id="cb2-608"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"20px"</span>)</span>
+<span id="cb2-609"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-weight"</span><span class="op">,</span> <span class="st">"bold"</span>)</span>
+<span id="cb2-610"><a href=""></a>    <span class="op">.</span><span class="fu">text</span>(<span class="vs">`Y ~ Uniform(0,1) → U = </span><span class="sc">${</span>scale_a<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">Y + </span><span class="sc">${</span>shift_b<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb2-611"><a href=""></a></span>
+<span id="cb2-612"><a href=""></a>  <span class="cf">return</span> svg<span class="op">.</span><span class="fu">node</span>()<span class="op">;</span></span>
+<span id="cb2-613"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -1040,27 +1046,27 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb3" data-startfrom="650" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 649;"><span id="cb3-650"><a href=""></a>viewof trans_type <span class="op">=</span> {</span>
-<span id="cb3-651"><a href=""></a>  <span class="kw">const</span> wrapper <span class="op">=</span> <span class="fu">html</span><span class="vs">`&lt;div style="margin-top: 20px;"&gt;</span></span>
-<span id="cb3-652"><a href=""></a><span class="vs">    &lt;div style="font-size: 18px; font-weight: 600; margin-bottom: 15px; color: #2c3e50;"&gt;</span></span>
-<span id="cb3-653"><a href=""></a><span class="vs">      Select Transformation:</span></span>
-<span id="cb3-654"><a href=""></a><span class="vs">    &lt;/div&gt;</span></span>
-<span id="cb3-655"><a href=""></a><span class="vs">  &lt;/div&gt;`</span><span class="op">;</span></span>
-<span id="cb3-656"><a href=""></a>  </span>
-<span id="cb3-657"><a href=""></a>  <span class="kw">const</span> radio <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">radio</span>(</span>
-<span id="cb3-658"><a href=""></a>    [<span class="st">"Linear: U = 2Y + 1"</span><span class="op">,</span> <span class="st">"Quadratic: U = Y²"</span><span class="op">,</span> <span class="st">"Cubic: U = Y³"</span><span class="op">,</span> <span class="st">"Square Root: U = √Y"</span>]<span class="op">,</span></span>
-<span id="cb3-659"><a href=""></a>    {<span class="dt">value</span><span class="op">:</span> <span class="st">"Quadratic: U = Y²"</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">""</span>}</span>
-<span id="cb3-660"><a href=""></a>  )<span class="op">;</span></span>
-<span id="cb3-661"><a href=""></a>  wrapper<span class="op">.</span><span class="fu">appendChild</span>(radio)<span class="op">;</span></span>
-<span id="cb3-662"><a href=""></a>  </span>
-<span id="cb3-663"><a href=""></a>  <span class="co">// Forward the value property</span></span>
-<span id="cb3-664"><a href=""></a>  <span class="bu">Object</span><span class="op">.</span><span class="fu">defineProperty</span>(wrapper<span class="op">,</span> <span class="st">'value'</span><span class="op">,</span> {</span>
-<span id="cb3-665"><a href=""></a>    <span class="kw">get</span><span class="op">:</span> () <span class="kw">=&gt;</span> radio<span class="op">.</span><span class="at">value</span><span class="op">,</span></span>
-<span id="cb3-666"><a href=""></a>    <span class="kw">set</span><span class="op">:</span> (v) <span class="kw">=&gt;</span> { radio<span class="op">.</span><span class="at">value</span> <span class="op">=</span> v<span class="op">;</span> }</span>
-<span id="cb3-667"><a href=""></a>  })<span class="op">;</span></span>
-<span id="cb3-668"><a href=""></a>  </span>
-<span id="cb3-669"><a href=""></a>  <span class="cf">return</span> wrapper<span class="op">;</span></span>
-<span id="cb3-670"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb3" data-startfrom="658" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 657;"><span id="cb3-658"><a href=""></a>viewof trans_type <span class="op">=</span> {</span>
+<span id="cb3-659"><a href=""></a>  <span class="kw">const</span> wrapper <span class="op">=</span> <span class="fu">html</span><span class="vs">`&lt;div style="margin-top: 20px;"&gt;</span></span>
+<span id="cb3-660"><a href=""></a><span class="vs">    &lt;div style="font-size: 18px; font-weight: 600; margin-bottom: 15px; color: #2c3e50;"&gt;</span></span>
+<span id="cb3-661"><a href=""></a><span class="vs">      Select Transformation:</span></span>
+<span id="cb3-662"><a href=""></a><span class="vs">    &lt;/div&gt;</span></span>
+<span id="cb3-663"><a href=""></a><span class="vs">  &lt;/div&gt;`</span><span class="op">;</span></span>
+<span id="cb3-664"><a href=""></a>  </span>
+<span id="cb3-665"><a href=""></a>  <span class="kw">const</span> radio <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">radio</span>(</span>
+<span id="cb3-666"><a href=""></a>    [<span class="st">"Linear: U = 2Y + 1"</span><span class="op">,</span> <span class="st">"Quadratic: U = Y²"</span><span class="op">,</span> <span class="st">"Cubic: U = Y³"</span><span class="op">,</span> <span class="st">"Square Root: U = √Y"</span>]<span class="op">,</span></span>
+<span id="cb3-667"><a href=""></a>    {<span class="dt">value</span><span class="op">:</span> <span class="st">"Quadratic: U = Y²"</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">""</span>}</span>
+<span id="cb3-668"><a href=""></a>  )<span class="op">;</span></span>
+<span id="cb3-669"><a href=""></a>  wrapper<span class="op">.</span><span class="fu">appendChild</span>(radio)<span class="op">;</span></span>
+<span id="cb3-670"><a href=""></a>  </span>
+<span id="cb3-671"><a href=""></a>  <span class="co">// Forward the value property</span></span>
+<span id="cb3-672"><a href=""></a>  <span class="bu">Object</span><span class="op">.</span><span class="fu">defineProperty</span>(wrapper<span class="op">,</span> <span class="st">'value'</span><span class="op">,</span> {</span>
+<span id="cb3-673"><a href=""></a>    <span class="kw">get</span><span class="op">:</span> () <span class="kw">=&gt;</span> radio<span class="op">.</span><span class="at">value</span><span class="op">,</span></span>
+<span id="cb3-674"><a href=""></a>    <span class="kw">set</span><span class="op">:</span> (v) <span class="kw">=&gt;</span> { radio<span class="op">.</span><span class="at">value</span> <span class="op">=</span> v<span class="op">;</span> }</span>
+<span id="cb3-675"><a href=""></a>  })<span class="op">;</span></span>
+<span id="cb3-676"><a href=""></a>  </span>
+<span id="cb3-677"><a href=""></a>  <span class="cf">return</span> wrapper<span class="op">;</span></span>
+<span id="cb3-678"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-3" data-nodetype="declaration">
@@ -1093,136 +1099,136 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb4" data-startfrom="689" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 688;"><span id="cb4-689"><a href=""></a>y_grid <span class="op">=</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({<span class="dt">length</span><span class="op">:</span> <span class="dv">300</span>}<span class="op">,</span> (_<span class="op">,</span> i) <span class="kw">=&gt;</span> i <span class="op">/</span> <span class="dv">299</span>)</span>
-<span id="cb4-690"><a href=""></a></span>
-<span id="cb4-691"><a href=""></a>u_transformed <span class="op">=</span> y_grid<span class="op">.</span><span class="fu">map</span>(y <span class="kw">=&gt;</span> {</span>
-<span id="cb4-692"><a href=""></a>  <span class="cf">if</span> (trans_type <span class="op">===</span> <span class="st">"Linear: U = 2Y + 1"</span>) <span class="cf">return</span> <span class="dv">2</span> <span class="op">*</span> y <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb4-693"><a href=""></a>  <span class="cf">if</span> (trans_type <span class="op">===</span> <span class="st">"Quadratic: U = Y²"</span>) <span class="cf">return</span> y <span class="op">*</span> y<span class="op">;</span></span>
-<span id="cb4-694"><a href=""></a>  <span class="cf">if</span> (trans_type <span class="op">===</span> <span class="st">"Cubic: U = Y³"</span>) <span class="cf">return</span> y <span class="op">*</span> y <span class="op">*</span> y<span class="op">;</span></span>
-<span id="cb4-695"><a href=""></a>  <span class="cf">if</span> (trans_type <span class="op">===</span> <span class="st">"Square Root: U = √Y"</span>) <span class="cf">return</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(y)<span class="op">;</span></span>
-<span id="cb4-696"><a href=""></a>})</span>
-<span id="cb4-697"><a href=""></a></span>
-<span id="cb4-698"><a href=""></a>f_u_values <span class="op">=</span> y_grid<span class="op">.</span><span class="fu">map</span>((y<span class="op">,</span> i) <span class="kw">=&gt;</span> {</span>
-<span id="cb4-699"><a href=""></a>  <span class="kw">const</span> u <span class="op">=</span> u_transformed[i]<span class="op">;</span></span>
-<span id="cb4-700"><a href=""></a>  <span class="cf">if</span> (trans_type <span class="op">===</span> <span class="st">"Linear: U = 2Y + 1"</span>) <span class="cf">return</span> {<span class="dt">u</span><span class="op">:</span> u<span class="op">,</span> <span class="dt">f</span><span class="op">:</span> <span class="fl">0.5</span>}<span class="op">;</span></span>
-<span id="cb4-701"><a href=""></a>  <span class="cf">if</span> (trans_type <span class="op">===</span> <span class="st">"Quadratic: U = Y²"</span>) <span class="cf">return</span> {<span class="dt">u</span><span class="op">:</span> u<span class="op">,</span> <span class="dt">f</span><span class="op">:</span> <span class="fl">0.5</span> <span class="op">/</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(u<span class="op">,</span> <span class="fl">0.001</span>))}<span class="op">;</span></span>
-<span id="cb4-702"><a href=""></a>  <span class="cf">if</span> (trans_type <span class="op">===</span> <span class="st">"Cubic: U = Y³"</span>) <span class="cf">return</span> {<span class="dt">u</span><span class="op">:</span> u<span class="op">,</span> <span class="dt">f</span><span class="op">:</span> (<span class="dv">1</span><span class="op">/</span><span class="dv">3</span>) <span class="op">/</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(u<span class="op">,</span> <span class="fl">0.001</span>)<span class="op">,</span> <span class="dv">2</span><span class="op">/</span><span class="dv">3</span>)}<span class="op">;</span></span>
-<span id="cb4-703"><a href=""></a>  <span class="cf">if</span> (trans_type <span class="op">===</span> <span class="st">"Square Root: U = √Y"</span>) <span class="cf">return</span> {<span class="dt">u</span><span class="op">:</span> u<span class="op">,</span> <span class="dt">f</span><span class="op">:</span> <span class="dv">2</span> <span class="op">*</span> u}<span class="op">;</span></span>
-<span id="cb4-704"><a href=""></a>})<span class="op">.</span><span class="fu">filter</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">u</span> <span class="op">&gt;=</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> d<span class="op">.</span><span class="at">u</span> <span class="op">&lt;=</span> <span class="dv">5</span> <span class="op">&amp;&amp;</span> d<span class="op">.</span><span class="at">f</span> <span class="op">&lt;</span> <span class="dv">100</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb4" data-startfrom="697" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 696;"><span id="cb4-697"><a href=""></a>y_grid <span class="op">=</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({<span class="dt">length</span><span class="op">:</span> <span class="dv">300</span>}<span class="op">,</span> (_<span class="op">,</span> i) <span class="kw">=&gt;</span> i <span class="op">/</span> <span class="dv">299</span>)</span>
+<span id="cb4-698"><a href=""></a></span>
+<span id="cb4-699"><a href=""></a>u_transformed <span class="op">=</span> y_grid<span class="op">.</span><span class="fu">map</span>(y <span class="kw">=&gt;</span> {</span>
+<span id="cb4-700"><a href=""></a>  <span class="cf">if</span> (trans_type <span class="op">===</span> <span class="st">"Linear: U = 2Y + 1"</span>) <span class="cf">return</span> <span class="dv">2</span> <span class="op">*</span> y <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb4-701"><a href=""></a>  <span class="cf">if</span> (trans_type <span class="op">===</span> <span class="st">"Quadratic: U = Y²"</span>) <span class="cf">return</span> y <span class="op">*</span> y<span class="op">;</span></span>
+<span id="cb4-702"><a href=""></a>  <span class="cf">if</span> (trans_type <span class="op">===</span> <span class="st">"Cubic: U = Y³"</span>) <span class="cf">return</span> y <span class="op">*</span> y <span class="op">*</span> y<span class="op">;</span></span>
+<span id="cb4-703"><a href=""></a>  <span class="cf">if</span> (trans_type <span class="op">===</span> <span class="st">"Square Root: U = √Y"</span>) <span class="cf">return</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(y)<span class="op">;</span></span>
+<span id="cb4-704"><a href=""></a>})</span>
 <span id="cb4-705"><a href=""></a></span>
-<span id="cb4-706"><a href=""></a>{</span>
-<span id="cb4-707"><a href=""></a>  <span class="kw">const</span> width <span class="op">=</span> <span class="dv">850</span><span class="op">;</span></span>
-<span id="cb4-708"><a href=""></a>  <span class="kw">const</span> height <span class="op">=</span> <span class="dv">550</span><span class="op">;</span></span>
-<span id="cb4-709"><a href=""></a>  <span class="kw">const</span> margin <span class="op">=</span> {<span class="dt">top</span><span class="op">:</span> <span class="dv">60</span><span class="op">,</span> <span class="dt">right</span><span class="op">:</span> <span class="dv">40</span><span class="op">,</span> <span class="dt">bottom</span><span class="op">:</span> <span class="dv">70</span><span class="op">,</span> <span class="dt">left</span><span class="op">:</span> <span class="dv">80</span>}<span class="op">;</span></span>
-<span id="cb4-710"><a href=""></a>  </span>
-<span id="cb4-711"><a href=""></a>  <span class="kw">const</span> container <span class="op">=</span> <span class="fu">html</span><span class="vs">`&lt;div style="display: flex; justify-content: center; width: 100%;"&gt;&lt;/div&gt;`</span><span class="op">;</span></span>
-<span id="cb4-712"><a href=""></a>  </span>
-<span id="cb4-713"><a href=""></a>  <span class="kw">const</span> svg <span class="op">=</span> d3<span class="op">.</span><span class="fu">create</span>(<span class="st">"svg"</span>)</span>
-<span id="cb4-714"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"width"</span><span class="op">,</span> width)</span>
-<span id="cb4-715"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"height"</span><span class="op">,</span> height)</span>
-<span id="cb4-716"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"style"</span><span class="op">,</span> <span class="st">"background: white; font-size: 16px;"</span>)<span class="op">;</span></span>
-<span id="cb4-717"><a href=""></a>  </span>
-<span id="cb4-718"><a href=""></a>  <span class="co">// Fixed domains to zoom the plot while maintaining equal scale</span></span>
-<span id="cb4-719"><a href=""></a>  <span class="kw">const</span> maxF <span class="op">=</span> <span class="dv">2</span><span class="op">;</span>     <span class="co">// y-axis limit</span></span>
-<span id="cb4-720"><a href=""></a>  <span class="kw">const</span> maxU <span class="op">=</span> <span class="fl">3.5</span><span class="op">;</span>   <span class="co">// x-axis limit</span></span>
-<span id="cb4-721"><a href=""></a>  </span>
-<span id="cb4-722"><a href=""></a>  <span class="co">// Calculate scale to maintain aspect ratio (same pixels per unit on both axes)</span></span>
-<span id="cb4-723"><a href=""></a>  <span class="kw">const</span> plotHeight <span class="op">=</span> height <span class="op">-</span> margin<span class="op">.</span><span class="at">bottom</span> <span class="op">-</span> margin<span class="op">.</span><span class="at">top</span><span class="op">;</span></span>
-<span id="cb4-724"><a href=""></a>  <span class="kw">const</span> plotWidth <span class="op">=</span> width <span class="op">-</span> margin<span class="op">.</span><span class="at">right</span> <span class="op">-</span> margin<span class="op">.</span><span class="at">left</span><span class="op">;</span></span>
+<span id="cb4-706"><a href=""></a>f_u_values <span class="op">=</span> y_grid<span class="op">.</span><span class="fu">map</span>((y<span class="op">,</span> i) <span class="kw">=&gt;</span> {</span>
+<span id="cb4-707"><a href=""></a>  <span class="kw">const</span> u <span class="op">=</span> u_transformed[i]<span class="op">;</span></span>
+<span id="cb4-708"><a href=""></a>  <span class="cf">if</span> (trans_type <span class="op">===</span> <span class="st">"Linear: U = 2Y + 1"</span>) <span class="cf">return</span> {<span class="dt">u</span><span class="op">:</span> u<span class="op">,</span> <span class="dt">f</span><span class="op">:</span> <span class="fl">0.5</span>}<span class="op">;</span></span>
+<span id="cb4-709"><a href=""></a>  <span class="cf">if</span> (trans_type <span class="op">===</span> <span class="st">"Quadratic: U = Y²"</span>) <span class="cf">return</span> {<span class="dt">u</span><span class="op">:</span> u<span class="op">,</span> <span class="dt">f</span><span class="op">:</span> <span class="fl">0.5</span> <span class="op">/</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(u<span class="op">,</span> <span class="fl">0.001</span>))}<span class="op">;</span></span>
+<span id="cb4-710"><a href=""></a>  <span class="cf">if</span> (trans_type <span class="op">===</span> <span class="st">"Cubic: U = Y³"</span>) <span class="cf">return</span> {<span class="dt">u</span><span class="op">:</span> u<span class="op">,</span> <span class="dt">f</span><span class="op">:</span> (<span class="dv">1</span><span class="op">/</span><span class="dv">3</span>) <span class="op">/</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(u<span class="op">,</span> <span class="fl">0.001</span>)<span class="op">,</span> <span class="dv">2</span><span class="op">/</span><span class="dv">3</span>)}<span class="op">;</span></span>
+<span id="cb4-711"><a href=""></a>  <span class="cf">if</span> (trans_type <span class="op">===</span> <span class="st">"Square Root: U = √Y"</span>) <span class="cf">return</span> {<span class="dt">u</span><span class="op">:</span> u<span class="op">,</span> <span class="dt">f</span><span class="op">:</span> <span class="dv">2</span> <span class="op">*</span> u}<span class="op">;</span></span>
+<span id="cb4-712"><a href=""></a>})<span class="op">.</span><span class="fu">filter</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">u</span> <span class="op">&gt;=</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> d<span class="op">.</span><span class="at">u</span> <span class="op">&lt;=</span> <span class="dv">5</span> <span class="op">&amp;&amp;</span> d<span class="op">.</span><span class="at">f</span> <span class="op">&lt;</span> <span class="dv">100</span>)</span>
+<span id="cb4-713"><a href=""></a></span>
+<span id="cb4-714"><a href=""></a>{</span>
+<span id="cb4-715"><a href=""></a>  <span class="kw">const</span> width <span class="op">=</span> <span class="dv">850</span><span class="op">;</span></span>
+<span id="cb4-716"><a href=""></a>  <span class="kw">const</span> height <span class="op">=</span> <span class="dv">550</span><span class="op">;</span></span>
+<span id="cb4-717"><a href=""></a>  <span class="kw">const</span> margin <span class="op">=</span> {<span class="dt">top</span><span class="op">:</span> <span class="dv">60</span><span class="op">,</span> <span class="dt">right</span><span class="op">:</span> <span class="dv">40</span><span class="op">,</span> <span class="dt">bottom</span><span class="op">:</span> <span class="dv">70</span><span class="op">,</span> <span class="dt">left</span><span class="op">:</span> <span class="dv">80</span>}<span class="op">;</span></span>
+<span id="cb4-718"><a href=""></a>  </span>
+<span id="cb4-719"><a href=""></a>  <span class="kw">const</span> container <span class="op">=</span> <span class="fu">html</span><span class="vs">`&lt;div style="display: flex; justify-content: center; width: 100%;"&gt;&lt;/div&gt;`</span><span class="op">;</span></span>
+<span id="cb4-720"><a href=""></a>  </span>
+<span id="cb4-721"><a href=""></a>  <span class="kw">const</span> svg <span class="op">=</span> d3<span class="op">.</span><span class="fu">create</span>(<span class="st">"svg"</span>)</span>
+<span id="cb4-722"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"width"</span><span class="op">,</span> width)</span>
+<span id="cb4-723"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"height"</span><span class="op">,</span> height)</span>
+<span id="cb4-724"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"style"</span><span class="op">,</span> <span class="st">"background: white; font-size: 16px;"</span>)<span class="op">;</span></span>
 <span id="cb4-725"><a href=""></a>  </span>
-<span id="cb4-726"><a href=""></a>  <span class="co">// Use the smaller scale to ensure both axes fit</span></span>
-<span id="cb4-727"><a href=""></a>  <span class="kw">const</span> pixelsPerUnitY <span class="op">=</span> plotHeight <span class="op">/</span> maxF<span class="op">;</span></span>
-<span id="cb4-728"><a href=""></a>  <span class="kw">const</span> pixelsPerUnitX <span class="op">=</span> plotWidth <span class="op">/</span> maxU<span class="op">;</span></span>
-<span id="cb4-729"><a href=""></a>  <span class="kw">const</span> pixelsPerUnit <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(pixelsPerUnitY<span class="op">,</span> pixelsPerUnitX)<span class="op">;</span></span>
-<span id="cb4-730"><a href=""></a>  </span>
-<span id="cb4-731"><a href=""></a>  <span class="co">// Recalculate actual plot dimensions with equal scale</span></span>
-<span id="cb4-732"><a href=""></a>  <span class="kw">const</span> actualPlotWidth <span class="op">=</span> pixelsPerUnit <span class="op">*</span> maxU<span class="op">;</span></span>
-<span id="cb4-733"><a href=""></a>  <span class="kw">const</span> actualPlotHeight <span class="op">=</span> pixelsPerUnit <span class="op">*</span> maxF<span class="op">;</span></span>
-<span id="cb4-734"><a href=""></a>  </span>
-<span id="cb4-735"><a href=""></a>  <span class="kw">const</span> x <span class="op">=</span> d3<span class="op">.</span><span class="fu">scaleLinear</span>()</span>
-<span id="cb4-736"><a href=""></a>    <span class="op">.</span><span class="fu">domain</span>([<span class="dv">0</span><span class="op">,</span> maxU])</span>
-<span id="cb4-737"><a href=""></a>    <span class="op">.</span><span class="fu">range</span>([margin<span class="op">.</span><span class="at">left</span><span class="op">,</span> margin<span class="op">.</span><span class="at">left</span> <span class="op">+</span> actualPlotWidth])<span class="op">;</span></span>
+<span id="cb4-726"><a href=""></a>  <span class="co">// Fixed domains to zoom the plot while maintaining equal scale</span></span>
+<span id="cb4-727"><a href=""></a>  <span class="kw">const</span> maxF <span class="op">=</span> <span class="dv">2</span><span class="op">;</span>     <span class="co">// y-axis limit</span></span>
+<span id="cb4-728"><a href=""></a>  <span class="kw">const</span> maxU <span class="op">=</span> <span class="fl">3.5</span><span class="op">;</span>   <span class="co">// x-axis limit</span></span>
+<span id="cb4-729"><a href=""></a>  </span>
+<span id="cb4-730"><a href=""></a>  <span class="co">// Calculate scale to maintain aspect ratio (same pixels per unit on both axes)</span></span>
+<span id="cb4-731"><a href=""></a>  <span class="kw">const</span> plotHeight <span class="op">=</span> height <span class="op">-</span> margin<span class="op">.</span><span class="at">bottom</span> <span class="op">-</span> margin<span class="op">.</span><span class="at">top</span><span class="op">;</span></span>
+<span id="cb4-732"><a href=""></a>  <span class="kw">const</span> plotWidth <span class="op">=</span> width <span class="op">-</span> margin<span class="op">.</span><span class="at">right</span> <span class="op">-</span> margin<span class="op">.</span><span class="at">left</span><span class="op">;</span></span>
+<span id="cb4-733"><a href=""></a>  </span>
+<span id="cb4-734"><a href=""></a>  <span class="co">// Use the smaller scale to ensure both axes fit</span></span>
+<span id="cb4-735"><a href=""></a>  <span class="kw">const</span> pixelsPerUnitY <span class="op">=</span> plotHeight <span class="op">/</span> maxF<span class="op">;</span></span>
+<span id="cb4-736"><a href=""></a>  <span class="kw">const</span> pixelsPerUnitX <span class="op">=</span> plotWidth <span class="op">/</span> maxU<span class="op">;</span></span>
+<span id="cb4-737"><a href=""></a>  <span class="kw">const</span> pixelsPerUnit <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(pixelsPerUnitY<span class="op">,</span> pixelsPerUnitX)<span class="op">;</span></span>
 <span id="cb4-738"><a href=""></a>  </span>
-<span id="cb4-739"><a href=""></a>  <span class="kw">const</span> y_scale <span class="op">=</span> d3<span class="op">.</span><span class="fu">scaleLinear</span>()</span>
-<span id="cb4-740"><a href=""></a>    <span class="op">.</span><span class="fu">domain</span>([<span class="dv">0</span><span class="op">,</span> maxF])</span>
-<span id="cb4-741"><a href=""></a>    <span class="op">.</span><span class="fu">range</span>([height <span class="op">-</span> margin<span class="op">.</span><span class="at">bottom</span><span class="op">,</span> height <span class="op">-</span> margin<span class="op">.</span><span class="at">bottom</span> <span class="op">-</span> actualPlotHeight])<span class="op">;</span></span>
+<span id="cb4-739"><a href=""></a>  <span class="co">// Recalculate actual plot dimensions with equal scale</span></span>
+<span id="cb4-740"><a href=""></a>  <span class="kw">const</span> actualPlotWidth <span class="op">=</span> pixelsPerUnit <span class="op">*</span> maxU<span class="op">;</span></span>
+<span id="cb4-741"><a href=""></a>  <span class="kw">const</span> actualPlotHeight <span class="op">=</span> pixelsPerUnit <span class="op">*</span> maxF<span class="op">;</span></span>
 <span id="cb4-742"><a href=""></a>  </span>
-<span id="cb4-743"><a href=""></a>  <span class="co">// Original Y ~ Uniform(0,1) distribution - now truly square with width=1, height=1</span></span>
-<span id="cb4-744"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"rect"</span>)</span>
-<span id="cb4-745"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> <span class="fu">x</span>(<span class="dv">0</span>))</span>
-<span id="cb4-746"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> <span class="fu">y_scale</span>(<span class="dv">1</span>))</span>
-<span id="cb4-747"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"width"</span><span class="op">,</span> <span class="fu">x</span>(<span class="dv">1</span>) <span class="op">-</span> <span class="fu">x</span>(<span class="dv">0</span>))</span>
-<span id="cb4-748"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"height"</span><span class="op">,</span> <span class="fu">y_scale</span>(<span class="dv">0</span>) <span class="op">-</span> <span class="fu">y_scale</span>(<span class="dv">1</span>))</span>
-<span id="cb4-749"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"fill"</span><span class="op">,</span> <span class="st">"steelblue"</span>)</span>
-<span id="cb4-750"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"opacity"</span><span class="op">,</span> <span class="fl">0.5</span>)</span>
-<span id="cb4-751"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"stroke"</span><span class="op">,</span> <span class="st">"steelblue"</span>)</span>
-<span id="cb4-752"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"stroke-width"</span><span class="op">,</span> <span class="dv">4</span>)<span class="op">;</span></span>
-<span id="cb4-753"><a href=""></a>  </span>
-<span id="cb4-754"><a href=""></a>  <span class="co">// Add label for original distribution</span></span>
-<span id="cb4-755"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"text"</span>)</span>
-<span id="cb4-756"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> <span class="fu">x</span>(<span class="fl">0.5</span>))</span>
-<span id="cb4-757"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> <span class="fu">y_scale</span>(<span class="dv">1</span>) <span class="op">-</span> <span class="dv">10</span>)</span>
-<span id="cb4-758"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"text-anchor"</span><span class="op">,</span> <span class="st">"middle"</span>)</span>
-<span id="cb4-759"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"15px"</span>)</span>
-<span id="cb4-760"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"fill"</span><span class="op">,</span> <span class="st">"steelblue"</span>)</span>
-<span id="cb4-761"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-weight"</span><span class="op">,</span> <span class="st">"bold"</span>)</span>
-<span id="cb4-762"><a href=""></a>    <span class="op">.</span><span class="fu">text</span>(<span class="st">"Y ~ Uniform(0,1)"</span>)<span class="op">;</span></span>
-<span id="cb4-763"><a href=""></a>  </span>
-<span id="cb4-764"><a href=""></a>  <span class="co">// Transformed distribution - clip at maxF for stability</span></span>
-<span id="cb4-765"><a href=""></a>  <span class="kw">const</span> area <span class="op">=</span> d3<span class="op">.</span><span class="fu">area</span>()</span>
-<span id="cb4-766"><a href=""></a>    <span class="op">.</span><span class="fu">x</span>(d <span class="kw">=&gt;</span> <span class="fu">x</span>(d<span class="op">.</span><span class="at">u</span>))</span>
-<span id="cb4-767"><a href=""></a>    <span class="op">.</span><span class="fu">y0</span>(<span class="fu">y_scale</span>(<span class="dv">0</span>))</span>
-<span id="cb4-768"><a href=""></a>    <span class="op">.</span><span class="fu">y1</span>(d <span class="kw">=&gt;</span> <span class="fu">y_scale</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(d<span class="op">.</span><span class="at">f</span><span class="op">,</span> maxF)))<span class="op">;</span></span>
-<span id="cb4-769"><a href=""></a>  </span>
-<span id="cb4-770"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"path"</span>)</span>
-<span id="cb4-771"><a href=""></a>    <span class="op">.</span><span class="fu">datum</span>(f_u_values)</span>
-<span id="cb4-772"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"fill"</span><span class="op">,</span> <span class="st">"darkred"</span>)</span>
-<span id="cb4-773"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"fill-opacity"</span><span class="op">,</span> <span class="fl">0.5</span>)</span>
-<span id="cb4-774"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"stroke"</span><span class="op">,</span> <span class="st">"darkred"</span>)</span>
-<span id="cb4-775"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"stroke-width"</span><span class="op">,</span> <span class="dv">3</span>)</span>
-<span id="cb4-776"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"d"</span><span class="op">,</span> area)<span class="op">;</span></span>
+<span id="cb4-743"><a href=""></a>  <span class="kw">const</span> x <span class="op">=</span> d3<span class="op">.</span><span class="fu">scaleLinear</span>()</span>
+<span id="cb4-744"><a href=""></a>    <span class="op">.</span><span class="fu">domain</span>([<span class="dv">0</span><span class="op">,</span> maxU])</span>
+<span id="cb4-745"><a href=""></a>    <span class="op">.</span><span class="fu">range</span>([margin<span class="op">.</span><span class="at">left</span><span class="op">,</span> margin<span class="op">.</span><span class="at">left</span> <span class="op">+</span> actualPlotWidth])<span class="op">;</span></span>
+<span id="cb4-746"><a href=""></a>  </span>
+<span id="cb4-747"><a href=""></a>  <span class="kw">const</span> y_scale <span class="op">=</span> d3<span class="op">.</span><span class="fu">scaleLinear</span>()</span>
+<span id="cb4-748"><a href=""></a>    <span class="op">.</span><span class="fu">domain</span>([<span class="dv">0</span><span class="op">,</span> maxF])</span>
+<span id="cb4-749"><a href=""></a>    <span class="op">.</span><span class="fu">range</span>([height <span class="op">-</span> margin<span class="op">.</span><span class="at">bottom</span><span class="op">,</span> height <span class="op">-</span> margin<span class="op">.</span><span class="at">bottom</span> <span class="op">-</span> actualPlotHeight])<span class="op">;</span></span>
+<span id="cb4-750"><a href=""></a>  </span>
+<span id="cb4-751"><a href=""></a>  <span class="co">// Original Y ~ Uniform(0,1) distribution - now truly square with width=1, height=1</span></span>
+<span id="cb4-752"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"rect"</span>)</span>
+<span id="cb4-753"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> <span class="fu">x</span>(<span class="dv">0</span>))</span>
+<span id="cb4-754"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> <span class="fu">y_scale</span>(<span class="dv">1</span>))</span>
+<span id="cb4-755"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"width"</span><span class="op">,</span> <span class="fu">x</span>(<span class="dv">1</span>) <span class="op">-</span> <span class="fu">x</span>(<span class="dv">0</span>))</span>
+<span id="cb4-756"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"height"</span><span class="op">,</span> <span class="fu">y_scale</span>(<span class="dv">0</span>) <span class="op">-</span> <span class="fu">y_scale</span>(<span class="dv">1</span>))</span>
+<span id="cb4-757"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"fill"</span><span class="op">,</span> <span class="st">"steelblue"</span>)</span>
+<span id="cb4-758"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"opacity"</span><span class="op">,</span> <span class="fl">0.5</span>)</span>
+<span id="cb4-759"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"stroke"</span><span class="op">,</span> <span class="st">"steelblue"</span>)</span>
+<span id="cb4-760"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"stroke-width"</span><span class="op">,</span> <span class="dv">4</span>)<span class="op">;</span></span>
+<span id="cb4-761"><a href=""></a>  </span>
+<span id="cb4-762"><a href=""></a>  <span class="co">// Add label for original distribution</span></span>
+<span id="cb4-763"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"text"</span>)</span>
+<span id="cb4-764"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> <span class="fu">x</span>(<span class="fl">0.5</span>))</span>
+<span id="cb4-765"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> <span class="fu">y_scale</span>(<span class="dv">1</span>) <span class="op">-</span> <span class="dv">10</span>)</span>
+<span id="cb4-766"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"text-anchor"</span><span class="op">,</span> <span class="st">"middle"</span>)</span>
+<span id="cb4-767"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"15px"</span>)</span>
+<span id="cb4-768"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"fill"</span><span class="op">,</span> <span class="st">"steelblue"</span>)</span>
+<span id="cb4-769"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-weight"</span><span class="op">,</span> <span class="st">"bold"</span>)</span>
+<span id="cb4-770"><a href=""></a>    <span class="op">.</span><span class="fu">text</span>(<span class="st">"Y ~ Uniform(0,1)"</span>)<span class="op">;</span></span>
+<span id="cb4-771"><a href=""></a>  </span>
+<span id="cb4-772"><a href=""></a>  <span class="co">// Transformed distribution - clip at maxF for stability</span></span>
+<span id="cb4-773"><a href=""></a>  <span class="kw">const</span> area <span class="op">=</span> d3<span class="op">.</span><span class="fu">area</span>()</span>
+<span id="cb4-774"><a href=""></a>    <span class="op">.</span><span class="fu">x</span>(d <span class="kw">=&gt;</span> <span class="fu">x</span>(d<span class="op">.</span><span class="at">u</span>))</span>
+<span id="cb4-775"><a href=""></a>    <span class="op">.</span><span class="fu">y0</span>(<span class="fu">y_scale</span>(<span class="dv">0</span>))</span>
+<span id="cb4-776"><a href=""></a>    <span class="op">.</span><span class="fu">y1</span>(d <span class="kw">=&gt;</span> <span class="fu">y_scale</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(d<span class="op">.</span><span class="at">f</span><span class="op">,</span> maxF)))<span class="op">;</span></span>
 <span id="cb4-777"><a href=""></a>  </span>
-<span id="cb4-778"><a href=""></a>  <span class="co">// Axes</span></span>
-<span id="cb4-779"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"g"</span>)</span>
-<span id="cb4-780"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"transform"</span><span class="op">,</span> <span class="vs">`translate(0,</span><span class="sc">${</span>height <span class="op">-</span> margin<span class="op">.</span><span class="at">bottom</span><span class="sc">}</span><span class="vs">)`</span>)</span>
-<span id="cb4-781"><a href=""></a>    <span class="op">.</span><span class="fu">call</span>(d3<span class="op">.</span><span class="fu">axisBottom</span>(x)<span class="op">.</span><span class="fu">ticks</span>(<span class="dv">8</span>))</span>
-<span id="cb4-782"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"15px"</span>)<span class="op">;</span></span>
-<span id="cb4-783"><a href=""></a>  </span>
-<span id="cb4-784"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"g"</span>)</span>
-<span id="cb4-785"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"transform"</span><span class="op">,</span> <span class="vs">`translate(</span><span class="sc">${</span>margin<span class="op">.</span><span class="at">left</span><span class="sc">}</span><span class="vs">,0)`</span>)</span>
-<span id="cb4-786"><a href=""></a>    <span class="op">.</span><span class="fu">call</span>(d3<span class="op">.</span><span class="fu">axisLeft</span>(y_scale)<span class="op">.</span><span class="fu">ticks</span>(<span class="dv">6</span>))</span>
-<span id="cb4-787"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"15px"</span>)<span class="op">;</span></span>
-<span id="cb4-788"><a href=""></a>  </span>
-<span id="cb4-789"><a href=""></a>  <span class="co">// Axis labels</span></span>
-<span id="cb4-790"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"text"</span>)</span>
-<span id="cb4-791"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> width <span class="op">/</span> <span class="dv">2</span>)</span>
-<span id="cb4-792"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> height <span class="op">-</span> <span class="dv">20</span>)</span>
-<span id="cb4-793"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"text-anchor"</span><span class="op">,</span> <span class="st">"middle"</span>)</span>
-<span id="cb4-794"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"19px"</span>)</span>
-<span id="cb4-795"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-weight"</span><span class="op">,</span> <span class="st">"600"</span>)</span>
-<span id="cb4-796"><a href=""></a>    <span class="op">.</span><span class="fu">text</span>(<span class="st">"Value"</span>)<span class="op">;</span></span>
-<span id="cb4-797"><a href=""></a>  </span>
+<span id="cb4-778"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"path"</span>)</span>
+<span id="cb4-779"><a href=""></a>    <span class="op">.</span><span class="fu">datum</span>(f_u_values)</span>
+<span id="cb4-780"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"fill"</span><span class="op">,</span> <span class="st">"darkred"</span>)</span>
+<span id="cb4-781"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"fill-opacity"</span><span class="op">,</span> <span class="fl">0.5</span>)</span>
+<span id="cb4-782"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"stroke"</span><span class="op">,</span> <span class="st">"darkred"</span>)</span>
+<span id="cb4-783"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"stroke-width"</span><span class="op">,</span> <span class="dv">3</span>)</span>
+<span id="cb4-784"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"d"</span><span class="op">,</span> area)<span class="op">;</span></span>
+<span id="cb4-785"><a href=""></a>  </span>
+<span id="cb4-786"><a href=""></a>  <span class="co">// Axes</span></span>
+<span id="cb4-787"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"g"</span>)</span>
+<span id="cb4-788"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"transform"</span><span class="op">,</span> <span class="vs">`translate(0,</span><span class="sc">${</span>height <span class="op">-</span> margin<span class="op">.</span><span class="at">bottom</span><span class="sc">}</span><span class="vs">)`</span>)</span>
+<span id="cb4-789"><a href=""></a>    <span class="op">.</span><span class="fu">call</span>(d3<span class="op">.</span><span class="fu">axisBottom</span>(x)<span class="op">.</span><span class="fu">ticks</span>(<span class="dv">8</span>))</span>
+<span id="cb4-790"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"15px"</span>)<span class="op">;</span></span>
+<span id="cb4-791"><a href=""></a>  </span>
+<span id="cb4-792"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"g"</span>)</span>
+<span id="cb4-793"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"transform"</span><span class="op">,</span> <span class="vs">`translate(</span><span class="sc">${</span>margin<span class="op">.</span><span class="at">left</span><span class="sc">}</span><span class="vs">,0)`</span>)</span>
+<span id="cb4-794"><a href=""></a>    <span class="op">.</span><span class="fu">call</span>(d3<span class="op">.</span><span class="fu">axisLeft</span>(y_scale)<span class="op">.</span><span class="fu">ticks</span>(<span class="dv">6</span>))</span>
+<span id="cb4-795"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"15px"</span>)<span class="op">;</span></span>
+<span id="cb4-796"><a href=""></a>  </span>
+<span id="cb4-797"><a href=""></a>  <span class="co">// Axis labels</span></span>
 <span id="cb4-798"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"text"</span>)</span>
-<span id="cb4-799"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"transform"</span><span class="op">,</span> <span class="st">"rotate(-90)"</span>)</span>
-<span id="cb4-800"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> <span class="op">-</span>height <span class="op">/</span> <span class="dv">2</span>)</span>
-<span id="cb4-801"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> <span class="dv">25</span>)</span>
-<span id="cb4-802"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"text-anchor"</span><span class="op">,</span> <span class="st">"middle"</span>)</span>
-<span id="cb4-803"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"19px"</span>)</span>
-<span id="cb4-804"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-weight"</span><span class="op">,</span> <span class="st">"600"</span>)</span>
-<span id="cb4-805"><a href=""></a>    <span class="op">.</span><span class="fu">text</span>(<span class="st">"Density"</span>)<span class="op">;</span></span>
-<span id="cb4-806"><a href=""></a>  </span>
-<span id="cb4-807"><a href=""></a>  <span class="co">// Title</span></span>
-<span id="cb4-808"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"text"</span>)</span>
-<span id="cb4-809"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> width <span class="op">/</span> <span class="dv">2</span>)</span>
-<span id="cb4-810"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> <span class="dv">30</span>)</span>
-<span id="cb4-811"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"text-anchor"</span><span class="op">,</span> <span class="st">"middle"</span>)</span>
-<span id="cb4-812"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"21px"</span>)</span>
-<span id="cb4-813"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-weight"</span><span class="op">,</span> <span class="st">"bold"</span>)</span>
-<span id="cb4-814"><a href=""></a>    <span class="op">.</span><span class="fu">text</span>(<span class="vs">`Transformation: </span><span class="sc">${</span>trans_type<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
-<span id="cb4-815"><a href=""></a>  </span>
-<span id="cb4-816"><a href=""></a>  container<span class="op">.</span><span class="fu">appendChild</span>(svg<span class="op">.</span><span class="fu">node</span>())<span class="op">;</span></span>
-<span id="cb4-817"><a href=""></a>  <span class="cf">return</span> container<span class="op">;</span></span>
-<span id="cb4-818"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-799"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> width <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb4-800"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> height <span class="op">-</span> <span class="dv">20</span>)</span>
+<span id="cb4-801"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"text-anchor"</span><span class="op">,</span> <span class="st">"middle"</span>)</span>
+<span id="cb4-802"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"19px"</span>)</span>
+<span id="cb4-803"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-weight"</span><span class="op">,</span> <span class="st">"600"</span>)</span>
+<span id="cb4-804"><a href=""></a>    <span class="op">.</span><span class="fu">text</span>(<span class="st">"Value"</span>)<span class="op">;</span></span>
+<span id="cb4-805"><a href=""></a>  </span>
+<span id="cb4-806"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"text"</span>)</span>
+<span id="cb4-807"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"transform"</span><span class="op">,</span> <span class="st">"rotate(-90)"</span>)</span>
+<span id="cb4-808"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> <span class="op">-</span>height <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb4-809"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> <span class="dv">25</span>)</span>
+<span id="cb4-810"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"text-anchor"</span><span class="op">,</span> <span class="st">"middle"</span>)</span>
+<span id="cb4-811"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"19px"</span>)</span>
+<span id="cb4-812"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-weight"</span><span class="op">,</span> <span class="st">"600"</span>)</span>
+<span id="cb4-813"><a href=""></a>    <span class="op">.</span><span class="fu">text</span>(<span class="st">"Density"</span>)<span class="op">;</span></span>
+<span id="cb4-814"><a href=""></a>  </span>
+<span id="cb4-815"><a href=""></a>  <span class="co">// Title</span></span>
+<span id="cb4-816"><a href=""></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"text"</span>)</span>
+<span id="cb4-817"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> width <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb4-818"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> <span class="dv">30</span>)</span>
+<span id="cb4-819"><a href=""></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"text-anchor"</span><span class="op">,</span> <span class="st">"middle"</span>)</span>
+<span id="cb4-820"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="st">"21px"</span>)</span>
+<span id="cb4-821"><a href=""></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"font-weight"</span><span class="op">,</span> <span class="st">"bold"</span>)</span>
+<span id="cb4-822"><a href=""></a>    <span class="op">.</span><span class="fu">text</span>(<span class="vs">`Transformation: </span><span class="sc">${</span>trans_type<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb4-823"><a href=""></a>  </span>
+<span id="cb4-824"><a href=""></a>  container<span class="op">.</span><span class="fu">appendChild</span>(svg<span class="op">.</span><span class="fu">node</span>())<span class="op">;</span></span>
+<span id="cb4-825"><a href=""></a>  <span class="cf">return</span> container<span class="op">;</span></span>
+<span id="cb4-826"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -1304,7 +1310,7 @@ Samir Orujov, PhD
 </div></div>
 <div class="cell">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_bebbf82e" minutes="5" seconds="0" warn-when="60" update-every="1" play-sound="true" tabindex="0" style="top:0;right:0;--countdown-font-size:1.5em;--countdown-color-running-background:#31b09e;--countdown-color-running-text:white;--countdown-color-finished-background:#cc3311;--countdown-color-finished-text:white;--countdown-color-warning-background:#f7dc6f;--countdown-color-warning-text:#3E3400FF;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_e74448c5" minutes="5" seconds="0" warn-when="60" update-every="1" play-sound="true" tabindex="0" style="top:0;right:0;--countdown-font-size:1.5em;--countdown-color-running-background:#31b09e;--countdown-color-running-text:white;--countdown-color-finished-background:#cc3311;--countdown-color-finished-text:white;--countdown-color-warning-background:#f7dc6f;--countdown-color-warning-text:#3E3400FF;"></countdown-timer>
 </div>
 </div>
 </section>
@@ -1624,6 +1630,12 @@ Samir Orujov, PhD
 <p><strong>Problem 4:</strong></p>
 <p>Prove that if <span class="math inline">\(Y \sim \text{Uniform}(a, b)\)</span> and <span class="math inline">\(U = cY + d\)</span> (with <span class="math inline">\(c &gt; 0\)</span>), then <span class="math inline">\(U \sim \text{Uniform}(ca + d, cb + d)\)</span>.</p>
 </div></div>
+</div>
+</section>
+<section id="late-check-in" class="slide level2 center" data-background-color="#fff5f5">
+<h2>📱 Late Check-in</h2>
+<div id="qr-late" class="attendance-qr" data-status="late" style="min-height: 400px; display: flex; align-items: center; justify-content: center;">
+
 </div>
 </section>
 <section id="thank-you" class="slide level2">
@@ -2158,6 +2170,8 @@ Samir Orujov, PhD
         }
       });
       </script>
+    <script src="../qrcode.min.js"></script>
+    <script src="../attendance-qr-slide.js"></script>
     
 
 </body></html>
