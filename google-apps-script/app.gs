@@ -31,6 +31,7 @@ var SECTION_SCHEDULES = {
   }
 };
 
+var LATE_THRESHOLD_MINUTES = 15; // Students arriving after this many minutes from class start are marked Late
 var SCHEDULE_TIMEZONE = 'Asia/Baku';
 
 // ==================== LOCATION CONFIGURATION ====================
@@ -538,8 +539,8 @@ function doPost(e) {
     // Determine section: from request data, or auto-detect by time
     var section = data.section ? data.section.toUpperCase() : null;
 
-    // Determine attendance status: Present (default) or Late
-    var attendanceStatus = (data.attendanceStatus === 'Late') ? 'Late' : 'Present';
+    // Attendance status will be determined server-side based on time (after section is resolved)
+    var attendanceStatus = 'Present'; // default, overridden below
 
     // STEP 1: Validate section
     if (section && !SECTIONS[section]) {
@@ -568,6 +569,22 @@ function doPost(e) {
     }
 
     var courseId = SECTIONS[section].courseId;
+
+    // Determine Present/Late based on server time vs class start + grace period
+    var schedule = SECTION_SCHEDULES[section];
+    var now = new Date();
+    var currentHour = parseInt(Utilities.formatDate(now, SCHEDULE_TIMEZONE, 'HH'));
+    var currentMinute = parseInt(Utilities.formatDate(now, SCHEDULE_TIMEZONE, 'mm'));
+    var currentTimeMinutes = currentHour * 60 + currentMinute;
+    var classStartMinutes = schedule.startHour * 60 + schedule.startMinute;
+    var lateThresholdMinutes = classStartMinutes + LATE_THRESHOLD_MINUTES;
+
+    if (currentTimeMinutes >= lateThresholdMinutes) {
+      attendanceStatus = 'Late';
+    } else {
+      attendanceStatus = 'Present';
+    }
+    Logger.log('Time-based status: class starts at ' + classStartMinutes + ', late after ' + lateThresholdMinutes + ', current=' + currentTimeMinutes + ' → ' + attendanceStatus);
     Logger.log('Using section: ' + section + ' (course: ' + courseId + ', status: ' + attendanceStatus + ')');
 
     // STEP 3: Check for duplicate device submission today
