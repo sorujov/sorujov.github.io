@@ -16,18 +16,18 @@ var SECTIONS = {
 // All times are in Baku local time (GMT+4 / Asia/Baku timezone)
 var SECTION_SCHEDULES = {
   A: {
-    days: [3, 6],        // 3 = Wednesday, 6 = Saturday (0 = Sunday)
-    startHour: 10,       // 10:00 Baku time
+    days: [0, 3, 6],     // 0 = Sunday (testing), 3 = Wednesday, 6 = Saturday
+    startHour: 0,        // All day for testing (restore to 10:00-11:30 for production)
     startMinute: 0,
-    endHour: 11,         // 11:30 Baku time
-    endMinute: 30
+    endHour: 23,
+    endMinute: 59
   },
   B: {
-    days: [3, 6],        // 3 = Wednesday, 6 = Saturday
-    startHour: 11,       // 11:30 Baku time
-    startMinute: 30,
-    endHour: 13,         // 13:00 Baku time
-    endMinute: 0
+    days: [0, 3, 6],     // 0 = Sunday (testing), 3 = Wednesday, 6 = Saturday
+    startHour: 0,        // All day for testing (restore to 11:30-13:00 for production)
+    startMinute: 0,
+    endHour: 23,
+    endMinute: 59
   }
 };
 
