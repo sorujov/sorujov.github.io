@@ -166,10 +166,10 @@ classes: wide
     </div>
     <div class="lecture-buttons">
       <a href="/lectures/math_stat_2_spring_2026/chapter_5/multivariate_lecture1.html" class="btn btn--primary">
-        Lecture 1: Bivariate Distributions
+        <span class="btn-num">Lecture 1</span><span class="btn-title">Bivariate Distributions</span>
       </a>
       <a href="/lectures/math_stat_2_spring_2026/chapter_5/multivariate_lecture2.html" class="btn btn--primary">
-        Lecture 2: Marginal & Conditional Distributions
+        <span class="btn-num">Lecture 2</span><span class="btn-title">Marginal & Conditional</span>
       </a>
     </div>
   </div>
@@ -184,7 +184,7 @@ classes: wide
     </div>
     <div class="lecture-buttons">
       <a href="/lectures/math_stat_2_spring_2026/chapter_5/multivariate_lecture3.html" class="btn btn--primary">
-        Lecture 3: Expected Values, Covariance, and Correlation
+        <span class="btn-num">Lecture 3</span><span class="btn-title">Covariance & Correlation</span>
       </a>
     </div>
   </div>
@@ -203,13 +203,13 @@ classes: wide
     </div>
     <div class="lecture-buttons">
       <a href="/lectures/math_stat_2_spring_2026/chapter_6/functions_rv_lecture1.html" class="btn btn--primary">
-        Lecture 1: Distribution Function Method
+        <span class="btn-num">Lecture 1</span><span class="btn-title">Distribution Functions</span>
       </a>
       <a href="/lectures/math_stat_2_spring_2026/chapter_6/functions_rv_lecture2.html" class="btn btn--primary">
-        Lecture 2: Method of Transformations & MGF
+        <span class="btn-num">Lecture 2</span><span class="btn-title">Transformations & MGF</span>
       </a>
       <a href="/lectures/math_stat_2_spring_2026/chapter_6/functions_rv_lecture3.html" class="btn btn--primary">
-        Lecture 3: Multivariate Transformations
+        <span class="btn-num">Lecture 3</span><span class="btn-title">Multivariate Transforms</span>
       </a>
     </div>
   </div>
@@ -224,7 +224,7 @@ classes: wide
     </div>
     <div class="lecture-buttons">
       <a href="/lectures/math_stat_2_spring_2026/chapter_7/sampling_distributions_lecture1.html" class="btn btn--primary">
-        Lecture 1: Sampling Distributions & CLT
+        <span class="btn-num">Lecture 1</span><span class="btn-title">Sampling Distributions & CLT</span>
       </a>
     </div>
   </div>
@@ -877,6 +877,7 @@ html {
   display: flex;
   gap: 0.8rem;
   flex-wrap: wrap;
+  align-items: stretch;
 }
 
 .btn {
@@ -895,6 +896,13 @@ html {
   background: linear-gradient(45deg, #007bff, #0056b3);
   color: white;
   box-shadow: 0 4px 15px rgba(0,123,255,0.3);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-width: 160px;
+  flex: 1 1 0;
+  max-width: 220px;
 }
 
 .btn--primary:hover {
@@ -902,6 +910,18 @@ html {
   box-shadow: 0 6px 20px rgba(0,123,255,0.4);
   color: white;
   text-decoration: none;
+}
+
+.btn-num {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  opacity: 0.85;
+}
+
+.btn-title {
+  font-size: 0.9rem;
+  font-weight: 700;
 }
 
 .btn--coming-soon {
