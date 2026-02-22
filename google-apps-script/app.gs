@@ -570,7 +570,36 @@ function doPost(e) {
     var courseId = SECTIONS[section].courseId;
     Logger.log('Using section: ' + section + ' (course: ' + courseId + ', status: ' + attendanceStatus + ')');
 
-    // STEP 3: Check location (if provided)
+    // STEP 3: Check for duplicate device submission today
+    if (data.userAgent) {
+      var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+      var lastRow = sheet.getLastRow();
+      if (lastRow > 0) {
+        var todayStr = Utilities.formatDate(new Date(), SCHEDULE_TIMEZONE, 'yyyy-MM-dd');
+        // Check recent rows (last 200) for same userAgent today
+        var startRow = Math.max(1, lastRow - 200);
+        var numRows = lastRow - startRow + 1;
+        var dataRange = sheet.getRange(startRow, 1, numRows, 16).getValues();
+        for (var i = 0; i < dataRange.length; i++) {
+          var rowDate = dataRange[i][0];
+          if (rowDate instanceof Date) {
+            var rowDateStr = Utilities.formatDate(rowDate, SCHEDULE_TIMEZONE, 'yyyy-MM-dd');
+            var rowUserAgent = dataRange[i][15]; // column 16 (0-indexed: 15)
+            if (rowDateStr === todayStr && rowUserAgent === data.userAgent) {
+              var existingStudent = dataRange[i][1]; // email column
+              Logger.log('REJECTED: Duplicate device. Already submitted for ' + existingStudent + ' from same device.');
+              return ContentService.createTextOutput(JSON.stringify({
+                success: false,
+                message: 'This device has already been used to check in today. One check-in per device per day.',
+                errorType: 'duplicate_device'
+              })).setMimeType(ContentService.MimeType.JSON);
+            }
+          }
+        }
+      }
+    }
+
+    // STEP 4: Check location (if provided)
     if (data.latitude && data.longitude) {
       var locationCheck = isWithinCampus(parseFloat(data.latitude), parseFloat(data.longitude));
       if (!locationCheck.allowed) {
@@ -585,10 +614,10 @@ function doPost(e) {
       }
     }
 
-    // STEP 4: Check Blackboard enrollment and mark attendance
+    // STEP 5: Check Blackboard enrollment and mark attendance
     var bbResult = markAttendanceInBlackboard(data.email, courseId, attendanceStatus);
 
-    // STEP 5: If not enrolled, reject completely
+    // STEP 6: If not enrolled, reject completely
     if (bbResult.notEnrolled) {
       Logger.log('REJECTED: Student not enrolled - ' + data.email + ' in section ' + section);
       return ContentService.createTextOutput(JSON.stringify({
@@ -601,7 +630,7 @@ function doPost(e) {
       })).setMimeType(ContentService.MimeType.JSON);
     }
 
-    // STEP 6: Check if Blackboard sync failed (non-enrollment errors)
+    // STEP 7: Check if Blackboard sync failed (non-enrollment errors)
     if (!bbResult.success) {
       Logger.log('REJECTED: Blackboard sync failed - ' + bbResult.error);
       return ContentService.createTextOutput(JSON.stringify({
@@ -614,9 +643,9 @@ function doPost(e) {
       })).setMimeType(ContentService.MimeType.JSON);
     }
 
-    // STEP 7: Write to Google Sheet
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    sheet.appendRow([
+    // STEP 8: Write to Google Sheet
+    var writeSheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    writeSheet.appendRow([
       new Date(),
       data.email,
       data.sessionTime,
@@ -631,10 +660,11 @@ function doPost(e) {
       data.name,
       data.latitude,
       data.longitude,
-      data.distance
+      data.distance,
+      data.userAgent || ''
     ]);
 
-    // STEP 8: Return success
+    // STEP 9: Return success
     var statusLabel = bbResult.alreadyMarked
       ? 'Your attendance was already recorded as ' + bbResult.status + ' for this session.'
       : 'Attendance recorded as ' + attendanceStatus + ' for ' + SECTIONS[section].name + '!';
