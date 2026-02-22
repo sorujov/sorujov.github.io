@@ -11,7 +11,7 @@
     var TOKEN_VALIDITY_SECONDS = 120; // Token expires after 2 minutes
 
     // UPDATE THIS URL after deploying the new Google Apps Script
-    var SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbyvYlLNPofB_pMgJ5P2m5DV4xdAmHYHPQ5qrHP4tnMUhCcnN8WlvKnZRsgdrk0VIdgoxw/exec';
+    var SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbwLv1WeX52ZwLIqCvMjtdIoYDfS-IVm9VzKrUuBivQ1g_JqBGf5c-PawISzQwgAiQow-Q/exec';
 
     var out = document.getElementById('out');
     var capturedLocation = null;
