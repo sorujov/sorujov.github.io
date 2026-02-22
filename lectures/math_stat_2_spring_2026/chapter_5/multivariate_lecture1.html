@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.8.25">
 
   <meta name="author" content="Samir Orujov, PhD">
-  <meta name="dcterms.date" content="2026-02-04">
+  <meta name="dcterms.date" content="2026-02-22">
   <title>Mathematical Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -218,7 +218,7 @@ Samir Orujov, PhD
     </div>
 </div>
 
-  <p class="date">2026-02-04</p>
+  <p class="date">2026-02-22</p>
 </section>
 <section id="learning-objectives" class="slide level2 smaller">
 <h2>🎯 Learning Objectives</h2>
@@ -233,6 +233,12 @@ Samir Orujov, PhD
 <li class="fragment"><p>Apply multivariate distribution concepts to <strong>portfolio analysis</strong> and financial risk assessment using real market data</p></li>
 </ul>
 </div>
+</div>
+</section>
+<section id="attendance-check-in" class="slide level2 center" data-background-color="#f0f4ff">
+<h2>📱 Attendance Check-in</h2>
+<div id="qr-present" class="attendance-qr" data-status="present" style="min-height: 400px; display: flex; align-items: center; justify-content: center;">
+
 </div>
 </section>
 <section id="overview" class="slide level2">
@@ -579,60 +585,60 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="369" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 368;"><span id="cb1-369"><a href=""></a>viewof threshold <span class="op">=</span> {</span>
-<span id="cb1-370"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.2</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> {</span>
-<span id="cb1-371"><a href=""></a>    <span class="dt">value</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> </span>
-<span id="cb1-372"><a href=""></a>    <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span> </span>
-<span id="cb1-373"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Threshold c:"</span><span class="op">,</span></span>
-<span id="cb1-374"><a href=""></a>    <span class="dt">format</span><span class="op">:</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)</span>
-<span id="cb1-375"><a href=""></a>  })<span class="op">;</span></span>
-<span id="cb1-376"><a href=""></a>  </span>
-<span id="cb1-377"><a href=""></a>  <span class="co">// Prevent slide navigation when interacting with slider</span></span>
-<span id="cb1-378"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'pointerdown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb1-379"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'touchstart'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb1-380"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'mousedown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb1-381"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'click'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb1-382"><a href=""></a>  </span>
-<span id="cb1-383"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
-<span id="cb1-384"><a href=""></a>}</span>
-<span id="cb1-385"><a href=""></a></span>
-<span id="cb1-386"><a href=""></a><span class="co">// Calculate probability P(Y1 + Y2 &lt;= c)</span></span>
-<span id="cb1-387"><a href=""></a>prob_uniform <span class="op">=</span> {</span>
-<span id="cb1-388"><a href=""></a>  <span class="kw">const</span> c <span class="op">=</span> threshold<span class="op">;</span></span>
-<span id="cb1-389"><a href=""></a>  <span class="cf">if</span> (c <span class="op">&lt;=</span> <span class="dv">0</span>) <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb1-390"><a href=""></a>  <span class="cf">if</span> (c <span class="op">&gt;=</span> <span class="dv">2</span>) <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb1-391"><a href=""></a>  <span class="cf">if</span> (c <span class="op">&lt;=</span> <span class="dv">1</span>) {</span>
-<span id="cb1-392"><a href=""></a>    <span class="cf">return</span> c <span class="op">*</span> c <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
-<span id="cb1-393"><a href=""></a>  } <span class="cf">else</span> {</span>
-<span id="cb1-394"><a href=""></a>    <span class="cf">return</span> <span class="dv">1</span> <span class="op">-</span> (<span class="dv">2</span> <span class="op">-</span> c) <span class="op">*</span> (<span class="dv">2</span> <span class="op">-</span> c) <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
-<span id="cb1-395"><a href=""></a>  }</span>
-<span id="cb1-396"><a href=""></a>}</span>
-<span id="cb1-397"><a href=""></a></span>
-<span id="cb1-398"><a href=""></a><span class="fu">html</span><span class="vs">`&lt;div style="font-size: 1.15em; line-height: 1.4;"&gt;</span></span>
-<span id="cb1-399"><a href=""></a><span class="vs">&lt;p&gt;&lt;strong&gt;Density:&lt;/strong&gt; &lt;em&gt;f&lt;/em&gt;(y₁, y₂) = 1 on [0,1]²&lt;/p&gt;</span></span>
-<span id="cb1-400"><a href=""></a><span class="vs">&lt;hr style="margin: 8px 0;"/&gt;</span></span>
-<span id="cb1-401"><a href=""></a><span class="vs">&lt;p&gt;&lt;strong&gt;Region:&lt;/strong&gt; y₁ + y₂ ≤ </span><span class="sc">${</span>threshold<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">&lt;/p&gt;</span></span>
-<span id="cb1-402"><a href=""></a><span class="vs">&lt;hr style="margin: 8px 0;"/&gt;</span></span>
-<span id="cb1-403"><a href=""></a><span class="vs">&lt;p style="font-size: 1.6em; color: #2563eb; margin: 10px 0;"&gt;</span></span>
-<span id="cb1-404"><a href=""></a><span class="vs">&lt;strong&gt;P = </span><span class="sc">${</span>prob_uniform<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">4</span>)<span class="sc">}</span><span class="vs">&lt;/strong&gt;</span></span>
-<span id="cb1-405"><a href=""></a><span class="vs">&lt;/p&gt;</span></span>
-<span id="cb1-406"><a href=""></a><span class="vs">&lt;hr style="margin: 8px 0;"/&gt;</span></span>
-<span id="cb1-407"><a href=""></a><span class="vs">&lt;p style="font-size: 1em;"&gt;</span></span>
-<span id="cb1-408"><a href=""></a><span class="sc">${</span>threshold <span class="op">&lt;=</span> <span class="dv">1</span> <span class="op">?</span> </span>
-<span id="cb1-409"><a href=""></a>  <span class="vs">`c²/2 = </span><span class="sc">${</span>threshold<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">²/2`</span> <span class="op">:</span></span>
-<span id="cb1-410"><a href=""></a>  threshold <span class="op">&lt;</span> <span class="dv">2</span> <span class="op">?</span></span>
-<span id="cb1-411"><a href=""></a>  <span class="vs">`1 - (2-c)²/2`</span> <span class="op">:</span></span>
-<span id="cb1-412"><a href=""></a>  <span class="vs">`= 1 (full square)`</span></span>
-<span id="cb1-413"><a href=""></a><span class="sc">}</span></span>
-<span id="cb1-414"><a href=""></a><span class="vs">&lt;/p&gt;</span></span>
-<span id="cb1-415"><a href=""></a><span class="vs">&lt;hr style="margin: 8px 0;"/&gt;</span></span>
-<span id="cb1-416"><a href=""></a><span class="vs">&lt;p style="font-size: 1em;"&gt;&lt;strong&gt;Try:&lt;/strong&gt;&lt;/p&gt;</span></span>
-<span id="cb1-417"><a href=""></a><span class="vs">&lt;ul style="margin: 5px 0; padding-left: 18px; font-size: 1em;"&gt;</span></span>
-<span id="cb1-418"><a href=""></a><span class="vs">&lt;li&gt;c=1 → P=0.5&lt;/li&gt;</span></span>
-<span id="cb1-419"><a href=""></a><span class="vs">&lt;li&gt;c=2 → P=1&lt;/li&gt;</span></span>
-<span id="cb1-420"><a href=""></a><span class="vs">&lt;li&gt;c&lt;1 → small&lt;/li&gt;</span></span>
-<span id="cb1-421"><a href=""></a><span class="vs">&lt;/ul&gt;</span></span>
-<span id="cb1-422"><a href=""></a><span class="vs">&lt;/div&gt;`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="377" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 376;"><span id="cb1-377"><a href=""></a>viewof threshold <span class="op">=</span> {</span>
+<span id="cb1-378"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.2</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> {</span>
+<span id="cb1-379"><a href=""></a>    <span class="dt">value</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> </span>
+<span id="cb1-380"><a href=""></a>    <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span> </span>
+<span id="cb1-381"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Threshold c:"</span><span class="op">,</span></span>
+<span id="cb1-382"><a href=""></a>    <span class="dt">format</span><span class="op">:</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)</span>
+<span id="cb1-383"><a href=""></a>  })<span class="op">;</span></span>
+<span id="cb1-384"><a href=""></a>  </span>
+<span id="cb1-385"><a href=""></a>  <span class="co">// Prevent slide navigation when interacting with slider</span></span>
+<span id="cb1-386"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'pointerdown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-387"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'touchstart'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-388"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'mousedown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-389"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'click'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-390"><a href=""></a>  </span>
+<span id="cb1-391"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb1-392"><a href=""></a>}</span>
+<span id="cb1-393"><a href=""></a></span>
+<span id="cb1-394"><a href=""></a><span class="co">// Calculate probability P(Y1 + Y2 &lt;= c)</span></span>
+<span id="cb1-395"><a href=""></a>prob_uniform <span class="op">=</span> {</span>
+<span id="cb1-396"><a href=""></a>  <span class="kw">const</span> c <span class="op">=</span> threshold<span class="op">;</span></span>
+<span id="cb1-397"><a href=""></a>  <span class="cf">if</span> (c <span class="op">&lt;=</span> <span class="dv">0</span>) <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-398"><a href=""></a>  <span class="cf">if</span> (c <span class="op">&gt;=</span> <span class="dv">2</span>) <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-399"><a href=""></a>  <span class="cf">if</span> (c <span class="op">&lt;=</span> <span class="dv">1</span>) {</span>
+<span id="cb1-400"><a href=""></a>    <span class="cf">return</span> c <span class="op">*</span> c <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb1-401"><a href=""></a>  } <span class="cf">else</span> {</span>
+<span id="cb1-402"><a href=""></a>    <span class="cf">return</span> <span class="dv">1</span> <span class="op">-</span> (<span class="dv">2</span> <span class="op">-</span> c) <span class="op">*</span> (<span class="dv">2</span> <span class="op">-</span> c) <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb1-403"><a href=""></a>  }</span>
+<span id="cb1-404"><a href=""></a>}</span>
+<span id="cb1-405"><a href=""></a></span>
+<span id="cb1-406"><a href=""></a><span class="fu">html</span><span class="vs">`&lt;div style="font-size: 1.15em; line-height: 1.4;"&gt;</span></span>
+<span id="cb1-407"><a href=""></a><span class="vs">&lt;p&gt;&lt;strong&gt;Density:&lt;/strong&gt; &lt;em&gt;f&lt;/em&gt;(y₁, y₂) = 1 on [0,1]²&lt;/p&gt;</span></span>
+<span id="cb1-408"><a href=""></a><span class="vs">&lt;hr style="margin: 8px 0;"/&gt;</span></span>
+<span id="cb1-409"><a href=""></a><span class="vs">&lt;p&gt;&lt;strong&gt;Region:&lt;/strong&gt; y₁ + y₂ ≤ </span><span class="sc">${</span>threshold<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">&lt;/p&gt;</span></span>
+<span id="cb1-410"><a href=""></a><span class="vs">&lt;hr style="margin: 8px 0;"/&gt;</span></span>
+<span id="cb1-411"><a href=""></a><span class="vs">&lt;p style="font-size: 1.6em; color: #2563eb; margin: 10px 0;"&gt;</span></span>
+<span id="cb1-412"><a href=""></a><span class="vs">&lt;strong&gt;P = </span><span class="sc">${</span>prob_uniform<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">4</span>)<span class="sc">}</span><span class="vs">&lt;/strong&gt;</span></span>
+<span id="cb1-413"><a href=""></a><span class="vs">&lt;/p&gt;</span></span>
+<span id="cb1-414"><a href=""></a><span class="vs">&lt;hr style="margin: 8px 0;"/&gt;</span></span>
+<span id="cb1-415"><a href=""></a><span class="vs">&lt;p style="font-size: 1em;"&gt;</span></span>
+<span id="cb1-416"><a href=""></a><span class="sc">${</span>threshold <span class="op">&lt;=</span> <span class="dv">1</span> <span class="op">?</span> </span>
+<span id="cb1-417"><a href=""></a>  <span class="vs">`c²/2 = </span><span class="sc">${</span>threshold<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">²/2`</span> <span class="op">:</span></span>
+<span id="cb1-418"><a href=""></a>  threshold <span class="op">&lt;</span> <span class="dv">2</span> <span class="op">?</span></span>
+<span id="cb1-419"><a href=""></a>  <span class="vs">`1 - (2-c)²/2`</span> <span class="op">:</span></span>
+<span id="cb1-420"><a href=""></a>  <span class="vs">`= 1 (full square)`</span></span>
+<span id="cb1-421"><a href=""></a><span class="sc">}</span></span>
+<span id="cb1-422"><a href=""></a><span class="vs">&lt;/p&gt;</span></span>
+<span id="cb1-423"><a href=""></a><span class="vs">&lt;hr style="margin: 8px 0;"/&gt;</span></span>
+<span id="cb1-424"><a href=""></a><span class="vs">&lt;p style="font-size: 1em;"&gt;&lt;strong&gt;Try:&lt;/strong&gt;&lt;/p&gt;</span></span>
+<span id="cb1-425"><a href=""></a><span class="vs">&lt;ul style="margin: 5px 0; padding-left: 18px; font-size: 1em;"&gt;</span></span>
+<span id="cb1-426"><a href=""></a><span class="vs">&lt;li&gt;c=1 → P=0.5&lt;/li&gt;</span></span>
+<span id="cb1-427"><a href=""></a><span class="vs">&lt;li&gt;c=2 → P=1&lt;/li&gt;</span></span>
+<span id="cb1-428"><a href=""></a><span class="vs">&lt;li&gt;c&lt;1 → small&lt;/li&gt;</span></span>
+<span id="cb1-429"><a href=""></a><span class="vs">&lt;/ul&gt;</span></span>
+<span id="cb1-430"><a href=""></a><span class="vs">&lt;/div&gt;`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -660,57 +666,57 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="428" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 427;"><span id="cb2-428"><a href=""></a><span class="co">// 2D Top View Plot</span></span>
-<span id="cb2-429"><a href=""></a>{</span>
-<span id="cb2-430"><a href=""></a>  <span class="kw">const</span> width <span class="op">=</span> <span class="dv">460</span><span class="op">;</span></span>
-<span id="cb2-431"><a href=""></a>  <span class="kw">const</span> height <span class="op">=</span> <span class="dv">460</span><span class="op">;</span></span>
-<span id="cb2-432"><a href=""></a>  <span class="kw">const</span> margin <span class="op">=</span> <span class="dv">30</span><span class="op">;</span></span>
-<span id="cb2-433"><a href=""></a>  </span>
-<span id="cb2-434"><a href=""></a>  <span class="kw">const</span> n <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
-<span id="cb2-435"><a href=""></a>  <span class="kw">const</span> surface_data <span class="op">=</span> []<span class="op">;</span></span>
-<span id="cb2-436"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i<span class="op">++</span>) {</span>
-<span id="cb2-437"><a href=""></a>    <span class="cf">for</span> (<span class="kw">let</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;=</span> n<span class="op">;</span> j<span class="op">++</span>) {</span>
-<span id="cb2-438"><a href=""></a>      <span class="kw">const</span> y1 <span class="op">=</span> i <span class="op">/</span> n<span class="op">;</span></span>
-<span id="cb2-439"><a href=""></a>      <span class="kw">const</span> y2 <span class="op">=</span> j <span class="op">/</span> n<span class="op">;</span></span>
-<span id="cb2-440"><a href=""></a>      surface_data<span class="op">.</span><span class="fu">push</span>({</span>
-<span id="cb2-441"><a href=""></a>        <span class="dt">y1</span><span class="op">:</span> y1<span class="op">,</span></span>
-<span id="cb2-442"><a href=""></a>        <span class="dt">y2</span><span class="op">:</span> y2<span class="op">,</span></span>
-<span id="cb2-443"><a href=""></a>        <span class="dt">inRegion</span><span class="op">:</span> (y1 <span class="op">+</span> y2) <span class="op">&lt;=</span> threshold</span>
-<span id="cb2-444"><a href=""></a>      })<span class="op">;</span></span>
-<span id="cb2-445"><a href=""></a>    }</span>
-<span id="cb2-446"><a href=""></a>  }</span>
-<span id="cb2-447"><a href=""></a>  </span>
-<span id="cb2-448"><a href=""></a>  <span class="cf">return</span> Plot<span class="op">.</span><span class="fu">plot</span>({</span>
-<span id="cb2-449"><a href=""></a>    <span class="dt">width</span><span class="op">:</span> width<span class="op">,</span></span>
-<span id="cb2-450"><a href=""></a>    <span class="dt">height</span><span class="op">:</span> height<span class="op">,</span></span>
-<span id="cb2-451"><a href=""></a>    <span class="dt">margin</span><span class="op">:</span> margin<span class="op">,</span></span>
-<span id="cb2-452"><a href=""></a>    <span class="dt">style</span><span class="op">:</span> { <span class="dt">fontSize</span><span class="op">:</span> <span class="st">"12px"</span> }<span class="op">,</span></span>
-<span id="cb2-453"><a href=""></a>    <span class="dt">marks</span><span class="op">:</span> [</span>
-<span id="cb2-454"><a href=""></a>      Plot<span class="op">.</span><span class="fu">dot</span>(surface_data<span class="op">,</span> {</span>
-<span id="cb2-455"><a href=""></a>        <span class="dt">x</span><span class="op">:</span> <span class="st">"y1"</span><span class="op">,</span></span>
-<span id="cb2-456"><a href=""></a>        <span class="dt">y</span><span class="op">:</span> <span class="st">"y2"</span><span class="op">,</span></span>
-<span id="cb2-457"><a href=""></a>        <span class="dt">fill</span><span class="op">:</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">inRegion</span> <span class="op">?</span> <span class="st">"#3b82f6"</span> <span class="op">:</span> <span class="st">"#e5e7eb"</span><span class="op">,</span></span>
-<span id="cb2-458"><a href=""></a>        <span class="dt">r</span><span class="op">:</span> <span class="dv">6</span><span class="op">,</span></span>
-<span id="cb2-459"><a href=""></a>        <span class="dt">opacity</span><span class="op">:</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">inRegion</span> <span class="op">?</span> <span class="fl">0.9</span> <span class="op">:</span> <span class="fl">0.25</span></span>
-<span id="cb2-460"><a href=""></a>      })<span class="op">,</span></span>
-<span id="cb2-461"><a href=""></a>      Plot<span class="op">.</span><span class="fu">frame</span>({<span class="dt">stroke</span><span class="op">:</span> <span class="st">"black"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span>})<span class="op">,</span></span>
-<span id="cb2-462"><a href=""></a>      Plot<span class="op">.</span><span class="fu">line</span>(</span>
-<span id="cb2-463"><a href=""></a>        <span class="co">// Line y₁ + y₂ = c clipped to unit square [0,1]²</span></span>
-<span id="cb2-464"><a href=""></a>        <span class="co">// Start point: where line intersects y₁=0 or y₂=1</span></span>
-<span id="cb2-465"><a href=""></a>        <span class="co">// End point: where line intersects y₂=0 or y₁=1</span></span>
-<span id="cb2-466"><a href=""></a>        threshold <span class="op">&lt;=</span> <span class="dv">2</span> <span class="op">?</span> [</span>
-<span id="cb2-467"><a href=""></a>          {<span class="dt">y1</span><span class="op">:</span> threshold <span class="op">&lt;=</span> <span class="dv">1</span> <span class="op">?</span> <span class="dv">0</span> <span class="op">:</span> threshold <span class="op">-</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">y2</span><span class="op">:</span> threshold <span class="op">&lt;=</span> <span class="dv">1</span> <span class="op">?</span> threshold <span class="op">:</span> <span class="dv">1</span>}<span class="op">,</span></span>
-<span id="cb2-468"><a href=""></a>          {<span class="dt">y1</span><span class="op">:</span> threshold <span class="op">&lt;=</span> <span class="dv">1</span> <span class="op">?</span> threshold <span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">y2</span><span class="op">:</span> threshold <span class="op">&lt;=</span> <span class="dv">1</span> <span class="op">?</span> <span class="dv">0</span> <span class="op">:</span> threshold <span class="op">-</span> <span class="dv">1</span>}</span>
-<span id="cb2-469"><a href=""></a>        ] <span class="op">:</span> []<span class="op">,</span></span>
-<span id="cb2-470"><a href=""></a>        { <span class="dt">x</span><span class="op">:</span> <span class="st">"y1"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y2"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"red"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">3</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"5,3"</span> }</span>
-<span id="cb2-471"><a href=""></a>      )<span class="op">,</span></span>
-<span id="cb2-472"><a href=""></a>      Plot<span class="op">.</span><span class="fu">text</span>([{<span class="dt">x</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="op">-</span><span class="fl">0.1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"y₁"</span>}]<span class="op">,</span> { <span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> <span class="st">"label"</span><span class="op">,</span> <span class="dt">fontSize</span><span class="op">:</span> <span class="dv">14</span><span class="op">,</span> <span class="dt">fontWeight</span><span class="op">:</span> <span class="st">"bold"</span> })<span class="op">,</span></span>
-<span id="cb2-473"><a href=""></a>      Plot<span class="op">.</span><span class="fu">text</span>([{<span class="dt">x</span><span class="op">:</span> <span class="op">-</span><span class="fl">0.1</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"y₂"</span>}]<span class="op">,</span> { <span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> <span class="st">"label"</span><span class="op">,</span> <span class="dt">fontSize</span><span class="op">:</span> <span class="dv">14</span><span class="op">,</span> <span class="dt">fontWeight</span><span class="op">:</span> <span class="st">"bold"</span> })</span>
-<span id="cb2-474"><a href=""></a>    ]<span class="op">,</span></span>
-<span id="cb2-475"><a href=""></a>    <span class="dt">x</span><span class="op">:</span> { <span class="dt">label</span><span class="op">:</span> <span class="kw">null</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> <span class="dt">ticks</span><span class="op">:</span> <span class="dv">5</span> }<span class="op">,</span></span>
-<span id="cb2-476"><a href=""></a>    <span class="dt">y</span><span class="op">:</span> { <span class="dt">label</span><span class="op">:</span> <span class="kw">null</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> <span class="dt">ticks</span><span class="op">:</span> <span class="dv">5</span> }</span>
-<span id="cb2-477"><a href=""></a>  })<span class="op">;</span></span>
-<span id="cb2-478"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="436" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 435;"><span id="cb2-436"><a href=""></a><span class="co">// 2D Top View Plot</span></span>
+<span id="cb2-437"><a href=""></a>{</span>
+<span id="cb2-438"><a href=""></a>  <span class="kw">const</span> width <span class="op">=</span> <span class="dv">460</span><span class="op">;</span></span>
+<span id="cb2-439"><a href=""></a>  <span class="kw">const</span> height <span class="op">=</span> <span class="dv">460</span><span class="op">;</span></span>
+<span id="cb2-440"><a href=""></a>  <span class="kw">const</span> margin <span class="op">=</span> <span class="dv">30</span><span class="op">;</span></span>
+<span id="cb2-441"><a href=""></a>  </span>
+<span id="cb2-442"><a href=""></a>  <span class="kw">const</span> n <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
+<span id="cb2-443"><a href=""></a>  <span class="kw">const</span> surface_data <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb2-444"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb2-445"><a href=""></a>    <span class="cf">for</span> (<span class="kw">let</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;=</span> n<span class="op">;</span> j<span class="op">++</span>) {</span>
+<span id="cb2-446"><a href=""></a>      <span class="kw">const</span> y1 <span class="op">=</span> i <span class="op">/</span> n<span class="op">;</span></span>
+<span id="cb2-447"><a href=""></a>      <span class="kw">const</span> y2 <span class="op">=</span> j <span class="op">/</span> n<span class="op">;</span></span>
+<span id="cb2-448"><a href=""></a>      surface_data<span class="op">.</span><span class="fu">push</span>({</span>
+<span id="cb2-449"><a href=""></a>        <span class="dt">y1</span><span class="op">:</span> y1<span class="op">,</span></span>
+<span id="cb2-450"><a href=""></a>        <span class="dt">y2</span><span class="op">:</span> y2<span class="op">,</span></span>
+<span id="cb2-451"><a href=""></a>        <span class="dt">inRegion</span><span class="op">:</span> (y1 <span class="op">+</span> y2) <span class="op">&lt;=</span> threshold</span>
+<span id="cb2-452"><a href=""></a>      })<span class="op">;</span></span>
+<span id="cb2-453"><a href=""></a>    }</span>
+<span id="cb2-454"><a href=""></a>  }</span>
+<span id="cb2-455"><a href=""></a>  </span>
+<span id="cb2-456"><a href=""></a>  <span class="cf">return</span> Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb2-457"><a href=""></a>    <span class="dt">width</span><span class="op">:</span> width<span class="op">,</span></span>
+<span id="cb2-458"><a href=""></a>    <span class="dt">height</span><span class="op">:</span> height<span class="op">,</span></span>
+<span id="cb2-459"><a href=""></a>    <span class="dt">margin</span><span class="op">:</span> margin<span class="op">,</span></span>
+<span id="cb2-460"><a href=""></a>    <span class="dt">style</span><span class="op">:</span> { <span class="dt">fontSize</span><span class="op">:</span> <span class="st">"12px"</span> }<span class="op">,</span></span>
+<span id="cb2-461"><a href=""></a>    <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb2-462"><a href=""></a>      Plot<span class="op">.</span><span class="fu">dot</span>(surface_data<span class="op">,</span> {</span>
+<span id="cb2-463"><a href=""></a>        <span class="dt">x</span><span class="op">:</span> <span class="st">"y1"</span><span class="op">,</span></span>
+<span id="cb2-464"><a href=""></a>        <span class="dt">y</span><span class="op">:</span> <span class="st">"y2"</span><span class="op">,</span></span>
+<span id="cb2-465"><a href=""></a>        <span class="dt">fill</span><span class="op">:</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">inRegion</span> <span class="op">?</span> <span class="st">"#3b82f6"</span> <span class="op">:</span> <span class="st">"#e5e7eb"</span><span class="op">,</span></span>
+<span id="cb2-466"><a href=""></a>        <span class="dt">r</span><span class="op">:</span> <span class="dv">6</span><span class="op">,</span></span>
+<span id="cb2-467"><a href=""></a>        <span class="dt">opacity</span><span class="op">:</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">inRegion</span> <span class="op">?</span> <span class="fl">0.9</span> <span class="op">:</span> <span class="fl">0.25</span></span>
+<span id="cb2-468"><a href=""></a>      })<span class="op">,</span></span>
+<span id="cb2-469"><a href=""></a>      Plot<span class="op">.</span><span class="fu">frame</span>({<span class="dt">stroke</span><span class="op">:</span> <span class="st">"black"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span>})<span class="op">,</span></span>
+<span id="cb2-470"><a href=""></a>      Plot<span class="op">.</span><span class="fu">line</span>(</span>
+<span id="cb2-471"><a href=""></a>        <span class="co">// Line y₁ + y₂ = c clipped to unit square [0,1]²</span></span>
+<span id="cb2-472"><a href=""></a>        <span class="co">// Start point: where line intersects y₁=0 or y₂=1</span></span>
+<span id="cb2-473"><a href=""></a>        <span class="co">// End point: where line intersects y₂=0 or y₁=1</span></span>
+<span id="cb2-474"><a href=""></a>        threshold <span class="op">&lt;=</span> <span class="dv">2</span> <span class="op">?</span> [</span>
+<span id="cb2-475"><a href=""></a>          {<span class="dt">y1</span><span class="op">:</span> threshold <span class="op">&lt;=</span> <span class="dv">1</span> <span class="op">?</span> <span class="dv">0</span> <span class="op">:</span> threshold <span class="op">-</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">y2</span><span class="op">:</span> threshold <span class="op">&lt;=</span> <span class="dv">1</span> <span class="op">?</span> threshold <span class="op">:</span> <span class="dv">1</span>}<span class="op">,</span></span>
+<span id="cb2-476"><a href=""></a>          {<span class="dt">y1</span><span class="op">:</span> threshold <span class="op">&lt;=</span> <span class="dv">1</span> <span class="op">?</span> threshold <span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">y2</span><span class="op">:</span> threshold <span class="op">&lt;=</span> <span class="dv">1</span> <span class="op">?</span> <span class="dv">0</span> <span class="op">:</span> threshold <span class="op">-</span> <span class="dv">1</span>}</span>
+<span id="cb2-477"><a href=""></a>        ] <span class="op">:</span> []<span class="op">,</span></span>
+<span id="cb2-478"><a href=""></a>        { <span class="dt">x</span><span class="op">:</span> <span class="st">"y1"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y2"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"red"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">3</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"5,3"</span> }</span>
+<span id="cb2-479"><a href=""></a>      )<span class="op">,</span></span>
+<span id="cb2-480"><a href=""></a>      Plot<span class="op">.</span><span class="fu">text</span>([{<span class="dt">x</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="op">-</span><span class="fl">0.1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"y₁"</span>}]<span class="op">,</span> { <span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> <span class="st">"label"</span><span class="op">,</span> <span class="dt">fontSize</span><span class="op">:</span> <span class="dv">14</span><span class="op">,</span> <span class="dt">fontWeight</span><span class="op">:</span> <span class="st">"bold"</span> })<span class="op">,</span></span>
+<span id="cb2-481"><a href=""></a>      Plot<span class="op">.</span><span class="fu">text</span>([{<span class="dt">x</span><span class="op">:</span> <span class="op">-</span><span class="fl">0.1</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"y₂"</span>}]<span class="op">,</span> { <span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> <span class="st">"label"</span><span class="op">,</span> <span class="dt">fontSize</span><span class="op">:</span> <span class="dv">14</span><span class="op">,</span> <span class="dt">fontWeight</span><span class="op">:</span> <span class="st">"bold"</span> })</span>
+<span id="cb2-482"><a href=""></a>    ]<span class="op">,</span></span>
+<span id="cb2-483"><a href=""></a>    <span class="dt">x</span><span class="op">:</span> { <span class="dt">label</span><span class="op">:</span> <span class="kw">null</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> <span class="dt">ticks</span><span class="op">:</span> <span class="dv">5</span> }<span class="op">,</span></span>
+<span id="cb2-484"><a href=""></a>    <span class="dt">y</span><span class="op">:</span> { <span class="dt">label</span><span class="op">:</span> <span class="kw">null</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> <span class="dt">ticks</span><span class="op">:</span> <span class="dv">5</span> }</span>
+<span id="cb2-485"><a href=""></a>  })<span class="op">;</span></span>
+<span id="cb2-486"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-2" data-nodetype="expression">
@@ -725,107 +731,107 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb3" data-startfrom="491" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 490;"><span id="cb3-491"><a href=""></a>Plotly <span class="op">=</span> <span class="pp">require</span>(<span class="st">"https://cdn.plot.ly/plotly-2.27.0.min.js"</span>)</span>
-<span id="cb3-492"><a href=""></a></span>
-<span id="cb3-493"><a href=""></a><span class="co">// 3D Surface Plot</span></span>
-<span id="cb3-494"><a href=""></a>{</span>
-<span id="cb3-495"><a href=""></a>  <span class="kw">const</span> n <span class="op">=</span> <span class="dv">25</span><span class="op">;</span></span>
-<span id="cb3-496"><a href=""></a>  <span class="kw">const</span> y1_grid <span class="op">=</span> []<span class="op">,</span> y2_grid <span class="op">=</span> []<span class="op">,</span> z_grid <span class="op">=</span> []<span class="op">,</span> color_grid <span class="op">=</span> []<span class="op">;</span></span>
-<span id="cb3-497"><a href=""></a>  </span>
-<span id="cb3-498"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i<span class="op">++</span>) y1_grid<span class="op">.</span><span class="fu">push</span>(i <span class="op">/</span> n)<span class="op">;</span></span>
-<span id="cb3-499"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;=</span> n<span class="op">;</span> j<span class="op">++</span>) y2_grid<span class="op">.</span><span class="fu">push</span>(j <span class="op">/</span> n)<span class="op">;</span></span>
-<span id="cb3-500"><a href=""></a>  </span>
-<span id="cb3-501"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;=</span> n<span class="op">;</span> j<span class="op">++</span>) {</span>
-<span id="cb3-502"><a href=""></a>    <span class="kw">const</span> z_row <span class="op">=</span> []<span class="op">,</span> color_row <span class="op">=</span> []<span class="op">;</span></span>
-<span id="cb3-503"><a href=""></a>    <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i<span class="op">++</span>) {</span>
-<span id="cb3-504"><a href=""></a>      z_row<span class="op">.</span><span class="fu">push</span>(<span class="dv">1</span>)<span class="op">;</span></span>
-<span id="cb3-505"><a href=""></a>      color_row<span class="op">.</span><span class="fu">push</span>((y1_grid[i] <span class="op">+</span> y2_grid[j]) <span class="op">&lt;=</span> threshold <span class="op">?</span> <span class="dv">1</span> <span class="op">:</span> <span class="dv">0</span>)<span class="op">;</span></span>
-<span id="cb3-506"><a href=""></a>    }</span>
-<span id="cb3-507"><a href=""></a>    z_grid<span class="op">.</span><span class="fu">push</span>(z_row)<span class="op">;</span></span>
-<span id="cb3-508"><a href=""></a>    color_grid<span class="op">.</span><span class="fu">push</span>(color_row)<span class="op">;</span></span>
-<span id="cb3-509"><a href=""></a>  }</span>
-<span id="cb3-510"><a href=""></a>  </span>
-<span id="cb3-511"><a href=""></a>  <span class="kw">const</span> data <span class="op">=</span> [{</span>
-<span id="cb3-512"><a href=""></a>    <span class="dt">type</span><span class="op">:</span> <span class="st">'surface'</span><span class="op">,</span> <span class="dt">x</span><span class="op">:</span> y1_grid<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> y2_grid<span class="op">,</span> <span class="dt">z</span><span class="op">:</span> z_grid<span class="op">,</span></span>
-<span id="cb3-513"><a href=""></a>    <span class="dt">surfacecolor</span><span class="op">:</span> color_grid<span class="op">,</span></span>
-<span id="cb3-514"><a href=""></a>    <span class="dt">colorscale</span><span class="op">:</span> [[<span class="dv">0</span><span class="op">,</span> <span class="st">'#e5e7eb'</span>]<span class="op">,</span> [<span class="dv">1</span><span class="op">,</span> <span class="st">'#3b82f6'</span>]]<span class="op">,</span></span>
-<span id="cb3-515"><a href=""></a>    <span class="dt">showscale</span><span class="op">:</span> <span class="kw">false</span><span class="op">,</span></span>
-<span id="cb3-516"><a href=""></a>    <span class="dt">contours</span><span class="op">:</span> { <span class="dt">z</span><span class="op">:</span> { <span class="dt">show</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">usecolormap</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">project</span><span class="op">:</span> {<span class="dt">z</span><span class="op">:</span> <span class="kw">true</span>} } }</span>
-<span id="cb3-517"><a href=""></a>  }]<span class="op">;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb3" data-startfrom="499" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 498;"><span id="cb3-499"><a href=""></a>Plotly <span class="op">=</span> <span class="pp">require</span>(<span class="st">"https://cdn.plot.ly/plotly-2.27.0.min.js"</span>)</span>
+<span id="cb3-500"><a href=""></a></span>
+<span id="cb3-501"><a href=""></a><span class="co">// 3D Surface Plot</span></span>
+<span id="cb3-502"><a href=""></a>{</span>
+<span id="cb3-503"><a href=""></a>  <span class="kw">const</span> n <span class="op">=</span> <span class="dv">25</span><span class="op">;</span></span>
+<span id="cb3-504"><a href=""></a>  <span class="kw">const</span> y1_grid <span class="op">=</span> []<span class="op">,</span> y2_grid <span class="op">=</span> []<span class="op">,</span> z_grid <span class="op">=</span> []<span class="op">,</span> color_grid <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb3-505"><a href=""></a>  </span>
+<span id="cb3-506"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i<span class="op">++</span>) y1_grid<span class="op">.</span><span class="fu">push</span>(i <span class="op">/</span> n)<span class="op">;</span></span>
+<span id="cb3-507"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;=</span> n<span class="op">;</span> j<span class="op">++</span>) y2_grid<span class="op">.</span><span class="fu">push</span>(j <span class="op">/</span> n)<span class="op">;</span></span>
+<span id="cb3-508"><a href=""></a>  </span>
+<span id="cb3-509"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;=</span> n<span class="op">;</span> j<span class="op">++</span>) {</span>
+<span id="cb3-510"><a href=""></a>    <span class="kw">const</span> z_row <span class="op">=</span> []<span class="op">,</span> color_row <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb3-511"><a href=""></a>    <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb3-512"><a href=""></a>      z_row<span class="op">.</span><span class="fu">push</span>(<span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb3-513"><a href=""></a>      color_row<span class="op">.</span><span class="fu">push</span>((y1_grid[i] <span class="op">+</span> y2_grid[j]) <span class="op">&lt;=</span> threshold <span class="op">?</span> <span class="dv">1</span> <span class="op">:</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb3-514"><a href=""></a>    }</span>
+<span id="cb3-515"><a href=""></a>    z_grid<span class="op">.</span><span class="fu">push</span>(z_row)<span class="op">;</span></span>
+<span id="cb3-516"><a href=""></a>    color_grid<span class="op">.</span><span class="fu">push</span>(color_row)<span class="op">;</span></span>
+<span id="cb3-517"><a href=""></a>  }</span>
 <span id="cb3-518"><a href=""></a>  </span>
-<span id="cb3-519"><a href=""></a>  <span class="co">// Add dots filling the 3D volume within the integration region</span></span>
-<span id="cb3-520"><a href=""></a>  <span class="kw">const</span> dot_y1 <span class="op">=</span> []<span class="op">,</span> dot_y2 <span class="op">=</span> []<span class="op">,</span> dot_z <span class="op">=</span> []<span class="op">;</span></span>
-<span id="cb3-521"><a href=""></a>  <span class="kw">const</span> dot_spacing <span class="op">=</span> <span class="fl">0.15</span><span class="op">;</span></span>
-<span id="cb3-522"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">+=</span> dot_spacing) {</span>
-<span id="cb3-523"><a href=""></a>    <span class="cf">for</span> (<span class="kw">let</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;=</span> <span class="dv">1</span><span class="op">;</span> j <span class="op">+=</span> dot_spacing) {</span>
-<span id="cb3-524"><a href=""></a>      <span class="cf">if</span> (i <span class="op">+</span> j <span class="op">&lt;=</span> threshold) {</span>
-<span id="cb3-525"><a href=""></a>        <span class="cf">for</span> (<span class="kw">let</span> k <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> k <span class="op">&lt;=</span> <span class="dv">1</span><span class="op">;</span> k <span class="op">+=</span> dot_spacing) {</span>
-<span id="cb3-526"><a href=""></a>          dot_y1<span class="op">.</span><span class="fu">push</span>(i)<span class="op">;</span></span>
-<span id="cb3-527"><a href=""></a>          dot_y2<span class="op">.</span><span class="fu">push</span>(j)<span class="op">;</span></span>
-<span id="cb3-528"><a href=""></a>          dot_z<span class="op">.</span><span class="fu">push</span>(k)<span class="op">;</span></span>
-<span id="cb3-529"><a href=""></a>        }</span>
-<span id="cb3-530"><a href=""></a>      }</span>
-<span id="cb3-531"><a href=""></a>    }</span>
-<span id="cb3-532"><a href=""></a>  }</span>
-<span id="cb3-533"><a href=""></a>  <span class="cf">if</span> (dot_y1<span class="op">.</span><span class="at">length</span> <span class="op">&gt;</span> <span class="dv">0</span>) {</span>
-<span id="cb3-534"><a href=""></a>    data<span class="op">.</span><span class="fu">push</span>({</span>
-<span id="cb3-535"><a href=""></a>      <span class="dt">type</span><span class="op">:</span> <span class="st">'scatter3d'</span><span class="op">,</span></span>
-<span id="cb3-536"><a href=""></a>      <span class="dt">mode</span><span class="op">:</span> <span class="st">'markers'</span><span class="op">,</span></span>
-<span id="cb3-537"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> dot_y1<span class="op">,</span></span>
-<span id="cb3-538"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> dot_y2<span class="op">,</span></span>
-<span id="cb3-539"><a href=""></a>      <span class="dt">z</span><span class="op">:</span> dot_z<span class="op">,</span></span>
-<span id="cb3-540"><a href=""></a>      <span class="dt">marker</span><span class="op">:</span> {</span>
-<span id="cb3-541"><a href=""></a>        <span class="dt">size</span><span class="op">:</span> <span class="fl">2.5</span><span class="op">,</span></span>
-<span id="cb3-542"><a href=""></a>        <span class="dt">color</span><span class="op">:</span> <span class="st">'#1e40af'</span><span class="op">,</span></span>
-<span id="cb3-543"><a href=""></a>        <span class="dt">opacity</span><span class="op">:</span> <span class="fl">0.5</span></span>
-<span id="cb3-544"><a href=""></a>      }<span class="op">,</span></span>
-<span id="cb3-545"><a href=""></a>      <span class="dt">showlegend</span><span class="op">:</span> <span class="kw">false</span></span>
-<span id="cb3-546"><a href=""></a>    })<span class="op">;</span></span>
-<span id="cb3-547"><a href=""></a>  }</span>
-<span id="cb3-548"><a href=""></a>  </span>
-<span id="cb3-549"><a href=""></a>  <span class="cf">if</span> (threshold <span class="op">&lt;=</span> <span class="dv">2</span>) {</span>
-<span id="cb3-550"><a href=""></a>    <span class="kw">const</span> line_y1 <span class="op">=</span> []<span class="op">,</span> line_y2 <span class="op">=</span> []<span class="op">,</span> line_z <span class="op">=</span> []<span class="op">;</span></span>
-<span id="cb3-551"><a href=""></a>    <span class="co">// Constraint line y₁ + y₂ = c clipped to unit square</span></span>
-<span id="cb3-552"><a href=""></a>    <span class="kw">const</span> start_y1 <span class="op">=</span> threshold <span class="op">&lt;=</span> <span class="dv">1</span> <span class="op">?</span> <span class="dv">0</span> <span class="op">:</span> threshold <span class="op">-</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb3-553"><a href=""></a>    <span class="kw">const</span> start_y2 <span class="op">=</span> threshold <span class="op">&lt;=</span> <span class="dv">1</span> <span class="op">?</span> threshold <span class="op">:</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb3-554"><a href=""></a>    <span class="kw">const</span> end_y1 <span class="op">=</span> threshold <span class="op">&lt;=</span> <span class="dv">1</span> <span class="op">?</span> threshold <span class="op">:</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb3-555"><a href=""></a>    <span class="kw">const</span> end_y2 <span class="op">=</span> threshold <span class="op">&lt;=</span> <span class="dv">1</span> <span class="op">?</span> <span class="dv">0</span> <span class="op">:</span> threshold <span class="op">-</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb3-556"><a href=""></a>    </span>
-<span id="cb3-557"><a href=""></a>    <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;=</span> <span class="dv">50</span><span class="op">;</span> i<span class="op">++</span>) {</span>
-<span id="cb3-558"><a href=""></a>      <span class="kw">const</span> t <span class="op">=</span> i <span class="op">/</span> <span class="dv">50</span><span class="op">;</span></span>
-<span id="cb3-559"><a href=""></a>      <span class="kw">const</span> y1 <span class="op">=</span> start_y1 <span class="op">+</span> t <span class="op">*</span> (end_y1 <span class="op">-</span> start_y1)<span class="op">;</span></span>
-<span id="cb3-560"><a href=""></a>      <span class="kw">const</span> y2 <span class="op">=</span> start_y2 <span class="op">+</span> t <span class="op">*</span> (end_y2 <span class="op">-</span> start_y2)<span class="op">;</span></span>
-<span id="cb3-561"><a href=""></a>      line_y1<span class="op">.</span><span class="fu">push</span>(y1)<span class="op">;</span> line_y2<span class="op">.</span><span class="fu">push</span>(y2)<span class="op">;</span> line_z<span class="op">.</span><span class="fu">push</span>(<span class="dv">0</span>)<span class="op">;</span></span>
-<span id="cb3-562"><a href=""></a>    }</span>
-<span id="cb3-563"><a href=""></a>    data<span class="op">.</span><span class="fu">push</span>({ <span class="dt">type</span><span class="op">:</span> <span class="st">'scatter3d'</span><span class="op">,</span> <span class="dt">mode</span><span class="op">:</span> <span class="st">'lines'</span><span class="op">,</span> <span class="dt">x</span><span class="op">:</span> line_y1<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> line_y2<span class="op">,</span> <span class="dt">z</span><span class="op">:</span> line_z<span class="op">,</span></span>
-<span id="cb3-564"><a href=""></a>      <span class="dt">line</span><span class="op">:</span> { <span class="dt">color</span><span class="op">:</span> <span class="st">'red'</span><span class="op">,</span> <span class="dt">width</span><span class="op">:</span> <span class="dv">5</span> }<span class="op">,</span> <span class="dt">showlegend</span><span class="op">:</span> <span class="kw">false</span> })<span class="op">;</span></span>
-<span id="cb3-565"><a href=""></a>  }</span>
-<span id="cb3-566"><a href=""></a>  </span>
-<span id="cb3-567"><a href=""></a>  <span class="kw">const</span> layout <span class="op">=</span> {</span>
-<span id="cb3-568"><a href=""></a>    <span class="dt">width</span><span class="op">:</span> <span class="dv">480</span><span class="op">,</span> <span class="dt">height</span><span class="op">:</span> <span class="dv">460</span><span class="op">,</span></span>
-<span id="cb3-569"><a href=""></a>    <span class="dt">margin</span><span class="op">:</span> {<span class="dt">l</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">r</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">b</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">t</span><span class="op">:</span> <span class="dv">0</span>}<span class="op">,</span></span>
-<span id="cb3-570"><a href=""></a>    <span class="dt">scene</span><span class="op">:</span> {</span>
-<span id="cb3-571"><a href=""></a>      <span class="dt">xaxis</span><span class="op">:</span> {<span class="dt">title</span><span class="op">:</span> <span class="st">'y₁'</span><span class="op">,</span> <span class="dt">range</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> <span class="dt">titlefont</span><span class="op">:</span> {<span class="dt">size</span><span class="op">:</span> <span class="dv">14</span>}}<span class="op">,</span></span>
-<span id="cb3-572"><a href=""></a>      <span class="dt">yaxis</span><span class="op">:</span> {<span class="dt">title</span><span class="op">:</span> <span class="st">'y₂'</span><span class="op">,</span> <span class="dt">range</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> <span class="dt">titlefont</span><span class="op">:</span> {<span class="dt">size</span><span class="op">:</span> <span class="dv">14</span>}}<span class="op">,</span></span>
-<span id="cb3-573"><a href=""></a>      <span class="dt">zaxis</span><span class="op">:</span> {<span class="dt">title</span><span class="op">:</span> <span class="st">'f(y₁,y₂)'</span><span class="op">,</span> <span class="dt">range</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="fl">1.2</span>]<span class="op">,</span> <span class="dt">titlefont</span><span class="op">:</span> {<span class="dt">size</span><span class="op">:</span> <span class="dv">12</span>}}<span class="op">,</span></span>
-<span id="cb3-574"><a href=""></a>      <span class="dt">camera</span><span class="op">:</span> { <span class="dt">eye</span><span class="op">:</span> {<span class="dt">x</span><span class="op">:</span> <span class="fl">1.5</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="fl">1.5</span><span class="op">,</span> <span class="dt">z</span><span class="op">:</span> <span class="fl">1.1</span>} }<span class="op">,</span></span>
-<span id="cb3-575"><a href=""></a>      <span class="dt">aspectmode</span><span class="op">:</span> <span class="st">'cube'</span></span>
-<span id="cb3-576"><a href=""></a>    }</span>
-<span id="cb3-577"><a href=""></a>  }<span class="op">;</span></span>
-<span id="cb3-578"><a href=""></a>  </span>
-<span id="cb3-579"><a href=""></a>  <span class="kw">const</span> div <span class="op">=</span> DOM<span class="op">.</span><span class="fu">element</span>(<span class="st">'div'</span>)<span class="op">;</span></span>
-<span id="cb3-580"><a href=""></a>  Plotly<span class="op">.</span><span class="fu">newPlot</span>(div<span class="op">,</span> data<span class="op">,</span> layout<span class="op">,</span> {<span class="dt">displayModeBar</span><span class="op">:</span> <span class="kw">false</span>})<span class="op">;</span></span>
-<span id="cb3-581"><a href=""></a>  </span>
-<span id="cb3-582"><a href=""></a>  div<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'pointerdown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb3-583"><a href=""></a>  div<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'touchstart'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb3-584"><a href=""></a>  div<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'mousedown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb3-585"><a href=""></a>  div<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'wheel'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb3-586"><a href=""></a>  div<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'pointermove'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb3-587"><a href=""></a>  div<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'touchmove'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb3-588"><a href=""></a>  div<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'mousemove'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb3-519"><a href=""></a>  <span class="kw">const</span> data <span class="op">=</span> [{</span>
+<span id="cb3-520"><a href=""></a>    <span class="dt">type</span><span class="op">:</span> <span class="st">'surface'</span><span class="op">,</span> <span class="dt">x</span><span class="op">:</span> y1_grid<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> y2_grid<span class="op">,</span> <span class="dt">z</span><span class="op">:</span> z_grid<span class="op">,</span></span>
+<span id="cb3-521"><a href=""></a>    <span class="dt">surfacecolor</span><span class="op">:</span> color_grid<span class="op">,</span></span>
+<span id="cb3-522"><a href=""></a>    <span class="dt">colorscale</span><span class="op">:</span> [[<span class="dv">0</span><span class="op">,</span> <span class="st">'#e5e7eb'</span>]<span class="op">,</span> [<span class="dv">1</span><span class="op">,</span> <span class="st">'#3b82f6'</span>]]<span class="op">,</span></span>
+<span id="cb3-523"><a href=""></a>    <span class="dt">showscale</span><span class="op">:</span> <span class="kw">false</span><span class="op">,</span></span>
+<span id="cb3-524"><a href=""></a>    <span class="dt">contours</span><span class="op">:</span> { <span class="dt">z</span><span class="op">:</span> { <span class="dt">show</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">usecolormap</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">project</span><span class="op">:</span> {<span class="dt">z</span><span class="op">:</span> <span class="kw">true</span>} } }</span>
+<span id="cb3-525"><a href=""></a>  }]<span class="op">;</span></span>
+<span id="cb3-526"><a href=""></a>  </span>
+<span id="cb3-527"><a href=""></a>  <span class="co">// Add dots filling the 3D volume within the integration region</span></span>
+<span id="cb3-528"><a href=""></a>  <span class="kw">const</span> dot_y1 <span class="op">=</span> []<span class="op">,</span> dot_y2 <span class="op">=</span> []<span class="op">,</span> dot_z <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb3-529"><a href=""></a>  <span class="kw">const</span> dot_spacing <span class="op">=</span> <span class="fl">0.15</span><span class="op">;</span></span>
+<span id="cb3-530"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">+=</span> dot_spacing) {</span>
+<span id="cb3-531"><a href=""></a>    <span class="cf">for</span> (<span class="kw">let</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;=</span> <span class="dv">1</span><span class="op">;</span> j <span class="op">+=</span> dot_spacing) {</span>
+<span id="cb3-532"><a href=""></a>      <span class="cf">if</span> (i <span class="op">+</span> j <span class="op">&lt;=</span> threshold) {</span>
+<span id="cb3-533"><a href=""></a>        <span class="cf">for</span> (<span class="kw">let</span> k <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> k <span class="op">&lt;=</span> <span class="dv">1</span><span class="op">;</span> k <span class="op">+=</span> dot_spacing) {</span>
+<span id="cb3-534"><a href=""></a>          dot_y1<span class="op">.</span><span class="fu">push</span>(i)<span class="op">;</span></span>
+<span id="cb3-535"><a href=""></a>          dot_y2<span class="op">.</span><span class="fu">push</span>(j)<span class="op">;</span></span>
+<span id="cb3-536"><a href=""></a>          dot_z<span class="op">.</span><span class="fu">push</span>(k)<span class="op">;</span></span>
+<span id="cb3-537"><a href=""></a>        }</span>
+<span id="cb3-538"><a href=""></a>      }</span>
+<span id="cb3-539"><a href=""></a>    }</span>
+<span id="cb3-540"><a href=""></a>  }</span>
+<span id="cb3-541"><a href=""></a>  <span class="cf">if</span> (dot_y1<span class="op">.</span><span class="at">length</span> <span class="op">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb3-542"><a href=""></a>    data<span class="op">.</span><span class="fu">push</span>({</span>
+<span id="cb3-543"><a href=""></a>      <span class="dt">type</span><span class="op">:</span> <span class="st">'scatter3d'</span><span class="op">,</span></span>
+<span id="cb3-544"><a href=""></a>      <span class="dt">mode</span><span class="op">:</span> <span class="st">'markers'</span><span class="op">,</span></span>
+<span id="cb3-545"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> dot_y1<span class="op">,</span></span>
+<span id="cb3-546"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> dot_y2<span class="op">,</span></span>
+<span id="cb3-547"><a href=""></a>      <span class="dt">z</span><span class="op">:</span> dot_z<span class="op">,</span></span>
+<span id="cb3-548"><a href=""></a>      <span class="dt">marker</span><span class="op">:</span> {</span>
+<span id="cb3-549"><a href=""></a>        <span class="dt">size</span><span class="op">:</span> <span class="fl">2.5</span><span class="op">,</span></span>
+<span id="cb3-550"><a href=""></a>        <span class="dt">color</span><span class="op">:</span> <span class="st">'#1e40af'</span><span class="op">,</span></span>
+<span id="cb3-551"><a href=""></a>        <span class="dt">opacity</span><span class="op">:</span> <span class="fl">0.5</span></span>
+<span id="cb3-552"><a href=""></a>      }<span class="op">,</span></span>
+<span id="cb3-553"><a href=""></a>      <span class="dt">showlegend</span><span class="op">:</span> <span class="kw">false</span></span>
+<span id="cb3-554"><a href=""></a>    })<span class="op">;</span></span>
+<span id="cb3-555"><a href=""></a>  }</span>
+<span id="cb3-556"><a href=""></a>  </span>
+<span id="cb3-557"><a href=""></a>  <span class="cf">if</span> (threshold <span class="op">&lt;=</span> <span class="dv">2</span>) {</span>
+<span id="cb3-558"><a href=""></a>    <span class="kw">const</span> line_y1 <span class="op">=</span> []<span class="op">,</span> line_y2 <span class="op">=</span> []<span class="op">,</span> line_z <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb3-559"><a href=""></a>    <span class="co">// Constraint line y₁ + y₂ = c clipped to unit square</span></span>
+<span id="cb3-560"><a href=""></a>    <span class="kw">const</span> start_y1 <span class="op">=</span> threshold <span class="op">&lt;=</span> <span class="dv">1</span> <span class="op">?</span> <span class="dv">0</span> <span class="op">:</span> threshold <span class="op">-</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb3-561"><a href=""></a>    <span class="kw">const</span> start_y2 <span class="op">=</span> threshold <span class="op">&lt;=</span> <span class="dv">1</span> <span class="op">?</span> threshold <span class="op">:</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb3-562"><a href=""></a>    <span class="kw">const</span> end_y1 <span class="op">=</span> threshold <span class="op">&lt;=</span> <span class="dv">1</span> <span class="op">?</span> threshold <span class="op">:</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb3-563"><a href=""></a>    <span class="kw">const</span> end_y2 <span class="op">=</span> threshold <span class="op">&lt;=</span> <span class="dv">1</span> <span class="op">?</span> <span class="dv">0</span> <span class="op">:</span> threshold <span class="op">-</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb3-564"><a href=""></a>    </span>
+<span id="cb3-565"><a href=""></a>    <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;=</span> <span class="dv">50</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb3-566"><a href=""></a>      <span class="kw">const</span> t <span class="op">=</span> i <span class="op">/</span> <span class="dv">50</span><span class="op">;</span></span>
+<span id="cb3-567"><a href=""></a>      <span class="kw">const</span> y1 <span class="op">=</span> start_y1 <span class="op">+</span> t <span class="op">*</span> (end_y1 <span class="op">-</span> start_y1)<span class="op">;</span></span>
+<span id="cb3-568"><a href=""></a>      <span class="kw">const</span> y2 <span class="op">=</span> start_y2 <span class="op">+</span> t <span class="op">*</span> (end_y2 <span class="op">-</span> start_y2)<span class="op">;</span></span>
+<span id="cb3-569"><a href=""></a>      line_y1<span class="op">.</span><span class="fu">push</span>(y1)<span class="op">;</span> line_y2<span class="op">.</span><span class="fu">push</span>(y2)<span class="op">;</span> line_z<span class="op">.</span><span class="fu">push</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb3-570"><a href=""></a>    }</span>
+<span id="cb3-571"><a href=""></a>    data<span class="op">.</span><span class="fu">push</span>({ <span class="dt">type</span><span class="op">:</span> <span class="st">'scatter3d'</span><span class="op">,</span> <span class="dt">mode</span><span class="op">:</span> <span class="st">'lines'</span><span class="op">,</span> <span class="dt">x</span><span class="op">:</span> line_y1<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> line_y2<span class="op">,</span> <span class="dt">z</span><span class="op">:</span> line_z<span class="op">,</span></span>
+<span id="cb3-572"><a href=""></a>      <span class="dt">line</span><span class="op">:</span> { <span class="dt">color</span><span class="op">:</span> <span class="st">'red'</span><span class="op">,</span> <span class="dt">width</span><span class="op">:</span> <span class="dv">5</span> }<span class="op">,</span> <span class="dt">showlegend</span><span class="op">:</span> <span class="kw">false</span> })<span class="op">;</span></span>
+<span id="cb3-573"><a href=""></a>  }</span>
+<span id="cb3-574"><a href=""></a>  </span>
+<span id="cb3-575"><a href=""></a>  <span class="kw">const</span> layout <span class="op">=</span> {</span>
+<span id="cb3-576"><a href=""></a>    <span class="dt">width</span><span class="op">:</span> <span class="dv">480</span><span class="op">,</span> <span class="dt">height</span><span class="op">:</span> <span class="dv">460</span><span class="op">,</span></span>
+<span id="cb3-577"><a href=""></a>    <span class="dt">margin</span><span class="op">:</span> {<span class="dt">l</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">r</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">b</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">t</span><span class="op">:</span> <span class="dv">0</span>}<span class="op">,</span></span>
+<span id="cb3-578"><a href=""></a>    <span class="dt">scene</span><span class="op">:</span> {</span>
+<span id="cb3-579"><a href=""></a>      <span class="dt">xaxis</span><span class="op">:</span> {<span class="dt">title</span><span class="op">:</span> <span class="st">'y₁'</span><span class="op">,</span> <span class="dt">range</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> <span class="dt">titlefont</span><span class="op">:</span> {<span class="dt">size</span><span class="op">:</span> <span class="dv">14</span>}}<span class="op">,</span></span>
+<span id="cb3-580"><a href=""></a>      <span class="dt">yaxis</span><span class="op">:</span> {<span class="dt">title</span><span class="op">:</span> <span class="st">'y₂'</span><span class="op">,</span> <span class="dt">range</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> <span class="dt">titlefont</span><span class="op">:</span> {<span class="dt">size</span><span class="op">:</span> <span class="dv">14</span>}}<span class="op">,</span></span>
+<span id="cb3-581"><a href=""></a>      <span class="dt">zaxis</span><span class="op">:</span> {<span class="dt">title</span><span class="op">:</span> <span class="st">'f(y₁,y₂)'</span><span class="op">,</span> <span class="dt">range</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="fl">1.2</span>]<span class="op">,</span> <span class="dt">titlefont</span><span class="op">:</span> {<span class="dt">size</span><span class="op">:</span> <span class="dv">12</span>}}<span class="op">,</span></span>
+<span id="cb3-582"><a href=""></a>      <span class="dt">camera</span><span class="op">:</span> { <span class="dt">eye</span><span class="op">:</span> {<span class="dt">x</span><span class="op">:</span> <span class="fl">1.5</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="fl">1.5</span><span class="op">,</span> <span class="dt">z</span><span class="op">:</span> <span class="fl">1.1</span>} }<span class="op">,</span></span>
+<span id="cb3-583"><a href=""></a>      <span class="dt">aspectmode</span><span class="op">:</span> <span class="st">'cube'</span></span>
+<span id="cb3-584"><a href=""></a>    }</span>
+<span id="cb3-585"><a href=""></a>  }<span class="op">;</span></span>
+<span id="cb3-586"><a href=""></a>  </span>
+<span id="cb3-587"><a href=""></a>  <span class="kw">const</span> div <span class="op">=</span> DOM<span class="op">.</span><span class="fu">element</span>(<span class="st">'div'</span>)<span class="op">;</span></span>
+<span id="cb3-588"><a href=""></a>  Plotly<span class="op">.</span><span class="fu">newPlot</span>(div<span class="op">,</span> data<span class="op">,</span> layout<span class="op">,</span> {<span class="dt">displayModeBar</span><span class="op">:</span> <span class="kw">false</span>})<span class="op">;</span></span>
 <span id="cb3-589"><a href=""></a>  </span>
-<span id="cb3-590"><a href=""></a>  <span class="cf">return</span> div<span class="op">;</span></span>
-<span id="cb3-591"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-590"><a href=""></a>  div<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'pointerdown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb3-591"><a href=""></a>  div<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'touchstart'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb3-592"><a href=""></a>  div<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'mousedown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb3-593"><a href=""></a>  div<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'wheel'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb3-594"><a href=""></a>  div<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'pointermove'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb3-595"><a href=""></a>  div<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'touchmove'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb3-596"><a href=""></a>  div<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'mousemove'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb3-597"><a href=""></a>  </span>
+<span id="cb3-598"><a href=""></a>  <span class="cf">return</span> div<span class="op">;</span></span>
+<span id="cb3-599"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -876,56 +882,56 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb4" data-startfrom="639" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 638;"><span id="cb4-639"><a href=""></a>viewof alpha <span class="op">=</span> {</span>
-<span id="cb4-640"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">3</span>]<span class="op">,</span> {</span>
-<span id="cb4-641"><a href=""></a>    <span class="dt">value</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> </span>
-<span id="cb4-642"><a href=""></a>    <span class="dt">step</span><span class="op">:</span> <span class="fl">0.25</span><span class="op">,</span> </span>
-<span id="cb4-643"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"α (power of y₁):"</span></span>
-<span id="cb4-644"><a href=""></a>  })<span class="op">;</span></span>
-<span id="cb4-645"><a href=""></a>  </span>
-<span id="cb4-646"><a href=""></a>  <span class="co">// Prevent slide navigation when interacting with slider</span></span>
-<span id="cb4-647"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'pointerdown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb4-648"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'touchstart'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb4-649"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'mousedown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb4-650"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'click'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb4-651"><a href=""></a>  </span>
-<span id="cb4-652"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
-<span id="cb4-653"><a href=""></a>}</span>
-<span id="cb4-654"><a href=""></a></span>
-<span id="cb4-655"><a href=""></a>viewof beta <span class="op">=</span> {</span>
-<span id="cb4-656"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">3</span>]<span class="op">,</span> {</span>
-<span id="cb4-657"><a href=""></a>    <span class="dt">value</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> </span>
-<span id="cb4-658"><a href=""></a>    <span class="dt">step</span><span class="op">:</span> <span class="fl">0.25</span><span class="op">,</span> </span>
-<span id="cb4-659"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"β (power of y₂):"</span></span>
-<span id="cb4-660"><a href=""></a>  })<span class="op">;</span></span>
-<span id="cb4-661"><a href=""></a>  </span>
-<span id="cb4-662"><a href=""></a>  <span class="co">// Prevent slide navigation when interacting with slider</span></span>
-<span id="cb4-663"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'pointerdown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb4-664"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'touchstart'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb4-665"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'mousedown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb4-666"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'click'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb4-667"><a href=""></a>  </span>
-<span id="cb4-668"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
-<span id="cb4-669"><a href=""></a>}</span>
-<span id="cb4-670"><a href=""></a></span>
-<span id="cb4-671"><a href=""></a><span class="co">// Calculate normalizing constant for f(y1,y2) = c * y1^alpha * y2^beta on [0,1]x[0,1]</span></span>
-<span id="cb4-672"><a href=""></a>c_constant <span class="op">=</span> (alpha <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> (beta <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb4-673"><a href=""></a></span>
-<span id="cb4-674"><a href=""></a><span class="fu">html</span><span class="vs">`&lt;div style="font-size: 1.1em; line-height: 1.5;"&gt;</span></span>
-<span id="cb4-675"><a href=""></a><span class="vs">&lt;p&gt;&lt;strong&gt;Density:&lt;/strong&gt; &lt;em&gt;f&lt;/em&gt;(y&lt;sub&gt;1&lt;/sub&gt;, y&lt;sub&gt;2&lt;/sub&gt;) = </span><span class="sc">${</span>c_constant<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs"> · y&lt;sub&gt;1&lt;/sub&gt;&lt;sup&gt;</span><span class="sc">${</span>alpha<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">&lt;/sup&gt; · y&lt;sub&gt;2&lt;/sub&gt;&lt;sup&gt;</span><span class="sc">${</span>beta<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">&lt;/sup&gt; on [0,1]²&lt;/p&gt;</span></span>
-<span id="cb4-676"><a href=""></a><span class="vs">&lt;hr style="margin: 10px 0;"/&gt;</span></span>
-<span id="cb4-677"><a href=""></a><span class="vs">&lt;p&gt;&lt;strong&gt;Normalizing constant:&lt;/strong&gt; &lt;em&gt;c&lt;/em&gt; = (α+1)(β+1) = </span><span class="sc">${</span>c_constant<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">&lt;/p&gt;</span></span>
-<span id="cb4-678"><a href=""></a><span class="vs">&lt;hr style="margin: 10px 0;"/&gt;</span></span>
-<span id="cb4-679"><a href=""></a><span class="vs">&lt;p&gt;&lt;strong&gt;What to Observe:&lt;/strong&gt;&lt;/p&gt;</span></span>
-<span id="cb4-680"><a href=""></a><span class="vs">&lt;ul style="margin: 8px 0; padding-left: 20px;"&gt;</span></span>
-<span id="cb4-681"><a href=""></a><span class="vs">&lt;li&gt;&lt;strong&gt;α = β = 1&lt;/strong&gt;: Uniform (flat)&lt;/li&gt;</span></span>
-<span id="cb4-682"><a href=""></a><span class="vs">&lt;li&gt;&lt;strong&gt;Higher α&lt;/strong&gt;: Mass shifts to large y₁&lt;/li&gt;</span></span>
-<span id="cb4-683"><a href=""></a><span class="vs">&lt;li&gt;&lt;strong&gt;Higher β&lt;/strong&gt;: Mass shifts to large y₂&lt;/li&gt;</span></span>
-<span id="cb4-684"><a href=""></a><span class="vs">&lt;li&gt;&lt;strong&gt;Dark regions&lt;/strong&gt; = high density&lt;/li&gt;</span></span>
-<span id="cb4-685"><a href=""></a><span class="vs">&lt;/ul&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb4" data-startfrom="647" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 646;"><span id="cb4-647"><a href=""></a>viewof alpha <span class="op">=</span> {</span>
+<span id="cb4-648"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">3</span>]<span class="op">,</span> {</span>
+<span id="cb4-649"><a href=""></a>    <span class="dt">value</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> </span>
+<span id="cb4-650"><a href=""></a>    <span class="dt">step</span><span class="op">:</span> <span class="fl">0.25</span><span class="op">,</span> </span>
+<span id="cb4-651"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"α (power of y₁):"</span></span>
+<span id="cb4-652"><a href=""></a>  })<span class="op">;</span></span>
+<span id="cb4-653"><a href=""></a>  </span>
+<span id="cb4-654"><a href=""></a>  <span class="co">// Prevent slide navigation when interacting with slider</span></span>
+<span id="cb4-655"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'pointerdown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb4-656"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'touchstart'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb4-657"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'mousedown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb4-658"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'click'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb4-659"><a href=""></a>  </span>
+<span id="cb4-660"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb4-661"><a href=""></a>}</span>
+<span id="cb4-662"><a href=""></a></span>
+<span id="cb4-663"><a href=""></a>viewof beta <span class="op">=</span> {</span>
+<span id="cb4-664"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">3</span>]<span class="op">,</span> {</span>
+<span id="cb4-665"><a href=""></a>    <span class="dt">value</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> </span>
+<span id="cb4-666"><a href=""></a>    <span class="dt">step</span><span class="op">:</span> <span class="fl">0.25</span><span class="op">,</span> </span>
+<span id="cb4-667"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"β (power of y₂):"</span></span>
+<span id="cb4-668"><a href=""></a>  })<span class="op">;</span></span>
+<span id="cb4-669"><a href=""></a>  </span>
+<span id="cb4-670"><a href=""></a>  <span class="co">// Prevent slide navigation when interacting with slider</span></span>
+<span id="cb4-671"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'pointerdown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb4-672"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'touchstart'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb4-673"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'mousedown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb4-674"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'click'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb4-675"><a href=""></a>  </span>
+<span id="cb4-676"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb4-677"><a href=""></a>}</span>
+<span id="cb4-678"><a href=""></a></span>
+<span id="cb4-679"><a href=""></a><span class="co">// Calculate normalizing constant for f(y1,y2) = c * y1^alpha * y2^beta on [0,1]x[0,1]</span></span>
+<span id="cb4-680"><a href=""></a>c_constant <span class="op">=</span> (alpha <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> (beta <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb4-681"><a href=""></a></span>
+<span id="cb4-682"><a href=""></a><span class="fu">html</span><span class="vs">`&lt;div style="font-size: 1.1em; line-height: 1.5;"&gt;</span></span>
+<span id="cb4-683"><a href=""></a><span class="vs">&lt;p&gt;&lt;strong&gt;Density:&lt;/strong&gt; &lt;em&gt;f&lt;/em&gt;(y&lt;sub&gt;1&lt;/sub&gt;, y&lt;sub&gt;2&lt;/sub&gt;) = </span><span class="sc">${</span>c_constant<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs"> · y&lt;sub&gt;1&lt;/sub&gt;&lt;sup&gt;</span><span class="sc">${</span>alpha<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">&lt;/sup&gt; · y&lt;sub&gt;2&lt;/sub&gt;&lt;sup&gt;</span><span class="sc">${</span>beta<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">&lt;/sup&gt; on [0,1]²&lt;/p&gt;</span></span>
+<span id="cb4-684"><a href=""></a><span class="vs">&lt;hr style="margin: 10px 0;"/&gt;</span></span>
+<span id="cb4-685"><a href=""></a><span class="vs">&lt;p&gt;&lt;strong&gt;Normalizing constant:&lt;/strong&gt; &lt;em&gt;c&lt;/em&gt; = (α+1)(β+1) = </span><span class="sc">${</span>c_constant<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">&lt;/p&gt;</span></span>
 <span id="cb4-686"><a href=""></a><span class="vs">&lt;hr style="margin: 10px 0;"/&gt;</span></span>
-<span id="cb4-687"><a href=""></a><span class="vs">&lt;p&gt;&lt;strong&gt;Real-World:&lt;/strong&gt; Think of y₁, y₂ as asset returns. Parameters model different risk profiles.&lt;/p&gt;</span></span>
-<span id="cb4-688"><a href=""></a><span class="vs">&lt;/div&gt;`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-687"><a href=""></a><span class="vs">&lt;p&gt;&lt;strong&gt;What to Observe:&lt;/strong&gt;&lt;/p&gt;</span></span>
+<span id="cb4-688"><a href=""></a><span class="vs">&lt;ul style="margin: 8px 0; padding-left: 20px;"&gt;</span></span>
+<span id="cb4-689"><a href=""></a><span class="vs">&lt;li&gt;&lt;strong&gt;α = β = 1&lt;/strong&gt;: Uniform (flat)&lt;/li&gt;</span></span>
+<span id="cb4-690"><a href=""></a><span class="vs">&lt;li&gt;&lt;strong&gt;Higher α&lt;/strong&gt;: Mass shifts to large y₁&lt;/li&gt;</span></span>
+<span id="cb4-691"><a href=""></a><span class="vs">&lt;li&gt;&lt;strong&gt;Higher β&lt;/strong&gt;: Mass shifts to large y₂&lt;/li&gt;</span></span>
+<span id="cb4-692"><a href=""></a><span class="vs">&lt;li&gt;&lt;strong&gt;Dark regions&lt;/strong&gt; = high density&lt;/li&gt;</span></span>
+<span id="cb4-693"><a href=""></a><span class="vs">&lt;/ul&gt;</span></span>
+<span id="cb4-694"><a href=""></a><span class="vs">&lt;hr style="margin: 10px 0;"/&gt;</span></span>
+<span id="cb4-695"><a href=""></a><span class="vs">&lt;p&gt;&lt;strong&gt;Real-World:&lt;/strong&gt; Think of y₁, y₂ as asset returns. Parameters model different risk profiles.&lt;/p&gt;</span></span>
+<span id="cb4-696"><a href=""></a><span class="vs">&lt;/div&gt;`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -960,54 +966,54 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb5" data-startfrom="697" data-source-offset="-59"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 696;"><span id="cb5-697"><a href=""></a>grid_size <span class="op">=</span> <span class="dv">30</span></span>
-<span id="cb5-698"><a href=""></a>y1_vals <span class="op">=</span> d3<span class="op">.</span><span class="fu">range</span>(<span class="fl">0.02</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">/</span>grid_size)</span>
-<span id="cb5-699"><a href=""></a>y2_vals <span class="op">=</span> d3<span class="op">.</span><span class="fu">range</span>(<span class="fl">0.02</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">/</span>grid_size)</span>
-<span id="cb5-700"><a href=""></a></span>
-<span id="cb5-701"><a href=""></a><span class="co">// Generate density values</span></span>
-<span id="cb5-702"><a href=""></a>density_data <span class="op">=</span> {</span>
-<span id="cb5-703"><a href=""></a>  <span class="kw">let</span> data <span class="op">=</span> []<span class="op">;</span></span>
-<span id="cb5-704"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> y1 <span class="kw">of</span> y1_vals) {</span>
-<span id="cb5-705"><a href=""></a>    <span class="cf">for</span> (<span class="kw">let</span> y2 <span class="kw">of</span> y2_vals) {</span>
-<span id="cb5-706"><a href=""></a>      <span class="kw">let</span> density <span class="op">=</span> c_constant <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(y1<span class="op">,</span> alpha) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(y2<span class="op">,</span> beta)<span class="op">;</span></span>
-<span id="cb5-707"><a href=""></a>      data<span class="op">.</span><span class="fu">push</span>({<span class="dt">y1</span><span class="op">:</span> y1<span class="op">,</span> <span class="dt">y2</span><span class="op">:</span> y2<span class="op">,</span> <span class="dt">density</span><span class="op">:</span> density})<span class="op">;</span></span>
-<span id="cb5-708"><a href=""></a>    }</span>
-<span id="cb5-709"><a href=""></a>  }</span>
-<span id="cb5-710"><a href=""></a>  <span class="cf">return</span> data<span class="op">;</span></span>
-<span id="cb5-711"><a href=""></a>}</span>
-<span id="cb5-712"><a href=""></a></span>
-<span id="cb5-713"><a href=""></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
-<span id="cb5-714"><a href=""></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">820</span><span class="op">,</span></span>
-<span id="cb5-715"><a href=""></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">520</span><span class="op">,</span></span>
-<span id="cb5-716"><a href=""></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">55</span><span class="op">,</span></span>
-<span id="cb5-717"><a href=""></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
-<span id="cb5-718"><a href=""></a>  <span class="dt">marginTop</span><span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
-<span id="cb5-719"><a href=""></a>  <span class="dt">color</span><span class="op">:</span> {</span>
-<span id="cb5-720"><a href=""></a>    <span class="dt">type</span><span class="op">:</span> <span class="st">"linear"</span><span class="op">,</span></span>
-<span id="cb5-721"><a href=""></a>    <span class="dt">scheme</span><span class="op">:</span> <span class="st">"viridis"</span><span class="op">,</span></span>
-<span id="cb5-722"><a href=""></a>    <span class="dt">legend</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
-<span id="cb5-723"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Density"</span></span>
-<span id="cb5-724"><a href=""></a>  }<span class="op">,</span></span>
-<span id="cb5-725"><a href=""></a>  <span class="dt">x</span><span class="op">:</span> {</span>
-<span id="cb5-726"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"y₁ →"</span><span class="op">,</span></span>
-<span id="cb5-727"><a href=""></a>    <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span></span>
-<span id="cb5-728"><a href=""></a>    <span class="dt">labelOffset</span><span class="op">:</span> <span class="dv">40</span></span>
-<span id="cb5-729"><a href=""></a>  }<span class="op">,</span></span>
-<span id="cb5-730"><a href=""></a>  <span class="dt">y</span><span class="op">:</span> {</span>
-<span id="cb5-731"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"↑ y₂"</span><span class="op">,</span></span>
-<span id="cb5-732"><a href=""></a>    <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]</span>
-<span id="cb5-733"><a href=""></a>  }<span class="op">,</span></span>
-<span id="cb5-734"><a href=""></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
-<span id="cb5-735"><a href=""></a>    Plot<span class="op">.</span><span class="fu">contour</span>(density_data<span class="op">,</span> {</span>
-<span id="cb5-736"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"y1"</span><span class="op">,</span></span>
-<span id="cb5-737"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"y2"</span><span class="op">,</span></span>
-<span id="cb5-738"><a href=""></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"density"</span><span class="op">,</span></span>
-<span id="cb5-739"><a href=""></a>      <span class="dt">blur</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span></span>
-<span id="cb5-740"><a href=""></a>      <span class="dt">thresholds</span><span class="op">:</span> <span class="dv">25</span></span>
-<span id="cb5-741"><a href=""></a>    })<span class="op">,</span></span>
-<span id="cb5-742"><a href=""></a>    Plot<span class="op">.</span><span class="fu">frame</span>()</span>
-<span id="cb5-743"><a href=""></a>  ]</span>
-<span id="cb5-744"><a href=""></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb5" data-startfrom="705" data-source-offset="-59"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 704;"><span id="cb5-705"><a href=""></a>grid_size <span class="op">=</span> <span class="dv">30</span></span>
+<span id="cb5-706"><a href=""></a>y1_vals <span class="op">=</span> d3<span class="op">.</span><span class="fu">range</span>(<span class="fl">0.02</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">/</span>grid_size)</span>
+<span id="cb5-707"><a href=""></a>y2_vals <span class="op">=</span> d3<span class="op">.</span><span class="fu">range</span>(<span class="fl">0.02</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">/</span>grid_size)</span>
+<span id="cb5-708"><a href=""></a></span>
+<span id="cb5-709"><a href=""></a><span class="co">// Generate density values</span></span>
+<span id="cb5-710"><a href=""></a>density_data <span class="op">=</span> {</span>
+<span id="cb5-711"><a href=""></a>  <span class="kw">let</span> data <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb5-712"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> y1 <span class="kw">of</span> y1_vals) {</span>
+<span id="cb5-713"><a href=""></a>    <span class="cf">for</span> (<span class="kw">let</span> y2 <span class="kw">of</span> y2_vals) {</span>
+<span id="cb5-714"><a href=""></a>      <span class="kw">let</span> density <span class="op">=</span> c_constant <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(y1<span class="op">,</span> alpha) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(y2<span class="op">,</span> beta)<span class="op">;</span></span>
+<span id="cb5-715"><a href=""></a>      data<span class="op">.</span><span class="fu">push</span>({<span class="dt">y1</span><span class="op">:</span> y1<span class="op">,</span> <span class="dt">y2</span><span class="op">:</span> y2<span class="op">,</span> <span class="dt">density</span><span class="op">:</span> density})<span class="op">;</span></span>
+<span id="cb5-716"><a href=""></a>    }</span>
+<span id="cb5-717"><a href=""></a>  }</span>
+<span id="cb5-718"><a href=""></a>  <span class="cf">return</span> data<span class="op">;</span></span>
+<span id="cb5-719"><a href=""></a>}</span>
+<span id="cb5-720"><a href=""></a></span>
+<span id="cb5-721"><a href=""></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb5-722"><a href=""></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">820</span><span class="op">,</span></span>
+<span id="cb5-723"><a href=""></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">520</span><span class="op">,</span></span>
+<span id="cb5-724"><a href=""></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">55</span><span class="op">,</span></span>
+<span id="cb5-725"><a href=""></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
+<span id="cb5-726"><a href=""></a>  <span class="dt">marginTop</span><span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
+<span id="cb5-727"><a href=""></a>  <span class="dt">color</span><span class="op">:</span> {</span>
+<span id="cb5-728"><a href=""></a>    <span class="dt">type</span><span class="op">:</span> <span class="st">"linear"</span><span class="op">,</span></span>
+<span id="cb5-729"><a href=""></a>    <span class="dt">scheme</span><span class="op">:</span> <span class="st">"viridis"</span><span class="op">,</span></span>
+<span id="cb5-730"><a href=""></a>    <span class="dt">legend</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb5-731"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Density"</span></span>
+<span id="cb5-732"><a href=""></a>  }<span class="op">,</span></span>
+<span id="cb5-733"><a href=""></a>  <span class="dt">x</span><span class="op">:</span> {</span>
+<span id="cb5-734"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"y₁ →"</span><span class="op">,</span></span>
+<span id="cb5-735"><a href=""></a>    <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span></span>
+<span id="cb5-736"><a href=""></a>    <span class="dt">labelOffset</span><span class="op">:</span> <span class="dv">40</span></span>
+<span id="cb5-737"><a href=""></a>  }<span class="op">,</span></span>
+<span id="cb5-738"><a href=""></a>  <span class="dt">y</span><span class="op">:</span> {</span>
+<span id="cb5-739"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"↑ y₂"</span><span class="op">,</span></span>
+<span id="cb5-740"><a href=""></a>    <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]</span>
+<span id="cb5-741"><a href=""></a>  }<span class="op">,</span></span>
+<span id="cb5-742"><a href=""></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb5-743"><a href=""></a>    Plot<span class="op">.</span><span class="fu">contour</span>(density_data<span class="op">,</span> {</span>
+<span id="cb5-744"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"y1"</span><span class="op">,</span></span>
+<span id="cb5-745"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"y2"</span><span class="op">,</span></span>
+<span id="cb5-746"><a href=""></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"density"</span><span class="op">,</span></span>
+<span id="cb5-747"><a href=""></a>      <span class="dt">blur</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span></span>
+<span id="cb5-748"><a href=""></a>      <span class="dt">thresholds</span><span class="op">:</span> <span class="dv">25</span></span>
+<span id="cb5-749"><a href=""></a>    })<span class="op">,</span></span>
+<span id="cb5-750"><a href=""></a>    Plot<span class="op">.</span><span class="fu">frame</span>()</span>
+<span id="cb5-751"><a href=""></a>  ]</span>
+<span id="cb5-752"><a href=""></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -1246,7 +1252,7 @@ Samir Orujov, PhD
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_7f82a9f3" minutes="4" seconds="0" warn-when="60" update-every="1" play-sound="true" tabindex="0" style="right:0;bottom:10;--countdown-font-size:1.5em;--countdown-color-running-background:#31b09e;--countdown-color-running-text:white;--countdown-color-finished-background:#cc3311;--countdown-color-finished-text:white;--countdown-color-warning-background:#f7dc6f;--countdown-color-warning-text:#3E3400FF;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_d32471cc" minutes="4" seconds="0" warn-when="60" update-every="1" play-sound="true" tabindex="0" style="right:0;bottom:10;--countdown-font-size:1.5em;--countdown-color-running-background:#31b09e;--countdown-color-running-text:white;--countdown-color-finished-background:#cc3311;--countdown-color-finished-text:white;--countdown-color-warning-background:#f7dc6f;--countdown-color-warning-text:#3E3400FF;"></countdown-timer>
 </div>
 </div>
 </section>
@@ -1340,10 +1346,10 @@ Samir Orujov, PhD
 <pre><code>🍎 APPLE (AAPL)</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   Mean Return: +0.068%</code></pre>
+<pre><code>   Mean Return: +0.031%</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   Volatility:  1.988%</code></pre>
+<pre><code>   Volatility:  2.023%</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min/Max:     -9.70% / +14.26%</code></pre>
@@ -1352,10 +1358,10 @@ Samir Orujov, PhD
 <pre><code>🟦 MICROSOFT (MSFT)</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   Mean Return: -0.001%</code></pre>
+<pre><code>   Mean Return: -0.011%</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   Volatility:  1.613%</code></pre>
+<pre><code>   Volatility:  1.662%</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min/Max:     -10.53% / +9.65%</code></pre>
@@ -1367,13 +1373,13 @@ Samir Orujov, PhD
 <pre><code>🔗 RELATIONSHIP</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   Correlation: 0.4102</code></pre>
+<pre><code>   Correlation: 0.3884</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   Observations: 251 days</code></pre>
+<pre><code>   Observations: 250 days</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   Period: 2025-02-04 to 2026-02-03</code></pre>
+<pre><code>   Period: 2025-02-24 to 2026-02-20</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -1667,6 +1673,12 @@ Samir Orujov, PhD
 </div>
 </div>
 </div>
+</div>
+</section>
+<section id="late-check-in" class="slide level2 center" data-background-color="#fff5f5">
+<h2>📱 Late Check-in</h2>
+<div id="qr-late" class="attendance-qr" data-status="late" style="min-height: 400px; display: flex; align-items: center; justify-content: center;">
+
 </div>
 </section>
 <section id="thank-you" class="slide level2 larger center">
@@ -2205,6 +2217,8 @@ Samir Orujov, PhD
         }
       });
       </script>
+    <script src="../qrcode.min.js"></script>
+    <script src="../attendance-qr-slide.js"></script>
     
 
 </body></html>

@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.8.25">
 
   <meta name="author" content="Samir Orujov, PhD">
-  <meta name="dcterms.date" content="2026-02-04">
+  <meta name="dcterms.date" content="2026-02-22">
   <title>Mathematical Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -218,7 +218,7 @@ Samir Orujov, PhD
     </div>
 </div>
 
-  <p class="date">2026-02-04</p>
+  <p class="date">2026-02-22</p>
 </section>
 <section id="learning-objectives" class="slide level2">
 <h2>🎯 Learning Objectives</h2>
@@ -233,6 +233,12 @@ Samir Orujov, PhD
 <li><p><strong>Apply</strong> the portfolio variance formula to analyze risk in multi-asset portfolios using real financial data</p></li>
 </ul>
 </div>
+</div>
+</section>
+<section id="attendance-check-in" class="slide level2 center" data-background-color="#f0f4ff">
+<h2>📱 Attendance Check-in</h2>
+<div id="qr-present" class="attendance-qr" data-status="present" style="min-height: 400px; display: flex; align-items: center; justify-content: center;">
+
 </div>
 </section>
 <section id="overview" class="slide level2">
@@ -735,7 +741,7 @@ Samir Orujov, PhD
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_b60ddf95" minutes="3" seconds="0" warn-when="60" update-every="1" play-sound="true" tabindex="0" style="top:0;right:0;--countdown-font-size:1.5em;--countdown-color-running-background:#31b09e;--countdown-color-running-text:white;--countdown-color-finished-background:#cc3311;--countdown-color-finished-text:white;--countdown-color-warning-background:#f7dc6f;--countdown-color-warning-text:#3E3400FF;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_839fdd6b" minutes="3" seconds="0" warn-when="60" update-every="1" play-sound="true" tabindex="0" style="top:0;right:0;--countdown-font-size:1.5em;--countdown-color-running-background:#31b09e;--countdown-color-running-text:white;--countdown-color-finished-background:#cc3311;--countdown-color-finished-text:white;--countdown-color-warning-background:#f7dc6f;--countdown-color-warning-text:#3E3400FF;"></countdown-timer>
 </div>
 </div>
 </section>
@@ -805,24 +811,24 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="624" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 623;"><span id="cb1-624"><a href=""></a>viewof rho_slider <span class="op">=</span> {</span>
-<span id="cb1-625"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="op">-</span><span class="dv">1</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> {</span>
-<span id="cb1-626"><a href=""></a>    <span class="dt">value</span><span class="op">:</span> <span class="fl">0.3</span><span class="op">,</span></span>
-<span id="cb1-627"><a href=""></a>    <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span></span>
-<span id="cb1-628"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Correlation (ρ):"</span><span class="op">,</span></span>
-<span id="cb1-629"><a href=""></a>    <span class="dt">format</span><span class="op">:</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)</span>
-<span id="cb1-630"><a href=""></a>  })<span class="op">;</span></span>
-<span id="cb1-631"><a href=""></a>  </span>
-<span id="cb1-632"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'pointerdown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb1-633"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'touchstart'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb1-634"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'mousedown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb1-635"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'click'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb1-636"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'wheel'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb1-637"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'pointermove'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
-<span id="cb1-638"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'touchmove'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="632" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 631;"><span id="cb1-632"><a href=""></a>viewof rho_slider <span class="op">=</span> {</span>
+<span id="cb1-633"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="op">-</span><span class="dv">1</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> {</span>
+<span id="cb1-634"><a href=""></a>    <span class="dt">value</span><span class="op">:</span> <span class="fl">0.3</span><span class="op">,</span></span>
+<span id="cb1-635"><a href=""></a>    <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span></span>
+<span id="cb1-636"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Correlation (ρ):"</span><span class="op">,</span></span>
+<span id="cb1-637"><a href=""></a>    <span class="dt">format</span><span class="op">:</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)</span>
+<span id="cb1-638"><a href=""></a>  })<span class="op">;</span></span>
 <span id="cb1-639"><a href=""></a>  </span>
-<span id="cb1-640"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
-<span id="cb1-641"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-640"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'pointerdown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-641"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'touchstart'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-642"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'mousedown'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-643"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'click'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-644"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'wheel'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-645"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'pointermove'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-646"><a href=""></a>  input<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'touchmove'</span><span class="op">,</span> e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">stopPropagation</span>())<span class="op">;</span></span>
+<span id="cb1-647"><a href=""></a>  </span>
+<span id="cb1-648"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb1-649"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-1" data-nodetype="declaration">
@@ -833,37 +839,37 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="650" data-source-offset="-21"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 649;"><span id="cb2-650"><a href=""></a>sigma1 <span class="op">=</span> <span class="fl">0.20</span>  <span class="co">// 20% volatility for Asset 1</span></span>
-<span id="cb2-651"><a href=""></a>sigma2 <span class="op">=</span> <span class="fl">0.15</span>  <span class="co">// 15% volatility for Asset 2</span></span>
-<span id="cb2-652"><a href=""></a></span>
-<span id="cb2-653"><a href=""></a><span class="co">// Calculate optimal minimum variance portfolio weight</span></span>
-<span id="cb2-654"><a href=""></a><span class="co">// w1* = (σ₂² - ρσ₁σ₂) / (σ₁² + σ₂² - 2ρσ₁σ₂)</span></span>
-<span id="cb2-655"><a href=""></a>w1_optimal <span class="op">=</span> (<span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(sigma2<span class="op">,</span> <span class="dv">2</span>) <span class="op">-</span> rho_slider <span class="op">*</span> sigma1 <span class="op">*</span> sigma2) <span class="op">/</span> </span>
-<span id="cb2-656"><a href=""></a>             (<span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(sigma1<span class="op">,</span> <span class="dv">2</span>) <span class="op">+</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(sigma2<span class="op">,</span> <span class="dv">2</span>) <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> rho_slider <span class="op">*</span> sigma1 <span class="op">*</span> sigma2)</span>
-<span id="cb2-657"><a href=""></a></span>
-<span id="cb2-658"><a href=""></a><span class="co">// Constrain to [0, 1] (no short selling)</span></span>
-<span id="cb2-659"><a href=""></a>w1_star <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="dv">0</span><span class="op">,</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(<span class="dv">1</span><span class="op">,</span> w1_optimal))</span>
-<span id="cb2-660"><a href=""></a>w2_star <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> w1_star</span>
-<span id="cb2-661"><a href=""></a></span>
-<span id="cb2-662"><a href=""></a><span class="co">// Minimum variance portfolio statistics</span></span>
-<span id="cb2-663"><a href=""></a>min_var <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(w1_star <span class="op">*</span> sigma1<span class="op">,</span> <span class="dv">2</span>) <span class="op">+</span> </span>
-<span id="cb2-664"><a href=""></a>          <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(w2_star <span class="op">*</span> sigma2<span class="op">,</span> <span class="dv">2</span>) <span class="op">+</span> </span>
-<span id="cb2-665"><a href=""></a>          <span class="dv">2</span> <span class="op">*</span> w1_star <span class="op">*</span> w2_star <span class="op">*</span> rho_slider <span class="op">*</span> sigma1 <span class="op">*</span> sigma2</span>
-<span id="cb2-666"><a href=""></a></span>
-<span id="cb2-667"><a href=""></a>min_std <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(min_var)</span>
-<span id="cb2-668"><a href=""></a></span>
-<span id="cb2-669"><a href=""></a><span class="co">// Generate efficient frontier data</span></span>
-<span id="cb2-670"><a href=""></a>weights <span class="op">=</span> d3<span class="op">.</span><span class="fu">range</span>(<span class="dv">0</span><span class="op">,</span> <span class="fl">1.01</span><span class="op">,</span> <span class="fl">0.01</span>)</span>
-<span id="cb2-671"><a href=""></a>frontier_data <span class="op">=</span> weights<span class="op">.</span><span class="fu">map</span>(w1 <span class="kw">=&gt;</span> {</span>
-<span id="cb2-672"><a href=""></a>  <span class="kw">const</span> w2 <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> w1<span class="op">;</span></span>
-<span id="cb2-673"><a href=""></a>  <span class="kw">const</span> var_p <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(w1 <span class="op">*</span> sigma1<span class="op">,</span> <span class="dv">2</span>) <span class="op">+</span> </span>
-<span id="cb2-674"><a href=""></a>                <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(w2 <span class="op">*</span> sigma2<span class="op">,</span> <span class="dv">2</span>) <span class="op">+</span> </span>
-<span id="cb2-675"><a href=""></a>                <span class="dv">2</span> <span class="op">*</span> w1 <span class="op">*</span> w2 <span class="op">*</span> rho_slider <span class="op">*</span> sigma1 <span class="op">*</span> sigma2<span class="op">;</span></span>
-<span id="cb2-676"><a href=""></a>  <span class="cf">return</span> {</span>
-<span id="cb2-677"><a href=""></a>    <span class="dt">w1</span><span class="op">:</span> w1<span class="op">,</span></span>
-<span id="cb2-678"><a href=""></a>    <span class="dt">std</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(var_p)</span>
-<span id="cb2-679"><a href=""></a>  }<span class="op">;</span></span>
-<span id="cb2-680"><a href=""></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="658" data-source-offset="-21"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 657;"><span id="cb2-658"><a href=""></a>sigma1 <span class="op">=</span> <span class="fl">0.20</span>  <span class="co">// 20% volatility for Asset 1</span></span>
+<span id="cb2-659"><a href=""></a>sigma2 <span class="op">=</span> <span class="fl">0.15</span>  <span class="co">// 15% volatility for Asset 2</span></span>
+<span id="cb2-660"><a href=""></a></span>
+<span id="cb2-661"><a href=""></a><span class="co">// Calculate optimal minimum variance portfolio weight</span></span>
+<span id="cb2-662"><a href=""></a><span class="co">// w1* = (σ₂² - ρσ₁σ₂) / (σ₁² + σ₂² - 2ρσ₁σ₂)</span></span>
+<span id="cb2-663"><a href=""></a>w1_optimal <span class="op">=</span> (<span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(sigma2<span class="op">,</span> <span class="dv">2</span>) <span class="op">-</span> rho_slider <span class="op">*</span> sigma1 <span class="op">*</span> sigma2) <span class="op">/</span> </span>
+<span id="cb2-664"><a href=""></a>             (<span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(sigma1<span class="op">,</span> <span class="dv">2</span>) <span class="op">+</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(sigma2<span class="op">,</span> <span class="dv">2</span>) <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> rho_slider <span class="op">*</span> sigma1 <span class="op">*</span> sigma2)</span>
+<span id="cb2-665"><a href=""></a></span>
+<span id="cb2-666"><a href=""></a><span class="co">// Constrain to [0, 1] (no short selling)</span></span>
+<span id="cb2-667"><a href=""></a>w1_star <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="dv">0</span><span class="op">,</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(<span class="dv">1</span><span class="op">,</span> w1_optimal))</span>
+<span id="cb2-668"><a href=""></a>w2_star <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> w1_star</span>
+<span id="cb2-669"><a href=""></a></span>
+<span id="cb2-670"><a href=""></a><span class="co">// Minimum variance portfolio statistics</span></span>
+<span id="cb2-671"><a href=""></a>min_var <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(w1_star <span class="op">*</span> sigma1<span class="op">,</span> <span class="dv">2</span>) <span class="op">+</span> </span>
+<span id="cb2-672"><a href=""></a>          <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(w2_star <span class="op">*</span> sigma2<span class="op">,</span> <span class="dv">2</span>) <span class="op">+</span> </span>
+<span id="cb2-673"><a href=""></a>          <span class="dv">2</span> <span class="op">*</span> w1_star <span class="op">*</span> w2_star <span class="op">*</span> rho_slider <span class="op">*</span> sigma1 <span class="op">*</span> sigma2</span>
+<span id="cb2-674"><a href=""></a></span>
+<span id="cb2-675"><a href=""></a>min_std <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(min_var)</span>
+<span id="cb2-676"><a href=""></a></span>
+<span id="cb2-677"><a href=""></a><span class="co">// Generate efficient frontier data</span></span>
+<span id="cb2-678"><a href=""></a>weights <span class="op">=</span> d3<span class="op">.</span><span class="fu">range</span>(<span class="dv">0</span><span class="op">,</span> <span class="fl">1.01</span><span class="op">,</span> <span class="fl">0.01</span>)</span>
+<span id="cb2-679"><a href=""></a>frontier_data <span class="op">=</span> weights<span class="op">.</span><span class="fu">map</span>(w1 <span class="kw">=&gt;</span> {</span>
+<span id="cb2-680"><a href=""></a>  <span class="kw">const</span> w2 <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> w1<span class="op">;</span></span>
+<span id="cb2-681"><a href=""></a>  <span class="kw">const</span> var_p <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(w1 <span class="op">*</span> sigma1<span class="op">,</span> <span class="dv">2</span>) <span class="op">+</span> </span>
+<span id="cb2-682"><a href=""></a>                <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(w2 <span class="op">*</span> sigma2<span class="op">,</span> <span class="dv">2</span>) <span class="op">+</span> </span>
+<span id="cb2-683"><a href=""></a>                <span class="dv">2</span> <span class="op">*</span> w1 <span class="op">*</span> w2 <span class="op">*</span> rho_slider <span class="op">*</span> sigma1 <span class="op">*</span> sigma2<span class="op">;</span></span>
+<span id="cb2-684"><a href=""></a>  <span class="cf">return</span> {</span>
+<span id="cb2-685"><a href=""></a>    <span class="dt">w1</span><span class="op">:</span> w1<span class="op">,</span></span>
+<span id="cb2-686"><a href=""></a>    <span class="dt">std</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(var_p)</span>
+<span id="cb2-687"><a href=""></a>  }<span class="op">;</span></span>
+<span id="cb2-688"><a href=""></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -933,78 +939,78 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb3" data-startfrom="686" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 685;"><span id="cb3-686"><a href=""></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
-<span id="cb3-687"><a href=""></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">820</span><span class="op">,</span></span>
-<span id="cb3-688"><a href=""></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">460</span><span class="op">,</span></span>
-<span id="cb3-689"><a href=""></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">60</span><span class="op">,</span></span>
-<span id="cb3-690"><a href=""></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">40</span><span class="op">,</span></span>
-<span id="cb3-691"><a href=""></a>  <span class="dt">x</span><span class="op">:</span> {</span>
-<span id="cb3-692"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Weight in Asset 1"</span><span class="op">,</span></span>
-<span id="cb3-693"><a href=""></a>    <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span></span>
-<span id="cb3-694"><a href=""></a>    <span class="dt">grid</span><span class="op">:</span> <span class="kw">true</span></span>
-<span id="cb3-695"><a href=""></a>  }<span class="op">,</span></span>
-<span id="cb3-696"><a href=""></a>  <span class="dt">y</span><span class="op">:</span> {</span>
-<span id="cb3-697"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Portfolio Std Dev"</span><span class="op">,</span></span>
-<span id="cb3-698"><a href=""></a>    <span class="dt">tickFormat</span><span class="op">:</span> d <span class="kw">=&gt;</span> <span class="vs">`</span><span class="sc">${</span>(d <span class="op">*</span> <span class="dv">100</span>)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">%`</span><span class="op">,</span></span>
-<span id="cb3-699"><a href=""></a>    <span class="dt">grid</span><span class="op">:</span> <span class="kw">true</span></span>
-<span id="cb3-700"><a href=""></a>  }<span class="op">,</span></span>
-<span id="cb3-701"><a href=""></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
-<span id="cb3-702"><a href=""></a>    Plot<span class="op">.</span><span class="fu">line</span>(frontier_data<span class="op">,</span> {</span>
-<span id="cb3-703"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"w1"</span><span class="op">,</span> </span>
-<span id="cb3-704"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"std"</span><span class="op">,</span> </span>
-<span id="cb3-705"><a href=""></a>      <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#2ecc71"</span><span class="op">,</span></span>
-<span id="cb3-706"><a href=""></a>      <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">3</span></span>
-<span id="cb3-707"><a href=""></a>    })<span class="op">,</span></span>
-<span id="cb3-708"><a href=""></a>    <span class="co">// Minimum variance portfolio point</span></span>
-<span id="cb3-709"><a href=""></a>    Plot<span class="op">.</span><span class="fu">dot</span>([{</span>
-<span id="cb3-710"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> w1_star<span class="op">,</span> </span>
-<span id="cb3-711"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> min_std</span>
-<span id="cb3-712"><a href=""></a>    }]<span class="op">,</span> {</span>
-<span id="cb3-713"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span></span>
-<span id="cb3-714"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span></span>
-<span id="cb3-715"><a href=""></a>      <span class="dt">r</span><span class="op">:</span> <span class="dv">8</span><span class="op">,</span></span>
-<span id="cb3-716"><a href=""></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"#e74c3c"</span><span class="op">,</span></span>
-<span id="cb3-717"><a href=""></a>      <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#c0392b"</span><span class="op">,</span></span>
-<span id="cb3-718"><a href=""></a>      <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span></span>
-<span id="cb3-719"><a href=""></a>    })<span class="op">,</span></span>
-<span id="cb3-720"><a href=""></a>    <span class="co">// Individual assets</span></span>
-<span id="cb3-721"><a href=""></a>    Plot<span class="op">.</span><span class="fu">dot</span>([</span>
-<span id="cb3-722"><a href=""></a>      {<span class="dt">x</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> sigma2<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Asset 2"</span>}<span class="op">,</span></span>
-<span id="cb3-723"><a href=""></a>      {<span class="dt">x</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> sigma1<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Asset 1"</span>}</span>
-<span id="cb3-724"><a href=""></a>    ]<span class="op">,</span> {</span>
-<span id="cb3-725"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span></span>
-<span id="cb3-726"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span></span>
-<span id="cb3-727"><a href=""></a>      <span class="dt">r</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span></span>
-<span id="cb3-728"><a href=""></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"#3498db"</span></span>
-<span id="cb3-729"><a href=""></a>    })<span class="op">,</span></span>
-<span id="cb3-730"><a href=""></a>    Plot<span class="op">.</span><span class="fu">text</span>([</span>
-<span id="cb3-731"><a href=""></a>      {<span class="dt">x</span><span class="op">:</span> <span class="fl">0.05</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> sigma2<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Asset 2"</span><span class="op">,</span> <span class="dt">dx</span><span class="op">:</span> <span class="dv">15</span>}<span class="op">,</span></span>
-<span id="cb3-732"><a href=""></a>      {<span class="dt">x</span><span class="op">:</span> <span class="fl">0.95</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> sigma1<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Asset 1"</span><span class="op">,</span> <span class="dt">dx</span><span class="op">:</span> <span class="dv">15</span>}</span>
-<span id="cb3-733"><a href=""></a>    ]<span class="op">,</span> {</span>
-<span id="cb3-734"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span></span>
-<span id="cb3-735"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span></span>
-<span id="cb3-736"><a href=""></a>      <span class="dt">text</span><span class="op">:</span> <span class="st">"label"</span><span class="op">,</span></span>
-<span id="cb3-737"><a href=""></a>      <span class="dt">dx</span><span class="op">:</span> <span class="st">"dx"</span><span class="op">,</span></span>
-<span id="cb3-738"><a href=""></a>      <span class="dt">fontSize</span><span class="op">:</span> <span class="dv">12</span><span class="op">,</span></span>
-<span id="cb3-739"><a href=""></a>      <span class="dt">fontWeight</span><span class="op">:</span> <span class="st">"bold"</span></span>
-<span id="cb3-740"><a href=""></a>    })<span class="op">,</span></span>
-<span id="cb3-741"><a href=""></a>    <span class="co">// Label for minimum variance portfolio</span></span>
-<span id="cb3-742"><a href=""></a>    Plot<span class="op">.</span><span class="fu">text</span>([{</span>
-<span id="cb3-743"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> w1_star<span class="op">,</span> </span>
-<span id="cb3-744"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> min_std<span class="op">+</span><span class="fl">0.005</span><span class="op">,</span> </span>
-<span id="cb3-745"><a href=""></a>      <span class="dt">label</span><span class="op">:</span> <span class="st">"Min Variance"</span><span class="op">,</span> </span>
-<span id="cb3-746"><a href=""></a>      <span class="dt">dy</span><span class="op">:</span> <span class="op">-</span><span class="dv">20</span></span>
-<span id="cb3-747"><a href=""></a>    }]<span class="op">,</span> {</span>
-<span id="cb3-748"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span></span>
-<span id="cb3-749"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span></span>
-<span id="cb3-750"><a href=""></a>      <span class="dt">text</span><span class="op">:</span> <span class="st">"label"</span><span class="op">,</span></span>
-<span id="cb3-751"><a href=""></a>      <span class="dt">dy</span><span class="op">:</span> <span class="st">"dy"</span><span class="op">,</span></span>
-<span id="cb3-752"><a href=""></a>      <span class="dt">fontSize</span><span class="op">:</span> <span class="dv">11</span><span class="op">,</span></span>
-<span id="cb3-753"><a href=""></a>      <span class="dt">fontWeight</span><span class="op">:</span> <span class="st">"bold"</span><span class="op">,</span></span>
-<span id="cb3-754"><a href=""></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"#e74c3c"</span></span>
-<span id="cb3-755"><a href=""></a>    })</span>
-<span id="cb3-756"><a href=""></a>  ]</span>
-<span id="cb3-757"><a href=""></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb3" data-startfrom="694" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 693;"><span id="cb3-694"><a href=""></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb3-695"><a href=""></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">820</span><span class="op">,</span></span>
+<span id="cb3-696"><a href=""></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">460</span><span class="op">,</span></span>
+<span id="cb3-697"><a href=""></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">60</span><span class="op">,</span></span>
+<span id="cb3-698"><a href=""></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">40</span><span class="op">,</span></span>
+<span id="cb3-699"><a href=""></a>  <span class="dt">x</span><span class="op">:</span> {</span>
+<span id="cb3-700"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Weight in Asset 1"</span><span class="op">,</span></span>
+<span id="cb3-701"><a href=""></a>    <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span></span>
+<span id="cb3-702"><a href=""></a>    <span class="dt">grid</span><span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb3-703"><a href=""></a>  }<span class="op">,</span></span>
+<span id="cb3-704"><a href=""></a>  <span class="dt">y</span><span class="op">:</span> {</span>
+<span id="cb3-705"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Portfolio Std Dev"</span><span class="op">,</span></span>
+<span id="cb3-706"><a href=""></a>    <span class="dt">tickFormat</span><span class="op">:</span> d <span class="kw">=&gt;</span> <span class="vs">`</span><span class="sc">${</span>(d <span class="op">*</span> <span class="dv">100</span>)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">%`</span><span class="op">,</span></span>
+<span id="cb3-707"><a href=""></a>    <span class="dt">grid</span><span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb3-708"><a href=""></a>  }<span class="op">,</span></span>
+<span id="cb3-709"><a href=""></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb3-710"><a href=""></a>    Plot<span class="op">.</span><span class="fu">line</span>(frontier_data<span class="op">,</span> {</span>
+<span id="cb3-711"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"w1"</span><span class="op">,</span> </span>
+<span id="cb3-712"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"std"</span><span class="op">,</span> </span>
+<span id="cb3-713"><a href=""></a>      <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#2ecc71"</span><span class="op">,</span></span>
+<span id="cb3-714"><a href=""></a>      <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">3</span></span>
+<span id="cb3-715"><a href=""></a>    })<span class="op">,</span></span>
+<span id="cb3-716"><a href=""></a>    <span class="co">// Minimum variance portfolio point</span></span>
+<span id="cb3-717"><a href=""></a>    Plot<span class="op">.</span><span class="fu">dot</span>([{</span>
+<span id="cb3-718"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> w1_star<span class="op">,</span> </span>
+<span id="cb3-719"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> min_std</span>
+<span id="cb3-720"><a href=""></a>    }]<span class="op">,</span> {</span>
+<span id="cb3-721"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span></span>
+<span id="cb3-722"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span></span>
+<span id="cb3-723"><a href=""></a>      <span class="dt">r</span><span class="op">:</span> <span class="dv">8</span><span class="op">,</span></span>
+<span id="cb3-724"><a href=""></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"#e74c3c"</span><span class="op">,</span></span>
+<span id="cb3-725"><a href=""></a>      <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#c0392b"</span><span class="op">,</span></span>
+<span id="cb3-726"><a href=""></a>      <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span></span>
+<span id="cb3-727"><a href=""></a>    })<span class="op">,</span></span>
+<span id="cb3-728"><a href=""></a>    <span class="co">// Individual assets</span></span>
+<span id="cb3-729"><a href=""></a>    Plot<span class="op">.</span><span class="fu">dot</span>([</span>
+<span id="cb3-730"><a href=""></a>      {<span class="dt">x</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> sigma2<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Asset 2"</span>}<span class="op">,</span></span>
+<span id="cb3-731"><a href=""></a>      {<span class="dt">x</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> sigma1<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Asset 1"</span>}</span>
+<span id="cb3-732"><a href=""></a>    ]<span class="op">,</span> {</span>
+<span id="cb3-733"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span></span>
+<span id="cb3-734"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span></span>
+<span id="cb3-735"><a href=""></a>      <span class="dt">r</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span></span>
+<span id="cb3-736"><a href=""></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"#3498db"</span></span>
+<span id="cb3-737"><a href=""></a>    })<span class="op">,</span></span>
+<span id="cb3-738"><a href=""></a>    Plot<span class="op">.</span><span class="fu">text</span>([</span>
+<span id="cb3-739"><a href=""></a>      {<span class="dt">x</span><span class="op">:</span> <span class="fl">0.05</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> sigma2<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Asset 2"</span><span class="op">,</span> <span class="dt">dx</span><span class="op">:</span> <span class="dv">15</span>}<span class="op">,</span></span>
+<span id="cb3-740"><a href=""></a>      {<span class="dt">x</span><span class="op">:</span> <span class="fl">0.95</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> sigma1<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Asset 1"</span><span class="op">,</span> <span class="dt">dx</span><span class="op">:</span> <span class="dv">15</span>}</span>
+<span id="cb3-741"><a href=""></a>    ]<span class="op">,</span> {</span>
+<span id="cb3-742"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span></span>
+<span id="cb3-743"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span></span>
+<span id="cb3-744"><a href=""></a>      <span class="dt">text</span><span class="op">:</span> <span class="st">"label"</span><span class="op">,</span></span>
+<span id="cb3-745"><a href=""></a>      <span class="dt">dx</span><span class="op">:</span> <span class="st">"dx"</span><span class="op">,</span></span>
+<span id="cb3-746"><a href=""></a>      <span class="dt">fontSize</span><span class="op">:</span> <span class="dv">12</span><span class="op">,</span></span>
+<span id="cb3-747"><a href=""></a>      <span class="dt">fontWeight</span><span class="op">:</span> <span class="st">"bold"</span></span>
+<span id="cb3-748"><a href=""></a>    })<span class="op">,</span></span>
+<span id="cb3-749"><a href=""></a>    <span class="co">// Label for minimum variance portfolio</span></span>
+<span id="cb3-750"><a href=""></a>    Plot<span class="op">.</span><span class="fu">text</span>([{</span>
+<span id="cb3-751"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> w1_star<span class="op">,</span> </span>
+<span id="cb3-752"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> min_std<span class="op">+</span><span class="fl">0.005</span><span class="op">,</span> </span>
+<span id="cb3-753"><a href=""></a>      <span class="dt">label</span><span class="op">:</span> <span class="st">"Min Variance"</span><span class="op">,</span> </span>
+<span id="cb3-754"><a href=""></a>      <span class="dt">dy</span><span class="op">:</span> <span class="op">-</span><span class="dv">20</span></span>
+<span id="cb3-755"><a href=""></a>    }]<span class="op">,</span> {</span>
+<span id="cb3-756"><a href=""></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span></span>
+<span id="cb3-757"><a href=""></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span></span>
+<span id="cb3-758"><a href=""></a>      <span class="dt">text</span><span class="op">:</span> <span class="st">"label"</span><span class="op">,</span></span>
+<span id="cb3-759"><a href=""></a>      <span class="dt">dy</span><span class="op">:</span> <span class="st">"dy"</span><span class="op">,</span></span>
+<span id="cb3-760"><a href=""></a>      <span class="dt">fontSize</span><span class="op">:</span> <span class="dv">11</span><span class="op">,</span></span>
+<span id="cb3-761"><a href=""></a>      <span class="dt">fontWeight</span><span class="op">:</span> <span class="st">"bold"</span><span class="op">,</span></span>
+<span id="cb3-762"><a href=""></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"#e74c3c"</span></span>
+<span id="cb3-763"><a href=""></a>    })</span>
+<span id="cb3-764"><a href=""></a>  ]</span>
+<span id="cb3-765"><a href=""></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-3" data-nodetype="expression">
@@ -1016,13 +1022,13 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb4" data-startfrom="765" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 764;"><span id="cb4-765"><a href=""></a><span class="fu">html</span><span class="vs">`&lt;div style="text-align: center; font-size: 1.1em; margin-top: 10px;"&gt;</span></span>
-<span id="cb4-766"><a href=""></a><span class="vs">&lt;strong&gt;Minimum Variance Portfolio:&lt;/strong&gt; w₁* = </span><span class="sc">${</span>(w1_star <span class="op">*</span> <span class="dv">100</span>)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">%, </span></span>
-<span id="cb4-767"><a href=""></a><span class="vs">w₂* = </span><span class="sc">${</span>(w2_star <span class="op">*</span> <span class="dv">100</span>)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">% | </span></span>
-<span id="cb4-768"><a href=""></a><span class="vs">σₚ = </span><span class="sc">${</span>(min_std <span class="op">*</span> <span class="dv">100</span>)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">% | </span></span>
-<span id="cb4-769"><a href=""></a><span class="vs">ρ = </span><span class="sc">${</span>rho_slider<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">&lt;br&gt;</span></span>
-<span id="cb4-770"><a href=""></a><span class="vs">&lt;em style="font-size: 0.9em;"&gt;Optimal weights change with correlation! Lower ρ → greater diversification benefit&lt;/em&gt;</span></span>
-<span id="cb4-771"><a href=""></a><span class="vs">&lt;/div&gt;`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb4" data-startfrom="773" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 772;"><span id="cb4-773"><a href=""></a><span class="fu">html</span><span class="vs">`&lt;div style="text-align: center; font-size: 1.1em; margin-top: 10px;"&gt;</span></span>
+<span id="cb4-774"><a href=""></a><span class="vs">&lt;strong&gt;Minimum Variance Portfolio:&lt;/strong&gt; w₁* = </span><span class="sc">${</span>(w1_star <span class="op">*</span> <span class="dv">100</span>)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">%, </span></span>
+<span id="cb4-775"><a href=""></a><span class="vs">w₂* = </span><span class="sc">${</span>(w2_star <span class="op">*</span> <span class="dv">100</span>)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">% | </span></span>
+<span id="cb4-776"><a href=""></a><span class="vs">σₚ = </span><span class="sc">${</span>(min_std <span class="op">*</span> <span class="dv">100</span>)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">% | </span></span>
+<span id="cb4-777"><a href=""></a><span class="vs">ρ = </span><span class="sc">${</span>rho_slider<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">&lt;br&gt;</span></span>
+<span id="cb4-778"><a href=""></a><span class="vs">&lt;em style="font-size: 0.9em;"&gt;Optimal weights change with correlation! Lower ρ → greater diversification benefit&lt;/em&gt;</span></span>
+<span id="cb4-779"><a href=""></a><span class="vs">&lt;/div&gt;`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-4" data-nodetype="expression">
@@ -1441,6 +1447,12 @@ Samir Orujov, PhD
 </div>
 </div>
 </div>
+</div>
+</section>
+<section id="late-check-in" class="slide level2 center" data-background-color="#fff5f5">
+<h2>📱 Late Check-in</h2>
+<div id="qr-late" class="attendance-qr" data-status="late" style="min-height: 400px; display: flex; align-items: center; justify-content: center;">
+
 </div>
 </section>
 <section id="thank-you" class="slide level2">
@@ -1974,6 +1986,8 @@ Samir Orujov, PhD
         }
       });
       </script>
+    <script src="../qrcode.min.js"></script>
+    <script src="../attendance-qr-slide.js"></script>
     
 
 </body></html>
