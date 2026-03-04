@@ -48,6 +48,8 @@ format:
           <script src="../attendance-qr-slide.js"></script>
 revealjs-plugins:
   - quiz
+execute:
+  enabled: false
 ---
 
 ## 🎯 Learning Objectives
@@ -186,25 +188,25 @@ It is the theoretical model for the relative frequency histogram we would observ
 ::: {style="font-size: 34px"}
 **Problem:** A balanced die is tossed $n = 3$ times. Let $Y_1, Y_2, Y_3$ be the results. What are $E(\bar{Y})$ and $\sigma_{\bar{Y}}$?
 
-. . .
-
+::: {.fragment}
 **Solution:** For a balanced die, $\mu = E(Y_i) = 3.5$ and $\sigma^2 = V(Y_i) = 2.9167$.
+:::
 
-. . .
-
+::: {.fragment}
 Since the $Y_i$ are independent:
 
 $$E(\bar{Y}) = \mu = 3.5$$
+:::
 
-. . .
-
+::: {.fragment}
 $$V(\bar{Y}) = \frac{\sigma^2}{n} = \frac{2.9167}{3} = 0.9722 \implies \sigma_{\bar{Y}} = 0.986$$
+:::
 
-. . .
-
+::: {.fragment}
 ::: {.callout-tip}
 ## 💡 Key Takeaway
 $\bar{Y}$ has **less variability** than individual observations — by a factor of $1/\sqrt{n}$. This is why averaging *works* in economics: polling more people, collecting more price data, or observing more trading days all reduce estimation error.
+:::
 :::
 :::
 
@@ -239,19 +241,19 @@ has a **standard normal** distribution. This is the workhorse for inference when
 ::: {style="font-size: 32px"}
 **Problem:** Quarterly GDP growth rates in a stable economy are normally distributed with $\sigma = 0.8\%$. A sample of $n = 16$ quarters yields $\bar{Y}$. Find $P(|\bar{Y} - \mu| \leq 0.3)$.
 
-. . .
-
+::: {.fragment}
 **Solution:** By Theorem 7.1, $\bar{Y} \sim N(\mu,\; \sigma^2/n)$, so:
 
 $$Z = \frac{\bar{Y} - \mu}{\sigma/\sqrt{n}} = \frac{\bar{Y} - \mu}{0.8/\sqrt{16}} = \frac{\bar{Y} - \mu}{0.2}$$
+:::
 
-. . .
-
+::: {.fragment}
 $$P(|\bar{Y} - \mu| \leq 0.3) = P\!\left(\frac{-0.3}{0.2} \leq Z \leq \frac{0.3}{0.2}\right) = P(-1.5 \leq Z \leq 1.5)$$
+:::
 
-. . .
-
+::: {.fragment}
 $$= 1 - 2 \times P(Z > 1.5) = 1 - 2(0.0668) = \boxed{0.8664}$$
+:::
 
 ::: {.fragment}
 **Interpretation:** There is about an 87% chance that the sample mean growth rate will be within 0.3 percentage points of the true mean — a useful precision for macroeconomic forecasting.
@@ -264,21 +266,21 @@ $$= 1 - 2 \times P(Z > 1.5) = 1 - 2(0.0668) = \boxed{0.8664}$$
 ::: {style="font-size: 32px"}
 **Problem:** How many quarterly observations do we need so that $\bar{Y}$ is within 0.3% of $\mu$ with probability 0.95?
 
-. . .
-
+::: {.fragment}
 **Solution:** We need $P(|\bar{Y} - \mu| \leq 0.3) = 0.95$, which requires:
 
 $$P\!\left(-\frac{0.3}{\sigma/\sqrt{n}} \leq Z \leq \frac{0.3}{\sigma/\sqrt{n}}\right) = 0.95$$
+:::
 
-. . .
-
+::: {.fragment}
 This means $\frac{0.3}{\sigma/\sqrt{n}} = z_{0.025} = 1.96$, so:
 
 $$\sqrt{n} = \frac{1.96 \times 0.8}{0.3} = 5.227 \implies n = 27.32$$
+:::
 
-. . .
-
+::: {.fragment}
 $$\boxed{n = 28 \text{ quarters (7 years of data)}}$$
+:::
 
 ::: {.fragment}
 **Policy Insight:** Regulators and central banks need multi-year data windows to achieve reliable growth estimates — this quantifies *exactly* how long.
@@ -349,23 +351,23 @@ $$\frac{(n-1)S^2}{\sigma^2} = \frac{1}{\sigma^2}\sum_{i=1}^n (Y_i - \bar{Y})^2 \
 ::: {style="font-size: 32px"}
 **Problem:** Daily changes in a government bond yield are $N(\mu, \sigma^2)$. From $n = 21$ trading days, we observe $S^2$. Find $b$ such that $P(S^2 \leq b) = 0.95$.
 
-. . .
-
+::: {.fragment}
 **Solution:** By Theorem 7.3, $(n-1)S^2/\sigma^2 \sim \chi^2(20)$.
+:::
 
-. . .
-
+::: {.fragment}
 We need:
 
 $$P\!\left(\frac{20S^2}{\sigma^2} \leq \chi^2_{0.05}(20)\right) = 0.95$$
+:::
 
-. . .
-
+::: {.fragment}
 From chi-square tables: $\chi^2_{0.05}(20) = 31.41$
+:::
 
-. . .
-
+::: {.fragment}
 $$\frac{20b}{\sigma^2} = 31.41 \implies b = \frac{31.41 \cdot \sigma^2}{20} = 1.571\sigma^2$$
+:::
 
 ::: {.fragment}
 **Risk Interpretation:** There is a 95% chance that the sample variance of bond yield changes won't exceed 1.571 times the true variance — useful for setting conservative risk bounds.
@@ -440,21 +442,21 @@ The extra variability comes from *estimating* $\sigma$ with $S$. In small sample
 ::: {style="font-size: 32px"}
 **Problem:** Annual revenues of firms in a sector are $N(\mu, \sigma^2)$. A sample of $n = 6$ firms gives $\bar{Y}$ and $S$. Find $P\!\left(|\bar{Y} - \mu| \leq 2\frac{S}{\sqrt{n}}\right)$.
 
-. . .
-
+::: {.fragment}
 **Solution:**
 
 $$P\!\left(-2 \leq \frac{\bar{Y} - \mu}{S/\sqrt{n}} \leq 2\right) = P(-2 \leq T \leq 2)$$
 
 where $T \sim t(5)$.
+:::
 
-. . .
-
+::: {.fragment}
 From $t$-tables: $t_{0.05}(5) = 2.015$, so $P(T > 2.015) = 0.05$.
+:::
 
-. . .
-
+::: {.fragment}
 Since $2 < 2.015$: $P(-2 \leq T \leq 2) \approx 0.90$ (slightly less)
+:::
 
 ::: {.fragment}
 **Compare with known $\sigma$:** If $\sigma$ were known, $P(-2 \leq Z \leq 2) = 0.9544$. The $t$ distribution gives a **wider interval** reflecting our additional uncertainty about $\sigma$.
@@ -494,21 +496,21 @@ If $\sigma_1^2 = \sigma_2^2$, this simplifies to $F = S_1^2/S_2^2$.
 ::: {style="font-size: 32px"}
 **Problem:** Independent samples of $n_1 = 6$ returns from Market A and $n_2 = 10$ from Market B (both normal with equal $\sigma^2$). Find $P(S_1^2/S_2^2 > 4.07)$.
 
-. . .
-
+::: {.fragment}
 **Solution:** When $\sigma_1^2 = \sigma_2^2$:
 
 $$F = \frac{S_1^2}{S_2^2} \sim F(n_1 - 1, n_2 - 1) = F(5, 9)$$
+:::
 
-. . .
-
+::: {.fragment}
 From $F$-tables: $F_{0.05}(5, 9) = 3.48$ and $F_{0.025}(5, 9) = 4.48$.
+:::
 
-. . .
-
+::: {.fragment}
 Since $3.48 < 4.07 < 4.48$:
 
 $$\boxed{0.025 < P(F > 4.07) < 0.05}$$
+:::
 
 ::: {.fragment}
 **Interpretation:** If the two markets truly have equal volatility, observing $S_1^2/S_2^2 > 4.07$ would be unusual (probability between 2.5% and 5%) — possible evidence that Market A is actually more volatile.
@@ -707,6 +709,8 @@ Plot.plot({
 ```{python}
 #| eval: false
 #| echo: true
+#| code-fold: true
+#| code-summary: "Show Code"
 import numpy as np
 import pandas as pd
 import yfinance as yf
@@ -760,6 +764,8 @@ print(summary.round(4))
 ```{python}
 #| eval: false
 #| echo: true
+#| code-fold: true
+#| code-summary: "Show Code"
 from scipy.stats import chi2, t
 
 np.random.seed(42)
