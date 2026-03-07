@@ -245,7 +245,9 @@ classes: wide
       <strong>Reading:</strong> Wackerly et al., Chapter 8
     </div>
     <div class="lecture-buttons">
-      <span class="btn btn--coming-soon">Lectures Coming Soon</span>
+      <a href="/lectures/math_stat_2_spring_2026/chapter_8/point_estimation_lecture1.html" class="btn btn--primary">
+        <span class="btn-num">Lecture 1</span><span class="btn-title">Point Estimation</span>
+      </a>
     </div>
   </div>
 
