@@ -1,0 +1,1001 @@
+---
+title: "Mathematical Statistics"
+subtitle: "The Central Limit Theorem & Normal Approximation to the Binomial"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: default
+    logo: ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    margin: 0.04
+    min-scale: 0.2
+    max-scale: 2.0
+    footer: "Mathematical Statistics - Central Limit Theorem"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    mouse-wheel: true
+    overview: true
+    zoom: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+    include-after-body:
+      - text: |
+          <script src="../qrcode.min.js"></script>
+          <script src="../attendance-qr-slide.js"></script>
+revealjs-plugins:
+  - quiz
+execute:
+  enabled: false
+---
+
+## 🎯 Learning Objectives
+
+::: {style="font-size: 35px"}
+::: {.learning-objectives}
+By the end of this lecture, you will be able to:
+
+- **State** the Central Limit Theorem (Theorem 7.4) precisely and explain its conditions — finite mean and variance, large $n$
+
+- **Apply** the CLT to approximate probabilities for sample means from *any* population distribution in finance and economics
+
+- **Recognize** how the CLT justifies normal-based inference even when the underlying population is non-normal (e.g., stock returns, income data)
+
+- **Derive** the normal approximation to the binomial distribution and apply the continuity correction for improved accuracy
+
+- **Evaluate** when the normal approximation to the binomial is adequate using the $n > 9\!\left(\frac{\max(p,q)}{\min(p,q)}\right)$ rule of thumb
+:::
+:::
+
+
+## 📱 Attendance Check-in {.center background-color="#f0f4ff"}
+
+<div class="attendance-qr" data-status="present" id="qr-present" style="min-height: 400px; display: flex; align-items: center; justify-content: center;"></div>
+
+## 📋 Overview
+
+::: {style="font-size: 38px"}
+::: {.callout-note}
+## 📚 Topics Covered Today
+
+::: {.incremental}
+- **Motivation** — Why CLT is called the *most important theorem* in statistics
+
+- **Theorem 7.4: The CLT** — Formal statement, conditions, and asymptotic normality
+
+- **Intuition via Simulation** — How the sampling distribution of $\bar{Y}$ converges to normal
+
+- **CLT in Finance & Economics** — Portfolio returns, survey sampling, risk modeling
+
+- **Normal Approximation to the Binomial** — Section 7.5 and the continuity correction
+
+- **Case Study** — Applying CLT and binomial approximation to Azerbaijani telecom data
+:::
+:::
+:::
+
+
+## 🌍 Why the CLT Matters
+
+::: {style="font-size: 33px"}
+::: {.callout-important}
+## 💡 The Problem We Solve Today
+
+In **Lecture 1**, we showed $\bar{Y} \sim N(\mu, \sigma^2/n)$ — *but only when sampling from a normal population.*
+
+**Reality check:** Most economic and financial data are **not normal**:
+
+- Income and wealth are **right-skewed** (Pareto-like)
+- Asset returns have **heavy tails** (leptokurtic)
+- Queue times and service durations are **exponential** or **gamma**
+- Count data (defaults, transactions) follow **Poisson** or **binomial**
+:::
+
+::: {.fragment}
+::: {.callout-tip}
+## 🎯 What the CLT Promises
+
+**Regardless** of the population distribution, as long as $\mu$ and $\sigma^2$ are finite, the sampling distribution of $\bar{Y}$ becomes **approximately normal** for large $n$.
+
+This is why every confidence interval, every hypothesis test, and every econometric estimator *works in practice*.
+:::
+:::
+:::
+
+
+## 📐 Warm-Up: Recall from Chapter 5
+
+::: {style="font-size: 35px"}
+We already know two key facts about $\bar{Y} = \frac{1}{n}\sum_{i=1}^n Y_i$ from **any** population:
+
+::: {.fragment}
+$$E(\bar{Y}) = \mu \qquad \text{and} \qquad V(\bar{Y}) = \frac{\sigma^2}{n}$$
+:::
+
+::: {.fragment}
+These hold for **any distribution** — no normality required.
+
+But these are just the *mean and variance* of $\bar{Y}$. What is its full **shape**?
+:::
+
+::: {.fragment}
+::: {.callout-note}
+## The Missing Piece
+
+Without knowing the distribution of the $Y_i$'s, we cannot (in general) state the distribution of $\bar{Y}$.
+
+**The CLT completes this picture**: for large $n$, the shape is *always* approximately normal.
+:::
+:::
+:::
+
+
+## 🧮 Theorem 7.4: The Central Limit Theorem
+
+::: {style="font-size: 33px"}
+::: {.callout-important}
+## Theorem 7.4 — Central Limit Theorem (Wackerly et al., p. 372)
+
+Let $Y_1, Y_2, \ldots, Y_n$ be **i.i.d.** with $E(Y_i) = \mu$ and $V(Y_i) = \sigma^2 < \infty$. Define:
+
+$$U_n = \frac{\bar{Y} - \mu}{\sigma / \sqrt{n}} = \frac{\sum_{i=1}^n Y_i - n\mu}{\sigma\sqrt{n}}$$
+
+Then the distribution function of $U_n$ **converges to the standard normal** as $n \to \infty$:
+
+$$\lim_{n \to \infty} P(U_n \leq u) = \int_{-\infty}^{u} \frac{1}{\sqrt{2\pi}} e^{-t^2/2}\, dt \quad \text{for all } u$$
+:::
+
+::: {.fragment}
+**Practical rule of thumb:** $n > 30$ is usually sufficient for the approximation to be valid.
+
+For highly skewed populations (e.g., income, insurance claims), larger $n$ may be needed.
+:::
+:::
+
+
+## 🔑 What the CLT Tells Us (Asymptotic Normality)
+
+::: {style="font-size: 34px"}
+
+::: {.columns}
+::: {.column width="50%" .fragment}
+For **large $n$**, the CLT allows us to write:
+
+$$\bar{Y} \stackrel{a}{\sim} N\!\left(\mu,\; \frac{\sigma^2}{n}\right)$$
+
+where the $\stackrel{a}{\sim}$ symbol means *asymptotically distributed as*.
+:::
+
+::: {.column width="50%" .fragment}
+This means **probability statements** about $\bar{Y}$ can be evaluated using the standard normal:
+
+$$P(a \leq \bar{Y} \leq b) \approx P\!\left(\frac{a - \mu}{\sigma/\sqrt{n}} \leq Z \leq \frac{b - \mu}{\sigma/\sqrt{n}}\right)$$
+
+:::
+:::
+
+::: {.fragment}
+::: {.callout-tip}
+## Two Equivalent Formulations
+
+| Statement | Useful when... |
+|:--|:--|
+| $\bar{Y} \stackrel{a}{\sim} N(\mu, \sigma^2/n)$ | Reasoning about sample mean |
+| $\sum Y_i \stackrel{a}{\sim} N(n\mu, n\sigma^2)$ | Reasoning about totals (costs, sales) |
+:::
+:::
+:::
+
+
+## 📌 Example 7.8: School Exam Scores
+
+::: {style="font-size: 33px"}
+**Problem (Wackerly, p. 372):** Achievement test scores of all high school seniors have $\mu = 60$ and $\sigma^2 = 64$. A random sample of $n = 100$ students from one school yielded $\bar{Y} = 58$. Is this evidence that the school is inferior?
+
+**Finance Parallel:** Think of $\bar{Y}$ as the average quarterly return of 100 assets in a portfolio. Is an observed mean of 58 unusual if the true mean is 60?
+
+::: {.fragment}
+**Solution:** By CLT, $\frac{\bar{Y} - 60}{8/\sqrt{100}} \approx N(0,1)$, so:
+
+$$P(\bar{Y} \leq 58) = P\!\left(Z \leq \frac{58 - 60}{0.8}\right) = P(Z \leq -2.5) \approx 0.0062$$
+:::
+
+::: {.fragment}
+::: {.callout-important}
+## Conclusion
+A probability of only $0.62\%$ — very strong evidence this school's average is below the population mean.
+
+This is the **logic of hypothesis testing** (Chapter 10 preview): small $p$-values signal unusual results.
+:::
+:::
+:::
+
+
+## 📌 Example: Total Service Time (Queue Theory)
+
+::: {style="font-size: 33px"}
+**Problem (Wackerly, Example 7.9, p. 373):** Service times per customer: $\mu = 1.5$ min, $\sigma^2 = 1.0$. Approximate $P\!\left(\sum_{i=1}^{100} Y_i \leq 120 \text{ min}\right)$.
+
+::: {.fragment}
+**Finance Context:** Think of this as: 100 loan applications, each requiring on average 1.5 hours of review time. What is the chance the entire batch can be processed within a 2-hour window (120 minutes)?
+:::
+
+::: {.fragment}
+**Solution:** 
+
+$$P\!\left(\sum Y_i \leq 120\right) = P\!\left(\bar{Y} \leq 1.20\right) = P\!\left(Z \leq \frac{1.20 - 1.50}{1/\sqrt{100}}\right) = P(Z \leq -3) \approx 0.0013$$
+:::
+
+::: {.fragment}
+**Interpretation:** Only a $0.13\%$ chance — it is virtually impossible to process 100 clients in 2 hours. The bank must budget for longer.
+:::
+:::
+
+
+## 🏦 CLT in Practice: Portfolio Returns
+
+::: {style="font-size: 30px; margin-top: -10px;"}
+::: {.callout-note}
+## Finance Application: Averaging Returns Across Assets
+
+Suppose a portfolio of $n = 50$ stocks. Individual stock daily returns $Y_i$ have:
+
+$$\mu = 0.05\% \quad \text{and} \quad \sigma = 1.8\%$$
+
+The returns are **not normal** (heavy tails, skewness from individual stocks). Yet by CLT:
+
+$$\bar{Y} \stackrel{a}{\sim} N\!\left(0.0005,\; \frac{0.018^2}{50}\right) = N\!\left(0.0005,\; 6.48 \times 10^{-6}\right)$$
+:::
+
+::: {.fragment}
+**Question:** What is the probability the portfolio mean return exceeds $0.12\%$ on a given day?
+
+$$P(\bar{Y} > 0.0012) = P\!\left(Z > \frac{0.0012 - 0.0005}{0.018/\sqrt{50}}\right) = P(Z > 2.75) \approx 0.003$$
+:::
+
+::: {.fragment}
+::: {.callout-tip}
+## Why This Matters for Risk Management
+
+Value-at-Risk (VaR) calculations rely on the normality of portfolio means — the CLT is their theoretical justification.
+:::
+:::
+:::
+
+
+## 🎮 Interactive: CLT in Action {.smaller}
+
+:::::: {style="font-size: 0.72em; margin-top: -8px;"}
+
+**Key insight:** As sample size $n$ increases, the sampling distribution of $\bar{Y}$ converges to a normal curve — regardless of the original population shape.
+
+::::: columns
+::: {.column width="32%"}
+
+```{ojs}
+//| echo: false
+
+viewof pop_shape = {
+  const input = Inputs.select(
+    ["Exponential (right-skewed)", "Uniform (flat)", "U-shaped (bimodal)"],
+    {value: "Exponential (right-skewed)", label: "Population shape:"}
+  );
+  input.addEventListener('pointerdown', e => e.stopPropagation());
+  input.addEventListener('touchstart', e => e.stopPropagation());
+  input.addEventListener('mousedown', e => e.stopPropagation());
+  input.addEventListener('click', e => e.stopPropagation());
+  return input;
+}
+
+viewof sample_n = {
+  const input = Inputs.range([1, 100], {value: 5, step: 1, label: "Sample size n:"});
+  input.addEventListener('pointerdown', e => e.stopPropagation());
+  input.addEventListener('touchstart', e => e.stopPropagation());
+  input.addEventListener('mousedown', e => e.stopPropagation());
+  input.addEventListener('click', e => e.stopPropagation());
+  input.addEventListener('wheel', e => e.stopPropagation());
+  input.addEventListener('pointermove', e => e.stopPropagation());
+  input.addEventListener('touchmove', e => e.stopPropagation());
+  return input;
+}
+
+// Population parameters
+popParams = {
+  if (pop_shape === "Exponential (right-skewed)") return {mu: 1.0, sigma: 1.0, label: "Exp(1)"};
+  if (pop_shape === "Uniform (flat)")              return {mu: 0.5, sigma: Math.sqrt(1/12), label: "Uniform(0,1)"};
+  return {mu: 0.5, sigma: Math.sqrt(1/8), label: "U-shaped"};
+}
+
+// Simulate sample means
+simMeans = {
+  const nSim = 4000;
+  const rng = d3.randomLcg(42);
+  const means = [];
+  for (let s = 0; s < nSim; s++) {
+    let sum = 0;
+    for (let i = 0; i < sample_n; i++) {
+      let y;
+      if (pop_shape === "Exponential (right-skewed)") {
+        y = -Math.log(1 - rng());
+      } else if (pop_shape === "Uniform (flat)") {
+        y = rng();
+      } else {
+        const u = rng();
+        y = u < 0.5 ? rng() * 0.35 : 0.65 + rng() * 0.35;
+      }
+      sum += y;
+    }
+    means.push({ybar: sum / sample_n});
+  }
+  return means;
+}
+
+// CLT normal overlay data
+cltNormal = {
+  const {mu, sigma} = popParams;
+  const se = sigma / Math.sqrt(sample_n);
+  const xMin = mu - 4 * se;
+  const xMax = mu + 4 * se;
+  const pts = [];
+  for (let i = 0; i <= 200; i++) {
+    const x = xMin + (i / 200) * (xMax - xMin);
+    const z = (x - mu) / se;
+    const density = Math.exp(-0.5 * z * z) / (Math.sqrt(2 * Math.PI) * se);
+    pts.push({x, density});
+  }
+  return pts;
+}
+
+normalityScore = {
+  if (sample_n >= 30) return {msg: "✅ n ≥ 30: CLT approximation is reliable", color: "#d4edda"};
+  if (sample_n >= 15) return {msg: "⚠️ n ≥ 15: Reasonable for mild skewness", color: "#fff3cd"};
+  return {msg: "❌ n < 15: Distribution still resembles population", color: "#f8d7da"};
+}
+
+md`**Population:** ${popParams.label} — μ = ${popParams.mu.toFixed(3)}, σ = ${popParams.sigma.toFixed(3)}
+
+**SE of mean:** σ/√n = ${(popParams.sigma / Math.sqrt(sample_n)).toFixed(4)}
+
+<div style="background: ${normalityScore.color}; padding: 5px; border-radius: 4px; margin-top: 6px;">
+${normalityScore.msg}
+</div>`
+```
+
+:::
+
+::: {.column width="68%"}
+
+```{ojs}
+//| echo: false
+
+histDensity = {
+  const vals = simMeans.map(d => d.ybar);
+  const ext = d3.extent(vals);
+  const bins = d3.bin().thresholds(40).domain(ext)(vals);
+  const n = vals.length;
+  return bins
+    .map(b => ({ x1: b.x0, x2: b.x1, y: b.length / (n * (b.x1 - b.x0)) }))
+    .filter(d => isFinite(d.y) && d.y >= 0);
+}
+
+Plot.plot({
+  width: 580,
+  height: 380,
+  marginLeft: 55,
+  marginBottom: 45,
+  x: {label: "Sample mean (Ȳ)"},
+  y: {label: "Density"},
+  title: `Sampling distribution of Ȳ (n = ${sample_n}, 4000 simulations)`,
+  marks: [
+    Plot.rectY(histDensity, {x1: "x1", x2: "x2", y: "y", fill: "#93c5fd", fillOpacity: 0.7}),
+    Plot.lineY(cltNormal, {x: "x", y: "density", stroke: "#dc2626", strokeWidth: 2.5}),
+    Plot.ruleY([0], {stroke: "#ccc"}),
+    Plot.tip([{x: popParams.mu, y: 0}], {x: "x", y: "y", title: () => `μ = ${popParams.mu.toFixed(3)}`})
+  ]
+})
+```
+
+:::
+:::::
+::::::
+
+
+## 🔬 Proof Sketch: Why the CLT Works {.smaller}
+
+::: {style="font-size: 0.78em; margin-top: -5px;"}
+
+Wackerly §7.4 gives an MGF-based proof. Here is the essential logic:
+
+::: {.fragment}
+**Step 1: Standardize** each $Y_i$: let $Z_i = (Y_i - \mu)/\sigma$, so $E(Z_i) = 0$, $V(Z_i) = 1$. Then $U_n = \frac{1}{\sqrt{n}}\sum Z_i$.
+:::
+
+::: {.fragment}
+**Step 2: MGF factorization.** Since the $Z_i$ are i.i.d.:
+$$m_{U_n}(t) = \left[m_{Z_1}\!\left(\tfrac{t}{\sqrt{n}}\right)\right]^n$$
+:::
+
+::: {.fragment}
+**Step 3: Taylor expansion.** Using $m_{Z_1}(0) = 1$ and $m'_{Z_1}(0) = E(Z_1) = 0$:
+$$m_{Z_1}\!\left(\tfrac{t}{\sqrt{n}}\right) \approx 1 + \frac{t^2/2}{n} \implies m_{U_n}(t) \approx \left(1 + \frac{t^2/2}{n}\right)^{\!n} \to e^{t^2/2}$$
+:::
+
+::: {.fragment}
+**Step 4: MGF uniqueness.** $e^{t^2/2}$ is the MGF of $N(0,1)$. By Theorem 7.5 (convergence of MGFs), the distribution of $U_n$ converges to standard normal. $\blacksquare$
+:::
+
+::: {.fragment}
+::: {.callout-tip}
+## Intuition
+Averaging $n$ i.i.d. shocks — regardless of their shape — progressively *cancels out* the skewness and heavy tails, leaving only the bell curve.
+:::
+:::
+:::
+
+
+## 💬 Think-Pair-Share: CLT Application {background-color="#fdf6e3"}
+
+::: {style="font-size: 30px; margin-top: -10px;"}
+::: {.callout-note}
+## 🤔 Discussion Problem (4 minutes)
+
+Azerbaijan's telecommunications agency monitors **daily internet outage durations** across ISPs. Outage durations have $\mu = 45$ min, $\sigma = 30$ min (right-skewed). A sample of $n = 36$ events from one ISP.
+
+**Questions:**
+
+1. Can we use the CLT? What condition must hold?
+
+2. Find $P(\bar{Y} > 55 \text{ min})$ — probability the mean outage exceeds 55 minutes.
+
+3. If regulators flag ISPs with $\bar{Y} > 55$ min as non-compliant, what is the Type I error (false flag rate)?
+:::
+:::
+
+```{=html}
+<div id="tps-cd" onclick="tpsTick()" title="Click to start / pause"
+  style="position:absolute;bottom:10px;left:10px;background:#31b09e;color:white;
+         padding:10px 22px;border-radius:8px;font-size:1.5em;font-weight:bold;
+         cursor:pointer;z-index:100;user-select:none;min-width:82px;text-align:center;">
+  4:00
+</div>
+<script>
+(function(){
+  let s=240,run=false,iv;
+  const el=document.getElementById('tps-cd');
+  function upd(){
+    const m=Math.floor(s/60),sec=s%60;
+    el.textContent=m+':'+(sec<10?'0':'')+sec;
+    el.style.background=s<=0?'#cc3311':s<=60?'#f7dc6f':'#31b09e';
+    el.style.color=(s<=60&&s>0)?'#000':'#fff';
+  }
+  window.tpsTick=function(){
+    if(s<=0){s=240;upd();return;}
+    if(run){clearInterval(iv);run=false;}
+    else{run=true;iv=setInterval(function(){s--;upd();if(s<=0){clearInterval(iv);run=false;}},1000);}
+  };
+})();
+</script>
+```
+
+
+## 💬 Think-Pair-Share: Solution
+
+::: {style="font-size: 30px"}
+**1. CLT conditions:** $n = 36 > 30$ ✓ and $\sigma^2 = 900 < \infty$ ✓ — CLT applies despite skewness.
+
+::: {.fragment}
+**2. Compute $P(\bar{Y} > 55)$:**
+
+$$SE = \frac{\sigma}{\sqrt{n}} = \frac{30}{\sqrt{36}} = 5 \text{ min}$$
+
+$$P(\bar{Y} > 55) = P\!\left(Z > \frac{55 - 45}{5}\right) = P(Z > 2.0) = 1 - 0.9772 = \boxed{0.0228}$$
+:::
+
+::: {.fragment}
+**3. Regulatory interpretation:** If a compliant ISP ($\mu = 45$) is observed, there is only a $2.28\%$ chance its sample mean exceeds 55 min. This is the **significance level** $\alpha$ of a one-sided test — a comfortably low false alarm rate.
+:::
+
+::: {.fragment}
+::: {.callout-tip}
+## Key Takeaway
+Even with skewed data, large enough samples give us **reliable normal-based probability calculations**. This is the entire foundation of regulatory monitoring and economic inference.
+:::
+:::
+:::
+
+
+## 📊 Normal Approximation to the Binomial 
+
+::: {style="font-size: 30px"}
+::: {.callout-note}
+## The Bridge from Discrete to Continuous
+
+A binomial variable $Y \sim \text{Bin}(n, p)$ is a **sum** of i.i.d. Bernoulli trials:
+
+$$Y = \sum_{i=1}^{n} X_i, \quad X_i \sim \text{Bernoulli}(p)$$
+
+::: {.columns}
+::: {.column width="50%" .fragment}
+By the CLT, for large $n$:
+$$Y \stackrel{a}{\sim} N\!\left(np,\; np(1-p)\right)$$
+
+:::
+
+::: {.column width="50%" .fragment}
+Or equivalently, the sample proportion:
+$$\hat{p} = \frac{Y}{n} \stackrel{a}{\sim} N\!\left(p,\; \frac{p(1-p)}{n}\right)$$
+:::
+:::
+:::
+
+::: {.fragment}
+**When is this approximation adequate?**
+
+$$n > 9\left(\frac{\max(p, q)}{\min(p, q)}\right) \quad \text{where } q = 1 - p$$
+
+Equivalently: $p \pm 3\sqrt{pq/n}$ must lie in $(0, 1)$.
+:::
+:::
+
+
+## ✂️ The Continuity Correction
+
+::: {style="font-size: 34px"}
+::: {.callout-important}
+## Key Improvement for Discrete Distributions
+
+When approximating a **discrete** binomial with a **continuous** normal, each integer $y$ corresponds to the interval $[y - 0.5,\; y + 0.5]$.
+
+| Binomial expression | Normal approximation (with correction) |
+|:--|:--|
+| $P(Y \leq b)$ | $P(W \leq b + 0.5)$ |
+| $P(Y \geq a)$ | $P(W \geq a - 0.5)$ |
+| $P(Y = k)$ | $P(k - 0.5 \leq W \leq k + 0.5)$ |
+| $P(a \leq Y \leq b)$ | $P(a - 0.5 \leq W \leq b + 0.5)$ |
+
+where $W \sim N(np, np(1-p))$.
+:::
+
+::: {.fragment}
+::: {.callout-tip}
+## Mnemonic
+
+"Add 0.5 outward from the region of interest" — expand by half a unit in each direction that *includes* more of the histogram.
+:::
+:::
+:::
+
+
+## 📌 Example 7.10: Election Polling
+
+::: {style="font-size: 33px"}
+**Problem (Wackerly, p. 379):** Candidate A needs at least 55% of votes in precinct 1 to win. She believes $p = 0.50$ citywide. If $n = 100$ voters show up, find $P(Y/n \geq 0.55)$.
+
+::: {.fragment}
+**Solution:** $Y \sim \text{Bin}(100, 0.5)$. By CLT:
+
+$$\hat{p} = Y/n \stackrel{a}{\sim} N\!\left(0.5,\; \frac{(0.5)(0.5)}{100}\right) = N(0.5,\; 0.0025)$$
+:::
+
+::: {.fragment}
+$$P(\hat{p} \geq 0.55) = P\!\left(Z \geq \frac{0.55 - 0.50}{0.05}\right) = P(Z \geq 1.0) = \boxed{0.1587}$$
+:::
+
+::: {.fragment}
+**Economic Interpretation:** Even with a fair coin ($p=0.5$), a supermajority of 55% still has a $15.87\%$ chance of occurring in a precinct — much higher than most people intuitively expect. This explains why close elections have wide prediction bands.
+:::
+:::
+
+
+## 📌 Example 7.11: Loan Default Rates {.smaller}
+
+::: {style="font-size: 0.78em; margin-top: -8px;"}
+
+**Context:** A bank's credit portfolio: $n = 25$ loans, each has a 40% probability of default within 1 year.
+
+Find $P(Y \leq 8)$ and $P(Y = 8)$ exactly and via normal approximation. Compare.
+
+::: {.fragment}
+**Population parameters:** $\mu_W = np = 25(0.4) = 10$; $\sigma^2_W = np(1-p) = 25(0.4)(0.6) = 6$; $\sigma_W = 2.449$.
+:::
+
+::: {.fragment}
+**Exact binomial:** $P(Y \leq 8) = 0.274$; $P(Y = 8) = 0.120$.
+:::
+
+::: {.fragment}
+**Normal approximation with continuity correction:**
+
+$$P(Y \leq 8) \approx P\!\left(W \leq 8.5\right) = P\!\left(Z \leq \frac{8.5 - 10}{2.449}\right) = P(Z \leq -0.61) = 0.271$$
+
+$$P(Y = 8) \approx P(7.5 \leq W \leq 8.5) = P(-1.02 \leq Z \leq -0.61) = 0.271 - 0.154 = 0.117$$
+:::
+
+::: {.fragment}
+| Probability | Exact Binomial | Normal Approx | Error |
+|:--|:--:|:--:|:--:|
+| $P(Y \leq 8)$ | 0.274 | 0.271 | 0.003 |
+| $P(Y = 8)$ | 0.120 | 0.117 | 0.003 |
+
+The approximation is excellent even at $n = 25$, because $n > 9(0.6/0.4) = 13.5$ ✓
+:::
+:::
+
+
+## 🎮 Interactive: Normal Approximation to Binomial {.smaller}
+
+:::::: {style="font-size: 0.72em; margin-top: -8px;"}
+
+**See how well the normal curve fits the binomial histogram for different $n$ and $p$.**
+
+::::: columns
+::: {.column width="30%"}
+
+```{ojs}
+//| echo: false
+viewof binom_n = {
+  const input = Inputs.range([5, 200], {value: 25, step: 1, label: "n (trials):"});
+  input.addEventListener('pointerdown', e => e.stopPropagation());
+  input.addEventListener('touchstart', e => e.stopPropagation());
+  input.addEventListener('mousedown', e => e.stopPropagation());
+  input.addEventListener('click', e => e.stopPropagation());
+  input.addEventListener('wheel', e => e.stopPropagation());
+  input.addEventListener('pointermove', e => e.stopPropagation());
+  input.addEventListener('touchmove', e => e.stopPropagation());
+  return input;
+}
+
+viewof binom_p = {
+  const input = Inputs.range([0.05, 0.95], {value: 0.40, step: 0.05, label: "p (success prob):"});
+  input.addEventListener('pointerdown', e => e.stopPropagation());
+  input.addEventListener('touchstart', e => e.stopPropagation());
+  input.addEventListener('mousedown', e => e.stopPropagation());
+  input.addEventListener('click', e => e.stopPropagation());
+  input.addEventListener('wheel', e => e.stopPropagation());
+  input.addEventListener('pointermove', e => e.stopPropagation());
+  input.addEventListener('touchmove', e => e.stopPropagation());
+  return input;
+}
+
+binomStats = {
+  const q = 1 - binom_p;
+  const mu = binom_n * binom_p;
+  const sigma = Math.sqrt(binom_n * binom_p * q);
+  const ratio = Math.max(binom_p, q) / Math.min(binom_p, q);
+  const threshold = 9 * ratio;
+  const adequate = binom_n > threshold;
+  return {mu, sigma, threshold: threshold.toFixed(1), adequate};
+}
+
+// Binomial PMF
+binomData = {
+  function logFact(n) {
+    let s = 0; for (let i = 2; i <= n; i++) s += Math.log(i); return s;
+  }
+  function binomPMF(n, k, p) {
+    return Math.exp(logFact(n) - logFact(k) - logFact(n-k) + k*Math.log(p) + (n-k)*Math.log(1-p));
+  }
+  const data = [];
+  const kMin = Math.max(0, Math.floor(binomStats.mu - 4*binomStats.sigma));
+  const kMax = Math.min(binom_n, Math.ceil(binomStats.mu + 4*binomStats.sigma));
+  for (let k = kMin; k <= kMax; k++) {
+    data.push({k, pmf: binomPMF(binom_n, k, binom_p)});
+  }
+  return data;
+}
+
+// Normal overlay
+normalBinom = {
+  const {mu, sigma} = binomStats;
+  const data = [];
+  for (let i = 0; i <= 200; i++) {
+    const x = (mu - 4*sigma) + i * (8*sigma/200);
+    const density = Math.exp(-0.5*((x-mu)/sigma)**2) / (Math.sqrt(2*Math.PI)*sigma);
+    data.push({x, density});
+  }
+  return data;
+}
+
+adequacyStatus = binomStats.adequate
+  ? html`<div style="background: #d4edda; padding: 5px; border-radius: 4px;"><strong>✅ Adequate:</strong> n = ${binom_n} > ${binomStats.threshold}</div>`
+  : html`<div style="background: #f8d7da; padding: 5px; border-radius: 4px;"><strong>❌ Not adequate:</strong> need n > ${binomStats.threshold}</div>`
+
+md`μ = **${binomStats.mu.toFixed(1)}**, σ = **${binomStats.sigma.toFixed(3)}**
+
+${adequacyStatus}`
+```
+
+:::
+
+::: {.column width="70%"}
+
+```{ojs}
+//| echo: false
+
+Plot.plot({
+  width: 590,
+  height: 380,
+  marginLeft: 55,
+  marginBottom: 45,
+  x: {label: "Y (number of successes)"},
+  y: {label: "Probability / Density"},
+  title: `Bin(${binom_n}, ${binom_p.toFixed(2)}) vs Normal(${binomStats.mu.toFixed(1)}, ${binomStats.sigma.toFixed(2)}²)`,
+  marks: [
+    Plot.rectY(binomData, {
+      x1: d => d.k - 0.5,
+      x2: d => d.k + 0.5,
+      y: "pmf",
+      fill: "#93c5fd",
+      fillOpacity: 0.75,
+      stroke: "#3b82f6",
+      strokeWidth: 0.5
+    }),
+    Plot.lineY(normalBinom, {x: "x", y: "density", stroke: "#dc2626", strokeWidth: 2.5}),
+    Plot.ruleX([binomStats.mu], {stroke: "#16a34a", strokeWidth: 2, strokeDasharray: "6,3"}),
+    Plot.ruleY([0], {stroke: "#ccc"})
+  ]
+})
+```
+
+:::
+:::::
+::::::
+
+
+## 💰 Case Study: Telecom Compliance via CLT
+
+::: {style="font-size: 28px; margin-top: -10px;"}
+
+```{python}
+#| eval: false
+#| echo: true
+#| code-fold: true
+#| code-summary: "📊 Show Python Code"
+import numpy as np
+from scipy import stats
+
+# ─── Scenario 1: CLT for Monthly Average Download Speed ─────────────────────
+# ISP download speeds per user (seconds per session): exponential-like, skewed
+# Regulatory benchmark: mean ≥ 50 Mbps
+np.random.seed(42)
+n_users = 50            # sample of users tested per ISP per month
+mu_speed = 47.0         # true population mean (Mbps) — slightly below target
+sigma_speed = 18.0      # population std dev
+
+# By CLT: Ȳ ~ N(47, 18²/50)
+se = sigma_speed / np.sqrt(n_users)
+# Probability that the sample MEAN EXCEEDS 50 Mbps (false pass rate)
+z = (50 - mu_speed) / se
+p_false_pass = 1 - stats.norm.cdf(z)
+
+# ─── Scenario 2: Normal Approx to Binomial for Complaint Rates ───────────────
+# Out of n = 120 subscriber surveys, Y = complaints about slow speed
+# H₀: p = 0.15 (industry norm); observed: 24 complaints (20%)
+n_surveys, p0 = 120, 0.15
+y_observed = 24
+mu_bin = n_surveys * p0
+sigma_bin = np.sqrt(n_surveys * p0 * (1 - p0))
+
+# With continuity correction: P(Y ≥ 24) = P(W ≥ 23.5)
+z_bin = (y_observed - 0.5 - mu_bin) / sigma_bin
+p_at_least_24 = 1 - stats.norm.cdf(z_bin)
+p_exact = 1 - stats.binom.cdf(y_observed - 1, n_surveys, p0)
+```
+
+::: {.columns}
+::: {.column width="50%"}
+**Scenario 1 — Download Speed (CLT)**
+
+| Parameter | Value |
+|:--|:--|
+| True mean | 47 Mbps |
+| SE of mean (n=50) | 2.546 Mbps |
+| $P(\bar{Y} > 50)$ | $P(Z > 1.178) = 11.9\%$ |
+| **Risk** | 11.9% false-pass rate |
+:::
+
+::: {.column width="50%"}
+**Scenario 2 — Complaint Rate (Binomial)**
+
+| Quantity | Value |
+|:--|:--|
+| Expected complaints | $\mu = 18$, $\sigma = 3.91$ |
+| $P(Y \geq 24)$ — normal approx | $0.0614$ |
+| $P(Y \geq 24)$ — exact binomial | $0.0567$ |
+| Continuity correction error | $+0.47\%$ |
+:::
+:::
+
+:::
+
+
+## 💰 Case Study: Key Findings
+
+::: {style="font-size: 29px; margin-top: -10px;"}
+::: {.callout-important}
+## 📊 Regulatory Implications
+
+::: {.columns}
+
+::: {.column width="50%"}
+::: {.fragment}
+**CLT for Speed Monitoring:**
+
+- Individual speeds are **skewed**, but sample mean of $n=50$ is approximately normal by CLT
+
+- ISP with true mean 47 Mbps still has **11.9% chance** of passing a test — substantial false-pass risk
+
+- **Policy:** Increase $n$ to sharpen the test: $n = \left(\frac{z_\alpha \sigma}{\delta}\right)^2 = \left(\frac{1.645 \times 18}{3}\right)^2 = 97$ users
+:::
+:::
+
+::: {.column width="50%"}
+::: {.fragment}
+**Binomial Approximation for Complaint Rates:**
+
+- With $n = 120$ surveys and $p_0 = 0.15$, adequacy check:
+
+$$n = 120 > 9 \times \frac{0.85}{0.15} = 51 \checkmark$$
+
+- Normal approximation **closely matches** exact binomial ($\Delta = 0.47\%$ error)
+
+- The continuity correction is essential for accuracy when computing tail probabilities on discrete distributions
+:::
+:::
+
+:::
+:::
+:::
+
+
+## 📝 Quiz #1: CLT Identification {.quiz-question}
+
+::: {style="font-size: 30px"}
+Monthly household income in a city has mean \$2,400 and standard deviation \$800 (right-skewed distribution). For a sample of $n = 64$ households, what is the approximate distribution of $\bar{Y}$?
+
+- [$N(2400,\; 10000)$, since $\sigma^2/n = 640000/64 = 10000$]{.correct data-explanation="✅ Correct! By CLT with n=64 > 30, Ȳ ~ N(μ, σ²/n) = N(2400, 10000). The skewness of individual incomes is irrelevant for large samples."}
+- $N(2400, 640000)$ — same as population
+- Cannot determine without knowing the population distribution
+- $N(0, 1)$ after standardization
+:::
+
+
+## 📝 Quiz #2: Applying the CLT {.quiz-question}
+
+::: {style="font-size: 30px"}
+An economist surveys $n = 100$ firms. Each firm's quarterly profit change has $\mu = 0.8\%$ and $\sigma = 3.5\%$. What is $P(\bar{Y} > 1.5\%)$?
+
+- [$P(Z > 2.0) \approx 0.0228$]{.correct data-explanation="✅ Correct! SE = 3.5/√100 = 0.35%. Z = (1.5 - 0.8)/0.35 = 2.0. P(Z > 2.0) = 1 - 0.9772 = 0.0228."}
+- $P(Z > 0.2) \approx 0.4207$
+- $P(Z > 20) \approx 0$
+- $P(Z > 1.0) \approx 0.1587$
+:::
+
+
+## 📝 Quiz #3: Normal Approximation to Binomial {.quiz-question}
+
+::: {style="font-size: 30px"}
+A telecom operator has a 12% subscriber churn rate. In a sample of $n = 150$ subscribers, let $Y$ = number who churned. Using the normal approximation with continuity correction, find $P(Y \leq 20)$.
+
+- [$P\!\left(Z \leq \frac{20.5 - 18}{1.258 \times \sqrt{?}}\right)$: $\mu=18$, $\sigma=3.98$, $P(Z \leq 0.628)\approx 0.735$]{.correct data-explanation="✅ Correct! μ = 150×0.12 = 18; σ = √(150×0.12×0.88) = √15.84 ≈ 3.98. With continuity correction: P(Y ≤ 20) ≈ P(W ≤ 20.5) = P(Z ≤ (20.5−18)/3.98) = P(Z ≤ 0.628) ≈ 0.735."}
+- $P(Z \leq 0.503) \approx 0.692$ — without continuity correction
+- $P(Z \leq 1.508) \approx 0.934$ — wrong parameters
+- Cannot use normal approximation here
+:::
+
+
+## 📝 Quiz #4: Adequacy of Normal Approximation {.quiz-question}
+
+::: {style="font-size: 30px"}
+For which combination of $n$ and $p$ is the normal approximation to the binomial *NOT* adequate?
+
+- [$n = 30, p = 0.03$]{.correct data-explanation="✅ Correct! Rule of thumb: n must exceed 9×(max(p,q)/min(p,q)) = 9×(0.97/0.03) = 291. So n=30 is far too small when p is near 0."}
+- $n = 100, p = 0.5$  (need $n > 9$)
+- $n = 50, p = 0.4$  (need $n > 13.5$)
+- $n = 200, p = 0.1$  (need $n > 81$)
+:::
+
+
+## 📝 Summary
+
+::: {style="font-size: 35px"}
+::: {.callout-important}
+## ✅ Key Takeaways from Lecture 2
+
+- **Theorem 7.4 (CLT):** For i.i.d. $Y_i$ with finite $\mu$ and $\sigma^2$, $U_n = (\bar{Y} - \mu)/(\sigma/\sqrt{n}) \xrightarrow{d} N(0,1)$. Valid for any population shape when $n$ is large (typically $n > 30$).
+
+- **Asymptotic normality:** Write $\bar{Y} \stackrel{a}{\sim} N(\mu, \sigma^2/n)$ for practical calculations — even income data, service times, and return distributions obey this for large samples.
+
+- **Total sums:** The CLT also applies to $\sum Y_i \stackrel{a}{\sim} N(n\mu, n\sigma^2)$ — useful for budgeting, queueing, and portfolio totals.
+
+- **Normal approximation to binomial:** $Y \sim \text{Bin}(n,p)$ → $Y \stackrel{a}{\sim} N(np, np(1-p))$ for large $n$. Adequate when $n > 9(\max(p,q)/\min(p,q))$.
+
+- **Continuity correction:** Add/subtract 0.5 when translating discrete binomial events to continuous normal areas — substantially improves accuracy.
+:::
+:::
+
+
+## 📚 Practice Problems
+
+::: {style="font-size: 35px"}
+::: {.callout-tip}
+## 📝 Homework Problems (§7.3–7.5)
+
+**Problem 1 (CLT):** Weekly repair costs per machine: $\mu = \$20$, $\sigma^2 = 100$ (exponential-like). For 5 machines over 1 week, approximate $P\!\left(\sum_{i=1}^5 Y_i > 140\right)$.
+
+**Problem 2 (CLT + Sample Size):** Survey: economists' tax-saving estimates have $\bar{Y} = 26\%$ and $S = 12\%$ ($n = 35$). Find $P(|\bar{Y} - \mu| \leq 1\%)$ and determine $n$ needed for this to hold with probability $0.99$.
+
+**Problem 3 (Binomial):** Airline: 5% no-show rate; 160 tickets sold, 155 seats. Approximate $P(\text{all passengers get a seat})$ using the normal approximation with continuity correction.
+
+**Problem 4 (Conceptual):** Explain why the CLT does *not* require the population to be symmetric. Describe one real financial dataset where this is critical.
+:::
+:::
+
+
+## 📱 Late Check-in {.center background-color="#fff5f5"}
+
+<div class="attendance-qr" data-status="late" id="qr-late" style="min-height: 400px; display: flex; align-items: center; justify-content: center;"></div>
+
+## 👋 Thank You! {.center}
+
+::: {style="font-size: 32px;"}
+::: {.columns}
+::: {.column width="50%"}
+**📬 Contact:**
+
+Samir Orujov, PhD — Assistant Professor
+
+School of Business, ADA University
+
+📧 [sorujov@ada.edu.az](mailto:sorujov@ada.edu.az) &nbsp;|&nbsp; 🏢 D312 &nbsp;|&nbsp; ⏰ By appointment
+:::
+
+::: {.column width="50%"}
+**📅 Next Class:** Estimation — Point Estimators & Confidence Intervals
+
+**Reading:** Wackerly Ch. 8, Sections 8.1–8.6
+
+**Preparation:** Review CLT (Sec. 7.3) and normal tables
+
+**Reminders:** ✅ Practice Problems 1–4 &nbsp;|&nbsp; ✅ Review continuity correction &nbsp;|&nbsp; ✅ Work hard!
+:::
+:::
+:::
+
+
+## ❓ Questions? {.center}
+
+::: {.callout-note}
+## 💬 Open Discussion
+
+- Is the CLT still valid if the $Y_i$ are not identically distributed but only independent? (Hint: Lindeberg–Feller theorem)
+
+- For Azerbaijani household income data (strongly right-skewed), how large a sample would you need before the CLT safely applies?
+
+- Why does the continuity correction improve accuracy? What geometric property of histograms does it exploit?
+
+- The CLT guarantees asymptotic normality. Does this mean we should always use large samples? What are the tradeoffs (cost, time) in regulatory monitoring?
+:::
