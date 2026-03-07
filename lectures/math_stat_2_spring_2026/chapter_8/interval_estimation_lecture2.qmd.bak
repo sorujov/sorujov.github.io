@@ -1,0 +1,960 @@
+---
+title: "Mathematical Statistics"
+subtitle: "Interval Estimation & Confidence Intervals"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: default
+    logo: ../ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    margin: 0.04
+    footer: "Mathematical Statistics – Interval Estimation"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+---
+
+## 🎯 Learning Objectives {.smaller}
+
+::: {style="font-size:50px"}
+::: {.learning-objectives}
+By the end of this lecture, you will be able to:
+
+- **Construct** large-sample confidence intervals for $\mu$, $p$, $\mu_1 - \mu_2$, and $p_1 - p_2$ using the $z$-distribution
+
+- **Apply** the pivotal method to derive confidence intervals from sampling distributions
+
+- **Select** the minimum sample size to achieve a desired margin of error
+
+- **Build** small-sample confidence intervals for $\mu$ and $\mu_1 - \mu_2$ using the $t$-distribution
+
+- **Derive** confidence intervals for the population variance $\sigma^2$ using the $\chi^2$ distribution
+:::
+:::
+
+---
+
+## 📋 Overview {.smaller}
+
+::: {style="font-size:50px"}
+::: {.callout-note}
+## 📚 Topics Covered Today
+
+::: {.incremental}
+- **Confidence Intervals** – Definition, confidence coefficient, pivotal method
+
+- **Large-Sample CIs** – For $\mu$, $p$, $\mu_1-\mu_2$, $p_1-p_2$ using CLT
+
+- **Sample Size Selection** – How to plan a study for a target margin of error
+
+- **Small-Sample CIs** – $t$-distribution for means when $n$ is small
+
+- **CI for $\sigma^2$** – Using the $\chi^2$ distribution for variance estimation
+
+- **Case Study** – Confidence intervals for stock return parameters
+:::
+:::
+:::
+
+---
+
+## 📖 From Point to Interval {.smaller}
+
+::: {style="font-size:50px"}
+
+A **point estimate** gives a single number — but how much should we trust it?
+
+::: {.columns}
+::: {.column width="50%"}
+::: {.fragment}
+**Point Estimate:**
+
+> "Based on our sample, mean daily return is **0.05%**"
+
+✅ Simple, but gives no sense of uncertainty
+:::
+:::
+::: {.column width="50%"}
+::: {.fragment}
+**Interval Estimate:**
+
+> "We are 95% confident mean return is between **0.02% and 0.08%**"
+
+✅ Communicates both the estimate and its precision
+:::
+:::
+:::
+
+::: {.fragment}
+::: {.callout-tip}
+## 💡 The Finance Analogy
+
+A point estimate is like saying "the bond will yield 4%." An interval estimate says "the yield will fall between 3.7% and 4.3% with 95% confidence." Investors act on intervals, not points.
+:::
+:::
+:::
+
+---
+
+## 📖 Definition: Confidence Interval {.smaller}
+
+::: {style="font-size:50px"}
+::: {.callout-note}
+## 📝 Confidence Interval
+
+If $\hat{\theta}_L$ and $\hat{\theta}_U$ are the (random) lower and upper confidence limits for parameter $\theta$, and:
+
+$$P\left(\hat{\theta}_L \leq \theta \leq \hat{\theta}_U\right) = 1 - \alpha$$
+
+then $(1-\alpha)$ is the **confidence coefficient**, and $(\hat{\theta}_L,\, \hat{\theta}_U)$ is a **two-sided confidence interval**.
+:::
+
+::: {.fragment}
+**Key terms:**
+
+- **Confidence coefficient $(1-\alpha)$**: Fraction of such intervals that contain $\theta$ in repeated sampling
+- **Confidence level**: Usually expressed as a percent — 90%, 95%, 99%
+- **Margin of error**: Half-width of the interval = $z_{\alpha/2} \cdot \sigma_{\hat{\theta}}$
+:::
+:::
+
+---
+
+## 📖 What "95% Confident" Really Means {.smaller}
+
+::: {style="font-size:50px"}
+::: {.callout-important}
+## ⚠️ Common Misconception
+
+"There is a 95% probability that $\theta$ lies in **this** interval."
+
+❌ Wrong! The true $\theta$ is **fixed** — it either is or isn't in the interval.
+:::
+
+::: {.fragment}
+::: {.callout-note}
+## ✅ Correct Interpretation
+
+If we repeated our sampling procedure many times and computed a CI each time, **approximately 95% of those intervals** would contain the true $\theta$.
+
+For the one interval we have, we are "95% confident" because we used a procedure that works 95% of the time.
+:::
+:::
+
+::: {.fragment}
+> 💼 *Analogy: A 95% CI is like a fishing net that catches the fish 95% of the time you cast it. Whether the fish is in this particular cast — we don't know.*
+:::
+:::
+
+---
+
+## 📖 The Pivotal Method {.smaller}
+
+::: {style="font-size:50px"}
+
+A **pivotal quantity** $Q$ satisfies two properties:
+
+::: {.fragment}
+1. It is a function of the **sample data and the unknown parameter $\theta$** — but $\theta$ is the **only unknown**
+2. Its **probability distribution does not depend on $\theta$**
+:::
+
+::: {.fragment}
+**Key examples we will use:**
+
+| Scenario | Pivotal Quantity | Distribution |
+|----------|-----------------|--------------|
+| Large $n$, any population | $Z = \dfrac{\hat{\theta}-\theta}{\sigma_{\hat{\theta}}}$ | $N(0,1)$ |
+| Small $n$, normal population, $\sigma^2$ unknown | $T = \dfrac{\bar{Y}-\mu}{S/\sqrt{n}}$ | $t_{n-1}$ |
+| Normal population, $\sigma^2$ estimation | $\chi^2 = \dfrac{(n-1)S^2}{\sigma^2}$ | $\chi^2_{n-1}$ |
+
+:::
+:::
+
+---
+
+## 📖 Large-Sample CI: The General Formula {.smaller}
+
+::: {style="font-size:50px"}
+
+For large samples, by the CLT:
+
+$$Z = \frac{\hat{\theta} - \theta}{\sigma_{\hat{\theta}}} \;\overset{\text{approx.}}{\sim}\; N(0, 1)$$
+
+::: {.fragment}
+Starting from $P\!\left(-z_{\alpha/2} \leq Z \leq z_{\alpha/2}\right) = 1-\alpha$ and isolating $\theta$:
+
+$$\boxed{\hat{\theta} \pm z_{\alpha/2}\,\sigma_{\hat{\theta}}}$$
+
+This is the **universal large-sample CI formula**.
+:::
+
+::: {.fragment}
+**Common $z_{\alpha/2}$ values:**
+
+| Confidence Level | $\alpha$ | $z_{\alpha/2}$ |
+|-----------------|----------|----------------|
+| 90% | 0.10 | 1.645 |
+| 95% | 0.05 | 1.960 |
+| 99% | 0.01 | 2.576 |
+:::
+:::
+
+---
+
+## 📖 Four Large-Sample CIs (Part 1) {.smaller}
+
+::: {style="font-size:50px"}
+
+**CI for a population mean $\mu$:**
+
+$$\bar{Y} \pm z_{\alpha/2} \cdot \frac{\sigma}{\sqrt{n}} \qquad \left(\text{use } s \text{ if } \sigma \text{ unknown and } n \geq 30\right)$$
+
+::: {.fragment}
+**CI for a binomial proportion $p$:**
+
+$$\hat{p} \pm z_{\alpha/2} \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}$$
+
+where $\hat{p} = Y/n$ (substitute $\hat{p}$ for unknown $p$ in the SE formula)
+:::
+
+::: {.fragment}
+::: {.callout-note}
+## 📝 Large-Sample Requirement
+
+For the proportion CI, we need the distribution of $\hat{p}$ to be approximately normal. A safe rule: $n\hat{p} \geq 5$ and $n(1-\hat{p}) \geq 5$.
+:::
+:::
+:::
+
+---
+
+## 📖 Four Large-Sample CIs (Part 2) {.smaller}
+
+::: {style="font-size:50px"}
+
+**CI for a difference in means $\mu_1 - \mu_2$ (independent samples):**
+
+$$(\bar{Y}_1 - \bar{Y}_2) \pm z_{\alpha/2} \sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}$$
+
+(substitute $s_1^2$, $s_2^2$ when $\sigma^2$ unknown and $n_1, n_2 \geq 30$)
+
+::: {.fragment}
+**CI for a difference in proportions $p_1 - p_2$:**
+
+$$(\hat{p}_1 - \hat{p}_2) \pm z_{\alpha/2} \sqrt{\frac{\hat{p}_1(1-\hat{p}_1)}{n_1} + \frac{\hat{p}_2(1-\hat{p}_2)}{n_2}}$$
+:::
+
+::: {.fragment}
+::: {.callout-tip}
+## 💡 Interpretation Tip
+
+If the CI for $\mu_1 - \mu_2$ **contains zero**, then zero is a "believable" value — we cannot rule out that the two means are equal at this confidence level.
+:::
+:::
+:::
+
+---
+
+## 📌 Example 1: CI for Mean Bond Duration {.smaller}
+
+::: {style="font-size:50px"}
+
+**Problem:** A portfolio manager samples $n = 64$ sovereign bonds. The mean maturity is $\bar{y} = 7.3$ years with $s^2 = 9.0$. Construct a 90% CI for the true mean maturity $\mu$.
+
+::: {.fragment}
+**Solution:**
+
+$\hat{\theta} = \bar{y} = 7.3$, $s = 3.0$, $n = 64$, $z_{0.05} = 1.645$
+
+$$\bar{y} \pm z_{\alpha/2} \cdot \frac{s}{\sqrt{n}} = 7.3 \pm 1.645 \cdot \frac{3.0}{\sqrt{64}} = 7.3 \pm 1.645 \cdot 0.375$$
+
+$$= 7.3 \pm 0.617$$
+:::
+
+::: {.fragment}
+**90% Confidence Interval: $(6.68,\; 7.92)$ years**
+
+We are 90% confident the true mean bond maturity lies between **6.68 and 7.92 years**. In repeated sampling, 90% of such intervals would contain $\mu$.
+:::
+:::
+
+---
+
+## 📌 Example 2: CI for a Default Rate Difference {.smaller}
+
+::: {style="font-size:50px"}
+
+**Problem:** Two loan portfolios are compared. Portfolio A: $n_1 = 50$, 12 defaults ($\hat{p}_1 = 0.24$). Portfolio B: $n_2 = 60$, 12 defaults ($\hat{p}_2 = 0.20$). Construct a 98% CI for $p_1 - p_2$.
+
+::: {.fragment}
+**Solution:** $z_{0.01} = 2.33$
+
+$$(\hat{p}_1 - \hat{p}_2) \pm z_{\alpha/2}\sqrt{\frac{\hat{p}_1\hat{q}_1}{n_1} + \frac{\hat{p}_2\hat{q}_2}{n_2}}$$
+
+$$= (0.24 - 0.20) \pm 2.33\sqrt{\frac{(0.24)(0.76)}{50} + \frac{(0.20)(0.80)}{60}}$$
+
+$$= 0.04 \pm 2.33(0.0795) \approx 0.04 \pm 0.185$$
+:::
+
+::: {.fragment}
+**98% CI: $(-0.145,\; 0.225)$**
+
+Since zero is in the interval, we **cannot conclude** that the default rates differ at the 98% confidence level.
+:::
+:::
+
+---
+
+## 📖 Sample Size Selection {.smaller}
+
+::: {style="font-size:50px"}
+
+**Goal:** Choose $n$ so the error of estimation is less than $B$ with confidence $1-\alpha$.
+
+**General formula:** Set $z_{\alpha/2} \cdot \sigma_{\hat{\theta}} = B$ and solve for $n$.
+
+::: {.fragment}
+**For estimating $\mu$:**
+
+$$n = \left(\frac{z_{\alpha/2} \cdot \sigma}{B}\right)^2$$
+
+(Use a prior estimate $s$ or approximate $\sigma \approx \text{range}/4$ if unknown)
+:::
+
+::: {.fragment}
+**For estimating $p$:**
+
+$$n = \frac{z_{\alpha/2}^2 \cdot p(1-p)}{B^2}$$
+
+(Use $p = 0.5$ for the most conservative/largest sample size if $p$ is unknown)
+:::
+:::
+
+---
+
+## 📌 Example 3: Sizing a Market Survey {.smaller}
+
+::: {style="font-size:50px"}
+
+**Problem:** A telecommunications regulator wants to estimate the proportion of subscribers $p$ who report broadband speeds below the advertised rate. The estimate must be correct to within $B = 0.03$ with 95% confidence. How large must the sample be?
+
+::: {.fragment}
+**Solution:** $z_{0.025} = 1.96$. No prior info on $p$, so use $p = 0.5$:
+
+$$n = \frac{z_{\alpha/2}^2 \cdot p(1-p)}{B^2} = \frac{(1.96)^2 \cdot (0.5)(0.5)}{(0.03)^2} = \frac{3.8416 \times 0.25}{0.0009} \approx 1,068$$
+:::
+
+::: {.fragment}
+**Interpretation:** At least **1,068 subscribers** must be sampled.
+
+If we know from a previous study that $p \approx 0.25$, then:
+
+$$n = \frac{(1.96)^2 \cdot (0.25)(0.75)}{(0.03)^2} \approx 801$$
+
+Prior information reduces the required sample by **25%** — saving survey cost.
+:::
+:::
+
+---
+
+## 📌 Example 4: Sizing a Two-Group Comparison {.smaller}
+
+::: {style="font-size:50px"}
+
+**Problem:** A regulator wants to estimate the difference in mean download speeds between two ISPs, correct to within $B = 5$ Mbps with 95% confidence. Previous data suggest $\sigma \approx 12$ Mbps for both ISPs. Equal sample sizes will be used. Find $n_1 = n_2$.
+
+::: {.fragment}
+**Solution:** $z_{0.025} = 1.96$, $\sigma_1 = \sigma_2 = 12$
+
+$$z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n} + \frac{\sigma_2^2}{n}} = B \implies 1.96\sqrt{\frac{144 + 144}{n}} = 5$$
+
+$$1.96 \cdot \frac{12\sqrt{2}}{\sqrt{n}} = 5 \implies \sqrt{n} = \frac{1.96 \times 16.97}{5} = 6.652 \implies n \approx 45$$
+:::
+
+::: {.fragment}
+**Each group needs at least $n = 45$ measurements** — totaling 90 speed tests.
+:::
+:::
+
+---
+
+## 🎮 Interactive: Confidence Level Explorer {.smaller}
+
+:::::: {style="font-size: 0.72em; margin-top: -8px;"}
+
+**See how confidence level and sample size affect interval width.**
+
+::::: columns
+::: {.column width="32%"}
+
+```{ojs}
+//| echo: false
+
+viewof conf_level = {
+  const input = Inputs.range([0.80, 0.99], {value: 0.95, step: 0.01, label: "Confidence level:"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+
+viewof n_size = {
+  const input = Inputs.range([10, 500], {value: 100, step: 10, label: "Sample size n:"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+
+viewof sigma_known = {
+  const input = Inputs.range([0.5, 5], {value: 2, step: 0.1, label: "Std dev σ:"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+
+alpha_val   = 1 - conf_level
+z_val       = jStat.normal.inv(1 - alpha_val/2, 0, 1)
+margin      = z_val * sigma_known / Math.sqrt(n_size)
+half_w_pct  = (margin * 100).toFixed(3)
+
+md`
+**z\u208A/\u208B = ${z_val.toFixed(3)}**
+
+**Margin of error = ±${margin.toFixed(4)}%**
+
+**Interval width = ${(2*margin).toFixed(4)}%**
+`
+```
+
+:::
+
+::: {.column width="68%"}
+
+```{ojs}
+//| echo: false
+
+jStat = require("https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.6/jstat.min.js")
+
+{
+  const mu = 0.05;
+  const nSims = 40;
+  const rng = d3.randomNormal(mu, sigma_known / Math.sqrt(n_size));
+  const bars = Array.from({length: nSims}, () => {
+    const ybar = rng();
+    return {lo: ybar - margin, hi: ybar + margin, ybar, covers: ybar - margin <= mu && mu <= ybar + margin};
+  });
+
+  const covered = bars.filter(b => b.covers).length;
+
+  return Plot.plot({
+    width: 760,
+    height: 360,
+    marginLeft: 30,
+    marginBottom: 40,
+    x: {domain: [mu - 4*margin, mu + 4*margin], label: "Parameter value"},
+    y: {domain: [-1, nSims], label: ""},
+    title: `${nSims} simulated ${(conf_level*100).toFixed(0)}% CIs — ${covered}/${nSims} capture μ`,
+    marks: [
+      Plot.ruleX([mu], {stroke: "red", strokeWidth: 2.5, strokeDasharray: "6,3"}),
+      Plot.link(bars.map((b,i) => ({...b, i})), {
+        x1: "lo", x2: "hi", y1: "i", y2: "i",
+        stroke: d => d.covers ? "steelblue" : "#e74c3c",
+        strokeWidth: 2.2
+      }),
+      Plot.dot(bars.map((b,i) => ({...b, i})), {x: "ybar", y: "i", r: 3,
+        fill: d => d.covers ? "steelblue" : "#e74c3c"}),
+      Plot.text([{x: mu, y: nSims + 0.5}], {x:"x", y:"y", text: d => "μ (true)", fill:"red", fontSize:12})
+    ]
+  });
+}
+```
+
+:::
+:::::
+::::::
+
+---
+
+## 📖 Small-Sample CIs: The $t$-Distribution {.smaller}
+
+::: {style="font-size:50px"}
+
+When $n$ is **small** and $\sigma^2$ is **unknown**, we assume normality and use:
+
+$$T = \frac{\bar{Y} - \mu}{S/\sqrt{n}} \;\sim\; t_{n-1}$$
+
+::: {.fragment}
+The resulting **100$(1-\alpha)$% CI for $\mu$** is:
+
+$$\boxed{\bar{Y} \pm t_{\alpha/2,\, n-1} \cdot \frac{S}{\sqrt{n}}}$$
+
+where $t_{\alpha/2, n-1}$ is the $t$-critical value with $n-1$ degrees of freedom.
+:::
+
+::: {.fragment}
+::: {.callout-note}
+## 📝 Why $t$ instead of $z$?
+
+The $t$-distribution has **heavier tails** than $N(0,1)$ — reflecting the extra uncertainty from estimating $\sigma^2$ with $S^2$. As $n \to \infty$, $t_{n-1} \to N(0,1)$ (they agree for $\nu > 30$).
+:::
+:::
+:::
+
+---
+
+## 📌 Example 5: Hedge Fund Monthly Returns {.smaller}
+
+::: {style="font-size:50px"}
+
+**Problem:** An analyst observes only $n = 8$ monthly returns (%) from a hedge fund: 2.1, 1.8, 3.0, 0.5, 2.6, 1.2, 2.9, 1.5. Construct a 95% CI for the true mean monthly return $\mu$. Assume normality.
+
+::: {.fragment}
+**Solution:** $\bar{y} = 1.95\%$, $s = 0.836\%$, $n-1 = 7$ df, $t_{0.025, 7} = 2.365$
+
+$$\bar{y} \pm t_{\alpha/2,\, 7} \cdot \frac{s}{\sqrt{n}} = 1.95 \pm 2.365 \cdot \frac{0.836}{\sqrt{8}} = 1.95 \pm 0.699$$
+:::
+
+::: {.fragment}
+**95% CI: $(1.25\%,\; 2.65\%)$ per month**
+
+Annualized: approximately **(15.0%, 31.8%)** — a wide range reflecting the small sample.
+
+> 💡 If we had used $z_{0.025} = 1.96$ instead of $t = 2.365$, the interval would be **artificially narrow**, understating uncertainty.
+:::
+:::
+
+---
+
+## 📖 Two-Sample $t$-CI for $\mu_1 - \mu_2$ {.smaller}
+
+::: {style="font-size:50px"}
+
+**Assumptions:** Independent random samples from two **normal** populations with **equal but unknown variances** ($\sigma_1^2 = \sigma_2^2 = \sigma^2$).
+
+::: {.fragment}
+**Pooled variance estimate:**
+
+$$S_p^2 = \frac{(n_1-1)S_1^2 + (n_2-1)S_2^2}{n_1 + n_2 - 2}$$
+:::
+
+::: {.fragment}
+**100$(1-\alpha)$% CI for $\mu_1 - \mu_2$:**
+
+$$(\bar{Y}_1 - \bar{Y}_2) \pm t_{\alpha/2,\; n_1+n_2-2} \cdot S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}}$$
+:::
+
+::: {.fragment}
+::: {.callout-tip}
+## 💡 When does this apply?
+
+Use whenever sample sizes are small (< 30) and the two population variances are believed to be roughly equal. Check equality of variances with a Levene test or $F$-test first.
+:::
+:::
+:::
+
+---
+
+## 📌 Example 6: Comparing Two Training Programs {.smaller}
+
+::: {style="font-size:50px"}
+
+**Problem:** Two analyst training programs are compared on a standardized performance score. Program A ($n_1 = 9$): $\bar{y}_1 = 35.2$, $s_1^2 = 24.4$. Program B ($n_2 = 9$): $\bar{y}_2 = 31.6$, $s_2^2 = 20.0$. Construct a 95% CI for $\mu_1 - \mu_2$.
+
+::: {.fragment}
+**Pooled variance:** $S_p^2 = \dfrac{8(24.4) + 8(20.0)}{16} = 22.2$, so $S_p = 4.71$
+
+$t_{0.025, 16} = 2.120$
+:::
+
+::: {.fragment}
+$$(\bar{y}_1 - \bar{y}_2) \pm t_{\alpha/2,16} \cdot S_p\sqrt{\frac{1}{9}+\frac{1}{9}} = 3.6 \pm 2.120 \times 4.71 \times 0.471 = 3.6 \pm 4.71$$
+
+**95% CI: $(-1.11,\; 8.31)$**
+
+The interval contains zero → we **cannot conclude** one program is better at 95% confidence.
+:::
+:::
+
+---
+
+## 📖 CI for Population Variance $\sigma^2$ {.smaller}
+
+::: {style="font-size:50px"}
+
+When the population is **normal**, the pivotal quantity is:
+
+$$\chi^2 = \frac{(n-1)S^2}{\sigma^2} \;\sim\; \chi^2_{n-1}$$
+
+::: {.fragment}
+Finding $\chi^2_{1-\alpha/2}$ and $\chi^2_{\alpha/2}$ so the middle area = $1-\alpha$:
+
+$$P\!\left(\chi^2_{1-\alpha/2} \leq \frac{(n-1)S^2}{\sigma^2} \leq \chi^2_{\alpha/2}\right) = 1 - \alpha$$
+:::
+
+::: {.fragment}
+**100$(1-\alpha)$% CI for $\sigma^2$:**
+
+$$\boxed{\left(\frac{(n-1)S^2}{\chi^2_{\alpha/2}},\;\; \frac{(n-1)S^2}{\chi^2_{1-\alpha/2}}\right)}$$
+
+Note: The $\chi^2$ distribution is **asymmetric** — the CI is not symmetric around $S^2$.
+:::
+:::
+
+---
+
+## 📌 Example 7: CI for Return Volatility {.smaller}
+
+::: {style="font-size:50px"}
+
+**Problem:** A risk officer records $n = 10$ quarterly returns for a bond fund (%), and computes $s^2 = 3.84$ (%²). Construct a 90% CI for the true variance $\sigma^2$ of quarterly returns. Assume normality.
+
+::: {.fragment}
+**Solution:** $n - 1 = 9$ df, $\alpha/2 = 0.05$
+
+From $\chi^2$ table: $\chi^2_{0.05, 9} = 16.919$, $\chi^2_{0.95, 9} = 3.325$
+
+$$\left(\frac{9 \times 3.84}{16.919},\;\; \frac{9 \times 3.84}{3.325}\right) = \left(\frac{34.56}{16.919},\;\; \frac{34.56}{3.325}\right)$$
+:::
+
+::: {.fragment}
+**90% CI for $\sigma^2$: $(2.04,\; 10.40)$ (%²)**
+
+For the standard deviation: $\sigma \in (\sqrt{2.04},\, \sqrt{10.40}) = (1.43\%,\; 3.22\%)$
+
+> ⚠️ The CI for $\sigma^2$ is highly sensitive to the normality assumption — unlike CIs for means.
+:::
+:::
+
+---
+
+## 🤝 Think-Pair-Share {.smaller}
+
+::: {style="font-size:50px;"}
+::: {.callout-note}
+## 💬 Discussion (4 minutes)
+
+A central bank reports: *"Based on a sample of $n=25$ quarterly GDP growth rates, our 95% confidence interval for mean growth is $(1.8\%,\; 3.2\%)$."*
+
+**Discuss with your partner:**
+
+1. What distribution was likely used — $z$ or $t$? Why?
+2. What assumptions are required for this CI to be valid?
+3. A critic says: "There's a 95% chance true GDP growth is in this interval." Is this correct?
+4. If the bank doubled its sample to $n=50$, what would happen to the interval width?
+:::
+:::
+
+```{r}
+#| echo: false
+#| eval: true
+library(countdown)
+countdown(minutes = 4, bottom = 0, right = 0,
+          color_running_background = "#2c7bb6",
+          color_finished_background = "#d73027")
+```
+
+---
+
+## 💰 Case Study: Confidence Intervals for Asset Returns {.smaller}
+
+::: {style="font-size:50px"}
+::: {.columns}
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+
+library(tidyverse)
+library(tidyquant)
+library(knitr)
+
+# Download 2 years of monthly returns
+symbols <- c("AAPL", "JPM", "GLD")
+prices <- tq_get(symbols, from = "2022-01-01", to = "2023-12-31")
+
+returns <- prices %>%
+  group_by(symbol) %>%
+  tq_transmute(select = adjusted,
+               mutate_fun = periodReturn,
+               period = "monthly",
+               col_rename = "r")
+
+# 95% t-CIs for mean monthly return
+ci_tbl <- returns %>%
+  group_by(symbol) %>%
+  summarise(
+    n     = n(),
+    mu    = mean(r) * 100,
+    s     = sd(r) * 100,
+    t_cv  = qt(0.975, df = n() - 1),
+    lo    = mu - t_cv * s / sqrt(n()),
+    hi    = mu + t_cv * s / sqrt(n())
+  )
+
+kable(ci_tbl %>% select(symbol, n, mu, s, lo, hi),
+      digits = 3,
+      col.names = c("Asset","n","μ̂ (%)","s (%)","CI Lower (%)","CI Upper (%)"),
+      caption = "95% t-Confidence Intervals for Mean Monthly Return")
+```
+
+:::
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| fig-width: 5.5
+#| fig-height: 5
+
+# Visualize CIs
+ci_tbl %>%
+  ggplot(aes(x = symbol, y = mu, color = symbol)) +
+  geom_point(size = 4) +
+  geom_errorbar(aes(ymin = lo, ymax = hi), width = 0.25, linewidth = 1.2) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "gray50") +
+  labs(title = "95% Confidence Intervals",
+       subtitle = "Monthly Return (%), 2022–2023",
+       x = "Asset", y = "Mean Monthly Return (%)") +
+  theme_minimal(base_size = 11) +
+  theme(legend.position = "none")
+```
+
+:::
+:::
+:::
+
+---
+
+## 💰 Case Study: CI for Volatility {.smaller}
+
+::: {style="font-size:50px"}
+::: {.columns}
+::: {.column width="55%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+
+# 90% chi-squared CI for variance of monthly returns
+returns_wide <- returns %>%
+  pivot_wider(names_from = symbol, values_from = r) %>%
+  na.omit()
+
+ci_var <- map_dfr(c("AAPL","JPM","GLD"), function(sym) {
+  x  <- returns_wide[[sym]] * 100
+  n  <- length(x)
+  s2 <- var(x)
+  chi_hi <- qchisq(0.95, df = n - 1)
+  chi_lo <- qchisq(0.05, df = n - 1)
+  tibble(
+    Symbol = sym,
+    n = n,
+    `S² (%²)` = round(s2, 3),
+    `CI Lower (%²)` = round((n-1)*s2/chi_hi, 3),
+    `CI Upper (%²)` = round((n-1)*s2/chi_lo, 3),
+    `σ̂ (%)` = round(sqrt(s2), 3)
+  )
+})
+
+kable(ci_var, caption = "90% Chi-Squared CIs for Return Variance")
+```
+
+:::
+::: {.column width="45%"}
+
+::: {.fragment}
+::: {.callout-important}
+## 📊 Key Takeaways
+
+- **GLD** has the widest CI for mean return — highest volatility
+
+- All mean-return CIs **include zero** — consistent with market efficiency for monthly data
+
+- The **variance CIs are asymmetric** — the chi-squared distribution is skewed right
+
+- With only ~24 observations, CIs are wide — more data needed for precise volatility estimates
+
+:::
+:::
+
+:::
+:::
+:::
+
+---
+
+## 📝 Quiz #1: CI Construction {.smaller .quiz-question}
+
+A sample of $n = 100$ daily ISP speed measurements yields $\bar{y} = 48.2$ Mbps and $s = 12.0$ Mbps. Which formula gives the correct 95% CI for $\mu$?
+
+- [$48.2 \pm 1.96 \times \frac{12.0}{\sqrt{100}}$]{.correct data-explanation="✅ Correct! Large n (≥30), σ unknown → use z = 1.96 with s/√n. The CI is (45.85, 50.55) Mbps."}
+- $48.2 \pm 2.326 \times \frac{12.0}{\sqrt{100}}$
+- $48.2 \pm 1.96 \times 12.0$
+- $48.2 \pm 1.645 \times \frac{12.0}{\sqrt{100}}$
+
+---
+
+## 📝 Quiz #2: Interpreting a CI {.smaller .quiz-question}
+
+A 95% CI for mean GDP growth is $(1.8\%,\; 3.2\%)$. Which statement is correct?
+
+- [If this procedure were repeated many times, about 95% of such intervals would contain the true mean growth rate.]{.correct data-explanation="✅ Correct! The confidence coefficient refers to long-run frequency — not to the probability that this specific interval contains the parameter."}
+- There is a 95% probability that the true mean growth lies in $(1.8\%, 3.2\%)$.
+- 95% of all GDP growth observations fall in $(1.8\%, 3.2\%)$.
+- The true mean growth rate is definitely in $(1.8\%, 3.2\%)$.
+
+---
+
+## 📝 Quiz #3: Sample Size {.smaller .quiz-question}
+
+A regulator wants to estimate a failure rate $p$ to within $B = 0.04$ with 95% confidence. With no prior knowledge of $p$, the minimum sample size is approximately:
+
+- [601]{.correct data-explanation="✅ Correct! n = (1.96² × 0.5 × 0.5) / 0.04² = (3.8416 × 0.25) / 0.0016 = 600.25 → 601."}
+- 385
+- 1068
+- 246
+
+---
+
+## 📝 Quiz #4: Small vs. Large Sample {.smaller .quiz-question}
+
+When would you use a $t$-distribution instead of $z$ for a CI on $\mu$?
+
+- [Small sample ($n < 30$), normal population, and $\sigma^2$ unknown]{.correct data-explanation="✅ Correct! The t-distribution accounts for additional uncertainty from estimating σ² with S². For large n, t ≈ z and either works."}
+- Always, because $t$ is more conservative
+- Large sample from a non-normal population
+- When the population variance $\sigma^2$ is known
+
+---
+
+## 📝 Summary {.smaller}
+
+::: {style="font-size:50px"}
+::: {.summary-box}
+**✅ Key Takeaways**
+
+- **Confidence Interval** = point estimate ± margin of error; the CI coefficient is a long-run frequency, not a probability about a fixed parameter
+
+- **Large-sample CI** uses $\hat{\theta} \pm z_{\alpha/2}\sigma_{\hat{\theta}}$; applies to $\mu$, $p$, $\mu_1-\mu_2$, $p_1-p_2$ via the CLT
+
+- **Sample Size**: Set $z_{\alpha/2}\sigma_{\hat{\theta}} = B$ and solve for $n$; use $p=0.5$ for proportions with no prior info
+
+- **Small-sample CI** uses $\bar{Y} \pm t_{\alpha/2,n-1} \cdot S/\sqrt{n}$; requires normality; pooled $t$ for two-sample case with equal variances
+
+- **CI for $\sigma^2$** uses the chi-squared distribution; is asymmetric and highly sensitive to the normality assumption
+:::
+:::
+
+---
+
+## 📚 Practice Problems
+
+::: {style="font-size:50px;"}
+::: {.callout-tip}
+## 📝 Homework Problems
+
+**Problem 1 (Large-Sample CI):** A random sample of $n = 200$ bond funds yields mean annual return $\bar{y} = 6.8\%$ with $s = 4.2\%$. Construct (a) a 90% CI and (b) a 99% CI for the true mean return. Compare and interpret. (Wackerly §8.6)
+
+**Problem 2 (Sample Size):** You want to estimate the proportion of Azerbaijani broadband subscribers experiencing peak-hour speeds below 50% of their plan, to within 0.02 with 95% confidence. (a) If $p \approx 0.35$, find $n$. (b) Find $n$ if $p$ is unknown. (Wackerly §8.7)
+
+**Problem 3 (Two-Sample $t$):** Fund A: $n_1 = 12$, $\bar{y}_1 = 8.4\%$, $s_1 = 3.1\%$. Fund B: $n_2 = 10$, $\bar{y}_2 = 6.9\%$, $s_2 = 2.8\%$. Assuming equal variances and normality, construct a 95% CI for $\mu_A - \mu_B$. Can you conclude Fund A outperforms Fund B? (Wackerly Ex. 8.85)
+
+**Problem 4 (CI for $\sigma^2$):** A quality control analyst measures quarterly return variance for a risk model. From $n = 15$ observations, $s^2 = 5.76$ (%²). Construct a 95% CI for $\sigma^2$ and interpret in terms of annualized volatility. (Wackerly §8.9)
+:::
+:::
+
+---
+
+## 👋 Thank You! {.smaller .center}
+
+::: {.columns}
+::: {.column width="50%"}
+**📬 Contact Information:**
+
+Samir Orujov, PhD
+
+Assistant Professor
+
+School of Business
+
+ADA University
+
+📧 Email: [sorujov@ada.edu.az](mailto:sorujov@ada.edu.az)
+
+🏢 Office: D312
+
+⏰ Office Hours: By appointment
+:::
+
+::: {.column width="50%"}
+**📅 Next Class:**
+
+**Topic:** Properties of Estimators
+
+**Reading:** Chapter 9 — Sections 9.1–9.5
+
+**Preparation:** Review maximum likelihood from any prior exposure; re-read bias and MSE from Chapter 8
+
+**⏰ Reminders:**
+
+✅ Complete Practice Problems 1–4
+
+✅ Make sure you understand the difference between $z$ and $t$ critical values
+
+✅ Review chi-squared table (Table 6, Appendix 3)
+
+✅ Work hard!
+:::
+:::
+
+---
+
+## ❓ Questions? {.center}
+
+::: {.callout-note}
+## 💬 Open Discussion
+
+**Key Topics for Discussion:**
+
+- Why does the chi-squared CI for $\sigma^2$ fail when the population is not normal, but the $t$-CI for $\mu$ is robust?
+
+- If a 95% CI contains zero, does that mean the true parameter is zero?
+
+- How would you explain "confidence level" versus "probability" to a non-statistician at a bank?
+
+- Why does increasing sample size always narrow a CI — regardless of the true parameter value?
+:::
