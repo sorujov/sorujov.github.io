@@ -1,0 +1,861 @@
+---
+title: "Mathematical Statistics"
+subtitle: "Point Estimation"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: default
+    logo: ../ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    margin: 0.04
+    # footer: "Mathematical Statistics – Point Estimation"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+---
+
+## 🎯 Learning Objectives
+
+::: {.learning-objectives style="font-size:38px !important;"}
+By the end of this lecture, you will be able to:
+
+- **Define** what a point estimator is and distinguish it from an interval estimator
+
+- **Compute** the bias, variance, and mean square error (MSE) of a point estimator
+
+- **Identify** common unbiased estimators for means, proportions, and differences
+
+- **Apply** the 2-standard-error bound to quantify the precision of any point estimate
+
+- **Interpret** standard errors in financial and economic contexts, including portfolio and market-share estimation
+:::
+
+---
+
+## 📋 Overview 
+
+::: {style="font-size:50px !important;"}
+::: {.callout-note}
+## 📚 Topics Covered Today
+
+::: {.incremental}
+- **Introduction to Estimation** – Point vs. interval estimates; the role of target parameters
+
+- **Bias & Unbiasedness** – What it means for an estimator to be centered on the truth
+
+- **Mean Square Error (MSE)** – Balancing bias and variance in estimator quality
+
+- **Common Unbiased Estimators** – $\bar{Y}$, $\hat{p}$, $\bar{Y}_1 - \bar{Y}_2$, $\hat{p}_1 - \hat{p}_2$
+
+- **Error of Estimation** – Bounding how far off our estimate could be
+
+- **Case Study** – Estimating mean stock returns and proportions from market data
+:::
+:::
+:::
+
+---
+
+## 📖 Why Estimation?
+
+::: {.callout-note}
+## 🎯 Motivation
+
+In finance and economics, population parameters are **never directly observed** — we always work from samples.
+
+::: {.columns}
+::: {.column width="50%"}
+::: {.fragment}
+**Finance Applications:**
+
+- Estimating mean daily return $\mu$ of a stock
+- Estimating default probability $p$ of a loan portfolio
+- Comparing mean returns $\mu_1 - \mu_2$ of two funds
+- Estimating market share difference $p_1 - p_2$
+:::
+:::
+
+::: {.column width="50%"}
+::: {.fragment}
+**Regulatory & Policy Applications:**
+
+- Estimating mean broadband speed across ISPs
+- Estimating fraud rate in financial transactions
+- Estimating GDP growth from survey data
+- Estimating unemployment from labor force samples
+:::
+:::
+:::
+:::
+
+::: {.callout-important .fragment style="font-size:44px !important;margin-top:-10px"}
+## Key Question 
+
+Given a sample, what single number best represents an unknown population parameter?
+
+:::
+
+---
+
+## 📖 Definition: Estimator vs. Estimate 
+
+::: {.callout-note style="font-size:40px !important;"}
+## 📝 Definition 8.1: Estimator
+
+An **estimator** is a rule (often a formula) that tells how to calculate the value of an estimate based on the measurements in a sample.
+
+$$\hat{\theta} = g(Y_1, Y_2, \ldots, Y_n)$$
+
+**Interpretation:** The estimator $\hat{\theta}$ (read "theta-hat") is a *random variable* — its value varies from sample to sample.
+:::
+
+::: {.fragment style="font-size:40px !important;margin-top:-10px"}
+::: {.callout-tip}
+## 💡 Point vs. Interval Estimate
+
+| Type | Description | Example |
+|------|-------------|---------|
+| **Point Estimate** | Single number | $\hat{\mu} = 0.13\%$ daily return |
+| **Interval Estimate** | Range of values | $\mu \in (0.07\%, 0.19\%)$ |
+
+A **point estimator** is the *formula*; a **point estimate** is the *resulting number* from your data.
+:::
+:::
+
+---
+
+## 📖 The Bull's-Eye Analogy {.smaller}
+
+::: {style="font-size:32px;margin-top:-10px;"}
+Point estimation is like **firing at a target**:
+
+::: {.columns}
+::: {.column width="50%"}
+::: {.fragment}
+**The Components:**
+
+| Analogy | Statistics |
+|---------|-----------|
+| Revolver | Estimator $\hat{\theta}$ |
+| Single shot | One estimate from one sample |
+| Bull's-eye | True parameter $\theta$ |
+| Shot pattern | Sampling distribution of $\hat{\theta}$ |
+
+:::
+:::
+
+::: {.column width="50%"}
+::: {.fragment}
+**The Key Insight:**
+
+One lucky shot tells us nothing about a marksman's skill.
+
+Similarly, **one estimate** tells us nothing about an estimator's quality.
+
+We evaluate estimators by their **long-run behavior** — the shape and center of their sampling distribution.
+:::
+:::
+:::
+
+::: {.fragment}
+> 💼 *A fund manager who beats the market once may be lucky. One who beats it consistently over 100 quarters is likely skilled.*
+:::
+:::
+
+---
+
+## 📖 Definition: Bias {.smaller}
+
+::: {style="font-size:33px;"}
+::: {.callout-note}
+## 📝 Definition 8.2: Unbiased Estimator
+
+Let $\hat{\theta}$ be a point estimator for a parameter $\theta$. Then $\hat{\theta}$ is **unbiased** if:
+
+$$E(\hat{\theta}) = \theta$$
+
+If $E(\hat{\theta}) \neq \theta$, then $\hat{\theta}$ is **biased**.
+:::
+
+::: {.callout-note}
+## 📝 Definition 8.3: Bias
+
+The **bias** of a point estimator $\hat{\theta}$ is:
+
+$$B(\hat{\theta}) = E(\hat{\theta}) - \theta$$
+:::
+
+::: {.fragment}
+**Finance Interpretation:**
+- An **unbiased** return estimator: on average, we neither systematically over- nor under-estimate the true expected return
+- A **biased** estimator: our estimates consistently overshoot or undershoot the truth — like a fund that consistently over-reports its Sharpe ratio
+:::
+:::
+
+---
+
+## 📖 Bias Illustrated {.smaller}
+
+::: {style="font-size:38px"}
+::: {.columns}
+::: {.column width="50%"}
+::: {.fragment}
+**Unbiased estimator — centered on $\theta$:**
+
+$$E(\hat{\theta}) = \theta$$
+
+The sampling distribution is *centered* at the true value.
+
+✅ Ideal starting property
+:::
+:::
+
+::: {.column width="50%"}
+::: {.fragment}
+**Biased estimator — shifted from $\theta$:**
+
+$$E(\hat{\theta}) > \theta \quad \text{(positive bias)}$$
+$$E(\hat{\theta}) < \theta \quad \text{(negative bias)}$$
+
+The sampling distribution is *offset* from the true value.
+
+⚠️ Systematically misleading
+:::
+:::
+:::
+
+::: {.fragment}
+::: {.callout-important}
+## Two Unbiased Estimators — Which is Better?
+
+Even among unbiased estimators, we prefer **smaller variance**. A tight cluster around $\theta$ beats a spread-out one, even if both are centered correctly.
+:::
+:::
+:::
+
+---
+
+## 📖 Definition: Mean Square Error {.smaller}
+
+::: {style="font-size:28px;"}
+::: {.callout-note}
+## 📝 Definition 8.4: Mean Square Error (MSE)
+
+The **mean square error** of a point estimator $\hat{\theta}$ is:
+
+$$\text{MSE}(\hat{\theta}) = E\left[(\hat{\theta} - \theta)^2\right]$$
+
+**Key decomposition:**
+
+$$\boxed{\text{MSE}(\hat{\theta}) = V(\hat{\theta}) + \left[B(\hat{\theta})\right]^2}$$
+:::
+
+::: {.fragment}
+::: {.columns}
+::: {.column width="55%"}
+**Interpretation:**
+
+- MSE captures **total error** = spread + systematic error
+- If unbiased: $\text{MSE}(\hat{\theta}) = V(\hat{\theta})$
+- A *biased* estimator with **very small variance** can have lower MSE than an unbiased one
+
+:::
+::: {.column width="45%"}
+**Finance Analogy:**
+
+Like **tracking error** in fund management:
+
+- Bias = consistent over/underperformance vs. benchmark
+- Variance = volatility of the tracking difference
+- MSE = total risk-adjusted tracking error
+:::
+:::
+:::
+:::
+
+---
+
+## 📌 Example 1: Biased vs. Unbiased Variance Estimator {.smaller}
+
+::: {style="font-size:50px; margin-top:-5px;"}
+
+**Problem:** Given a random sample $Y_1, \ldots, Y_n$ with $E(Y_i) = \mu$ and $V(Y_i) = \sigma^2$, compare two estimators of $\sigma^2$:
+
+$$S'^2 = \frac{1}{n}\sum_{i=1}^n (Y_i - \bar{Y})^2, \qquad S^2 = \frac{1}{n-1}\sum_{i=1}^n (Y_i - \bar{Y})^2$$
+
+**Which estimator is unbiased? Derive $E(S'^2)$ and $E(S^2)$.**
+
+:::
+
+---
+
+## 📌 Example 1: Solution {.smaller}
+
+::: {style="font-size:30px; margin-top:-5px;"}
+
+**Solution:** Use $E(Y_i^2) = \sigma^2 + \mu^2$ and $E(\bar{Y}^2) = \sigma^2/n + \mu^2$.
+
+::: {.columns}
+::: {.column width="50%" .fragment style="margin-top:-10px;"}
+
+$$E\left[\sum_{i=1}^n (Y_i - \bar{Y})^2\right] = (n-1)\sigma^2$$
+
+$$\Rightarrow E(S'^2) = \frac{n-1}{n}\sigma^2 \neq \sigma^2 \quad \text{Biased!}$$
+
+:::
+
+::: {.column width="50%" .fragment style="margin-top:-10px;"}
+
+$$E(S^2) = \frac{1}{n-1} \cdot (n-1)\sigma^2 = \sigma^2 \quad \text{Unbiased ✅}$$
+
+:::
+:::
+
+:::{.fragment}
+
+> 💼 *This is why financial software divides by $n-1$, not $n$, when computing volatility from historical returns.*
+
+:::
+
+:::
+
+---
+
+## 📖 Common Unbiased Estimators {.smaller}
+
+::: {style="font-size:30px"}
+
+| Target Parameter $\theta$ | Sample Size | Estimator $\hat{\theta}$ | Standard Error $\sigma_{\hat{\theta}}$ |
+|--------------------------|-------------|--------------------------|----------------------------------------|
+| Population mean $\mu$ | $n$ | $\bar{Y}$ | $\sigma/\sqrt{n}$ |
+| Binomial proportion $p$ | $n$ | $\hat{p} = Y/n$ | $\sqrt{pq/n}$ |
+| Difference of means $\mu_1 - \mu_2$ | $n_1, n_2$ | $\bar{Y}_1 - \bar{Y}_2$ | $\sqrt{\sigma_1^2/n_1 + \sigma_2^2/n_2}$ |
+| Difference of proportions $p_1 - p_2$ | $n_1, n_2$ | $\hat{p}_1 - \hat{p}_2$ | $\sqrt{p_1q_1/n_1 + p_2q_2/n_2}$ |
+
+::: {.fragment}
+::: {.callout-important}
+## Key Facts
+
+- All four estimators are **unbiased** under random sampling
+- All four have **approximately normal** sampling distributions for large samples (CLT)
+- Standard errors **decrease** as sample size increases — more data → more precision
+:::
+:::
+:::
+
+---
+
+## 📖 Definition: Error of Estimation {.smaller}
+
+::: {style="font-size:31px;"}
+::: {.callout-note}
+## 📝 Definition 8.5: Error of Estimation
+
+The **error of estimation** $\varepsilon$ is the distance between an estimator and its target parameter:
+
+$$\varepsilon = |\hat{\theta} - \theta|$$
+:::
+
+::: {.fragment}
+**How large could the error be?**
+
+Since $\hat{\theta}$ is approximately normally distributed (for large $n$):
+
+$$P\left(|\hat{\theta} - \theta| < 2\sigma_{\hat{\theta}}\right) \approx 0.95$$
+
+We use $b = 2\sigma_{\hat{\theta}}$ as a **2-standard-error bound** on the error of estimation.
+:::
+
+::: {.fragment}
+::: {.callout-tip}
+## 💡 Practical Rule
+
+With ~95% confidence, the error of estimation is less than $2\sigma_{\hat{\theta}}$.
+
+This bound gets **tighter** as $n$ increases, since $\sigma_{\hat{\theta}} \propto 1/\sqrt{n}$.
+:::
+:::
+:::
+
+---
+
+## 📌 Example 2: Estimating a Default Rate {.smaller}
+
+::: {style="font-size:32px;"}
+
+**Problem:** A risk officer samples $n = 1000$ corporate loans. Of these, $y = 43$ defaulted within 12 months. Estimate the default probability $p$ and place a 2-standard-error bound on the error.
+
+:::{.fragment}
+
+**Solution:**
+
+Point estimate: $\hat{p} = \dfrac{43}{1000} = 0.043$
+
+:::
+
+:::{.fragment}
+
+Standard error bound (substituting $\hat{p}$ for $p$):
+
+$$b = 2\sigma_{\hat{p}} = 2\sqrt{\frac{\hat{p}(1-\hat{p})}{n}} = 2\sqrt{\frac{(0.043)(0.957)}{1000}} \approx 2 \times 0.0203 = 0.0406$$
+
+:::
+
+:::{.fragment}
+
+**Interpretation:**
+
+We estimate the true default rate is **4.3%**, and we are approximately 95% confident the true value lies within **±0.41 percentage points** of this estimate — i.e., roughly in the interval **(3.9%, 4.7%)**.
+
+:::
+:::
+
+---
+
+## 📌 Example 3: Comparing Fund Returns {.smaller}
+
+::: {style="font-size:30px;"}
+
+**Problem:** Two equity funds are compared using independent samples. Fund A: $n_1 = 100$ monthly returns, $\bar{y}_1 = 1.2\%$, $s_1^2 = 4.0$. Fund B: $n_2 = 100$, $\bar{y}_2 = 0.9\%$, $s_2^2 = 5.5$.
+
+Estimate $\mu_1 - \mu_2$ and place a 2-SE bound on the error.
+
+:::{.fragment}
+
+**Point Estimate:**
+
+$$(\bar{y}_1 - \bar{y}_2) = 1.2\% - 0.9\% = 0.3\%$$
+
+:::
+
+:::{.fragment}
+
+**Standard Error:**
+
+$$\sigma_{(\bar{Y}_1 - \bar{Y}_2)} \approx \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}} = \sqrt{\frac{4.0}{100} + \frac{5.5}{100}} = \sqrt{0.095} \approx 0.308\%$$
+
+:::
+
+:::{.fragment}
+
+**2-SE Bound:** $b = 2 \times 0.308\% \approx 0.62\%$
+
+:::
+
+:::{.fragment}
+**Interpretation:** Fund A appears to outperform Fund B by **0.3% per month**, but the error bound of **±0.62%** means this difference is not yet statistically distinguishable from zero. *Larger samples needed!*
+:::
+:::
+
+---
+
+## 🎮 Interactive: MSE Decomposition {.smaller}
+
+:::::: {style="font-size: 0.72em; margin-top: -8px;"}
+
+**Explore how Bias and Variance each contribute to MSE, and why a biased estimator can beat an unbiased one.**
+
+::::: columns
+::: {.column width="35%"}
+
+```{ojs}
+//| echo: false
+
+viewof bias_val = {
+  const input = Inputs.range([-3, 3], {value: 0, step: 0.1, label: "Bias B(θ̂):"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+
+viewof var_val = {
+  const input = Inputs.range([0.1, 5], {value: 1, step: 0.1, label: "Variance V(θ̂):"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+
+mse_val = var_val + bias_val * bias_val
+
+color_mse = mse_val < 2
+  ? html`<div style="background:#d4edda;padding:8px;border-radius:5px;">
+      <strong>MSE = ${mse_val.toFixed(3)}</strong> — Low total error ✅
+    </div>`
+  : html`<div style="background:#f8d7da;padding:8px;border-radius:5px;">
+      <strong>MSE = ${mse_val.toFixed(3)}</strong> — High total error ⚠️
+    </div>`
+
+md`
+**Decomposition:**
+
+- Variance = ${var_val.toFixed(3)}
+- Bias² = ${(bias_val*bias_val).toFixed(3)}
+- **MSE = ${mse_val.toFixed(3)}**
+
+${color_mse}
+`
+```
+
+:::
+
+::: {.column width="65%"}
+
+```{ojs}
+//| echo: false
+
+{
+  const theta = 0;
+  const mu = theta + bias_val;
+  const sd = Math.sqrt(var_val);
+  const xs = Array.from({length: 200}, (_, i) => mu - 4*sd + i * 8*sd/199);
+  const ys = xs.map(x => Math.exp(-0.5*((x-mu)/sd)**2) / (sd * Math.sqrt(2*Math.PI)));
+
+  return Plot.plot({
+    width: 680,
+    height: 360,
+    marginLeft: 50,
+    marginBottom: 45,
+    x: {domain: [-6, 6], label: "Estimator value θ̂"},
+    y: {label: "Density"},
+    title: `Sampling Distribution: Bias=${bias_val.toFixed(1)}, Var=${var_val.toFixed(1)}, MSE=${mse_val.toFixed(2)}`,
+    marks: [
+      Plot.line(xs.map((x,i) => ({x, y: ys[i]})), {x:"x", y:"y", stroke:"steelblue", strokeWidth:2.5}),
+      Plot.ruleX([theta], {stroke:"red", strokeWidth:3, strokeDasharray:"8,4"}),
+      Plot.ruleX([mu], {stroke:"orange", strokeWidth:2}),
+      Plot.text([{x: theta, y: Math.max(...ys)*0.05}], {x:"x", y:"y", text: d => "θ (truth)", fill:"red", fontSize:13}),
+      Plot.text([{x: mu, y: Math.max(...ys)*0.1}], {x:"x", y:"y", text: d => "E(θ̂)", fill:"orange", fontSize:13}),
+      Plot.ruleY([0])
+    ]
+  });
+}
+```
+
+:::
+:::::
+::::::
+
+---
+
+## 🤝 Think-Pair-Share {.smaller}
+
+::: {style="font-size:46px;"}
+::: {.callout-note}
+## 💬 Discussion (4 minutes)
+
+A central bank samples **200 commercial banks** and finds that 36 reported negative equity in the last quarter. A colleague proposes two estimators for the true failure rate $p$:
+
+$$\hat{p}_1 = \frac{Y}{n} = \frac{36}{200} = 0.18 \qquad \hat{p}_2 = \frac{Y + 2}{n + 4} = \frac{38}{204} \approx 0.186$$
+
+**Discuss with your partner:**
+
+1. Is $\hat{p}_1$ unbiased? What is its standard error?
+2. $\hat{p}_2$ is known to be **biased** — can you show why? What is its bias?
+3. Under what conditions might $\hat{p}_2$ actually have **lower MSE** than $\hat{p}_1$?
+4. Which would you report in a regulatory context, and why?
+:::
+:::
+
+```{r}
+#| echo: false
+#| eval: true
+library(countdown)
+countdown(minutes = 4, bottom = 0, right = 0,
+          color_running_background = "#2c7bb6",
+          color_finished_background = "#d73027")
+```
+
+---
+
+## 💰 Case Study: Point Estimates {.smaller}
+
+```{r}
+#| echo: true
+#| code-fold: true
+#| message: false
+#| warning: false
+#| eval: true
+
+library(tidyverse)
+library(tidyquant)
+library(knitr)
+
+symbols <- c("AAPL", "JPM", "XOM")
+prices <- tq_get(symbols, from = "2021-01-01", to = "2023-12-31")
+
+returns <- prices %>%
+  group_by(symbol) %>%
+  tq_transmute(select = adjusted, mutate_fun = periodReturn,
+               period = "daily", col_rename = "r")
+
+stats <- returns %>%
+  group_by(symbol) %>%
+  summarise(n = n(), mu_hat = mean(r) * 100,
+            se = sd(r) * 100 / sqrt(n()),
+            bound_2se = 2 * sd(r) * 100 / sqrt(n()))
+
+kable(stats, digits = 4,
+      col.names = c("Stock", "n", "μ̂ (%)", "SE (%)", "2-SE Bound (%)"),
+      caption = "Point Estimates of Mean Daily Return")
+```
+
+---
+
+## 💰 Case Study: Return Distributions {.smaller}
+
+```{r}
+#| echo: true
+#| code-fold: true
+#| message: false
+#| warning: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 4
+
+returns %>%
+  mutate(r_pct = r * 100) %>%
+  ggplot(aes(x = r_pct, fill = symbol)) +
+  geom_histogram(bins = 60, alpha = 0.6, position = "identity") +
+  geom_vline(data = stats,
+             aes(xintercept = mu_hat, color = symbol),
+             linewidth = 1.2, linetype = "dashed") +
+  facet_wrap(~symbol, ncol = 3, scales = "free_y") +
+  labs(title = "Daily Return Distributions with Point Estimates",
+       x = "Daily Return (%)", y = "Count") +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "none")
+```
+
+---
+
+## 💰 Case Study: Key Findings {.smaller}
+
+::: {style="font-size:46px;"}
+::: {.callout-important}
+## 📊 Interpreting the Point Estimates
+
+::: {.columns}
+
+::: {.column width="33%"}
+::: {.fragment}
+**Point Estimates $\hat{\mu}$:**
+
+- Apple (AAPL): ~0.05% daily
+- JP Morgan (JPM): ~0.04% daily
+- Exxon (XOM): ~0.06% daily
+
+All close to zero — consistent with efficient market hypothesis for daily returns
+:::
+:::
+
+::: {.column width="33%"}
+::: {.fragment}
+**Standard Errors SE:**
+
+- SE ≈ 0.12–0.15% for all stocks
+- With $n \approx 750$ observations, SE is small relative to daily volatility
+- Larger $n$ tightens the SE further
+
+:::
+:::
+
+::: {.column width="33%"}
+::: {.fragment}
+**Takeaways for Estimation:**
+
+1. **Unbiasedness**: $\bar{Y}$ centers on $\mu$
+2. **Precision grows** with sample size
+3. **2-SE bound** gives a practical confidence region
+4. Bias-variance tradeoff matters when data is limited
+:::
+:::
+
+:::
+:::
+:::
+
+---
+
+## 📝 Quiz #1: Unbiased Estimator {.smaller .quiz-question}
+
+::: {style="font-size:50px; margin-top:-5px;"}
+
+Given $Y_1, Y_2, Y_3$ i.i.d. with mean $\mu$, which of the following is **NOT** an unbiased estimator of $\mu$?
+
+- [$\frac{Y_1 + Y_2 + Y_3}{3}$]{.correct data-explanation="✅ Wait — this IS unbiased! Its expected value is μ. The question asks which is NOT unbiased. Select again."}
+- $\frac{Y_1 + Y_2}{2}$
+- [$\frac{2Y_1 + Y_3}{2}$]{.correct data-explanation="✅ Correct! E[(2Y₁ + Y₃)/2] = (2μ + μ)/2 = 3μ/2 ≠ μ — this is biased unless μ = 0."}
+- $Y_2$
+
+:::
+
+---
+
+## 📝 Quiz #2: MSE Decomposition {.smaller .quiz-question}
+
+::: {style="font-size:50px; margin-top:-5px;"}
+
+If $\hat{\theta}$ is an unbiased estimator of $\theta$ with variance $V(\hat{\theta}) = 4$, what is $\text{MSE}(\hat{\theta})$?
+
+- [4]{.correct data-explanation="✅ Correct! Since B(θ̂) = 0 for an unbiased estimator, MSE(θ̂) = V(θ̂) + 0² = 4."}
+- 2
+- 0
+- 16
+
+:::
+
+---
+
+## 📝 Quiz #3: Standard Error Bound {.smaller .quiz-question}
+
+::: {style="font-size:50px; margin-top:-5px;"}
+
+A bank estimates the proportion of clients with a credit score above 700. From $n = 400$ clients, 280 qualify. The 2-standard-error bound on the error of estimation is approximately:
+
+- [0.046]{.correct data-explanation="✅ Correct! p̂ = 280/400 = 0.70, SE = √(0.70 × 0.30/400) = 0.0229, bound = 2 × 0.0229 ≈ 0.046."}
+- 0.023
+- 0.092
+- 0.014
+
+:::
+
+---
+
+## 📝 Quiz #4: Comparing Two Estimators {.smaller .quiz-question}
+
+::: {style="font-size:50px; margin-top:-5px;"}
+
+Estimator $\hat{\theta}_1$ is unbiased with $V(\hat{\theta}_1) = 9$. Estimator $\hat{\theta}_2$ has $B(\hat{\theta}_2) = 2$ and $V(\hat{\theta}_2) = 3$. Which has lower MSE?
+
+- [$\hat{\theta}_2$, since $\text{MSE}(\hat{\theta}_2) = 3 + 4 = 7 < 9$]{.correct data-explanation="✅ Correct! MSE(θ̂₁) = 9 + 0 = 9, MSE(θ̂₂) = 3 + 2² = 7. Despite the bias, θ̂₂ has lower total error."}
+- $\hat{\theta}_1$, because unbiased estimators always have lower MSE
+- They are equal
+- Cannot be determined without knowing $\theta$
+
+:::
+
+---
+
+## 📝 Summary {.smaller}
+
+::: {style="font-size:36px"}
+::: {.summary-box}
+**✅ Key Takeaways**
+
+- **Estimators vs. Estimates**: An estimator is a random variable (formula); an estimate is its realized value from data
+
+- **Unbiasedness**: $E(\hat{\theta}) = \theta$ — the estimator is centered on the true parameter; $\bar{Y}$ and $\hat{p}$ are unbiased
+
+- **MSE = Variance + Bias²**: Total error accounts for both spread and systematic error; a biased estimator can win if its variance is much smaller
+
+- **Common Estimators**: $\bar{Y}$, $\hat{p}$, $\bar{Y}_1 - \bar{Y}_2$, $\hat{p}_1 - \hat{p}_2$ are all unbiased and approximately normal for large $n$
+
+- **Error Bound**: With ~95% confidence, error of estimation $< 2\sigma_{\hat{\theta}}$; this shrinks as $n$ grows
+:::
+:::
+
+---
+
+## 📚 Practice Problems
+
+::: {style="font-size:46px;"}
+::: {.callout-tip}
+## 📝 Homework Problems
+
+**Problem 1 (Unbiasedness):** Let $Y_1, Y_2, \ldots, Y_n$ be i.i.d. from a distribution with mean $\mu$ and variance $\sigma^2$. Show that $S^2 = \frac{1}{n-1}\sum(Y_i - \bar{Y})^2$ is an unbiased estimator for $\sigma^2$. (Wackerly Ex. 8.1)
+
+**Problem 2 (Bias & MSE):** Suppose $E(\hat{\theta}) = 2\theta + 1$. Find $B(\hat{\theta})$ and construct an unbiased estimator $\hat{\theta}^*$ from $\hat{\theta}$. (Wackerly Ex. 8.3)
+
+**Problem 3 (Comparing Estimators):** $\hat{p}_1 = Y/n$ and $\hat{p}_2 = (Y+1)/(n+2)$. Derive $B(\hat{p}_2)$, $\text{MSE}(\hat{p}_1)$, and $\text{MSE}(\hat{p}_2)$. For which values of $p$ does $\hat{p}_2$ dominate? (Wackerly Ex. 8.17)
+
+**Problem 4 (Financial Application):** An analyst observes $n = 252$ daily returns of a hedge fund with $\bar{y} = 0.06\%$ and $s = 1.2\%$. (a) Give a point estimate of the true mean daily return. (b) Place a 2-SE bound on the error. (c) Annualize your estimate (×252) and interpret.
+:::
+:::
+
+---
+
+## 👋 Thank You! {.smaller .center}
+
+::: {.columns}
+::: {.column width="50%"}
+**📬 Contact Information:**
+
+Samir Orujov, PhD
+
+Assistant Professor
+
+School of Business
+
+ADA University
+
+📧 Email: [sorujov@ada.edu.az](mailto:sorujov@ada.edu.az)
+
+🏢 Office: D312
+
+⏰ Office Hours: By appointment
+:::
+
+::: {.column width="50%"}
+**📅 Next Class:**
+
+**Topic:** Interval Estimation (Confidence Intervals)
+
+**Reading:** Chapter 8, Sections 8.5–8.9
+
+**Preparation:** Review the standard normal table and $t$-distribution
+
+**⏰ Reminders:**
+
+✅ Complete Practice Problems 1–4
+
+✅ Review the CLT and standard normal distribution
+
+✅ Think about: what does "95% confident" actually mean?
+
+✅ Work hard!
+:::
+:::
+
+---
+
+## ❓ Questions? {.center}
+
+::: {.callout-note}
+## 💬 Open Discussion
+
+**Key Topics for Discussion:**
+
+- Why do we divide by $n-1$ instead of $n$ in the sample variance?
+
+- Can a biased estimator ever be *preferable* to an unbiased one in practice?
+
+- How would you explain the concept of "standard error" to a non-statistician client?
+
+- If you double your sample size, how much does your estimation error shrink?
+:::
