@@ -224,7 +224,10 @@ classes: wide
     </div>
     <div class="lecture-buttons">
       <a href="/lectures/math_stat_2_spring_2026/chapter_7/sampling_distributions_lecture1.html" class="btn btn--primary">
-        <span class="btn-num">Lecture 1</span><span class="btn-title">Sampling Distributions & CLT</span>
+        <span class="btn-num">Lecture 1</span><span class="btn-title">Sampling Distributions</span>
+      </a>
+      <a href="/lectures/math_stat_2_spring_2026/chapter_7/sampling_distributions_lecture2.html" class="btn btn--primary">
+        <span class="btn-num">Lecture 2</span><span class="btn-title">Central Limit Theorem</span>
       </a>
     </div>
   </div>
