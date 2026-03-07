@@ -229,9 +229,16 @@ $$\mu_{\bar{Y}} = \mu \qquad \text{and} \qquad \sigma^2_{\bar{Y}} = \frac{\sigma
 ::: {.fragment}
 **Immediate Consequence:** The standardized version
 
+::: {style="margin-top:-40px;"}
 $$Z = \frac{\bar{Y} - \mu}{\sigma / \sqrt{n}}$$
 
+:::
+
+::: {style="margin-top:-40px;"}
+
 has a **standard normal** distribution. This is the workhorse for inference when $\sigma$ is known.
+
+:::
 :::
 :::
 
@@ -272,14 +279,19 @@ $$= 1 - 2 \times P(Z > 1.5) = 1 - 2(0.0668) = \boxed{0.8664}$$
 $$P\!\left(-\frac{0.3}{\sigma/\sqrt{n}} \leq Z \leq \frac{0.3}{\sigma/\sqrt{n}}\right) = 0.95$$
 :::
 
-::: {.fragment}
+::: {.columns}
+::: {.column width="50%" .fragment}
 This means $\frac{0.3}{\sigma/\sqrt{n}} = z_{0.025} = 1.96$, so:
 
 $$\sqrt{n} = \frac{1.96 \times 0.8}{0.3} = 5.227 \implies n = 27.32$$
+
 :::
 
-::: {.fragment}
+
+::: {.column width="50%" .fragment}
 $$\boxed{n = 28 \text{ quarters (7 years of data)}}$$
+
+:::
 :::
 
 ::: {.fragment}
@@ -299,9 +311,8 @@ Let $Y_1, \ldots, Y_n$ be a random sample from $N(\mu, \sigma^2)$. Then $Z_i = (
 $$\sum_{i=1}^n Z_i^2 = \sum_{i=1}^n \left(\frac{Y_i - \mu}{\sigma}\right)^2 \sim \chi^2(n)$$
 :::
 
-::: {.fragment}
 ::: {.columns}
-::: {.column width="50%"}
+::: {.column width="50%" .fragment}
 **Properties of $\chi^2(\nu)$:**
 
 - $E(\chi^2) = \nu$
@@ -309,11 +320,10 @@ $$\sum_{i=1}^n Z_i^2 = \sum_{i=1}^n \left(\frac{Y_i - \mu}{\sigma}\right)^2 \sim
 - Right-skewed, but becomes more symmetric as $\nu$ increases
 :::
 
-::: {.column width="50%"}
+::: {.column width="50%" .fragment}
 **Finance Connection:**
 
 The sum of squared deviations measures **total risk**. The $\chi^2$ distribution tells us how sample variance behaves — critical for VaR (Value at Risk) and portfolio risk estimation.
-:::
 :::
 :::
 :::
@@ -340,8 +350,8 @@ $$\frac{(n-1)S^2}{\sigma^2} = \frac{1}{\sigma^2}\sum_{i=1}^n (Y_i - \bar{Y})^2 \
 - The independence of $\bar{Y}$ and $S^2$ is **surprising** and **crucial** — it enables the $t$-test
 :::
 
-::: {.fragment}
-**Consequence:** $E(S^2) = \sigma^2$ — the sample variance is an **unbiased** estimator of population variance.
+::: {.fragment style="margin-top:-40px;"}
+[**Consequence:** $E(S^2) = \sigma^2$ — the sample variance is an **unbiased** estimator of population variance.]{style="color: red;"}
 :::
 :::
 
@@ -377,7 +387,8 @@ $$\frac{20b}{\sigma^2} = 31.41 \implies b = \frac{31.41 \cdot \sigma^2}{20} = 1.
 
 ## 📖 Definition: Student's $t$ Distribution
 
-::: {style="font-size: 34px"}
+::: {.columns}
+::: {.column width="50%" style="font-size: 34px"}
 ::: {.callout-note}
 ## 📝 Definition 7.2: Student's $t$ Distribution
 
@@ -388,35 +399,44 @@ $$T = \frac{Z}{\sqrt{W/\nu}}$$
 has a **$t$ distribution with $\nu$ degrees of freedom**.
 :::
 
-::: {.fragment}
+::: {.callout-note .fragment fragment-index="2" style="margin-top: 15px;font-size: 38px;"}
+## 📜 Historical Note
+William Sealy Gosset published this under the pseudonym "Student" in 1908 while working at Guinness Brewery — small samples of barley quality led to one of statistics' most important distributions.
+:::
+:::
+
+::: {.column width="50%" style="font-size: 36px"}
+::: {.fragment fragment-index="1"}
 **Key Application:** For a normal sample:
 
 $$T = \frac{\bar{Y} - \mu}{S/\sqrt{n}} = \sqrt{n}\left(\frac{\bar{Y} - \mu}{S}\right) \sim t(n-1)$$
 
-This replaces $Z = (\bar{Y}-\mu)/(\sigma/\sqrt{n})$ when $\sigma$ is **unknown** — which is *almost always* the case in economics!
+This replaces 
+$$Z = \frac{(\bar{Y}-\mu)}{\sigma/\sqrt{n}}$$ 
+when $\sigma$ is **unknown** — which is *almost always* the case in economics!
 :::
-
-::: {.fragment}
-**Historical Note:** William Sealy Gosset published this under the pseudonym "Student" in 1908 while working at Guinness Brewery — small samples of barley quality led to one of statistics' most important distributions.
 :::
 :::
 
 
 ## 📖 $t$ vs. Normal: Heavier Tails
 
-::: {style="font-size: 34px"}
+::: {style="font-size: 34px;margin-top: -30px;"}
 ::: {.columns}
 ::: {.column width="45%"}
 **Properties of $t(\nu)$:**
-
+ 
 - Symmetric about 0, bell-shaped
 - $E(T) = 0$ for $\nu > 1$
 - $V(T) = \frac{\nu}{\nu - 2}$ for $\nu > 2$  — **always > 1**
 - Heavier tails than standard normal
 - As $\nu \to \infty$, $t(\nu) \to N(0,1)$
 
+::: {.callout-important .fragment style="margin-top: -30px;font-size: 38px;"}
 **Economic Implication:** With small samples (common in macro and finance), using the normal distribution when $\sigma$ is unknown **underestimates** the uncertainty. The $t$ distribution corrects for this.
 :::
+:::
+
 
 ::: {.column width="55%"}
 ::: {.fragment}
@@ -435,6 +455,147 @@ The extra variability comes from *estimating* $\sigma$ with $S$. In small sample
 :::
 :::
 :::
+
+
+## 🎮 Interactive: N(0,1) vs. t — Tail Convergence {.smaller}
+
+:::::: {style="font-size: 0.75em; margin-top: -8px;"}
+
+**Key insight:** As $\nu \to \infty$, $t(\nu) \to N(0,1)$. The heavier tails reflect uncertainty in estimating $\sigma$ from data — watch them shrink as $\nu$ grows.
+
+::::: columns
+::: {.column width="25%"}
+
+```{ojs}
+//| echo: false
+
+viewof nu_val = {
+  const input = Inputs.range([1, 50], {
+    value: 5, step: 1,
+    label: "Degrees of freedom ν:"
+  });
+  ['pointerdown','touchstart','mousedown','click','wheel',
+   'pointermove','touchmove'].forEach(e =>
+    input.addEventListener(e, ev => ev.stopPropagation())
+  );
+  return input;
+}
+
+viewof zt_overlay_opt = {
+  const input = Inputs.select(
+    ["None", "Show ν = 3, 10, 30"],
+    { label: "Compare curves:", value: "None" }
+  );
+  ['pointerdown','touchstart','mousedown','click'].forEach(e =>
+    input.addEventListener(e, ev => ev.stopPropagation())
+  );
+  return input;
+}
+
+{
+  function tpdf_fn(x, v) {
+    const c = gamma_func((v+1)/2) / (Math.sqrt(v * Math.PI) * gamma_func(v/2));
+    return c * Math.pow(1 + x*x/v, -(v+1)/2);
+  }
+  let tail = 0;
+  for (let i = 0; i <= 2000; i++) {
+    const x = 1.96 + (i / 2000) * 20;
+    tail += tpdf_fn(x, nu_val) * (20 / 2000);
+  }
+  const tail_pct = (2 * Math.min(tail, 0.5) * 100).toFixed(1);
+  const var_t = nu_val > 2 ? (nu_val / (nu_val - 2)).toFixed(3) : "∞";
+  const conv = nu_val >= 30 ? "≈ Normal ✓" : nu_val >= 10 ? "Close" : "Distinct";
+  return html`<div style="background:#eef6ff;padding:9px;border-radius:6px;line-height:1.8">
+    <b>t(${nu_val}) Properties:</b><br/>
+    V(T) = <b>${var_t}</b><br/>
+    Shape: <b>${conv}</b>
+    <hr style="margin:5px 0"/>
+    <b>P(|X| &gt; 1.96):</b><br/>
+    <span style="color:steelblue">●</span> t(${nu_val}): <b>${tail_pct}%</b><br/>
+    <span style="color:crimson">— —</span> N(0,1): <b>5.0%</b>
+    <hr style="margin:5px 0"/>
+    <small style="color:#555">
+      Blue solid = t(ν)<br/>
+      Red dashed = N(0,1)<br/>
+      Shaded = tail area |x|&gt;1.96
+    </small>
+  </div>`;
+}
+```
+
+:::
+
+::: {.column width="75%"}
+
+```{ojs}
+//| echo: false
+
+zt_tpdf = (x, v) => {
+  const c = gamma_func((v+1)/2) / (Math.sqrt(v * Math.PI) * gamma_func(v/2));
+  return c * Math.pow(1 + x*x/v, -(v+1)/2);
+}
+
+zt_main_curve = Array.from({length: 401}, (_, i) => {
+  const x = -5 + (i / 400) * 10;
+  return { x, y: zt_tpdf(x, nu_val) };
+})
+
+zt_z_line = Array.from({length: 401}, (_, i) => {
+  const x = -5 + (i / 400) * 10;
+  return { x, y: Math.exp(-x*x/2) / Math.sqrt(2 * Math.PI) };
+})
+
+zt_left_tail = Array.from({length: 101}, (_, i) => {
+  const x = -5 + (i / 100) * 3.04;
+  return { x, y: zt_tpdf(x, nu_val) };
+})
+
+zt_right_tail = Array.from({length: 101}, (_, i) => {
+  const x = 1.96 + (i / 100) * 3.04;
+  return { x, y: zt_tpdf(x, nu_val) };
+})
+
+zt_compare_curves = {
+  if (zt_overlay_opt === "None") return [];
+  return [3, 10, 30].flatMap(v =>
+    Array.from({length: 401}, (_, i) => ({
+      x: -5 + (i / 400) * 10,
+      y: zt_tpdf(-5 + (i / 400) * 10, v),
+      label: `t(${v})`
+    }))
+  );
+}
+
+{
+  const ymax = Math.max(...zt_main_curve.map(d => d.y)) * 1.15;
+  return Plot.plot({
+    width: 680,
+    height: 420,
+    marginLeft: 55,
+    marginBottom: 45,
+    marginTop: 35,
+    x: { label: "x", domain: [-5, 5] },
+    y: { label: "Density", domain: [0, ymax] },
+    color: { legend: zt_overlay_opt !== "None" },
+    title: `t(ν = ${nu_val}) vs N(0,1)  •  Shaded: tail area |x| > 1.96`,
+    marks: [
+      Plot.areaY(zt_left_tail,  { x: "x", y: "y", fill: "steelblue", fillOpacity: 0.25 }),
+      Plot.areaY(zt_right_tail, { x: "x", y: "y", fill: "steelblue", fillOpacity: 0.25 }),
+      zt_compare_curves.length > 0
+        ? Plot.line(zt_compare_curves, { x: "x", y: "y", stroke: "label", strokeWidth: 1.5, strokeDasharray: "4,2", opacity: 0.75 })
+        : null,
+      Plot.line(zt_z_line,     { x: "x", y: "y", stroke: "crimson",   strokeWidth: 2,   strokeDasharray: "6,4" }),
+      Plot.line(zt_main_curve, { x: "x", y: "y", stroke: "steelblue", strokeWidth: 2.5 }),
+      Plot.ruleX([-1.96, 1.96], { stroke: "#aaa", strokeDasharray: "3,2" }),
+      Plot.ruleY([0], { stroke: "#e0e0e0" })
+    ].filter(Boolean)
+  });
+}
+```
+
+:::
+:::::
+::::::
 
 
 ## 📌 Example: Estimating Average Firm Size
@@ -477,16 +638,24 @@ $$F = \frac{W_1/\nu_1}{W_2/\nu_2}$$
 has an **$F$ distribution** with $\nu_1$ numerator df and $\nu_2$ denominator df.
 :::
 
-::: {.fragment}
-**Key Application:** Comparing two population variances from independent normal samples:
+::: {.columns}
+
+::: {.column .callout-important width="50%" .fragment }
+
+## 🎯 Key Application
+
+Comparing two population variances from independent normal samples:
 
 $$F = \frac{S_1^2/\sigma_1^2}{S_2^2/\sigma_2^2} \sim F(n_1 - 1, \; n_2 - 1)$$
 
 If $\sigma_1^2 = \sigma_2^2$, this simplifies to $F = S_1^2/S_2^2$.
 :::
 
-::: {.fragment}
-**Economics Use Cases:** Testing whether stock A is more volatile than stock B, comparing income inequality across regions, ANOVA F-tests for policy impacts across groups.
+::: {.column .callout-note width="50%" .fragment}
+
+## 💼 Economics Use Cases
+Testing whether stock A is more volatile than stock B, comparing income inequality across regions, ANOVA F-tests for policy impacts across groups.
+:::
 :::
 :::
 
@@ -566,7 +735,7 @@ viewof df2_val = {
   return input;
 }
 
-stats_info = {
+{
   let mean_str, var_str;
   if (dist_type === "Chi-square") {
     mean_str = `E(χ²) = ν = ${df1_val}`;
@@ -583,8 +752,6 @@ stats_info = {
     <strong>${var_str}</strong>
   </div>`;
 }
-
-stats_info
 ```
 
 :::
@@ -677,40 +844,113 @@ Plot.plot({
 ::::::
 
 
-## 🤔 Think-Pair-Share: The "Gosset Challenge"
+## 🤝 Think-Pair-Share: The "Gosset Challenge"
 
-::: {style="font-size: 34px"}
-::: {.callout-tip}
+::::: {style="font-size: 34px;"}
+:::: {.callout-tip}
 ## 💬 Activity (4 minutes)
 
-**Scenario:** You are an analyst at a central bank. You have quarterly inflation data from $n = 8$ periods (normally distributed). Your colleague says: *"Just use the normal distribution to build a 95% confidence interval for mean inflation — the $t$ distribution is overkill."*
+**Scenario:** Central bank analyst. Quarterly inflation data, $n = 8$ periods (normal). Colleague says: *"Just use $z_{0.025} = 1.96$ — the $t$ distribution is overkill."*
 
-**Discuss with your neighbor:**
+::: columns
+::: {.column width="33%"}
+**🧠 Think (1 min):**
 
-1. Why is your colleague wrong? What specific error would they make?
+- Why is the colleague wrong?
+- What assumption does $z$ require that we're violating?
+:::
 
-2. Calculate the critical values: $z_{0.025} = ?$ vs. $t_{0.025}(7) = ?$
+::: {.column width="33%"}
+**👫 Pair (2 min):**
 
-3. How much wider (in %) would the correct interval be?
+- Look up $t_{0.025}(7)$ and compare to 1.96
+- How much wider (%) is the correct interval?
+- At what $n$ does the gap shrink below 1%?
+:::
 
-4. At what sample size would the difference become negligible (< 1%)?
+::: {.column width="33%"}
+**🗣️ Share (1 min):**
 
-**Bonus:** Why does this matter more for emerging economies where data is scarce?
+- Why does this matter more when data is scarce?
+- Name one real economic scenario where $n = 8$ is realistic
+:::
+:::
+::::
+:::::
+
+```{=html}
+<div id="tps-cd" onclick="tpsTick()" title="Click to start / pause"
+  style="position:absolute;bottom:10px;left:10px;background:#31b09e;color:white;
+         padding:10px 22px;border-radius:8px;font-size:1.5em;font-weight:bold;
+         cursor:pointer;z-index:100;user-select:none;min-width:82px;text-align:center;">
+  4:00
+</div>
+<script>
+(function(){
+  let s=240,run=false,iv;
+  const el=document.getElementById('tps-cd');
+  function upd(){
+    const m=Math.floor(s/60),sec=s%60;
+    el.textContent=m+':'+(sec<10?'0':'')+sec;
+    el.style.background=s<=0?'#cc3311':s<=60?'#f7dc6f':'#31b09e';
+    el.style.color=(s<=60&&s>0)?'#000':'#fff';
+  }
+  window.tpsTick=function(){
+    if(s<=0){s=240;upd();return;}
+    if(run){clearInterval(iv);run=false;}
+    else{run=true;iv=setInterval(function(){s--;upd();if(s<=0){clearInterval(iv);run=false;}},1000);}
+  };
+})();
+</script>
+```
+
+
+## ✅ Solution: The Gosset Challenge
+
+::: {style="font-size: 33px"}
+**Scenario:** $n = 8$ quarterly inflation periods, $\sigma$ unknown → $T \sim t(7)$
+
+::: {.columns}
+::: {.column width="40%" .callout-note .fragment} 
+## ① Why the colleague is wrong
+
+Using $z_{0.025} = 1.96$ assumes $\sigma$ is **known**. With $n = 8$, we estimate $\sigma$ by $S$ — this extra uncertainty inflates the true critical value. Using $z$ here **underestimates risk**.
+:::
+
+
+::: {.column width="60%" .callout-important .fragment} 
+## ② & ③ Critical values and interval width
+
+$$z_{0.025} = 1.960 \qquad t_{0.025}(7) = 2.365$$
+
+Width ratio: $\dfrac{2.365}{1.960} = 1.207$ → the correct interval is **20.7% wider**
+:::
+:::
+
+::: {.callout-tip .fragment}
+## ④ When does the gap close?
+
+| $n$ | df | $t_{0.025}$ | Extra width vs $z$ |
+|:---:|:---:|:---:|:---:|
+| 8 | 7 | 2.365 | 20.7% |
+| 30 | 29 | 2.045 | 4.3% |
+| 120 | 119 | 1.980 | 1.0% |
+| 200 | 199 | 1.972 | 0.6% |
+
+**Rule of thumb:** $n \approx 120$ to get below 1% extra width.
 :::
 :::
 
 
 ## 💰 Case Study: Stock Return Distributions
 
-::: {style="font-size: 30px"}
-::: {.columns}
-::: {.column width="50%"}
+::: {style="font-size: 28px; margin-top: -20px;"}
 
 ```{python}
 #| eval: false
 #| echo: true
 #| code-fold: true
-#| code-summary: "Show Code"
+#| code-summary: "📊 Show Code"
 import numpy as np
 import pandas as pd
 import yfinance as yf
@@ -738,34 +978,27 @@ summary = pd.DataFrame({
 print(summary.round(4))
 ```
 
-|  | Mean (%) | Std Dev (%) | n | SE (%) |
-|---|:---:|:---:|:---:|:---:|
-| S&P 500 | 0.0561 | 1.3443 | 1257 | 0.0379 |
-| DAX | 0.0397 | 1.3043 | 1274 | 0.0365 |
-| Nikkei 225 | 0.0538 | 1.3705 | 1221 | 0.0392 |
+::: {style="margin-top: -20px;"}
+| Index | Mean (%) | Std Dev (%) | n (days) | SE of Mean (%) |
+|:---|:---:|:---:|:---:|:---:|
+| S&P 500 | 0.0561 | 1.3443 | 1,257 | 0.0379 |
+| DAX (Germany) | 0.0397 | 1.3043 | 1,274 | 0.0365 |
+| Nikkei 225 | 0.0538 | 1.3705 | 1,221 | 0.0392 |
 
-:::
-
-::: {.column width="50%"}
-
-![](figures/l1_return_histograms.png){width=100%}
-
-:::
+![](figures/l1_return_histograms.png){width=90% fig-align="center"}
 :::
 :::
 
 
 ## 💰 Case Study: Applying $\chi^2$ and $t$ to Real Data
 
-::: {style="font-size: 30px"}
-::: {.columns}
-::: {.column width="50%"}
+::: {style="font-size: 28px; margin-top: -10px;"}
 
 ```{python}
 #| eval: false
 #| echo: true
 #| code-fold: true
-#| code-summary: "Show Code"
+#| code-summary: "📊 Show Code"
 from scipy.stats import chi2, t
 
 np.random.seed(42)
@@ -773,37 +1006,41 @@ sample = np.random.choice(sp500, size=25)
 n, ybar = len(sample), sample.mean()
 s2, s = sample.var(ddof=1), np.sqrt(s2)
 
-# Chi-square: 95th percentile
-chi2_val = chi2.ppf(0.95, df=n-1)
+# Chi-square test: H₀: σ = 1% daily (risk benchmark)
+sigma0 = 1.0
+chi2_stat = (n - 1) * s2 / sigma0**2   # test statistic
+chi2_crit = chi2.ppf(0.95, df=n-1)     # right-tail critical value at α=0.05
+chi2_pval = 1 - chi2.cdf(chi2_stat, df=n-1)
 
-# t-test: H₀: μ = 0
+# t-test: H₀: μ = 0 (zero expected daily return)
 t_stat = ybar / (s / np.sqrt(n))
-p_val = 2*(1 - t.cdf(abs(t_stat), df=n-1))
+p_val = 2 * (1 - t.cdf(abs(t_stat), df=n-1))
 
 # 95% CI for μ
 t_crit = t.ppf(0.975, df=n-1)
-ci = (ybar - t_crit*s/np.sqrt(n),
-      ybar + t_crit*s/np.sqrt(n))
+ci = (ybar - t_crit * s / np.sqrt(n),
+      ybar + t_crit * s / np.sqrt(n))
 ```
 
-::: {.callout-note}
-## 📊 Results (S&P 500, n=25)
+**Sample:** S&P 500, $n = 25$, $\bar{y} = -0.4664\%$, $S = 1.4687\%$, $S^2 = 2.157\%^2$
 
-- Sample mean: $\bar{y} = -0.4664\%$
-- Sample std: $S = 1.4687\%$
-- $\chi^2_{0.05}(24) = 36.415$
-- $t$-stat ($H_0: \mu=0$): $-1.588$, $p = 0.1254$
-- **95% CI:** $(-1.073\%,\; 0.140\%)$
-:::
-
-:::
-
-::: {.column width="50%"}
-
-![](figures/l1_chi2_t_plots.png){width=100%}
+|  | $\chi^2$ test — volatility | $t$ test — mean return | 95% CI for $\mu$ |
+|:--|:--|:--|:--|
+| $H_0$ | $\sigma = 1\%$ daily | $\mu = 0$ | — |
+| Statistic | $\chi^2 = \frac{24 \times 2.157}{1^2} = 51.77$ | $t = -1.588$ | $(-1.073\%,\ 0.140\%)$ |
+| Critical / $p$ | $\chi^2_{0.05}(24) = 36.42$ | $p = 0.125$ | 0 is inside the interval |
+| Decision | **Reject $H_0$** ✓ | **Fail to reject** | Mean not sig. $\neq 0$ |
+| Conclusion | Volatility exceeds 1% benchmark | Returns consistent with EMH | Insufficient evidence |
 
 :::
-:::
+
+
+## 💰 Case Study: Results Visualized
+
+::: {style="margin-top: -10px;"}
+
+![](figures/l1_chi2_t_plots.png){width=88% fig-align="center"}
+
 :::
 
 
@@ -829,25 +1066,23 @@ ci = (ybar - t_crit*s/np.sqrt(n),
 
 ::: {.column width="33%"}
 ::: {.fragment}
-**Statistical Inference:**
+**$\chi^2$ Test Result:**
 
-- $\chi^2$ distribution governs how sample variance $S^2$ relates to true $\sigma^2$
-
-- The $t$-test accounts for estimation uncertainty in $\sigma$
-
-- With $n = 25$: the $t$ and normal give similar but not identical results
+- $H_0$: $\sigma = 1\%$ daily — **Rejected**
+- $\chi^2 = 51.77 > \chi^2_{0.05}(24) = 36.42$
+- S&P 500 volatility significantly exceeds the 1% benchmark ($p < 0.001$)
+- Theory: $\frac{(n-1)S^2}{\sigma_0^2} \sim \chi^2(n-1)$
 :::
 :::
 
 ::: {.column width="33%"}
 ::: {.fragment}
-**Practical Implications:**
+**$t$ Test & CI Result:**
 
-1. **Risk managers**: Use $\chi^2$ to set confidence bounds on variance
-
-2. **Economists**: Use $t$-tests for small-sample inference
-
-3. **Regulators**: Use $F$-tests to compare volatilities across sectors
+- $H_0$: $\mu = 0$ — **Not rejected** ($t = -1.588$, $p = 0.125$)
+- 95% CI: $(-1.073\%,\ 0.140\%)$ contains zero
+- Consistent with the **efficient market hypothesis** — no exploitable return signal in this sample
+- Theory: $\frac{\bar{Y} - \mu}{S/\sqrt{n}} \sim t(n-1)$
 :::
 :::
 
@@ -946,41 +1181,27 @@ A financial analyst needs $P(|\bar{Y} - \mu| \leq 0.5) = 0.99$ for normally dist
 
 ## 👋 Thank You! {.center}
 
+::: {style="font-size: 32px;"}
 ::: {.columns}
 ::: {.column width="50%"}
-**📬 Contact Information:**
+**📬 Contact:**
 
-Samir Orujov, PhD
-
-Assistant Professor
+Samir Orujov, PhD — Assistant Professor
 
 School of Business, ADA University
 
-📧 Email: [sorujov@ada.edu.az](mailto:sorujov@ada.edu.az)
-
-🏢 Office: D312
-
-⏰ Office Hours: By appointment
+📧 [sorujov@ada.edu.az](mailto:sorujov@ada.edu.az) &nbsp;|&nbsp; 🏢 D312 &nbsp;|&nbsp; ⏰ By appointment
 :::
 
 ::: {.column width="50%"}
-**📅 Next Class:**
+**📅 Next Class:** Central Limit Theorem & Applications
 
-**Topic:** The Central Limit Theorem & Applications
+**Reading:** Wackerly Ch. 7, Sections 7.3–7.5
 
-**Reading:** Chapter 7, Sections 7.3-7.5
+**Preparation:** Review MGFs (Sec. 3.9)
 
-**Preparation:** Review moment-generating functions (Sec. 3.9)
-
-**⏰ Reminders:**
-
-✅ Complete Practice Problems 1-4
-
-✅ Review properties of $\chi^2$, $t$, and $F$
-
-✅ Think about: what if the population isn't normal?
-
-✅ Work hard!
+**Reminders:** ✅ Practice Problems 1–4 &nbsp;|&nbsp; ✅ Review $\chi^2$, $t$, $F$ &nbsp;|&nbsp; ✅ Work hard!
+:::
 :::
 :::
 
