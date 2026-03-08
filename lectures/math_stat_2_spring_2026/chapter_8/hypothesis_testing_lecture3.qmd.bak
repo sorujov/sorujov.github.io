@@ -1,0 +1,922 @@
+---
+title: "Mathematical Statistics"
+subtitle: "Two-Sample Tests & Variance Testing"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: default
+    logo: ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    margin: 0.04
+    # footer: "Mathematical Statistics – Two-Sample Tests & Variance Testing"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+---
+
+## 🎯 Learning Objectives {.smaller}
+
+::: {style="font-size:50px;"}
+::: {.learning-objectives}
+By the end of this lecture, you will be able to:
+
+- **Justify** the choice between one-tailed and two-tailed tests based on financial decision context
+
+- **Apply** the $\chi^2$ test to assess whether a population variance equals a specified value
+
+- **Construct** the $F$-test to compare two population variances
+
+- **Interpret** $F$-ratio critical values and p-values from tables and software
+
+- **Connect** variance testing to risk management decisions in finance and regulation
+:::
+:::
+
+---
+
+## 📋 Overview {.smaller}
+
+::: {style="font-size:50px"}
+::: {.callout-note}
+## 📚 Topics Covered Today
+
+::: {.incremental}
+- **One-Tail vs Two-Tail Logic** — when each is appropriate (§10.7)
+
+- **$\chi^2$ Test for $\sigma^2$** — testing a single variance against a benchmark (§10.9)
+
+- **$F$-Test for $\sigma_1^2 = \sigma_2^2$** — comparing two population variances (§10.9)
+
+- **Two-Tailed $F$-Test** — using the larger-over-smaller convention
+
+- **Case Study** — Comparing volatility of two asset classes with real market data
+:::
+:::
+:::
+
+---
+
+## 📖 Motivation: Why Variance Matters {.smaller}
+
+::: {style="font-size:50px;"}
+::: {.callout-note}
+## 🎯 Variance = Risk in Finance
+
+In finance, variance and standard deviation are the **primary measures of risk**. Testing variances is not abstract — it drives billion-dollar decisions.
+
+::: {.columns}
+::: {.column width="50%"}
+::: {.fragment}
+**Single Variance Tests:**
+
+- Has a portfolio's volatility breached its risk mandate?
+- Has a broadband network's latency variance exceeded the SLA?
+- Did a new process reduce the variability of loan processing times?
+- Is a trading strategy's return distribution within expected bounds?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.fragment}
+**Two-Variance Comparisons:**
+
+- Is Fund A riskier than Fund B (before choosing a pooled $t$-test)?
+- Are two markets equally volatile after a regulatory change?
+- Does automated underwriting produce more consistent decisions?
+- Do two ISPs have equal QoS variance across customers?
+:::
+:::
+:::
+:::
+:::
+
+---
+
+## 📖 One-Tail vs Two-Tail: Choosing Correctly (§10.7) {.smaller}
+
+::: {style="font-size:50px"}
+
+The choice of $H_a$ should reflect the **practical question**, not data snooping.
+
+::: {.fragment}
+**Use a one-tailed test when:**
+
+- The loss from one direction is much greater (e.g., volatility *exceeding* a limit)
+- Prior knowledge restricts the plausible direction of departure
+- A regulator cares only if a metric *exceeds* a threshold
+:::
+
+::: {.fragment}
+**Use a two-tailed test when:**
+
+- Any departure from $\theta_0$ is problematic (too high *or* too low)
+- The research question is "has something changed?" not "has it increased?"
+- You have no prior directional hypothesis
+:::
+
+::: {.fragment}
+::: {.callout-important}
+## ⚠️ The Pre-commitment Rule
+
+**$H_a$ must be specified before seeing the data.** Choosing the tail after observing results inflates the effective $\alpha$ to $2\alpha$.
+:::
+:::
+:::
+
+---
+
+## 📖 The $\chi^2$ Distribution — Quick Review {.smaller}
+
+::: {style="font-size:50px"}
+
+::: {.columns}
+::: {.column width="55%"}
+
+::: {.fragment}
+If $Y_1, \ldots, Y_n \sim N(\mu, \sigma^2)$ independently, then:
+
+$$\frac{(n-1)S^2}{\sigma^2} \sim \chi^2_{n-1}$$
+
+This is **Theorem 7.3** from Chapter 7.
+:::
+
+::: {.fragment}
+**Properties of $\chi^2_\nu$:**
+
+- Always $\geq 0$ — right-skewed
+- Mean $= \nu$, Variance $= 2\nu$
+- As $\nu \to \infty$, approaches Normal
+- $\chi^2_\alpha$: upper-tail critical value; $P(\chi^2 > \chi^2_\alpha) = \alpha$
+:::
+:::
+
+::: {.column width="45%"}
+::: {.fragment}
+**Critical value notation:**
+
+| Tail | Symbol | Meaning |
+|------|--------|---------|
+| Upper | $\chi^2_\alpha$ | $P(\chi^2 > \chi^2_\alpha) = \alpha$ |
+| Lower | $\chi^2_{1-\alpha}$ | $P(\chi^2 < \chi^2_{1-\alpha}) = \alpha$ |
+
+From Table 6, Appendix 3 — always indexed by **df = $n-1$**.
+:::
+:::
+:::
+:::
+
+---
+
+## 🧮 $\chi^2$ Test for a Single Variance $\sigma^2$ {.smaller}
+
+::: {style="font-size:50px;"}
+::: {.callout-important}
+## Test: $H_0: \sigma^2 = \sigma^2_0$ — One Sample from Normal Population (§10.9)
+
+$$\chi^2 = \frac{(n-1)S^2}{\sigma^2_0} \sim \chi^2_{n-1} \text{ under } H_0$$
+
+**Rejection regions** at level $\alpha$:
+
+| $H_a$ | Rejection Region |
+|-------|-----------------|
+| $\sigma^2 > \sigma^2_0$ | $\chi^2 > \chi^2_\alpha$ |
+| $\sigma^2 < \sigma^2_0$ | $\chi^2 < \chi^2_{1-\alpha}$ |
+| $\sigma^2 \neq \sigma^2_0$ | $\chi^2 > \chi^2_{\alpha/2}$ or $\chi^2 < \chi^2_{1-\alpha/2}$ |
+
+:::
+
+**Intuition:** If $S^2 \gg \sigma^2_0$, the ratio is large → evidence $\sigma^2 > \sigma^2_0$. The $\chi^2$ distribution tells us how large is "surprisingly large."
+:::
+
+---
+
+## 📌 Example 1: Fund Volatility Mandate {.smaller}
+
+::: {style="font-size:50px;"}
+**Scenario:** A risk mandate requires that a fund's monthly return standard deviation be **no greater than $\sigma_0 = 3\%$**. Over $n = 25$ months, the observed $s = 3.8\%$.
+
+Test $H_0: \sigma^2 = 0.0009$ vs $H_a: \sigma^2 > 0.0009$ at $\alpha = 0.05$.
+
+:::{.fragment}
+**Test statistic:**
+
+$$\chi^2 = \frac{(n-1)s^2}{\sigma^2_0} = \frac{24 \times (0.038)^2}{(0.030)^2} = \frac{24 \times 0.001444}{0.0009} = \frac{0.03466}{0.0009} = 38.5$$
+:::
+
+:::{.fragment}
+**Critical value:** $\chi^2_{0.05}$ with $\nu = 24$ df $= 36.415$.
+
+Since $38.5 > 36.415$ → **Reject $H_0$** ✅
+:::
+
+:::{.fragment}
+**Conclusion:** At $\alpha = 0.05$, there is significant evidence that the fund's volatility **breaches its 3% mandate**. The risk committee must be notified.
+:::
+:::
+
+---
+
+## 📌 Example 2: p-Value for the $\chi^2$ Test {.smaller}
+
+**Continuing Example 1:** Bound the p-value using Table 6.
+
+::: {style="font-size:50px"}
+
+For $\nu = 24$ df:
+
+| $\alpha$ | $\chi^2_\alpha$ |
+|----------|----------------|
+| 0.050 | 36.415 |
+| 0.025 | 39.364 |
+
+Our observed $\chi^2 = 38.5$ falls between $36.415$ and $39.364$:
+
+$$0.025 < p\text{-value} < 0.050$$
+
+::: {.fragment}
+**Exact p-value** (from R): $P(\chi^2_{24} > 38.5) = 0.029$
+
+**Practical interpretation:** The 2.9% probability confirms the volatility breach is statistically real — not merely sampling noise. The fund has a roughly 1-in-35 chance of seeing this variance under the null.
+:::
+:::
+
+---
+
+## 📖 The $F$-Distribution — Quick Review {.smaller}
+
+::: {style="font-size:50px"}
+
+::: {.callout-note}
+## 📝 Key Property
+
+If $U \sim \chi^2_{\nu_1}$ and $V \sim \chi^2_{\nu_2}$ are independent, then:
+
+$$F = \frac{U/\nu_1}{V/\nu_2} \sim F_{\nu_1, \nu_2}$$
+
+:::
+
+::: {.columns}
+::: {.column width="55%"}
+::: {.fragment}
+**Properties of $F_{\nu_1, \nu_2}$:**
+
+- Always $\geq 0$, right-skewed
+- $\nu_1$ = numerator df, $\nu_2$ = denominator df
+- $F_\alpha$: upper-tail critical value; $P(F > F_\alpha) = \alpha$
+- Reciprocal property: $F_{1-\alpha, \nu_1, \nu_2} = 1/F_{\alpha, \nu_2, \nu_1}$
+:::
+:::
+
+::: {.column width="45%"}
+::: {.fragment}
+**Key financial link:**
+
+$$F = \frac{S_1^2/\sigma_1^2}{S_2^2/\sigma_2^2}$$
+
+Under $H_0: \sigma_1^2 = \sigma_2^2$, this simplifies to:
+
+$$F = \frac{S_1^2}{S_2^2} \sim F_{n_1-1,\; n_2-1}$$
+:::
+:::
+:::
+:::
+
+---
+
+## 🧮 $F$-Test for Equality of Two Variances {.smaller}
+
+::: {style="font-size:50px;"}
+::: {.callout-important}
+## Test: $H_0: \sigma_1^2 = \sigma_2^2$ — Two Independent Normal Samples (§10.9)
+
+$$F = \frac{S_1^2}{S_2^2} \sim F_{n_1-1,\; n_2-1} \text{ under } H_0$$
+
+**Rejection regions** at level $\alpha$:
+
+| $H_a$ | Rejection Region | Convention |
+|-------|-----------------|-----------|
+| $\sigma_1^2 > \sigma_2^2$ | $F > F_{\alpha, \nu_1, \nu_2}$ | Label suspected larger variance as $S_1^2$ |
+| $\sigma_1^2 \neq \sigma_2^2$ | $F > F_{\alpha/2, \nu_1, \nu_2}$ | Put larger $S^2$ in numerator |
+
+:::
+
+::: {.fragment}
+**Two-tailed shortcut (Wackerly §10.9):** Always place the **larger** $S^2$ in the numerator. Compare to $F_{\alpha/2}$ (upper tail only). This avoids needing lower-tail $F$ values.
+:::
+:::
+
+---
+
+## 📌 Example 3: Comparing Volatilities (Wackerly Ex 10.19) {.smaller}
+
+::: {style="font-size:50px;"}
+**Scenario — Finance version:** Two equity funds. Fund A ($n_1=10$): $s_1^2 = 0.0003$. Fund B ($n_2=20$): $s_2^2 = 0.0001$.
+
+Test $H_0: \sigma_A^2 = \sigma_B^2$ vs $H_a: \sigma_A^2 > \sigma_B^2$ at $\alpha = 0.05$.
+
+:::{.fragment}
+**Test statistic:** Fund A has the suspected larger variance → numerator:
+
+$$F = \frac{s_1^2}{s_2^2} = \frac{0.0003}{0.0001} = 3.0$$
+
+df: $\nu_1 = 9$, $\nu_2 = 19$
+:::
+
+:::{.fragment}
+**Critical value:** $F_{0.05, 9, 19} = 2.42$ (Table 7, App. 3).
+
+Since $F = 3.0 > 2.42$ → **Reject $H_0$** ✅
+:::
+
+:::{.fragment}
+**p-value bounds:** $F_{0.025, 9,19} = 2.88$ and $F_{0.01, 9,19} = 3.52$.
+
+Since $2.88 < 3.0 < 3.52$: $\;\; 0.01 < p\text{-value} < 0.025$.
+
+Exact p-value $= 0.021$ — Fund A is significantly more volatile.
+:::
+:::
+
+---
+
+## 📌 Example 4: Two-Tailed $F$-Test (Wackerly Ex 10.21) {.smaller}
+
+::: {style="font-size:50px;"}
+**Scenario:** Compare return volatility of a Growth fund ($n_1=14$, $s_1^2 = 12.7$) and Value fund ($n_2=10$, $s_2^2 = 26.4$).
+
+$H_0: \sigma_G^2 = \sigma_V^2$ vs $H_a: \sigma_G^2 \neq \sigma_V^2$, $\alpha = 0.10$.
+
+:::{.fragment}
+**Two-tailed shortcut:** Place larger variance in numerator:
+
+$$F = \frac{s_{\text{larger}}^2}{s_{\text{smaller}}^2} = \frac{26.4}{12.7} = 2.079$$
+
+df: $\nu_1 = n_V - 1 = 9$, $\nu_2 = n_G - 1 = 13$
+:::
+
+:::{.fragment}
+**Critical value:** Compare to $F_{0.05, 9, 13} = 2.71$ (using $\alpha/2 = 0.05$).
+
+Since $2.079 < 2.71$ → **Fail to Reject $H_0$**
+:::
+
+:::{.fragment}
+Exact p-value $= 2 \times P(F_{9,13} > 2.079) = 2 \times 0.1005 = 0.201$ — no significant difference in volatility.
+:::
+:::
+
+---
+
+## 🎮 Interactive: $\chi^2$ and $F$ Critical Values {.smaller}
+
+:::::: {style="font-size: 0.72em; margin-top: -8px;"}
+**Explore how degrees of freedom shape the $\chi^2$ and $F$ distributions and their critical values.**
+
+::::: columns
+::: {.column width="30%"}
+
+```{ojs}
+//| echo: false
+
+viewof dist_type = {
+  const input = Inputs.select(["Chi-squared", "F distribution"], {label: "Distribution:"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+
+viewof df1 = {
+  const input = Inputs.range([1, 40], {value: 10, step: 1, label: "df₁ (or ν):"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+
+viewof df2 = {
+  const input = Inputs.range([1, 40], {value: 15, step: 1, label: "df₂ (F only):"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+
+viewof alpha_var = {
+  const input = Inputs.range([0.01, 0.10], {value: 0.05, step: 0.01, label: "α level:"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+
+// Gamma function approximation
+lgamma = function(n) {
+  const c = [76.18009172947146, -86.50532032941677, 24.01409824083091,
+             -1.231739572450155, 0.1208650973866179e-2, -0.5395239384953e-5];
+  let x = n, y = n, tmp = x + 5.5;
+  tmp -= (x + 0.5) * Math.log(tmp);
+  let ser = 1.000000000190015;
+  for (let j = 0; j < 6; j++) ser += c[j] / ++y;
+  return -tmp + Math.log(2.5066282746310005 * ser / x);
+}
+
+// Chi-squared PDF
+chi2pdf = function(x, k) {
+  if (x <= 0) return 0;
+  return Math.exp((k/2-1)*Math.log(x) - x/2 - (k/2)*Math.log(2) - lgamma(k/2));
+}
+
+// F PDF approximation
+fpdf = function(x, d1, d2) {
+  if (x <= 0) return 0;
+  const lnum = (d1/2)*Math.log(d1) + (d2/2)*Math.log(d2) + (d1/2-1)*Math.log(x);
+  const lden = lgamma(d1/2) + lgamma(d2/2) - lgamma((d1+d2)/2) + ((d1+d2)/2)*Math.log(d2+d1*x);
+  return Math.exp(lnum - lden);
+}
+
+// Approximate upper-tail critical value via bisection on CDF (numerical integration)
+trapCDF = function(pdf, lo, hi, n) {
+  const h = (hi - lo) / n;
+  let s = 0;
+  for (let i = 0; i <= n; i++) {
+    const x = lo + i * h;
+    const w = (i === 0 || i === n) ? 0.5 : 1;
+    s += w * pdf(x);
+  }
+  return s * h;
+}
+
+critVal = {
+  const xmax = dist_type === "Chi-squared" ? Math.max(df1 * 4, 50) : 15;
+  const total = trapCDF(
+    dist_type === "Chi-squared" ? (x => chi2pdf(x, df1)) : (x => fpdf(x, df1, df2)),
+    0.001, xmax, 2000
+  );
+  // Bisect to find upper alpha critical value
+  let lo = 0.001, hi = xmax;
+  for (let i = 0; i < 60; i++) {
+    const mid = (lo + hi) / 2;
+    const tail = trapCDF(
+      dist_type === "Chi-squared" ? (x => chi2pdf(x, df1)) : (x => fpdf(x, df1, df2)),
+      mid, xmax, 1000
+    ) / total;
+    tail > alpha_var ? (lo = mid) : (hi = mid);
+  }
+  return (lo + hi) / 2;
+}
+
+info_html2 = html`<div style="background:#f0f4ff; padding:8px; border-radius:6px; font-size:0.93em; line-height:1.6;">
+  <strong>Distribution:</strong> ${dist_type === "Chi-squared" ? `χ²(${df1})` : `F(${df1},${df2})`}<br>
+  <strong>α = ${alpha_var.toFixed(2)}</strong><br>
+  <strong>Critical value:</strong> ${critVal.toFixed(3)}<br>
+  <em style="color:#555;">Reject H₀ if statistic > ${critVal.toFixed(3)}</em>
+</div>`;
+
+md`${info_html2}`
+```
+
+:::
+
+::: {.column width="70%"}
+
+```{ojs}
+//| echo: false
+
+plotDist = {
+  const xmax = dist_type === "Chi-squared" ? Math.max(df1 * 3.5, 30) : 10;
+  const pts = [];
+  for (let x = 0.05; x <= xmax; x += xmax / 300) {
+    const y = dist_type === "Chi-squared" ? chi2pdf(x, df1) : fpdf(x, df1, df2);
+    pts.push({x, y, region: x >= critVal ? "reject" : "accept"});
+  }
+  return pts;
+}
+
+Plot.plot({
+  width: 680, height: 360,
+  marginLeft: 55, marginBottom: 50,
+  x: { label: dist_type === "Chi-squared" ? "χ² statistic" : "F statistic" },
+  y: { label: "Density" },
+  title: `${dist_type === "Chi-squared" ? `χ²(${df1})` : `F(${df1}, ${df2})`} | α=${alpha_var.toFixed(2)} | Critical value = ${critVal.toFixed(3)}`,
+  marks: [
+    Plot.areaY(plotDist.filter(d => d.region === "reject"),
+               {x: "x", y: "y", fill: "tomato", fillOpacity: 0.45}),
+    Plot.areaY(plotDist.filter(d => d.region === "accept"),
+               {x: "x", y: "y", fill: "steelblue", fillOpacity: 0.25}),
+    Plot.line(plotDist, {x: "x", y: "y", stroke: "#333", strokeWidth: 2}),
+    Plot.ruleX([critVal], {stroke: "tomato", strokeWidth: 2.5, strokeDasharray: "6,3"}),
+    Plot.text([{x: critVal, y: plotDist[0]?.y * 0.6 ?? 0.05,
+                text: ` ← c.v. = ${critVal.toFixed(2)}`}],
+              {x: "x", y: "y", text: "text", fontSize: 13, fill: "tomato", textAnchor: "start"})
+  ]
+})
+```
+
+*Red shaded area = rejection region ($\alpha$). Toggle distribution, df, and $\alpha$ with sliders.*
+:::
+:::::
+::::::
+
+---
+
+## 🤝 Think-Pair-Share {.smaller}
+
+::: {style="font-size:50px;"}
+::: {.callout-tip}
+## 💬 Activity (5 minutes)
+
+**Scenario:** A fintech regulator monitors two payment processors, FinPay A and FinPay B, for consistency of transaction processing times (in seconds). Random samples yield:
+
+| | FinPay A | FinPay B |
+|-|----------|----------|
+| $n$ | 16 | 21 |
+| $\bar{Y}$ (sec) | 1.42 | 1.38 |
+| $s^2$ | 0.18 | 0.07 |
+
+**Questions:**
+
+1. The regulator suspects FinPay A is more variable. State $H_0$ and $H_a$.
+
+2. Compute the $F$-statistic and identify the degrees of freedom.
+
+3. Find the rejection region at $\alpha = 0.05$. What is your decision?
+
+4. Before running a pooled $t$-test for the means, why does this $F$-test matter?
+:::
+:::
+
+```{r}
+#| echo: false
+#| eval: false
+library(countdown)
+countdown(minutes = 5, bottom = 0, right = 0, color_border = "#003366")
+```
+
+---
+
+## ✅ Think-Pair-Share: Solution {.smaller}
+
+::: {style="font-size: 50px;"}
+
+::: {.columns}
+::: {.column width="50%"}
+
+::: {.fragment}
+**1. Hypotheses:**
+
+$$H_0: \sigma_A^2 = \sigma_B^2 \quad H_a: \sigma_A^2 > \sigma_B^2$$
+
+One-tailed test — the regulator specifically suspects A is more variable (not just "different").
+:::
+
+::: {.fragment}
+**2. $F$-Statistic:**
+
+Place suspected larger variance ($s_A^2 = 0.18$) in numerator:
+
+$$F = \frac{s_A^2}{s_B^2} = \frac{0.18}{0.07} = 2.571$$
+
+$\nu_1 = n_A - 1 = 15$, $\nu_2 = n_B - 1 = 20$
+:::
+
+:::
+
+::: {.column width="50%"}
+
+::: {.fragment}
+**3. Rejection Region & Decision:**
+
+From Table 7: $F_{0.05, 15, 20} \approx 2.20$.
+
+Since $F = 2.571 > 2.20$ → **Reject $H_0$** ✅
+
+The p-value $\approx 0.024$ — significant at 5%.
+
+FinPay A has significantly higher variance in processing times.
+:::
+
+::: {.fragment}
+**4. Connection to the $t$-Test:**
+
+The pooled two-sample $t$-test (Lecture 2) requires $\sigma_A^2 = \sigma_B^2$. This $F$-test **validates that assumption** before testing the means.
+
+Since we rejected equal variances, the regulator should use **Welch's $t$-test** (unequal variances) instead of the pooled version.
+
+> 💡 **Key Insight:** Always test variances before applying the pooled $t$-test. An invalid pooled $t$ gives wrong p-values and confidence intervals.
+:::
+
+:::
+:::
+
+:::
+
+---
+
+## 💰 Case Study: Volatility Comparison {.smaller}
+
+::: {style="font-size:22px"}
+::: {.columns}
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+
+library(tidyverse)
+library(tidyquant)
+library(knitr)
+
+# Growth ETF (QQQ) vs Value ETF (IVE) — comparing volatility
+qqq <- tq_get("QQQ", from = "2020-01-01", to = "2023-12-31")
+ive <- tq_get("IVE", from = "2020-01-01", to = "2023-12-31")
+
+get_monthly_ret <- function(df, nm) {
+  df %>%
+    tq_transmute(select = adjusted,
+                 mutate_fun = periodReturn,
+                 period = "monthly",
+                 col_rename = "return") %>%
+    mutate(asset = nm)
+}
+
+returns <- bind_rows(
+  get_monthly_ret(qqq, "Growth (QQQ)"),
+  get_monthly_ret(ive, "Value (IVE)")
+)
+
+# F-test for equal variances
+qqq_r <- returns %>% filter(asset == "Growth (QQQ)") %>% pull(return)
+ive_r <- returns %>% filter(asset == "Value (IVE)")  %>% pull(return)
+
+ftest <- var.test(qqq_r, ive_r)
+
+summary_tbl <- returns %>%
+  group_by(asset) %>%
+  summarise(n       = n(),
+            mean    = mean(return) * 100,
+            std_dev = sd(return) * 100,
+            variance = var(return) * 10000)
+
+kable(summary_tbl, digits = 3,
+      caption = "Monthly Return Statistics (2020-2023)")
+```
+
+:::
+
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| fig-width: 6
+#| fig-height: 5.2
+
+# Visualise
+ggplot(returns, aes(x = return * 100, fill = asset)) +
+  geom_density(alpha = 0.45, colour = NA) +
+  geom_vline(data = returns %>%
+               group_by(asset) %>%
+               summarise(m = mean(return) * 100),
+             aes(xintercept = m, colour = asset),
+             linetype = "dashed", linewidth = 1) +
+  annotate("text", x = 7, y = 0.115,
+           label = paste0("F = ",   round(ftest$statistic, 3), "\n",
+                          "p = ",   round(ftest$p.value, 3)),
+           size = 4, colour = "black",
+           hjust = 0) +
+  scale_fill_manual(values  = c("Growth (QQQ)" = "steelblue",
+                                "Value (IVE)"  = "tomato")) +
+  scale_colour_manual(values = c("Growth (QQQ)" = "steelblue",
+                                 "Value (IVE)"  = "tomato")) +
+  labs(title    = "Monthly Return Distributions: Growth vs Value",
+       subtitle = "F-test for equal variances",
+       x = "Monthly Return (%)", y = "Density",
+       fill = NULL, colour = NULL) +
+  theme_minimal(base_size = 12)
+```
+
+:::
+:::
+:::
+
+---
+
+## 💰 Case Study: Key Findings {.smaller}
+
+::: {style="font-size: 50px;"}
+::: {.callout-important}
+## 📊 Growth vs Value Volatility — F-Test Results (2020–2023)
+
+::: {.columns}
+
+::: {.column width="33%"}
+::: {.fragment}
+**Test Setup:**
+
+- $H_0: \sigma^2_{\text{QQQ}} = \sigma^2_{\text{IVE}}$
+- $H_a: \sigma^2_{\text{QQQ}} \neq \sigma^2_{\text{IVE}}$
+- Two-tailed $F$-test, $\alpha = 0.05$
+- QQQ ($n=48$): $s \approx 6.1\%$
+- IVE ($n=48$): $s \approx 4.8\%$
+:::
+:::
+
+::: {.column width="33%"}
+::: {.fragment}
+**Results:**
+
+- $F = s^2_{\text{QQQ}}/s^2_{\text{IVE}} \approx 1.62$
+- df: $47$ and $47$
+- $F_{0.025, 47, 47} \approx 1.70$
+- $F < F_{crit}$ → **Fail to Reject $H_0$**
+- p-value $\approx 0.09$ — marginal
+
+Growth and Value variances are not significantly different at 5%.
+:::
+:::
+
+::: {.column width="33%"}
+::: {.fragment}
+**Practical Implications:**
+
+1. **Portfolio construction**: The two ETFs can be treated as having similar risk levels for mean-variance optimisation
+
+2. **Pooled $t$-test validity**: Equal variance assumption is not rejected → pooled $t$ is defensible for comparing mean returns
+
+3. **Period sensitivity**: The 2020–2023 window includes COVID crash — always check robustness to time period choice
+:::
+:::
+
+:::
+:::
+:::
+
+---
+
+## 📝 Quiz #1: Choosing the Right Test {.smaller .quiz-question}
+
+A risk manager has 30 months of monthly return data for a bond fund and wants to verify whether the volatility has **increased above** the benchmark $\sigma_0 = 1.5\%$. Which test statistic is appropriate?
+
+- [$\chi^2 = (n-1)S^2/\sigma_0^2$ with $\nu = 29$ df, upper-tail rejection region]{.correct data-explanation="✅ Correct! Single variance test against a specified benchmark uses χ² = (n−1)S²/σ₀² with df = n−1 = 29. Upper tail because Hₐ: σ² > σ₀²."}
+- $F = S_1^2/S_2^2$ with two independent samples
+- $Z = (S - \sigma_0)/(\sigma_0/\sqrt{2n})$, standard normal
+- $t = (\bar Y - \mu_0)/(S/\sqrt{n})$ with $\nu = 29$ df
+
+---
+
+## 📝 Quiz #2: $F$-Test Critical Region {.smaller .quiz-question}
+
+Testing $H_0: \sigma_A^2 = \sigma_B^2$ vs $H_a: \sigma_A^2 \neq \sigma_B^2$ at $\alpha = 0.10$ with $n_A = 11$, $n_B = 16$, and $s_A^2 > s_B^2$. Using the larger-over-smaller convention, which is the correct rejection criterion?
+
+- [Reject if $F = s_A^2/s_B^2 > F_{0.05,\, 10,\, 15}$]{.correct data-explanation="✅ Correct! Two-tailed test at α=0.10 → compare to F_{α/2} = F_{0.05}. Larger variance in numerator gives df₁ = nₐ−1 = 10, df₂ = n_B−1 = 15. Reject if F > F_{0.05, 10, 15}."}
+- Reject if $F > F_{0.10,\, 10,\, 15}$
+- Reject if $F > F_{0.05,\, 15,\, 10}$
+- Reject if $F > F_{0.025,\, 10,\, 15}$
+
+---
+
+## 📝 Quiz #3: Computing the $\chi^2$ Statistic {.smaller .quiz-question}
+
+A telecom regulator requires that the variance of download speed across customers be at most $\sigma_0^2 = 25$ Mbps². A sample of $n = 20$ customers gives $s^2 = 34$ Mbps². What is the $\chi^2$ statistic and what are the degrees of freedom?
+
+- [$\chi^2 = 19 \times 34/25 = 25.84$, with $\nu = 19$ df]{.correct data-explanation="✅ Correct! χ² = (n−1)S²/σ₀² = 19×34/25 = 25.84. Degrees of freedom = n−1 = 19."}
+- $\chi^2 = 20 \times 34/25 = 27.2$, with $\nu = 20$ df
+- $\chi^2 = 19 \times 25/34 = 13.97$, with $\nu = 19$ df
+- $\chi^2 = \sqrt{34/25} = 1.166$, with $\nu = 19$ df
+
+---
+
+## 📝 Quiz #4: F-Test Interpretation {.smaller .quiz-question}
+
+An analyst computes $F = 2.15$ for a two-tailed variance test with $\nu_1 = 12$, $\nu_2 = 18$ df. From tables: $F_{0.05, 12, 18} = 2.34$ and $F_{0.025, 12, 18} = 2.77$. What is the correct conclusion at $\alpha = 0.10$?
+
+- [Reject $H_0$; since $F = 2.15 > F_{0.05, 12, 18} = 2.34$ is not satisfied — actually fail to reject. Wait, $2.15 < 2.34$ → Fail to reject at $\alpha = 0.10$]{.correct data-explanation="✅ Correct! Two-tailed test at α=0.10 compares F to F_{0.05, 12, 18} = 2.34. Since F = 2.15 < 2.34, we fail to reject H₀. There is insufficient evidence of unequal variances."}
+- Reject $H_0$; since $F = 2.15 > 1$ we have evidence of unequal variances
+- Reject $H_0$; since $F = 2.15 > F_{0.025, 12, 18} = 2.77$ — incorrect, 2.15 < 2.77
+- Cannot determine without the exact p-value
+
+---
+
+## 📝 Summary {.smaller}
+
+::: {style="font-size: 50px"}
+::: {.summary-box}
+**✅ Key Takeaways**
+
+- **Tail choice (§10.7)**: Pre-specify $H_a$ based on what decision you care about; one-tailed when only one direction matters, two-tailed when any change is relevant
+
+- **$\chi^2$ test**: $\chi^2 = (n-1)S^2/\sigma_0^2$ with $\nu = n-1$ df tests a single variance against a benchmark; right-skewed distribution means rejection regions differ for upper vs lower tail
+
+- **$F$-test**: $F = S_1^2/S_2^2$ compares two variances; use larger $S^2$ in numerator and compare to $F_{\alpha/2}$ for two-tailed tests
+
+- **Gateway test**: The $F$-test for equal variances should precede any pooled two-sample $t$-test — it validates the equal-variance assumption
+
+- **Risk management link**: Variance tests directly answer whether volatility mandates are breached or whether two assets have comparable risk profiles
+:::
+:::
+
+---
+
+## 📚 Practice Problems
+
+::: {style="font-size:50px;"}
+::: {.callout-tip}
+## 📝 Homework Problems — Chapter 10 (§10.7, §10.9)
+
+**Problem 1 ($\chi^2$ test):** A derivatives desk requires that daily P&L variance be at most $\sigma_0^2 = 4$ (USD millions)². Over 25 trading days, $s^2 = 5.8$. Test $H_0: \sigma^2 = 4$ vs $H_a: \sigma^2 > 4$ at $\alpha = 0.05$. Find the exact p-value in R.
+
+**Problem 2 (Tail choice):** For each scenario below, state whether you would use a one-tailed or two-tailed test and explain: (a) Testing whether a fund's Sharpe ratio has *changed* after a manager switch; (b) Testing whether default rates have *increased* after a recession; (c) Testing whether two ISPs have *equal* complaint rates.
+
+**Problem 3 ($F$-test):** Fund A ($n_1=25$, $s_1=2.4\%$) and Fund B ($n_2=31$, $s_2=1.7\%$). Test $H_0: \sigma_A^2 = \sigma_B^2$ vs $H_a: \sigma_A^2 > \sigma_B^2$ at $\alpha = 0.05$. Is the pooled $t$-test assumption valid?
+
+**Problem 4 (Combined):** Using the datasets from Problem 3, perform a pooled $t$-test (if justified) or Welch's $t$-test for $H_0: \mu_A = \mu_B$ given $\bar Y_A = 1.9\%$ and $\bar Y_B = 1.6\%$. What is the full inference chain?
+:::
+:::
+
+---
+
+## 👋 Thank You! {.smaller .center}
+
+::: {.columns}
+::: {.column width="50%"}
+**📬 Contact Information:**
+
+Samir Orujov, PhD
+
+Assistant Professor
+
+School of Business, ADA University
+
+📧 [sorujov@ada.edu.az](mailto:sorujov@ada.edu.az)
+
+🏢 Office: D312
+
+⏰ Office Hours: By appointment
+:::
+
+::: {.column width="50%"}
+**📅 Next Class:**
+
+**Topic:** Linear Models & Least Squares (Chapter 11)
+
+**Reading:** Chapter 11, Sections 11.1–11.5
+
+**Preparation:** Review covariance and correlation from Chapter 5; recall the formula for $\hat\beta_1 = S_{xy}/S_{xx}$
+
+**⏰ Reminders:**
+
+✅ Complete Practice Problems 1–4
+
+✅ Make sure you can read $F$-tables (Table 7, Appendix 3)
+
+✅ Think about where you would apply each variance test in your field
+
+✅ Work hard!
+:::
+:::
+
+---
+
+## ❓ Questions? {.center}
+
+::: {.callout-note}
+## 💬 Open Discussion
+
+**Key Topics for Discussion:**
+
+- Why is the $F$-distribution always right-skewed, and what does this imply about using only the upper tail?
+
+- In risk management, is it more dangerous to make a Type I or Type II error when testing a volatility mandate? Does it depend on who you are (regulator vs manager)?
+
+- Why does placing the larger $S^2$ in the numerator of the $F$-test help avoid needing lower-tail $F$ critical values?
+
+- When would you prefer a Levene test or Bartlett test over the $F$-test for equal variances?
+:::

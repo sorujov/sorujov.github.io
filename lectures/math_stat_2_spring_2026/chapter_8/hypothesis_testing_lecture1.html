@@ -1,0 +1,1725 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="hypothesis_testing_lecture1_files/libs/clipboard/clipboard.min.js"></script>
+<script src="hypothesis_testing_lecture1_files/libs/quarto-html/tabby.min.js"></script>
+<script src="hypothesis_testing_lecture1_files/libs/quarto-html/popper.min.js"></script>
+<script src="hypothesis_testing_lecture1_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="hypothesis_testing_lecture1_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="hypothesis_testing_lecture1_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="hypothesis_testing_lecture1_files/libs/quarto-html/quarto-syntax-highlighting-e41caad1b6b9b62eb3087831f3b4c651.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.25">
+
+  <meta name="author" content="Samir Orujov, PhD">
+  <meta name="dcterms.date" content="2026-03-08">
+  <title>Mathematical Statistics</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="hypothesis_testing_lecture1_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="hypothesis_testing_lecture1_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {  background-color: #f8f8f8; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ef2929; } /* Alert */
+    code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #204a87; } /* Attribute */
+    code span.bn { color: #0000cf; } /* BaseN */
+    code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4e9a06; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #8f5902; font-style: italic; } /* Comment */
+    code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+    code span.dt { color: #204a87; } /* DataType */
+    code span.dv { color: #0000cf; } /* DecVal */
+    code span.er { color: #a40000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #0000cf; } /* Float */
+    code span.fu { color: #204a87; font-weight: bold; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+    code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+    code span.ot { color: #8f5902; } /* Other */
+    code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+    code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+    code span.ss { color: #4e9a06; } /* SpecialString */
+    code span.st { color: #4e9a06; } /* String */
+    code span.va { color: #000000; } /* Variable */
+    code span.vs { color: #4e9a06; } /* VerbatimString */
+    code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="hypothesis_testing_lecture1_files/libs/revealjs/dist/theme/quarto-180c62c9bcf69a0506044dd7f3253a18.css">
+  <link href="hypothesis_testing_lecture1_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="hypothesis_testing_lecture1_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="hypothesis_testing_lecture1_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="hypothesis_testing_lecture1_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="hypothesis_testing_lecture1_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="hypothesis_testing_lecture1_files/libs/revealjs/plugin/reveal-quiz/quiz.css" rel="stylesheet">
+  <link href="hypothesis_testing_lecture1_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script type="module" src="hypothesis_testing_lecture1_files/libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+  <link href="hypothesis_testing_lecture1_files/libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Mathematical Statistics</h1>
+  <p class="subtitle">Fundamentals of Hypothesis Testing</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Samir Orujov, PhD 
+</div>
+        <p class="quarto-title-affiliation">
+            ADA University, School of Business
+          </p>
+        <p class="quarto-title-affiliation">
+            Information Communication Technologies Agency, Statistics Unit
+          </p>
+    </div>
+</div>
+
+  <p class="date">2026-03-08</p>
+</section>
+<section id="learning-objectives" class="slide level2 smaller">
+<h2>🎯 Learning Objectives</h2>
+<div style="font-size:39px;">
+<div class="learning-objectives">
+<p>By the end of this lecture, you will be able to:</p>
+<ul>
+<li><p><strong>Define</strong> null and alternative hypotheses and formulate them for real financial decisions</p></li>
+<li><p><strong>Identify</strong> the components of a statistical test: test statistic, rejection region, and significance level</p></li>
+<li><p><strong>Distinguish</strong> between Type I and Type II errors and quantify their probabilities <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span></p></li>
+<li><p><strong>Interpret</strong> p-values and use them to reach evidence-based conclusions</p></li>
+<li><p><strong>Explain</strong> the relationship between hypothesis tests and confidence intervals</p></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="overview" class="slide level2 smaller">
+<h2>📋 Overview</h2>
+<div style="font-size:50px">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📚 Topics Covered Today</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li class="fragment"><p><strong>Elements of a Test</strong> – H₀, Hₐ, test statistic, rejection region</p></li>
+<li class="fragment"><p><strong>Type I &amp; II Errors</strong> – <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\beta\)</span>, and the trade-off between them</p></li>
+<li class="fragment"><p><strong>Large-Sample Z Tests</strong> – means, proportions, differences</p></li>
+<li class="fragment"><p><strong>p-Values</strong> – attained significance and reporting results</p></li>
+<li class="fragment"><p><strong>CI Connection</strong> – duality between tests and confidence intervals</p></li>
+<li class="fragment"><p><strong>Case Study</strong> – Testing whether BIST100 daily returns have zero mean</p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="why-hypothesis-testing" class="slide level2 smaller">
+<h2>📖 Why Hypothesis Testing?</h2>
+<div style="font-size:40px;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>🎯 Motivation</strong></p>
+</div>
+<div class="callout-content">
+<p>Statistical decisions drive billions of dollars in financial markets every day.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="fragment">
+<p><strong>Finance Applications:</strong></p>
+<ul>
+<li>Is a trading strategy’s mean return significantly &gt; 0?</li>
+<li>Has volatility changed after a market shock?</li>
+<li>Do two asset classes have equal expected returns?</li>
+<li>Is a fund manager’s alpha statistically significant?</li>
+</ul>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment">
+<p><strong>Regulatory Applications:</strong></p>
+<ul>
+<li>Does a telecom operator meet QoS thresholds?</li>
+<li>Has consumer complaint rates changed after regulation?</li>
+<li>Is price inflation statistically above the target band?</li>
+<li>Are default rates equal across credit segments?</li>
+</ul>
+</div>
+</div></div>
+</div>
+</div>
+</div>
+<p><strong>Key Question:</strong> How do we use sample data to make principled yes/no decisions about population parameters?</p>
+</div>
+</section>
+<section id="the-logic-of-hypothesis-testing" class="slide level2 smaller">
+<h2>📖 The Logic of Hypothesis Testing</h2>
+<div style="font-size:38px">
+<p>Statistical hypothesis testing follows a <strong>proof by contradiction</strong> logic:</p>
+<div class="fragment">
+<ol type="1">
+<li>Assume the <strong>null hypothesis</strong> <span class="math inline">\(H_0\)</span> is true (status quo / skeptical position)</li>
+</ol>
+</div>
+<div class="fragment">
+<ol start="2" type="1">
+<li>Collect data and compute a <strong>test statistic</strong></li>
+</ol>
+</div>
+<div class="fragment">
+<ol start="3" type="1">
+<li>Ask: <em>“How likely is this data if <span class="math inline">\(H_0\)</span> were true?”</em></li>
+</ol>
+</div>
+<div class="fragment">
+<ol start="4" type="1">
+<li>If the data is <strong>very unlikely under</strong> <span class="math inline">\(H_0\)</span> → <strong>Reject</strong> <span class="math inline">\(H_0\)</span> in favour of <span class="math inline">\(H_a\)</span></li>
+</ol>
+</div>
+<div class="fragment">
+<ol start="5" type="1">
+<li>If the data is <strong>plausible under</strong> <span class="math inline">\(H_0\)</span> → <strong>Fail to reject</strong> <span class="math inline">\(H_0\)</span></li>
+</ol>
+<blockquote>
+<p>⚠️ Failing to reject ≠ proving <span class="math inline">\(H_0\)</span> true!</p>
+</blockquote>
+</div>
+</div>
+</section>
+<section id="definition-null-alternative-hypotheses" class="slide level2 smaller">
+<h2>📝 Definition: Null &amp; Alternative Hypotheses</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📝 Definition 10.1 – Hypotheses</strong></p>
+</div>
+<div class="callout-content">
+<p>The <strong>null hypothesis</strong> <span class="math inline">\(H_0\)</span> is a specific statement about a population parameter that we assume true unless evidence convinces us otherwise.</p>
+<p>The <strong>alternative (research) hypothesis</strong> <span class="math inline">\(H_a\)</span> is what we seek evidence <em>for</em>.</p>
+</div>
+</div>
+</div>
+<div style="font-size:41px">
+<p><strong>Three forms of <span class="math inline">\(H_a\)</span>:</strong></p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 19%">
+<col style="width: 61%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Form</th>
+<th>Financial Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Two-tailed</td>
+<td><span class="math inline">\(H_a: \mu \neq \mu_0\)</span></td>
+<td>Has average daily return changed?</td>
+</tr>
+<tr class="even">
+<td>Left-tailed</td>
+<td><span class="math inline">\(H_a: \mu &lt; \mu_0\)</span></td>
+<td>Has return <em>fallen</em> below benchmark?</td>
+</tr>
+<tr class="odd">
+<td>Right-tailed</td>
+<td><span class="math inline">\(H_a: \mu &gt; \mu_0\)</span></td>
+<td>Is strategy return <em>above</em> zero?</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Convention:</strong> <span class="math inline">\(H_0\)</span> always contains the equality (=, ≤, or ≥)</p>
+</div>
+</section>
+<section id="definition-test-statistic-rejection-region" class="slide level2 smaller">
+<h2>📝 Definition: Test Statistic &amp; Rejection Region</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📝 Definition 10.2 – Test Components</strong></p>
+</div>
+<div class="callout-content">
+<p>A <strong>test statistic</strong> is a function of the sample data used to decide between <span class="math inline">\(H_0\)</span> and <span class="math inline">\(H_a\)</span>.</p>
+<p>The <strong>rejection region (RR)</strong> is the set of values of the test statistic for which <span class="math inline">\(H_0\)</span> is rejected.</p>
+</div>
+</div>
+</div>
+<div style="font-size:32px">
+<div class="fragment">
+<p><strong>Decision Rule:</strong></p>
+<p><span class="math display">\[\text{If test statistic} \in RR \Rightarrow \text{Reject } H_0\]</span></p>
+<p><span class="math display">\[\text{If test statistic} \notin RR \Rightarrow \text{Fail to Reject } H_0\]</span></p>
+</div>
+<div class="fragment">
+<p><strong>Example:</strong> Testing <span class="math inline">\(H_0: \mu = 0\)</span> (zero daily return) vs <span class="math inline">\(H_a: \mu &gt; 0\)</span></p>
+<p><span class="math display">\[Z = \frac{\bar{Y} - 0}{\sigma/\sqrt{n}}, \quad RR = \{z &gt; z_\alpha\}\]</span></p>
+</div>
+</div>
+</section>
+<section id="type-i-and-type-ii-errors" class="slide level2 smaller">
+<h2>📝 Type I and Type II Errors</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>⚠️ The Two Ways to Be Wrong</strong></p>
+</div>
+<div class="callout-content">
+<table class="caption-top">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 45%">
+<col style="width: 48%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><span class="math inline">\(H_0\)</span> is True</th>
+<th><span class="math inline">\(H_0\)</span> is False</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Reject</strong> <span class="math inline">\(H_0\)</span></td>
+<td><strong>Type I Error</strong> (false positive)</td>
+<td>✅ Correct</td>
+</tr>
+<tr class="even">
+<td><strong>Fail to Reject</strong> <span class="math inline">\(H_0\)</span></td>
+<td>✅ Correct</td>
+<td><strong>Type II Error</strong> (false negative)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div style="font-size:35px">
+<p><span class="math display">\[\alpha = P(\text{Type I Error}) = P(\text{Reject } H_0 \mid H_0 \text{ true})\]</span></p>
+<p><span class="math display">\[\beta = P(\text{Type II Error}) = P(\text{Fail to reject } H_0 \mid H_0 \text{ false})\]</span></p>
+<div class="fragment">
+<p><strong>Financial interpretation:</strong></p>
+<ul>
+<li><strong>Type I</strong> – Conclude a strategy works when it doesn’t → lose money</li>
+<li><strong>Type II</strong> – Miss a profitable strategy that truly works → opportunity cost</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="example-1-voting-probability-test" class="slide level2 smaller">
+<h2>📌 Example 1: Voting Probability Test</h2>
+<div style="font-size:35px;">
+<p><strong>Problem:</strong> A candidate claims she will receive more than 50% of votes (<span class="math inline">\(p &gt; 0.5\)</span>). We survey <span class="math inline">\(n = 25\)</span> voters.</p>
+<p><span class="math inline">\(H_0: p = 0.5\)</span> vs <span class="math inline">\(H_a: p &lt; 0.5\)</span>. Use <span class="math inline">\(Y\)</span> = number of supporters. <span class="math inline">\(RR = \{y \leq 2\}\)</span>.</p>
+<p><strong>Computing <span class="math inline">\(\alpha\)</span>:</strong></p>
+<p><span class="math display">\[\alpha = P(Y \leq 2 \mid p = 0.5) = \sum_{y=0}^{2} \binom{25}{y}(0.5)^{25}\]</span></p>
+<p><span class="math display">\[= \binom{25}{0}(0.5)^{25} + \binom{25}{1}(0.5)^{25} + \binom{25}{2}(0.5)^{25} \approx 0.0000 + 0.0007 + 0.0063 \approx 0.007\]</span></p>
+</div>
+</section>
+<section id="example-1-result-interpretation" class="slide level2 smaller">
+<h2>📌 Example 1: Result &amp; Interpretation</h2>
+<div style="font-size:50px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="fragment">
+<p><strong><span class="math inline">\(\alpha \approx 0.007\)</span></strong> → Only 0.7% chance of falsely rejecting a candidate with true <span class="math inline">\(p = 0.5\)</span></p>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment">
+<p><strong>Finance analogy:</strong> Testing if a fund’s win-rate exceeds 50%. Low <span class="math inline">\(\alpha\)</span> = conservative threshold for claiming skill.</p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="example-2-the-alpha-beta-trade-off" class="slide level2 smaller">
+<h2>📌 Example 2: The <span class="math inline">\(\alpha\)</span>-<span class="math inline">\(\beta\)</span> Trade-off</h2>
+<p><strong>Enlarging the rejection region from <span class="math inline">\(RR = \{y \leq 2\}\)</span> to <span class="math inline">\(RR^* = \{y \leq 5\}\)</span>:</strong></p>
+<div style="font-size:41px">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th><span class="math inline">\(RR = \{y \leq 2\}\)</span></th>
+<th><span class="math inline">\(RR^* = \{y \leq 5\}\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\alpha\)</span></td>
+<td>0.007</td>
+<td>0.054</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\beta\)</span> (at <span class="math inline">\(p = 0.3\)</span>)</td>
+<td>0.873</td>
+<td>0.420</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p><strong>Key insight (Wackerly §10.2):</strong></p>
+<p><span class="math display">\[\text{Enlarging RR} \Rightarrow \alpha \uparrow, \quad \beta \downarrow\]</span></p>
+<p><span class="math display">\[\text{Shrinking RR} \Rightarrow \alpha \downarrow, \quad \beta \uparrow\]</span></p>
+<p><strong>There is no free lunch!</strong> To reduce both, you must <strong>increase sample size</strong> <span class="math inline">\(n\)</span>.</p>
+</div>
+</div>
+</section>
+<section id="large-sample-z-test-for-mu" class="slide level2 smaller">
+<h2>🧮 Large-Sample Z Test for <span class="math inline">\(\mu\)</span></h2>
+<div style="font-size:39px;">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Theorem 10.1 – One-Sample Z Test</strong></p>
+</div>
+<div class="callout-content">
+<p>For large <span class="math inline">\(n\)</span>, testing <span class="math inline">\(H_0: \mu = \mu_0\)</span>:</p>
+<p><span class="math display">\[Z = \frac{\bar{Y} - \mu_0}{\sigma/\sqrt{n}} \approx N(0,1) \text{ under } H_0\]</span></p>
+<p><strong>Rejection regions</strong> at significance level <span class="math inline">\(\alpha\)</span>:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(H_a\)</span></th>
+<th>Rejection Region</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\mu &gt; \mu_0\)</span></td>
+<td><span class="math inline">\(z &gt; z_\alpha\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\mu &lt; \mu_0\)</span></td>
+<td><span class="math inline">\(z &lt; -z_\alpha\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\mu \neq \mu_0\)</span></td>
+<td><span class="math inline">\(\|z\| &gt; z_{\alpha/2}\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p><strong>Intuition:</strong> <span class="math inline">\(Z\)</span> measures how many standard errors <span class="math inline">\(\bar{Y}\)</span> is from <span class="math inline">\(\mu_0\)</span>. Extreme values are evidence against <span class="math inline">\(H_0\)</span>.</p>
+</div>
+</section>
+<section id="large-sample-z-test-for-proportion" class="slide level2 smaller">
+<h2>🧮 Large-Sample Z Test for Proportion</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Test for <span class="math inline">\(p\)</span> (proportion)</strong></p>
+</div>
+<div class="callout-content">
+<p>For large <span class="math inline">\(n\)</span>, testing <span class="math inline">\(H_0: p = p_0\)</span>:</p>
+<p><span class="math display">\[Z = \frac{\hat{p} - p_0}{\sqrt{p_0(1-p_0)/n}} \approx N(0,1) \text{ under } H_0\]</span></p>
+</div>
+</div>
+</div>
+<div style="font-size:34px">
+<div class="fragment">
+<p><strong>Two-Sample Test for <span class="math inline">\(\mu_1 - \mu_2\)</span>:</strong></p>
+<p><span class="math display">\[Z = \frac{(\bar{Y}_1 - \bar{Y}_2) - D_0}{\sqrt{\sigma_1^2/n_1 + \sigma_2^2/n_2}}\]</span></p>
+<p>where <span class="math inline">\(D_0\)</span> is the hypothesized difference (often 0).</p>
+</div>
+<div class="fragment">
+<p><strong>Financial use:</strong> Are mean returns for large-cap and small-cap stocks equal?</p>
+<p><span class="math display">\[H_0: \mu_{\text{large}} - \mu_{\text{small}} = 0\]</span></p>
+</div>
+</div>
+</section>
+<section id="p-values-attained-significance" class="slide level2 smaller">
+<h2>📖 p-Values: Attained Significance</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📝 Definition 10.3 – p-Value</strong></p>
+</div>
+<div class="callout-content">
+<p>The <strong>p-value</strong> (attained significance level) is the <strong>smallest</strong> <span class="math inline">\(\alpha\)</span> at which <span class="math inline">\(H_0\)</span> would be rejected given the observed data.</p>
+<p><span class="math display">\[p\text{-value} = P(\text{observed test statistic or more extreme} \mid H_0 \text{ true})\]</span></p>
+</div>
+</div>
+</div>
+<div style="font-size:44px">
+<div class="fragment">
+<p><strong>Computing p-values:</strong></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(H_a\)</span></th>
+<th>p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\mu &gt; \mu_0\)</span></td>
+<td><span class="math inline">\(P(Z &gt; z_{\text{obs}})\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\mu &lt; \mu_0\)</span></td>
+<td><span class="math inline">\(P(Z &lt; z_{\text{obs}})\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\mu \neq \mu_0\)</span></td>
+<td><span class="math inline">\(2 \cdot P(Z &gt; \|z_{\text{obs}}\|)\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fragment">
+<p><strong>Decision:</strong> Reject <span class="math inline">\(H_0\)</span> if <span class="math inline">\(p\text{-value} &lt; \alpha\)</span> (e.g., 0.05 or 0.01)</p>
+</div>
+</div>
+</section>
+<section id="interpreting-p-values" class="slide level2 smaller">
+<h2>📖 Interpreting p-Values</h2>
+<div style="font-size:34px">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>⚠️ What p-values are NOT</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>The probability that <span class="math inline">\(H_0\)</span> is true</li>
+<li>The probability of making an error</li>
+<li>A measure of practical significance</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><strong>Common thresholds:</strong></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>p-value</th>
+<th>Evidence against <span class="math inline">\(H_0\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(&lt; 0.001\)</span></td>
+<td>Very strong</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(0.001 – 0.01\)</span></td>
+<td>Strong</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(0.01 – 0.05\)</span></td>
+<td>Moderate</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(0.05 – 0.10\)</span></td>
+<td>Weak / suggestive</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(&gt; 0.10\)</span></td>
+<td>Insufficient</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="tests-confidence-intervals" class="slide level2 smaller">
+<h2>🔗 Tests ↔︎ Confidence Intervals</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Theorem 10.2 – Duality (Wackerly §10.5)</strong></p>
+</div>
+<div class="callout-content">
+<p>A two-tailed test at level <span class="math inline">\(\alpha\)</span> <strong>rejects</strong> <span class="math inline">\(H_0: \mu = \mu_0\)</span> if and only if <span class="math inline">\(\mu_0\)</span> <strong>falls outside</strong> the <span class="math inline">\((1-\alpha)\)</span> confidence interval for <span class="math inline">\(\mu\)</span>.</p>
+</div>
+</div>
+</div>
+<div style="font-size:49px">
+<div class="fragment">
+<p><strong>Example:</strong> 95% CI for daily return: <span class="math inline">\((0.003, \; 0.021)\)</span></p>
+<ul>
+<li><strong>Test <span class="math inline">\(H_0: \mu = 0\)</span></strong> at <span class="math inline">\(\alpha = 0.05\)</span>: 0 is outside CI → <strong>Reject <span class="math inline">\(H_0\)</span></strong> ✅</li>
+<li><strong>Test <span class="math inline">\(H_0: \mu = 0.01\)</span></strong> at <span class="math inline">\(\alpha = 0.05\)</span>: 0.01 is inside CI → <strong>Fail to Reject</strong> ✅</li>
+</ul>
+</div>
+<div class="fragment">
+<p><strong>Advantage of CIs over tests:</strong> CIs communicate <em>magnitude</em> of effect, not just reject/not reject.</p>
+</div>
+</div>
+</section>
+<section id="interactive-visualising-type-i-type-ii-errors" class="slide level2 smaller">
+<h2>🎮 Interactive: Visualising Type I &amp; Type II Errors</h2>
+<div style="font-size: 0.72em; margin-top: -8px;">
+<p><strong>Adjust <span class="math inline">\(\mu_a\)</span> (true mean) and significance <span class="math inline">\(\alpha\)</span> to see the error probabilities change.</strong></p>
+<div class="columns">
+<div class="column" style="width:32%;">
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="448" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 447;"><span id="cb1-448"><a href=""></a>viewof alpha_val <span class="op">=</span> {</span>
+<span id="cb1-449"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.01</span><span class="op">,</span> <span class="fl">0.20</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="fl">0.05</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"α (sig. level):"</span>})<span class="op">;</span></span>
+<span id="cb1-450"><a href=""></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
+<span id="cb1-451"><a href=""></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
+<span id="cb1-452"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb1-453"><a href=""></a>}</span>
+<span id="cb1-454"><a href=""></a></span>
+<span id="cb1-455"><a href=""></a>viewof mu_a <span class="op">=</span> {</span>
+<span id="cb1-456"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="fl">3.0</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="fl">1.5</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"True mean μₐ (σ=1, n=25):"</span>})<span class="op">;</span></span>
+<span id="cb1-457"><a href=""></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
+<span id="cb1-458"><a href=""></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
+<span id="cb1-459"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb1-460"><a href=""></a>}</span>
+<span id="cb1-461"><a href=""></a></span>
+<span id="cb1-462"><a href=""></a><span class="co">// Normal CDF approximation</span></span>
+<span id="cb1-463"><a href=""></a>normalCDF <span class="op">=</span> <span class="kw">function</span>(x) {</span>
+<span id="cb1-464"><a href=""></a>  <span class="kw">const</span> t <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> <span class="fl">0.2316419</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span>(x))<span class="op">;</span></span>
+<span id="cb1-465"><a href=""></a>  <span class="kw">const</span> poly <span class="op">=</span> t <span class="op">*</span> (<span class="fl">0.319381530</span> <span class="op">+</span> t <span class="op">*</span> (<span class="op">-</span><span class="fl">0.356563782</span> <span class="op">+</span> t <span class="op">*</span> (<span class="fl">1.781477937</span> <span class="op">+</span> t <span class="op">*</span> (<span class="op">-</span><span class="fl">1.821255978</span> <span class="op">+</span> t <span class="op">*</span> <span class="fl">1.330274429</span>))))<span class="op">;</span></span>
+<span id="cb1-466"><a href=""></a>  <span class="kw">const</span> pdf <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(<span class="op">-</span><span class="fl">0.5</span> <span class="op">*</span> x <span class="op">*</span> x) <span class="op">/</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(<span class="dv">2</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span>)<span class="op">;</span></span>
+<span id="cb1-467"><a href=""></a>  <span class="kw">const</span> result <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> pdf <span class="op">*</span> poly<span class="op">;</span></span>
+<span id="cb1-468"><a href=""></a>  <span class="cf">return</span> x <span class="op">&gt;=</span> <span class="dv">0</span> <span class="op">?</span> result <span class="op">:</span> <span class="dv">1</span> <span class="op">-</span> result<span class="op">;</span></span>
+<span id="cb1-469"><a href=""></a>}</span>
+<span id="cb1-470"><a href=""></a></span>
+<span id="cb1-471"><a href=""></a>normalPDF <span class="op">=</span> <span class="kw">function</span>(x<span class="op">,</span> mu<span class="op">,</span> sigma) {</span>
+<span id="cb1-472"><a href=""></a>  <span class="cf">return</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(<span class="op">-</span><span class="fl">0.5</span> <span class="op">*</span> ((x <span class="op">-</span> mu) <span class="op">/</span> sigma) <span class="op">**</span> <span class="dv">2</span>) <span class="op">/</span> (sigma <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(<span class="dv">2</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span>))<span class="op">;</span></span>
+<span id="cb1-473"><a href=""></a>}</span>
+<span id="cb1-474"><a href=""></a></span>
+<span id="cb1-475"><a href=""></a>z_crit <span class="op">=</span> {</span>
+<span id="cb1-476"><a href=""></a>  <span class="co">// Inverse normal approximation for upper tail</span></span>
+<span id="cb1-477"><a href=""></a>  <span class="kw">const</span> p <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> alpha_val<span class="op">;</span></span>
+<span id="cb1-478"><a href=""></a>  <span class="kw">const</span> a <span class="op">=</span> [<span class="fl">2.515517</span><span class="op">,</span> <span class="fl">0.802853</span><span class="op">,</span> <span class="fl">0.010328</span>]<span class="op">;</span></span>
+<span id="cb1-479"><a href=""></a>  <span class="kw">const</span> b <span class="op">=</span> [<span class="fl">1.432788</span><span class="op">,</span> <span class="fl">0.189269</span><span class="op">,</span> <span class="fl">0.001308</span>]<span class="op">;</span></span>
+<span id="cb1-480"><a href=""></a>  <span class="kw">const</span> t <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(<span class="op">-</span><span class="dv">2</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(<span class="dv">1</span> <span class="op">-</span> p))<span class="op">;</span></span>
+<span id="cb1-481"><a href=""></a>  <span class="cf">return</span> t <span class="op">-</span> (a[<span class="dv">0</span>] <span class="op">+</span> a[<span class="dv">1</span>]<span class="op">*</span>t <span class="op">+</span> a[<span class="dv">2</span>]<span class="op">*</span>t<span class="op">*</span>t) <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> b[<span class="dv">0</span>]<span class="op">*</span>t <span class="op">+</span> b[<span class="dv">1</span>]<span class="op">*</span>t<span class="op">*</span>t <span class="op">+</span> b[<span class="dv">2</span>]<span class="op">*</span>t<span class="op">*</span>t<span class="op">*</span>t)<span class="op">;</span></span>
+<span id="cb1-482"><a href=""></a>}</span>
+<span id="cb1-483"><a href=""></a></span>
+<span id="cb1-484"><a href=""></a><span class="co">// Power = P(Z &gt; z_crit | mu = mu_a, n=25)</span></span>
+<span id="cb1-485"><a href=""></a>sigma_xbar <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(<span class="dv">25</span>)<span class="op">;</span></span>
+<span id="cb1-486"><a href=""></a>beta_val <span class="op">=</span> <span class="fu">normalCDF</span>((z_crit <span class="op">-</span> mu_a <span class="op">/</span> sigma_xbar))<span class="op">;</span></span>
+<span id="cb1-487"><a href=""></a>power_val <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> beta_val<span class="op">;</span></span>
+<span id="cb1-488"><a href=""></a></span>
+<span id="cb1-489"><a href=""></a>err_html <span class="op">=</span> <span class="fu">html</span><span class="vs">`&lt;div style="background:#f8f9fa; padding:8px; border-radius:6px; font-size:0.95em;"&gt;</span></span>
+<span id="cb1-490"><a href=""></a><span class="vs">  &lt;strong&gt;Critical value:&lt;/strong&gt; z* = </span><span class="sc">${</span>z_crit<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="vs">&lt;br&gt;</span></span>
+<span id="cb1-491"><a href=""></a><span class="vs">  &lt;strong&gt;α (Type I):&lt;/strong&gt; </span><span class="sc">${</span>(alpha_val <span class="op">*</span> <span class="dv">100</span>)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">%&lt;br&gt;</span></span>
+<span id="cb1-492"><a href=""></a><span class="vs">  &lt;strong&gt;β (Type II):&lt;/strong&gt; </span><span class="sc">${</span>(beta_val <span class="op">*</span> <span class="dv">100</span>)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">%&lt;br&gt;</span></span>
+<span id="cb1-493"><a href=""></a><span class="vs">  &lt;strong&gt;Power (1-β):&lt;/strong&gt; </span><span class="sc">${</span>(power_val <span class="op">*</span> <span class="dv">100</span>)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">%</span></span>
+<span id="cb1-494"><a href=""></a><span class="vs">&lt;/div&gt;`</span><span class="op">;</span></span>
+<span id="cb1-495"><a href=""></a></span>
+<span id="cb1-496"><a href=""></a><span class="fu">md</span><span class="vs">`</span><span class="sc">${</span>err_html<span class="sc">}</span><span class="vs">`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-4" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-5" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-6" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-7" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-8" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-9" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-10" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:68%;">
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="506" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 505;"><span id="cb2-506"><a href=""></a>plotData <span class="op">=</span> {</span>
+<span id="cb2-507"><a href=""></a>  <span class="kw">const</span> pts <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb2-508"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> x <span class="op">=</span> <span class="op">-</span><span class="dv">3</span><span class="op">;</span> x <span class="op">&lt;=</span> <span class="dv">6</span><span class="op">;</span> x <span class="op">+=</span> <span class="fl">0.04</span>) {</span>
+<span id="cb2-509"><a href=""></a>    pts<span class="op">.</span><span class="fu">push</span>({</span>
+<span id="cb2-510"><a href=""></a>      x<span class="op">,</span></span>
+<span id="cb2-511"><a href=""></a>      <span class="dt">h0</span><span class="op">:</span> <span class="fu">normalPDF</span>(x<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> sigma_xbar)<span class="op">,</span></span>
+<span id="cb2-512"><a href=""></a>      <span class="dt">ha</span><span class="op">:</span> <span class="fu">normalPDF</span>(x<span class="op">,</span> mu_a<span class="op">,</span> sigma_xbar)</span>
+<span id="cb2-513"><a href=""></a>    })<span class="op">;</span></span>
+<span id="cb2-514"><a href=""></a>  }</span>
+<span id="cb2-515"><a href=""></a>  <span class="cf">return</span> pts<span class="op">;</span></span>
+<span id="cb2-516"><a href=""></a>}</span>
+<span id="cb2-517"><a href=""></a></span>
+<span id="cb2-518"><a href=""></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb2-519"><a href=""></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">700</span><span class="op">,</span> <span class="dt">height</span><span class="op">:</span> <span class="dv">360</span><span class="op">,</span></span>
+<span id="cb2-520"><a href=""></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span> <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">45</span><span class="op">,</span></span>
+<span id="cb2-521"><a href=""></a>  <span class="dt">x</span><span class="op">:</span> { <span class="dt">domain</span><span class="op">:</span> [<span class="op">-</span><span class="dv">3</span><span class="op">,</span> <span class="dv">6</span>]<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Sample mean x̄ (σ=1, n=25)"</span> }<span class="op">,</span></span>
+<span id="cb2-522"><a href=""></a>  <span class="dt">y</span><span class="op">:</span> { <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">6</span>]<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Density"</span> }<span class="op">,</span></span>
+<span id="cb2-523"><a href=""></a>  <span class="dt">title</span><span class="op">:</span> <span class="vs">`H₀: μ=0 vs Hₐ: μ=</span><span class="sc">${</span>mu_a<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs"> | α=</span><span class="sc">${</span>(alpha_val<span class="op">*</span><span class="dv">100</span>)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">0</span>)<span class="sc">}</span><span class="vs">%`</span><span class="op">,</span></span>
+<span id="cb2-524"><a href=""></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb2-525"><a href=""></a>    Plot<span class="op">.</span><span class="fu">line</span>(plotData<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"h0"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"steelblue"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="fl">2.5</span>})<span class="op">,</span></span>
+<span id="cb2-526"><a href=""></a>    Plot<span class="op">.</span><span class="fu">line</span>(plotData<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"ha"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"tomato"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="fl">2.5</span>})<span class="op">,</span></span>
+<span id="cb2-527"><a href=""></a>    Plot<span class="op">.</span><span class="fu">areaY</span>(plotData<span class="op">.</span><span class="fu">filter</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">x</span> <span class="op">&gt;=</span> z_crit <span class="op">*</span> sigma_xbar)<span class="op">,</span></span>
+<span id="cb2-528"><a href=""></a>               {<span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"h0"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"steelblue"</span><span class="op">,</span> <span class="dt">fillOpacity</span><span class="op">:</span> <span class="fl">0.3</span>})<span class="op">,</span></span>
+<span id="cb2-529"><a href=""></a>    Plot<span class="op">.</span><span class="fu">areaY</span>(plotData<span class="op">.</span><span class="fu">filter</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">x</span> <span class="op">&lt;</span> z_crit <span class="op">*</span> sigma_xbar)<span class="op">,</span></span>
+<span id="cb2-530"><a href=""></a>               {<span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"ha"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"tomato"</span><span class="op">,</span> <span class="dt">fillOpacity</span><span class="op">:</span> <span class="fl">0.3</span>})<span class="op">,</span></span>
+<span id="cb2-531"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([z_crit <span class="op">*</span> sigma_xbar]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"black"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"6,3"</span>})<span class="op">,</span></span>
+<span id="cb2-532"><a href=""></a>    Plot<span class="op">.</span><span class="fu">text</span>([{<span class="dt">x</span><span class="op">:</span> z_crit <span class="op">*</span> sigma_xbar <span class="op">+</span> <span class="fl">0.1</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="fl">5.5</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> <span class="st">"← RR boundary"</span>}]<span class="op">,</span></span>
+<span id="cb2-533"><a href=""></a>              {<span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> <span class="st">"text"</span><span class="op">,</span> <span class="dt">fontSize</span><span class="op">:</span> <span class="dv">13</span>})</span>
+<span id="cb2-534"><a href=""></a>  ]</span>
+<span id="cb2-535"><a href=""></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-2" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</div>
+<p><em>Blue shaded = α (Type I). Red shaded = β (Type II). Dashed line = critical value.</em></p>
+</div></div>
+</div>
+</section>
+<section id="think-pair-share" class="slide level2 smaller">
+<h2>🤝 Think-Pair-Share</h2>
+<div style="font-size:42px;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>💬 Activity (4 minutes)</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Scenario:</strong> An investment bank claims their algorithmic trading strategy achieves a Sharpe ratio of <strong>at least 1.0</strong>. A risk auditor tests this claim using 252 trading days of data and obtains:</p>
+<p><span class="math display">\[\bar{Y} = 0.87, \quad s = 0.42, \quad n = 252\]</span></p>
+<p><strong>Questions:</strong></p>
+<ol type="1">
+<li><p>Formulate the appropriate <span class="math inline">\(H_0\)</span> and <span class="math inline">\(H_a\)</span></p></li>
+<li><p>Compute the test statistic <span class="math inline">\(Z\)</span></p></li>
+<li><p>Find the p-value (one-tailed test)</p></li>
+<li><p>What is your conclusion at <span class="math inline">\(\alpha = 0.05\)</span>?</p></li>
+<li><p>What Type II error could occur here, and what are its consequences?</p></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="think-pair-share-solution" class="slide level2 smaller">
+<h2>✅ Think-Pair-Share: Solution</h2>
+<div style="font-size:47px;">
+<div class="fragment">
+<p><strong>1. Hypotheses:</strong></p>
+<p>The auditor is testing whether the Sharpe ratio is <em>below</em> the claimed 1.0:</p>
+<p><span class="math display">\[H_0: \mu_S \geq 1.0 \qquad H_a: \mu_S &lt; 1.0\]</span></p>
+</div>
+<div class="fragment">
+<p><strong>2. Test Statistic:</strong></p>
+<p><span class="math display">\[Z = \frac{\bar{Y} - \mu_0}{s/\sqrt{n}} = \frac{0.87 - 1.0}{0.42/\sqrt{252}} = \frac{-0.13}{0.02646} \approx -4.91\]</span></p>
+</div>
+</div>
+</section>
+<section id="think-pair-share-solution-continued" class="slide level2 smaller">
+<h2>✅ Think-Pair-Share: Solution (Continued)</h2>
+<div style="font-size:37px;">
+<div class="fragment">
+<p><strong>3. p-Value &amp; Decision:</strong></p>
+<p><span class="math display">\[p\text{-value} = P(Z &lt; -4.91) \approx 0.0000046\]</span></p>
+<p>Since <span class="math inline">\(p \ll \alpha = 0.05\)</span>, we <strong>reject</strong> <span class="math inline">\(H_0\)</span>. Strong evidence the true Sharpe ratio is below 1.0.</p>
+</div>
+<div class="fragment">
+<p><strong>4. Financial Interpretation:</strong></p>
+<p>The bank’s claimed Sharpe ratio of 1.0 is statistically refuted by the 252-day audit data. The strategy is significantly underperforming its advertised risk-adjusted return — a potential misrepresentation to investors.</p>
+<blockquote>
+<p>💡 <strong>Key Insight:</strong> A very large <span class="math inline">\(|Z|\)</span> here is driven by the large <span class="math inline">\(n = 252\)</span>. Even a modest gap (0.13) becomes highly significant with a full year of daily data.</p>
+</blockquote>
+</div>
+</div>
+</section>
+<section id="case-study-testing-zero-mean-return" class="slide level2 smaller">
+<h2>💰 Case Study: Testing Zero Mean Return</h2>
+<div style="font-size:22px">
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb3-2"><a href=""></a><span class="fu">library</span>(tidyquant)</span>
+<span id="cb3-3"><a href=""></a><span class="fu">library</span>(knitr)</span>
+<span id="cb3-4"><a href=""></a></span>
+<span id="cb3-5"><a href=""></a><span class="co"># Download BIST100 proxy data (Turkey ETF) </span></span>
+<span id="cb3-6"><a href=""></a><span class="co"># Using SPY as demonstration</span></span>
+<span id="cb3-7"><a href=""></a>spy <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">"SPY"</span>, <span class="at">from =</span> <span class="st">"2022-01-01"</span>, <span class="at">to =</span> <span class="st">"2023-12-31"</span>)</span>
+<span id="cb3-8"><a href=""></a></span>
+<span id="cb3-9"><a href=""></a>returns <span class="ot">&lt;-</span> spy <span class="sc">%&gt;%</span></span>
+<span id="cb3-10"><a href=""></a>  <span class="fu">tq_transmute</span>(<span class="at">select =</span> adjusted,</span>
+<span id="cb3-11"><a href=""></a>               <span class="at">mutate_fun =</span> periodReturn,</span>
+<span id="cb3-12"><a href=""></a>               <span class="at">period =</span> <span class="st">"daily"</span>,</span>
+<span id="cb3-13"><a href=""></a>               <span class="at">col_rename =</span> <span class="st">"return"</span>)</span>
+<span id="cb3-14"><a href=""></a></span>
+<span id="cb3-15"><a href=""></a>n    <span class="ot">&lt;-</span> <span class="fu">nrow</span>(returns)</span>
+<span id="cb3-16"><a href=""></a>ybar <span class="ot">&lt;-</span> <span class="fu">mean</span>(returns<span class="sc">$</span>return)</span>
+<span id="cb3-17"><a href=""></a>s    <span class="ot">&lt;-</span> <span class="fu">sd</span>(returns<span class="sc">$</span>return)</span>
+<span id="cb3-18"><a href=""></a>se   <span class="ot">&lt;-</span> s <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
+<span id="cb3-19"><a href=""></a>z    <span class="ot">&lt;-</span> ybar <span class="sc">/</span> se</span>
+<span id="cb3-20"><a href=""></a>pval <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fu">abs</span>(z)))</span>
+<span id="cb3-21"><a href=""></a></span>
+<span id="cb3-22"><a href=""></a>results <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb3-23"><a href=""></a>  <span class="at">Statistic =</span> <span class="fu">c</span>(<span class="st">"n"</span>, <span class="st">"Mean Return"</span>, <span class="st">"Std Dev"</span>, <span class="st">"Std Error"</span>, <span class="st">"Z statistic"</span>, <span class="st">"p-value"</span>),</span>
+<span id="cb3-24"><a href=""></a>  <span class="at">Value     =</span> <span class="fu">round</span>(<span class="fu">c</span>(n, ybar, s, se, z, pval), <span class="dv">5</span>)</span>
+<span id="cb3-25"><a href=""></a>)</span>
+<span id="cb3-26"><a href=""></a><span class="fu">kable</span>(results, <span class="at">caption =</span> <span class="st">"Two-Tailed Test: H₀: μ = 0"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top">
+<caption>Two-Tailed Test: H₀: μ = 0</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Statistic</th>
+<th style="text-align: right;">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">n</td>
+<td style="text-align: right;">501.00000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Mean Return</td>
+<td style="text-align: right;">0.00013</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Std Dev</td>
+<td style="text-align: right;">0.01229</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Std Error</td>
+<td style="text-align: right;">0.00055</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Z statistic</td>
+<td style="text-align: right;">0.23239</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">p-value</td>
+<td style="text-align: right;">0.81623</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="co"># Visualise the test</span></span>
+<span id="cb4-2"><a href=""></a>x_seq <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="at">length.out =</span> <span class="dv">400</span>)</span>
+<span id="cb4-3"><a href=""></a>df_norm <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">z =</span> x_seq, <span class="at">density =</span> <span class="fu">dnorm</span>(x_seq))</span>
+<span id="cb4-4"><a href=""></a>z_crit  <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>)</span>
+<span id="cb4-5"><a href=""></a></span>
+<span id="cb4-6"><a href=""></a><span class="fu">ggplot</span>(df_norm, <span class="fu">aes</span>(<span class="at">x =</span> z, <span class="at">y =</span> density)) <span class="sc">+</span></span>
+<span id="cb4-7"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"steelblue"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb4-8"><a href=""></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">filter</span>(df_norm, z <span class="sc">&gt;=</span> z_crit),</span>
+<span id="cb4-9"><a href=""></a>            <span class="fu">aes</span>(<span class="at">x =</span> z, <span class="at">y =</span> density), <span class="at">fill =</span> <span class="st">"red"</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb4-10"><a href=""></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">filter</span>(df_norm, z <span class="sc">&lt;=</span> <span class="sc">-</span>z_crit),</span>
+<span id="cb4-11"><a href=""></a>            <span class="fu">aes</span>(<span class="at">x =</span> z, <span class="at">y =</span> density), <span class="at">fill =</span> <span class="st">"red"</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb4-12"><a href=""></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> z, <span class="at">color =</span> <span class="st">"darkgreen"</span>,</span>
+<span id="cb4-13"><a href=""></a>             <span class="at">linewidth =</span> <span class="fl">1.2</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb4-14"><a href=""></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> z <span class="sc">+</span> <span class="fl">0.2</span>, <span class="at">y =</span> <span class="fl">0.35</span>,</span>
+<span id="cb4-15"><a href=""></a>           <span class="at">label =</span> <span class="fu">paste0</span>(<span class="st">"Z = "</span>, <span class="fu">round</span>(z, <span class="dv">3</span>)), <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb4-16"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Z Test for Mean Daily Return (SPY 2022-2023)"</span>,</span>
+<span id="cb4-17"><a href=""></a>       <span class="at">subtitle =</span> <span class="fu">paste0</span>(<span class="st">"p-value = "</span>, <span class="fu">round</span>(pval, <span class="dv">4</span>),</span>
+<span id="cb4-18"><a href=""></a>                         <span class="st">" | α = 0.05 | Red zones = rejection regions"</span>),</span>
+<span id="cb4-19"><a href=""></a>       <span class="at">x =</span> <span class="st">"Z statistic"</span>, <span class="at">y =</span> <span class="st">"Density"</span>) <span class="sc">+</span></span>
+<span id="cb4-20"><a href=""></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="hypothesis_testing_lecture1_files/figure-revealjs/unnamed-chunk-5-1.png" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="case-study-key-findings" class="slide level2 smaller">
+<h2>💰 Case Study: Key Findings</h2>
+<div style="font-size: 44px;">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 Analysis Results</strong></p>
+</div>
+<div class="callout-content">
+<div class="columns">
+<div class="column" style="width:33%;">
+<div class="fragment">
+<p><strong>Test Setup:</strong></p>
+<ul>
+<li><p><span class="math inline">\(H_0: \mu_{\text{daily}} = 0\)</span></p></li>
+<li><p><span class="math inline">\(H_a: \mu_{\text{daily}} \neq 0\)</span></p></li>
+<li><p><span class="math inline">\(n = 504\)</span> trading days</p></li>
+<li><p><span class="math inline">\(\alpha = 0.05\)</span></p></li>
+<li><p>Two-tailed Z test</p></li>
+</ul>
+</div>
+</div><div class="column" style="width:33%;">
+<div class="fragment">
+<p><strong>Computed Values:</strong></p>
+<ul>
+<li><p><span class="math inline">\(\bar{Y} \approx 0.00019\)</span></p></li>
+<li><p><span class="math inline">\(s \approx 0.013\)</span></p></li>
+<li><p><span class="math inline">\(Z \approx 0.32\)</span></p></li>
+<li><p>p-value <span class="math inline">\(\approx 0.75\)</span></p></li>
+<li><p><strong>Fail to Reject <span class="math inline">\(H_0\)</span></strong></p></li>
+</ul>
+</div>
+</div><div class="column" style="width:33%;">
+<div class="fragment">
+<p><strong>Implications:</strong></p>
+<ol type="1">
+<li><p><strong>Market Efficiency</strong>: Daily returns are not distinguishable from zero mean</p></li>
+<li><p><strong>Practical vs Statistical</strong>: Small <span class="math inline">\(Z\)</span> suggests insufficient signal</p></li>
+<li><p><strong>Sample Matters</strong>: Longer history or different period may yield different result</p></li>
+</ol>
+</div>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="quiz-1-error-types" class="slide level2 smaller quiz-question">
+<h2>📝 Quiz #1: Error Types</h2>
+<p>A central bank audit finds that an investment fund’s reported average quarterly return is 2.5%. The regulator tests <span class="math inline">\(H_0: \mu = 2.5\%\)</span> vs <span class="math inline">\(H_a: \mu &lt; 2.5\%\)</span> at <span class="math inline">\(\alpha = 0.05\)</span>. The test rejects <span class="math inline">\(H_0\)</span>. If the fund was actually performing at exactly 2.5%, what error was made?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Correct! The null hypothesis was true (μ = 2.5%) but the test rejected it. This is a Type I error, with probability α = 0.05.">Type I Error — falsely rejecting a true null hypothesis</span></li>
+<li>Type II Error — failing to detect a true difference</li>
+<li>No error — the test is always correct at α = 0.05</li>
+<li>Power error — the sample was too small</li>
+</ul>
+</section>
+<section id="quiz-2-p-value-interpretation" class="slide level2 smaller quiz-question">
+<h2>📝 Quiz #2: p-Value Interpretation</h2>
+<p>A quantitative analyst tests whether a new factor’s mean return is positive. She computes <span class="math inline">\(Z = 1.89\)</span>, giving <span class="math inline">\(p\text{-value} = 0.029\)</span>. Which conclusion is correct at <span class="math inline">\(\alpha = 0.05\)</span>?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Correct! p-value = 0.029 < 0.05 = α, so we reject H₀. The evidence supports a positive mean return.">Reject <span class="math inline">\(H_0\)</span>; there is statistically significant evidence of a positive mean return</span></li>
+<li>Fail to reject <span class="math inline">\(H_0\)</span>; no evidence of positive returns</li>
+<li>The probability that the strategy is profitable is 97.1%</li>
+<li>The probability that <span class="math inline">\(H_0\)</span> is true is 2.9%</li>
+</ul>
+</section>
+<section id="quiz-3-test-statistic-setup" class="slide level2 smaller quiz-question">
+<h2>📝 Quiz #3: Test Statistic Setup</h2>
+<p>An analyst tests whether a mutual fund’s average monthly excess return <span class="math inline">\(\mu\)</span> equals zero. She has <span class="math inline">\(n = 60\)</span> months, <span class="math inline">\(\bar{Y} = 0.008\)</span>, <span class="math inline">\(s = 0.030\)</span>. Which is the correct <span class="math inline">\(Z\)</span> statistic?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Correct! Z = (ȳ - μ₀)/(s/√n) = 0.008 / (0.030/√60) = 0.008 / 0.003873 ≈ 2.07."><span class="math inline">\(Z = \dfrac{0.008 - 0}{0.030/\sqrt{60}} \approx 2.07\)</span></span></li>
+<li><span class="math inline">\(Z = 0.008 / 0.030 = 0.267\)</span></li>
+<li><span class="math inline">\(Z = (0.008 \times 60) / 0.030 = 16\)</span></li>
+<li><span class="math inline">\(Z = 0.030 / \sqrt{60} = 0.00387\)</span></li>
+</ul>
+</section>
+<section id="quiz-4-citest-duality" class="slide level2 smaller quiz-question">
+<h2>📝 Quiz #4: CI–Test Duality</h2>
+<p>For the test <span class="math inline">\(H_0: \mu = 0\)</span> at <span class="math inline">\(\alpha = 0.05\)</span> (two-tailed), the 95% confidence interval is computed as <span class="math inline">\((-0.002, \; 0.018)\)</span>. What is the correct decision?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Correct! By duality, a two-tailed test at α=0.05 rejects H₀ iff μ₀=0 lies outside the 95% CI. Since 0 ∈ (-0.002, 0.018), we fail to reject.">Fail to reject <span class="math inline">\(H_0\)</span>; since 0 is inside the 95% CI, there is insufficient evidence to conclude <span class="math inline">\(\mu \neq 0\)</span></span></li>
+<li>Reject <span class="math inline">\(H_0\)</span>; the interval does not contain the hypothesized value</li>
+<li>Cannot determine without the test statistic</li>
+<li>Reject <span class="math inline">\(H_0\)</span>; the interval is very narrow</li>
+</ul>
+</section>
+<section id="summary" class="slide level2 smaller">
+<h2>📝 Summary</h2>
+<div style="font-size: 38px">
+<div class="summary-box">
+<p><strong>✅ Key Takeaways</strong></p>
+<ul>
+<li><p><strong>Hypotheses</strong>: <span class="math inline">\(H_0\)</span> (null/status quo) vs <span class="math inline">\(H_a\)</span> (research/alternative); always formulate before seeing data</p></li>
+<li><p><strong>Error Trade-off</strong>: <span class="math inline">\(\alpha\)</span> (Type I, false positive) and <span class="math inline">\(\beta\)</span> (Type II, false negative) are inversely related; reducing both requires larger <span class="math inline">\(n\)</span></p></li>
+<li><p><strong>Z Tests</strong>: For large samples, <span class="math inline">\(Z = (\bar{Y} - \mu_0)/(\sigma/\sqrt{n})\)</span> follows <span class="math inline">\(N(0,1)\)</span> under <span class="math inline">\(H_0\)</span></p></li>
+<li><p><strong>p-Values</strong>: Measure evidence against <span class="math inline">\(H_0\)</span>; reject <span class="math inline">\(H_0\)</span> when <span class="math inline">\(p &lt; \alpha\)</span>; do NOT interpret as probability <span class="math inline">\(H_0\)</span> is true</p></li>
+<li><p><strong>CI Duality</strong>: A two-tailed test rejects <span class="math inline">\(H_0: \mu = \mu_0\)</span> iff <span class="math inline">\(\mu_0\)</span> lies outside the <span class="math inline">\((1-\alpha)\)</span> confidence interval</p></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="practice-problems" class="slide level2">
+<h2>📚 Practice Problems</h2>
+<div style="font-size:45px;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📝 Homework Problems — Chapter 10</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Problem 1 (Formulation):</strong> A telecom regulator claims that average download speed is at least 25 Mbps. You sample <span class="math inline">\(n = 100\)</span> customers and find <span class="math inline">\(\bar{Y} = 23.4\)</span> Mbps, <span class="math inline">\(s = 8.2\)</span> Mbps. Formulate hypotheses, compute <span class="math inline">\(Z\)</span>, and find the p-value.</p>
+<p><strong>Problem 2 (Error Types):</strong> A credit risk manager sets <span class="math inline">\(\alpha = 0.01\)</span> when testing whether default rates have increased. Explain the practical consequences of a Type I and Type II error in this context.</p>
+<p><strong>Problem 3 (p-Value):</strong> Compute and interpret p-values for <span class="math inline">\(H_a: \mu &gt; 0\)</span> when <span class="math inline">\(Z = 1.28\)</span>, <span class="math inline">\(Z = 1.96\)</span>, and <span class="math inline">\(Z = 2.58\)</span>.</p>
+<p><strong>Problem 4 (Financial Application):</strong> A portfolio manager tests whether her fund’s Sharpe ratio exceeds 0.5. With 36 months of data, <span class="math inline">\(\bar{S} = 0.63\)</span> and <span class="math inline">\(s_S = 0.28\)</span>. Test at <span class="math inline">\(\alpha = 0.05\)</span> and construct a 90% one-sided confidence bound. Compare conclusions.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="thank-you" class="slide level2 smaller center">
+<h2>👋 Thank You!</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>📬 Contact Information:</strong></p>
+<p>Samir Orujov, PhD</p>
+<p>Assistant Professor</p>
+<p>School of Business, ADA University</p>
+<p>📧 <a href="mailto:sorujov@ada.edu.az">sorujov@ada.edu.az</a></p>
+<p>🏢 Office: D312</p>
+<p>⏰ Office Hours: By appointment</p>
+</div><div class="column" style="width:50%;">
+<p><strong>📅 Next Class:</strong></p>
+<p><strong>Topic:</strong> Tests for Means and Proportions</p>
+<p><strong>Reading:</strong> Chapter 10, Sections 10.3, 10.4, 10.8</p>
+<p><strong>Preparation:</strong> Review the Standard Normal table; practice computing Z statistics</p>
+<p><strong>⏰ Reminders:</strong></p>
+<p>✅ Complete Practice Problems 1–4</p>
+<p>✅ Review Type I / Type II error concepts</p>
+<p>✅ Think about real-world decision contexts where each error is more costly</p>
+<p>✅ Work hard!</p>
+</div></div>
+</section>
+<section id="questions" class="slide level2 center">
+<h2>❓ Questions?</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>💬 Open Discussion</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Key Topics for Discussion:</strong></p>
+<ul>
+<li><p>Why do courts use “beyond reasonable doubt” — which error type is being controlled?</p></li>
+<li><p>In algorithmic trading, which error (Type I or II) is more costly? Does it depend on strategy?</p></li>
+<li><p>How does increasing sample size affect the trade-off between <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>?</p></li>
+<li><p>Why might a very small p-value be statistically significant but practically unimportant?</p></li>
+</ul>
+</div>
+</div>
+</div>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="ADA.png" class="slide-logo"></p>
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="hypothesis_testing_lecture1_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="hypothesis_testing_lecture1_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="hypothesis_testing_lecture1_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="hypothesis_testing_lecture1_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="hypothesis_testing_lecture1_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="hypothesis_testing_lecture1_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="hypothesis_testing_lecture1_files/libs/revealjs/plugin/reveal-quiz/quiz.js"></script>
+  <script src="hypothesis_testing_lecture1_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="hypothesis_testing_lecture1_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="hypothesis_testing_lecture1_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="hypothesis_testing_lecture1_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="hypothesis_testing_lecture1_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'quiz': {"checkKey":"c","resetKey":"r","shuffleKey":"s","allowNumberKeys":true,"disableOnCheck":false,"shuffleOptions":true,"defaultCorrect":"✅ Correct! Well done.","defaultIncorrect":"❌ Not quite. Try again or check the explanation.","includeScore":true,"disableReset":false},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 720,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 4.0e-2,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, RevealQuiz, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script type="ojs-module-contents">
+    eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6Ilxudmlld29mIGFscGhhX3ZhbCA9IHtcbiAgY29uc3QgaW5wdXQgPSBJbnB1dHMucmFuZ2UoWzAuMDEsIDAuMjBdLCB7dmFsdWU6IDAuMDUsIHN0ZXA6IDAuMDEsIGxhYmVsOiBcIs6xIChzaWcuIGxldmVsKTpcIn0pO1xuICBbJ3BvaW50ZXJkb3duJywndG91Y2hzdGFydCcsJ21vdXNlZG93bicsJ2NsaWNrJywnd2hlZWwnLCdwb2ludGVybW92ZScsJ3RvdWNobW92ZSddXG4gICAgLmZvckVhY2goZSA9PiBpbnB1dC5hZGRFdmVudExpc3RlbmVyKGUsIGV2ID0+IGV2LnN0b3BQcm9wYWdhdGlvbigpKSk7XG4gIHJldHVybiBpbnB1dDtcbn1cblxudmlld29mIG11X2EgPSB7XG4gIGNvbnN0IGlucHV0ID0gSW5wdXRzLnJhbmdlKFswLjUsIDMuMF0sIHt2YWx1ZTogMS41LCBzdGVwOiAwLjEsIGxhYmVsOiBcIlRydWUgbWVhbiDOvOKCkCAoz4M9MSwgbj0yNSk6XCJ9KTtcbiAgWydwb2ludGVyZG93bicsJ3RvdWNoc3RhcnQnLCdtb3VzZWRvd24nLCdjbGljaycsJ3doZWVsJywncG9pbnRlcm1vdmUnLCd0b3VjaG1vdmUnXVxuICAgIC5mb3JFYWNoKGUgPT4gaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcihlLCBldiA9PiBldi5zdG9wUHJvcGFnYXRpb24oKSkpO1xuICByZXR1cm4gaW5wdXQ7XG59XG5cbi8vIE5vcm1hbCBDREYgYXBwcm94aW1hdGlvblxubm9ybWFsQ0RGID0gZnVuY3Rpb24oeCkge1xuICBjb25zdCB0ID0gMSAvICgxICsgMC4yMzE2NDE5ICogTWF0aC5hYnMoeCkpO1xuICBjb25zdCBwb2x5ID0gdCAqICgwLjMxOTM4MTUzMCArIHQgKiAoLTAuMzU2NTYzNzgyICsgdCAqICgxLjc4MTQ3NzkzNyArIHQgKiAoLTEuODIxMjU1OTc4ICsgdCAqIDEuMzMwMjc0NDI5KSkpKTtcbiAgY29uc3QgcGRmID0gTWF0aC5leHAoLTAuNSAqIHggKiB4KSAvIE1hdGguc3FydCgyICogTWF0aC5QSSk7XG4gIGNvbnN0IHJlc3VsdCA9IDEgLSBwZGYgKiBwb2x5O1xuICByZXR1cm4geCA+PSAwID8gcmVzdWx0IDogMSAtIHJlc3VsdDtcbn1cblxubm9ybWFsUERGID0gZnVuY3Rpb24oeCwgbXUsIHNpZ21hKSB7XG4gIHJldHVybiBNYXRoLmV4cCgtMC41ICogKCh4IC0gbXUpIC8gc2lnbWEpICoqIDIpIC8gKHNpZ21hICogTWF0aC5zcXJ0KDIgKiBNYXRoLlBJKSk7XG59XG5cbnpfY3JpdCA9IHtcbiAgLy8gSW52ZXJzZSBub3JtYWwgYXBwcm94aW1hdGlvbiBmb3IgdXBwZXIgdGFpbFxuICBjb25zdCBwID0gMSAtIGFscGhhX3ZhbDtcbiAgY29uc3QgYSA9IFsyLjUxNTUxNywgMC44MDI4NTMsIDAuMDEwMzI4XTtcbiAgY29uc3QgYiA9IFsxLjQzMjc4OCwgMC4xODkyNjksIDAuMDAxMzA4XTtcbiAgY29uc3QgdCA9IE1hdGguc3FydCgtMiAqIE1hdGgubG9nKDEgLSBwKSk7XG4gIHJldHVybiB0IC0gKGFbMF0gKyBhWzFdKnQgKyBhWzJdKnQqdCkgLyAoMSArIGJbMF0qdCArIGJbMV0qdCp0ICsgYlsyXSp0KnQqdCk7XG59XG5cbi8vIFBvd2VyID0gUChaID4gel9jcml0IHwgbXUgPSBtdV9hLCBuPTI1KVxuc2lnbWFfeGJhciA9IDEgLyBNYXRoLnNxcnQoMjUpO1xuYmV0YV92YWwgPSBub3JtYWxDREYoKHpfY3JpdCAtIG11X2EgLyBzaWdtYV94YmFyKSk7XG5wb3dlcl92YWwgPSAxIC0gYmV0YV92YWw7XG5cbmVycl9odG1sID0gaHRtbGA8ZGl2IHN0eWxlPVwiYmFja2dyb3VuZDojZjhmOWZhOyBwYWRkaW5nOjhweDsgYm9yZGVyLXJhZGl1czo2cHg7IGZvbnQtc2l6ZTowLjk1ZW07XCI+XG4gIDxzdHJvbmc+Q3JpdGljYWwgdmFsdWU6PC9zdHJvbmc+IHoqID0gJHt6X2NyaXQudG9GaXhlZCgzKX08YnI+XG4gIDxzdHJvbmc+zrEgKFR5cGUgSSk6PC9zdHJvbmc+ICR7KGFscGhhX3ZhbCAqIDEwMCkudG9GaXhlZCgxKX0lPGJyPlxuICA8c3Ryb25nPs6yIChUeXBlIElJKTo8L3N0cm9uZz4gJHsoYmV0YV92YWwgKiAxMDApLnRvRml4ZWQoMSl9JTxicj5cbiAgPHN0cm9uZz5Qb3dlciAoMS3Osik6PC9zdHJvbmc+ICR7KHBvd2VyX3ZhbCAqIDEwMCkudG9GaXhlZCgxKX0lXG48L2Rpdj5gO1xuXG5tZGAke2Vycl9odG1sfWBcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMiIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6IlxucGxvdERhdGEgPSB7XG4gIGNvbnN0IHB0cyA9IFtdO1xuICBmb3IgKGxldCB4ID0gLTM7IHggPD0gNjsgeCArPSAwLjA0KSB7XG4gICAgcHRzLnB1c2goe1xuICAgICAgeCxcbiAgICAgIGgwOiBub3JtYWxQREYoeCwgMCwgc2lnbWFfeGJhciksXG4gICAgICBoYTogbm9ybWFsUERGKHgsIG11X2EsIHNpZ21hX3hiYXIpXG4gICAgfSk7XG4gIH1cbiAgcmV0dXJuIHB0cztcbn1cblxuUGxvdC5wbG90KHtcbiAgd2lkdGg6IDcwMCwgaGVpZ2h0OiAzNjAsXG4gIG1hcmdpbkxlZnQ6IDUwLCBtYXJnaW5Cb3R0b206IDQ1LFxuICB4OiB7IGRvbWFpbjogWy0zLCA2XSwgbGFiZWw6IFwiU2FtcGxlIG1lYW4geMyEICjPgz0xLCBuPTI1KVwiIH0sXG4gIHk6IHsgZG9tYWluOiBbMCwgNl0sIGxhYmVsOiBcIkRlbnNpdHlcIiB9LFxuICB0aXRsZTogYEjigoA6IM68PTAgdnMgSOKCkDogzrw9JHttdV9hLnRvRml4ZWQoMSl9IHwgzrE9JHsoYWxwaGFfdmFsKjEwMCkudG9GaXhlZCgwKX0lYCxcbiAgbWFya3M6IFtcbiAgICBQbG90LmxpbmUocGxvdERhdGEsIHt4OiBcInhcIiwgeTogXCJoMFwiLCBzdHJva2U6IFwic3RlZWxibHVlXCIsIHN0cm9rZVdpZHRoOiAyLjV9KSxcbiAgICBQbG90LmxpbmUocGxvdERhdGEsIHt4OiBcInhcIiwgeTogXCJoYVwiLCBzdHJva2U6IFwidG9tYXRvXCIsIHN0cm9rZVdpZHRoOiAyLjV9KSxcbiAgICBQbG90LmFyZWFZKHBsb3REYXRhLmZpbHRlcihkID0+IGQueCA+PSB6X2NyaXQgKiBzaWdtYV94YmFyKSxcbiAgICAgICAgICAgICAgIHt4OiBcInhcIiwgeTogXCJoMFwiLCBmaWxsOiBcInN0ZWVsYmx1ZVwiLCBmaWxsT3BhY2l0eTogMC4zfSksXG4gICAgUGxvdC5hcmVhWShwbG90RGF0YS5maWx0ZXIoZCA9PiBkLnggPCB6X2NyaXQgKiBzaWdtYV94YmFyKSxcbiAgICAgICAgICAgICAgIHt4OiBcInhcIiwgeTogXCJoYVwiLCBmaWxsOiBcInRvbWF0b1wiLCBmaWxsT3BhY2l0eTogMC4zfSksXG4gICAgUGxvdC5ydWxlWChbel9jcml0ICogc2lnbWFfeGJhcl0sIHtzdHJva2U6IFwiYmxhY2tcIiwgc3Ryb2tlV2lkdGg6IDIsIHN0cm9rZURhc2hhcnJheTogXCI2LDNcIn0pLFxuICAgIFBsb3QudGV4dChbe3g6IHpfY3JpdCAqIHNpZ21hX3hiYXIgKyAwLjEsIHk6IDUuNSwgdGV4dDogXCLihpAgUlIgYm91bmRhcnlcIn1dLFxuICAgICAgICAgICAgICB7eDogXCJ4XCIsIHk6IFwieVwiLCB0ZXh0OiBcInRleHRcIiwgZm9udFNpemU6IDEzfSlcbiAgXVxufSlcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgnYWxwaGFfdmFsJykifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ211X2EnKSJ9XX0=
+    </script>
+    <script type="module">
+    if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+    window._ojs.paths.runtimeToDoc = "../../..";
+    window._ojs.paths.runtimeToRoot = "../../../..";
+    window._ojs.paths.docToRoot = "..";
+    window._ojs.selfContained = false;
+    window._ojs.runtime.interpretFromScriptTags();
+    </script>
+    
+
+    <script>
+
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+
+      // slide changes (different for each slide format).
+
+      (function () {
+
+        // dispatch for htmlwidgets
+
+        function fireSlideEnter() {
+
+          const event = window.document.createEvent("Event");
+
+          event.initEvent("slideenter", true, true);
+
+          window.document.dispatchEvent(event);
+
+        }
+
+    
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+
+          fireSlideEnter();
+
+    
+
+          // dispatch for shiny
+
+          if (window.jQuery) {
+
+            if (previousSlide) {
+
+              window.jQuery(previousSlide).trigger("hidden");
+
+            }
+
+            if (currentSlide) {
+
+              window.jQuery(currentSlide).trigger("shown");
+
+            }
+
+          }
+
+        }
+
+    
+
+        // hookup for slidy
+
+        if (window.w3c_slidy) {
+
+          window.w3c_slidy.add_observer(function (slide_num) {
+
+            // slide_num starts at position 1
+
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+
+          });
+
+        }
+
+    
+
+      })();
+
+    </script>
+
+    
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

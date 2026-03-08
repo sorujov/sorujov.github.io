@@ -1,0 +1,896 @@
+---
+title: "Mathematical Statistics"
+subtitle: "Fundamentals of Hypothesis Testing"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: default
+    logo: ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    margin: 0.04
+    # footer: "Mathematical Statistics – Fundamentals of Hypothesis Testing"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+---
+
+## 🎯 Learning Objectives {.smaller}
+
+::: {style="font-size:39px;"}
+::: {.learning-objectives}
+By the end of this lecture, you will be able to:
+
+- **Define** null and alternative hypotheses and formulate them for real financial decisions
+
+- **Identify** the components of a statistical test: test statistic, rejection region, and significance level
+
+- **Distinguish** between Type I and Type II errors and quantify their probabilities $\alpha$ and $\beta$
+
+- **Interpret** p-values and use them to reach evidence-based conclusions
+
+- **Explain** the relationship between hypothesis tests and confidence intervals
+:::
+:::
+
+---
+
+## 📋 Overview {.smaller}
+
+::: {style="font-size:50px"}
+::: {.callout-note}
+## 📚 Topics Covered Today
+
+::: {.incremental}
+- **Elements of a Test** – H₀, Hₐ, test statistic, rejection region
+
+- **Type I & II Errors** – $\alpha$, $\beta$, and the trade-off between them
+
+- **Large-Sample Z Tests** – means, proportions, differences
+
+- **p-Values** – attained significance and reporting results
+
+- **CI Connection** – duality between tests and confidence intervals
+
+- **Case Study** – Testing whether BIST100 daily returns have zero mean
+:::
+:::
+:::
+
+---
+
+## 📖 Why Hypothesis Testing? {.smaller}
+
+::: {style="font-size:40px;"}
+::: {.callout-note}
+## 🎯 Motivation
+
+Statistical decisions drive billions of dollars in financial markets every day.
+
+::: {.columns}
+::: {.column width="50%"}
+::: {.fragment}
+**Finance Applications:**
+
+- Is a trading strategy's mean return significantly > 0?
+- Has volatility changed after a market shock?
+- Do two asset classes have equal expected returns?
+- Is a fund manager's alpha statistically significant?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.fragment}
+**Regulatory Applications:**
+
+- Does a telecom operator meet QoS thresholds?
+- Has consumer complaint rates changed after regulation?
+- Is price inflation statistically above the target band?
+- Are default rates equal across credit segments?
+:::
+:::
+:::
+:::
+
+**Key Question:** How do we use sample data to make principled yes/no decisions about population parameters?
+:::
+
+---
+
+## 📖 The Logic of Hypothesis Testing {.smaller}
+
+::: {style="font-size:38px"}
+
+Statistical hypothesis testing follows a **proof by contradiction** logic:
+
+::: {.fragment}
+1. Assume the **null hypothesis** $H_0$ is true (status quo / skeptical position)
+:::
+
+::: {.fragment}
+2. Collect data and compute a **test statistic**
+:::
+
+::: {.fragment}
+3. Ask: *"How likely is this data if $H_0$ were true?"*
+:::
+
+::: {.fragment}
+4. If the data is **very unlikely under** $H_0$ → **Reject** $H_0$ in favour of $H_a$
+:::
+
+::: {.fragment}
+5. If the data is **plausible under** $H_0$ → **Fail to reject** $H_0$
+
+> ⚠️ Failing to reject ≠ proving $H_0$ true!
+:::
+
+:::
+
+---
+
+## 📝 Definition: Null & Alternative Hypotheses {.smaller}
+
+::: {.callout-note}
+## 📝 Definition 10.1 – Hypotheses
+
+The **null hypothesis** $H_0$ is a specific statement about a population parameter that we assume true unless evidence convinces us otherwise.
+
+The **alternative (research) hypothesis** $H_a$ is what we seek evidence *for*.
+
+:::
+
+::: {style="font-size:41px"}
+
+**Three forms of $H_a$:**
+
+| Type | Form | Financial Example |
+|------|------|-------------------|
+| Two-tailed | $H_a: \mu \neq \mu_0$ | Has average daily return changed? |
+| Left-tailed | $H_a: \mu < \mu_0$ | Has return *fallen* below benchmark? |
+| Right-tailed | $H_a: \mu > \mu_0$ | Is strategy return *above* zero? |
+
+**Convention:** $H_0$ always contains the equality (=, ≤, or ≥)
+
+:::
+
+---
+
+## 📝 Definition: Test Statistic & Rejection Region {.smaller}
+
+::: {.callout-note}
+## 📝 Definition 10.2 – Test Components
+
+A **test statistic** is a function of the sample data used to decide between $H_0$ and $H_a$.
+
+The **rejection region (RR)** is the set of values of the test statistic for which $H_0$ is rejected.
+
+:::
+
+::: {style="font-size:32px"}
+::: {.fragment}
+**Decision Rule:**
+
+$$\text{If test statistic} \in RR \Rightarrow \text{Reject } H_0$$
+
+$$\text{If test statistic} \notin RR \Rightarrow \text{Fail to Reject } H_0$$
+:::
+
+::: {.fragment}
+**Example:** Testing $H_0: \mu = 0$ (zero daily return) vs $H_a: \mu > 0$
+
+$$Z = \frac{\bar{Y} - 0}{\sigma/\sqrt{n}}, \quad RR = \{z > z_\alpha\}$$
+:::
+:::
+
+---
+
+## 📝 Type I and Type II Errors {.smaller}
+
+::: {.callout-important}
+## ⚠️ The Two Ways to Be Wrong
+
+|  | $H_0$ is True | $H_0$ is False |
+|--|---------------|----------------|
+| **Reject** $H_0$ | **Type I Error** (false positive) | ✅ Correct |
+| **Fail to Reject** $H_0$ | ✅ Correct | **Type II Error** (false negative) |
+
+:::
+
+::: {style="font-size:35px"}
+
+$$\alpha = P(\text{Type I Error}) = P(\text{Reject } H_0 \mid H_0 \text{ true})$$
+
+$$\beta = P(\text{Type II Error}) = P(\text{Fail to reject } H_0 \mid H_0 \text{ false})$$
+
+::: {.fragment}
+**Financial interpretation:**
+
+- **Type I** – Conclude a strategy works when it doesn't → lose money
+- **Type II** – Miss a profitable strategy that truly works → opportunity cost
+:::
+:::
+
+---
+
+## 📌 Example 1: Voting Probability Test {.smaller}
+
+::: {style="font-size:35px;"}
+**Problem:** A candidate claims she will receive more than 50% of votes ($p > 0.5$). We survey $n = 25$ voters.
+
+$H_0: p = 0.5$ vs $H_a: p < 0.5$. Use $Y$ = number of supporters. $RR = \{y \leq 2\}$.
+
+**Computing $\alpha$:**
+
+$$\alpha = P(Y \leq 2 \mid p = 0.5) = \sum_{y=0}^{2} \binom{25}{y}(0.5)^{25}$$
+
+$$= \binom{25}{0}(0.5)^{25} + \binom{25}{1}(0.5)^{25} + \binom{25}{2}(0.5)^{25} \approx 0.0000 + 0.0007 + 0.0063 \approx 0.007$$
+:::
+
+---
+
+## 📌 Example 1: Result & Interpretation {.smaller}
+
+::: {style="font-size:50px;"}
+::: {.columns}
+::: {.column width="50%"}
+::: {.fragment}
+**$\alpha \approx 0.007$** → Only 0.7% chance of falsely rejecting a candidate with true $p = 0.5$
+:::
+:::
+
+::: {.column width="50%"}
+::: {.fragment}
+**Finance analogy:** Testing if a fund's win-rate exceeds 50%. Low $\alpha$ = conservative threshold for claiming skill.
+:::
+:::
+:::
+:::
+
+---
+
+## 📌 Example 2: The $\alpha$-$\beta$ Trade-off {.smaller}
+
+**Enlarging the rejection region from $RR = \{y \leq 2\}$ to $RR^* = \{y \leq 5\}$:**
+
+::: {style="font-size:41px"}
+
+| Metric | $RR = \{y \leq 2\}$ | $RR^* = \{y \leq 5\}$ |
+|--------|---------------------|------------------------|
+| $\alpha$ | 0.007 | 0.054 |
+| $\beta$ (at $p = 0.3$) | 0.873 | 0.420 |
+
+::: {.fragment}
+**Key insight (Wackerly §10.2):**
+
+$$\text{Enlarging RR} \Rightarrow \alpha \uparrow, \quad \beta \downarrow$$
+
+$$\text{Shrinking RR} \Rightarrow \alpha \downarrow, \quad \beta \uparrow$$
+
+**There is no free lunch!** To reduce both, you must **increase sample size** $n$.
+:::
+:::
+
+---
+
+## 🧮 Large-Sample Z Test for $\mu$ {.smaller}
+
+::: {style="font-size:39px;"}
+::: {.callout-important}
+## Theorem 10.1 – One-Sample Z Test
+
+For large $n$, testing $H_0: \mu = \mu_0$:
+
+$$Z = \frac{\bar{Y} - \mu_0}{\sigma/\sqrt{n}} \approx N(0,1) \text{ under } H_0$$
+
+**Rejection regions** at significance level $\alpha$:
+
+| $H_a$ | Rejection Region |
+|-------|-----------------|
+| $\mu > \mu_0$ | $z > z_\alpha$ |
+| $\mu < \mu_0$ | $z < -z_\alpha$ |
+| $\mu \neq \mu_0$ | $\|z\| > z_{\alpha/2}$ |
+
+:::
+
+**Intuition:** $Z$ measures how many standard errors $\bar{Y}$ is from $\mu_0$. Extreme values are evidence against $H_0$.
+:::
+
+---
+
+## 🧮 Large-Sample Z Test for Proportion {.smaller}
+
+::: {.callout-important}
+## Test for $p$ (proportion)
+
+For large $n$, testing $H_0: p = p_0$:
+
+$$Z = \frac{\hat{p} - p_0}{\sqrt{p_0(1-p_0)/n}} \approx N(0,1) \text{ under } H_0$$
+
+:::
+
+::: {style="font-size:34px"}
+::: {.fragment}
+**Two-Sample Test for $\mu_1 - \mu_2$:**
+
+$$Z = \frac{(\bar{Y}_1 - \bar{Y}_2) - D_0}{\sqrt{\sigma_1^2/n_1 + \sigma_2^2/n_2}}$$
+
+where $D_0$ is the hypothesized difference (often 0).
+:::
+
+::: {.fragment}
+**Financial use:** Are mean returns for large-cap and small-cap stocks equal?
+
+$$H_0: \mu_{\text{large}} - \mu_{\text{small}} = 0$$
+:::
+:::
+
+---
+
+## 📖 p-Values: Attained Significance {.smaller}
+
+::: {.callout-note}
+## 📝 Definition 10.3 – p-Value
+
+The **p-value** (attained significance level) is the **smallest** $\alpha$ at which $H_0$ would be rejected given the observed data.
+
+$$p\text{-value} = P(\text{observed test statistic or more extreme} \mid H_0 \text{ true})$$
+
+:::
+
+::: {style="font-size:44px"}
+
+::: {.fragment}
+**Computing p-values:**
+
+| $H_a$ | p-value |
+|-------|---------|
+| $\mu > \mu_0$ | $P(Z > z_{\text{obs}})$ |
+| $\mu < \mu_0$ | $P(Z < z_{\text{obs}})$ |
+| $\mu \neq \mu_0$ | $2 \cdot P(Z > \|z_{\text{obs}}\|)$ |
+:::
+
+::: {.fragment}
+**Decision:** Reject $H_0$ if $p\text{-value} < \alpha$ (e.g., 0.05 or 0.01)
+:::
+:::
+
+---
+
+## 📖 Interpreting p-Values {.smaller}
+
+::: {style="font-size:34px"}
+
+::: {.callout-note}
+## ⚠️ What p-values are NOT
+
+- The probability that $H_0$ is true
+- The probability of making an error
+- A measure of practical significance
+:::
+
+::: {.fragment}
+**Common thresholds:**
+
+| p-value | Evidence against $H_0$ |
+|---------|------------------------|
+| $< 0.001$ | Very strong |
+| $0.001 – 0.01$ | Strong |
+| $0.01 – 0.05$ | Moderate |
+| $0.05 – 0.10$ | Weak / suggestive |
+| $> 0.10$ | Insufficient |
+:::
+:::
+
+---
+
+## 🔗 Tests ↔ Confidence Intervals {.smaller}
+
+::: {.callout-important}
+## Theorem 10.2 – Duality (Wackerly §10.5)
+
+A two-tailed test at level $\alpha$ **rejects** $H_0: \mu = \mu_0$ if and only if $\mu_0$ **falls outside** the $(1-\alpha)$ confidence interval for $\mu$.
+
+:::
+
+::: {style="font-size:49px"}
+::: {.fragment}
+**Example:** 95% CI for daily return: $(0.003, \; 0.021)$
+
+- **Test $H_0: \mu = 0$** at $\alpha = 0.05$: 0 is outside CI → **Reject $H_0$** ✅
+- **Test $H_0: \mu = 0.01$** at $\alpha = 0.05$: 0.01 is inside CI → **Fail to Reject** ✅
+:::
+
+::: {.fragment}
+**Advantage of CIs over tests:** CIs communicate *magnitude* of effect, not just reject/not reject.
+:::
+:::
+
+---
+
+## 🎮 Interactive: Visualising Type I & Type II Errors {.smaller}
+
+:::::: {style="font-size: 0.72em; margin-top: -8px;"}
+**Adjust $\mu_a$ (true mean) and significance $\alpha$ to see the error probabilities change.**
+
+::::: columns
+::: {.column width="32%"}
+
+```{ojs}
+//| echo: false
+
+viewof alpha_val = {
+  const input = Inputs.range([0.01, 0.20], {value: 0.05, step: 0.01, label: "α (sig. level):"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+
+viewof mu_a = {
+  const input = Inputs.range([0.5, 3.0], {value: 1.5, step: 0.1, label: "True mean μₐ (σ=1, n=25):"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+
+// Normal CDF approximation
+normalCDF = function(x) {
+  const t = 1 / (1 + 0.2316419 * Math.abs(x));
+  const poly = t * (0.319381530 + t * (-0.356563782 + t * (1.781477937 + t * (-1.821255978 + t * 1.330274429))));
+  const pdf = Math.exp(-0.5 * x * x) / Math.sqrt(2 * Math.PI);
+  const result = 1 - pdf * poly;
+  return x >= 0 ? result : 1 - result;
+}
+
+normalPDF = function(x, mu, sigma) {
+  return Math.exp(-0.5 * ((x - mu) / sigma) ** 2) / (sigma * Math.sqrt(2 * Math.PI));
+}
+
+z_crit = {
+  // Inverse normal approximation for upper tail
+  const p = 1 - alpha_val;
+  const a = [2.515517, 0.802853, 0.010328];
+  const b = [1.432788, 0.189269, 0.001308];
+  const t = Math.sqrt(-2 * Math.log(1 - p));
+  return t - (a[0] + a[1]*t + a[2]*t*t) / (1 + b[0]*t + b[1]*t*t + b[2]*t*t*t);
+}
+
+// Power = P(Z > z_crit | mu = mu_a, n=25)
+sigma_xbar = 1 / Math.sqrt(25);
+beta_val = normalCDF((z_crit - mu_a / sigma_xbar));
+power_val = 1 - beta_val;
+
+err_html = html`<div style="background:#f8f9fa; padding:8px; border-radius:6px; font-size:0.95em;">
+  <strong>Critical value:</strong> z* = ${z_crit.toFixed(3)}<br>
+  <strong>α (Type I):</strong> ${(alpha_val * 100).toFixed(1)}%<br>
+  <strong>β (Type II):</strong> ${(beta_val * 100).toFixed(1)}%<br>
+  <strong>Power (1-β):</strong> ${(power_val * 100).toFixed(1)}%
+</div>`;
+
+md`${err_html}`
+```
+
+:::
+
+::: {.column width="68%"}
+
+```{ojs}
+//| echo: false
+
+plotData = {
+  const pts = [];
+  for (let x = -3; x <= 6; x += 0.04) {
+    pts.push({
+      x,
+      h0: normalPDF(x, 0, sigma_xbar),
+      ha: normalPDF(x, mu_a, sigma_xbar)
+    });
+  }
+  return pts;
+}
+
+Plot.plot({
+  width: 700, height: 360,
+  marginLeft: 50, marginBottom: 45,
+  x: { domain: [-3, 6], label: "Sample mean x̄ (σ=1, n=25)" },
+  y: { domain: [0, 6], label: "Density" },
+  title: `H₀: μ=0 vs Hₐ: μ=${mu_a.toFixed(1)} | α=${(alpha_val*100).toFixed(0)}%`,
+  marks: [
+    Plot.line(plotData, {x: "x", y: "h0", stroke: "steelblue", strokeWidth: 2.5}),
+    Plot.line(plotData, {x: "x", y: "ha", stroke: "tomato", strokeWidth: 2.5}),
+    Plot.areaY(plotData.filter(d => d.x >= z_crit * sigma_xbar),
+               {x: "x", y: "h0", fill: "steelblue", fillOpacity: 0.3}),
+    Plot.areaY(plotData.filter(d => d.x < z_crit * sigma_xbar),
+               {x: "x", y: "ha", fill: "tomato", fillOpacity: 0.3}),
+    Plot.ruleX([z_crit * sigma_xbar], {stroke: "black", strokeWidth: 2, strokeDasharray: "6,3"}),
+    Plot.text([{x: z_crit * sigma_xbar + 0.1, y: 5.5, text: "← RR boundary"}],
+              {x: "x", y: "y", text: "text", fontSize: 13})
+  ]
+})
+```
+
+*Blue shaded = α (Type I). Red shaded = β (Type II). Dashed line = critical value.*
+:::
+:::::
+::::::
+
+---
+
+## 🤝 Think-Pair-Share {.smaller}
+
+::: {style="font-size:42px;"}
+::: {.callout-tip}
+## 💬 Activity (4 minutes)
+
+**Scenario:** An investment bank claims their algorithmic trading strategy achieves a Sharpe ratio of **at least 1.0**. A risk auditor tests this claim using 252 trading days of data and obtains:
+
+$$\bar{Y} = 0.87, \quad s = 0.42, \quad n = 252$$
+
+**Questions:**
+
+1. Formulate the appropriate $H_0$ and $H_a$
+
+2. Compute the test statistic $Z$
+
+3. Find the p-value (one-tailed test)
+
+4. What is your conclusion at $\alpha = 0.05$?
+
+5. What Type II error could occur here, and what are its consequences?
+:::
+
+```{r}
+#| echo: false
+#| eval: false
+library(countdown)
+countdown(minutes = 4, bottom = 0, right = 0, color_border = "#003366")
+```
+:::
+
+---
+
+## ✅ Think-Pair-Share: Solution {.smaller}
+
+::: {style="font-size:47px;"}
+::: {.fragment}
+**1. Hypotheses:**
+
+The auditor is testing whether the Sharpe ratio is *below* the claimed 1.0:
+
+$$H_0: \mu_S \geq 1.0 \qquad H_a: \mu_S < 1.0$$
+:::
+
+::: {.fragment}
+**2. Test Statistic:**
+
+$$Z = \frac{\bar{Y} - \mu_0}{s/\sqrt{n}} = \frac{0.87 - 1.0}{0.42/\sqrt{252}} = \frac{-0.13}{0.02646} \approx -4.91$$
+:::
+:::
+
+---
+
+## ✅ Think-Pair-Share: Solution (Continued) {.smaller}
+
+::: {style="font-size:37px;"}
+::: {.fragment}
+**3. p-Value & Decision:**
+
+$$p\text{-value} = P(Z < -4.91) \approx 0.0000046$$
+
+Since $p \ll \alpha = 0.05$, we **reject** $H_0$. Strong evidence the true Sharpe ratio is below 1.0.
+:::
+
+::: {.fragment}
+**4. Financial Interpretation:**
+
+The bank's claimed Sharpe ratio of 1.0 is statistically refuted by the 252-day audit data. The strategy is significantly underperforming its advertised risk-adjusted return — a potential misrepresentation to investors.
+
+> 💡 **Key Insight:** A very large $|Z|$ here is driven by the large $n = 252$. Even a modest gap (0.13) becomes highly significant with a full year of daily data.
+:::
+:::
+
+---
+
+## 💰 Case Study: Testing Zero Mean Return {.smaller}
+
+::: {style="font-size:22px"}
+::: {.columns}
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+
+library(tidyverse)
+library(tidyquant)
+library(knitr)
+
+# Download BIST100 proxy data (Turkey ETF) 
+# Using SPY as demonstration
+spy <- tq_get("SPY", from = "2022-01-01", to = "2023-12-31")
+
+returns <- spy %>%
+  tq_transmute(select = adjusted,
+               mutate_fun = periodReturn,
+               period = "daily",
+               col_rename = "return")
+
+n    <- nrow(returns)
+ybar <- mean(returns$return)
+s    <- sd(returns$return)
+se   <- s / sqrt(n)
+z    <- ybar / se
+pval <- 2 * (1 - pnorm(abs(z)))
+
+results <- data.frame(
+  Statistic = c("n", "Mean Return", "Std Dev", "Std Error", "Z statistic", "p-value"),
+  Value     = round(c(n, ybar, s, se, z, pval), 5)
+)
+kable(results, caption = "Two-Tailed Test: H₀: μ = 0")
+```
+
+:::
+
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| fig-width: 6
+#| fig-height: 5
+
+# Visualise the test
+x_seq <- seq(-4, 4, length.out = 400)
+df_norm <- data.frame(z = x_seq, density = dnorm(x_seq))
+z_crit  <- qnorm(0.975)
+
+ggplot(df_norm, aes(x = z, y = density)) +
+  geom_line(color = "steelblue", linewidth = 1) +
+  geom_area(data = filter(df_norm, z >= z_crit),
+            aes(x = z, y = density), fill = "red", alpha = 0.4) +
+  geom_area(data = filter(df_norm, z <= -z_crit),
+            aes(x = z, y = density), fill = "red", alpha = 0.4) +
+  geom_vline(xintercept = z, color = "darkgreen",
+             linewidth = 1.2, linetype = "dashed") +
+  annotate("text", x = z + 0.2, y = 0.35,
+           label = paste0("Z = ", round(z, 3)), hjust = 0, size = 4) +
+  labs(title = "Z Test for Mean Daily Return (SPY 2022-2023)",
+       subtitle = paste0("p-value = ", round(pval, 4),
+                         " | α = 0.05 | Red zones = rejection regions"),
+       x = "Z statistic", y = "Density") +
+  theme_minimal(base_size = 12)
+```
+
+:::
+:::
+:::
+
+---
+
+## 💰 Case Study: Key Findings {.smaller}
+
+::: {style="font-size: 44px;"}
+::: {.callout-important}
+## 📊 Analysis Results
+
+::: {.columns}
+
+::: {.column width="33%"}
+::: {.fragment}
+**Test Setup:**
+
+- $H_0: \mu_{\text{daily}} = 0$
+
+- $H_a: \mu_{\text{daily}} \neq 0$
+
+- $n = 504$ trading days
+
+- $\alpha = 0.05$
+
+- Two-tailed Z test
+:::
+:::
+
+::: {.column width="33%"}
+::: {.fragment}
+**Computed Values:**
+
+- $\bar{Y} \approx 0.00019$
+
+- $s \approx 0.013$
+
+- $Z \approx 0.32$
+
+- p-value $\approx 0.75$
+
+- **Fail to Reject $H_0$**
+:::
+:::
+
+::: {.column width="33%"}
+::: {.fragment}
+**Implications:**
+
+1. **Market Efficiency**: Daily returns are not distinguishable from zero mean
+
+2. **Practical vs Statistical**: Small $Z$ suggests insufficient signal
+
+3. **Sample Matters**: Longer history or different period may yield different result
+:::
+:::
+
+:::
+:::
+:::
+
+---
+
+## 📝 Quiz #1: Error Types {.smaller .quiz-question}
+
+A central bank audit finds that an investment fund's reported average quarterly return is 2.5%. The regulator tests $H_0: \mu = 2.5\%$ vs $H_a: \mu < 2.5\%$ at $\alpha = 0.05$. The test rejects $H_0$. If the fund was actually performing at exactly 2.5%, what error was made?
+
+- [Type I Error — falsely rejecting a true null hypothesis]{.correct data-explanation="✅ Correct! The null hypothesis was true (μ = 2.5%) but the test rejected it. This is a Type I error, with probability α = 0.05."}
+- Type II Error — failing to detect a true difference
+- No error — the test is always correct at α = 0.05
+- Power error — the sample was too small
+
+---
+
+## 📝 Quiz #2: p-Value Interpretation {.smaller .quiz-question}
+
+A quantitative analyst tests whether a new factor's mean return is positive. She computes $Z = 1.89$, giving $p\text{-value} = 0.029$. Which conclusion is correct at $\alpha = 0.05$?
+
+- [Reject $H_0$; there is statistically significant evidence of a positive mean return]{.correct data-explanation="✅ Correct! p-value = 0.029 < 0.05 = α, so we reject H₀. The evidence supports a positive mean return."}
+- Fail to reject $H_0$; no evidence of positive returns
+- The probability that the strategy is profitable is 97.1%
+- The probability that $H_0$ is true is 2.9%
+
+---
+
+## 📝 Quiz #3: Test Statistic Setup {.smaller .quiz-question}
+
+An analyst tests whether a mutual fund's average monthly excess return $\mu$ equals zero. She has $n = 60$ months, $\bar{Y} = 0.008$, $s = 0.030$. Which is the correct $Z$ statistic?
+
+- [$Z = \dfrac{0.008 - 0}{0.030/\sqrt{60}} \approx 2.07$]{.correct data-explanation="✅ Correct! Z = (ȳ - μ₀)/(s/√n) = 0.008 / (0.030/√60) = 0.008 / 0.003873 ≈ 2.07."}
+- $Z = 0.008 / 0.030 = 0.267$
+- $Z = (0.008 \times 60) / 0.030 = 16$
+- $Z = 0.030 / \sqrt{60} = 0.00387$
+
+---
+
+## 📝 Quiz #4: CI–Test Duality {.smaller .quiz-question}
+
+For the test $H_0: \mu = 0$ at $\alpha = 0.05$ (two-tailed), the 95% confidence interval is computed as $(-0.002, \; 0.018)$. What is the correct decision?
+
+- [Fail to reject $H_0$; since 0 is inside the 95% CI, there is insufficient evidence to conclude $\mu \neq 0$]{.correct data-explanation="✅ Correct! By duality, a two-tailed test at α=0.05 rejects H₀ iff μ₀=0 lies outside the 95% CI. Since 0 ∈ (-0.002, 0.018), we fail to reject."}
+- Reject $H_0$; the interval does not contain the hypothesized value
+- Cannot determine without the test statistic
+- Reject $H_0$; the interval is very narrow
+
+---
+
+## 📝 Summary {.smaller}
+
+::: {style="font-size: 38px"}
+::: {.summary-box}
+**✅ Key Takeaways**
+
+- **Hypotheses**: $H_0$ (null/status quo) vs $H_a$ (research/alternative); always formulate before seeing data
+
+- **Error Trade-off**: $\alpha$ (Type I, false positive) and $\beta$ (Type II, false negative) are inversely related; reducing both requires larger $n$
+
+- **Z Tests**: For large samples, $Z = (\bar{Y} - \mu_0)/(\sigma/\sqrt{n})$ follows $N(0,1)$ under $H_0$
+
+- **p-Values**: Measure evidence against $H_0$; reject $H_0$ when $p < \alpha$; do NOT interpret as probability $H_0$ is true
+
+- **CI Duality**: A two-tailed test rejects $H_0: \mu = \mu_0$ iff $\mu_0$ lies outside the $(1-\alpha)$ confidence interval
+:::
+:::
+
+---
+
+## 📚 Practice Problems
+
+::: {style="font-size:45px;"}
+::: {.callout-tip}
+## 📝 Homework Problems — Chapter 10
+
+**Problem 1 (Formulation):** A telecom regulator claims that average download speed is at least 25 Mbps. You sample $n = 100$ customers and find $\bar{Y} = 23.4$ Mbps, $s = 8.2$ Mbps. Formulate hypotheses, compute $Z$, and find the p-value.
+
+**Problem 2 (Error Types):** A credit risk manager sets $\alpha = 0.01$ when testing whether default rates have increased. Explain the practical consequences of a Type I and Type II error in this context.
+
+**Problem 3 (p-Value):** Compute and interpret p-values for $H_a: \mu > 0$ when $Z = 1.28$, $Z = 1.96$, and $Z = 2.58$.
+
+**Problem 4 (Financial Application):** A portfolio manager tests whether her fund's Sharpe ratio exceeds 0.5. With 36 months of data, $\bar{S} = 0.63$ and $s_S = 0.28$. Test at $\alpha = 0.05$ and construct a 90% one-sided confidence bound. Compare conclusions.
+:::
+:::
+
+---
+
+## 👋 Thank You! {.smaller .center}
+
+::: {.columns}
+::: {.column width="50%"}
+**📬 Contact Information:**
+
+Samir Orujov, PhD
+
+Assistant Professor
+
+School of Business, ADA University
+
+📧 [sorujov@ada.edu.az](mailto:sorujov@ada.edu.az)
+
+🏢 Office: D312
+
+⏰ Office Hours: By appointment
+:::
+
+::: {.column width="50%"}
+**📅 Next Class:**
+
+**Topic:** Tests for Means and Proportions
+
+**Reading:** Chapter 10, Sections 10.3, 10.4, 10.8
+
+**Preparation:** Review the Standard Normal table; practice computing Z statistics
+
+**⏰ Reminders:**
+
+✅ Complete Practice Problems 1–4
+
+✅ Review Type I / Type II error concepts
+
+✅ Think about real-world decision contexts where each error is more costly
+
+✅ Work hard!
+:::
+:::
+
+---
+
+## ❓ Questions? {.center}
+
+::: {.callout-note}
+## 💬 Open Discussion
+
+**Key Topics for Discussion:**
+
+- Why do courts use "beyond reasonable doubt" — which error type is being controlled?
+
+- In algorithmic trading, which error (Type I or II) is more costly? Does it depend on strategy?
+
+- How does increasing sample size affect the trade-off between $\alpha$ and $\beta$?
+
+- Why might a very small p-value be statistically significant but practically unimportant?
+:::

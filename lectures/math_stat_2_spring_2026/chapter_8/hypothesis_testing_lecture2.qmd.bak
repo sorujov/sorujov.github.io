@@ -1,0 +1,893 @@
+---
+title: "Mathematical Statistics"
+subtitle: "Tests for Means and Proportions"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: default
+    logo: ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    margin: 0.04
+    # footer: "Mathematical Statistics – Tests for Means and Proportions"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+---
+
+## 🎯 Learning Objectives {.smaller}
+
+::: {style="font-size:50px;"}
+::: {.learning-objectives}
+By the end of this lecture, you will be able to:
+
+- **Apply** large-sample Z tests for a single mean, proportion, and two-sample comparisons
+
+- **Calculate** Type II error probability $\beta$ for a specific alternative $\theta_a$
+
+- **Determine** the required sample size $n$ to achieve target $\alpha$ and $\beta$
+
+- **Execute** small-sample $t$-tests for $\mu$ and $\mu_1 - \mu_2$ with pooled variance
+
+- **Interpret** test results in financial and regulatory decision-making contexts
+:::
+:::
+
+---
+
+## 📋 Overview {.smaller}
+
+::: {style="font-size:50px"}
+::: {.callout-note}
+## 📚 Topics Covered Today
+
+::: {.incremental}
+- **Large-Sample Z Tests** — unified framework for means, proportions, differences (§10.3)
+
+- **Type II Error & Power** — computing $\beta$ at a specific alternative (§10.4)
+
+- **Sample Size Determination** — how many observations do we need? (§10.4)
+
+- **Small-Sample $t$-Tests** — one-sample and two-sample pooled $t$ (§10.8)
+
+- **Case Study** — Testing fund manager alpha vs zero with real return data
+:::
+:::
+:::
+
+---
+
+## 📖 Motivation: Decisions Under Uncertainty {.smaller}
+
+::: {style="font-size:50px;"}
+::: {.callout-note}
+## 🎯 The Financial Testing Landscape
+
+Every day, financial and regulatory practitioners answer questions like:
+
+::: {.columns}
+::: {.column width="50%"}
+::: {.fragment}
+**Mean Tests:**
+
+- Has a fund's average monthly return exceeded its benchmark?
+- Did average broadband speed drop after a policy change?
+- Is the mean transaction time within SLA limits?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.fragment}
+**Proportion Tests:**
+
+- Has the loan default rate risen above 5%?
+- Do two marketing campaigns have equal conversion rates?
+- Is the pass rate of financial certifications above 60%?
+:::
+:::
+:::
+:::
+
+**Key Challenge:** With small samples (few months of data, niche market), the Z approximation breaks down — we need $t$-tests.
+:::
+
+---
+
+## 🧮 The Unified Large-Sample Z Framework {.smaller}
+
+::: {style="font-size:50px;"}
+::: {.callout-important}
+## Theorem 10.3 — General Large-Sample Test (Wackerly §10.3)
+
+For any estimator $\hat\theta$ with approximately normal sampling distribution:
+
+$$Z = \frac{\hat\theta - \theta_0}{\sigma_{\hat\theta}} \xrightarrow{d} N(0,1) \text{ under } H_0$$
+
+**Rejection regions** at level $\alpha$:
+
+| $H_a$ | Rejection Region | Financial Example |
+|-------|-----------------|-------------------|
+| $\theta > \theta_0$ | $z > z_\alpha$ | Return exceeds benchmark |
+| $\theta < \theta_0$ | $z < -z_\alpha$ | Default rate below threshold |
+| $\theta \neq \theta_0$ | $\|z\| > z_{\alpha/2}$ | Volatility changed after shock |
+
+:::
+:::
+
+---
+
+## 🧮 Z Test for a Single Mean $\mu$ {.smaller}
+
+::: {.callout-important}
+## Test: $H_0: \mu = \mu_0$
+
+$$Z = \frac{\bar{Y} - \mu_0}{\sigma/\sqrt{n}} \approx \frac{\bar{Y} - \mu_0}{S/\sqrt{n}} \quad (\text{use } S \text{ when } \sigma \text{ unknown, large } n)$$
+
+:::
+
+::: {style="font-size:50px"}
+::: {.fragment}
+**📌 Example — Fund Return Audit:**
+
+A regulator tests whether a fund's mean monthly return $\mu = 1.2\%$.
+Data: $n = 60$, $\bar{Y} = 1.48\%$, $s = 1.05\%$.
+
+$$Z = \frac{1.48 - 1.20}{1.05/\sqrt{60}} = \frac{0.28}{0.1356} = 2.06$$
+
+Upper-tail RR at $\alpha = 0.05$: $z > 1.645$ → **Reject $H_0$** ✅
+
+p-value $= P(Z > 2.06) = 0.020$
+:::
+:::
+
+---
+
+## 🧮 Z Test for a Proportion $p$ {.smaller}
+
+::: {.callout-important}
+## Test: $H_0: p = p_0$
+
+$$Z = \frac{\hat p - p_0}{\sqrt{p_0(1-p_0)/n}}$$
+
+Use the **null** value $p_0$ in the denominator (not $\hat p$).
+
+:::
+
+::: {style="font-size:50px"}
+::: {.fragment}
+**📌 Example — Loan Default Rate:**
+
+A bank monitors defaults. Historical rate: $p_0 = 0.04$.
+After a recession: $n = 500$ loans, 28 defaults → $\hat p = 28/500 = 0.056$.
+
+$$Z = \frac{0.056 - 0.040}{\sqrt{0.040 \times 0.960 / 500}} = \frac{0.016}{0.00876} = 1.83$$
+
+$H_a: p > 0.04$, $\alpha = 0.05$: $RR = \{z > 1.645\}$ → **Reject $H_0$**
+
+p-value $= P(Z > 1.83) = 0.034$ — significant evidence default rate rose.
+:::
+:::
+
+---
+
+## 🧮 Z Test for Difference in Means $\mu_1 - \mu_2$ {.smaller}
+
+::: {.callout-important}
+## Test: $H_0: \mu_1 - \mu_2 = D_0$
+
+$$Z = \frac{(\bar{Y}_1 - \bar{Y}_2) - D_0}{\sqrt{\sigma_1^2/n_1 + \sigma_2^2/n_2}} \approx \frac{(\bar{Y}_1 - \bar{Y}_2) - D_0}{\sqrt{S_1^2/n_1 + S_2^2/n_2}}$$
+
+:::
+
+::: {style="font-size:50px"}
+::: {.fragment}
+**📌 Example — Large-Cap vs Small-Cap Returns:**
+
+Test $H_0: \mu_L - \mu_S = 0$ vs $H_a: \mu_L \neq \mu_S$, $\alpha = 0.05$.
+
+| | Large-Cap | Small-Cap |
+|-|-----------|-----------|
+| $n$ | 120 | 120 |
+| $\bar{Y}$ | 0.82% | 1.15% |
+| $S$ | 2.10% | 3.40% |
+
+$$Z = \frac{(0.82 - 1.15) - 0}{\sqrt{2.10^2/120 + 3.40^2/120}} = \frac{-0.33}{0.361} = -0.91$$
+
+$|z| = 0.91 < z_{0.025} = 1.96$ → **Fail to Reject** — no significant difference.
+:::
+:::
+
+---
+
+## 🧮 Z Test for Difference in Proportions $p_1 - p_2$ {.smaller}
+
+::: {.callout-important}
+## Test: $H_0: p_1 - p_2 = 0$ (most common case)
+
+$$Z = \frac{\hat p_1 - \hat p_2}{\sqrt{\hat p(1-\hat p)\left(\frac{1}{n_1} + \frac{1}{n_2}\right)}}, \quad \hat p = \frac{n_1 \hat p_1 + n_2 \hat p_2}{n_1 + n_2}$$
+
+The **pooled proportion** $\hat p$ is used because under $H_0: p_1 = p_2$.
+
+:::
+
+::: {style="font-size:50px"}
+::: {.fragment}
+**📌 Example — ICT Regulation:**
+
+Two ISPs tested for QoS compliance.
+
+| ISP | $n$ | Non-compliant |
+|-----|-----|---------------|
+| A | 200 | 24 (12%) |
+| B | 250 | 18 (7.2%) |
+
+$\hat p = 42/450 = 0.0933$. $Z = (0.12 - 0.072)/\sqrt{0.0933 \times 0.9067 \times (1/200 + 1/250)} = 0.048/0.0387 = 1.24$. p-value $= 0.215$ — no significant difference.
+:::
+:::
+
+---
+
+## 📐 Computing Type II Error $\beta$ {.smaller}
+
+::: {.callout-note}
+## 📝 Method — $\beta$ for the Z Test (Wackerly §10.4)
+
+For $H_0: \mu = \mu_0$ vs $H_a: \mu > \mu_0$ at level $\alpha$, the rejection region is $\bar Y > k$ where $k = \mu_0 + z_\alpha \cdot \sigma/\sqrt{n}$.
+
+$$\beta(\mu_a) = P\!\left(\bar Y \leq k \;\middle|\; \mu = \mu_a\right) = \Phi\!\left(\frac{k - \mu_a}{\sigma/\sqrt{n}}\right) = \Phi(z_\alpha - \delta\sqrt{n})$$
+
+where $\delta = (\mu_a - \mu_0)/\sigma$ is the **standardised effect size**.
+
+:::
+
+::: {style="font-size:50px"}
+::: {.fragment}
+**Key insight:** $\beta \downarrow$ when the effect size $\delta$ is large or $n$ is large.
+
+**Power** $= 1 - \beta$ = probability of correctly detecting $H_a$.
+:::
+:::
+
+---
+
+## 📌 Example: Computing $\beta$ for a Fund Audit {.smaller}
+
+::: {style="font-size:50px;"}
+**Scenario:** Testing $H_0: \mu = 1.0\%$ vs $H_a: \mu > 1.0\%$ at $\alpha = 0.05$, $n = 36$, $\sigma = 1.8\%$.
+
+**Step 1 — Critical boundary:**
+
+$$k = \mu_0 + z_{0.05} \cdot \frac{\sigma}{\sqrt{n}} = 1.0 + 1.645 \cdot \frac{1.8}{\sqrt{36}} = 1.0 + 0.494 = 1.494\%$$
+
+. . .
+
+**Step 2 — Compute $\beta$ at $\mu_a = 1.5\%$:**
+
+$$\beta = P\!\left(\bar Y \leq 1.494 \;\middle|\; \mu = 1.5\right) = \Phi\!\left(\frac{1.494 - 1.5}{1.8/6}\right) = \Phi(-0.02) = 0.492$$
+
+. . .
+
+**Interpretation:** With $n = 36$ and a true excess return of only 0.5% above the threshold, we miss the true outperformance **49% of the time**. We need more data!
+:::
+
+---
+
+## 📐 Sample Size Determination {.smaller}
+
+::: {.callout-important}
+## Formula — Required Sample Size (Wackerly §10.4)
+
+To detect $\mu_a$ with both Type I error $\alpha$ and Type II error $\beta$:
+
+$$\boxed{n = \frac{(z_\alpha + z_\beta)^2 \sigma^2}{(\mu_a - \mu_0)^2}}$$
+
+Both $z_\alpha$ and $z_\beta$ are **upper-tail** critical values of $N(0,1)$.
+
+:::
+
+::: {style="font-size:50px"}
+::: {.fragment}
+**📌 Example — Fund Audit (continued):**
+
+To achieve $\alpha = \beta = 0.05$ for detecting $\mu_a = 1.5\%$ above $\mu_0 = 1.0\%$, $\sigma = 1.8\%$:
+
+$$n = \frac{(1.645 + 1.645)^2 \times 1.8^2}{(1.5 - 1.0)^2} = \frac{10.82 \times 3.24}{0.25} = \frac{35.1}{0.25} = 140.3 \approx \mathbf{141}$$
+
+→ We need **141 monthly observations** — nearly 12 years of data!
+:::
+:::
+
+---
+
+## 🎮 Interactive: Power Curve Explorer {.smaller}
+
+:::::: {style="font-size: 0.72em; margin-top: -8px;"}
+**Explore how $n$, effect size, and $\alpha$ shape the power curve of a Z test.**
+
+::::: columns
+::: {.column width="30%"}
+
+```{ojs}
+//| echo: false
+
+viewof n_pow = {
+  const input = Inputs.range([10, 200], {value: 60, step: 5, label: "Sample size n:"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+
+viewof alpha_pow = {
+  const input = Inputs.range([0.01, 0.10], {value: 0.05, step: 0.01, label: "α level:"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+
+viewof sigma_pow = {
+  const input = Inputs.range([0.5, 3.0], {value: 1.5, step: 0.1, label: "σ (std dev):"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+
+// Normal CDF
+ncdf = function(x) {
+  const t = 1 / (1 + 0.2316419 * Math.abs(x));
+  const poly = t*(0.319381530 + t*(-0.356563782 + t*(1.781477937 + t*(-1.821255978 + t*1.330274429))));
+  const d = Math.exp(-0.5*x*x)/Math.sqrt(2*Math.PI);
+  const r = 1 - d*poly;
+  return x >= 0 ? r : 1 - r;
+}
+
+// Inverse normal (Beasley-Springer-Moro)
+qnorm = function(p) {
+  const a = [2.515517, 0.802853, 0.010328];
+  const b = [1.432788, 0.189269, 0.001308];
+  const t = Math.sqrt(-2*Math.log(p < 0.5 ? p : 1-p));
+  const x = t - (a[0]+a[1]*t+a[2]*t*t)/(1+b[0]*t+b[1]*t*t+b[2]*t*t*t);
+  return p < 0.5 ? -x : x;
+}
+
+z_alpha = qnorm(1 - alpha_pow);
+
+// Power at mu_a: 1 - beta
+power_at = function(mu0, mu_a) {
+  const se = sigma_pow / Math.sqrt(n_pow);
+  const k = mu0 + z_alpha * se;
+  return 1 - ncdf((k - mu_a) / se);
+}
+
+// Summary stats at mu_a = 0.5 (chosen effect)
+pw_05 = power_at(0, 0.5);
+pw_10 = power_at(0, 1.0);
+pw_15 = power_at(0, 1.5);
+
+info_html = html`<div style="background:#f0f4ff; padding:8px; border-radius:6px; font-size:0.93em;">
+  <strong>z<sub>α</sub> = ${z_alpha.toFixed(3)}</strong><br>
+  Power at Δ=0.5: <strong>${(pw_05*100).toFixed(1)}%</strong><br>
+  Power at Δ=1.0: <strong>${(pw_10*100).toFixed(1)}%</strong><br>
+  Power at Δ=1.5: <strong>${(pw_15*100).toFixed(1)}%</strong>
+</div>`;
+
+md`${info_html}`
+```
+
+:::
+
+::: {.column width="70%"}
+
+```{ojs}
+//| echo: false
+
+powerCurve = {
+  const pts = [];
+  for (let delta = 0; delta <= 3.0; delta += 0.05) {
+    pts.push({ delta, power: power_at(0, delta) });
+  }
+  return pts;
+}
+
+Plot.plot({
+  width: 680, height: 360,
+  marginLeft: 55, marginBottom: 50,
+  x: { domain: [0, 3.0], label: "True effect Δ = μₐ − μ₀ (in original units)" },
+  y: { domain: [0, 1.05], label: "Power (1 − β)" },
+  title: `Power Curve | n=${n_pow}, α=${alpha_pow.toFixed(2)}, σ=${sigma_pow.toFixed(1)}`,
+  marks: [
+    Plot.line(powerCurve, {x: "delta", y: "power", stroke: "steelblue", strokeWidth: 2.5}),
+    Plot.ruleY([0.80], {stroke: "tomato", strokeDasharray: "6,3", strokeWidth: 1.5}),
+    Plot.ruleY([alpha_pow], {stroke: "#aaa", strokeDasharray: "4,3"}),
+    Plot.text([{delta: 2.6, power: 0.82, text: "80% power target"}],
+              {x: "delta", y: "power", text: "text", fontSize: 12, fill: "tomato"}),
+    Plot.ruleX([0], {stroke: "#ccc"})
+  ]
+})
+```
+
+*Red dashed = 80% conventional power target. Grey dashed = α (minimum power).*
+:::
+:::::
+::::::
+
+---
+
+## 🧮 Small-Sample $t$-Test for $\mu$ {.smaller}
+
+::: {style="font-size:50px;"}
+::: {.callout-important}
+## Test: $H_0: \mu = \mu_0$ — Small Sample from Normal Population (§10.8)
+
+$$T = \frac{\bar{Y} - \mu_0}{S/\sqrt{n}} \sim t_{n-1} \text{ under } H_0$$
+
+**Rejection regions** at level $\alpha$:
+
+| $H_a$ | Rejection Region | df |
+|-------|-----------------|-----|
+| $\mu > \mu_0$ | $t > t_\alpha$ | $n-1$ |
+| $\mu < \mu_0$ | $t < -t_\alpha$ | $n-1$ |
+| $\mu \neq \mu_0$ | $\|t\| > t_{\alpha/2}$ | $n-1$ |
+
+:::
+
+**When to use $t$ vs $Z$:** Use $t$ when $n$ is small and population is approximately normal. For $n \geq 30$, $Z$ and $t$ give nearly identical results.
+:::
+
+---
+
+## 📌 Example: Testing a Startup Fund's Alpha {.smaller}
+
+::: {style="font-size:50px;"}
+**Scenario:** A micro-cap fund has 10 months of data. The manager claims positive alpha above 0. $H_0: \mu = 0$ vs $H_a: \mu > 0$, $\alpha = 0.05$.
+
+Data: $n = 10$, $\bar{Y} = 1.32\%$, $s = 1.91\%$.
+
+. . .
+
+**Step 1 — Test Statistic:**
+
+$$t = \frac{\bar{Y} - \mu_0}{s/\sqrt{n}} = \frac{1.32 - 0}{1.91/\sqrt{10}} = \frac{1.32}{0.604} = 2.185$$
+
+. . .
+
+**Step 2 — Critical Value:** $t_{0.05}$ with $\nu = 9$ df $= 1.833$.
+
+Since $t = 2.185 > 1.833$ → **Reject $H_0$**
+
+. . .
+
+**Step 3 — p-value:** $P(T_9 > 2.185) \approx 0.028$ — significant at 5%. Evidence of positive alpha!
+:::
+
+---
+
+## 🧮 Two-Sample Pooled $t$-Test for $\mu_1 - \mu_2$ {.smaller}
+
+::: {.callout-important}
+## Test: $H_0: \mu_1 - \mu_2 = D_0$ (assumes $\sigma_1^2 = \sigma_2^2$)
+
+$$T = \frac{(\bar{Y}_1 - \bar{Y}_2) - D_0}{S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}}} \sim t_{n_1+n_2-2}, \quad S_p = \sqrt{\frac{(n_1-1)S_1^2 + (n_2-1)S_2^2}{n_1+n_2-2}}$$
+
+$S_p$ is the **pooled standard deviation** — a weighted average of both sample SDs.
+
+:::
+
+::: {style="font-size:50px"}
+::: {.fragment}
+**When to use:** Independent samples from normal populations with equal variances. Verify equal variance assumption with $F$-test (§10.9) if uncertain.
+:::
+:::
+
+---
+
+## 📌 Example: Two Training Programmes {.smaller}
+
+::: {style="font-size:50px;"}
+**Scenario (Wackerly Ex 10.14 — finance context):** Two analyst training programmes. Test if Programme A produces higher mean returns than Programme B. $H_a: \mu_A - \mu_B > 0$, $\alpha = 0.05$.
+
+| | Programme A | Programme B |
+|-|------------|------------|
+| $n$ | 9 | 9 |
+| $\bar{Y}$ | 4.80% | 3.20% |
+| $\sum(Y_i-\bar Y)^2$ | 195.56 | 160.22 |
+
+. . .
+
+$$S_p = \sqrt{\frac{195.56 + 160.22}{9+9-2}} = \sqrt{22.24} = 4.716, \quad T = \frac{4.80 - 3.20}{4.716\sqrt{1/9+1/9}} = \frac{1.60}{2.225} = 0.719$$
+
+. . .
+
+Critical value $t_{0.05}$ with $\nu = 16$ df $= 1.746$. Since $0.719 < 1.746$ → **Fail to Reject $H_0$**.
+
+No significant evidence that Programme A produces higher mean returns.
+:::
+
+---
+
+## 🤝 Think-Pair-Share {.smaller}
+
+::: {style="font-size:50px;"}
+::: {.callout-tip}
+## 💬 Activity (5 minutes)
+
+**Scenario:** A hedge fund launches a strategy with the claim that its mean monthly excess return exceeds **0.5%**. An independent auditor collects **16 months** of live returns:
+
+$$\bar{Y} = 0.82\%, \quad s = 0.96\%$$
+
+**Questions:**
+
+1. State $H_0$ and $H_a$. Should you use a $Z$ or $t$ test? Why?
+
+2. Compute the test statistic.
+
+3. Find the rejection region and the p-value at $\alpha = 0.05$.
+
+4. What is the **power** of this test if the true mean is $1.0\%$?
+
+5. How many months would be needed to achieve 80% power at the true mean $\mu_a = 1.0\%$?
+:::
+:::
+
+```{r}
+#| echo: false
+#| eval: false
+library(countdown)
+countdown(minutes = 5, bottom = 0, right = 0, color_border = "#003366")
+```
+
+---
+
+## ✅ Think-Pair-Share: Solution {.smaller}
+
+::: {style="font-size: 50px;"}
+
+::: {.columns}
+::: {.column width="50%"}
+
+::: {.fragment}
+**1. Hypotheses & Test Choice:**
+
+$$H_0: \mu \leq 0.5\% \quad H_a: \mu > 0.5\%$$
+
+Use **$t$-test** — $n = 16$ is small; we must assume normal returns. $\nu = 15$ df.
+:::
+
+::: {.fragment}
+**2. Test Statistic:**
+
+$$t = \frac{0.82 - 0.50}{0.96/\sqrt{16}} = \frac{0.32}{0.24} = 1.333$$
+:::
+
+:::
+
+::: {.column width="50%"}
+
+::: {.fragment}
+**3. Decision:** Critical value $t_{0.05, 15} = 1.753$.
+
+Since $1.333 < 1.753$ → **Fail to Reject $H_0$**.
+
+p-value $= P(T_{15} > 1.333) \approx 0.101$. Insufficient evidence at 5%.
+:::
+
+::: {.fragment}
+**4 & 5. Power & Sample Size:**
+
+At $\mu_a = 1.0\%$, $\delta = (1.0 - 0.5)/0.96 = 0.521$:
+
+$$\beta = \Phi(z_{0.05} - 0.521\sqrt{16}) = \Phi(1.645 - 2.08) = \Phi(-0.44) \approx 0.33$$
+
+Power $\approx 67\%$. For 80% power: $n = (1.645+0.842)^2/0.521^2 \approx \mathbf{23}$ months.
+
+> 💡 **Key Insight:** 16 months gives only 67% power. A slight increase to 23 months pushes power past the conventional 80% threshold — always check power before concluding "no effect."
+:::
+
+:::
+:::
+
+:::
+
+---
+
+## 💰 Case Study: Testing Fund Alpha {.smaller}
+
+::: {style="font-size:22px"}
+::: {.columns}
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+
+library(tidyverse)
+library(tidyquant)
+library(knitr)
+
+# ARK Innovation ETF as "active manager" vs SPY benchmark
+ark  <- tq_get("ARKK", from = "2021-01-01", to = "2022-12-31")
+spy  <- tq_get("SPY",  from = "2021-01-01", to = "2022-12-31")
+
+get_monthly <- function(df) {
+  df %>%
+    tq_transmute(select = adjusted,
+                 mutate_fun = periodReturn,
+                 period = "monthly",
+                 col_rename = "return")
+}
+
+ark_r <- get_monthly(ark) %>% rename(ark = return)
+spy_r <- get_monthly(spy) %>% rename(spy = return)
+
+joined <- inner_join(ark_r, spy_r, by = "date") %>%
+  mutate(excess = ark - spy)  # excess return = alpha proxy
+
+n    <- nrow(joined)
+ybar <- mean(joined$excess) * 100
+s    <- sd(joined$excess) * 100
+t_stat <- (ybar - 0) / (s / sqrt(n))
+p_val  <- pt(t_stat, df = n-1, lower.tail = ybar < 0) * 2
+
+results <- data.frame(
+  Metric  = c("n (months)", "Mean excess return %",
+              "Std dev %", "t statistic",
+              "df", "p-value (two-tailed)"),
+  Value   = round(c(n, ybar, s, t_stat, n-1, p_val), 4)
+)
+kable(results, caption = "t-Test: H₀: μ_excess = 0")
+```
+
+:::
+
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| fig-width: 6
+#| fig-height: 5
+
+ggplot(joined, aes(x = date, y = excess * 100)) +
+  geom_col(aes(fill = excess > 0), show.legend = FALSE) +
+  geom_hline(yintercept = 0, colour = "black") +
+  geom_hline(yintercept = ybar, colour = "steelblue",
+             linetype = "dashed", linewidth = 1) +
+  scale_fill_manual(values = c("TRUE" = "#2ecc71", "FALSE" = "#e74c3c")) +
+  annotate("text", x = min(joined$date), y = ybar + 1.5,
+           label = paste0("Mean = ", round(ybar, 2), "%"),
+           hjust = 0, colour = "steelblue", size = 4) +
+  labs(
+    title = "ARKK Monthly Excess Return over SPY (2021–2022)",
+    subtitle = paste0("t = ", round(t_stat, 2), " | p-value = ",
+                      round(p_val, 3), " | n = ", n, " months"),
+    x = NULL, y = "Excess Return (%)"
+  ) +
+  theme_minimal(base_size = 12)
+```
+
+:::
+:::
+:::
+
+---
+
+## 💰 Case Study: Key Findings {.smaller}
+
+::: {style="font-size: 50px;"}
+::: {.callout-important}
+## 📊 Analysis Results — ARKK Alpha vs SPY (2021–2022)
+
+::: {.columns}
+
+::: {.column width="33%"}
+::: {.fragment}
+**Statistical Result:**
+
+- Two-tailed $t$-test: $H_0: \mu_{\text{excess}} = 0$
+
+- ARKK underperformed SPY by ~2–4% per month on average
+
+- $|t|$ is large → **Reject $H_0$**
+
+- p-value $< 0.05$ — significant negative alpha
+:::
+:::
+
+::: {.column width="33%"}
+::: {.fragment}
+**Why $t$ Not $Z$?**
+
+- Monthly data → only ~24 observations
+
+- With $n < 30$, CLT approximation is unreliable
+
+- $t$-distribution has heavier tails → more conservative critical values → more honest uncertainty
+:::
+:::
+
+::: {.column width="33%"}
+::: {.fragment}
+**Regulatory Implications:**
+
+1. **Performance claims**: Statistically significant underperformance is legally relevant in fund disclosures
+
+2. **Sample size matters**: 24 months already yields good power when effect is large
+
+3. **Practical vs statistical**: Statistical significance ≠ economic significance — size of alpha matters too
+:::
+:::
+
+:::
+:::
+:::
+
+---
+
+## 📝 Quiz #1: Choosing the Test {.smaller .quiz-question}
+
+A fintech startup has 12 months of daily active user data ($n = 12$). The founder claims mean DAU exceeds 50,000. Which test is most appropriate to evaluate this claim, assuming DAU is approximately normally distributed?
+
+- [One-sample $t$-test with $\nu = 11$ df, because $n$ is small and population variance is unknown]{.correct data-explanation="✅ Correct! n=12 is a small sample from a normal distribution with unknown σ². We use T = (Ȳ - μ₀)/(S/√n) with n-1 = 11 degrees of freedom."}
+- One-sample $Z$-test, because we know the population is normal
+- Two-sample $t$-test with pooled variance
+- $Z$-test for proportions, since DAU is a count
+
+---
+
+## 📝 Quiz #2: Computing Type II Error {.smaller .quiz-question}
+
+For $H_0: \mu = 100$ vs $H_a: \mu > 100$, $\alpha = 0.05$, $n = 25$, $\sigma = 10$. The critical boundary is $k = 103.29$. What is $\beta$ when the true mean is $\mu_a = 104$?
+
+- [$\beta = \Phi\!\left(\frac{103.29 - 104}{10/\sqrt{25}}\right) = \Phi(-0.355) \approx 0.361$]{.correct data-explanation="✅ Correct! β = P(Ȳ ≤ k | μ = μₐ) = Φ((k - μₐ)/(σ/√n)) = Φ((103.29-104)/2) = Φ(-0.355) ≈ 0.361."}
+- $\beta = 1 - \Phi(1.645) = 0.05$
+- $\beta = \Phi(1.645) = 0.95$
+- $\beta = \Phi\!\left(\frac{104 - 100}{10/\sqrt{25}}\right) = \Phi(2) \approx 0.977$
+
+---
+
+## 📝 Quiz #3: Sample Size Formula {.smaller .quiz-question}
+
+A regulator wants to detect a rise in the mean latency of a broadband network from $\mu_0 = 20$ ms to $\mu_a = 22$ ms. They want $\alpha = 0.05$ and $\beta = 0.10$, and $\sigma = 5$ ms. Which expression gives the required sample size?
+
+- [$n = \dfrac{(z_{0.05} + z_{0.10})^2 \cdot 5^2}{(22-20)^2} = \dfrac{(1.645+1.282)^2 \cdot 25}{4} \approx 54$]{.correct data-explanation="✅ Correct! n = (zα + zβ)²σ²/(μₐ-μ₀)² = (1.645+1.282)²×25/4 = 8.567×25/4 ≈ 53.5, round up to 54."}
+- $n = (1.96 + 1.645)^2 \cdot 25 / 4 \approx 81$
+- $n = (1.645)^2 \cdot 25 / 4 \approx 17$
+- $n = (1.645 + 1.645)^2 \cdot 25 / 4 \approx 54$ (wrong, uses $z_{0.025}$ not $z_{0.05}$)
+
+---
+
+## 📝 Quiz #4: Pooled $t$-Test Setup {.smaller .quiz-question}
+
+Two equity analysts are compared. Analyst A: $n_1 = 8$, $\bar Y_1 = 5.2\%$, $S_1 = 2.1\%$. Analyst B: $n_2 = 10$, $\bar Y_2 = 4.0\%$, $S_2 = 1.8\%$. Testing $H_0: \mu_1 = \mu_2$ at $\alpha = 0.05$. What are the degrees of freedom?
+
+- [$\nu = n_1 + n_2 - 2 = 8 + 10 - 2 = 16$]{.correct data-explanation="✅ Correct! The pooled two-sample t-test uses ν = n₁ + n₂ - 2 degrees of freedom. Here ν = 8 + 10 - 2 = 16."}
+- $\nu = n_1 - 1 + n_2 - 1 = 7 + 9 = 16$ — same answer but wrong formula
+- $\nu = \min(n_1, n_2) - 1 = 7$
+- $\nu = n_1 + n_2 = 18$
+
+---
+
+## 📝 Summary {.smaller}
+
+::: {style="font-size: 50px"}
+::: {.summary-box}
+**✅ Key Takeaways**
+
+- **Z tests (large $n$)**: Unified framework — $Z = (\hat\theta - \theta_0)/\sigma_{\hat\theta}$ covers means, proportions, and their differences; use $S$ when $\sigma$ unknown
+
+- **Type II error**: $\beta(\mu_a) = \Phi(z_\alpha - \delta\sqrt{n})$ where $\delta$ is the effect size; power $= 1 - \beta$ increases with $n$ and effect size
+
+- **Sample size**: $n = (z_\alpha + z_\beta)^2\sigma^2/(\mu_a - \mu_0)^2$ — always plan before collecting data
+
+- **Small-sample $t$-test**: $T = (\bar Y - \mu_0)/(S/\sqrt{n})$ with $\nu = n-1$ df for one sample; requires normality assumption
+
+- **Pooled two-sample $t$-test**: Uses common $S_p$; $\nu = n_1 + n_2 - 2$; assumes equal population variances
+:::
+:::
+
+---
+
+## 📚 Practice Problems
+
+::: {style="font-size:50px;"}
+::: {.callout-tip}
+## 📝 Homework Problems — Chapter 10 (§10.3, 10.4, 10.8)
+
+**Problem 1 (Z test for proportion):** An ISP claims its network meets QoS standards 98% of the time. In a sample of 400 service windows, 11 showed violations. Test the claim at $\alpha = 0.05$.
+
+**Problem 2 (Type II error):** For $H_0: \mu = 5\%$ vs $H_a: \mu > 5\%$, $\alpha = 0.05$, $n = 64$, $\sigma = 2\%$. Compute $\beta$ at $\mu_a = 5.5\%$ and $\mu_a = 6\%$. Comment on the pattern.
+
+**Problem 3 (Sample size):** A risk manager needs to detect a rise in mean VaR from 2.0% to 2.3% ($\sigma = 0.8\%$) with $\alpha = 0.05$ and $\beta = 0.10$. How many observations are needed?
+
+**Problem 4 (Two-sample $t$):** Two bond fund managers each have 12 months of data. Manager A: $\bar Y = 3.4\%$, $s = 1.2\%$. Manager B: $\bar Y = 2.8\%$, $s = 1.5\%$. Test $H_0: \mu_A = \mu_B$ at $\alpha = 0.05$ using a pooled $t$-test.
+:::
+:::
+
+---
+
+## 👋 Thank You! {.smaller .center}
+
+::: {.columns}
+::: {.column width="50%"}
+**📬 Contact Information:**
+
+Samir Orujov, PhD
+
+Assistant Professor
+
+School of Business, ADA University
+
+📧 [sorujov@ada.edu.az](mailto:sorujov@ada.edu.az)
+
+🏢 Office: D312
+
+⏰ Office Hours: By appointment
+:::
+
+::: {.column width="50%"}
+**📅 Next Class:**
+
+**Topic:** Two-Sample Tests (§10.7, 10.9)
+
+**Reading:** Chapter 10, Sections 10.7 and 10.9
+
+**Preparation:** Review $F$-distribution table (Table 7, Appendix 3); recall Chi-squared distribution properties
+
+**⏰ Reminders:**
+
+✅ Complete Practice Problems 1–4
+
+✅ Verify you can compute $S_p$ and pooled $t$ by hand
+
+✅ Reflect on when $Z$ vs $t$ is appropriate
+
+✅ Work hard!
+:::
+:::
+
+---
+
+## ❓ Questions? {.center}
+
+::: {.callout-note}
+## 💬 Open Discussion
+
+**Key Topics for Discussion:**
+
+- Why do we use $p_0$ (not $\hat p$) in the denominator of the proportion Z test?
+
+- In finance, is a Type I or Type II error more costly when auditing fund returns? Does it depend on the auditor's role (regulator vs investor)?
+
+- Why does sample size appear under a square root in the Z statistic but squared in the sample size formula?
+
+- If $n$ is large, why does the distinction between $t$ and $Z$ become negligible?
+:::
