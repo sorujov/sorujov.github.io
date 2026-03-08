@@ -1,0 +1,1205 @@
+---
+title: "Mathematical Statistics"
+subtitle: "Topic 7: Properties of Point Estimators & Methods of Estimation"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: default
+    logo: ../ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    margin: 0.04
+    footer: "Mathematical Statistics – Properties of Point Estimators"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+---
+
+## 🎯 Learning Objectives
+
+:::: {style="font-size:40px"}
+By the end of this lecture, you will be able to:
+
+1. **Compare** two unbiased estimators using relative efficiency and the Cramér–Rao lower bound
+
+2. **Verify** whether an estimator is consistent by applying Theorem 9.1 and the Law of Large Numbers
+
+3. **Identify** sufficient statistics using the Factorization Criterion (Theorem 9.4)
+
+4. **Apply** the Rao–Blackwell theorem to improve estimators and find MVUEs
+
+5. **Derive** point estimators using the Method of Moments and the Method of Maximum Likelihood
+::::
+
+---
+
+## 📋 Overview
+
+:::: {style="font-size:40px"}
+**Chapter 9: Properties of Point Estimators and Methods of Estimation**
+
+::: {.columns}
+::: {.column width="50%"}
+**Part I — Evaluating Estimators**
+
+- 9.2 Relative Efficiency
+- 9.3 Consistency
+- 9.4 Sufficiency & Factorization
+- 9.5 Rao–Blackwell & MVUE
+:::
+::: {.column width="50%"}
+**Part II — Finding Estimators**
+
+- 9.6 Method of Moments (MoM)
+- 9.7 Method of Maximum Likelihood (MLE)
+- 9.8 Large-Sample Properties of MLEs *(optional)*
+:::
+:::
+
+> **Big Idea:** How do we know if an estimator is *good*, and how do we find the *best possible* one?
+::::
+
+---
+
+## 💡 Motivation: Why Does This Matter?
+
+:::: {style="font-size:37px"}
+::: {.callout-note}
+## The Portfolio Manager's Dilemma
+
+A risk analyst at a Baku investment fund estimates the **expected monthly return** of an equity portfolio. She has collected $n$ months of data.
+
+- **Estimator A:** Uses the full sample mean $\bar{Y}$
+- **Estimator B:** Uses only the first two observations $\frac{Y_1 + Y_2}{2}$
+
+Both are *unbiased* — but which is *better*?
+:::
+
+::: {.fragment}
+**The answer requires formal criteria:**
+
+- 🎯 **Efficiency** — which has smaller variance?
+- 📉 **Consistency** — does it converge to the truth as $n \to \infty$?
+- 🔒 **Sufficiency** — does it retain all information about the parameter?
+:::
+::::
+
+---
+
+# Part I: Evaluating Estimators
+
+---
+
+## 📖 9.2 Relative Efficiency
+
+:::: {style="font-size:50px"}
+::: {.callout-note}
+## 📝 Definition 9.1 — Relative Efficiency
+
+Given **two unbiased estimators** $\hat{\theta}_1$ and $\hat{\theta}_2$ of $\theta$, the efficiency of $\hat{\theta}_1$ **relative to** $\hat{\theta}_2$ is:
+
+$$\text{eff}(\hat{\theta}_1, \hat{\theta}_2) = \frac{V(\hat{\theta}_2)}{V(\hat{\theta}_1)}$$
+
+- If $\text{eff} > 1$ $\Rightarrow$ $\hat{\theta}_1$ is **more efficient** (smaller variance)
+- If $\text{eff} < 1$ $\Rightarrow$ $\hat{\theta}_2$ is **more efficient** (preferred)
+:::
+
+::: {.fragment}
+**Interpretation:** $\text{eff}(\hat{\theta}_1, \hat{\theta}_2) = 1.8$ means $V(\hat{\theta}_2) = 1.8 \cdot V(\hat{\theta}_1)$ — you need 80% more data with $\hat\theta_2$ to match $\hat\theta_1$'s precision.
+:::
+::::
+
+---
+
+## 📌 Example: Mean vs. Median — Which Estimator for Stock Returns?
+
+:::: {style="font-size:50px"}
+::: {.callout-tip}
+## Setting
+
+Daily S&P 500 returns are **normally distributed** with mean $\mu$ and variance $\sigma^2$.
+
+We compare two unbiased estimators of $\mu$:
+
+- $\hat{\mu}_1$ = **Sample median** with $V(\hat{\mu}_1) \approx \frac{(1.2533)^2 \sigma^2}{n}$
+- $\hat{\mu}_2$ = **Sample mean** with $V(\hat{\mu}_2) = \frac{\sigma^2}{n}$
+:::
+
+::: {.fragment}
+$$\text{eff}(\hat{\mu}_1, \hat{\mu}_2) = \frac{V(\hat{\mu}_2)}{V(\hat{\mu}_1)} = \frac{\sigma^2/n}{(1.2533)^2\sigma^2/n} = \frac{1}{1.5708} \approx 0.637$$
+
+**Conclusion:** The sample mean has **~64% of the variance** of the sample median. ✅ Prefer $\bar{Y}$ for estimating expected returns on normally distributed data.
+:::
+::::
+
+---
+
+## 📖 Cramér–Rao Lower Bound *(Optional — Exercise 9.8)*
+
+:::: {style="font-size:50px"}
+::: {.callout-important}
+## 🧮 Cramér–Rao Inequality
+
+For any **unbiased** estimator $\hat\theta$ of $\theta$, under regularity conditions:
+
+$$V(\hat\theta) \geq I(\theta) = \left[ nE\left(-\frac{\partial^2 \ln f(Y|\theta)}{\partial \theta^2}\right) \right]^{-1}$$
+
+An estimator achieving this lower bound is called **efficient**.
+:::
+
+::: {.fragment}
+**Finance application:** For normally distributed returns, $\bar{Y}$ achieves the Cramér–Rao bound — it is the **most efficient** unbiased estimator of $\mu$.
+
+> No other unbiased estimator can have *smaller* variance than the sample mean for normal data.
+:::
+::::
+
+---
+
+## 📖 9.3 Consistency
+
+:::: {style="font-size:50px"}
+::: {.callout-note}
+## 📝 Definition 9.2 — Consistent Estimator
+
+$\hat\theta_n$ is a **consistent estimator** of $\theta$ if, for any $\varepsilon > 0$:
+
+$$\lim_{n \to \infty} P(|\hat\theta_n - \theta| \leq \varepsilon) = 1$$
+
+Equivalently: $\hat\theta_n$ **converges in probability** to $\theta$.
+:::
+
+::: {.fragment}
+**Intuition for finance students:** As a portfolio grows in history (more months of returns), your estimator for expected return should get arbitrarily close to the true value — not drift away.
+:::
+::::
+
+---
+
+## 🧮 Theorem 9.1 — Easy Consistency Check
+
+:::: {style="font-size:50px"}
+::: {.callout-important}
+## Theorem 9.1
+
+An **unbiased** estimator $\hat\theta_n$ for $\theta$ is **consistent** if:
+
+$$\lim_{n \to \infty} V(\hat\theta_n) = 0$$
+:::
+
+::: {.fragment}
+**Proof sketch (via Tchebysheff):**
+
+$$0 \leq P(|\hat\theta_n - \theta| > \varepsilon) \leq \frac{V(\hat\theta_n)}{\varepsilon^2} \xrightarrow{n\to\infty} 0 \qquad \square$$
+:::
+
+::: {.fragment}
+**Example:** $\bar{Y}_n$ is unbiased for $\mu$ and $V(\bar{Y}_n) = \sigma^2/n \to 0$. So $\bar{Y}$ is **consistent** — this is the **Law of Large Numbers**.
+:::
+::::
+
+---
+
+## 🧮 Theorem 9.2 — Algebra of Consistent Estimators
+
+:::: {style="font-size:50px"}
+::: {.callout-important}
+## Theorem 9.2
+
+If $\hat\theta_n \xrightarrow{p} \theta$ and $\hat\theta'_n \xrightarrow{p} \theta'$, then:
+
+(a) $\hat\theta_n + \hat\theta'_n \xrightarrow{p} \theta + \theta'$
+
+(b) $\hat\theta_n \times \hat\theta'_n \xrightarrow{p} \theta \times \theta'$
+
+(c) $\hat\theta_n / \hat\theta'_n \xrightarrow{p} \theta / \theta'$ \hspace{1em} (if $\theta' \neq 0$)
+
+(d) If $g(\cdot)$ is continuous at $\theta$: $g(\hat\theta_n) \xrightarrow{p} g(\theta)$
+:::
+
+::: {.fragment}
+**Finance application:** Since $\bar{Y} \xrightarrow{p} \mu$ and $S^2 \xrightarrow{p} \sigma^2$, by part (b): $S \xrightarrow{p} \sigma$ — justifying use of $S$ in large-sample CIs for volatility estimation.
+:::
+::::
+
+---
+
+## 📌 Example: Sample Variance is Consistent
+
+:::: {style="font-size:50px"}
+::: {.callout-tip}
+## Setting (Example 9.3)
+
+For a random sample with $E(Y_i) = \mu$, $V(Y_i) = \sigma^2$, show that $S^2_n$ is **consistent** for $\sigma^2$.
+:::
+
+::: {.fragment}
+**Key steps:**
+
+$$S^2_n = \frac{n}{n-1}\left[\underbrace{\frac{1}{n}\sum Y_i^2}_{\xrightarrow{p}\; \mu'_2} - \underbrace{\bar{Y}^2_n}_{\xrightarrow{p}\; \mu^2}\right]$$
+
+- By LLN: $\frac{1}{n}\sum Y_i^2 \xrightarrow{p} E(Y^2) = \mu'_2$
+- By Thm 9.2(d): $\bar{Y}^2_n \xrightarrow{p} \mu^2$
+- Since $\frac{n}{n-1} \to 1$: $S^2_n \xrightarrow{p} \mu'_2 - \mu^2 = \sigma^2$ ✅
+:::
+::::
+
+---
+
+## 🎮 Interactive: Consistency — Estimator Convergence Explorer {.smaller}
+
+:::: {style="font-size:50px"}
+
+**Watch how $\bar{Y}_n$ converges to $\mu$ as the hedge fund's return history grows.**
+
+::::: columns
+::: {.column width="32%"}
+
+```{ojs}
+//| echo: false
+
+viewof true_mu = {
+  const input = Inputs.range([-2, 5], {value: 2, step: 0.5, label: "True μ (%):"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+
+viewof sigma_val = {
+  const input = Inputs.range([1, 8], {value: 3, step: 0.5, label: "Std Dev σ (%):"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+
+viewof n_paths = {
+  const input = Inputs.range([1, 30], {value: 10, step: 1, label: "# Sequences:"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+
+consistencyInfo = {
+  const finalVals = [];
+  for (let p = 0; p < n_paths; p++) {
+    let sum = 0;
+    for (let i = 1; i <= 200; i++) {
+      const u1 = Math.random(), u2 = Math.random();
+      const z = Math.sqrt(-2*Math.log(u1)) * Math.cos(2*Math.PI*u2);
+      sum += true_mu + sigma_val * z;
+    }
+    finalVals.push(sum / 200);
+  }
+  const avg = finalVals.reduce((a,b)=>a+b,0)/finalVals.length;
+  const spread = Math.max(...finalVals) - Math.min(...finalVals);
+  
+  return html`<div style="background:#e8f4f8; padding:8px; border-radius:6px; font-size:0.9em;">
+    <strong>At n = 200:</strong><br>
+    Avg estimate: ${avg.toFixed(3)}%<br>
+    True μ: ${true_mu}%<br>
+    Range of paths: ${spread.toFixed(3)}%
+  </div>`;
+}
+```
+
+:::
+::: {.column width="68%"}
+
+```{ojs}
+//| echo: false
+
+consistencyData = {
+  const N = 200;
+  const paths = [];
+  for (let p = 0; p < n_paths; p++) {
+    let cumSum = 0;
+    for (let i = 1; i <= N; i++) {
+      const u1 = Math.random(), u2 = Math.random();
+      const z = Math.sqrt(-2*Math.log(u1)) * Math.cos(2*Math.PI*u2);
+      cumSum += true_mu + sigma_val * z;
+      if (i % 2 === 0 || i <= 10) {
+        paths.push({n: i, ybar: cumSum / i, path: p});
+      }
+    }
+  }
+  return paths;
+}
+
+Plot.plot({
+  width: 720, height: 400,
+  marginLeft: 55, marginBottom: 45, marginRight: 20,
+  x: {label: "Sample size n (months of return history)", domain: [1, 200]},
+  y: {label: "Sample mean return (%)", 
+      domain: [true_mu - sigma_val*2, true_mu + sigma_val*2]},
+  title: `${n_paths} sample paths converging to true μ = ${true_mu}%`,
+  marks: [
+    Plot.line(consistencyData, {x: "n", y: "ybar", stroke: "path",
+      strokeOpacity: 0.5, strokeWidth: 1.2}),
+    Plot.ruleY([true_mu], {stroke: "red", strokeWidth: 3, strokeDasharray: "8,4"}),
+    Plot.text([{n: 190, y: true_mu + 0.3}],
+      {x: "n", y: "y", text: d => `μ = ${true_mu}%`, fill: "red", fontSize: 13})
+  ]
+})
+```
+
+:::
+:::::
+::::
+
+---
+
+## 📖 9.4 Sufficiency
+
+:::: {style="font-size:50px"}
+::: {.callout-note}
+## 📝 Definition 9.3 — Sufficient Statistic
+
+The statistic $U = g(Y_1, \ldots, Y_n)$ is **sufficient** for $\theta$ if the conditional distribution of $Y_1, \ldots, Y_n$ given $U$ **does not depend on** $\theta$.
+
+> *Knowing $U$ extracts all information about $\theta$ from the data.*
+:::
+
+::: {.fragment}
+**Intuition — Loan Default Monitoring:**
+
+Suppose we monitor $n = 100$ loans (success = default, probability = $p$).
+
+After observing the total number of defaults $Y = \sum X_i$, no other function of the individual outcomes tells us anything **new** about $p$.
+
+$\Rightarrow$ $Y = \sum X_i$ is **sufficient** for $p$.
+:::
+::::
+
+---
+
+## 📖 Definition 9.4 — The Likelihood Function
+
+:::: {style="font-size:50px"}
+::: {.callout-note}
+## 📝 Definition 9.4 — Likelihood
+
+The **likelihood** of sample $(y_1, \ldots, y_n)$ is the joint probability (discrete) or joint density (continuous):
+
+$$L(\theta) = L(y_1, \ldots, y_n \mid \theta) = \prod_{i=1}^n f(y_i \mid \theta)$$
+:::
+
+::: {.fragment}
+**Key insight:** $L(\theta)$ measures how *plausible* the observed data is for different values of $\theta$.
+
+- For the bond default model: $L(p) = p^y(1-p)^{n-y}$
+- For normally distributed returns: $L(\mu, \sigma^2) = \left(\frac{1}{\sigma\sqrt{2\pi}}\right)^n \exp\!\left(-\frac{\sum(y_i-\mu)^2}{2\sigma^2}\right)$
+:::
+::::
+
+---
+
+## 🧮 Theorem 9.4 — Factorization Criterion
+
+:::: {style="font-size:50px"}
+::: {.callout-important}
+## Theorem 9.4 (Factorization Criterion)
+
+$U = g(Y_1,\ldots,Y_n)$ is **sufficient** for $\theta$ **if and only if** the likelihood factors as:
+
+$$L(y_1, \ldots, y_n \mid \theta) = \underbrace{g(u, \theta)}_{\text{depends on } u \text{ and } \theta} \times \underbrace{h(y_1, \ldots, y_n)}_{\text{free of } \theta}$$
+:::
+
+::: {.fragment}
+**Power of the criterion:** Factor the likelihood, identify the part depending on $\theta$, read off the sufficient statistic $U$.
+:::
+::::
+
+---
+
+## 📌 Example: Sufficient Statistic for Inter-Trade Waiting Times (Example 9.5)
+
+:::: {style="font-size:50px"}
+::: {.callout-tip}
+## Setting
+
+Times between large equity trades follow an **exponential** distribution with mean $\theta$:
+
+$$f(y_i \mid \theta) = \frac{1}{\theta}e^{-y_i/\theta}, \quad y_i > 0$$
+:::
+
+::: {.fragment}
+**Apply Factorization:**
+
+$$L(\theta) = \prod_{i=1}^n \frac{1}{\theta}e^{-y_i/\theta} = \frac{e^{-n\bar{y}/\theta}}{\theta^n} = \underbrace{\frac{e^{-n\bar{y}/\theta}}{\theta^n}}_{g(\bar{y},\;\theta)} \times \underbrace{1}_{h(\mathbf{y})}$$
+
+$\Rightarrow$ $\bar{Y}$ (equivalently $\sum Y_i$) is **sufficient** for $\theta$. ✅
+
+The sample mean retains *all* information about mean inter-trade time.
+:::
+::::
+
+---
+
+# Part II: Finding the Best Estimator
+
+---
+
+## 🧮 9.5 The Rao–Blackwell Theorem
+
+:::: {style="font-size:50px"}
+::: {.callout-important}
+## Theorem 9.5 — Rao–Blackwell
+
+Let $\hat\theta$ be **unbiased** for $\theta$ with $V(\hat\theta) < \infty$, and let $U$ be a **sufficient statistic** for $\theta$.
+
+Define $\hat\theta^* = E(\hat\theta \mid U)$. Then:
+
+$$E(\hat\theta^*) = \theta \quad \text{and} \quad V(\hat\theta^*) \leq V(\hat\theta)$$
+:::
+
+::: {.fragment}
+**Translation:** Conditioning any unbiased estimator on a sufficient statistic *never increases* variance — and usually *decreases* it.
+
+> ➡️ The best unbiased estimators are functions of sufficient statistics.
+:::
+::::
+
+---
+
+## 📖 Minimum-Variance Unbiased Estimator (MVUE)
+
+:::: {style="font-size:50px"}
+::: {.callout-note}
+## MVUE Definition
+
+An estimator $\hat\theta^*$ is a **Minimum-Variance Unbiased Estimator (MVUE)** if:
+
+1. $E(\hat\theta^*) = \theta$ (unbiased)
+2. $V(\hat\theta^*) \leq V(\hat\theta)$ for **all** other unbiased estimators $\hat\theta$
+:::
+
+::: {.fragment}
+**Practical recipe for finding MVUEs:**
+
+1. Use **Factorization Criterion** to find the minimal sufficient statistic $U$
+
+2. Find a function $h(U)$ such that $E[h(U)] = \theta$
+
+3. $h(U)$ is the **MVUE** for $\theta$
+:::
+::::
+
+---
+
+## 📌 Example: MVUE for Bernoulli Default Rate (Example 9.6)
+
+:::: {style="font-size:50px"}
+::: {.callout-tip}
+## Setting
+
+We observe $n$ independent loans: $Y_i = 1$ (default) with probability $p$.
+:::
+
+::: {.fragment}
+**Step 1 — Find sufficient statistic:**
+
+$$L(p) = p^{\sum y_i}(1-p)^{n - \sum y_i} = \underbrace{p^u(1-p)^{n-u}}_{g(u,p)} \times \underbrace{1}_{h}$$
+
+$\Rightarrow$ $U = \sum_{i=1}^n Y_i$ is sufficient for $p$.
+:::
+
+::: {.fragment}
+**Step 2 — Find unbiased function of $U$:**
+
+$$E(U) = np \quad \Rightarrow \quad E\!\left(\frac{U}{n}\right) = p$$
+
+$\Rightarrow$ $\hat{p} = \bar{Y} = U/n$ is the **MVUE** for $p$. ✅
+
+> No other unbiased estimator of the default rate can have smaller variance than $\bar{Y}$.
+:::
+::::
+
+---
+
+## 📌 Example: MVUE for Normal Return Distribution (Example 9.8)
+
+:::: {style="font-size:50px"}
+::: {.callout-tip}
+## Setting
+
+Monthly fund returns $Y_i \sim N(\mu, \sigma^2)$ (both unknown). Find MVUEs for $\mu$ and $\sigma^2$.
+:::
+
+::: {.fragment}
+**Factorize the likelihood:**
+
+$$L(\mu, \sigma^2) \propto \exp\!\left(\!-\!\frac{1}{2\sigma^2}\sum y_i^2 + \frac{\mu}{\sigma^2}\sum y_i - \frac{n\mu^2}{2\sigma^2}\right)$$
+
+$\Rightarrow$ $\left(\sum Y_i,\; \sum Y_i^2\right)$ are **jointly sufficient** for $(\mu, \sigma^2)$.
+:::
+
+::: {.fragment}
+**MVUEs:**
+
+- $\hat\mu = \bar{Y}$ — unbiased for $\mu$, function of $\sum Y_i$ ✅
+- $\hat\sigma^2 = S^2 = \frac{1}{n-1}\sum(Y_i - \bar{Y})^2$ — unbiased for $\sigma^2$ ✅
+:::
+::::
+
+---
+
+## 🤝 Think-Pair-Share {.smaller}
+
+:::: {style="font-size:50px"}
+::: {.callout-note}
+## 💬 Problem
+
+An analyst tracks **daily trading volume** (in millions USD) for a stock. Volumes follow an **exponential distribution** with unknown mean $\theta$ (average daily volume).
+
+A random sample of $n = 20$ days gives $\sum y_i = 480$ million USD.
+
+**Questions:**
+
+1. Using the **Method of Moments**, derive an estimator for $\theta$.
+
+2. Using the **Factorization Criterion**, show that $\bar{Y}$ is sufficient for $\theta$.
+
+3. Is $\bar{Y}$ the MVUE for $\theta$? Justify your answer.
+
+4. Compute the estimate of $\theta$ from the data above.
+:::
+::::
+
+```{r}
+#| echo: false
+library(countdown)
+countdown(minutes = 5, bottom = 0, right = 0,
+          color_running_background = "#2C7BB6",
+          color_finished_background = "#D7191C")
+```
+
+---
+
+## ✅ Think-Pair-Share — Solution {.smaller}
+
+:::: {style="font-size:50px"}
+::: {.callout-important}
+## 📊 Full Solution
+:::
+
+::: {.columns}
+::: {.column width="50%"}
+**Q1 — Method of Moments:**
+
+For Exponential($\theta$): $\mu'_1 = E(Y) = \theta$
+
+Set population moment = sample moment:
+
+$$\theta = m'_1 = \bar{Y} \quad \Rightarrow \quad \hat\theta_{\text{MoM}} = \bar{Y}$$
+
+**Q2 — Factorization:**
+
+$$L(\theta) = \prod \frac{1}{\theta}e^{-y_i/\theta} = \frac{1}{\theta^n}e^{-n\bar{y}/\theta}$$
+
+$= \underbrace{\theta^{-n}e^{-n\bar{y}/\theta}}_{g(\bar{y},\,\theta)} \times \underbrace{1}_{h(\mathbf{y})}$
+
+$\Rightarrow$ $\bar{Y}$ is **sufficient** for $\theta$. ✅
+:::
+::: {.column width="50%"}
+**Q3 — Is $\bar{Y}$ the MVUE?**
+
+- $\bar{Y}$ is **unbiased**: $E(\bar{Y}) = \theta$ ✅
+- $V(\bar{Y}) = \theta^2/n \to 0$ as $n \to \infty$ ✅ (consistent)
+- $\bar{Y}$ is a function of the minimal sufficient statistic ✅
+- By Rao–Blackwell, **$\bar{Y}$ is the MVUE** for $\theta$
+
+No unbiased estimator of mean daily volume has smaller variance.
+
+**Q4 — Numerical estimate:**
+
+$$\hat\theta = \bar{Y} = \frac{\sum y_i}{n} = \frac{480}{20} = \mathbf{24} \text{ million USD}$$
+
+> The estimated mean daily trading volume is **\$24 million**.
+:::
+:::
+::::
+
+---
+
+## 📖 9.6 Method of Moments (MoM)
+
+:::: {style="font-size:50px"}
+::: {.callout-note}
+## Procedure
+
+The **$k$-th population moment**: $\mu'_k = E(Y^k)$
+
+The **$k$-th sample moment**: $m'_k = \frac{1}{n}\sum_{i=1}^n Y_i^k$
+
+**Method:** For $t$ unknown parameters, solve the system:
+
+$$\mu'_k = m'_k, \quad k = 1, 2, \ldots, t$$
+:::
+
+::: {.fragment}
+**Properties of MoM estimators:**
+
+- ✅ **Always consistent** (sample moments converge to population moments)
+- ⚠️ Often **biased** and **not always efficient** (may not be functions of sufficient statistics)
+- ✅ **Simple** to compute — useful as first-pass estimates
+:::
+::::
+
+---
+
+## 📌 Example: Estimating Gamma Loss Distribution (Example 9.13)
+
+:::: {style="font-size:50px"}
+::: {.callout-tip}
+## Setting
+
+Insurance claim losses $Y_i \sim \text{Gamma}(\alpha, \beta)$. Estimate $\alpha$ and $\beta$.
+:::
+
+::: {.fragment}
+**Gamma moments:** $\mu'_1 = \alpha\beta$ and $\mu'_2 = \alpha\beta^2 + \alpha^2\beta^2$
+
+**Set equal to sample moments and solve:**
+
+$$\alpha\beta = \bar{Y} \qquad \text{and} \qquad \alpha\beta^2 + \alpha^2\beta^2 = \frac{1}{n}\sum Y_i^2$$
+:::
+
+::: {.fragment}
+**Solutions:**
+
+$$\hat\alpha = \frac{n\bar{Y}^2}{\sum_{i=1}^n(Y_i - \bar{Y})^2} \qquad \hat\beta = \frac{\sum_{i=1}^n(Y_i - \bar{Y})^2}{n\bar{Y}}$$
+
+**Application:** Actuaries and risk managers use these to fit loss distributions for capital requirement calculations.
+:::
+::::
+
+---
+
+## 📖 9.7 Method of Maximum Likelihood (MLE)
+
+:::: {style="font-size:50px"}
+::: {.callout-note}
+## 📝 MLE Procedure
+
+Choose as estimates the parameter values that **maximize the likelihood** of the observed sample:
+
+$$\hat\theta = \arg\max_\theta\; L(y_1, \ldots, y_n \mid \theta) = \arg\max_\theta \prod_{i=1}^n f(y_i \mid \theta)$$
+
+**In practice:** Maximize the **log-likelihood** (same solution, easier calculus):
+
+$$\hat\theta = \arg\max_\theta\; \ell(\theta) = \arg\max_\theta \sum_{i=1}^n \ln f(y_i \mid \theta)$$
+:::
+::::
+
+---
+
+## 📌 Example: MLE for Default Rate (Example 9.14)
+
+:::: {style="font-size:50px"}
+::: {.callout-tip}
+## Setting
+
+$n$ loans, $y = \sum y_i$ defaults observed. $Y_i \sim \text{Bernoulli}(p)$. Find MLE of $p$.
+:::
+
+::: {.fragment}
+**Log-likelihood:**
+
+$$\ell(p) = y \ln p + (n-y)\ln(1-p)$$
+:::
+
+::: {.fragment}
+**Differentiate and set to zero:**
+
+$$\frac{d\ell}{dp} = \frac{y}{p} - \frac{n-y}{1-p} = 0 \quad \Rightarrow \quad \hat{p} = \frac{y}{n} = \bar{Y}$$
+
+✅ The MLE of the default rate is the **sample proportion** — matching intuition.
+
+> MLE confirmed: $\hat{p} = \bar{Y}$ is both the **MVUE** and the **MLE**!
+:::
+::::
+
+---
+
+## 📌 Example: MLE for Normal Stock Returns (Example 9.15)
+
+:::: {style="font-size:50px"}
+::: {.callout-tip}
+## Setting
+
+Monthly returns $Y_i \sim N(\mu, \sigma^2)$, both unknown. Find MLEs.
+:::
+
+::: {.fragment}
+**Log-likelihood:**
+
+$$\ell(\mu, \sigma^2) = -\frac{n}{2}\ln\sigma^2 - \frac{n}{2}\ln 2\pi - \frac{1}{2\sigma^2}\sum(y_i - \mu)^2$$
+:::
+
+::: {.fragment}
+**Solve $\partial\ell/\partial\mu = 0$ and $\partial\ell/\partial\sigma^2 = 0$:**
+
+$$\hat\mu = \bar{Y} \qquad \hat\sigma^2 = \frac{1}{n}\sum_{i=1}^n(Y_i - \bar{Y})^2$$
+
+⚠️ $\hat\sigma^2$ is **biased** (divides by $n$ not $n-1$). Adjust to $S^2 = \frac{n}{n-1}\hat\sigma^2$ for unbiasedness.
+:::
+::::
+
+---
+
+## 📖 Invariance Property of MLEs
+
+:::: {style="font-size:50px"}
+::: {.callout-important}
+## 🧮 Invariance Property
+
+If $\hat\theta$ is the MLE of $\theta$, then the MLE of any function $t(\theta)$ is:
+
+$$\widehat{t(\theta)} = t(\hat\theta)$$
+:::
+
+::: {.fragment}
+**Finance examples:**
+
+| Parameter $\theta$ | Function of interest $t(\theta)$ | MLE |
+|---|---|---|
+| Default rate $p$ | Variance $np(1-p)$ | $n\hat{p}(1-\hat{p})$ |
+| Mean return $\mu$ | Sharpe ratio $\mu/\sigma$ | $\hat\mu/\hat\sigma$ |
+| Intensity $\lambda$ | No-event prob $e^{-\lambda}$ | $e^{-\hat\lambda}$ |
+
+:::
+::::
+
+---
+
+## 🎮 Interactive: MLE for Normal Returns — Likelihood Surface {.smaller}
+
+:::: {style="font-size:50px"}
+
+**Observe how the log-likelihood peaks at the MLE $(\bar{Y},\; S^2)$.**
+
+::::: columns
+::: {.column width="35%"}
+
+```{ojs}
+//| echo: false
+
+viewof mu_true2 = {
+  const input = Inputs.range([-3, 5], {value: 1.5, step: 0.5, label: "True μ (%):"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+
+viewof sig2 = {
+  const input = Inputs.range([1, 6], {value: 3, step: 0.5, label: "True σ (%):"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+
+viewof n_obs = {
+  const input = Inputs.range([5, 60], {value: 20, step: 5, label: "Sample size n:"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+
+mle_info = {
+  let sum = 0, sum2 = 0;
+  const seed = Math.floor(mu_true2*10 + sig2*3 + n_obs);
+  function lcg(s) { return (1664525 * s + 1013904223) >>> 0; }
+  let state = seed;
+  const ys = [];
+  for (let i = 0; i < n_obs; i++) {
+    state = lcg(state);
+    const u1 = state / 4294967296;
+    state = lcg(state);
+    const u2 = state / 4294967296;
+    const z = Math.sqrt(-2*Math.log(u1+1e-10)) * Math.cos(2*Math.PI*u2);
+    const y = mu_true2 + sig2 * z;
+    ys.push(y);
+    sum += y; sum2 += y*y;
+  }
+  const ybar = sum / n_obs;
+  const s2 = (sum2 - n_obs*ybar*ybar) / (n_obs - 1);
+  return html`<div style="background:#d4edda; padding:8px; border-radius:6px; font-size:0.9em;">
+    <strong>MLE Estimates:</strong><br>
+    μ̂ = ${ybar.toFixed(3)}%<br>
+    σ̂ = ${Math.sqrt(s2).toFixed(3)}%<br>
+    True μ = ${mu_true2}%, σ = ${sig2}%
+  </div>`;
+}
+```
+
+:::
+::: {.column width="65%"}
+
+```{ojs}
+//| echo: false
+
+likelihoodData = {
+  let sum = 0, sum2 = 0;
+  const seed = Math.floor(mu_true2*10 + sig2*3 + n_obs);
+  function lcg(s) { return (1664525 * s + 1013904223) >>> 0; }
+  let state = seed;
+  for (let i = 0; i < n_obs; i++) {
+    state = lcg(state);
+    const u1 = state / 4294967296;
+    state = lcg(state);
+    const u2 = state / 4294967296;
+    const z = Math.sqrt(-2*Math.log(u1+1e-10)) * Math.cos(2*Math.PI*u2);
+    const y = mu_true2 + sig2 * z;
+    sum += y; sum2 += y*y;
+  }
+  const ybar = sum / n_obs;
+  const s2 = (sum2 - n_obs*ybar*ybar) / n_obs;
+
+  const muRange = Array.from({length: 60}, (_, i) => ybar - 4 + i * 8/59);
+  return muRange.map(mu_c => {
+    const ll = -n_obs/2 * Math.log(s2) - (1/(2*s2)) * (sum2 - 2*mu_c*sum + n_obs*mu_c*mu_c);
+    return {mu: mu_c, loglik: ll};
+  });
+}
+
+Plot.plot({
+  width: 650, height: 380,
+  marginLeft: 60, marginBottom: 50, marginTop: 30,
+  x: {label: "Candidate μ value (%)"},
+  y: {label: "Log-Likelihood ℓ(μ)"},
+  title: `Log-Likelihood peaks at MLE: μ̂ = ȳ`,
+  marks: [
+    Plot.line(likelihoodData, {x: "mu", y: "loglik", stroke: "steelblue", strokeWidth: 2.5}),
+    Plot.ruleX([likelihoodData.reduce((a,b) => a.loglik > b.loglik ? a : b).mu],
+      {stroke: "red", strokeWidth: 2.5, strokeDasharray: "6,3"}),
+    Plot.text([{mu: likelihoodData.reduce((a,b)=>a.loglik>b.loglik?a:b).mu, 
+                ll: Math.max(...likelihoodData.map(d=>d.loglik))}],
+      {x: "mu", y: "ll", dy: -15, text: d => `MLE: μ̂=${d.mu.toFixed(2)}%`, fill:"red", fontSize:12})
+  ]
+})
+```
+
+:::
+:::::
+::::
+
+---
+
+## 💰 R Case Study: Comparing MoM vs. MLE for Stock Returns {.smaller}
+
+:::: {style="font-size:50px"}
+::: {.columns}
+::: {.column width="52%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+
+library(tidyverse)
+library(tidyquant)
+library(knitr)
+library(MASS)  # for fitdistr (MLE)
+
+# Download 3 years of monthly returns
+symbols <- c("AAPL", "XOM", "JPM")
+prices <- tq_get(symbols,
+                 from = "2021-01-01",
+                 to = "2023-12-31")
+
+returns <- prices %>%
+  group_by(symbol) %>%
+  tq_transmute(select = adjusted,
+               mutate_fun = periodReturn,
+               period = "monthly",
+               col_rename = "return") %>%
+  mutate(return_pct = return * 100)
+
+# MoM estimates: mu_hat = Ybar, sigma^2_hat = S^2
+mom_est <- returns %>%
+  group_by(symbol) %>%
+  summarise(
+    n = n(),
+    mu_MoM    = mean(return_pct),
+    sigma_MoM = sd(return_pct),
+    .groups = "drop"
+  )
+
+kable(mom_est, digits = 3,
+      caption = "Method of Moments Estimates (Monthly Returns, %)")
+```
+
+:::
+::: {.column width="48%"}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| fig-width: 5.5
+#| fig-height: 5
+
+# MLE for normal: mu_MLE = Ybar, sigma_MLE^2 = (1/n)*sum(yi-ybar)^2
+mle_est <- returns %>%
+  group_by(symbol) %>%
+  summarise(
+    mu_MLE    = mean(return_pct),
+    sigma_MLE = sd(return_pct) * sqrt((n()-1)/n()),
+    .groups = "drop"
+  )
+
+# MLE sigma uses n in denominator, MoM uses n-1
+comparison <- mom_est %>%
+  left_join(mle_est, by = "symbol") %>%
+  mutate(sigma_bias = sigma_MoM - sigma_MLE)
+
+# Visualise: fitted normal densities vs empirical
+returns %>%
+  left_join(mle_est, by = "symbol") %>%
+  ggplot(aes(x = return_pct)) +
+  geom_histogram(aes(y = after_stat(density)),
+                 bins = 12, fill = "steelblue",
+                 alpha = 0.5, color = "white") +
+  stat_function(fun = dnorm,
+    args = list(mean = mle_est$mu_MLE[1],
+                sd   = mle_est$sigma_MLE[1]),
+    color = "red", linewidth = 1.2, linetype = "dashed") +
+  facet_wrap(~symbol, ncol = 1, scales = "free_x") +
+  labs(title = "Monthly Returns vs. MLE Normal Fit",
+       subtitle = "Red dashed: MLE N(μ̂, σ̂²)",
+       x = "Monthly Return (%)", y = "Density") +
+  theme_minimal(base_size = 10)
+```
+
+:::
+:::
+::::
+
+---
+
+## 💰 Case Study: Key Findings {.smaller}
+
+:::: {style="font-size:50px"}
+::: {.callout-important}
+## 📊 MoM vs. MLE — Practical Comparison
+
+::: {.columns}
+::: {.column width="33%"}
+::: {.fragment}
+**Estimating $\mu$ (mean return):**
+
+- MoM: $\hat\mu = \bar{Y}$
+
+- MLE: $\hat\mu = \bar{Y}$
+
+- **Identical!** For exponential family distributions, MoM and MLE agree on the mean
+
+- Both are **MVUE** for $\mu$ (normal case)
+:::
+:::
+::: {.column width="33%"}
+::: {.fragment}
+**Estimating $\sigma$ (volatility):**
+
+- MoM: $\hat\sigma = S$ (divides by $n-1$)
+
+- MLE: $\hat\sigma = \sqrt{\frac{1}{n}\sum(y_i-\bar{y})^2}$ (divides by $n$)
+
+- MLE is **biased** — slightly underestimates $\sigma$
+
+- For risk management: prefer unbiased $S$
+:::
+:::
+::: {.column width="33%"}
+::: {.fragment}
+**Takeaways for practitioners:**
+
+1. **MLE** is consistent, invariant, and often asymptotically efficient
+
+2. **MoM** is simple and always consistent — good for multi-parameter models (e.g., Gamma losses)
+
+3. For **normal returns**, both agree on $\mu$; only differ on $\sigma$
+
+4. **MVUE** = the gold standard whenever achievable
+:::
+:::
+:::
+:::
+::::
+
+---
+
+## 📝 Quiz #1: Relative Efficiency {.smaller .quiz-question}
+
+Two unbiased estimators for a fund's mean return $\mu$ are computed from $n = 50$ monthly observations. $V(\hat\mu_1) = 0.10$ and $V(\hat\mu_2) = 0.25$. What is $\text{eff}(\hat\mu_1, \hat\mu_2)$?
+
+- [$\text{eff}(\hat\mu_1, \hat\mu_2) = 2.5$, so $\hat\mu_1$ is preferred]{.correct data-explanation="✅ Correct! eff(θ̂₁, θ̂₂) = V(θ̂₂)/V(θ̂₁) = 0.25/0.10 = 2.5. Since eff > 1, θ̂₁ has smaller variance and is more efficient."}
+- $\text{eff}(\hat\mu_1, \hat\mu_2) = 0.4$, so $\hat\mu_2$ is preferred
+- $\text{eff}(\hat\mu_1, \hat\mu_2) = 2.5$, so $\hat\mu_2$ is preferred
+- Cannot be determined without knowing the distribution
+
+---
+
+## 📝 Quiz #2: Consistency {.smaller .quiz-question}
+
+A portfolio analyst uses $\hat\theta_n = Y_1$ (the first observation only) to estimate mean annual return $\mu$. Is $\hat\theta_n$ consistent?
+
+- [No — $V(Y_1) = \sigma^2$ does not converge to 0 as $n \to \infty$]{.correct data-explanation="✅ Correct! By Theorem 9.1, an unbiased estimator is consistent if its variance → 0. Since V(Y₁) = σ² for all n, it never shrinks — Y₁ is NOT consistent."}
+- Yes — $Y_1$ is unbiased for $\mu$ so it must be consistent
+- Yes — by the Law of Large Numbers, all estimators are consistent
+- Cannot determine consistency without more information
+
+---
+
+## 📝 Quiz #3: Factorization Criterion {.smaller .quiz-question}
+
+For a Poisson sample $Y_1, \ldots, Y_n$ with mean $\lambda$, the likelihood is $L(\lambda) = \frac{\lambda^{\sum y_i} e^{-n\lambda}}{\prod y_i!}$. What is the sufficient statistic for $\lambda$?
+
+- [$U = \sum_{i=1}^n Y_i$]{.correct data-explanation="✅ Correct! Factor: L(λ) = [λ^(Σyᵢ) e^(−nλ)] × [1/∏yᵢ!]. The first part depends on the data only through Σyᵢ = u, and the second part is free of λ. By Theorem 9.4, U = ΣYᵢ is sufficient."}
+- $U = \bar{Y}$, since it is unbiased for $\lambda$
+- $U = Y_{(n)} = \max(Y_1, \ldots, Y_n)$
+- The sufficient statistic is $\lambda$ itself
+
+---
+
+## 📝 Quiz #4: MLE vs. MoM {.smaller .quiz-question}
+
+For a Uniform$(0, \theta)$ sample, the MoM estimator is $\hat\theta_{\text{MoM}} = 2\bar{Y}$ and the MLE is $\hat\theta_{\text{MLE}} = Y_{(n)} = \max(Y_i)$. Which statement is correct?
+
+- [The MLE is more efficient; the sufficient statistic is $Y_{(n)}$, so the MVUE is based on $Y_{(n)}$, not $\bar{Y}$]{.correct data-explanation="✅ Correct! The factorization criterion gives Y₍ₙ₎ as the sufficient statistic. eff(MoM, MLE) = 3/(n+2) < 1 for n > 1, meaning the MLE has smaller variance. The MoM estimator 2Ȳ is NOT a function of the sufficient statistic, so it cannot be MVUE."}
+- The MoM is preferred because it is unbiased
+- Both estimators are equally efficient for all $n$
+- The MLE is biased and therefore should never be used
+
+---
+
+## 📝 Summary {.smaller}
+
+:::: {style="font-size:50px"}
+::: {.callout-note}
+## ✅ Key Takeaways — Chapter 9
+
+::: {.columns}
+::: {.column width="50%"}
+**Evaluating Estimators**
+
+- **Efficiency** — compare via $\text{eff} = V(\hat\theta_2)/V(\hat\theta_1)$; prefer estimator with smaller variance
+
+- **Consistency** — $V(\hat\theta_n) \to 0$ for unbiased $\hat\theta_n$ $\Rightarrow$ consistent (Theorem 9.1); $\bar{Y}$ is always consistent (LLN)
+
+- **Sufficiency** — $U$ is sufficient for $\theta$ if the likelihood factors as $g(u,\theta) \cdot h(\mathbf{y})$ (Factorization Criterion)
+
+- **MVUE** — Rao–Blackwell: best unbiased estimators are functions of sufficient statistics
+:::
+::: {.column width="50%"}
+**Finding Estimators**
+
+- **Method of Moments** — equate $E(Y^k) = m'_k$; always consistent, easy to compute, sometimes inefficient
+
+- **MLE** — maximize $L(\theta)$ or $\ell(\theta)$; consistent, invariant $[t(\hat\theta)$ is MLE of $t(\theta)]$, often asymptotically efficient
+
+- **Hierarchy:** MVUE $\geq$ MLE (adjusted) $\geq$ MoM in terms of efficiency
+
+- **Finance link:** $\bar{Y}$ = MLE = MVUE for $\mu$ in normal returns; $S^2$ = MVUE for $\sigma^2$
+:::
+:::
+:::
+::::
+
+---
+
+## 📚 Practice Problems
+
+:::: {style="font-size:50px"}
+::: {.callout-tip}
+## 📝 Homework (Wackerly Ch. 9)
+
+**Problem 1 (Efficiency — Ex. 9.5):** Let $\hat\sigma^2_1 = S^2$ and $\hat\sigma^2_2 = \frac{1}{2}(Y_1-Y_2)^2$ be two unbiased estimators of $\sigma^2$ from a normal sample. Find $\text{eff}(\hat\sigma^2_1, \hat\sigma^2_2)$.
+
+**Problem 2 (Consistency — Ex. 9.20):** If $Y \sim \text{Binomial}(n, p)$, show that $Y/n$ is a consistent estimator of $p$.
+
+**Problem 3 (Sufficiency — Ex. 9.38a):** For a normal sample with known $\sigma^2$, show $\bar{Y}$ is sufficient for $\mu$.
+
+**Problem 4 (MLE — Ex. 9.80):** For a Poisson sample with mean $\lambda$: (a) find $\hat\lambda_{\text{MLE}}$; (b) find $E(\hat\lambda)$ and $V(\hat\lambda)$; (c) what is the MLE of $P(Y=0) = e^{-\lambda}$?
+:::
+::::
+
+---
+
+## 👋 Thank You!
+
+:::: {style="font-size:50px"}
+::: {.columns}
+::: {.column width="55%"}
+**Contact**
+
+📧 sorujov@ada.edu.az
+
+🏛 ADA University, School of Business
+
+🏢 ICTA Statistics Unit
+
+**Next Lecture**
+
+📌 **Topic 8: Hypothesis Testing**
+
+Chapter 10 — Testing large-sample means, proportions, and variances with financial applications
+:::
+::: {.column width="45%"}
+::: {.callout-note}
+## 📌 Key Formulas
+
+$$\text{eff}(\hat\theta_1, \hat\theta_2) = \frac{V(\hat\theta_2)}{V(\hat\theta_1)}$$
+
+$$\hat\theta_n \text{ consistent if } V(\hat\theta_n) \to 0$$
+
+$$L(\theta) = g(u,\theta) \cdot h(\mathbf{y}) \Rightarrow U \text{ sufficient}$$
+
+$$\hat\theta^* = E(\hat\theta \mid U) \Rightarrow V(\hat\theta^*) \leq V(\hat\theta)$$
+:::
+:::
+:::
+::::
+
+---
+
+## ❓ Discussion Questions
+
+:::: {style="font-size:50px"}
+::: {.callout-note}
+## 💬 Open Questions
+
+1. In practice, when would you accept a **biased but consistent** estimator over an **unbiased but inefficient** one? Give an example from portfolio management.
+
+2. The MLE for $\sigma^2$ in the normal model divides by $n$ (biased). Yet many practitioners use it anyway. What trade-off are they making?
+
+3. Can you think of a financial quantity where finding the **sufficient statistic** would substantially simplify estimation? (Hint: think about VaR or CVaR.)
+
+4. How does the **invariance property of MLEs** help when estimating the **Sharpe Ratio** $\mu/\sigma$?
+:::
+::::
