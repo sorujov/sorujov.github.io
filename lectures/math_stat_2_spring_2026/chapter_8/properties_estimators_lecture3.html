@@ -1,0 +1,2051 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="properties_estimators_lecture3_files/libs/clipboard/clipboard.min.js"></script>
+<script src="properties_estimators_lecture3_files/libs/quarto-html/tabby.min.js"></script>
+<script src="properties_estimators_lecture3_files/libs/quarto-html/popper.min.js"></script>
+<script src="properties_estimators_lecture3_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="properties_estimators_lecture3_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="properties_estimators_lecture3_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="properties_estimators_lecture3_files/libs/quarto-html/quarto-syntax-highlighting-e41caad1b6b9b62eb3087831f3b4c651.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.25">
+
+  <meta name="author" content="Samir Orujov, PhD">
+  <meta name="dcterms.date" content="2026-03-08">
+  <title>Mathematical Statistics</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="properties_estimators_lecture3_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="properties_estimators_lecture3_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {  background-color: #f8f8f8; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ef2929; } /* Alert */
+    code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #204a87; } /* Attribute */
+    code span.bn { color: #0000cf; } /* BaseN */
+    code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4e9a06; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #8f5902; font-style: italic; } /* Comment */
+    code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+    code span.dt { color: #204a87; } /* DataType */
+    code span.dv { color: #0000cf; } /* DecVal */
+    code span.er { color: #a40000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #0000cf; } /* Float */
+    code span.fu { color: #204a87; font-weight: bold; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+    code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+    code span.ot { color: #8f5902; } /* Other */
+    code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+    code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+    code span.ss { color: #4e9a06; } /* SpecialString */
+    code span.st { color: #4e9a06; } /* String */
+    code span.va { color: #000000; } /* Variable */
+    code span.vs { color: #4e9a06; } /* VerbatimString */
+    code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="properties_estimators_lecture3_files/libs/revealjs/dist/theme/quarto-180c62c9bcf69a0506044dd7f3253a18.css">
+  <link href="properties_estimators_lecture3_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="properties_estimators_lecture3_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="properties_estimators_lecture3_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="properties_estimators_lecture3_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="properties_estimators_lecture3_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="properties_estimators_lecture3_files/libs/revealjs/plugin/reveal-quiz/quiz.css" rel="stylesheet">
+  <link href="properties_estimators_lecture3_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script type="module" src="properties_estimators_lecture3_files/libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+  <link href="properties_estimators_lecture3_files/libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+  <link href="properties_estimators_lecture3_files/libs/countdown-0.6.0/countdown.css" rel="stylesheet">
+
+  <script src="properties_estimators_lecture3_files/libs/countdown-0.6.0/countdown.js"></script>
+
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Mathematical Statistics</h1>
+  <p class="subtitle">Topic 7: Properties of Point Estimators &amp; Methods of Estimation</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Samir Orujov, PhD 
+</div>
+        <p class="quarto-title-affiliation">
+            ADA University, School of Business
+          </p>
+        <p class="quarto-title-affiliation">
+            Information Communication Technologies Agency, Statistics Unit
+          </p>
+    </div>
+</div>
+
+  <p class="date">2026-03-08</p>
+</section>
+<section id="learning-objectives" class="slide level2">
+<h2>🎯 Learning Objectives</h2>
+<div style="font-size:40px">
+<p>By the end of this lecture, you will be able to:</p>
+<ol type="1">
+<li><p><strong>Compare</strong> two unbiased estimators using relative efficiency and the Cramér–Rao lower bound</p></li>
+<li><p><strong>Verify</strong> whether an estimator is consistent by applying Theorem 9.1 and the Law of Large Numbers</p></li>
+<li><p><strong>Identify</strong> sufficient statistics using the Factorization Criterion (Theorem 9.4)</p></li>
+<li><p><strong>Apply</strong> the Rao–Blackwell theorem to improve estimators and find MVUEs</p></li>
+<li><p><strong>Derive</strong> point estimators using the Method of Moments and the Method of Maximum Likelihood</p></li>
+</ol>
+</div>
+</section>
+<section id="overview" class="slide level2">
+<h2>📋 Overview</h2>
+<div style="font-size:40px">
+<p><strong>Chapter 9: Properties of Point Estimators and Methods of Estimation</strong></p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Part I — Evaluating Estimators</strong></p>
+<ul>
+<li>9.2 Relative Efficiency</li>
+<li>9.3 Consistency</li>
+<li>9.4 Sufficiency &amp; Factorization</li>
+<li>9.5 Rao–Blackwell &amp; MVUE</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p><strong>Part II — Finding Estimators</strong></p>
+<ul>
+<li>9.6 Method of Moments (MoM)</li>
+<li>9.7 Method of Maximum Likelihood (MLE)</li>
+<li>9.8 Large-Sample Properties of MLEs <em>(optional)</em></li>
+</ul>
+</div></div>
+<blockquote>
+<p><strong>Big Idea:</strong> How do we know if an estimator is <em>good</em>, and how do we find the <em>best possible</em> one?</p>
+</blockquote>
+</div>
+</section>
+<section id="motivation-why-does-this-matter" class="slide level2">
+<h2>💡 Motivation: Why Does This Matter?</h2>
+<div style="font-size:37px">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>The Portfolio Manager’s Dilemma</strong></p>
+</div>
+<div class="callout-content">
+<p>A risk analyst at a Baku investment fund estimates the <strong>expected monthly return</strong> of an equity portfolio. She has collected <span class="math inline">\(n\)</span> months of data.</p>
+<ul>
+<li><strong>Estimator A:</strong> Uses the full sample mean <span class="math inline">\(\bar{Y}\)</span></li>
+<li><strong>Estimator B:</strong> Uses only the first two observations <span class="math inline">\(\frac{Y_1 + Y_2}{2}\)</span></li>
+</ul>
+<p>Both are <em>unbiased</em> — but which is <em>better</em>?</p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><strong>The answer requires formal criteria:</strong></p>
+<ul>
+<li>🎯 <strong>Efficiency</strong> — which has smaller variance?</li>
+<li>📉 <strong>Consistency</strong> — does it converge to the truth as <span class="math inline">\(n \to \infty\)</span>?</li>
+<li>🔒 <strong>Sufficiency</strong> — does it retain all information about the parameter?</li>
+</ul>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+</section>
+<section>
+<section id="part-i-evaluating-estimators" class="title-slide slide level1 center">
+<h1>Part I: Evaluating Estimators</h1>
+
+</section>
+<section id="relative-efficiency" class="slide level2">
+<h2>📖 9.2 Relative Efficiency</h2>
+<div style="font-size:50px">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📝 Definition 9.1 — Relative Efficiency</strong></p>
+</div>
+<div class="callout-content">
+<p>Given <strong>two unbiased estimators</strong> <span class="math inline">\(\hat{\theta}_1\)</span> and <span class="math inline">\(\hat{\theta}_2\)</span> of <span class="math inline">\(\theta\)</span>, the efficiency of <span class="math inline">\(\hat{\theta}_1\)</span> <strong>relative to</strong> <span class="math inline">\(\hat{\theta}_2\)</span> is:</p>
+<p><span class="math display">\[\text{eff}(\hat{\theta}_1, \hat{\theta}_2) = \frac{V(\hat{\theta}_2)}{V(\hat{\theta}_1)}\]</span></p>
+<ul>
+<li>If <span class="math inline">\(\text{eff} &gt; 1\)</span> <span class="math inline">\(\Rightarrow\)</span> <span class="math inline">\(\hat{\theta}_1\)</span> is <strong>more efficient</strong> (smaller variance)</li>
+<li>If <span class="math inline">\(\text{eff} &lt; 1\)</span> <span class="math inline">\(\Rightarrow\)</span> <span class="math inline">\(\hat{\theta}_2\)</span> is <strong>more efficient</strong> (preferred)</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><strong>Interpretation:</strong> <span class="math inline">\(\text{eff}(\hat{\theta}_1, \hat{\theta}_2) = 1.8\)</span> means <span class="math inline">\(V(\hat{\theta}_2) = 1.8 \cdot V(\hat{\theta}_1)\)</span> — you need 80% more data with <span class="math inline">\(\hat\theta_2\)</span> to match <span class="math inline">\(\hat\theta_1\)</span>’s precision.</p>
+</div>
+</div>
+</section>
+<section id="example-mean-vs.-median-which-estimator-for-stock-returns" class="slide level2">
+<h2>📌 Example: Mean vs.&nbsp;Median — Which Estimator for Stock Returns?</h2>
+<div style="font-size:50px">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Setting</strong></p>
+</div>
+<div class="callout-content">
+<p>Daily S&amp;P 500 returns are <strong>normally distributed</strong> with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>.</p>
+<p>We compare two unbiased estimators of <span class="math inline">\(\mu\)</span>:</p>
+<ul>
+<li><span class="math inline">\(\hat{\mu}_1\)</span> = <strong>Sample median</strong> with <span class="math inline">\(V(\hat{\mu}_1) \approx \frac{(1.2533)^2 \sigma^2}{n}\)</span></li>
+<li><span class="math inline">\(\hat{\mu}_2\)</span> = <strong>Sample mean</strong> with <span class="math inline">\(V(\hat{\mu}_2) = \frac{\sigma^2}{n}\)</span></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><span class="math display">\[\text{eff}(\hat{\mu}_1, \hat{\mu}_2) = \frac{V(\hat{\mu}_2)}{V(\hat{\mu}_1)} = \frac{\sigma^2/n}{(1.2533)^2\sigma^2/n} = \frac{1}{1.5708} \approx 0.637\]</span></p>
+<p><strong>Conclusion:</strong> The sample mean has <strong>~64% of the variance</strong> of the sample median. ✅ Prefer <span class="math inline">\(\bar{Y}\)</span> for estimating expected returns on normally distributed data.</p>
+</div>
+</div>
+</section>
+<section id="cramérrao-lower-bound-optional-exercise-9.8" class="slide level2">
+<h2>📖 Cramér–Rao Lower Bound <em>(Optional — Exercise 9.8)</em></h2>
+<div style="font-size:50px">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>🧮 Cramér–Rao Inequality</strong></p>
+</div>
+<div class="callout-content">
+<p>For any <strong>unbiased</strong> estimator <span class="math inline">\(\hat\theta\)</span> of <span class="math inline">\(\theta\)</span>, under regularity conditions:</p>
+<p><span class="math display">\[V(\hat\theta) \geq I(\theta) = \left[ nE\left(-\frac{\partial^2 \ln f(Y|\theta)}{\partial \theta^2}\right) \right]^{-1}\]</span></p>
+<p>An estimator achieving this lower bound is called <strong>efficient</strong>.</p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><strong>Finance application:</strong> For normally distributed returns, <span class="math inline">\(\bar{Y}\)</span> achieves the Cramér–Rao bound — it is the <strong>most efficient</strong> unbiased estimator of <span class="math inline">\(\mu\)</span>.</p>
+<blockquote>
+<p>No other unbiased estimator can have <em>smaller</em> variance than the sample mean for normal data.</p>
+</blockquote>
+</div>
+</div>
+</section>
+<section id="consistency" class="slide level2">
+<h2>📖 9.3 Consistency</h2>
+<div style="font-size:50px">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📝 Definition 9.2 — Consistent Estimator</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math inline">\(\hat\theta_n\)</span> is a <strong>consistent estimator</strong> of <span class="math inline">\(\theta\)</span> if, for any <span class="math inline">\(\varepsilon &gt; 0\)</span>:</p>
+<p><span class="math display">\[\lim_{n \to \infty} P(|\hat\theta_n - \theta| \leq \varepsilon) = 1\]</span></p>
+<p>Equivalently: <span class="math inline">\(\hat\theta_n\)</span> <strong>converges in probability</strong> to <span class="math inline">\(\theta\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><strong>Intuition for finance students:</strong> As a portfolio grows in history (more months of returns), your estimator for expected return should get arbitrarily close to the true value — not drift away.</p>
+</div>
+</div>
+</section>
+<section id="theorem-9.1-easy-consistency-check" class="slide level2">
+<h2>🧮 Theorem 9.1 — Easy Consistency Check</h2>
+<div style="font-size:50px">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Theorem 9.1</strong></p>
+</div>
+<div class="callout-content">
+<p>An <strong>unbiased</strong> estimator <span class="math inline">\(\hat\theta_n\)</span> for <span class="math inline">\(\theta\)</span> is <strong>consistent</strong> if:</p>
+<p><span class="math display">\[\lim_{n \to \infty} V(\hat\theta_n) = 0\]</span></p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><strong>Proof sketch (via Tchebysheff):</strong></p>
+<p><span class="math display">\[0 \leq P(|\hat\theta_n - \theta| &gt; \varepsilon) \leq \frac{V(\hat\theta_n)}{\varepsilon^2} \xrightarrow{n\to\infty} 0 \qquad \square\]</span></p>
+</div>
+<div class="fragment">
+<p><strong>Example:</strong> <span class="math inline">\(\bar{Y}_n\)</span> is unbiased for <span class="math inline">\(\mu\)</span> and <span class="math inline">\(V(\bar{Y}_n) = \sigma^2/n \to 0\)</span>. So <span class="math inline">\(\bar{Y}\)</span> is <strong>consistent</strong> — this is the <strong>Law of Large Numbers</strong>.</p>
+</div>
+</div>
+</section>
+<section id="theorem-9.2-algebra-of-consistent-estimators" class="slide level2">
+<h2>🧮 Theorem 9.2 — Algebra of Consistent Estimators</h2>
+<div style="font-size:50px">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Theorem 9.2</strong></p>
+</div>
+<div class="callout-content">
+<p>If <span class="math inline">\(\hat\theta_n \xrightarrow{p} \theta\)</span> and <span class="math inline">\(\hat\theta'_n \xrightarrow{p} \theta'\)</span>, then:</p>
+<ol type="a">
+<li><p><span class="math inline">\(\hat\theta_n + \hat\theta'_n \xrightarrow{p} \theta + \theta'\)</span></p></li>
+<li><p><span class="math inline">\(\hat\theta_n \times \hat\theta'_n \xrightarrow{p} \theta \times \theta'\)</span></p></li>
+<li><p><span class="math inline">\(\hat\theta_n / \hat\theta'_n \xrightarrow{p} \theta / \theta'\)</span> (if <span class="math inline">\(\theta' \neq 0\)</span>)</p></li>
+<li><p>If <span class="math inline">\(g(\cdot)\)</span> is continuous at <span class="math inline">\(\theta\)</span>: <span class="math inline">\(g(\hat\theta_n) \xrightarrow{p} g(\theta)\)</span></p></li>
+</ol>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><strong>Finance application:</strong> Since <span class="math inline">\(\bar{Y} \xrightarrow{p} \mu\)</span> and <span class="math inline">\(S^2 \xrightarrow{p} \sigma^2\)</span>, by part (b): <span class="math inline">\(S \xrightarrow{p} \sigma\)</span> — justifying use of <span class="math inline">\(S\)</span> in large-sample CIs for volatility estimation.</p>
+</div>
+</div>
+</section>
+<section id="example-sample-variance-is-consistent" class="slide level2">
+<h2>📌 Example: Sample Variance is Consistent</h2>
+<div style="font-size:50px">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Setting (Example 9.3)</strong></p>
+</div>
+<div class="callout-content">
+<p>For a random sample with <span class="math inline">\(E(Y_i) = \mu\)</span>, <span class="math inline">\(V(Y_i) = \sigma^2\)</span>, show that <span class="math inline">\(S^2_n\)</span> is <strong>consistent</strong> for <span class="math inline">\(\sigma^2\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><strong>Key steps:</strong></p>
+<p><span class="math display">\[S^2_n = \frac{n}{n-1}\left[\underbrace{\frac{1}{n}\sum Y_i^2}_{\xrightarrow{p}\; \mu'_2} - \underbrace{\bar{Y}^2_n}_{\xrightarrow{p}\; \mu^2}\right]\]</span></p>
+<ul>
+<li>By LLN: <span class="math inline">\(\frac{1}{n}\sum Y_i^2 \xrightarrow{p} E(Y^2) = \mu'_2\)</span></li>
+<li>By Thm 9.2(d): <span class="math inline">\(\bar{Y}^2_n \xrightarrow{p} \mu^2\)</span></li>
+<li>Since <span class="math inline">\(\frac{n}{n-1} \to 1\)</span>: <span class="math inline">\(S^2_n \xrightarrow{p} \mu'_2 - \mu^2 = \sigma^2\)</span> ✅</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="interactive-consistency-estimator-convergence-explorer" class="slide level2 smaller">
+<h2>🎮 Interactive: Consistency — Estimator Convergence Explorer</h2>
+<div style="font-size:50px">
+<p><strong>Watch how <span class="math inline">\(\bar{Y}_n\)</span> converges to <span class="math inline">\(\mu\)</span> as the hedge fund’s return history grows.</strong></p>
+<div class="columns">
+<div class="column" style="width:32%;">
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="284" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 283;"><span id="cb1-284"><a href=""></a>viewof true_mu <span class="op">=</span> {</span>
+<span id="cb1-285"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="op">-</span><span class="dv">2</span><span class="op">,</span> <span class="dv">5</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"True μ (%):"</span>})<span class="op">;</span></span>
+<span id="cb1-286"><a href=""></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
+<span id="cb1-287"><a href=""></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
+<span id="cb1-288"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb1-289"><a href=""></a>}</span>
+<span id="cb1-290"><a href=""></a></span>
+<span id="cb1-291"><a href=""></a>viewof sigma_val <span class="op">=</span> {</span>
+<span id="cb1-292"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">1</span><span class="op">,</span> <span class="dv">8</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">3</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Std Dev σ (%):"</span>})<span class="op">;</span></span>
+<span id="cb1-293"><a href=""></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
+<span id="cb1-294"><a href=""></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
+<span id="cb1-295"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb1-296"><a href=""></a>}</span>
+<span id="cb1-297"><a href=""></a></span>
+<span id="cb1-298"><a href=""></a>viewof n_paths <span class="op">=</span> {</span>
+<span id="cb1-299"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">1</span><span class="op">,</span> <span class="dv">30</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">10</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"# Sequences:"</span>})<span class="op">;</span></span>
+<span id="cb1-300"><a href=""></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
+<span id="cb1-301"><a href=""></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
+<span id="cb1-302"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb1-303"><a href=""></a>}</span>
+<span id="cb1-304"><a href=""></a></span>
+<span id="cb1-305"><a href=""></a>consistencyInfo <span class="op">=</span> {</span>
+<span id="cb1-306"><a href=""></a>  <span class="kw">const</span> finalVals <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb1-307"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> p <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> p <span class="op">&lt;</span> n_paths<span class="op">;</span> p<span class="op">++</span>) {</span>
+<span id="cb1-308"><a href=""></a>    <span class="kw">let</span> sum <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-309"><a href=""></a>    <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> <span class="dv">200</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb1-310"><a href=""></a>      <span class="kw">const</span> u1 <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>()<span class="op">,</span> u2 <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>()<span class="op">;</span></span>
+<span id="cb1-311"><a href=""></a>      <span class="kw">const</span> z <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(<span class="op">-</span><span class="dv">2</span><span class="op">*</span><span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(u1)) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">cos</span>(<span class="dv">2</span><span class="op">*</span><span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span><span class="op">*</span>u2)<span class="op">;</span></span>
+<span id="cb1-312"><a href=""></a>      sum <span class="op">+=</span> true_mu <span class="op">+</span> sigma_val <span class="op">*</span> z<span class="op">;</span></span>
+<span id="cb1-313"><a href=""></a>    }</span>
+<span id="cb1-314"><a href=""></a>    finalVals<span class="op">.</span><span class="fu">push</span>(sum <span class="op">/</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb1-315"><a href=""></a>  }</span>
+<span id="cb1-316"><a href=""></a>  <span class="kw">const</span> avg <span class="op">=</span> finalVals<span class="op">.</span><span class="fu">reduce</span>((a<span class="op">,</span>b)<span class="kw">=&gt;</span>a<span class="op">+</span>b<span class="op">,</span><span class="dv">0</span>)<span class="op">/</span>finalVals<span class="op">.</span><span class="at">length</span><span class="op">;</span></span>
+<span id="cb1-317"><a href=""></a>  <span class="kw">const</span> spread <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="op">...</span>finalVals) <span class="op">-</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(<span class="op">...</span>finalVals)<span class="op">;</span></span>
+<span id="cb1-318"><a href=""></a>  </span>
+<span id="cb1-319"><a href=""></a>  <span class="cf">return</span> <span class="fu">html</span><span class="vs">`&lt;div style="background:#e8f4f8; padding:8px; border-radius:6px; font-size:0.9em;"&gt;</span></span>
+<span id="cb1-320"><a href=""></a><span class="vs">    &lt;strong&gt;At n = 200:&lt;/strong&gt;&lt;br&gt;</span></span>
+<span id="cb1-321"><a href=""></a><span class="vs">    Avg estimate: </span><span class="sc">${</span>avg<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="vs">%&lt;br&gt;</span></span>
+<span id="cb1-322"><a href=""></a><span class="vs">    True μ: </span><span class="sc">${</span>true_mu<span class="sc">}</span><span class="vs">%&lt;br&gt;</span></span>
+<span id="cb1-323"><a href=""></a><span class="vs">    Range of paths: </span><span class="sc">${</span>spread<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="vs">%</span></span>
+<span id="cb1-324"><a href=""></a><span class="vs">  &lt;/div&gt;`</span><span class="op">;</span></span>
+<span id="cb1-325"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-4" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:68%;">
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="334" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 333;"><span id="cb2-334"><a href=""></a>consistencyData <span class="op">=</span> {</span>
+<span id="cb2-335"><a href=""></a>  <span class="kw">const</span> N <span class="op">=</span> <span class="dv">200</span><span class="op">;</span></span>
+<span id="cb2-336"><a href=""></a>  <span class="kw">const</span> paths <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb2-337"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> p <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> p <span class="op">&lt;</span> n_paths<span class="op">;</span> p<span class="op">++</span>) {</span>
+<span id="cb2-338"><a href=""></a>    <span class="kw">let</span> cumSum <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb2-339"><a href=""></a>    <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> N<span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb2-340"><a href=""></a>      <span class="kw">const</span> u1 <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>()<span class="op">,</span> u2 <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>()<span class="op">;</span></span>
+<span id="cb2-341"><a href=""></a>      <span class="kw">const</span> z <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(<span class="op">-</span><span class="dv">2</span><span class="op">*</span><span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(u1)) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">cos</span>(<span class="dv">2</span><span class="op">*</span><span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span><span class="op">*</span>u2)<span class="op">;</span></span>
+<span id="cb2-342"><a href=""></a>      cumSum <span class="op">+=</span> true_mu <span class="op">+</span> sigma_val <span class="op">*</span> z<span class="op">;</span></span>
+<span id="cb2-343"><a href=""></a>      <span class="cf">if</span> (i <span class="op">%</span> <span class="dv">2</span> <span class="op">===</span> <span class="dv">0</span> <span class="op">||</span> i <span class="op">&lt;=</span> <span class="dv">10</span>) {</span>
+<span id="cb2-344"><a href=""></a>        paths<span class="op">.</span><span class="fu">push</span>({<span class="dt">n</span><span class="op">:</span> i<span class="op">,</span> <span class="dt">ybar</span><span class="op">:</span> cumSum <span class="op">/</span> i<span class="op">,</span> <span class="dt">path</span><span class="op">:</span> p})<span class="op">;</span></span>
+<span id="cb2-345"><a href=""></a>      }</span>
+<span id="cb2-346"><a href=""></a>    }</span>
+<span id="cb2-347"><a href=""></a>  }</span>
+<span id="cb2-348"><a href=""></a>  <span class="cf">return</span> paths<span class="op">;</span></span>
+<span id="cb2-349"><a href=""></a>}</span>
+<span id="cb2-350"><a href=""></a></span>
+<span id="cb2-351"><a href=""></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb2-352"><a href=""></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">720</span><span class="op">,</span> <span class="dt">height</span><span class="op">:</span> <span class="dv">400</span><span class="op">,</span></span>
+<span id="cb2-353"><a href=""></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">55</span><span class="op">,</span> <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">45</span><span class="op">,</span> <span class="dt">marginRight</span><span class="op">:</span> <span class="dv">20</span><span class="op">,</span></span>
+<span id="cb2-354"><a href=""></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Sample size n (months of return history)"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">1</span><span class="op">,</span> <span class="dv">200</span>]}<span class="op">,</span></span>
+<span id="cb2-355"><a href=""></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Sample mean return (%)"</span><span class="op">,</span> </span>
+<span id="cb2-356"><a href=""></a>      <span class="dt">domain</span><span class="op">:</span> [true_mu <span class="op">-</span> sigma_val<span class="op">*</span><span class="dv">2</span><span class="op">,</span> true_mu <span class="op">+</span> sigma_val<span class="op">*</span><span class="dv">2</span>]}<span class="op">,</span></span>
+<span id="cb2-357"><a href=""></a>  <span class="dt">title</span><span class="op">:</span> <span class="vs">`</span><span class="sc">${</span>n_paths<span class="sc">}</span><span class="vs"> sample paths converging to true μ = </span><span class="sc">${</span>true_mu<span class="sc">}</span><span class="vs">%`</span><span class="op">,</span></span>
+<span id="cb2-358"><a href=""></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb2-359"><a href=""></a>    Plot<span class="op">.</span><span class="fu">line</span>(consistencyData<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"n"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"ybar"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"path"</span><span class="op">,</span></span>
+<span id="cb2-360"><a href=""></a>      <span class="dt">strokeOpacity</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="fl">1.2</span>})<span class="op">,</span></span>
+<span id="cb2-361"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([true_mu]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"red"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">3</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"8,4"</span>})<span class="op">,</span></span>
+<span id="cb2-362"><a href=""></a>    Plot<span class="op">.</span><span class="fu">text</span>([{<span class="dt">n</span><span class="op">:</span> <span class="dv">190</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> true_mu <span class="op">+</span> <span class="fl">0.3</span>}]<span class="op">,</span></span>
+<span id="cb2-363"><a href=""></a>      {<span class="dt">x</span><span class="op">:</span> <span class="st">"n"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> d <span class="kw">=&gt;</span> <span class="vs">`μ = </span><span class="sc">${</span>true_mu<span class="sc">}</span><span class="vs">%`</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"red"</span><span class="op">,</span> <span class="dt">fontSize</span><span class="op">:</span> <span class="dv">13</span>})</span>
+<span id="cb2-364"><a href=""></a>  ]</span>
+<span id="cb2-365"><a href=""></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-2" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="sufficiency" class="slide level2">
+<h2>📖 9.4 Sufficiency</h2>
+<div style="font-size:50px">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📝 Definition 9.3 — Sufficient Statistic</strong></p>
+</div>
+<div class="callout-content">
+<p>The statistic <span class="math inline">\(U = g(Y_1, \ldots, Y_n)\)</span> is <strong>sufficient</strong> for <span class="math inline">\(\theta\)</span> if the conditional distribution of <span class="math inline">\(Y_1, \ldots, Y_n\)</span> given <span class="math inline">\(U\)</span> <strong>does not depend on</strong> <span class="math inline">\(\theta\)</span>.</p>
+<blockquote>
+<p><em>Knowing <span class="math inline">\(U\)</span> extracts all information about <span class="math inline">\(\theta\)</span> from the data.</em></p>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><strong>Intuition — Loan Default Monitoring:</strong></p>
+<p>Suppose we monitor <span class="math inline">\(n = 100\)</span> loans (success = default, probability = <span class="math inline">\(p\)</span>).</p>
+<p>After observing the total number of defaults <span class="math inline">\(Y = \sum X_i\)</span>, no other function of the individual outcomes tells us anything <strong>new</strong> about <span class="math inline">\(p\)</span>.</p>
+<p><span class="math inline">\(\Rightarrow\)</span> <span class="math inline">\(Y = \sum X_i\)</span> is <strong>sufficient</strong> for <span class="math inline">\(p\)</span>.</p>
+</div>
+</div>
+</section>
+<section id="definition-9.4-the-likelihood-function" class="slide level2">
+<h2>📖 Definition 9.4 — The Likelihood Function</h2>
+<div style="font-size:50px">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📝 Definition 9.4 — Likelihood</strong></p>
+</div>
+<div class="callout-content">
+<p>The <strong>likelihood</strong> of sample <span class="math inline">\((y_1, \ldots, y_n)\)</span> is the joint probability (discrete) or joint density (continuous):</p>
+<p><span class="math display">\[L(\theta) = L(y_1, \ldots, y_n \mid \theta) = \prod_{i=1}^n f(y_i \mid \theta)\]</span></p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><strong>Key insight:</strong> <span class="math inline">\(L(\theta)\)</span> measures how <em>plausible</em> the observed data is for different values of <span class="math inline">\(\theta\)</span>.</p>
+<ul>
+<li>For the bond default model: <span class="math inline">\(L(p) = p^y(1-p)^{n-y}\)</span></li>
+<li>For normally distributed returns: <span class="math inline">\(L(\mu, \sigma^2) = \left(\frac{1}{\sigma\sqrt{2\pi}}\right)^n \exp\!\left(-\frac{\sum(y_i-\mu)^2}{2\sigma^2}\right)\)</span></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="theorem-9.4-factorization-criterion" class="slide level2">
+<h2>🧮 Theorem 9.4 — Factorization Criterion</h2>
+<div style="font-size:50px">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Theorem 9.4 (Factorization Criterion)</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math inline">\(U = g(Y_1,\ldots,Y_n)\)</span> is <strong>sufficient</strong> for <span class="math inline">\(\theta\)</span> <strong>if and only if</strong> the likelihood factors as:</p>
+<p><span class="math display">\[L(y_1, \ldots, y_n \mid \theta) = \underbrace{g(u, \theta)}_{\text{depends on } u \text{ and } \theta} \times \underbrace{h(y_1, \ldots, y_n)}_{\text{free of } \theta}\]</span></p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><strong>Power of the criterion:</strong> Factor the likelihood, identify the part depending on <span class="math inline">\(\theta\)</span>, read off the sufficient statistic <span class="math inline">\(U\)</span>.</p>
+</div>
+</div>
+</section>
+<section id="example-sufficient-statistic-for-inter-trade-waiting-times-example-9.5" class="slide level2">
+<h2>📌 Example: Sufficient Statistic for Inter-Trade Waiting Times (Example 9.5)</h2>
+<div style="font-size:50px">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Setting</strong></p>
+</div>
+<div class="callout-content">
+<p>Times between large equity trades follow an <strong>exponential</strong> distribution with mean <span class="math inline">\(\theta\)</span>:</p>
+<p><span class="math display">\[f(y_i \mid \theta) = \frac{1}{\theta}e^{-y_i/\theta}, \quad y_i &gt; 0\]</span></p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><strong>Apply Factorization:</strong></p>
+<p><span class="math display">\[L(\theta) = \prod_{i=1}^n \frac{1}{\theta}e^{-y_i/\theta} = \frac{e^{-n\bar{y}/\theta}}{\theta^n} = \underbrace{\frac{e^{-n\bar{y}/\theta}}{\theta^n}}_{g(\bar{y},\;\theta)} \times \underbrace{1}_{h(\mathbf{y})}\]</span></p>
+<p><span class="math inline">\(\Rightarrow\)</span> <span class="math inline">\(\bar{Y}\)</span> (equivalently <span class="math inline">\(\sum Y_i\)</span>) is <strong>sufficient</strong> for <span class="math inline">\(\theta\)</span>. ✅</p>
+<p>The sample mean retains <em>all</em> information about mean inter-trade time.</p>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="part-ii-finding-the-best-estimator" class="title-slide slide level1 center">
+<h1>Part II: Finding the Best Estimator</h1>
+
+</section>
+<section id="the-raoblackwell-theorem" class="slide level2">
+<h2>🧮 9.5 The Rao–Blackwell Theorem</h2>
+<div style="font-size:50px">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Theorem 9.5 — Rao–Blackwell</strong></p>
+</div>
+<div class="callout-content">
+<p>Let <span class="math inline">\(\hat\theta\)</span> be <strong>unbiased</strong> for <span class="math inline">\(\theta\)</span> with <span class="math inline">\(V(\hat\theta) &lt; \infty\)</span>, and let <span class="math inline">\(U\)</span> be a <strong>sufficient statistic</strong> for <span class="math inline">\(\theta\)</span>.</p>
+<p>Define <span class="math inline">\(\hat\theta^* = E(\hat\theta \mid U)\)</span>. Then:</p>
+<p><span class="math display">\[E(\hat\theta^*) = \theta \quad \text{and} \quad V(\hat\theta^*) \leq V(\hat\theta)\]</span></p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><strong>Translation:</strong> Conditioning any unbiased estimator on a sufficient statistic <em>never increases</em> variance — and usually <em>decreases</em> it.</p>
+<blockquote>
+<p>➡️ The best unbiased estimators are functions of sufficient statistics.</p>
+</blockquote>
+</div>
+</div>
+</section>
+<section id="minimum-variance-unbiased-estimator-mvue" class="slide level2">
+<h2>📖 Minimum-Variance Unbiased Estimator (MVUE)</h2>
+<div style="font-size:50px">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>MVUE Definition</strong></p>
+</div>
+<div class="callout-content">
+<p>An estimator <span class="math inline">\(\hat\theta^*\)</span> is a <strong>Minimum-Variance Unbiased Estimator (MVUE)</strong> if:</p>
+<ol type="1">
+<li><span class="math inline">\(E(\hat\theta^*) = \theta\)</span> (unbiased)</li>
+<li><span class="math inline">\(V(\hat\theta^*) \leq V(\hat\theta)\)</span> for <strong>all</strong> other unbiased estimators <span class="math inline">\(\hat\theta\)</span></li>
+</ol>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><strong>Practical recipe for finding MVUEs:</strong></p>
+<ol type="1">
+<li><p>Use <strong>Factorization Criterion</strong> to find the minimal sufficient statistic <span class="math inline">\(U\)</span></p></li>
+<li><p>Find a function <span class="math inline">\(h(U)\)</span> such that <span class="math inline">\(E[h(U)] = \theta\)</span></p></li>
+<li><p><span class="math inline">\(h(U)\)</span> is the <strong>MVUE</strong> for <span class="math inline">\(\theta\)</span></p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="example-mvue-for-bernoulli-default-rate-example-9.6" class="slide level2">
+<h2>📌 Example: MVUE for Bernoulli Default Rate (Example 9.6)</h2>
+<div style="font-size:50px">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Setting</strong></p>
+</div>
+<div class="callout-content">
+<p>We observe <span class="math inline">\(n\)</span> independent loans: <span class="math inline">\(Y_i = 1\)</span> (default) with probability <span class="math inline">\(p\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><strong>Step 1 — Find sufficient statistic:</strong></p>
+<p><span class="math display">\[L(p) = p^{\sum y_i}(1-p)^{n - \sum y_i} = \underbrace{p^u(1-p)^{n-u}}_{g(u,p)} \times \underbrace{1}_{h}\]</span></p>
+<p><span class="math inline">\(\Rightarrow\)</span> <span class="math inline">\(U = \sum_{i=1}^n Y_i\)</span> is sufficient for <span class="math inline">\(p\)</span>.</p>
+</div>
+<div class="fragment">
+<p><strong>Step 2 — Find unbiased function of <span class="math inline">\(U\)</span>:</strong></p>
+<p><span class="math display">\[E(U) = np \quad \Rightarrow \quad E\!\left(\frac{U}{n}\right) = p\]</span></p>
+<p><span class="math inline">\(\Rightarrow\)</span> <span class="math inline">\(\hat{p} = \bar{Y} = U/n\)</span> is the <strong>MVUE</strong> for <span class="math inline">\(p\)</span>. ✅</p>
+<blockquote>
+<p>No other unbiased estimator of the default rate can have smaller variance than <span class="math inline">\(\bar{Y}\)</span>.</p>
+</blockquote>
+</div>
+</div>
+</section>
+<section id="example-mvue-for-normal-return-distribution-example-9.8" class="slide level2">
+<h2>📌 Example: MVUE for Normal Return Distribution (Example 9.8)</h2>
+<div style="font-size:50px">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Setting</strong></p>
+</div>
+<div class="callout-content">
+<p>Monthly fund returns <span class="math inline">\(Y_i \sim N(\mu, \sigma^2)\)</span> (both unknown). Find MVUEs for <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><strong>Factorize the likelihood:</strong></p>
+<p><span class="math display">\[L(\mu, \sigma^2) \propto \exp\!\left(\!-\!\frac{1}{2\sigma^2}\sum y_i^2 + \frac{\mu}{\sigma^2}\sum y_i - \frac{n\mu^2}{2\sigma^2}\right)\]</span></p>
+<p><span class="math inline">\(\Rightarrow\)</span> <span class="math inline">\(\left(\sum Y_i,\; \sum Y_i^2\right)\)</span> are <strong>jointly sufficient</strong> for <span class="math inline">\((\mu, \sigma^2)\)</span>.</p>
+</div>
+<div class="fragment">
+<p><strong>MVUEs:</strong></p>
+<ul>
+<li><span class="math inline">\(\hat\mu = \bar{Y}\)</span> — unbiased for <span class="math inline">\(\mu\)</span>, function of <span class="math inline">\(\sum Y_i\)</span> ✅</li>
+<li><span class="math inline">\(\hat\sigma^2 = S^2 = \frac{1}{n-1}\sum(Y_i - \bar{Y})^2\)</span> — unbiased for <span class="math inline">\(\sigma^2\)</span> ✅</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="think-pair-share" class="slide level2 smaller">
+<h2>🤝 Think-Pair-Share</h2>
+<div style="font-size:50px">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>💬 Problem</strong></p>
+</div>
+<div class="callout-content">
+<p>An analyst tracks <strong>daily trading volume</strong> (in millions USD) for a stock. Volumes follow an <strong>exponential distribution</strong> with unknown mean <span class="math inline">\(\theta\)</span> (average daily volume).</p>
+<p>A random sample of <span class="math inline">\(n = 20\)</span> days gives <span class="math inline">\(\sum y_i = 480\)</span> million USD.</p>
+<p><strong>Questions:</strong></p>
+<ol type="1">
+<li><p>Using the <strong>Method of Moments</strong>, derive an estimator for <span class="math inline">\(\theta\)</span>.</p></li>
+<li><p>Using the <strong>Factorization Criterion</strong>, show that <span class="math inline">\(\bar{Y}\)</span> is sufficient for <span class="math inline">\(\theta\)</span>.</p></li>
+<li><p>Is <span class="math inline">\(\bar{Y}\)</span> the MVUE for <span class="math inline">\(\theta\)</span>? Justify your answer.</p></li>
+<li><p>Compute the estimate of <span class="math inline">\(\theta\)</span> from the data above.</p></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<countdown-timer class="countdown" id="timer_079c7d44" minutes="5" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;--countdown-color-running-background:#2C7BB6;--countdown-color-finished-background:#D7191C;--countdown-color-running-text:#00223AFF;--countdown-color-finished-text:#FFCCCCFF;"></countdown-timer>
+</div>
+</div>
+</section>
+<section id="think-pair-share-solution" class="slide level2 smaller">
+<h2>✅ Think-Pair-Share — Solution</h2>
+<div style="font-size:50px">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 Full Solution</strong></p>
+</div>
+<div class="callout-content">
+
+</div>
+</div>
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Q1 — Method of Moments:</strong></p>
+<p>For Exponential(<span class="math inline">\(\theta\)</span>): <span class="math inline">\(\mu'_1 = E(Y) = \theta\)</span></p>
+<p>Set population moment = sample moment:</p>
+<p><span class="math display">\[\theta = m'_1 = \bar{Y} \quad \Rightarrow \quad \hat\theta_{\text{MoM}} = \bar{Y}\]</span></p>
+<p><strong>Q2 — Factorization:</strong></p>
+<p><span class="math display">\[L(\theta) = \prod \frac{1}{\theta}e^{-y_i/\theta} = \frac{1}{\theta^n}e^{-n\bar{y}/\theta}\]</span></p>
+<p><span class="math inline">\(= \underbrace{\theta^{-n}e^{-n\bar{y}/\theta}}_{g(\bar{y},\,\theta)} \times \underbrace{1}_{h(\mathbf{y})}\)</span></p>
+<p><span class="math inline">\(\Rightarrow\)</span> <span class="math inline">\(\bar{Y}\)</span> is <strong>sufficient</strong> for <span class="math inline">\(\theta\)</span>. ✅</p>
+</div><div class="column" style="width:50%;">
+<p><strong>Q3 — Is <span class="math inline">\(\bar{Y}\)</span> the MVUE?</strong></p>
+<ul>
+<li><span class="math inline">\(\bar{Y}\)</span> is <strong>unbiased</strong>: <span class="math inline">\(E(\bar{Y}) = \theta\)</span> ✅</li>
+<li><span class="math inline">\(V(\bar{Y}) = \theta^2/n \to 0\)</span> as <span class="math inline">\(n \to \infty\)</span> ✅ (consistent)</li>
+<li><span class="math inline">\(\bar{Y}\)</span> is a function of the minimal sufficient statistic ✅</li>
+<li>By Rao–Blackwell, <strong><span class="math inline">\(\bar{Y}\)</span> is the MVUE</strong> for <span class="math inline">\(\theta\)</span></li>
+</ul>
+<p>No unbiased estimator of mean daily volume has smaller variance.</p>
+<p><strong>Q4 — Numerical estimate:</strong></p>
+<p><span class="math display">\[\hat\theta = \bar{Y} = \frac{\sum y_i}{n} = \frac{480}{20} = \mathbf{24} \text{ million USD}\]</span></p>
+<blockquote>
+<p>The estimated mean daily trading volume is <strong>$24 million</strong>.</p>
+</blockquote>
+</div></div>
+</div>
+</section>
+<section id="method-of-moments-mom" class="slide level2">
+<h2>📖 9.6 Method of Moments (MoM)</h2>
+<div style="font-size:50px">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Procedure</strong></p>
+</div>
+<div class="callout-content">
+<p>The <strong><span class="math inline">\(k\)</span>-th population moment</strong>: <span class="math inline">\(\mu'_k = E(Y^k)\)</span></p>
+<p>The <strong><span class="math inline">\(k\)</span>-th sample moment</strong>: <span class="math inline">\(m'_k = \frac{1}{n}\sum_{i=1}^n Y_i^k\)</span></p>
+<p><strong>Method:</strong> For <span class="math inline">\(t\)</span> unknown parameters, solve the system:</p>
+<p><span class="math display">\[\mu'_k = m'_k, \quad k = 1, 2, \ldots, t\]</span></p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><strong>Properties of MoM estimators:</strong></p>
+<ul>
+<li>✅ <strong>Always consistent</strong> (sample moments converge to population moments)</li>
+<li>⚠️ Often <strong>biased</strong> and <strong>not always efficient</strong> (may not be functions of sufficient statistics)</li>
+<li>✅ <strong>Simple</strong> to compute — useful as first-pass estimates</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="example-estimating-gamma-loss-distribution-example-9.13" class="slide level2">
+<h2>📌 Example: Estimating Gamma Loss Distribution (Example 9.13)</h2>
+<div style="font-size:50px">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Setting</strong></p>
+</div>
+<div class="callout-content">
+<p>Insurance claim losses <span class="math inline">\(Y_i \sim \text{Gamma}(\alpha, \beta)\)</span>. Estimate <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><strong>Gamma moments:</strong> <span class="math inline">\(\mu'_1 = \alpha\beta\)</span> and <span class="math inline">\(\mu'_2 = \alpha\beta^2 + \alpha^2\beta^2\)</span></p>
+<p><strong>Set equal to sample moments and solve:</strong></p>
+<p><span class="math display">\[\alpha\beta = \bar{Y} \qquad \text{and} \qquad \alpha\beta^2 + \alpha^2\beta^2 = \frac{1}{n}\sum Y_i^2\]</span></p>
+</div>
+<div class="fragment">
+<p><strong>Solutions:</strong></p>
+<p><span class="math display">\[\hat\alpha = \frac{n\bar{Y}^2}{\sum_{i=1}^n(Y_i - \bar{Y})^2} \qquad \hat\beta = \frac{\sum_{i=1}^n(Y_i - \bar{Y})^2}{n\bar{Y}}\]</span></p>
+<p><strong>Application:</strong> Actuaries and risk managers use these to fit loss distributions for capital requirement calculations.</p>
+</div>
+</div>
+</section>
+<section id="method-of-maximum-likelihood-mle" class="slide level2">
+<h2>📖 9.7 Method of Maximum Likelihood (MLE)</h2>
+<div style="font-size:50px">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📝 MLE Procedure</strong></p>
+</div>
+<div class="callout-content">
+<p>Choose as estimates the parameter values that <strong>maximize the likelihood</strong> of the observed sample:</p>
+<p><span class="math display">\[\hat\theta = \arg\max_\theta\; L(y_1, \ldots, y_n \mid \theta) = \arg\max_\theta \prod_{i=1}^n f(y_i \mid \theta)\]</span></p>
+<p><strong>In practice:</strong> Maximize the <strong>log-likelihood</strong> (same solution, easier calculus):</p>
+<p><span class="math display">\[\hat\theta = \arg\max_\theta\; \ell(\theta) = \arg\max_\theta \sum_{i=1}^n \ln f(y_i \mid \theta)\]</span></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="example-mle-for-default-rate-example-9.14" class="slide level2">
+<h2>📌 Example: MLE for Default Rate (Example 9.14)</h2>
+<div style="font-size:50px">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Setting</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math inline">\(n\)</span> loans, <span class="math inline">\(y = \sum y_i\)</span> defaults observed. <span class="math inline">\(Y_i \sim \text{Bernoulli}(p)\)</span>. Find MLE of <span class="math inline">\(p\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><strong>Log-likelihood:</strong></p>
+<p><span class="math display">\[\ell(p) = y \ln p + (n-y)\ln(1-p)\]</span></p>
+</div>
+<div class="fragment">
+<p><strong>Differentiate and set to zero:</strong></p>
+<p><span class="math display">\[\frac{d\ell}{dp} = \frac{y}{p} - \frac{n-y}{1-p} = 0 \quad \Rightarrow \quad \hat{p} = \frac{y}{n} = \bar{Y}\]</span></p>
+<p>✅ The MLE of the default rate is the <strong>sample proportion</strong> — matching intuition.</p>
+<blockquote>
+<p>MLE confirmed: <span class="math inline">\(\hat{p} = \bar{Y}\)</span> is both the <strong>MVUE</strong> and the <strong>MLE</strong>!</p>
+</blockquote>
+</div>
+</div>
+</section>
+<section id="example-mle-for-normal-stock-returns-example-9.15" class="slide level2">
+<h2>📌 Example: MLE for Normal Stock Returns (Example 9.15)</h2>
+<div style="font-size:50px">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Setting</strong></p>
+</div>
+<div class="callout-content">
+<p>Monthly returns <span class="math inline">\(Y_i \sim N(\mu, \sigma^2)\)</span>, both unknown. Find MLEs.</p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><strong>Log-likelihood:</strong></p>
+<p><span class="math display">\[\ell(\mu, \sigma^2) = -\frac{n}{2}\ln\sigma^2 - \frac{n}{2}\ln 2\pi - \frac{1}{2\sigma^2}\sum(y_i - \mu)^2\]</span></p>
+</div>
+<div class="fragment">
+<p><strong>Solve <span class="math inline">\(\partial\ell/\partial\mu = 0\)</span> and <span class="math inline">\(\partial\ell/\partial\sigma^2 = 0\)</span>:</strong></p>
+<p><span class="math display">\[\hat\mu = \bar{Y} \qquad \hat\sigma^2 = \frac{1}{n}\sum_{i=1}^n(Y_i - \bar{Y})^2\]</span></p>
+<p>⚠️ <span class="math inline">\(\hat\sigma^2\)</span> is <strong>biased</strong> (divides by <span class="math inline">\(n\)</span> not <span class="math inline">\(n-1\)</span>). Adjust to <span class="math inline">\(S^2 = \frac{n}{n-1}\hat\sigma^2\)</span> for unbiasedness.</p>
+</div>
+</div>
+</section>
+<section id="invariance-property-of-mles" class="slide level2">
+<h2>📖 Invariance Property of MLEs</h2>
+<div style="font-size:50px">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>🧮 Invariance Property</strong></p>
+</div>
+<div class="callout-content">
+<p>If <span class="math inline">\(\hat\theta\)</span> is the MLE of <span class="math inline">\(\theta\)</span>, then the MLE of any function <span class="math inline">\(t(\theta)\)</span> is:</p>
+<p><span class="math display">\[\widehat{t(\theta)} = t(\hat\theta)\]</span></p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><strong>Finance examples:</strong></p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Parameter <span class="math inline">\(\theta\)</span></th>
+<th>Function of interest <span class="math inline">\(t(\theta)\)</span></th>
+<th>MLE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Default rate <span class="math inline">\(p\)</span></td>
+<td>Variance <span class="math inline">\(np(1-p)\)</span></td>
+<td><span class="math inline">\(n\hat{p}(1-\hat{p})\)</span></td>
+</tr>
+<tr class="even">
+<td>Mean return <span class="math inline">\(\mu\)</span></td>
+<td>Sharpe ratio <span class="math inline">\(\mu/\sigma\)</span></td>
+<td><span class="math inline">\(\hat\mu/\hat\sigma\)</span></td>
+</tr>
+<tr class="odd">
+<td>Intensity <span class="math inline">\(\lambda\)</span></td>
+<td>No-event prob <span class="math inline">\(e^{-\lambda}\)</span></td>
+<td><span class="math inline">\(e^{-\hat\lambda}\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="interactive-mle-for-normal-returns-likelihood-surface" class="slide level2 smaller">
+<h2>🎮 Interactive: MLE for Normal Returns — Likelihood Surface</h2>
+<div style="font-size:50px">
+<p><strong>Observe how the log-likelihood peaks at the MLE <span class="math inline">\((\bar{Y},\; S^2)\)</span>.</strong></p>
+<div class="columns">
+<div class="column" style="width:35%;">
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb3" data-startfrom="810" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 809;"><span id="cb3-810"><a href=""></a>viewof mu_true2 <span class="op">=</span> {</span>
+<span id="cb3-811"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="op">-</span><span class="dv">3</span><span class="op">,</span> <span class="dv">5</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="fl">1.5</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"True μ (%):"</span>})<span class="op">;</span></span>
+<span id="cb3-812"><a href=""></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
+<span id="cb3-813"><a href=""></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
+<span id="cb3-814"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb3-815"><a href=""></a>}</span>
+<span id="cb3-816"><a href=""></a></span>
+<span id="cb3-817"><a href=""></a>viewof sig2 <span class="op">=</span> {</span>
+<span id="cb3-818"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">1</span><span class="op">,</span> <span class="dv">6</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">3</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"True σ (%):"</span>})<span class="op">;</span></span>
+<span id="cb3-819"><a href=""></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
+<span id="cb3-820"><a href=""></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
+<span id="cb3-821"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb3-822"><a href=""></a>}</span>
+<span id="cb3-823"><a href=""></a></span>
+<span id="cb3-824"><a href=""></a>viewof n_obs <span class="op">=</span> {</span>
+<span id="cb3-825"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">5</span><span class="op">,</span> <span class="dv">60</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">20</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Sample size n:"</span>})<span class="op">;</span></span>
+<span id="cb3-826"><a href=""></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
+<span id="cb3-827"><a href=""></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
+<span id="cb3-828"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb3-829"><a href=""></a>}</span>
+<span id="cb3-830"><a href=""></a></span>
+<span id="cb3-831"><a href=""></a>mle_info <span class="op">=</span> {</span>
+<span id="cb3-832"><a href=""></a>  <span class="kw">let</span> sum <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> sum2 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb3-833"><a href=""></a>  <span class="kw">const</span> seed <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>(mu_true2<span class="op">*</span><span class="dv">10</span> <span class="op">+</span> sig2<span class="op">*</span><span class="dv">3</span> <span class="op">+</span> n_obs)<span class="op">;</span></span>
+<span id="cb3-834"><a href=""></a>  <span class="kw">function</span> <span class="fu">lcg</span>(s) { <span class="cf">return</span> (<span class="dv">1664525</span> <span class="op">*</span> s <span class="op">+</span> <span class="dv">1013904223</span>) <span class="op">&gt;&gt;&gt;</span> <span class="dv">0</span><span class="op">;</span> }</span>
+<span id="cb3-835"><a href=""></a>  <span class="kw">let</span> state <span class="op">=</span> seed<span class="op">;</span></span>
+<span id="cb3-836"><a href=""></a>  <span class="kw">const</span> ys <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb3-837"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n_obs<span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb3-838"><a href=""></a>    state <span class="op">=</span> <span class="fu">lcg</span>(state)<span class="op">;</span></span>
+<span id="cb3-839"><a href=""></a>    <span class="kw">const</span> u1 <span class="op">=</span> state <span class="op">/</span> <span class="dv">4294967296</span><span class="op">;</span></span>
+<span id="cb3-840"><a href=""></a>    state <span class="op">=</span> <span class="fu">lcg</span>(state)<span class="op">;</span></span>
+<span id="cb3-841"><a href=""></a>    <span class="kw">const</span> u2 <span class="op">=</span> state <span class="op">/</span> <span class="dv">4294967296</span><span class="op">;</span></span>
+<span id="cb3-842"><a href=""></a>    <span class="kw">const</span> z <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(<span class="op">-</span><span class="dv">2</span><span class="op">*</span><span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(u1<span class="op">+</span><span class="fl">1e-10</span>)) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">cos</span>(<span class="dv">2</span><span class="op">*</span><span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span><span class="op">*</span>u2)<span class="op">;</span></span>
+<span id="cb3-843"><a href=""></a>    <span class="kw">const</span> y <span class="op">=</span> mu_true2 <span class="op">+</span> sig2 <span class="op">*</span> z<span class="op">;</span></span>
+<span id="cb3-844"><a href=""></a>    ys<span class="op">.</span><span class="fu">push</span>(y)<span class="op">;</span></span>
+<span id="cb3-845"><a href=""></a>    sum <span class="op">+=</span> y<span class="op">;</span> sum2 <span class="op">+=</span> y<span class="op">*</span>y<span class="op">;</span></span>
+<span id="cb3-846"><a href=""></a>  }</span>
+<span id="cb3-847"><a href=""></a>  <span class="kw">const</span> ybar <span class="op">=</span> sum <span class="op">/</span> n_obs<span class="op">;</span></span>
+<span id="cb3-848"><a href=""></a>  <span class="kw">const</span> s2 <span class="op">=</span> (sum2 <span class="op">-</span> n_obs<span class="op">*</span>ybar<span class="op">*</span>ybar) <span class="op">/</span> (n_obs <span class="op">-</span> <span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb3-849"><a href=""></a>  <span class="cf">return</span> <span class="fu">html</span><span class="vs">`&lt;div style="background:#d4edda; padding:8px; border-radius:6px; font-size:0.9em;"&gt;</span></span>
+<span id="cb3-850"><a href=""></a><span class="vs">    &lt;strong&gt;MLE Estimates:&lt;/strong&gt;&lt;br&gt;</span></span>
+<span id="cb3-851"><a href=""></a><span class="vs">    μ̂ = </span><span class="sc">${</span>ybar<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="vs">%&lt;br&gt;</span></span>
+<span id="cb3-852"><a href=""></a><span class="vs">    σ̂ = </span><span class="sc">${</span><span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(s2)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="vs">%&lt;br&gt;</span></span>
+<span id="cb3-853"><a href=""></a><span class="vs">    True μ = </span><span class="sc">${</span>mu_true2<span class="sc">}</span><span class="vs">%, σ = </span><span class="sc">${</span>sig2<span class="sc">}</span><span class="vs">%</span></span>
+<span id="cb3-854"><a href=""></a><span class="vs">  &lt;/div&gt;`</span><span class="op">;</span></span>
+<span id="cb3-855"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-3-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-3-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-3-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-3-4" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:65%;">
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb4" data-startfrom="864" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 863;"><span id="cb4-864"><a href=""></a>likelihoodData <span class="op">=</span> {</span>
+<span id="cb4-865"><a href=""></a>  <span class="kw">let</span> sum <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> sum2 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-866"><a href=""></a>  <span class="kw">const</span> seed <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>(mu_true2<span class="op">*</span><span class="dv">10</span> <span class="op">+</span> sig2<span class="op">*</span><span class="dv">3</span> <span class="op">+</span> n_obs)<span class="op">;</span></span>
+<span id="cb4-867"><a href=""></a>  <span class="kw">function</span> <span class="fu">lcg</span>(s) { <span class="cf">return</span> (<span class="dv">1664525</span> <span class="op">*</span> s <span class="op">+</span> <span class="dv">1013904223</span>) <span class="op">&gt;&gt;&gt;</span> <span class="dv">0</span><span class="op">;</span> }</span>
+<span id="cb4-868"><a href=""></a>  <span class="kw">let</span> state <span class="op">=</span> seed<span class="op">;</span></span>
+<span id="cb4-869"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n_obs<span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb4-870"><a href=""></a>    state <span class="op">=</span> <span class="fu">lcg</span>(state)<span class="op">;</span></span>
+<span id="cb4-871"><a href=""></a>    <span class="kw">const</span> u1 <span class="op">=</span> state <span class="op">/</span> <span class="dv">4294967296</span><span class="op">;</span></span>
+<span id="cb4-872"><a href=""></a>    state <span class="op">=</span> <span class="fu">lcg</span>(state)<span class="op">;</span></span>
+<span id="cb4-873"><a href=""></a>    <span class="kw">const</span> u2 <span class="op">=</span> state <span class="op">/</span> <span class="dv">4294967296</span><span class="op">;</span></span>
+<span id="cb4-874"><a href=""></a>    <span class="kw">const</span> z <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(<span class="op">-</span><span class="dv">2</span><span class="op">*</span><span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(u1<span class="op">+</span><span class="fl">1e-10</span>)) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">cos</span>(<span class="dv">2</span><span class="op">*</span><span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span><span class="op">*</span>u2)<span class="op">;</span></span>
+<span id="cb4-875"><a href=""></a>    <span class="kw">const</span> y <span class="op">=</span> mu_true2 <span class="op">+</span> sig2 <span class="op">*</span> z<span class="op">;</span></span>
+<span id="cb4-876"><a href=""></a>    sum <span class="op">+=</span> y<span class="op">;</span> sum2 <span class="op">+=</span> y<span class="op">*</span>y<span class="op">;</span></span>
+<span id="cb4-877"><a href=""></a>  }</span>
+<span id="cb4-878"><a href=""></a>  <span class="kw">const</span> ybar <span class="op">=</span> sum <span class="op">/</span> n_obs<span class="op">;</span></span>
+<span id="cb4-879"><a href=""></a>  <span class="kw">const</span> s2 <span class="op">=</span> (sum2 <span class="op">-</span> n_obs<span class="op">*</span>ybar<span class="op">*</span>ybar) <span class="op">/</span> n_obs<span class="op">;</span></span>
+<span id="cb4-880"><a href=""></a></span>
+<span id="cb4-881"><a href=""></a>  <span class="kw">const</span> muRange <span class="op">=</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({<span class="dt">length</span><span class="op">:</span> <span class="dv">60</span>}<span class="op">,</span> (_<span class="op">,</span> i) <span class="kw">=&gt;</span> ybar <span class="op">-</span> <span class="dv">4</span> <span class="op">+</span> i <span class="op">*</span> <span class="dv">8</span><span class="op">/</span><span class="dv">59</span>)<span class="op">;</span></span>
+<span id="cb4-882"><a href=""></a>  <span class="cf">return</span> muRange<span class="op">.</span><span class="fu">map</span>(mu_c <span class="kw">=&gt;</span> {</span>
+<span id="cb4-883"><a href=""></a>    <span class="kw">const</span> ll <span class="op">=</span> <span class="op">-</span>n_obs<span class="op">/</span><span class="dv">2</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(s2) <span class="op">-</span> (<span class="dv">1</span><span class="op">/</span>(<span class="dv">2</span><span class="op">*</span>s2)) <span class="op">*</span> (sum2 <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>mu_c<span class="op">*</span>sum <span class="op">+</span> n_obs<span class="op">*</span>mu_c<span class="op">*</span>mu_c)<span class="op">;</span></span>
+<span id="cb4-884"><a href=""></a>    <span class="cf">return</span> {<span class="dt">mu</span><span class="op">:</span> mu_c<span class="op">,</span> <span class="dt">loglik</span><span class="op">:</span> ll}<span class="op">;</span></span>
+<span id="cb4-885"><a href=""></a>  })<span class="op">;</span></span>
+<span id="cb4-886"><a href=""></a>}</span>
+<span id="cb4-887"><a href=""></a></span>
+<span id="cb4-888"><a href=""></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb4-889"><a href=""></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">650</span><span class="op">,</span> <span class="dt">height</span><span class="op">:</span> <span class="dv">380</span><span class="op">,</span></span>
+<span id="cb4-890"><a href=""></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">60</span><span class="op">,</span> <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span> <span class="dt">marginTop</span><span class="op">:</span> <span class="dv">30</span><span class="op">,</span></span>
+<span id="cb4-891"><a href=""></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Candidate μ value (%)"</span>}<span class="op">,</span></span>
+<span id="cb4-892"><a href=""></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Log-Likelihood ℓ(μ)"</span>}<span class="op">,</span></span>
+<span id="cb4-893"><a href=""></a>  <span class="dt">title</span><span class="op">:</span> <span class="vs">`Log-Likelihood peaks at MLE: μ̂ = ȳ`</span><span class="op">,</span></span>
+<span id="cb4-894"><a href=""></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb4-895"><a href=""></a>    Plot<span class="op">.</span><span class="fu">line</span>(likelihoodData<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"mu"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"loglik"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"steelblue"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="fl">2.5</span>})<span class="op">,</span></span>
+<span id="cb4-896"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([likelihoodData<span class="op">.</span><span class="fu">reduce</span>((a<span class="op">,</span>b) <span class="kw">=&gt;</span> a<span class="op">.</span><span class="at">loglik</span> <span class="op">&gt;</span> b<span class="op">.</span><span class="at">loglik</span> <span class="op">?</span> a <span class="op">:</span> b)<span class="op">.</span><span class="at">mu</span>]<span class="op">,</span></span>
+<span id="cb4-897"><a href=""></a>      {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"red"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="fl">2.5</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"6,3"</span>})<span class="op">,</span></span>
+<span id="cb4-898"><a href=""></a>    Plot<span class="op">.</span><span class="fu">text</span>([{<span class="dt">mu</span><span class="op">:</span> likelihoodData<span class="op">.</span><span class="fu">reduce</span>((a<span class="op">,</span>b)<span class="kw">=&gt;</span>a<span class="op">.</span><span class="at">loglik</span><span class="op">&gt;</span>b<span class="op">.</span><span class="at">loglik</span><span class="op">?</span>a<span class="op">:</span>b)<span class="op">.</span><span class="at">mu</span><span class="op">,</span> </span>
+<span id="cb4-899"><a href=""></a>                <span class="dt">ll</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="op">...</span>likelihoodData<span class="op">.</span><span class="fu">map</span>(d<span class="kw">=&gt;</span>d<span class="op">.</span><span class="at">loglik</span>))}]<span class="op">,</span></span>
+<span id="cb4-900"><a href=""></a>      {<span class="dt">x</span><span class="op">:</span> <span class="st">"mu"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"ll"</span><span class="op">,</span> <span class="dt">dy</span><span class="op">:</span> <span class="op">-</span><span class="dv">15</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> d <span class="kw">=&gt;</span> <span class="vs">`MLE: μ̂=</span><span class="sc">${</span>d<span class="op">.</span><span class="at">mu</span><span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">%`</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span><span class="st">"red"</span><span class="op">,</span> <span class="dt">fontSize</span><span class="op">:</span><span class="dv">12</span>})</span>
+<span id="cb4-901"><a href=""></a>  ]</span>
+<span id="cb4-902"><a href=""></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-4-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-4-2" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="r-case-study-comparing-mom-vs.-mle-for-stock-returns" class="slide level2 smaller">
+<h2>💰 R Case Study: Comparing MoM vs.&nbsp;MLE for Stock Returns</h2>
+<div style="font-size:50px">
+<div class="columns">
+<div class="column" style="width:52%;">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb5-2"><a href=""></a><span class="fu">library</span>(tidyquant)</span>
+<span id="cb5-3"><a href=""></a><span class="fu">library</span>(knitr)</span>
+<span id="cb5-4"><a href=""></a><span class="fu">library</span>(MASS)  <span class="co"># for fitdistr (MLE)</span></span>
+<span id="cb5-5"><a href=""></a></span>
+<span id="cb5-6"><a href=""></a><span class="co"># Download 3 years of monthly returns</span></span>
+<span id="cb5-7"><a href=""></a>symbols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"AAPL"</span>, <span class="st">"XOM"</span>, <span class="st">"JPM"</span>)</span>
+<span id="cb5-8"><a href=""></a>prices <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(symbols,</span>
+<span id="cb5-9"><a href=""></a>                 <span class="at">from =</span> <span class="st">"2021-01-01"</span>,</span>
+<span id="cb5-10"><a href=""></a>                 <span class="at">to =</span> <span class="st">"2023-12-31"</span>)</span>
+<span id="cb5-11"><a href=""></a></span>
+<span id="cb5-12"><a href=""></a>returns <span class="ot">&lt;-</span> prices <span class="sc">%&gt;%</span></span>
+<span id="cb5-13"><a href=""></a>  <span class="fu">group_by</span>(symbol) <span class="sc">%&gt;%</span></span>
+<span id="cb5-14"><a href=""></a>  <span class="fu">tq_transmute</span>(<span class="at">select =</span> adjusted,</span>
+<span id="cb5-15"><a href=""></a>               <span class="at">mutate_fun =</span> periodReturn,</span>
+<span id="cb5-16"><a href=""></a>               <span class="at">period =</span> <span class="st">"monthly"</span>,</span>
+<span id="cb5-17"><a href=""></a>               <span class="at">col_rename =</span> <span class="st">"return"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-18"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">return_pct =</span> return <span class="sc">*</span> <span class="dv">100</span>)</span>
+<span id="cb5-19"><a href=""></a></span>
+<span id="cb5-20"><a href=""></a><span class="co"># MoM estimates: mu_hat = Ybar, sigma^2_hat = S^2</span></span>
+<span id="cb5-21"><a href=""></a>mom_est <span class="ot">&lt;-</span> returns <span class="sc">%&gt;%</span></span>
+<span id="cb5-22"><a href=""></a>  <span class="fu">group_by</span>(symbol) <span class="sc">%&gt;%</span></span>
+<span id="cb5-23"><a href=""></a>  <span class="fu">summarise</span>(</span>
+<span id="cb5-24"><a href=""></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb5-25"><a href=""></a>    <span class="at">mu_MoM    =</span> <span class="fu">mean</span>(return_pct),</span>
+<span id="cb5-26"><a href=""></a>    <span class="at">sigma_MoM =</span> <span class="fu">sd</span>(return_pct),</span>
+<span id="cb5-27"><a href=""></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb5-28"><a href=""></a>  )</span>
+<span id="cb5-29"><a href=""></a></span>
+<span id="cb5-30"><a href=""></a><span class="fu">kable</span>(mom_est, <span class="at">digits =</span> <span class="dv">3</span>,</span>
+<span id="cb5-31"><a href=""></a>      <span class="at">caption =</span> <span class="st">"Method of Moments Estimates (Monthly Returns, %)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top">
+<caption>Method of Moments Estimates (Monthly Returns, %)</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">symbol</th>
+<th style="text-align: right;">n</th>
+<th style="text-align: right;">mu_MoM</th>
+<th style="text-align: right;">sigma_MoM</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">AAPL</td>
+<td style="text-align: right;">36</td>
+<td style="text-align: right;">1.453</td>
+<td style="text-align: right;">7.827</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">JPM</td>
+<td style="text-align: right;">36</td>
+<td style="text-align: right;">1.369</td>
+<td style="text-align: right;">7.798</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">XOM</td>
+<td style="text-align: right;">36</td>
+<td style="text-align: right;">3.241</td>
+<td style="text-align: right;">9.250</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div><div class="column" style="width:48%;">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="co"># MLE for normal: mu_MLE = Ybar, sigma_MLE^2 = (1/n)*sum(yi-ybar)^2</span></span>
+<span id="cb6-2"><a href=""></a>mle_est <span class="ot">&lt;-</span> returns <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href=""></a>  <span class="fu">group_by</span>(symbol) <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href=""></a>  <span class="fu">summarise</span>(</span>
+<span id="cb6-5"><a href=""></a>    <span class="at">mu_MLE    =</span> <span class="fu">mean</span>(return_pct),</span>
+<span id="cb6-6"><a href=""></a>    <span class="at">sigma_MLE =</span> <span class="fu">sd</span>(return_pct) <span class="sc">*</span> <span class="fu">sqrt</span>((<span class="fu">n</span>()<span class="sc">-</span><span class="dv">1</span>)<span class="sc">/</span><span class="fu">n</span>()),</span>
+<span id="cb6-7"><a href=""></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb6-8"><a href=""></a>  )</span>
+<span id="cb6-9"><a href=""></a></span>
+<span id="cb6-10"><a href=""></a><span class="co"># MLE sigma uses n in denominator, MoM uses n-1</span></span>
+<span id="cb6-11"><a href=""></a>comparison <span class="ot">&lt;-</span> mom_est <span class="sc">%&gt;%</span></span>
+<span id="cb6-12"><a href=""></a>  <span class="fu">left_join</span>(mle_est, <span class="at">by =</span> <span class="st">"symbol"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-13"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">sigma_bias =</span> sigma_MoM <span class="sc">-</span> sigma_MLE)</span>
+<span id="cb6-14"><a href=""></a></span>
+<span id="cb6-15"><a href=""></a><span class="co"># Visualise: fitted normal densities vs empirical</span></span>
+<span id="cb6-16"><a href=""></a>returns <span class="sc">%&gt;%</span></span>
+<span id="cb6-17"><a href=""></a>  <span class="fu">left_join</span>(mle_est, <span class="at">by =</span> <span class="st">"symbol"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-18"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> return_pct)) <span class="sc">+</span></span>
+<span id="cb6-19"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(density)),</span>
+<span id="cb6-20"><a href=""></a>                 <span class="at">bins =</span> <span class="dv">12</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>,</span>
+<span id="cb6-21"><a href=""></a>                 <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb6-22"><a href=""></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm,</span>
+<span id="cb6-23"><a href=""></a>    <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> mle_est<span class="sc">$</span>mu_MLE[<span class="dv">1</span>],</span>
+<span id="cb6-24"><a href=""></a>                <span class="at">sd   =</span> mle_est<span class="sc">$</span>sigma_MLE[<span class="dv">1</span>]),</span>
+<span id="cb6-25"><a href=""></a>    <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb6-26"><a href=""></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>symbol, <span class="at">ncol =</span> <span class="dv">1</span>, <span class="at">scales =</span> <span class="st">"free_x"</span>) <span class="sc">+</span></span>
+<span id="cb6-27"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Monthly Returns vs. MLE Normal Fit"</span>,</span>
+<span id="cb6-28"><a href=""></a>       <span class="at">subtitle =</span> <span class="st">"Red dashed: MLE N(μ̂, σ̂²)"</span>,</span>
+<span id="cb6-29"><a href=""></a>       <span class="at">x =</span> <span class="st">"Monthly Return (%)"</span>, <span class="at">y =</span> <span class="st">"Density"</span>) <span class="sc">+</span></span>
+<span id="cb6-30"><a href=""></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="properties_estimators_lecture3_files/figure-revealjs/unnamed-chunk-7-1.png" width="528"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="case-study-key-findings" class="slide level2 smaller">
+<h2>💰 Case Study: Key Findings</h2>
+<div style="font-size:50px">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 MoM vs.&nbsp;MLE — Practical Comparison</strong></p>
+</div>
+<div class="callout-content">
+<div class="columns">
+<div class="column" style="width:33%;">
+<div class="fragment">
+<p><strong>Estimating <span class="math inline">\(\mu\)</span> (mean return):</strong></p>
+<ul>
+<li><p>MoM: <span class="math inline">\(\hat\mu = \bar{Y}\)</span></p></li>
+<li><p>MLE: <span class="math inline">\(\hat\mu = \bar{Y}\)</span></p></li>
+<li><p><strong>Identical!</strong> For exponential family distributions, MoM and MLE agree on the mean</p></li>
+<li><p>Both are <strong>MVUE</strong> for <span class="math inline">\(\mu\)</span> (normal case)</p></li>
+</ul>
+</div>
+</div><div class="column" style="width:33%;">
+<div class="fragment">
+<p><strong>Estimating <span class="math inline">\(\sigma\)</span> (volatility):</strong></p>
+<ul>
+<li><p>MoM: <span class="math inline">\(\hat\sigma = S\)</span> (divides by <span class="math inline">\(n-1\)</span>)</p></li>
+<li><p>MLE: <span class="math inline">\(\hat\sigma = \sqrt{\frac{1}{n}\sum(y_i-\bar{y})^2}\)</span> (divides by <span class="math inline">\(n\)</span>)</p></li>
+<li><p>MLE is <strong>biased</strong> — slightly underestimates <span class="math inline">\(\sigma\)</span></p></li>
+<li><p>For risk management: prefer unbiased <span class="math inline">\(S\)</span></p></li>
+</ul>
+</div>
+</div><div class="column" style="width:33%;">
+<div class="fragment">
+<p><strong>Takeaways for practitioners:</strong></p>
+<ol type="1">
+<li><p><strong>MLE</strong> is consistent, invariant, and often asymptotically efficient</p></li>
+<li><p><strong>MoM</strong> is simple and always consistent — good for multi-parameter models (e.g., Gamma losses)</p></li>
+<li><p>For <strong>normal returns</strong>, both agree on <span class="math inline">\(\mu\)</span>; only differ on <span class="math inline">\(\sigma\)</span></p></li>
+<li><p><strong>MVUE</strong> = the gold standard whenever achievable</p></li>
+</ol>
+</div>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="quiz-1-relative-efficiency" class="slide level2 smaller quiz-question">
+<h2>📝 Quiz #1: Relative Efficiency</h2>
+<p>Two unbiased estimators for a fund’s mean return <span class="math inline">\(\mu\)</span> are computed from <span class="math inline">\(n = 50\)</span> monthly observations. <span class="math inline">\(V(\hat\mu_1) = 0.10\)</span> and <span class="math inline">\(V(\hat\mu_2) = 0.25\)</span>. What is <span class="math inline">\(\text{eff}(\hat\mu_1, \hat\mu_2)\)</span>?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Correct! eff(θ̂₁, θ̂₂) = V(θ̂₂)/V(θ̂₁) = 0.25/0.10 = 2.5. Since eff > 1, θ̂₁ has smaller variance and is more efficient."><span class="math inline">\(\text{eff}(\hat\mu_1, \hat\mu_2) = 2.5\)</span>, so <span class="math inline">\(\hat\mu_1\)</span> is preferred</span></li>
+<li><span class="math inline">\(\text{eff}(\hat\mu_1, \hat\mu_2) = 0.4\)</span>, so <span class="math inline">\(\hat\mu_2\)</span> is preferred</li>
+<li><span class="math inline">\(\text{eff}(\hat\mu_1, \hat\mu_2) = 2.5\)</span>, so <span class="math inline">\(\hat\mu_2\)</span> is preferred</li>
+<li>Cannot be determined without knowing the distribution</li>
+</ul>
+</section>
+<section id="quiz-2-consistency" class="slide level2 smaller quiz-question">
+<h2>📝 Quiz #2: Consistency</h2>
+<p>A portfolio analyst uses <span class="math inline">\(\hat\theta_n = Y_1\)</span> (the first observation only) to estimate mean annual return <span class="math inline">\(\mu\)</span>. Is <span class="math inline">\(\hat\theta_n\)</span> consistent?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Correct! By Theorem 9.1, an unbiased estimator is consistent if its variance → 0. Since V(Y₁) = σ² for all n, it never shrinks — Y₁ is NOT consistent.">No — <span class="math inline">\(V(Y_1) = \sigma^2\)</span> does not converge to 0 as <span class="math inline">\(n \to \infty\)</span></span></li>
+<li>Yes — <span class="math inline">\(Y_1\)</span> is unbiased for <span class="math inline">\(\mu\)</span> so it must be consistent</li>
+<li>Yes — by the Law of Large Numbers, all estimators are consistent</li>
+<li>Cannot determine consistency without more information</li>
+</ul>
+</section>
+<section id="quiz-3-factorization-criterion" class="slide level2 smaller quiz-question">
+<h2>📝 Quiz #3: Factorization Criterion</h2>
+<p>For a Poisson sample <span class="math inline">\(Y_1, \ldots, Y_n\)</span> with mean <span class="math inline">\(\lambda\)</span>, the likelihood is <span class="math inline">\(L(\lambda) = \frac{\lambda^{\sum y_i} e^{-n\lambda}}{\prod y_i!}\)</span>. What is the sufficient statistic for <span class="math inline">\(\lambda\)</span>?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Correct! Factor: L(λ) = [λ^(Σyᵢ) e^(−nλ)] × [1/∏yᵢ!]. The first part depends on the data only through Σyᵢ = u, and the second part is free of λ. By Theorem 9.4, U = ΣYᵢ is sufficient."><span class="math inline">\(U = \sum_{i=1}^n Y_i\)</span></span></li>
+<li><span class="math inline">\(U = \bar{Y}\)</span>, since it is unbiased for <span class="math inline">\(\lambda\)</span></li>
+<li><span class="math inline">\(U = Y_{(n)} = \max(Y_1, \ldots, Y_n)\)</span></li>
+<li>The sufficient statistic is <span class="math inline">\(\lambda\)</span> itself</li>
+</ul>
+</section>
+<section id="quiz-4-mle-vs.-mom" class="slide level2 smaller quiz-question">
+<h2>📝 Quiz #4: MLE vs.&nbsp;MoM</h2>
+<p>For a Uniform<span class="math inline">\((0, \theta)\)</span> sample, the MoM estimator is <span class="math inline">\(\hat\theta_{\text{MoM}} = 2\bar{Y}\)</span> and the MLE is <span class="math inline">\(\hat\theta_{\text{MLE}} = Y_{(n)} = \max(Y_i)\)</span>. Which statement is correct?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Correct! The factorization criterion gives Y₍ₙ₎ as the sufficient statistic. eff(MoM, MLE) = 3/(n+2) < 1 for n > 1, meaning the MLE has smaller variance. The MoM estimator 2Ȳ is NOT a function of the sufficient statistic, so it cannot be MVUE.">The MLE is more efficient; the sufficient statistic is <span class="math inline">\(Y_{(n)}\)</span>, so the MVUE is based on <span class="math inline">\(Y_{(n)}\)</span>, not <span class="math inline">\(\bar{Y}\)</span></span></li>
+<li>The MoM is preferred because it is unbiased</li>
+<li>Both estimators are equally efficient for all <span class="math inline">\(n\)</span></li>
+<li>The MLE is biased and therefore should never be used</li>
+</ul>
+</section>
+<section id="summary" class="slide level2 smaller">
+<h2>📝 Summary</h2>
+<div style="font-size:50px">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>✅ Key Takeaways — Chapter 9</strong></p>
+</div>
+<div class="callout-content">
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Evaluating Estimators</strong></p>
+<ul>
+<li><p><strong>Efficiency</strong> — compare via <span class="math inline">\(\text{eff} = V(\hat\theta_2)/V(\hat\theta_1)\)</span>; prefer estimator with smaller variance</p></li>
+<li><p><strong>Consistency</strong> — <span class="math inline">\(V(\hat\theta_n) \to 0\)</span> for unbiased <span class="math inline">\(\hat\theta_n\)</span> <span class="math inline">\(\Rightarrow\)</span> consistent (Theorem 9.1); <span class="math inline">\(\bar{Y}\)</span> is always consistent (LLN)</p></li>
+<li><p><strong>Sufficiency</strong> — <span class="math inline">\(U\)</span> is sufficient for <span class="math inline">\(\theta\)</span> if the likelihood factors as <span class="math inline">\(g(u,\theta) \cdot h(\mathbf{y})\)</span> (Factorization Criterion)</p></li>
+<li><p><strong>MVUE</strong> — Rao–Blackwell: best unbiased estimators are functions of sufficient statistics</p></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p><strong>Finding Estimators</strong></p>
+<ul>
+<li><p><strong>Method of Moments</strong> — equate <span class="math inline">\(E(Y^k) = m'_k\)</span>; always consistent, easy to compute, sometimes inefficient</p></li>
+<li><p><strong>MLE</strong> — maximize <span class="math inline">\(L(\theta)\)</span> or <span class="math inline">\(\ell(\theta)\)</span>; consistent, invariant <span class="math inline">\([t(\hat\theta)\)</span> is MLE of <span class="math inline">\(t(\theta)]\)</span>, often asymptotically efficient</p></li>
+<li><p><strong>Hierarchy:</strong> MVUE <span class="math inline">\(\geq\)</span> MLE (adjusted) <span class="math inline">\(\geq\)</span> MoM in terms of efficiency</p></li>
+<li><p><strong>Finance link:</strong> <span class="math inline">\(\bar{Y}\)</span> = MLE = MVUE for <span class="math inline">\(\mu\)</span> in normal returns; <span class="math inline">\(S^2\)</span> = MVUE for <span class="math inline">\(\sigma^2\)</span></p></li>
+</ul>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="practice-problems" class="slide level2">
+<h2>📚 Practice Problems</h2>
+<div style="font-size:50px">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📝 Homework (Wackerly Ch. 9)</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Problem 1 (Efficiency — Ex. 9.5):</strong> Let <span class="math inline">\(\hat\sigma^2_1 = S^2\)</span> and <span class="math inline">\(\hat\sigma^2_2 = \frac{1}{2}(Y_1-Y_2)^2\)</span> be two unbiased estimators of <span class="math inline">\(\sigma^2\)</span> from a normal sample. Find <span class="math inline">\(\text{eff}(\hat\sigma^2_1, \hat\sigma^2_2)\)</span>.</p>
+<p><strong>Problem 2 (Consistency — Ex. 9.20):</strong> If <span class="math inline">\(Y \sim \text{Binomial}(n, p)\)</span>, show that <span class="math inline">\(Y/n\)</span> is a consistent estimator of <span class="math inline">\(p\)</span>.</p>
+<p><strong>Problem 3 (Sufficiency — Ex. 9.38a):</strong> For a normal sample with known <span class="math inline">\(\sigma^2\)</span>, show <span class="math inline">\(\bar{Y}\)</span> is sufficient for <span class="math inline">\(\mu\)</span>.</p>
+<p><strong>Problem 4 (MLE — Ex. 9.80):</strong> For a Poisson sample with mean <span class="math inline">\(\lambda\)</span>: (a) find <span class="math inline">\(\hat\lambda_{\text{MLE}}\)</span>; (b) find <span class="math inline">\(E(\hat\lambda)\)</span> and <span class="math inline">\(V(\hat\lambda)\)</span>; (c) what is the MLE of <span class="math inline">\(P(Y=0) = e^{-\lambda}\)</span>?</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="thank-you" class="slide level2">
+<h2>👋 Thank You!</h2>
+<div style="font-size:50px">
+<div class="columns">
+<div class="column" style="width:55%;">
+<p><strong>Contact</strong></p>
+<p>📧 sorujov@ada.edu.az</p>
+<p>🏛 ADA University, School of Business</p>
+<p>🏢 ICTA Statistics Unit</p>
+<p><strong>Next Lecture</strong></p>
+<p>📌 <strong>Topic 8: Hypothesis Testing</strong></p>
+<p>Chapter 10 — Testing large-sample means, proportions, and variances with financial applications</p>
+</div><div class="column" style="width:45%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📌 Key Formulas</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">\[\text{eff}(\hat\theta_1, \hat\theta_2) = \frac{V(\hat\theta_2)}{V(\hat\theta_1)}\]</span></p>
+<p><span class="math display">\[\hat\theta_n \text{ consistent if } V(\hat\theta_n) \to 0\]</span></p>
+<p><span class="math display">\[L(\theta) = g(u,\theta) \cdot h(\mathbf{y}) \Rightarrow U \text{ sufficient}\]</span></p>
+<p><span class="math display">\[\hat\theta^* = E(\hat\theta \mid U) \Rightarrow V(\hat\theta^*) \leq V(\hat\theta)\]</span></p>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="discussion-questions" class="slide level2">
+<h2>❓ Discussion Questions</h2>
+<div style="font-size:50px">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>💬 Open Questions</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li><p>In practice, when would you accept a <strong>biased but consistent</strong> estimator over an <strong>unbiased but inefficient</strong> one? Give an example from portfolio management.</p></li>
+<li><p>The MLE for <span class="math inline">\(\sigma^2\)</span> in the normal model divides by <span class="math inline">\(n\)</span> (biased). Yet many practitioners use it anyway. What trade-off are they making?</p></li>
+<li><p>Can you think of a financial quantity where finding the <strong>sufficient statistic</strong> would substantially simplify estimation? (Hint: think about VaR or CVaR.)</p></li>
+<li><p>How does the <strong>invariance property of MLEs</strong> help when estimating the <strong>Sharpe Ratio</strong> <span class="math inline">\(\mu/\sigma\)</span>?</p></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="../ADA.png" class="slide-logo"></p>
+<div class="footer footer-default">
+<p>Mathematical Statistics – Properties of Point Estimators</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="properties_estimators_lecture3_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="properties_estimators_lecture3_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="properties_estimators_lecture3_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="properties_estimators_lecture3_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="properties_estimators_lecture3_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="properties_estimators_lecture3_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="properties_estimators_lecture3_files/libs/revealjs/plugin/reveal-quiz/quiz.js"></script>
+  <script src="properties_estimators_lecture3_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="properties_estimators_lecture3_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="properties_estimators_lecture3_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="properties_estimators_lecture3_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="properties_estimators_lecture3_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'quiz': {"checkKey":"c","resetKey":"r","shuffleKey":"s","allowNumberKeys":true,"disableOnCheck":false,"shuffleOptions":true,"defaultCorrect":"✅ Correct! Well done.","defaultIncorrect":"❌ Not quite. Try again.","includeScore":true,"disableReset":false},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 720,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 4.0e-2,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, RevealQuiz, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script type="ojs-module-contents">
+    eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6Ilxudmlld29mIHRydWVfbXUgPSB7XG4gIGNvbnN0IGlucHV0ID0gSW5wdXRzLnJhbmdlKFstMiwgNV0sIHt2YWx1ZTogMiwgc3RlcDogMC41LCBsYWJlbDogXCJUcnVlIM68ICglKTpcIn0pO1xuICBbJ3BvaW50ZXJkb3duJywndG91Y2hzdGFydCcsJ21vdXNlZG93bicsJ2NsaWNrJywnd2hlZWwnLCdwb2ludGVybW92ZScsJ3RvdWNobW92ZSddXG4gICAgLmZvckVhY2goZSA9PiBpbnB1dC5hZGRFdmVudExpc3RlbmVyKGUsIGV2ID0+IGV2LnN0b3BQcm9wYWdhdGlvbigpKSk7XG4gIHJldHVybiBpbnB1dDtcbn1cblxudmlld29mIHNpZ21hX3ZhbCA9IHtcbiAgY29uc3QgaW5wdXQgPSBJbnB1dHMucmFuZ2UoWzEsIDhdLCB7dmFsdWU6IDMsIHN0ZXA6IDAuNSwgbGFiZWw6IFwiU3RkIERldiDPgyAoJSk6XCJ9KTtcbiAgWydwb2ludGVyZG93bicsJ3RvdWNoc3RhcnQnLCdtb3VzZWRvd24nLCdjbGljaycsJ3doZWVsJywncG9pbnRlcm1vdmUnLCd0b3VjaG1vdmUnXVxuICAgIC5mb3JFYWNoKGUgPT4gaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcihlLCBldiA9PiBldi5zdG9wUHJvcGFnYXRpb24oKSkpO1xuICByZXR1cm4gaW5wdXQ7XG59XG5cbnZpZXdvZiBuX3BhdGhzID0ge1xuICBjb25zdCBpbnB1dCA9IElucHV0cy5yYW5nZShbMSwgMzBdLCB7dmFsdWU6IDEwLCBzdGVwOiAxLCBsYWJlbDogXCIjIFNlcXVlbmNlczpcIn0pO1xuICBbJ3BvaW50ZXJkb3duJywndG91Y2hzdGFydCcsJ21vdXNlZG93bicsJ2NsaWNrJywnd2hlZWwnLCdwb2ludGVybW92ZScsJ3RvdWNobW92ZSddXG4gICAgLmZvckVhY2goZSA9PiBpbnB1dC5hZGRFdmVudExpc3RlbmVyKGUsIGV2ID0+IGV2LnN0b3BQcm9wYWdhdGlvbigpKSk7XG4gIHJldHVybiBpbnB1dDtcbn1cblxuY29uc2lzdGVuY3lJbmZvID0ge1xuICBjb25zdCBmaW5hbFZhbHMgPSBbXTtcbiAgZm9yIChsZXQgcCA9IDA7IHAgPCBuX3BhdGhzOyBwKyspIHtcbiAgICBsZXQgc3VtID0gMDtcbiAgICBmb3IgKGxldCBpID0gMTsgaSA8PSAyMDA7IGkrKykge1xuICAgICAgY29uc3QgdTEgPSBNYXRoLnJhbmRvbSgpLCB1MiA9IE1hdGgucmFuZG9tKCk7XG4gICAgICBjb25zdCB6ID0gTWF0aC5zcXJ0KC0yKk1hdGgubG9nKHUxKSkgKiBNYXRoLmNvcygyKk1hdGguUEkqdTIpO1xuICAgICAgc3VtICs9IHRydWVfbXUgKyBzaWdtYV92YWwgKiB6O1xuICAgIH1cbiAgICBmaW5hbFZhbHMucHVzaChzdW0gLyAyMDApO1xuICB9XG4gIGNvbnN0IGF2ZyA9IGZpbmFsVmFscy5yZWR1Y2UoKGEsYik9PmErYiwwKS9maW5hbFZhbHMubGVuZ3RoO1xuICBjb25zdCBzcHJlYWQgPSBNYXRoLm1heCguLi5maW5hbFZhbHMpIC0gTWF0aC5taW4oLi4uZmluYWxWYWxzKTtcbiAgXG4gIHJldHVybiBodG1sYDxkaXYgc3R5bGU9XCJiYWNrZ3JvdW5kOiNlOGY0Zjg7IHBhZGRpbmc6OHB4OyBib3JkZXItcmFkaXVzOjZweDsgZm9udC1zaXplOjAuOWVtO1wiPlxuICAgIDxzdHJvbmc+QXQgbiA9IDIwMDo8L3N0cm9uZz48YnI+XG4gICAgQXZnIGVzdGltYXRlOiAke2F2Zy50b0ZpeGVkKDMpfSU8YnI+XG4gICAgVHJ1ZSDOvDogJHt0cnVlX211fSU8YnI+XG4gICAgUmFuZ2Ugb2YgcGF0aHM6ICR7c3ByZWFkLnRvRml4ZWQoMyl9JVxuICA8L2Rpdj5gO1xufVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC0yIiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoiXG5jb25zaXN0ZW5jeURhdGEgPSB7XG4gIGNvbnN0IE4gPSAyMDA7XG4gIGNvbnN0IHBhdGhzID0gW107XG4gIGZvciAobGV0IHAgPSAwOyBwIDwgbl9wYXRoczsgcCsrKSB7XG4gICAgbGV0IGN1bVN1bSA9IDA7XG4gICAgZm9yIChsZXQgaSA9IDE7IGkgPD0gTjsgaSsrKSB7XG4gICAgICBjb25zdCB1MSA9IE1hdGgucmFuZG9tKCksIHUyID0gTWF0aC5yYW5kb20oKTtcbiAgICAgIGNvbnN0IHogPSBNYXRoLnNxcnQoLTIqTWF0aC5sb2codTEpKSAqIE1hdGguY29zKDIqTWF0aC5QSSp1Mik7XG4gICAgICBjdW1TdW0gKz0gdHJ1ZV9tdSArIHNpZ21hX3ZhbCAqIHo7XG4gICAgICBpZiAoaSAlIDIgPT09IDAgfHwgaSA8PSAxMCkge1xuICAgICAgICBwYXRocy5wdXNoKHtuOiBpLCB5YmFyOiBjdW1TdW0gLyBpLCBwYXRoOiBwfSk7XG4gICAgICB9XG4gICAgfVxuICB9XG4gIHJldHVybiBwYXRocztcbn1cblxuUGxvdC5wbG90KHtcbiAgd2lkdGg6IDcyMCwgaGVpZ2h0OiA0MDAsXG4gIG1hcmdpbkxlZnQ6IDU1LCBtYXJnaW5Cb3R0b206IDQ1LCBtYXJnaW5SaWdodDogMjAsXG4gIHg6IHtsYWJlbDogXCJTYW1wbGUgc2l6ZSBuIChtb250aHMgb2YgcmV0dXJuIGhpc3RvcnkpXCIsIGRvbWFpbjogWzEsIDIwMF19LFxuICB5OiB7bGFiZWw6IFwiU2FtcGxlIG1lYW4gcmV0dXJuICglKVwiLCBcbiAgICAgIGRvbWFpbjogW3RydWVfbXUgLSBzaWdtYV92YWwqMiwgdHJ1ZV9tdSArIHNpZ21hX3ZhbCoyXX0sXG4gIHRpdGxlOiBgJHtuX3BhdGhzfSBzYW1wbGUgcGF0aHMgY29udmVyZ2luZyB0byB0cnVlIM68ID0gJHt0cnVlX211fSVgLFxuICBtYXJrczogW1xuICAgIFBsb3QubGluZShjb25zaXN0ZW5jeURhdGEsIHt4OiBcIm5cIiwgeTogXCJ5YmFyXCIsIHN0cm9rZTogXCJwYXRoXCIsXG4gICAgICBzdHJva2VPcGFjaXR5OiAwLjUsIHN0cm9rZVdpZHRoOiAxLjJ9KSxcbiAgICBQbG90LnJ1bGVZKFt0cnVlX211XSwge3N0cm9rZTogXCJyZWRcIiwgc3Ryb2tlV2lkdGg6IDMsIHN0cm9rZURhc2hhcnJheTogXCI4LDRcIn0pLFxuICAgIFBsb3QudGV4dChbe246IDE5MCwgeTogdHJ1ZV9tdSArIDAuM31dLFxuICAgICAge3g6IFwiblwiLCB5OiBcInlcIiwgdGV4dDogZCA9PiBgzrwgPSAke3RydWVfbXV9JWAsIGZpbGw6IFwicmVkXCIsIGZvbnRTaXplOiAxM30pXG4gIF1cbn0pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTMiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJcbnZpZXdvZiBtdV90cnVlMiA9IHtcbiAgY29uc3QgaW5wdXQgPSBJbnB1dHMucmFuZ2UoWy0zLCA1XSwge3ZhbHVlOiAxLjUsIHN0ZXA6IDAuNSwgbGFiZWw6IFwiVHJ1ZSDOvCAoJSk6XCJ9KTtcbiAgWydwb2ludGVyZG93bicsJ3RvdWNoc3RhcnQnLCdtb3VzZWRvd24nLCdjbGljaycsJ3doZWVsJywncG9pbnRlcm1vdmUnLCd0b3VjaG1vdmUnXVxuICAgIC5mb3JFYWNoKGUgPT4gaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcihlLCBldiA9PiBldi5zdG9wUHJvcGFnYXRpb24oKSkpO1xuICByZXR1cm4gaW5wdXQ7XG59XG5cbnZpZXdvZiBzaWcyID0ge1xuICBjb25zdCBpbnB1dCA9IElucHV0cy5yYW5nZShbMSwgNl0sIHt2YWx1ZTogMywgc3RlcDogMC41LCBsYWJlbDogXCJUcnVlIM+DICglKTpcIn0pO1xuICBbJ3BvaW50ZXJkb3duJywndG91Y2hzdGFydCcsJ21vdXNlZG93bicsJ2NsaWNrJywnd2hlZWwnLCdwb2ludGVybW92ZScsJ3RvdWNobW92ZSddXG4gICAgLmZvckVhY2goZSA9PiBpbnB1dC5hZGRFdmVudExpc3RlbmVyKGUsIGV2ID0+IGV2LnN0b3BQcm9wYWdhdGlvbigpKSk7XG4gIHJldHVybiBpbnB1dDtcbn1cblxudmlld29mIG5fb2JzID0ge1xuICBjb25zdCBpbnB1dCA9IElucHV0cy5yYW5nZShbNSwgNjBdLCB7dmFsdWU6IDIwLCBzdGVwOiA1LCBsYWJlbDogXCJTYW1wbGUgc2l6ZSBuOlwifSk7XG4gIFsncG9pbnRlcmRvd24nLCd0b3VjaHN0YXJ0JywnbW91c2Vkb3duJywnY2xpY2snLCd3aGVlbCcsJ3BvaW50ZXJtb3ZlJywndG91Y2htb3ZlJ11cbiAgICAuZm9yRWFjaChlID0+IGlucHV0LmFkZEV2ZW50TGlzdGVuZXIoZSwgZXYgPT4gZXYuc3RvcFByb3BhZ2F0aW9uKCkpKTtcbiAgcmV0dXJuIGlucHV0O1xufVxuXG5tbGVfaW5mbyA9IHtcbiAgbGV0IHN1bSA9IDAsIHN1bTIgPSAwO1xuICBjb25zdCBzZWVkID0gTWF0aC5mbG9vcihtdV90cnVlMioxMCArIHNpZzIqMyArIG5fb2JzKTtcbiAgZnVuY3Rpb24gbGNnKHMpIHsgcmV0dXJuICgxNjY0NTI1ICogcyArIDEwMTM5MDQyMjMpID4+PiAwOyB9XG4gIGxldCBzdGF0ZSA9IHNlZWQ7XG4gIGNvbnN0IHlzID0gW107XG4gIGZvciAobGV0IGkgPSAwOyBpIDwgbl9vYnM7IGkrKykge1xuICAgIHN0YXRlID0gbGNnKHN0YXRlKTtcbiAgICBjb25zdCB1MSA9IHN0YXRlIC8gNDI5NDk2NzI5NjtcbiAgICBzdGF0ZSA9IGxjZyhzdGF0ZSk7XG4gICAgY29uc3QgdTIgPSBzdGF0ZSAvIDQyOTQ5NjcyOTY7XG4gICAgY29uc3QgeiA9IE1hdGguc3FydCgtMipNYXRoLmxvZyh1MSsxZS0xMCkpICogTWF0aC5jb3MoMipNYXRoLlBJKnUyKTtcbiAgICBjb25zdCB5ID0gbXVfdHJ1ZTIgKyBzaWcyICogejtcbiAgICB5cy5wdXNoKHkpO1xuICAgIHN1bSArPSB5OyBzdW0yICs9IHkqeTtcbiAgfVxuICBjb25zdCB5YmFyID0gc3VtIC8gbl9vYnM7XG4gIGNvbnN0IHMyID0gKHN1bTIgLSBuX29icyp5YmFyKnliYXIpIC8gKG5fb2JzIC0gMSk7XG4gIHJldHVybiBodG1sYDxkaXYgc3R5bGU9XCJiYWNrZ3JvdW5kOiNkNGVkZGE7IHBhZGRpbmc6OHB4OyBib3JkZXItcmFkaXVzOjZweDsgZm9udC1zaXplOjAuOWVtO1wiPlxuICAgIDxzdHJvbmc+TUxFIEVzdGltYXRlczo8L3N0cm9uZz48YnI+XG4gICAgzrzMgiA9ICR7eWJhci50b0ZpeGVkKDMpfSU8YnI+XG4gICAgz4PMgiA9ICR7TWF0aC5zcXJ0KHMyKS50b0ZpeGVkKDMpfSU8YnI+XG4gICAgVHJ1ZSDOvCA9ICR7bXVfdHJ1ZTJ9JSwgz4MgPSAke3NpZzJ9JVxuICA8L2Rpdj5gO1xufVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC00IiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoiXG5saWtlbGlob29kRGF0YSA9IHtcbiAgbGV0IHN1bSA9IDAsIHN1bTIgPSAwO1xuICBjb25zdCBzZWVkID0gTWF0aC5mbG9vcihtdV90cnVlMioxMCArIHNpZzIqMyArIG5fb2JzKTtcbiAgZnVuY3Rpb24gbGNnKHMpIHsgcmV0dXJuICgxNjY0NTI1ICogcyArIDEwMTM5MDQyMjMpID4+PiAwOyB9XG4gIGxldCBzdGF0ZSA9IHNlZWQ7XG4gIGZvciAobGV0IGkgPSAwOyBpIDwgbl9vYnM7IGkrKykge1xuICAgIHN0YXRlID0gbGNnKHN0YXRlKTtcbiAgICBjb25zdCB1MSA9IHN0YXRlIC8gNDI5NDk2NzI5NjtcbiAgICBzdGF0ZSA9IGxjZyhzdGF0ZSk7XG4gICAgY29uc3QgdTIgPSBzdGF0ZSAvIDQyOTQ5NjcyOTY7XG4gICAgY29uc3QgeiA9IE1hdGguc3FydCgtMipNYXRoLmxvZyh1MSsxZS0xMCkpICogTWF0aC5jb3MoMipNYXRoLlBJKnUyKTtcbiAgICBjb25zdCB5ID0gbXVfdHJ1ZTIgKyBzaWcyICogejtcbiAgICBzdW0gKz0geTsgc3VtMiArPSB5Knk7XG4gIH1cbiAgY29uc3QgeWJhciA9IHN1bSAvIG5fb2JzO1xuICBjb25zdCBzMiA9IChzdW0yIC0gbl9vYnMqeWJhcip5YmFyKSAvIG5fb2JzO1xuXG4gIGNvbnN0IG11UmFuZ2UgPSBBcnJheS5mcm9tKHtsZW5ndGg6IDYwfSwgKF8sIGkpID0+IHliYXIgLSA0ICsgaSAqIDgvNTkpO1xuICByZXR1cm4gbXVSYW5nZS5tYXAobXVfYyA9PiB7XG4gICAgY29uc3QgbGwgPSAtbl9vYnMvMiAqIE1hdGgubG9nKHMyKSAtICgxLygyKnMyKSkgKiAoc3VtMiAtIDIqbXVfYypzdW0gKyBuX29icyptdV9jKm11X2MpO1xuICAgIHJldHVybiB7bXU6IG11X2MsIGxvZ2xpazogbGx9O1xuICB9KTtcbn1cblxuUGxvdC5wbG90KHtcbiAgd2lkdGg6IDY1MCwgaGVpZ2h0OiAzODAsXG4gIG1hcmdpbkxlZnQ6IDYwLCBtYXJnaW5Cb3R0b206IDUwLCBtYXJnaW5Ub3A6IDMwLFxuICB4OiB7bGFiZWw6IFwiQ2FuZGlkYXRlIM68IHZhbHVlICglKVwifSxcbiAgeToge2xhYmVsOiBcIkxvZy1MaWtlbGlob29kIOKEkyjOvClcIn0sXG4gIHRpdGxlOiBgTG9nLUxpa2VsaWhvb2QgcGVha3MgYXQgTUxFOiDOvMyCID0gyLNgLFxuICBtYXJrczogW1xuICAgIFBsb3QubGluZShsaWtlbGlob29kRGF0YSwge3g6IFwibXVcIiwgeTogXCJsb2dsaWtcIiwgc3Ryb2tlOiBcInN0ZWVsYmx1ZVwiLCBzdHJva2VXaWR0aDogMi41fSksXG4gICAgUGxvdC5ydWxlWChbbGlrZWxpaG9vZERhdGEucmVkdWNlKChhLGIpID0+IGEubG9nbGlrID4gYi5sb2dsaWsgPyBhIDogYikubXVdLFxuICAgICAge3N0cm9rZTogXCJyZWRcIiwgc3Ryb2tlV2lkdGg6IDIuNSwgc3Ryb2tlRGFzaGFycmF5OiBcIjYsM1wifSksXG4gICAgUGxvdC50ZXh0KFt7bXU6IGxpa2VsaWhvb2REYXRhLnJlZHVjZSgoYSxiKT0+YS5sb2dsaWs+Yi5sb2dsaWs/YTpiKS5tdSwgXG4gICAgICAgICAgICAgICAgbGw6IE1hdGgubWF4KC4uLmxpa2VsaWhvb2REYXRhLm1hcChkPT5kLmxvZ2xpaykpfV0sXG4gICAgICB7eDogXCJtdVwiLCB5OiBcImxsXCIsIGR5OiAtMTUsIHRleHQ6IGQgPT4gYE1MRTogzrzMgj0ke2QubXUudG9GaXhlZCgyKX0lYCwgZmlsbDpcInJlZFwiLCBmb250U2l6ZToxMn0pXG4gIF1cbn0pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ3RydWVfbXUnKSJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgnc2lnbWFfdmFsJykifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ25fcGF0aHMnKSJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgnbXVfdHJ1ZTInKSJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgnc2lnMicpIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCduX29icycpIn1dfQ==
+    </script>
+    <script type="module">
+    if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+    window._ojs.paths.runtimeToDoc = "../../..";
+    window._ojs.paths.runtimeToRoot = "../../../..";
+    window._ojs.paths.docToRoot = "..";
+    window._ojs.selfContained = false;
+    window._ojs.runtime.interpretFromScriptTags();
+    </script>
+    
+
+    <script>
+
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+
+      // slide changes (different for each slide format).
+
+      (function () {
+
+        // dispatch for htmlwidgets
+
+        function fireSlideEnter() {
+
+          const event = window.document.createEvent("Event");
+
+          event.initEvent("slideenter", true, true);
+
+          window.document.dispatchEvent(event);
+
+        }
+
+    
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+
+          fireSlideEnter();
+
+    
+
+          // dispatch for shiny
+
+          if (window.jQuery) {
+
+            if (previousSlide) {
+
+              window.jQuery(previousSlide).trigger("hidden");
+
+            }
+
+            if (currentSlide) {
+
+              window.jQuery(currentSlide).trigger("shown");
+
+            }
+
+          }
+
+        }
+
+    
+
+        // hookup for slidy
+
+        if (window.w3c_slidy) {
+
+          window.w3c_slidy.add_observer(function (slide_num) {
+
+            // slide_num starts at position 1
+
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+
+          });
+
+        }
+
+    
+
+      })();
+
+    </script>
+
+    
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
