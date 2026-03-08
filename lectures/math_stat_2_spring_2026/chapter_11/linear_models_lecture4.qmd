@@ -1,0 +1,913 @@
+---
+title: "Mathematical Statistics"
+subtitle: "Linear Models & Least Squares"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: default
+    logo: ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    margin: 0.04
+    # footer: "Mathematical Statistics – Linear Models & Least Squares"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+---
+
+## 🎯 Learning Objectives {.smaller}
+
+::: {style="font-size:39px;"}
+::: {.learning-objectives}
+By the end of this lecture, you will be able to:
+
+- **Formulate** the simple linear regression model and state its assumptions
+
+- **Derive** the least-squares estimators $\hat\beta_0$ and $\hat\beta_1$ using the $S_{xx}$, $S_{xy}$ shorthand
+
+- **Apply** the unbiasedness results and compute $S^2 = \text{SSE}/(n-2)$ as the estimator of $\sigma^2$
+
+- **Execute** the $t$-test for $H_0: \beta_1 = 0$ and construct a confidence interval for $\beta_1$
+
+- **Interpret** the coefficient of determination $r^2$ and Pearson correlation $r$ in financial contexts
+:::
+:::
+
+---
+
+## 📋 Overview {.smaller}
+
+::: {style="font-size:50px"}
+::: {.callout-note}
+## 📚 Topics Covered Today
+
+::: {.incremental}
+- **The Linear Model** — definition, assumptions, financial motivation (§11.1–11.2)
+
+- **Least Squares** — minimising SSE, deriving $\hat\beta_1$ and $\hat\beta_0$ (§11.3)
+
+- **Estimator Properties** — unbiasedness, variances, $S^2 = \text{SSE}/(n-2)$ (§11.4)
+
+- **Inference on $\beta_i$** — $t$-test for slope, CI for $\beta_1$ (§11.5)
+
+- **Goodness of Fit** — $r^2$ and Pearson $r$ (§11.6–11.7)
+
+- **Case Study** — Estimating market beta (CAPM) with real stock data
+:::
+:::
+:::
+
+---
+
+## 📖 Motivation: Regression in Finance {.smaller}
+
+::: {style="font-size:45px;"}
+::: {.callout-note}
+## 🎯 Linear Models are Everywhere in Finance
+
+::: {.columns}
+::: {.column width="50%"}
+::: {.fragment}
+**Asset Pricing:**
+
+- CAPM: $R_i - R_f = \alpha + \beta(R_m - R_f) + \varepsilon$
+- Market beta $\beta$ measures systematic risk
+- Is $\alpha \neq 0$? → abnormal return (Jensen's alpha)
+- Factor models: Fama-French 3 & 5-factor
+:::
+:::
+
+::: {.column width="50%"}
+::: {.fragment}
+**Regulation & Forecasting:**
+
+- Broadband penetration as a function of price
+- Revenue elasticity to GDP growth
+- QoS speed vs infrastructure investment
+- Loan default probability vs credit score
+:::
+:::
+:::
+:::
+
+**Key idea:** We observe $(x_i, Y_i)$ pairs. We believe $E(Y \mid x) = \beta_0 + \beta_1 x$. How do we estimate $\beta_1$, test whether it is significant, and measure how well $x$ explains $Y$?
+:::
+
+---
+
+## 📝 Definition: The Simple Linear Model {.smaller}
+
+::: {style="font-size:35px;"}
+::: {.callout-note}
+## 📝 Definition 11.1 — Simple Linear Regression Model
+
+$$Y = \beta_0 + \beta_1 x + \varepsilon$$
+
+| Symbol | Meaning |
+|--------|---------|
+| $Y$ | Random response variable |
+| $x$ | Fixed (non-random) predictor variable |
+| $\beta_0$ | Unknown intercept parameter |
+| $\beta_1$ | Unknown slope parameter |
+| $\varepsilon$ | Random error term |
+
+**Assumptions (required for inference):**
+
+- $E(\varepsilon) = 0$ → $E(Y \mid x) = \beta_0 + \beta_1 x$
+- $V(\varepsilon) = \sigma^2$ (constant, independent of $x$) — **homoscedasticity**
+- $\varepsilon \sim N(0, \sigma^2)$ for $t$-tests and CIs
+- Errors are independent across observations
+
+:::
+:::
+
+---
+
+## 🧮 The Method of Least Squares (§11.3) {.smaller}
+
+::: {style="font-size:50px"}
+
+Given $n$ data pairs $(x_1, Y_1), \ldots, (x_n, Y_n)$, the predicted value under the model is $\hat Y_i = \hat\beta_0 + \hat\beta_1 x_i$.
+
+**We minimise the Sum of Squares for Error (SSE):**
+
+$$\text{SSE} = \sum_{i=1}^n (Y_i - \hat Y_i)^2 = \sum_{i=1}^n [Y_i - (\hat\beta_0 + \hat\beta_1 x_i)]^2$$
+
+::: {.fragment}
+Setting $\partial\,\text{SSE}/\partial\hat\beta_0 = 0$ and $\partial\,\text{SSE}/\partial\hat\beta_1 = 0$ and solving the **normal equations** gives the unique minimisers:
+:::
+:::
+
+---
+
+## 🧮 Least-Squares Estimators {.smaller}
+
+::: {style="font-size:39px;"}
+::: {.callout-important}
+## Least-Squares Estimators (Wackerly §11.3)
+
+$$\hat\beta_1 = \frac{S_{xy}}{S_{xx}}, \qquad \hat\beta_0 = \bar Y - \hat\beta_1 \bar x$$
+
+**Computational shorthand:**
+
+$$S_{xx} = \sum(x_i - \bar x)^2 = \sum x_i^2 - \frac{(\sum x_i)^2}{n}$$
+
+$$S_{xy} = \sum(x_i - \bar x)(Y_i - \bar Y) = \sum x_i Y_i - \frac{(\sum x_i)(\sum Y_i)}{n}$$
+
+$$S_{yy} = \sum(Y_i - \bar Y)^2 = \sum Y_i^2 - \frac{(\sum Y_i)^2}{n}$$
+
+:::
+
+**Fitted line:** $\hat Y = \hat\beta_0 + \hat\beta_1 x$ always passes through $(\bar x, \bar Y)$.
+:::
+
+---
+
+## 📌 Example 1: CAPM Beta by Hand {.smaller}
+
+::: {style="font-size:36px;"}
+**Scenario:** Estimate market beta for a stock using $n = 5$ weekly excess returns.
+
+| $x_i$ (Market) | $Y_i$ (Stock) | $x_i Y_i$ | $x_i^2$ |
+|:-:|:-:|:-:|:-:|
+| −2 | 0 | 0 | 4 |
+| −1 | 0 | 0 | 1 |
+|  0 | 1 | 0 | 0 |
+|  1 | 1 | 1 | 1 |
+|  2 | 3 | 6 | 4 |
+| **Σ = 0** | **Σ = 5** | **Σ = 7** | **Σ = 10** |
+
+:::{.fragment}
+$$S_{xx} = 10 - \frac{0^2}{5} = 10, \quad S_{xy} = 7 - \frac{(0)(5)}{5} = 7$$
+:::
+:::
+
+---
+
+## 📌 Example 1: Solution {.smaller}
+
+::: {style="font-size:50px;"}
+$$\hat\beta_1 = \frac{7}{10} = 0.7, \quad \hat\beta_0 = \frac{5}{5} - 0.7 \times 0 = 1.0$$
+
+:::{.fragment}
+**Fitted line:** $\hat Y = 1.0 + 0.7x$
+:::
+
+:::{.fragment}
+**Interpretation:** For every 1% rise in the market, the stock is predicted to return an extra $0.7\%$. The intercept $\hat\beta_0 = 1.0$ suggests positive alpha — but is it significant?
+:::
+:::
+
+---
+
+## 🧮 Properties of LS Estimators (§11.4) {.smaller}
+
+::: {.callout-important}
+## Theorem 11.1 — Unbiasedness and Variances
+
+Under $E(\varepsilon) = 0$ and $V(\varepsilon) = \sigma^2$:
+
+$$E(\hat\beta_1) = \beta_1, \qquad V(\hat\beta_1) = \frac{\sigma^2}{S_{xx}}$$
+
+$$E(\hat\beta_0) = \beta_0, \qquad V(\hat\beta_0) = \sigma^2 \cdot \frac{\sum x_i^2}{n \cdot S_{xx}}$$
+
+:::
+
+::: {style="font-size:42px"}
+::: {.fragment}
+**Estimating $\sigma^2$:** We cannot use $\sigma^2$ directly — we estimate it with:
+
+$$S^2 = \frac{\text{SSE}}{n-2} \qquad \text{where} \qquad \text{SSE} = S_{yy} - \hat\beta_1 S_{xy}$$
+
+$S^2$ is an **unbiased** estimator of $\sigma^2$ with $n-2$ degrees of freedom (two are used estimating $\beta_0$ and $\beta_1$).
+:::
+:::
+
+---
+
+## 📌 Example 2: Computing SSE and $S^2$ {.smaller}
+
+::: {style="font-size:50px;"}
+**Continuing Example 1:** $S_{yy} = \sum Y_i^2 - (\sum Y_i)^2/n$
+
+$$\sum Y_i^2 = 0+0+1+1+9 = 11, \quad S_{yy} = 11 - \frac{25}{5} = 6$$
+
+:::{.fragment}
+$$\text{SSE} = S_{yy} - \hat\beta_1 S_{xy} = 6 - 0.7 \times 7 = 6 - 4.9 = 1.1$$
+:::
+
+:::{.fragment}
+$$S^2 = \frac{\text{SSE}}{n-2} = \frac{1.1}{3} = 0.367, \quad S = \sqrt{0.367} = 0.606$$
+:::
+:::
+
+---
+
+## 📌 Example 2: Interpretation {.smaller}
+
+::: {style="font-size:50px;"}
+::: {.columns}
+::: {.column width="50%"}
+**Interpretation of $S$:**
+
+$S \approx 0.61\%$ is the estimated standard deviation of the stock return around the fitted regression line — a measure of **residual risk** not explained by market beta.
+:::
+
+::: {.column width="50%"}
+**Rule of thumb:**
+
+- Small $S$ relative to $\bar Y$ → good fit
+- Large $S$ → substantial unexplained variation
+- Formally measured by $r^2$ (see later)
+:::
+:::
+:::
+
+---
+
+## 🧮 $t$-Test for the Slope $\beta_1$ (§11.5) {.smaller}
+
+::: {style="font-size:43px;"}
+::: {.callout-important}
+## Test: $H_0: \beta_1 = \beta_{10}$ — (Most common: $\beta_{10} = 0$)
+
+$$T = \frac{\hat\beta_1 - \beta_{10}}{S\sqrt{1/S_{xx}}} = \frac{\hat\beta_1 - \beta_{10}}{S/\sqrt{S_{xx}}} \sim t_{n-2} \text{ under } H_0$$
+
+**Rejection regions** at level $\alpha$ (df $= n-2$):
+
+| $H_a$ | Rejection Region |
+|-------|------------------|
+| $\beta_1 > \beta_{10}$ | $t > t_\alpha$ |
+| $\beta_1 < \beta_{10}$ | $t < -t_\alpha$ |
+| $\beta_1 \neq \beta_{10}$ | $\|t\| > t_{\alpha/2}$ |
+
+:::
+
+**Financial use:** $H_0: \beta_1 = 0$ tests whether $x$ has **any linear relationship** with $Y$.
+:::
+
+---
+
+## 📌 Example 3: Testing the Market Beta {.smaller}
+
+::: {style="font-size:45px;"}
+**Continuing Example 1:** Test $H_0: \beta_1 = 0$ vs $H_a: \beta_1 \neq 0$ at $\alpha = 0.05$.
+
+$$S = 0.606, \quad S_{xx} = 10, \quad \hat\beta_1 = 0.7$$
+
+:::{.fragment}
+$$T = \frac{0.7 - 0}{0.606/\sqrt{10}} = \frac{0.7}{0.1916} = 3.654$$
+:::
+
+:::{.fragment}
+**Critical value:** $t_{0.025}$ with $\nu = n-2 = 3$ df $= 3.182$.
+
+Since $|T| = 3.654 > 3.182$ → **Reject $H_0$** ✅ — the market beta is significantly different from zero.
+:::
+:::
+
+---
+
+## 📌 Example 3: Confidence Interval {.smaller}
+
+::: {style="font-size:47px;"}
+::: {.columns}
+::: {.column width="50%"}
+**95% Confidence Interval for $\beta_1$:**
+
+$$\hat\beta_1 \pm t_{0.025} \cdot S/\sqrt{S_{xx}}  $$
+$$= 0.7 \pm 3.182 \times 0.1916  $$
+$$= 0.7 \pm 0.610$$
+
+$$\Rightarrow (0.090, \; 1.310)$$
+:::
+::: {.column width="50%"}
+**Interpretation:** We are 95% confident the stock's market beta lies between $0.09$ and $1.31$. The wide interval reflects the tiny sample ($n=5$) — real CAPM estimation uses years of weekly data.
+:::
+:::
+:::
+
+
+## 🧮 Coefficient of Determination $r^2$ {.smaller}
+
+::: {style="font-size:47px;"}
+::: {.callout-important}
+## Definition — $r^2$ (Wackerly §11.6)
+
+$$r^2 = 1 - \frac{\text{SSE}}{S_{yy}}$$
+
+$$r^2 = \frac{S_{yy} - \text{SSE}}{S_{yy}} = \frac{\hat\beta_1 S_{xy}}{S_{yy}}$$
+
+**Interpretation:** $r^2$ is the **proportion of total variation in $Y$ explained by the linear relationship with $x$**.
+
+- $r^2 = 1.0$ → Perfect fit
+- $r^2 = 0.0$ → No linear fit  
+- $r^2 = 0.7$ → 70% explained
+
+:::
+:::
+
+---
+
+## 🧮 $r^2$ Example {.smaller}
+
+::: {style="font-size:28px;"}
+**Recall Example 1:**
+
+$$r^2 = 1 - \frac{\text{SSE}}{S_{yy}} = 1 - \frac{1.1}{6} = 1 - 0.183 = 0.817$$
+
+**Interpretation:** The market index explains **81.7%** of the stock's return variation.
+
+- 81.7% of variation is **systematic risk** (due to market movements)
+- 18.3% of variation is **idiosyncratic risk** (firm-specific)
+:::
+
+---
+
+## 🧮 Pearson Correlation Coefficient $r$ {.smaller}
+
+::: {.callout-note}
+## 📝 Pearson $r$ — Measuring Linear Association
+
+$$r = \frac{S_{xy}}{\sqrt{S_{xx} \cdot S_{yy}}}$$
+
+- $r \in [-1, 1]$
+- $r > 0$: positive linear relationship
+- $r < 0$: negative linear relationship
+- $r^2$ = coefficient of determination in simple regression
+
+:::
+
+::: {style="font-size:35px"}
+::: {.fragment}
+**Testing $H_0: \rho = 0$ (no linear association):**
+
+$$T = \frac{r\sqrt{n-2}}{\sqrt{1-r^2}} \sim t_{n-2} \text{ under } H_0$$
+
+This is **algebraically equivalent** to the $t$-test for $H_0: \beta_1 = 0$ — same test, same p-value.
+:::
+:::
+
+---
+
+## 🎮 Interactive: Fit a Regression Line {.smaller}
+
+:::::: {style="font-size: 0.72em; margin-top: -8px;"}
+**Adjust the true slope and noise to see how LS estimates, $r^2$, and the $t$-statistic respond.**
+
+::::: columns
+::: {.column width="30%"}
+
+```{ojs}
+//| echo: false
+
+viewof true_beta1 = {
+  const input = Inputs.range([-2, 2], {value: 0.7, step: 0.1, label: "True β₁:"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+
+viewof noise_sd = {
+  const input = Inputs.range([0.1, 3.0], {value: 0.8, step: 0.1, label: "Noise σ:"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+
+viewof n_reg = {
+  const input = Inputs.range([5, 60], {value: 20, step: 1, label: "n (obs):"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+
+// Seeded pseudo-random using LCG
+rand_data = {
+  const seed = 42;
+  let s = seed;
+  const lcg = () => { s = (1664525 * s + 1013904223) >>> 0; return s / 4294967296; };
+  const nrand = () => {
+    const u = lcg(), v = lcg();
+    return Math.sqrt(-2*Math.log(u+1e-10)) * Math.cos(2*Math.PI*v);
+  };
+  const pts = [];
+  for (let i = 0; i < n_reg; i++) {
+    const x = (i / (n_reg - 1)) * 4 - 2;
+    const y = 1.0 + true_beta1 * x + noise_sd * nrand();
+    pts.push({x, y});
+  }
+  return pts;
+}
+
+// LS estimates
+lsfit = {
+  const n = rand_data.length;
+  const xbar = rand_data.reduce((s, d) => s + d.x, 0) / n;
+  const ybar = rand_data.reduce((s, d) => s + d.y, 0) / n;
+  const Sxx = rand_data.reduce((s, d) => s + (d.x - xbar)**2, 0);
+  const Sxy = rand_data.reduce((s, d) => s + (d.x - xbar)*(d.y - ybar), 0);
+  const Syy = rand_data.reduce((s, d) => s + (d.y - ybar)**2, 0);
+  const b1 = Sxy / Sxx;
+  const b0 = ybar - b1 * xbar;
+  const SSE = Syy - b1 * Sxy;
+  const S2 = SSE / (n - 2);
+  const S = Math.sqrt(S2);
+  const r2 = 1 - SSE / Syy;
+  const t_stat = b1 / (S / Math.sqrt(Sxx));
+  return {b0, b1, S, S2, r2, t_stat, Sxx, SSE, n};
+}
+
+stats_html = html`<div style="background:#f0f4ff; padding:8px; border-radius:6px; font-size:0.93em; line-height:1.7;">
+  <strong>β̂₁ = ${lsfit.b1.toFixed(3)}</strong> (true: ${true_beta1.toFixed(1)})<br>
+  <strong>β̂₀ = ${lsfit.b0.toFixed(3)}</strong><br>
+  <strong>S = ${lsfit.S.toFixed(3)}</strong><br>
+  <strong>r² = ${lsfit.r2.toFixed(3)}</strong><br>
+  <strong>t = ${lsfit.t_stat.toFixed(3)}</strong> (df = ${lsfit.n - 2})
+</div>`;
+
+md`${stats_html}`
+```
+
+:::
+
+::: {.column width="70%"}
+
+```{ojs}
+//| echo: false
+
+line_pts = [
+  {x: -2, y: lsfit.b0 + lsfit.b1 * (-2)},
+  {x:  2, y: lsfit.b0 + lsfit.b1 * 2}
+]
+
+true_line_pts = [
+  {x: -2, y: 1.0 + true_beta1 * (-2)},
+  {x:  2, y: 1.0 + true_beta1 * 2}
+]
+
+Plot.plot({
+  width: 680, height: 380,
+  marginLeft: 55, marginBottom: 50,
+  x: {domain: [-2.3, 2.3], label: "Market excess return x (%)"},
+  y: {label: "Stock excess return Y (%)"},
+  title: `LS fit | β̂₁=${lsfit.b1.toFixed(2)}, r²=${lsfit.r2.toFixed(3)}, t=${lsfit.t_stat.toFixed(2)}, n=${n_reg}`,
+  marks: [
+    Plot.dot(rand_data, {x: "x", y: "y", fill: "steelblue", opacity: 0.7, r: 4}),
+    Plot.line(line_pts,      {x: "x", y: "y", stroke: "tomato",    strokeWidth: 2.5}),
+    Plot.line(true_line_pts, {x: "x", y: "y", stroke: "#aaa",      strokeWidth: 1.5, strokeDasharray: "6,3"}),
+    Plot.ruleY([0], {stroke: "#ddd"}),
+    Plot.ruleX([0], {stroke: "#ddd"}),
+    Plot.text([{x: 1.6, y: lsfit.b0 + lsfit.b1*1.6 + 0.3, text: "LS fit"}],
+              {x:"x",y:"y",text:"text", fill:"tomato", fontSize:13}),
+    Plot.text([{x: 1.6, y: 1.0 + true_beta1*1.6 + 0.3, text: "True"}],
+              {x:"x",y:"y",text:"text", fill:"#999", fontSize:12})
+  ]
+})
+```
+
+*Red = LS fitted line. Grey dashed = true population line. Observe how $r^2$ and $t$ change with noise and $n$.*
+:::
+:::::
+::::::
+
+---
+
+## 🤝 Think-Pair-Share {.smaller}
+
+::: {style="font-size:44px;"}
+::: {.callout-tip}
+## 💬 Activity (5 minutes)
+
+**Scenario:** An ICTA analyst is studying the relationship between **broadband price** (AZN/month, $x$) and **broadband penetration** (%, $Y$) across 10 regions of Azerbaijan.
+
+| $\sum x_i = 320$ | $\sum Y_i = 480$ | $n = 10$ |
+|:-:|:-:|:-:|
+| $\sum x_i^2 = 11{,}200$ | $\sum x_i Y_i = 14{,}400$ | $\sum Y_i^2 = 24{,}600$ |
+
+**Questions:**
+
+1. Compute $S_{xx}$, $S_{xy}$, $S_{yy}$ using the shorthand formulas.
+
+2. Find $\hat\beta_1$ and $\hat\beta_0$. Interpret $\hat\beta_1$ in context.
+
+3. Compute SSE and $S^2$. Then compute $r^2$ and interpret it.
+
+4. Test $H_0: \beta_1 = 0$ vs $H_a: \beta_1 \neq 0$ at $\alpha = 0.05$. What is your conclusion?
+:::
+
+```{r}
+#| echo: false
+#| eval: false
+library(countdown)
+countdown(minutes = 5, bottom = 0, right = 0, color_border = "#003366")
+```
+:::
+
+---
+
+## ✅ Think-Pair-Share: Solution (1/4) {.smaller}
+
+::: {style="font-size:50px;"}
+**1. Sums of squares:**
+
+$$S_{xx} = \sum x_i^2 - \frac{(\sum x_i)^2}{n} = 11200 - \frac{320^2}{10}$$
+
+$$= 11200 - 10240 = 960$$
+
+$$S_{xy} = \sum x_i y_i - \frac{(\sum x_i)(\sum y_i)}{n} = 14400 - \frac{320 \times 480}{10}$$  
+
+$$= 14400 - 15360 = -960$$
+
+$$S_{yy} = \sum y_i^2 - \frac{(\sum y_i)^2}{n} = 24600 - \frac{480^2}{10}$$
+
+$$= 24600 - 23040 = 1560$$
+:::
+
+---
+
+## ✅ Think-Pair-Share: Solution (2/5) {.smaller}
+
+::: {style="font-size:34px;"}
+**2a. Slope estimate:**
+
+$$\hat\beta_1 = \frac{S_{xy}}{S_{xx}} = \frac{-960}{960} = -1.0$$
+
+Each 1 AZN price increase → **1 pp decrease** in penetration.
+:::
+
+---
+
+## ✅ Think-Pair-Share: Solution (3/5) {.smaller}
+
+::: {style="font-size:50px;"}
+**2b. Intercept estimate:**
+
+$$\hat\beta_0 = \bar{y} - \hat\beta_1 \bar{x} = 48 - (-1)(32) = 80$$
+
+**Fitted model:** $\hat{y} = 80 - 1.0 x$
+:::
+
+---
+
+## ✅ Think-Pair-Share: Solution (4/5) {.smaller}
+
+::: {style="font-size:50px;"}
+**3. Error variance and $r^2$:**
+
+$$\text{SSE} = S_{yy} - \hat\beta_1 S_{xy}$$  
+$$= 1560 - (-1)(-960) = 600$$
+
+$$S^2 = \frac{600}{8} = 75, \quad S = 8.66$$
+
+$$r^2 = 1 - \frac{600}{1560} = 0.615$$
+:::
+
+---
+
+## ✅ Think-Pair-Share: Solution (5/5) {.smaller}
+
+::: {style="font-size:42px;"}
+**4. Hypothesis test:** $H_0: \beta_1 = 0$ at $\alpha = 0.05$
+
+$$T = \frac{-1.0}{8.66/\sqrt{960}} = -3.577$$
+
+$t_{0.025, 8} = 2.306$
+
+$|T| > 2.306$ → **Reject $H_0$** ✅
+:::
+
+---
+
+## 💰 Case Study: CAPM Regression Table {.smaller}
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| eval: true
+
+library(tidyverse)
+library(tidyquant)
+library(knitr)
+
+# Estimate CAPM beta for MSFT vs S&P 500 (SPY)
+symbols <- c("MSFT", "SPY")
+prices  <- tq_get(symbols, from = "2021-01-01", to = "2023-12-31")
+
+monthly_ret <- prices %>%
+  group_by(symbol) %>%
+  tq_transmute(select      = adjusted,
+               mutate_fun  = periodReturn,
+               period      = "monthly",
+               col_rename  = "return") %>%
+  pivot_wider(names_from = symbol, values_from = return) %>%
+  na.omit()
+
+# OLS regression: MSFT ~ SPY
+fit <- lm(MSFT ~ SPY, data = monthly_ret)
+s   <- summary(fit)
+
+coef_tbl <- data.frame(
+  Parameter  = c("β₀ (alpha)", "β₁ (market beta)"),
+  Estimate   = round(coef(fit) * 100, 4),
+  Std_Error  = round(s$coefficients[,2] * 100, 4),
+  t_stat     = round(s$coefficients[,3], 3),
+  p_value    = round(s$coefficients[,4], 4)
+)
+
+kable(coef_tbl, digits = 4,
+      caption = paste0("CAPM Regression: MSFT ~ SPY | R² = ",
+                       round(s$r.squared, 3),
+                       " | S = ", round(s$sigma * 100, 3), "%"))
+```
+
+---
+
+## 💰 Case Study: CAPM Scatter Plot {.smaller}
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 5.5
+
+# Scatter with regression line and CI band
+ggplot(monthly_ret, aes(x = SPY * 100, y = MSFT * 100)) +
+  geom_point(colour = "steelblue", alpha = 0.7, size = 2.5) +
+  geom_smooth(method = "lm", colour = "tomato",
+              fill   = "tomato", alpha = 0.15, linewidth = 1.2) +
+  geom_hline(yintercept = 0, colour = "#aaa", linewidth = 0.5) +
+  geom_vline(xintercept = 0, colour = "#aaa", linewidth = 0.5) +
+  annotate("text", x = -8, y = 12,
+           label = paste0("β̂₁ = ", round(coef(fit)[2], 3),
+                          "\nr² = ", round(s$r.squared, 3)),
+           hjust = 0, size = 4.5, colour = "tomato") +
+  labs(
+    title    = "CAPM Beta: MSFT vs SPY (2021–2023)",
+    subtitle = "Monthly excess returns | OLS regression",
+    x = "S&P 500 monthly return (%)",
+    y = "MSFT monthly return (%)"
+  ) +
+  theme_minimal(base_size = 12)
+```
+
+---
+
+## 💰 Case Study: Key Findings {.smaller}
+
+::: {style="font-size: 41px;"}
+::: {.callout-important}
+## 📊 MSFT CAPM Regression Results (2021–2023)
+
+::: {.columns}
+
+::: {.column width="33%"}
+::: {.fragment}
+**Estimated Parameters:**
+
+- $\hat\beta_1 \approx 1.10$ — MSFT is slightly more volatile than the market (high-beta tech stock)
+
+- $\hat\beta_0 \approx 0.3\%$/month — small positive alpha, likely insignificant
+
+- $S \approx 4.5\%$ — residual risk per month not explained by market
+:::
+:::
+
+::: {.column width="33%"}
+::: {.fragment}
+**Inference:**
+
+- $t_{\hat\beta_1}$ large → **Reject $H_0: \beta_1 = 0$** — market return significantly explains MSFT
+
+- $t_{\hat\beta_0}$ small → **Fail to reject $H_0: \beta_0 = 0$** — no statistically significant alpha
+
+- $r^2 \approx 0.70$ → market explains ~70% of MSFT's monthly return variation
+:::
+:::
+
+::: {.column width="33%"}
+::: {.fragment}
+**Financial Implications:**
+
+1. **Risk decomposition**: ~70% systematic (market), ~30% idiosyncratic (firm-specific)
+
+2. **Portfolio construction**: $\beta > 1$ means MSFT amplifies market swings
+
+3. **Active management**: Alpha of ~0.3%/month is not statistically different from zero — consistent with market efficiency
+:::
+:::
+
+:::
+:::
+:::
+
+---
+
+## 📝 Quiz #1: LS Estimator Formula {.smaller .quiz-question}
+
+A portfolio manager regresses fund returns ($Y$) on a factor ($x$) with $n = 12$ monthly observations. She computes $S_{xy} = 84$ and $S_{xx} = 120$. What is $\hat\beta_1$?
+
+- [$\hat\beta_1 = S_{xy}/S_{xx} = 84/120 = 0.70$]{.correct data-explanation="✅ Correct! The LS slope estimator is β̂₁ = Sxy/Sxx = 84/120 = 0.70. This means a 1-unit increase in the factor is associated with a 0.70 unit increase in fund return."}
+- $\hat\beta_1 = S_{xx}/S_{xy} = 120/84 = 1.429$
+- $\hat\beta_1 = \sqrt{S_{xy}/S_{xx}} = \sqrt{0.70} = 0.837$
+- $\hat\beta_1 = S_{xy} \cdot S_{xx} = 84 \times 120 = 10080$
+
+---
+
+## 📝 Quiz #2: Degrees of Freedom for $S^2$ {.smaller .quiz-question}
+
+In simple linear regression with $n = 25$ observations, the SSE is computed to be 48.0. What is the unbiased estimator $S^2$ of the error variance $\sigma^2$?
+
+- [$S^2 = \text{SSE}/(n-2) = 48/(25-2) = 48/23 \approx 2.087$]{.correct data-explanation="✅ Correct! In SLR we lose 2 degrees of freedom estimating β₀ and β₁. So S² = SSE/(n−2) = 48/23 ≈ 2.087."}
+- $S^2 = 48/(25-1) = 48/24 = 2.000$
+- $S^2 = 48/25 = 1.920$
+- $S^2 = 48/(25-3) = 48/22 \approx 2.182$
+
+---
+
+## 📝 Quiz #3: Interpreting $r^2$ {.smaller .quiz-question}
+
+A regression of quarterly GDP growth on broadband penetration gives $r^2 = 0.63$. Which is the best interpretation?
+
+- [63% of the variation in quarterly GDP growth is explained by its linear relationship with broadband penetration]{.correct data-explanation="✅ Correct! r² = 1 − SSE/Syy is the proportion of total variation in Y explained by the linear model. Here, 63% of GDP variation is accounted for by penetration."}
+- The correlation between GDP growth and penetration is $0.63$
+- GDP growth increases by 63% for each unit increase in penetration
+- The model predicts correctly 63% of the time
+
+---
+
+## 📝 Quiz #4: $t$-Test for Slope {.smaller .quiz-question}
+
+For a CAPM regression with $n = 36$ monthly returns, $\hat\beta_1 = 1.25$, $S = 0.042$, $S_{xx} = 0.18$. What is the $t$-statistic for $H_0: \beta_1 = 1$ (testing if beta equals 1)?
+
+- [$t = (1.25 - 1.00)/(0.042/\sqrt{0.18}) = 0.25/0.099 = 2.525$, df $= 34$]{.correct data-explanation="✅ Correct! t = (β̂₁ − β₁₀)/(S/√Sxx) = (1.25−1.00)/(0.042/√0.18) = 0.25/0.0990 = 2.525 with df = n−2 = 34."}
+- $t = 1.25/(0.042/\sqrt{0.18}) = 12.63$
+- $t = (1.25 - 1.00)/0.042 = 5.952$
+- $t = 0.25 \times \sqrt{36}/0.042 = 35.7$
+
+---
+
+## 📝 Summary {.smaller}
+
+::: {style="font-size: 37px"}
+::: {.summary-box}
+**✅ Key Takeaways**
+
+- **Model**: $Y = \beta_0 + \beta_1 x + \varepsilon$ with $E(\varepsilon) = 0$, $V(\varepsilon) = \sigma^2$; normality needed for $t$-inference
+
+- **LS Estimators**: $\hat\beta_1 = S_{xy}/S_{xx}$, $\hat\beta_0 = \bar Y - \hat\beta_1 \bar x$; both unbiased; $V(\hat\beta_1) = \sigma^2/S_{xx}$
+
+- **Residual Variance**: $S^2 = \text{SSE}/(n-2)$ where $\text{SSE} = S_{yy} - \hat\beta_1 S_{xy}$; uses $n-2$ df
+
+- **$t$-Test for slope**: $T = \hat\beta_1/(S/\sqrt{S_{xx}}) \sim t_{n-2}$; rejecting $H_0: \beta_1 = 0$ means $x$ is a significant linear predictor
+
+- **Goodness of fit**: $r^2 = 1 - \text{SSE}/S_{yy}$ — proportion of variation in $Y$ explained by $x$; $r = S_{xy}/\sqrt{S_{xx} S_{yy}}$ is Pearson correlation
+:::
+:::
+
+---
+
+## 📚 Practice Problems
+
+::: {style="font-size:47px;"}
+::: {.callout-tip}
+## 📝 Homework Problems — Chapter 11 (§11.1–11.6)
+
+**Problem 1 (LS by hand):** An analyst has 6 monthly observations: $\sum x = 24$, $\sum Y = 18$, $\sum x^2 = 110$, $\sum xY = 76$, $\sum Y^2 = 62$, $n = 6$. Compute $\hat\beta_0$, $\hat\beta_1$, SSE, $S^2$, and $r^2$.
+
+**Problem 2 ($t$-test for slope):** Using the results of Problem 1, test $H_0: \beta_1 = 0$ at $\alpha = 0.05$. Construct a 95% CI for $\beta_1$ and interpret it in a financial context of your choice.
+
+**Problem 3 (CAPM interpretation):** A regression of stock excess returns on market excess returns gives $\hat\beta_1 = 1.35$, SE$(\hat\beta_1) = 0.21$, $r^2 = 0.82$, $n = 48$. Is the stock significantly different from a "market-neutral" position ($\beta_1 = 1$)? Test at $\alpha = 0.05$.
+
+**Problem 4 (Elasticity):** Regress broadband penetration ($Y$\%) on GDP per capita ($x$, USD thousands) for 20 countries: $S_{xx} = 8{,}400$, $S_{xy} = 1{,}260$, $S_{yy} = 320$. Find $\hat\beta_1$, $r^2$, and test the slope. Interpret the elasticity result for a policy audience.
+:::
+:::
+
+---
+
+## 👋 Thank You! {.smaller .center}
+
+::: {.columns}
+::: {.column width="50%"}
+**📬 Contact Information:**
+
+Samir Orujov, PhD
+
+Assistant Professor
+
+School of Business, ADA University
+
+📧 [sorujov@ada.edu.az](mailto:sorujov@ada.edu.az)
+
+🏢 Office: D312
+
+⏰ Office Hours: By appointment
+:::
+
+::: {.column width="50%"}
+**📅 Next Class:**
+
+**Topic:** Multiple Regression & Model Diagnostics (§11.11–11.14)
+
+**Reading:** Chapter 11, Sections 11.11–11.14
+
+**Preparation:** Review matrix notation basics; think about what "controlling for other variables" means
+
+**⏰ Reminders:**
+
+✅ Complete Practice Problems 1–4
+
+✅ Run the CAPM regression on a stock of your choice in R
+
+✅ Verify the equivalence of the $t$-test for $\beta_1$ and the $t$-test for $\rho$
+
+✅ Work hard!
+:::
+:::
+
+---
+
+## ❓ Questions? {.center}
+
+::: {.callout-note}
+## 💬 Open Discussion
+
+**Key Topics for Discussion:**
+
+- Why does the LS line always pass through $(\bar x, \bar Y)$? What does this imply geometrically?
+
+- In CAPM, $\beta_0$ represents Jensen's alpha. What would it mean statistically if $H_0: \beta_0 = 0$ is rejected?
+
+- The same $t$-statistic tests both $H_0: \beta_1 = 0$ and $H_0: \rho = 0$. How can two different null hypotheses lead to the same test?
+
+- You compute $r^2 = 0.95$ for a regression of GDP on broadband penetration over time. Should you be impressed? What hidden problem might this signal?
+:::

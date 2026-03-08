@@ -354,7 +354,9 @@ classes: wide
       <strong>Reading:</strong> Wackerly et al., Chapter 11
     </div>
     <div class="lecture-buttons">
-      <span class="btn btn--coming-soon">Lectures Coming Soon</span>
+      <a href="/lectures/math_stat_2_spring_2026/chapter_11/linear_models_lecture4.html" class="btn btn--primary">
+        <span class="btn-num">Lecture 4</span><span class="btn-title">Linear Models & Least Squares</span>
+      </a>
     </div>
   </div>
 </div>
