@@ -269,13 +269,15 @@ classes: wide
   <div class="topic-item" id="topic-7">
     <h3 class="topic-title">Topic 7: Properties of Point Estimators and Methods of Estimation</h3>
     <div class="topic-content">
-      <strong>Content:</strong> Relative Efficiency, Sufficiency, Mean Squared Error, Cramer-Rao Lower Bound
+      <strong>Content:</strong> Relative Efficiency, Consistency, Sufficiency, Rao–Blackwell Theorem, MVUE, Method of Moments, Maximum Likelihood Estimation
     </div>
     <div class="topic-reading">
       <strong>Reading:</strong> Wackerly et al., Chapter 9
     </div>
     <div class="lecture-buttons">
-      <span class="btn btn--coming-soon">Lectures Coming Soon</span>
+      <a href="/lectures/math_stat_2_spring_2026/chapter_8/properties_estimators_lecture3.html" class="btn btn--primary">
+        <span class="btn-num">Lecture 3</span><span class="btn-title">Properties of Estimators</span>
+      </a>
     </div>
   </div>
 </div>
