@@ -245,7 +245,7 @@ classes: wide
       <strong>Reading:</strong> Wackerly et al., Chapter 8
     </div>
     <div class="lecture-buttons">
-      <a href="/lectures/math_stat_2_spring_2026/chapter_8/point_estimation_lecture1.html" class="btn btn--primary">
+      <a href="/lectures/math_stat_2_spring_2026/chapter_9/point_estimation_lecture1.html" class="btn btn--primary">
         <span class="btn-num">Lecture 1</span><span class="btn-title">Point Estimation</span>
       </a>
     </div>
@@ -260,7 +260,7 @@ classes: wide
       <strong>Reading:</strong> Wackerly et al., Chapter 8
     </div>
     <div class="lecture-buttons">
-      <a href="/lectures/math_stat_2_spring_2026/chapter_8/interval_estimation_lecture2.html" class="btn btn--primary">
+      <a href="/lectures/math_stat_2_spring_2026/chapter_9/interval_estimation_lecture2.html" class="btn btn--primary">
         <span class="btn-num">Lecture 2</span><span class="btn-title">Interval Estimation</span>
       </a>
     </div>
@@ -275,7 +275,7 @@ classes: wide
       <strong>Reading:</strong> Wackerly et al., Chapter 9
     </div>
     <div class="lecture-buttons">
-      <a href="/lectures/math_stat_2_spring_2026/chapter_8/properties_estimators_lecture3.html" class="btn btn--primary">
+      <a href="/lectures/math_stat_2_spring_2026/chapter_9/properties_estimators_lecture3.html" class="btn btn--primary">
         <span class="btn-num">Lecture 3</span><span class="btn-title">Properties of Estimators</span>
       </a>
     </div>
@@ -294,7 +294,9 @@ classes: wide
       <strong>Reading:</strong> Wackerly et al., Chapter 10
     </div>
     <div class="lecture-buttons">
-      <span class="btn btn--coming-soon">Lectures Coming Soon</span>
+      <a href="/lectures/math_stat_2_spring_2026/chapter_8/hypothesis_testing_lecture1.html" class="btn btn--primary">
+        <span class="btn-num">Lecture 1</span><span class="btn-title">Fundamentals of Testing</span>
+      </a>
     </div>
   </div>
 
@@ -307,7 +309,9 @@ classes: wide
       <strong>Reading:</strong> Wackerly et al., Chapter 10
     </div>
     <div class="lecture-buttons">
-      <span class="btn btn--coming-soon">Lectures Coming Soon</span>
+      <a href="/lectures/math_stat_2_spring_2026/chapter_8/hypothesis_testing_lecture2.html" class="btn btn--primary">
+        <span class="btn-num">Lecture 2</span><span class="btn-title">Tests for Means</span>
+      </a>
     </div>
   </div>
 
@@ -320,7 +324,9 @@ classes: wide
       <strong>Reading:</strong> Wackerly et al., Chapter 10
     </div>
     <div class="lecture-buttons">
-      <span class="btn btn--coming-soon">Lectures Coming Soon</span>
+      <a href="/lectures/math_stat_2_spring_2026/chapter_8/hypothesis_testing_lecture3.html" class="btn btn--primary">
+        <span class="btn-num">Lecture 3</span><span class="btn-title">Two-Sample Tests</span>
+      </a>
     </div>
   </div>
 </div>
