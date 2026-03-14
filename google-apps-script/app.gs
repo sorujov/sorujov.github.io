@@ -14,24 +14,26 @@ var SECTIONS = {
 
 // ==================== CLASS SCHEDULE CONFIGURATION ====================
 // All times are in Baku local time (GMT+4 / Asia/Baku timezone)
+// Attendance window: Present = 0–15 min after class start, Late = 15–75 min after class start
+// End times below are set to 75 minutes after class start (attendance closes then).
 var SECTION_SCHEDULES = {
   A: {
-    days: [0, 3, 6],     // 0 = Sunday (testing), 3 = Wednesday, 6 = Saturday
-    startHour: 0,        // All day for testing (restore to 10:00-11:30 for production)
+    days: [3, 6],        // 3 = Wednesday, 6 = Saturday
+    startHour: 10,
     startMinute: 0,
-    endHour: 23,
-    endMinute: 59
+    endHour: 11,         // 10:00 + 75 min = 11:15
+    endMinute: 15
   },
   B: {
-    days: [0, 3, 6],     // 0 = Sunday (testing), 3 = Wednesday, 6 = Saturday
-    startHour: 0,        // All day for testing (restore to 11:30-13:00 for production)
-    startMinute: 0,
-    endHour: 23,
-    endMinute: 59
+    days: [3, 6],        // 3 = Wednesday, 6 = Saturday
+    startHour: 11,
+    startMinute: 30,
+    endHour: 12,         // 11:30 + 75 min = 12:45
+    endMinute: 45
   }
 };
 
-var LATE_THRESHOLD_MINUTES = 15; // Students arriving after this many minutes from class start are marked Late
+var LATE_THRESHOLD_MINUTES = 15;  // Present if within first 15 min; Late if 15–75 min after start
 var SCHEDULE_TIMEZONE = 'Asia/Baku';
 
 // ==================== LOCATION CONFIGURATION ====================
@@ -587,13 +589,15 @@ function doPost(e) {
     Logger.log('Time-based status: class starts at ' + classStartMinutes + ', late after ' + lateThresholdMinutes + ', current=' + currentTimeMinutes + ' → ' + attendanceStatus);
     Logger.log('Using section: ' + section + ' (course: ' + courseId + ', status: ' + attendanceStatus + ')');
 
-    // STEP 3: Check for duplicate device submission today
-    if (data.userAgent) {
+    // STEP 3: Check for duplicate submission by same student today
+    // Note: we check by email (not userAgent) because many students share identical
+    // userAgent strings (same phone model + OS + browser), which caused false positives.
+    if (data.email) {
       var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
       var lastRow = sheet.getLastRow();
       if (lastRow > 0) {
         var todayStr = Utilities.formatDate(new Date(), SCHEDULE_TIMEZONE, 'yyyy-MM-dd');
-        // Check recent rows (last 200) for same userAgent today
+        // Check recent rows (last 200) for same email today
         var startRow = Math.max(1, lastRow - 200);
         var numRows = lastRow - startRow + 1;
         var dataRange = sheet.getRange(startRow, 1, numRows, 16).getValues();
@@ -601,13 +605,13 @@ function doPost(e) {
           var rowDate = dataRange[i][0];
           if (rowDate instanceof Date) {
             var rowDateStr = Utilities.formatDate(rowDate, SCHEDULE_TIMEZONE, 'yyyy-MM-dd');
-            var rowUserAgent = dataRange[i][15]; // column 16 (0-indexed: 15)
-            if (rowDateStr === todayStr && rowUserAgent === data.userAgent) {
-              var existingStudent = dataRange[i][1]; // email column
-              Logger.log('REJECTED: Duplicate device. Already submitted for ' + existingStudent + ' from same device.');
+            var rowEmail = dataRange[i][1]; // email column
+            if (rowDateStr === todayStr && rowEmail === data.email) {
+              var existingStatus = dataRange[i][8]; // attendanceStatus column
+              Logger.log('REJECTED: Duplicate submission. ' + data.email + ' already checked in today as ' + existingStatus + '.');
               return ContentService.createTextOutput(JSON.stringify({
                 success: false,
-                message: 'This device has already been used to check in today. One check-in per device per day.',
+                message: 'Attendance already submitted for ' + data.email + ' today (marked as ' + existingStatus + ').',
                 errorType: 'duplicate_device'
               })).setMimeType(ContentService.MimeType.JSON);
             }
