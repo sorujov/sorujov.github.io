@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.8.25">
 
   <meta name="author" content="Samir Orujov, PhD">
-  <meta name="dcterms.date" content="2026-03-08">
+  <meta name="dcterms.date" content="2026-03-14">
   <title>Mathematical Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -218,7 +218,7 @@ Samir Orujov, PhD
     </div>
 </div>
 
-  <p class="date">2026-03-08</p>
+  <p class="date">2026-03-14</p>
 </section>
 <section id="learning-objectives" class="slide level2">
 <h2>🎯 Learning Objectives</h2>
@@ -231,6 +231,12 @@ Samir Orujov, PhD
 <li><p><strong>Apply</strong> the 2-standard-error bound to quantify the precision of any point estimate</p></li>
 <li><p><strong>Interpret</strong> standard errors in financial and economic contexts, including portfolio and market-share estimation</p></li>
 </ul>
+</div>
+</section>
+<section id="attendance-check-in" class="slide level2 center" data-background-color="#f0f4ff">
+<h2>📱 Attendance Check-in</h2>
+<div id="qr-present" class="attendance-qr" data-status="present" style="min-height: 400px; display: flex; align-items: center; justify-content: center;">
+
 </div>
 </section>
 <section id="overview" class="slide level2">
@@ -425,6 +431,8 @@ Samir Orujov, PhD
 <section id="definition-bias" class="slide level2 smaller">
 <h2>📖 Definition: Bias</h2>
 <div style="font-size:33px;">
+<div class="columns">
+<div class="column" style="width:50%;">
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -440,6 +448,7 @@ Samir Orujov, PhD
 </div>
 </div>
 </div>
+</div><div class="column" style="width:50%;">
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -454,8 +463,13 @@ Samir Orujov, PhD
 </div>
 </div>
 </div>
+</div></div>
 <div class="fragment">
-<p><strong>Finance Interpretation:</strong> - An <strong>unbiased</strong> return estimator: on average, we neither systematically over- nor under-estimate the true expected return - A <strong>biased</strong> estimator: our estimates consistently overshoot or undershoot the truth — like a fund that consistently over-reports its Sharpe ratio</p>
+<p><strong>Finance Interpretation:</strong></p>
+<ul>
+<li><p>An <strong>unbiased</strong> return estimator: on average, we neither systematically over- nor under-estimate the true expected return</p></li>
+<li><p>A <strong>biased</strong> estimator: our estimates consistently overshoot or undershoot the truth — like a fund that consistently over-reports its Sharpe ratio</p></li>
+</ul>
 </div>
 </div>
 </section>
@@ -716,39 +730,39 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="491" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 490;"><span id="cb1-491"><a href=""></a>viewof bias_val <span class="op">=</span> {</span>
-<span id="cb1-492"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="op">-</span><span class="dv">3</span><span class="op">,</span> <span class="dv">3</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Bias B(θ̂):"</span>})<span class="op">;</span></span>
-<span id="cb1-493"><a href=""></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
-<span id="cb1-494"><a href=""></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
-<span id="cb1-495"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
-<span id="cb1-496"><a href=""></a>}</span>
-<span id="cb1-497"><a href=""></a></span>
-<span id="cb1-498"><a href=""></a>viewof var_val <span class="op">=</span> {</span>
-<span id="cb1-499"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.1</span><span class="op">,</span> <span class="dv">5</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Variance V(θ̂):"</span>})<span class="op">;</span></span>
-<span id="cb1-500"><a href=""></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
-<span id="cb1-501"><a href=""></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
-<span id="cb1-502"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
-<span id="cb1-503"><a href=""></a>}</span>
-<span id="cb1-504"><a href=""></a></span>
-<span id="cb1-505"><a href=""></a>mse_val <span class="op">=</span> var_val <span class="op">+</span> bias_val <span class="op">*</span> bias_val</span>
-<span id="cb1-506"><a href=""></a></span>
-<span id="cb1-507"><a href=""></a>color_mse <span class="op">=</span> mse_val <span class="op">&lt;</span> <span class="dv">2</span></span>
-<span id="cb1-508"><a href=""></a>  <span class="op">?</span> <span class="fu">html</span><span class="vs">`&lt;div style="background:#d4edda;padding:8px;border-radius:5px;"&gt;</span></span>
-<span id="cb1-509"><a href=""></a><span class="vs">      &lt;strong&gt;MSE = </span><span class="sc">${</span>mse_val<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="vs">&lt;/strong&gt; — Low total error ✅</span></span>
-<span id="cb1-510"><a href=""></a><span class="vs">    &lt;/div&gt;`</span></span>
-<span id="cb1-511"><a href=""></a>  <span class="op">:</span> <span class="fu">html</span><span class="vs">`&lt;div style="background:#f8d7da;padding:8px;border-radius:5px;"&gt;</span></span>
-<span id="cb1-512"><a href=""></a><span class="vs">      &lt;strong&gt;MSE = </span><span class="sc">${</span>mse_val<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="vs">&lt;/strong&gt; — High total error ⚠️</span></span>
-<span id="cb1-513"><a href=""></a><span class="vs">    &lt;/div&gt;`</span></span>
-<span id="cb1-514"><a href=""></a></span>
-<span id="cb1-515"><a href=""></a><span class="fu">md</span><span class="vs">`</span></span>
-<span id="cb1-516"><a href=""></a><span class="vs">**Decomposition:**</span></span>
-<span id="cb1-517"><a href=""></a></span>
-<span id="cb1-518"><a href=""></a><span class="vs">- Variance = </span><span class="sc">${</span>var_val<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span></span>
-<span id="cb1-519"><a href=""></a><span class="vs">- Bias² = </span><span class="sc">${</span>(bias_val<span class="op">*</span>bias_val)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span></span>
-<span id="cb1-520"><a href=""></a><span class="vs">- **MSE = </span><span class="sc">${</span>mse_val<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="vs">**</span></span>
-<span id="cb1-521"><a href=""></a></span>
-<span id="cb1-522"><a href=""></a><span class="sc">${</span>color_mse<span class="sc">}</span></span>
-<span id="cb1-523"><a href=""></a><span class="vs">`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="503" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 502;"><span id="cb1-503"><a href=""></a>viewof bias_val <span class="op">=</span> {</span>
+<span id="cb1-504"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="op">-</span><span class="dv">3</span><span class="op">,</span> <span class="dv">3</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Bias B(θ̂):"</span>})<span class="op">;</span></span>
+<span id="cb1-505"><a href=""></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
+<span id="cb1-506"><a href=""></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
+<span id="cb1-507"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb1-508"><a href=""></a>}</span>
+<span id="cb1-509"><a href=""></a></span>
+<span id="cb1-510"><a href=""></a>viewof var_val <span class="op">=</span> {</span>
+<span id="cb1-511"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.1</span><span class="op">,</span> <span class="dv">5</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Variance V(θ̂):"</span>})<span class="op">;</span></span>
+<span id="cb1-512"><a href=""></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
+<span id="cb1-513"><a href=""></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
+<span id="cb1-514"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb1-515"><a href=""></a>}</span>
+<span id="cb1-516"><a href=""></a></span>
+<span id="cb1-517"><a href=""></a>mse_val <span class="op">=</span> var_val <span class="op">+</span> bias_val <span class="op">*</span> bias_val</span>
+<span id="cb1-518"><a href=""></a></span>
+<span id="cb1-519"><a href=""></a>color_mse <span class="op">=</span> mse_val <span class="op">&lt;</span> <span class="dv">2</span></span>
+<span id="cb1-520"><a href=""></a>  <span class="op">?</span> <span class="fu">html</span><span class="vs">`&lt;div style="background:#d4edda;padding:8px;border-radius:5px;"&gt;</span></span>
+<span id="cb1-521"><a href=""></a><span class="vs">      &lt;strong&gt;MSE = </span><span class="sc">${</span>mse_val<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="vs">&lt;/strong&gt; — Low total error ✅</span></span>
+<span id="cb1-522"><a href=""></a><span class="vs">    &lt;/div&gt;`</span></span>
+<span id="cb1-523"><a href=""></a>  <span class="op">:</span> <span class="fu">html</span><span class="vs">`&lt;div style="background:#f8d7da;padding:8px;border-radius:5px;"&gt;</span></span>
+<span id="cb1-524"><a href=""></a><span class="vs">      &lt;strong&gt;MSE = </span><span class="sc">${</span>mse_val<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="vs">&lt;/strong&gt; — High total error ⚠️</span></span>
+<span id="cb1-525"><a href=""></a><span class="vs">    &lt;/div&gt;`</span></span>
+<span id="cb1-526"><a href=""></a></span>
+<span id="cb1-527"><a href=""></a><span class="fu">md</span><span class="vs">`</span></span>
+<span id="cb1-528"><a href=""></a><span class="vs">**Decomposition:**</span></span>
+<span id="cb1-529"><a href=""></a></span>
+<span id="cb1-530"><a href=""></a><span class="vs">- Variance = </span><span class="sc">${</span>var_val<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span></span>
+<span id="cb1-531"><a href=""></a><span class="vs">- Bias² = </span><span class="sc">${</span>(bias_val<span class="op">*</span>bias_val)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span></span>
+<span id="cb1-532"><a href=""></a><span class="vs">- **MSE = </span><span class="sc">${</span>mse_val<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="vs">**</span></span>
+<span id="cb1-533"><a href=""></a></span>
+<span id="cb1-534"><a href=""></a><span class="sc">${</span>color_mse<span class="sc">}</span></span>
+<span id="cb1-535"><a href=""></a><span class="vs">`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -790,31 +804,31 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="531" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 530;"><span id="cb2-531"><a href=""></a>{</span>
-<span id="cb2-532"><a href=""></a>  <span class="kw">const</span> theta <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb2-533"><a href=""></a>  <span class="kw">const</span> mu <span class="op">=</span> theta <span class="op">+</span> bias_val<span class="op">;</span></span>
-<span id="cb2-534"><a href=""></a>  <span class="kw">const</span> sd <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(var_val)<span class="op">;</span></span>
-<span id="cb2-535"><a href=""></a>  <span class="kw">const</span> xs <span class="op">=</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({<span class="dt">length</span><span class="op">:</span> <span class="dv">200</span>}<span class="op">,</span> (_<span class="op">,</span> i) <span class="kw">=&gt;</span> mu <span class="op">-</span> <span class="dv">4</span><span class="op">*</span>sd <span class="op">+</span> i <span class="op">*</span> <span class="dv">8</span><span class="op">*</span>sd<span class="op">/</span><span class="dv">199</span>)<span class="op">;</span></span>
-<span id="cb2-536"><a href=""></a>  <span class="kw">const</span> ys <span class="op">=</span> xs<span class="op">.</span><span class="fu">map</span>(x <span class="kw">=&gt;</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(<span class="op">-</span><span class="fl">0.5</span><span class="op">*</span>((x<span class="op">-</span>mu)<span class="op">/</span>sd)<span class="op">**</span><span class="dv">2</span>) <span class="op">/</span> (sd <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(<span class="dv">2</span><span class="op">*</span><span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span>)))<span class="op">;</span></span>
-<span id="cb2-537"><a href=""></a></span>
-<span id="cb2-538"><a href=""></a>  <span class="cf">return</span> Plot<span class="op">.</span><span class="fu">plot</span>({</span>
-<span id="cb2-539"><a href=""></a>    <span class="dt">width</span><span class="op">:</span> <span class="dv">680</span><span class="op">,</span></span>
-<span id="cb2-540"><a href=""></a>    <span class="dt">height</span><span class="op">:</span> <span class="dv">360</span><span class="op">,</span></span>
-<span id="cb2-541"><a href=""></a>    <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
-<span id="cb2-542"><a href=""></a>    <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">45</span><span class="op">,</span></span>
-<span id="cb2-543"><a href=""></a>    <span class="dt">x</span><span class="op">:</span> {<span class="dt">domain</span><span class="op">:</span> [<span class="op">-</span><span class="dv">6</span><span class="op">,</span> <span class="dv">6</span>]<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Estimator value θ̂"</span>}<span class="op">,</span></span>
-<span id="cb2-544"><a href=""></a>    <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Density"</span>}<span class="op">,</span></span>
-<span id="cb2-545"><a href=""></a>    <span class="dt">title</span><span class="op">:</span> <span class="vs">`Sampling Distribution: Bias=</span><span class="sc">${</span>bias_val<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">, Var=</span><span class="sc">${</span>var_val<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">, MSE=</span><span class="sc">${</span>mse_val<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">`</span><span class="op">,</span></span>
-<span id="cb2-546"><a href=""></a>    <span class="dt">marks</span><span class="op">:</span> [</span>
-<span id="cb2-547"><a href=""></a>      Plot<span class="op">.</span><span class="fu">line</span>(xs<span class="op">.</span><span class="fu">map</span>((x<span class="op">,</span>i) <span class="kw">=&gt;</span> ({x<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> ys[i]}))<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span><span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span><span class="st">"y"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span><span class="st">"steelblue"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span><span class="fl">2.5</span>})<span class="op">,</span></span>
-<span id="cb2-548"><a href=""></a>      Plot<span class="op">.</span><span class="fu">ruleX</span>([theta]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span><span class="st">"red"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span><span class="dv">3</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span><span class="st">"8,4"</span>})<span class="op">,</span></span>
-<span id="cb2-549"><a href=""></a>      Plot<span class="op">.</span><span class="fu">ruleX</span>([mu]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span><span class="st">"orange"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span><span class="dv">2</span>})<span class="op">,</span></span>
-<span id="cb2-550"><a href=""></a>      Plot<span class="op">.</span><span class="fu">text</span>([{<span class="dt">x</span><span class="op">:</span> theta<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="op">...</span>ys)<span class="op">*</span><span class="fl">0.05</span>}]<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span><span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span><span class="st">"y"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> d <span class="kw">=&gt;</span> <span class="st">"θ (truth)"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span><span class="st">"red"</span><span class="op">,</span> <span class="dt">fontSize</span><span class="op">:</span><span class="dv">13</span>})<span class="op">,</span></span>
-<span id="cb2-551"><a href=""></a>      Plot<span class="op">.</span><span class="fu">text</span>([{<span class="dt">x</span><span class="op">:</span> mu<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="op">...</span>ys)<span class="op">*</span><span class="fl">0.1</span>}]<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span><span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span><span class="st">"y"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> d <span class="kw">=&gt;</span> <span class="st">"E(θ̂)"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span><span class="st">"orange"</span><span class="op">,</span> <span class="dt">fontSize</span><span class="op">:</span><span class="dv">13</span>})<span class="op">,</span></span>
-<span id="cb2-552"><a href=""></a>      Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
-<span id="cb2-553"><a href=""></a>    ]</span>
-<span id="cb2-554"><a href=""></a>  })<span class="op">;</span></span>
-<span id="cb2-555"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="543" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 542;"><span id="cb2-543"><a href=""></a>{</span>
+<span id="cb2-544"><a href=""></a>  <span class="kw">const</span> theta <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb2-545"><a href=""></a>  <span class="kw">const</span> mu <span class="op">=</span> theta <span class="op">+</span> bias_val<span class="op">;</span></span>
+<span id="cb2-546"><a href=""></a>  <span class="kw">const</span> sd <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(var_val)<span class="op">;</span></span>
+<span id="cb2-547"><a href=""></a>  <span class="kw">const</span> xs <span class="op">=</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({<span class="dt">length</span><span class="op">:</span> <span class="dv">200</span>}<span class="op">,</span> (_<span class="op">,</span> i) <span class="kw">=&gt;</span> mu <span class="op">-</span> <span class="dv">4</span><span class="op">*</span>sd <span class="op">+</span> i <span class="op">*</span> <span class="dv">8</span><span class="op">*</span>sd<span class="op">/</span><span class="dv">199</span>)<span class="op">;</span></span>
+<span id="cb2-548"><a href=""></a>  <span class="kw">const</span> ys <span class="op">=</span> xs<span class="op">.</span><span class="fu">map</span>(x <span class="kw">=&gt;</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(<span class="op">-</span><span class="fl">0.5</span><span class="op">*</span>((x<span class="op">-</span>mu)<span class="op">/</span>sd)<span class="op">**</span><span class="dv">2</span>) <span class="op">/</span> (sd <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(<span class="dv">2</span><span class="op">*</span><span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span>)))<span class="op">;</span></span>
+<span id="cb2-549"><a href=""></a></span>
+<span id="cb2-550"><a href=""></a>  <span class="cf">return</span> Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb2-551"><a href=""></a>    <span class="dt">width</span><span class="op">:</span> <span class="dv">680</span><span class="op">,</span></span>
+<span id="cb2-552"><a href=""></a>    <span class="dt">height</span><span class="op">:</span> <span class="dv">360</span><span class="op">,</span></span>
+<span id="cb2-553"><a href=""></a>    <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
+<span id="cb2-554"><a href=""></a>    <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">45</span><span class="op">,</span></span>
+<span id="cb2-555"><a href=""></a>    <span class="dt">x</span><span class="op">:</span> {<span class="dt">domain</span><span class="op">:</span> [<span class="op">-</span><span class="dv">6</span><span class="op">,</span> <span class="dv">6</span>]<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Estimator value θ̂"</span>}<span class="op">,</span></span>
+<span id="cb2-556"><a href=""></a>    <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Density"</span>}<span class="op">,</span></span>
+<span id="cb2-557"><a href=""></a>    <span class="dt">title</span><span class="op">:</span> <span class="vs">`Sampling Distribution: Bias=</span><span class="sc">${</span>bias_val<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">, Var=</span><span class="sc">${</span>var_val<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">, MSE=</span><span class="sc">${</span>mse_val<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">`</span><span class="op">,</span></span>
+<span id="cb2-558"><a href=""></a>    <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb2-559"><a href=""></a>      Plot<span class="op">.</span><span class="fu">line</span>(xs<span class="op">.</span><span class="fu">map</span>((x<span class="op">,</span>i) <span class="kw">=&gt;</span> ({x<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> ys[i]}))<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span><span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span><span class="st">"y"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span><span class="st">"steelblue"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span><span class="fl">2.5</span>})<span class="op">,</span></span>
+<span id="cb2-560"><a href=""></a>      Plot<span class="op">.</span><span class="fu">ruleX</span>([theta]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span><span class="st">"red"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span><span class="dv">3</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span><span class="st">"8,4"</span>})<span class="op">,</span></span>
+<span id="cb2-561"><a href=""></a>      Plot<span class="op">.</span><span class="fu">ruleX</span>([mu]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span><span class="st">"orange"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span><span class="dv">2</span>})<span class="op">,</span></span>
+<span id="cb2-562"><a href=""></a>      Plot<span class="op">.</span><span class="fu">text</span>([{<span class="dt">x</span><span class="op">:</span> theta<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="op">...</span>ys)<span class="op">*</span><span class="fl">0.05</span>}]<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span><span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span><span class="st">"y"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> d <span class="kw">=&gt;</span> <span class="st">"θ (truth)"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span><span class="st">"red"</span><span class="op">,</span> <span class="dt">fontSize</span><span class="op">:</span><span class="dv">13</span>})<span class="op">,</span></span>
+<span id="cb2-563"><a href=""></a>      Plot<span class="op">.</span><span class="fu">text</span>([{<span class="dt">x</span><span class="op">:</span> mu<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="op">...</span>ys)<span class="op">*</span><span class="fl">0.1</span>}]<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span><span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span><span class="st">"y"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> d <span class="kw">=&gt;</span> <span class="st">"E(θ̂)"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span><span class="st">"orange"</span><span class="op">,</span> <span class="dt">fontSize</span><span class="op">:</span><span class="dv">13</span>})<span class="op">,</span></span>
+<span id="cb2-564"><a href=""></a>      Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
+<span id="cb2-565"><a href=""></a>    ]</span>
+<span id="cb2-566"><a href=""></a>  })<span class="op">;</span></span>
+<span id="cb2-567"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-2" data-nodetype="expression">
@@ -852,7 +866,7 @@ Samir Orujov, PhD
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_bf4ca0a0" minutes="4" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;--countdown-color-running-background:#2c7bb6;--countdown-color-finished-background:#d73027;--countdown-color-running-text:#00223AFF;--countdown-color-finished-text:#FFCECDFF;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_e6da3694" minutes="4" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;--countdown-color-running-background:#2c7bb6;--countdown-color-finished-background:#d73027;--countdown-color-running-text:#00223AFF;--countdown-color-finished-text:#FFCECDFF;"></countdown-timer>
 </div>
 </div>
 </section>
@@ -960,9 +974,9 @@ Samir Orujov, PhD
 <div class="fragment">
 <p><strong>Point Estimates <span class="math inline">\(\hat{\mu}\)</span>:</strong></p>
 <ul>
-<li>Apple (AAPL): ~0.05% daily</li>
-<li>JP Morgan (JPM): ~0.04% daily</li>
-<li>Exxon (XOM): ~0.06% daily</li>
+<li>Apple (AAPL): ~0.07% daily</li>
+<li>JP Morgan (JPM): ~0.06% daily</li>
+<li>Exxon (XOM): ~0.15% daily</li>
 </ul>
 <p>All close to zero — consistent with efficient market hypothesis for daily returns</p>
 </div>
@@ -970,8 +984,9 @@ Samir Orujov, PhD
 <div class="fragment">
 <p><strong>Standard Errors SE:</strong></p>
 <ul>
-<li>SE ≈ 0.12–0.15% for all stocks</li>
-<li>With <span class="math inline">\(n \approx 750\)</span> observations, SE is small relative to daily volatility</li>
+<li>SE ≈ 0.056–0.069% for all stocks</li>
+<li>2-SE bounds ≈ 0.11–0.14%</li>
+<li>With <span class="math inline">\(n \approx 750\)</span> observations, SE is small relative to daily volatility (~2%)</li>
 <li>Larger <span class="math inline">\(n\)</span> tightens the SE further</li>
 </ul>
 </div>
@@ -1119,6 +1134,9 @@ Samir Orujov, PhD
 </ul>
 </div>
 </div>
+</div>
+<div id="qr-late" class="attendance-qr" data-status="late" style="min-height: 400px; display: flex; align-items: center; justify-content: center;">
+
 </div>
 
 </section>
@@ -1313,7 +1331,7 @@ Samir Orujov, PhD
         height: 720,
 
         // Factor of the display size that should remain empty around the content
-        margin: 4.0e-2,
+        margin: 8.0e-2,
 
         math: {
           mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
@@ -1597,6 +1615,8 @@ Samir Orujov, PhD
         }
       });
       </script>
+    <script src="../qrcode.min.js"></script>
+    <script src="../attendance-qr-slide.js"></script>
     
 
 </body></html>
