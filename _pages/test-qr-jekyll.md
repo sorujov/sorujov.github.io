@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
       
-      var testUrl = 'https://sorujov.github.io/attend/math-stat-1/?tok=' + btoa(Date.now() + '-STAT2311-F25');
+      var testUrl = 'https://sorujov.net/attend/math-stat-1/?tok=' + btoa(Date.now() + '-STAT2311-F25');
       debug('Test URL: ' + testUrl);
       
       // Create canvas element

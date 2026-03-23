@@ -52,7 +52,7 @@ I'll do this for you now...
 
 ## Step 6: Test End-to-End
 
-1. Visit your attendance page: `https://sorujov.github.io/attendance/math-stat-1/`
+1. Visit your attendance page: `https://sorujov.net/attendance/math-stat-1/`
 2. QR code should display
 3. Scan with phone
 4. Should redirect to Google Form with session time pre-filled
