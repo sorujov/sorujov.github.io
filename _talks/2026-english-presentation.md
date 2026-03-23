@@ -17,15 +17,17 @@ Keynote presentation delivered on behalf of the Information and Communication Te
 
 The event and my presentation were featured on AzTV, the national television of Azerbaijan:
 
-<div class="video-container" style="position: relative; width: 100%; max-width: 640px; padding-bottom: 56.25%; margin: 30px auto; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.15); background: #000;">
-  <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" 
-          src="https://www.youtube.com/embed/FBaPcOiPhYM?rel=0&modestbranding=1&playsinline=1" 
-          title="AzTV Coverage - Azerbaijan Hospitality Connectivity Summit" 
-          frameborder="0" 
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" 
-          allowfullscreen
-          loading="lazy">
-  </iframe>
+<div style="max-width: 640px; margin: 30px auto;">
+  <div style="position: relative; width: 100%; padding-bottom: 56.25%; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.15); background: #000;">
+    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" 
+            src="https://www.youtube.com/embed/FBaPcOiPhYM?rel=0&modestbranding=1&playsinline=1" 
+            title="AzTV Coverage - Azerbaijan Hospitality Connectivity Summit" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" 
+            allowfullscreen
+            loading="lazy">
+    </iframe>
+  </div>
 </div>
 
 ### 📺 BakuTV Coverage
