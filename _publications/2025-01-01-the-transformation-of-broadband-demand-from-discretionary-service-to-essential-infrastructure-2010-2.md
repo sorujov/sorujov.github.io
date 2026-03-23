@@ -1,26 +1,22 @@
 ---
-title: "The Transformation of Broadband Demand: From Discretionary Service to Essential Infrastructure (2010-2024)"
+title: "The Transformation of Broadband Demand: From Discretionary Service to Essential Infrastructure (2010--2024)"
 collection: publications
 category: working-papers
-permalink: /publication/2025-01-01-the-transformation-of-broadband-demand-from-discretionary-service-to-essential-infrastructure-2010-2
-excerpt: 'The Transformation of Broadband Demand: From Discretionary Service to Essential Infrastructure (2010-2024)'
-date: 2025-01-01
+permalink: /publication/2025-12-18-the-transformation-of-broadband-demand-from-discretionary-service-to-essential-infrastructure-2010-2
+excerpt: 'The Transformation of Broadband Demand: From Discretionary Service to Essential Infrastructure (2010--2024)'
+date: 2025-12-18
 venue: ''
-orcid_putcode: '200245951'
-paperurl: 'https://doi.org/10.2139/ssrn.5920805'
-doi: '10.2139/ssrn.5920805'
+orcid_putcode: '209399646'
+paperurl: 'https://hal.science/hal-05422623'
 github: 'https://github.com/sorujov/Broadband-Demand-Elasticity'
-citation: 'Citation information from ORCID (Work Type: preprint)'
+citation: 'Citation information from ORCID (Work Type: working-paper)'
+orcid_fingerprint: '16d7fba1dfc724e391cb3f3bb147e1ab'
+orcid_last_modified: '2026-03-23T17:57:19Z'
 ---
 
-**Type**: Preprint
-
-**DOI**: [10.2139/ssrn.5920805](https://doi.org/10.2139/ssrn.5920805)
+**Type**: Working Paper
 
 ## Abstract
 
-This paper investigates the fundamental shift in the nature of broadband internet services in the United States from 2010 to 2024. Using comprehensive data from Federal Communications Commission (FCC) Form 477 reports spanning this period, we analyze how broadband has transitioned from being perceived as a discretionary service to becoming recognized as essential infrastructure, comparable to traditional utilities like electricity and water.
+Has broadband become a necessity good immune to price changes? Using a 15-year panel of 33 European countries (2010--2024) and two-way fixed effects with Driscoll--Kraay standard errors, we document a fundamental transformation in broadband demand. Pre-COVID, Eastern Partnership countries exhibited highly elastic demand ($\varepsilon = -0.61$, p$&lt;$0.001)---a 10\% price reduction increased subscriptions by 6\%---while EU countries showed moderate elasticity ($\varepsilon = -0.12$, p$&lt;$0.05). By 2020--2024, both regions converged to near-zero elasticity, with price changes having no detectable effect on adoption. Crucially, placebo tests reveal this transformation began in 2015, not 2020, indicating a decade-long digital integration process rather than a COVID-19 shock. We further demonstrate that price measurement critically affects inference: income-relative prices (as \% of GNI) yield significant results in 100\% of specifications, compared to only 25\% for PPP-adjusted prices. These findings have immediate policy relevance: as broadband transitions from discretionary service to essential utility, policy emphasis must shift from affordability subsidies to universal infrastructure deployment.
 
-Our analysis examines multiple dimensions of this transformation: (1) market penetration across different geographic areas and demographics, (2) changes in regulatory frameworks and policy approaches, (3) evolution of consumer behavior and usage patterns, (4) impact of the COVID-19 pandemic as a catalyst for accelerated adoption, and (4) implications for digital equity and the persistent digital divide.
-
-The findings reveal that while overall broadband adoption has increased significantly, substantial disparities persist across rural versus urban areas, income levels, and demographic groups. We document how the pandemic period (2020-2024) accelerated trends that were already in motion, permanently altering both supply and demand dynamics. The paper concludes with policy recommendations for addressing remaining gaps in infrastructure deployment and affordability, particularly in underserved communities.

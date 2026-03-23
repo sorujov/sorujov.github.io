@@ -2,15 +2,17 @@
 title: "VS-LTGARCHX: A Flexible Variable Selection in Log-TGARCHX Models"
 collection: publications
 category: manuscripts
-permalink: /publication/2024-11-04-vs-ltgarchx-a-flexible-variable-selection-in-log-tgarchx-models
+permalink: /publication/2025-05-16-vs-ltgarchx-a-flexible-variable-selection-in-log-tgarchx-models
 excerpt: 'VS-LTGARCHX: A Flexible Variable Selection in Log-TGARCHX Models'
-date: 2024-11-04
+date: 2025-05-16
 venue: 'Journal of Time Series Econometrics'
 orcid_putcode: '170959447'
 paperurl: 'https://doi.org/10.1515/jtse-2023-0035'
 doi: '10.1515/jtse-2023-0035'
 github: 'https://github.com/sorujov/Log-TGARCHX-Subset-Selection'
 citation: 'Citation information from ORCID (Work Type: journal-article)'
+orcid_fingerprint: '5d8cc4009c6ab4f8d4c669a25498758a'
+orcid_last_modified: '2025-05-21T17:05:54Z'
 ---
 
 **Type**: Journal Article
