@@ -104,7 +104,7 @@ This initiative strengthens Azerbaijan's position in the Speedtest Global Index�
 
 📰 [Official Event Announcement - Ministry of Digital Development and Transport](https://mincom.gov.az/en/media-en/news/ookla-launches-initiative-to-boost-hospitality-connectivity-in-azerbaijan)
 
-🌐 [Ookla Speedtest Certified™](http://www.ookla.com/speedtest-certified/)
+🌐 [Ookla Speedtest Certified™](https://www.ookla.com/speedtest-certified/)
 
 ---
 
