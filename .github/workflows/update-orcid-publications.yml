@@ -1,9 +1,9 @@
 name: Update ORCID Publications
 
 on:
-  # Run automatically every week on Monday at 00:00 UTC
+  # Run automatically every day at 06:00 UTC
   schedule:
-    - cron: '0 0 * * 1'
+    - cron: '0 6 * * *'
   
   # Allow manual trigger from GitHub Actions tab
   workflow_dispatch:
@@ -66,9 +66,11 @@ jobs:
       - name: Check for changes
         id: check_changes
         run: |
-          if [[ -n $(git status --porcelain) ]]; then
+          git add _publications/
+          if [[ -n $(git diff --cached --name-only) ]]; then
             echo "changes=true" >> $GITHUB_OUTPUT
-            echo "✓ New publications found"
+            echo "✓ New or updated publications found"
+            git diff --cached --name-only
           else
             echo "changes=false" >> $GITHUB_OUTPUT
             echo "✓ No new publications"
@@ -79,7 +81,6 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add _publications/
           git commit -m "🔄 Auto-update publications from ORCID [skip ci]"
           git push
       
@@ -91,12 +92,13 @@ jobs:
           if [[ "${{ steps.check_changes.outputs.changes }}" == "true" ]]; then
             echo "✅ Publications updated successfully" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
-            echo "New publications have been fetched from ORCID and committed to the repository." >> $GITHUB_STEP_SUMMARY
+            echo "New or updated publications have been fetched from ORCID and committed." >> $GITHUB_STEP_SUMMARY
           else
-            echo "ℹ️ No new publications found" >> $GITHUB_STEP_SUMMARY
+            echo "ℹ️ No changes detected" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
-            echo "Your ORCID profile is up to date with the repository." >> $GITHUB_STEP_SUMMARY
+            echo "All publications are already in sync with ORCID." >> $GITHUB_STEP_SUMMARY
           fi
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**ORCID ID**: ${{ secrets.ORCID_ID }}" >> $GITHUB_STEP_SUMMARY
           echo "**Last checked**: $(date -u +'%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
+          echo "**Schedule**: Daily at 06:00 UTC" >> $GITHUB_STEP_SUMMARY

@@ -2,11 +2,20 @@
 """
 Fetch publications from ORCID API and generate Jekyll markdown files.
 Credentials are stored securely in environment variables (GitHub Secrets).
+
+Features:
+  - Creates new publication files for newly found works
+  - Updates existing files when ORCID metadata changes (preserving manual edits)
+  - Retries failed API calls with exponential backoff
+  - Fetches abstracts from ORCID, CrossRef, and SSRN
 """
 
 import os
 import sys
 import json
+import html
+import time
+import hashlib
 import requests
 from datetime import datetime
 from pathlib import Path
@@ -21,6 +30,10 @@ CLIENT_SECRET = os.environ.get('ORCID_CLIENT_SECRET', '')  # Set in GitHub Secre
 ORCID_TOKEN_URL = 'https://orcid.org/oauth/token'
 ORCID_API_BASE = 'https://pub.orcid.org/v3.0'
 
+# Retry configuration
+MAX_RETRIES = 3
+RETRY_BACKOFF = 2  # seconds, doubled each retry
+
 # Publication categories mapping
 CATEGORY_MAPPING = {
     'journal-article': {'category': 'manuscripts', 'display': 'Published Articles'},
@@ -32,6 +45,34 @@ CATEGORY_MAPPING = {
     'dissertation': {'category': 'manuscripts', 'display': 'Published Articles'},
     'report': {'category': 'working-papers', 'display': 'Working Papers'},
 }
+
+
+def request_with_retry(method, url, max_retries=MAX_RETRIES, **kwargs):
+    """Make an HTTP request with retry and exponential backoff."""
+    last_exception = None
+    for attempt in range(max_retries):
+        try:
+            response = method(url, **kwargs)
+            if response.status_code == 429:  # Rate limited
+                retry_after = int(response.headers.get('Retry-After', RETRY_BACKOFF * (2 ** attempt)))
+                print(f"  ⏳ Rate limited, waiting {retry_after}s (attempt {attempt + 1}/{max_retries})")
+                time.sleep(retry_after)
+                continue
+            if response.status_code >= 500:  # Server error, retry
+                wait = RETRY_BACKOFF * (2 ** attempt)
+                print(f"  ⏳ Server error {response.status_code}, retrying in {wait}s (attempt {attempt + 1}/{max_retries})")
+                time.sleep(wait)
+                continue
+            return response
+        except requests.RequestException as e:
+            last_exception = e
+            wait = RETRY_BACKOFF * (2 ** attempt)
+            print(f"  ⏳ Request failed: {e}, retrying in {wait}s (attempt {attempt + 1}/{max_retries})")
+            time.sleep(wait)
+    # Return last response or raise
+    if last_exception:
+        raise last_exception
+    return response
 
 
 def get_access_token():
@@ -49,7 +90,7 @@ def get_access_token():
     
     try:
         print(f"Requesting token from ORCID...")
-        response = requests.post(ORCID_TOKEN_URL, data=data)
+        response = request_with_retry(requests.post, ORCID_TOKEN_URL, data=data, timeout=30)
         print(f"Response status: {response.status_code}")
         
         if response.status_code != 200:
@@ -61,7 +102,6 @@ def get_access_token():
         return token_data['access_token']
     except requests.RequestException as e:
         print(f"ERROR: Failed to get access token: {e}")
-        print(f"Response: {response.text if 'response' in locals() else 'No response'}")
         sys.exit(1)
 
 
@@ -79,7 +119,7 @@ def fetch_orcid_works(access_token):
     
     try:
         print(f"Fetching works from: {url}")
-        response = requests.get(url, headers=headers)
+        response = request_with_retry(requests.get, url, headers=headers, timeout=30)
         print(f"Response status: {response.status_code}")
         
         if response.status_code != 200:
@@ -91,7 +131,6 @@ def fetch_orcid_works(access_token):
         return works
     except requests.RequestException as e:
         print(f"ERROR: Failed to fetch works from ORCID: {e}")
-        print(f"Response: {response.text if 'response' in locals() else 'No response'}")
         sys.exit(1)
 
 
@@ -104,14 +143,14 @@ def fetch_work_details(put_code, access_token):
     }
     
     try:
-        response = requests.get(url, headers=headers)
+        response = request_with_retry(requests.get, url, headers=headers, timeout=30)
         if response.status_code == 200:
             return response.json()
         else:
-            print(f"⚠ Could not fetch details for work {put_code}")
+            print(f"⚠ Could not fetch details for work {put_code} (status: {response.status_code})")
             return None
     except requests.RequestException as e:
-        print(f"⚠ Error fetching work details: {e}")
+        print(f"⚠ Error fetching work details for {put_code}: {e}")
         return None
 
 
@@ -126,21 +165,17 @@ def fetch_abstract_from_crossref(doi):
     }
     
     try:
-        response = requests.get(url, headers=headers, timeout=10)
+        response = request_with_retry(requests.get, url, max_retries=2, headers=headers, timeout=15)
         if response.status_code == 200:
             data = response.json()
             message = data.get('message', {})
             abstract = message.get('abstract')
             if abstract:
-                # CrossRef returns abstract with XML tags, clean them
-                import html
                 abstract = html.unescape(abstract)
-                # Remove XML/HTML tags
                 abstract = re.sub(r'<[^>]+>', '', abstract)
                 return abstract.strip()
         return None
-    except Exception as e:
-        # Silently fail - CrossRef is optional
+    except Exception:
         return None
 
 
@@ -150,7 +185,6 @@ def fetch_abstract_from_ssrn(doi):
         return None
     
     try:
-        # Extract SSRN ID from DOI (e.g., 10.2139/ssrn.5920805 -> 5920805)
         ssrn_id = doi.split('ssrn.')[-1]
         url = f'https://papers.ssrn.com/sol3/papers.cfm?abstract_id={ssrn_id}'
         
@@ -158,12 +192,10 @@ def fetch_abstract_from_ssrn(doi):
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
         }
         
-        response = requests.get(url, headers=headers, timeout=15)
+        response = request_with_retry(requests.get, url, max_retries=2, headers=headers, timeout=15)
         if response.status_code == 200:
             html_content = response.text
             
-            # Try to find abstract in the HTML
-            # SSRN typically has abstract in a specific div or meta tag
             abstract_patterns = [
                 r'<meta name="description" content="([^"]+)"',
                 r'<div[^>]*class="[^"]*abstract-text[^"]*"[^>]*>(.+?)</div>',
@@ -174,23 +206,54 @@ def fetch_abstract_from_ssrn(doi):
                 match = re.search(pattern, html_content, re.DOTALL | re.IGNORECASE)
                 if match:
                     abstract = match.group(1)
-                    # Clean HTML tags and entities
-                    import html
                     abstract = html.unescape(abstract)
                     abstract = re.sub(r'<[^>]+>', '', abstract)
                     abstract = re.sub(r'\s+', ' ', abstract).strip()
                     
-                    if len(abstract) > 100:  # Ensure it's a real abstract
+                    if len(abstract) > 100:
                         return abstract
         
         return None
-    except Exception as e:
-        # Silently fail - SSRN fetching is optional
+    except Exception:
         return None
 
 
+def parse_existing_frontmatter(filepath):
+    """Parse frontmatter from an existing markdown file, returning fields dict and body."""
+    try:
+        with open(filepath, 'r', encoding='utf-8') as f:
+            content = f.read()
+    except Exception as e:
+        print(f"⚠ Could not read {filepath}: {e}")
+        return None, None
+
+    # Split frontmatter and body
+    fm_match = re.match(r'^---\s*\n(.*?)\n---\s*\n(.*)', content, re.DOTALL)
+    if not fm_match:
+        return None, content
+
+    fm_text = fm_match.group(1)
+    body = fm_match.group(2)
+
+    fields = {}
+    for line in fm_text.split('\n'):
+        m = re.match(r'^(\w[\w-]*):\s*(.*)', line)
+        if m:
+            key = m.group(1)
+            val = m.group(2).strip()
+            # Strip surrounding quotes
+            if (val.startswith("'") and val.endswith("'")) or (val.startswith('"') and val.endswith('"')):
+                val = val[1:-1]
+            fields[key] = val
+
+    return fields, body
+
+
 def get_existing_publications(output_dir):
-    """Scan existing publication files and return a registry of put-codes, DOIs, and titles."""
+    """Scan existing publication files and return registries keyed by put-code, DOI, and title.
+    
+    Each registry maps to a dict with 'filename' and 'fields' (parsed frontmatter).
+    """
     existing_putcodes = {}
     existing_dois = {}
     existing_titles = {}
@@ -200,32 +263,25 @@ def get_existing_publications(output_dir):
         return existing_putcodes, existing_dois, existing_titles
     
     for md_file in output_path.glob('*.md'):
-        try:
-            with open(md_file, 'r', encoding='utf-8') as f:
-                content = f.read()
-                
-                # Extract ORCID put-code (unique identifier) - most reliable
-                putcode_match = re.search(r'^orcid_putcode:\s*[\'"]?(\d+)[\'"]?', content, re.MULTILINE)
-                if putcode_match:
-                    putcode = putcode_match.group(1)
-                    existing_putcodes[putcode] = md_file.name
-                
-                # Extract DOI from frontmatter (fallback)
-                doi_match = re.search(r'^doi:\s*[\'"](.+?)[\'"]', content, re.MULTILINE)
-                if doi_match:
-                    doi = doi_match.group(1)
-                    existing_dois[doi] = md_file.name
-                
-                # Extract title for duplicate detection (fallback)
-                title_match = re.search(r'^title:\s*[\'"](.+?)[\'"]', content, re.MULTILINE)
-                if title_match:
-                    title = title_match.group(1).lower().strip()
-                    # Normalize title: remove punctuation, extra spaces
-                    normalized = re.sub(r'[^\w\s]', '', title)
-                    normalized = re.sub(r'\s+', ' ', normalized).strip()
-                    existing_titles[normalized] = md_file.name
-        except Exception as e:
-            print(f"⚠ Could not read {md_file.name}: {e}")
+        fields, body = parse_existing_frontmatter(md_file)
+        if fields is None:
+            continue
+
+        entry = {'filename': md_file.name, 'filepath': md_file, 'fields': fields, 'body': body}
+
+        putcode = fields.get('orcid_putcode', '')
+        if putcode:
+            existing_putcodes[putcode] = entry
+
+        doi = fields.get('doi', '')
+        if doi:
+            existing_dois[doi] = entry
+
+        title = fields.get('title', '').lower().strip()
+        if title:
+            normalized = re.sub(r'[^\w\s]', '', title)
+            normalized = re.sub(r'\s+', ' ', normalized).strip()
+            existing_titles[normalized] = entry
     
     return existing_putcodes, existing_dois, existing_titles
 
@@ -243,46 +299,41 @@ def extract_publication_info(work_summary, work_details=None, doi=None, put_code
     title_obj = work_summary.get('title', {})
     title = title_obj.get('title', {}).get('value', 'Untitled')
     
-    # Extract abstract from multiple sources
     abstract = ''
     paper_url = ''
     
     # Try ORCID first - check multiple possible fields
     if work_details:
-        # Extract URL from ORCID work details
         orcid_url = work_details.get('url')
         if orcid_url:
             paper_url = orcid_url if isinstance(orcid_url, str) else orcid_url.get('value', '')
             if paper_url:
                 print(f"  ✓ Found paper URL from ORCID: {paper_url}")
         
-        # Try short-description at root level
         short_desc = work_details.get('short-description')
         if short_desc:
             abstract = short_desc if isinstance(short_desc, str) else short_desc.get('value', '')
-            print(f"  ✓ Found abstract from ORCID (short-description)")
+            if abstract:
+                print(f"  ✓ Found abstract from ORCID (short-description)")
         
-        # Try work.short-description
         if not abstract:
             work_obj = work_details.get('work')
             if work_obj:
                 short_desc = work_obj.get('short-description')
                 if short_desc:
                     abstract = short_desc if isinstance(short_desc, str) else short_desc.get('value', '')
-                    print(f"  ✓ Found abstract from ORCID (work.short-description)")
+                    if abstract:
+                        print(f"  ✓ Found abstract from ORCID (work.short-description)")
         
-        # Try description field (alternative name)
         if not abstract:
             desc = work_details.get('description')
             if desc:
                 abstract = desc if isinstance(desc, str) else desc.get('value', '')
-                print(f"  ✓ Found abstract from ORCID (description)")
+                if abstract:
+                    print(f"  ✓ Found abstract from ORCID (description)")
         
-        # Debug: print available keys if no abstract found
-        if not abstract and work_details:
+        if not abstract:
             print(f"  ⚠ No abstract in ORCID work details. Available keys: {list(work_details.keys())}")
-            if 'work' in work_details:
-                print(f"     Work object keys: {list(work_details['work'].keys())}")
     
     # If no abstract from ORCID, try SSRN (for SSRN papers)
     if not abstract and doi and 'ssrn' in doi.lower():
@@ -298,32 +349,13 @@ def extract_publication_info(work_summary, work_details=None, doi=None, put_code
             abstract = crossref_abstract
             print(f"  ✓ Found abstract from CrossRef")
     
-    # Extract publication date - try multiple date fields
+    # Extract publication date (prefer publication-date, fallback to created-date)
+    year = ''
+    month = '01'
+    day = '01'
+    
     pub_date = work_summary.get('publication-date')
-    
-    # Check work_details for created-date if available
-    created_date = None
-    if work_details:
-        created_date = work_details.get('created-date')
-        if created_date:
-            # created-date is in timestamp format, need to convert
-            import time
-            timestamp_ms = created_date.get('value') if isinstance(created_date, dict) else created_date
-            if timestamp_ms:
-                try:
-                    # Convert milliseconds to seconds
-                    timestamp_sec = int(timestamp_ms) / 1000
-                    date_obj = datetime.fromtimestamp(timestamp_sec)
-                    print(f"  ✓ Found created date from ORCID: {date_obj.strftime('%Y-%m-%d')}")
-                    year = str(date_obj.year)
-                    month = str(date_obj.month).zfill(2)
-                    day = str(date_obj.day).zfill(2)
-                except (ValueError, TypeError) as e:
-                    print(f"  ⚠ Could not parse created-date: {e}")
-                    created_date = None
-    
-    # If no valid created_date, use publication-date
-    if not created_date and pub_date:
+    if pub_date:
         year_obj = pub_date.get('year')
         year = year_obj.get('value', '') if year_obj else ''
         
@@ -332,12 +364,23 @@ def extract_publication_info(work_summary, work_details=None, doi=None, put_code
         
         day_obj = pub_date.get('day')
         day = day_obj.get('value', '01') if day_obj else '01'
-    elif not created_date:
-        year = ''
-        month = '01'
-        day = '01'
     
-    # Create date string
+    # Fallback: try created-date from work_details (timestamp in ms)
+    if not year and work_details:
+        created_date = work_details.get('created-date')
+        if created_date:
+            timestamp_ms = created_date.get('value') if isinstance(created_date, dict) else created_date
+            if timestamp_ms:
+                try:
+                    timestamp_sec = int(timestamp_ms) / 1000
+                    date_obj = datetime.fromtimestamp(timestamp_sec)
+                    year = str(date_obj.year)
+                    month = str(date_obj.month).zfill(2)
+                    day = str(date_obj.day).zfill(2)
+                    print(f"  ✓ Using created-date as fallback: {year}-{month}-{day}")
+                except (ValueError, TypeError) as e:
+                    print(f"  ⚠ Could not parse created-date: {e}")
+    
     if year:
         date_str = f"{year}-{month.zfill(2)}-{day.zfill(2)}"
     else:
@@ -350,7 +393,7 @@ def extract_publication_info(work_summary, work_details=None, doi=None, put_code
     # Extract journal/venue
     journal_title = work_summary.get('journal-title', {}).get('value', '') if work_summary.get('journal-title') else ''
     
-    # Extract DOI
+    # Extract DOI and URL from external IDs
     external_ids = work_summary.get('external-ids', {}).get('external-id', [])
     doi = ''
     url = ''
@@ -362,9 +405,24 @@ def extract_publication_info(work_summary, work_details=None, doi=None, put_code
         elif ext_id.get('external-id-type') == 'uri':
             url = ext_id.get('external-id-value', '')
     
-    # Extract authors (simplified - ORCID API may require additional calls for full details)
-    # For now, we'll use a placeholder that can be manually edited
     citation = f"Citation information from ORCID (Work Type: {work_type})"
+    
+    # Compute a fingerprint of the ORCID data so we can detect changes
+    fingerprint_data = f"{title}|{date_str}|{work_type}|{journal_title}|{doi}|{paper_url or url}|{abstract}"
+    fingerprint = hashlib.md5(fingerprint_data.encode('utf-8')).hexdigest()
+    
+    # Get last-modified from ORCID if available
+    last_modified = ''
+    if work_details:
+        lm = work_details.get('last-modified-date')
+        if lm:
+            lm_val = lm.get('value') if isinstance(lm, dict) else lm
+            if lm_val:
+                try:
+                    lm_sec = int(lm_val) / 1000
+                    last_modified = datetime.utcfromtimestamp(lm_sec).strftime('%Y-%m-%dT%H:%M:%SZ')
+                except (ValueError, TypeError):
+                    pass
     
     return {
         'title': title,
@@ -378,7 +436,9 @@ def extract_publication_info(work_summary, work_details=None, doi=None, put_code
         'paperurl': paper_url if paper_url else url,
         'citation': citation,
         'abstract': abstract,
-        'put_code': put_code
+        'put_code': put_code,
+        'orcid_fingerprint': fingerprint,
+        'last_modified': last_modified,
     }
 
 
@@ -387,13 +447,9 @@ def generate_markdown_file(pub_info, output_dir):
     filename = f"{pub_info['date']}-{sanitize_filename(pub_info['title'])}.md"
     filepath = output_dir / filename
     
-    # Create permalink
     permalink = f"/publication/{pub_info['date']}-{sanitize_filename(pub_info['title'])}"
-    
-    # Generate excerpt (first 200 chars of title or custom)
     excerpt = pub_info['title'][:200] + '...' if len(pub_info['title']) > 200 else pub_info['title']
     
-    # Create markdown content
     content = f"""---
 title: "{pub_info['title']}"
 collection: publications
@@ -411,14 +467,19 @@ orcid_putcode: '{pub_info.get('put_code', '')}'
     if pub_info['doi']:
         content += f"doi: '{pub_info['doi']}'\n"
     
-    # Add github field if present (will be empty by default, can be manually added)
     if pub_info.get('github'):
         content += f"github: '{pub_info['github']}'\n"
     
     content += f"citation: '{pub_info['citation']}'\n"
+    
+    if pub_info.get('orcid_fingerprint'):
+        content += f"orcid_fingerprint: '{pub_info['orcid_fingerprint']}'\n"
+    
+    if pub_info.get('last_modified'):
+        content += f"orcid_last_modified: '{pub_info['last_modified']}'\n"
+    
     content += "---\n\n"
     
-    # Add work type information
     work_type_display = {
         'journal-article': 'Journal Article',
         'working-paper': 'Working Paper',
@@ -445,12 +506,129 @@ orcid_putcode: '{pub_info.get('put_code', '')}'
     else:
         content += "*This publication was automatically imported from ORCID. Please edit this file to add abstract and additional details.*\n"
     
-    # Write file
     with open(filepath, 'w', encoding='utf-8') as f:
         f.write(content)
     
     print(f"✓ Generated: {filename}")
     return filename
+
+
+def update_existing_file(pub_info, existing_entry):
+    """Update an existing publication file with new ORCID data, preserving manual edits.
+    
+    Preserved fields (never overwritten if already set by user):
+      - github
+      - Any field not coming from ORCID
+    
+    Updated fields (always synced from ORCID):
+      - title, category, date, venue, doi, paperurl, citation, abstract,
+        orcid_fingerprint, orcid_last_modified
+    """
+    filepath = existing_entry['filepath']
+    old_fields = existing_entry['fields']
+    
+    # Preserve manually-added fields that ORCID doesn't provide
+    preserved_keys = {'github'}
+    
+    permalink = f"/publication/{pub_info['date']}-{sanitize_filename(pub_info['title'])}"
+    excerpt = pub_info['title'][:200] + '...' if len(pub_info['title']) > 200 else pub_info['title']
+    
+    content = f"""---
+title: "{pub_info['title']}"
+collection: publications
+category: {pub_info['category']}
+permalink: {permalink}
+excerpt: '{excerpt}'
+date: {pub_info['date']}
+venue: '{pub_info['venue']}'
+orcid_putcode: '{pub_info.get('put_code', '')}'
+"""
+    
+    if pub_info.get('paperurl'):
+        content += f"paperurl: '{pub_info['paperurl']}'\n"
+    
+    if pub_info['doi']:
+        content += f"doi: '{pub_info['doi']}'\n"
+    
+    # Preserve manually-added fields
+    for key in preserved_keys:
+        if key in old_fields and old_fields[key]:
+            content += f"{key}: '{old_fields[key]}'\n"
+    
+    content += f"citation: '{pub_info['citation']}'\n"
+    
+    if pub_info.get('orcid_fingerprint'):
+        content += f"orcid_fingerprint: '{pub_info['orcid_fingerprint']}'\n"
+    
+    if pub_info.get('last_modified'):
+        content += f"orcid_last_modified: '{pub_info['last_modified']}'\n"
+    
+    content += "---\n\n"
+    
+    work_type_display = {
+        'journal-article': 'Journal Article',
+        'working-paper': 'Working Paper',
+        'preprint': 'Preprint',
+        'conference-paper': 'Conference Paper',
+        'book-chapter': 'Book Chapter',
+        'book': 'Book',
+        'dissertation': 'Dissertation',
+        'report': 'Report',
+    }
+    
+    content += f"**Type**: {work_type_display.get(pub_info['work_type'], pub_info['work_type'])}\n\n"
+    
+    if pub_info['venue']:
+        content += f"**Published in**: {pub_info['venue']}\n\n"
+    
+    if pub_info['doi']:
+        content += f"**DOI**: [{pub_info['doi']}](https://doi.org/{pub_info['doi']})\n\n"
+    
+    content += "## Abstract\n\n"
+    
+    if pub_info.get('abstract'):
+        content += f"{pub_info['abstract']}\n\n"
+    else:
+        content += "*This publication was automatically imported from ORCID. Please edit this file to add abstract and additional details.*\n"
+    
+    with open(filepath, 'w', encoding='utf-8') as f:
+        f.write(content)
+    
+    print(f"✓ Updated: {filepath.name}")
+    return filepath.name
+
+
+def needs_update(pub_info, existing_entry):
+    """Check if an existing publication needs updating based on ORCID data changes."""
+    old_fields = existing_entry.get('fields', {})
+    
+    # Fast path: compare fingerprints if available
+    old_fp = old_fields.get('orcid_fingerprint', '')
+    new_fp = pub_info.get('orcid_fingerprint', '')
+    if old_fp and new_fp:
+        return old_fp != new_fp
+    
+    # Fallback: compare key fields individually
+    checks = [
+        ('title', pub_info.get('title', '')),
+        ('category', pub_info.get('category', '')),
+        ('venue', pub_info.get('venue', '')),
+        ('doi', pub_info.get('doi', '')),
+        ('date', pub_info.get('date', '')),
+    ]
+    for key, new_val in checks:
+        old_val = old_fields.get(key, '')
+        if old_val != new_val:
+            return True
+    
+    # Check if abstract appeared where there was none
+    old_body = existing_entry.get('body', '')
+    has_old_abstract = 'automatically imported from ORCID' not in old_body and '## Abstract' in old_body
+    has_new_abstract = bool(pub_info.get('abstract'))
+    if has_new_abstract and not has_old_abstract:
+        return True
+    
+    return False
 
 
 def main():
@@ -459,7 +637,6 @@ def main():
     print("ORCID Publications Importer")
     print("=" * 60)
     
-    # Validate configuration
     if not ORCID_ID:
         print("\n⚠ WARNING: ORCID_ID not set. Using test mode.")
         print("Please set the ORCID_ID environment variable.")
@@ -482,74 +659,78 @@ def main():
     
     # Parse works
     groups = works_data.get('group', [])
-    print(f"✓ Found {len(groups)} publication(s)")
+    print(f"✓ Found {len(groups)} publication(s) on ORCID")
     
     # Create output directory
     script_dir = Path(__file__).parent
     output_dir = script_dir.parent / '_publications'
     output_dir.mkdir(exist_ok=True)
     
-    # Get existing publications to avoid duplicates
+    # Get existing publications
     print("\nChecking for existing publications...")
     existing_putcodes, existing_dois, existing_titles = get_existing_publications(output_dir)
-    print(f"✓ Found {len(existing_putcodes)} existing publication(s) in registry")
+    print(f"✓ Found {len(existing_putcodes)} existing publication(s) in repository")
     
     print(f"\nProcessing publications from ORCID...")
     
-    # Process each work
     generated_files = []
+    updated_files = []
     skipped_files = []
     working_papers = []
     published_works = []
     
     for group in groups:
         work_summaries = group.get('work-summary', [])
-        if work_summaries:
-            work_summary = work_summaries[0]  # Use first summary
-            put_code = str(work_summary.get('put-code'))
-            
-            # Extract title for duplicate checking
-            title = work_summary.get('title', {}).get('title', {}).get('value', 'Unknown')
-            normalized_title = re.sub(r'[^\w\s]', '', title.lower().strip())
-            normalized_title = re.sub(r'\s+', ' ', normalized_title).strip()
-            
-            # Quick extract DOI to check for duplicates early
-            external_ids = work_summary.get('external-ids', {}).get('external-id', [])
-            doi = ''
-            for ext_id in external_ids:
-                if ext_id.get('external-id-type') == 'doi':
-                    doi = ext_id.get('external-id-value', '')
-                    break
-            
-            # Check if publication already exists (by put-code first, then DOI, then title)
-            if put_code in existing_putcodes:
-                print(f"⊗ Skipping: {title[:60]}... (put-code: {put_code}, exists as {existing_putcodes[put_code]})")
-                skipped_files.append(title)
-                continue
-            
-            if doi and doi in existing_dois:
-                print(f"⊗ Skipping: {title[:60]}... (put-code: {put_code}, exists as {existing_dois[doi]})")
-                skipped_files.append(title)
-                continue
-            
-            if normalized_title in existing_titles:
-                print(f"⊗ Skipping: {title[:60]}... (put-code: {put_code}, duplicate title, exists as {existing_titles[normalized_title]})")
-                skipped_files.append(title)
-                continue
-            
-            # Fetch detailed work information (includes abstract from ORCID)
-            work_details = fetch_work_details(put_code, access_token)
-            
-            # Extract publication info with details (will also try CrossRef for abstract)
-            pub_info = extract_publication_info(work_summary, work_details, doi, put_code)
-            
-            # Categorize
-            if pub_info['category'] == 'working-papers':
-                working_papers.append(pub_info)
+        if not work_summaries:
+            continue
+
+        work_summary = work_summaries[0]
+        put_code = str(work_summary.get('put-code'))
+        
+        title = work_summary.get('title', {}).get('title', {}).get('value', 'Unknown')
+        normalized_title = re.sub(r'[^\w\s]', '', title.lower().strip())
+        normalized_title = re.sub(r'\s+', ' ', normalized_title).strip()
+        
+        # Quick extract DOI
+        external_ids = work_summary.get('external-ids', {}).get('external-id', [])
+        doi = ''
+        for ext_id in external_ids:
+            if ext_id.get('external-id-type') == 'doi':
+                doi = ext_id.get('external-id-value', '')
+                break
+        
+        # Check if publication already exists
+        existing_entry = None
+        if put_code in existing_putcodes:
+            existing_entry = existing_putcodes[put_code]
+        elif doi and doi in existing_dois:
+            existing_entry = existing_dois[doi]
+        elif normalized_title in existing_titles:
+            existing_entry = existing_titles[normalized_title]
+        
+        # Always fetch details so we can compare
+        print(f"\n→ Processing: {title[:70]}{'...' if len(title) > 70 else ''}")
+        work_details = fetch_work_details(put_code, access_token)
+        pub_info = extract_publication_info(work_summary, work_details, doi, put_code)
+        
+        # Categorize
+        if pub_info['category'] == 'working-papers':
+            working_papers.append(pub_info)
+        else:
+            published_works.append(pub_info)
+        
+        if existing_entry:
+            # Check if ORCID data has changed
+            if needs_update(pub_info, existing_entry):
+                # Preserve manually-added fields, update ORCID-sourced data
+                filename = update_existing_file(pub_info, existing_entry)
+                updated_files.append(filename)
+                print(f"  ↑ Metadata changed — file updated")
             else:
-                published_works.append(pub_info)
-            
-            # Generate markdown file
+                print(f"  ⊗ Skipping (up to date): {existing_entry['filename']}")
+                skipped_files.append(title)
+        else:
+            # New publication
             filename = generate_markdown_file(pub_info, output_dir)
             generated_files.append(filename)
     
@@ -557,19 +738,27 @@ def main():
     print("\n" + "=" * 60)
     print("IMPORT SUMMARY")
     print("=" * 60)
-    print(f"Total publications processed: {len(groups)}")
+    print(f"Total publications on ORCID: {len(groups)}")
     print(f"  - New publications imported: {len(generated_files)}")
-    print(f"  - Skipped (already exist): {len(skipped_files)}")
+    print(f"  - Existing publications updated: {len(updated_files)}")
+    print(f"  - Skipped (already up to date): {len(skipped_files)}")
     print(f"  - Published works: {len(published_works)}")
     print(f"  - Working papers: {len(working_papers)}")
-    print("\n✓ Import completed successfully!")
+    
     if generated_files:
-        print("\nNext steps:")
-        print("1. Review generated files in _publications/ directory")
-        print("2. Edit files to add/enhance abstracts and additional details")
-        print("3. Commit and push changes to GitHub")
-    else:
-        print("\n✓ All publications are up to date!")
+        print(f"\nNew files:")
+        for f in generated_files:
+            print(f"  + {f}")
+    
+    if updated_files:
+        print(f"\nUpdated files:")
+        for f in updated_files:
+            print(f"  ↑ {f}")
+    
+    print("\n✓ Import completed successfully!")
+    
+    if not generated_files and not updated_files:
+        print("✓ All publications are up to date!")
 
 
 if __name__ == '__main__':
