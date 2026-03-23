@@ -15,7 +15,7 @@ Interview with AzTV following the "A-dan Z-yə İnternet: Media üçün Praktik 
 
 ### 📺 AzTV Interview
 
-<div class="video-container" style="position: relative; width: 100%; max-width: 560px; padding-bottom: 315px; margin: 30px auto; background: #000; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+<div class="video-container" style="position: relative; width: 100%; max-width: 640px; padding-bottom: 56.25%; margin: 30px auto; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.15); background: #000;">
   <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
           src="https://www.youtube.com/embed/MoVKW87r_5k?rel=0&modestbranding=1&playsinline=1"
           title="AzTV Interview – A-dan Z-yə İnternet: Media üçün Praktik Təlim"
