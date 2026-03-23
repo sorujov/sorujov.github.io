@@ -575,7 +575,7 @@ classes: wide
     <div class="book-item secondary">
       <div class="book-icon">Additional Resources</div>
       <h4>Course Materials</h4>
-      <p><strong>Lecture Notes:</strong> Available at sorujov.github.io</p>
+      <p><strong>Lecture Notes:</strong> Available at sorujov.net</p>
       <p><strong>Software:</strong> R and Estat programs for computational practice</p>
       <p><strong>Additional Materials:</strong> <a href="https://www.dropbox.com/sh/emx6gmx2nu0i56z/AAA5v9wCiTGX4G44QhD61Vn7a?dl=0" target="_blank">Dropbox folder</a></p>
     </div>

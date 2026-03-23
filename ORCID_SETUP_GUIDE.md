@@ -66,7 +66,7 @@ You already have:
 
 2. You should see new markdown files for each publication from your ORCID profile
 
-3. Visit your website: https://sorujov.github.io/publications/
+3. Visit your website: https://sorujov.net/publications/
 
 4. Publications should be displayed in two categories:
    - **Published Works** (journal articles, conference papers, books)

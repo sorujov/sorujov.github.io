@@ -51,7 +51,7 @@ I develop interactive lecture presentations that combine mathematical theory wit
 - **Email**: [sorujov@ada.edu.az](mailto:sorujov@ada.edu.az)
 - **Institution**: ADA University, School of Business
 - **GitHub**: [sorujov](https://github.com/sorujov)
-- **Website**: [https://sorujov.github.io](https://sorujov.github.io)
+- **Website**: [https://sorujov.net](https://sorujov.net)
 
 ---
 

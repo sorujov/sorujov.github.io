@@ -168,4 +168,4 @@ meta:
 5. ✅ Students only enter First Name and Last Name
 6. ✅ Google automatically collects email and submission timestamp
 
-**Live URL**: https://sorujov.github.io/attendance/math-stat-1/
+**Live URL**: https://sorujov.net/attendance/math-stat-1/
