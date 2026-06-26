@@ -23,14 +23,9 @@ Education
 ======
 * **Ph.D. in Applied Mathematics** (December 2024)  
   University of Southern Brittany, Vannes, France  
-  *Full-tuition waiver and scholarship of Total Absheron and ADA University*
+  *Full-tuition waiver*
   - Developed CESBKM algorithm integrating Cross-Entropy methods with K-means for clustering
   - Conducted theoretical proofs and simulation studies demonstrating algorithm superiority
-
-* **Ph.D. in Economics** (Ongoing, September 2017 - Present)  
-  Economic Scientific Research Institute, Baku, Azerbaijan  
-  - Focus: Advanced econometrics, time series analysis, and macroeconomic modeling
-  - Research: Panel data models with fixed/random effects and GMM-IV techniques for SME impact on GDP growth
 
 * **M.Sc. in Economics** (January 2019)  
   CERGE-EI (Center for Economic Research and Graduate Education), Prague, Czech Republic  
