@@ -1,129 +1,72 @@
 ---
 layout: archive
 title: "Publications"
+lead: "Journal articles, preprints and working papers. The list is generated from my ORCID record, so it stays in step with what is actually deposited."
 permalink: /publications/
-author_profile: true
+author_profile: false
+raw_body: true
 ---
-
-<div class="notice--info">
-  <p><strong>📚 Auto-Updated from ORCID</strong></p>
-  <p>This page automatically syncs with my <a href="{{ site.author.orcid }}" target="_blank">ORCID profile</a> every week. Publications are fetched via the ORCID API and categorized as published works or working papers.</p>
-  <p style="font-size: 0.9em; color: #666; margin-top: 0.5em;">
-    <em>Last updated: {{ site.time | date: "%B %d, %Y at %H:%M UTC" }}</em>
-  </p>
-  {% if site.author.googlescholar %}
-  <p>You can also find my articles on <a href="{{site.author.googlescholar}}" target="_blank">Google Scholar</a>.</p>
-  {% endif %}
-</div>
 
 {% include base_path %}
 
-<style>
-  .pub-list {
-    list-style: none;
-    padding-left: 0;
-    counter-reset: pub-counter;
-  }
-  .pub-list li {
-    margin-bottom: 0.5em;
-    line-height: 1.4;
-    counter-increment: pub-counter;
-    position: relative;
-    padding-left: 2em;
-  }
-  .pub-list li::before {
-    content: counter(pub-counter) ". ";
-    position: absolute;
-    left: 0;
-    font-weight: bold;
-    color: #333;
-  }
-  .pub-title {
-    font-weight: bold;
-  }
-  .pub-meta {
-    font-size: 0.9em;
-    color: #666;
-  }
-  .pub-links {
-    margin-top: 0.2em;
-  }
-  .pub-links a {
-    margin-right: 1em;
-    font-size: 0.9em;
-    color: #333;
-    text-decoration: none;
-  }
-  .pub-links a:hover {
-    color: #000;
-    text-decoration: underline;
-  }
-</style>
+<p class="source-note">
+  Synced from <a href="{{ site.author.orcid }}">ORCID</a> · last build {{ site.time | date: "%e %B %Y" }}{% if site.author.googlescholar %} · also on <a href="{{ site.author.googlescholar }}">Google Scholar</a>{% endif %}
+</p>
 
-<!-- New style rendering if publication categories are defined -->
-{% if site.publication_category %}
-  {% for category in site.publication_category  %}
-    {% assign title_shown = false %}
-    {% for post in site.publications reversed %}
-      {% if post.category != category[0] %}
-        {% continue %}
-      {% endif %}
-      {% unless title_shown %}
-        <h2>{{ category[1].title }}</h2>
-        <ul class="pub-list">
-        {% assign title_shown = true %}
-      {% endunless %}
-      <li>
-        <span class="pub-title"><a href="{{ base_path }}{{ post.url }}">{{ post.title }}</a></span>
-        {% if post.date %}
-          <span class="pub-meta">({{ post.date | date: "%Y" }})</span>
-        {% endif %}
-        {% if post.venue and post.venue != "" %}
-          <br><em>{{ post.venue }}</em>
-        {% endif %}
-        <div class="pub-links">
-          {% if post.paperurl %}
-            <a href="{{ post.paperurl }}" target="_blank">📄 Paper</a>
-          {% endif %}
-          {% if post.doi %}
-            <a href="https://doi.org/{{ post.doi }}" target="_blank">🔗 DOI</a>
-          {% endif %}
-          {% if post.github %}
-            <a href="{{ post.github }}" target="_blank">💻 Code</a>
-          {% endif %}
-        </div>
-      </li>
-    {% endfor %}
-    {% if title_shown %}
-      </ul>
-    {% endif %}
+{% assign pubs = site.publications | sort: 'date' | reverse %}
+
+<div class="filter-bar" id="pub-filter">
+  <button type="button" data-filter="all" aria-pressed="true">All</button>
+  {% for category in site.publication_category %}
+    {% assign n = pubs | where: 'category', category[0] | size %}
+    {% if n > 0 %}<button type="button" data-filter="{{ category[0] }}" aria-pressed="false">{{ category[1].title }}</button>{% endif %}
   {% endfor %}
-{% else %}
-  <ul class="pub-list">
-  {% for post in site.publications reversed %}
-    <li>
-      <span class="pub-title"><a href="{{ base_path }}{{ post.url }}">{{ post.title }}</a></span>
-      {% if post.date %}
-        <span class="pub-meta">({{ post.date | date: "%Y" }})</span>
-      {% endif %}
-      {% if post.venue and post.venue != "" %}
-        <br><em>{{ post.venue }}</em>
-      {% endif %}
-      <div class="pub-links">
-        {% if post.paperurl %}
-          <a href="{{ post.paperurl }}" target="_blank">📄 Paper</a>
-        {% endif %}
-        {% if post.doi %}
-          <a href="https://doi.org/{{ post.doi }}" target="_blank">🔗 DOI</a>
-        {% endif %}
-        {% if post.github %}
-          <a href="{{ post.github }}" target="_blank">💻 Code</a>
-        {% endif %}
+  <span class="filter-bar__count" id="pub-count">{{ pubs | size }} items</span>
+</div>
+
+<ol class="pub-index" id="pub-list">
+  {% for post in pubs %}
+    <li class="pub-index__item" data-category="{{ post.category }}">
+      <span class="pub-index__year">{{ post.date | date: "%Y" }}</span>
+      <div class="pub-index__body">
+        <h3><a href="{{ base_path }}{{ post.url }}">{{ post.title }}</a></h3>
+        <p class="pub-index__meta">
+          {% if post.venue and post.venue != '' %}<em>{{ post.venue }}</em>{% endif %}
+          {% if post.category == 'working-papers' %}<span class="chip">Working paper</span>{% elsif post.category == 'manuscripts' %}<span class="chip">Published</span>{% elsif post.category %}<span class="chip">{{ post.category | replace: '-', ' ' }}</span>{% endif %}
+        </p>
+        <p class="pub-index__links">
+          {% if post.paperurl %}<a href="{{ post.paperurl }}">Paper</a>{% endif %}
+          {% if post.doi %}<a href="https://doi.org/{{ post.doi }}">DOI</a>{% endif %}
+          {% if post.github %}<a href="{{ post.github }}">Code</a>{% endif %}
+          <a href="{{ base_path }}{{ post.url }}">Details</a>
+        </p>
       </div>
     </li>
   {% endfor %}
-  </ul>
-{% endif %}
+</ol>
 
+<script>
+  (function () {
+    var bar = document.getElementById("pub-filter");
+    var items = Array.prototype.slice.call(document.querySelectorAll("#pub-list .pub-index__item"));
+    var count = document.getElementById("pub-count");
 
+    bar.addEventListener("click", function (e) {
+      var btn = e.target.closest("button[data-filter]");
+      if (!btn) return;
+      var filter = btn.getAttribute("data-filter");
 
+      bar.querySelectorAll("button").forEach(function (b) {
+        b.setAttribute("aria-pressed", b === btn ? "true" : "false");
+      });
+
+      var shown = 0;
+      items.forEach(function (li) {
+        var match = filter === "all" || li.getAttribute("data-category") === filter;
+        li.hidden = !match;
+        if (match) shown++;
+      });
+      count.textContent = shown + (shown === 1 ? " item" : " items");
+    });
+  })();
+</script>

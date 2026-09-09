@@ -1,0 +1,181 @@
+---
+layout: default
+---
+
+{% include base_path %}
+
+<main id="main" class="home" role="main">
+
+  <!-- ---------------------------------------------------------------- hero -->
+  <section class="hero">
+    <div class="hero__text">
+      <span class="eyebrow">{{ page.eyebrow }}</span>
+      <h1 class="hero__name">{{ site.author.name }}</h1>
+      <p class="hero__role">{{ page.role }}</p>
+      <p class="hero__lede">{{ page.lede }}</p>
+
+      <div class="hero__actions">
+        <a class="btn" href="{{ base_path }}/publications/">Read the research</a>
+        <a class="btn btn--ghost" href="{{ base_path }}/files/CV_FINAL.pdf">Download CV</a>
+        <a class="btn btn--ghost" href="mailto:{{ site.author.email }}">Get in touch</a>
+      </div>
+
+      <ul class="hero__links">
+        {% if site.author.orcid %}<li><a href="{{ site.author.orcid }}"><i class="ai ai-orcid" aria-hidden="true"></i> ORCID</a></li>{% endif %}
+        {% if site.author.github %}<li><a href="https://github.com/{{ site.author.github }}"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a></li>{% endif %}
+        {% if site.author.linkedin %}<li><a href="https://www.linkedin.com/in/{{ site.author.linkedin }}"><i class="fab fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>{% endif %}
+        <li><a href="mailto:{{ site.author.email }}"><i class="fas fa-envelope" aria-hidden="true"></i> {{ site.author.email }}</a></li>
+      </ul>
+    </div>
+
+    <figure class="hero__portrait">
+      <img src="{{ base_path }}/images/profile.jpg" alt="{{ site.author.name }}" fetchpriority="high">
+    </figure>
+  </section>
+
+  <!-- --------------------------------------------------------- credentials -->
+  {% if page.facts %}
+  <ul class="fact-strip">
+    {% for fact in page.facts %}
+      <li>
+        <span class="fact-strip__label">{{ fact.label }}</span>
+        <span class="fact-strip__value">{{ fact.value }}</span>
+      </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+  <!-- ---------------------------------------------------------------- about -->
+  <section class="section split split--about">
+    <div class="split__aside">
+      <span class="eyebrow">About</span>
+    </div>
+    <div class="split__prose page__content">
+      {{ content }}
+    </div>
+  </section>
+
+  <!-- ------------------------------------------------------------- research -->
+  {% if page.research %}
+  <section class="section">
+    <div class="rule-heading">
+      <h2>Research</h2>
+      <a class="rule-heading__link" href="{{ base_path }}/publications/">All publications &rarr;</a>
+    </div>
+
+    <div class="card-grid card-grid--four">
+      {% for area in page.research %}
+        <article class="card">
+          <span class="eyebrow">{{ forloop.index | prepend: '0' }}</span>
+          <h3>{{ area.title }}</h3>
+          <p>{{ area.body }}</p>
+        </article>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- ------------------------------------------------- selected publications -->
+  <section class="section">
+    <div class="rule-heading">
+      <h2>Selected work</h2>
+      <a class="rule-heading__link" href="{{ base_path }}/publications/">Everything &rarr;</a>
+    </div>
+
+    <ol class="pub-index">
+      {% assign pubs = site.publications | sort: 'date' | reverse %}
+      {% for post in pubs limit: 4 %}
+        <li class="pub-index__item">
+          <span class="pub-index__year">{{ post.date | date: "%Y" }}</span>
+          <div class="pub-index__body">
+            <h3><a href="{{ base_path }}{{ post.url }}">{{ post.title }}</a></h3>
+            <p class="pub-index__meta">
+              {% if post.venue and post.venue != '' %}<em>{{ post.venue }}</em>{% endif %}
+              {% if post.category == 'working-papers' %}<span class="chip">Working paper</span>{% elsif post.venue == '' %}<span class="chip">Preprint</span>{% endif %}
+            </p>
+            <p class="pub-index__links">
+              {% if post.paperurl %}<a href="{{ post.paperurl }}">Paper</a>{% endif %}
+              {% if post.doi %}<a href="https://doi.org/{{ post.doi }}">DOI</a>{% endif %}
+              {% if post.github %}<a href="{{ post.github }}">Code</a>{% endif %}
+            </p>
+          </div>
+        </li>
+      {% endfor %}
+    </ol>
+  </section>
+
+  <!-- ------------------------------------------------------------- teaching -->
+  <section class="section">
+    <div class="rule-heading">
+      <h2>Teaching now</h2>
+      <a class="rule-heading__link" href="{{ base_path }}/teaching/">All courses &rarr;</a>
+    </div>
+
+    <div class="course-list">
+      {% assign courses = site.teaching | where_exp: "c", "c.archived != true" | sort: 'date' | reverse %}
+      {% if courses.size == 0 %}{% assign courses = site.teaching | sort: 'date' | reverse %}{% endif %}
+      {% for course in courses limit: 2 %}
+        <a class="course-card" href="{{ base_path }}{{ course.url }}">
+          <div class="course-card__main">
+            <span class="eyebrow">{{ course.term | default: course.date | date: "%B %Y" }}</span>
+            <h3>{{ course.title }}</h3>
+            {% if course.description %}<p class="course-card__desc">{{ course.description }}</p>{% endif %}
+          </div>
+          <div class="course-card__side">
+            <p class="course-card__meta">{{ course.type }}<br>{{ course.venue }}</p>
+            <span class="course-card__cta">Course page &rarr;</span>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------------------- talks -->
+  {% if site.talks.size > 0 %}
+  <section class="section">
+    <div class="rule-heading">
+      <h2>Recent talks</h2>
+      <a class="rule-heading__link" href="{{ base_path }}/talks/">All talks &rarr;</a>
+    </div>
+
+    <ol class="pub-index">
+      {% assign talks = site.talks | sort: 'date' | reverse %}
+      {% for talk in talks limit: 3 %}
+        <li class="pub-index__item">
+          <span class="pub-index__year">{{ talk.date | date: "%b %Y" }}</span>
+          <div class="pub-index__body">
+            <h3><a href="{{ base_path }}{{ talk.url }}">{{ talk.title }}</a></h3>
+            <p class="pub-index__meta"><em>{{ talk.venue }}</em>{% if talk.location %} &middot; {{ talk.location }}{% endif %}</p>
+          </div>
+        </li>
+      {% endfor %}
+    </ol>
+  </section>
+  {% endif %}
+
+  <!-- ------------------------------------------------------------- off duty -->
+  <section class="section split">
+    <div class="split__pane">
+      <span class="eyebrow">Off duty</span>
+      <h2>Poetry</h2>
+      <p>{{ site.poems.size }} poems in Azerbaijani — originals and answers to Nesimi, Rumi and Alovsat Salda.</p>
+      <a class="btn btn--ghost" href="{{ base_path }}/poems/">Read the poems</a>
+    </div>
+    <div class="split__pane">
+      <span class="eyebrow">Elsewhere</span>
+      <h2>Photographs</h2>
+      <p>Pictures from Vannes, Prague and Baku — the places the work happened in.</p>
+      <a class="btn btn--ghost" href="{{ base_path }}/photos/">See the photos</a>
+    </div>
+  </section>
+
+  <!-- -------------------------------------------------------------- contact -->
+  <section class="contact-band">
+    <div>
+      <h2>Working on something statistical?</h2>
+      <p>Happy to talk about volatility modelling, telecom data, or supervising a thesis.</p>
+    </div>
+    <a class="btn" href="mailto:{{ site.author.email }}">{{ site.author.email }}</a>
+  </section>
+
+</main>

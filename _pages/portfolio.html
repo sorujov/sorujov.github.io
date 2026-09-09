@@ -1,14 +1,20 @@
 ---
 layout: archive
-title: "Portfolio"
+title: "Projects"
+lead: "Applied and computational work that sits alongside the papers."
 permalink: /portfolio/
-author_profile: true
+author_profile: false
+raw_body: true
 ---
 
 {% include base_path %}
 
-
-{% for post in site.portfolio %}
-  {% include archive-single.html %}
-{% endfor %}
-
+<div class="card-grid">
+  {% for post in site.portfolio %}
+    <a class="card card--link" href="{{ base_path }}{{ post.url }}">
+      <h3>{{ post.title }}</h3>
+      {% if post.excerpt %}<p>{{ post.excerpt | strip_html | truncate: 170 }}</p>{% endif %}
+      <span class="card__cta">Read more &rarr;</span>
+    </a>
+  {% endfor %}
+</div>

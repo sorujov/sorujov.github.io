@@ -1,58 +1,36 @@
 ---
+layout: home
 permalink: /
-title: "Welcome to Samir Orujov's Academic Portfolio"
-author_profile: true
-redirect_from: 
+title: "Samir Orujov"
+eyebrow: "Baku, Azerbaijan"
+role: "Assistant Professor of Mathematics and Statistics, ADA University · Head of the Statistics Unit, ICTA"
+lede: "I build statistical methods for data that misbehaves — volatile financial series, heavy-tailed distributions, national telecom measurements — and I teach the theory behind them."
+author_profile: false
+redirect_from:
   - /about/
   - /about.html
+facts:
+  - label: "Ph.D. Applied Mathematics"
+    value: "University of Southern Brittany, 2024"
+  - label: "M.Sc. Economics"
+    value: "CERGE-EI, Prague"
+  - label: "Teaching at ADA University"
+    value: "Since 2019"
+  - label: "Regulatory statistics"
+    value: "ICTA, Azerbaijan"
+research:
+  - title: "Conditional volatility"
+    body: "GARCH-type models for financial time series, and variable selection inside them — the log-TGARCHX family and its estimation."
+  - title: "Nonparametric inference"
+    body: "Anti-modes, distributional gaps and the Fisher information profile: estimating where a density thins out, and testing whether the gap is real."
+  - title: "Income distributions"
+    body: "Glass barriers — thresholds in earnings distributions that are crossed far less often than a smooth model would predict."
+  - title: "Telecom and broadband policy"
+    body: "Demand elasticity, measurement bias and quality-of-service statistics built from national Speedtest data."
 ---
 
-About Me
-======
-I am an Assistant Professor of Mathematics and Statistics at ADA University in Baku, Azerbaijan, specializing in time series analysis, econometrics, and machine learning. My research focuses on developing advanced statistical methods and their applications to real-world problems, with particular emphasis on economic and financial data analysis.
+I am an Assistant Professor of Mathematics and Statistics at ADA University's School of Business, and I head the Statistics Unit at Azerbaijan's Information and Communication Technologies Agency. The two roles feed each other: the regulator supplies messy, high-frequency data at national scale, and the university supplies the time to work out what can honestly be inferred from it.
 
-## Research Interests
-- **Time Series Analysis**: Developing advanced models for temporal data patterns
-- **Econometrics**: Statistical methods for economic data analysis
-- **Machine Learning**: Applying ML techniques to statistical problems
-- **Financial Statistics**: Statistical modeling for financial markets
-- **Computational Statistics**: Python and R programming for statistical analysis
+My doctorate, completed at the University of Southern Brittany in 2024, dealt with statistical methods for conditional volatility modelling in finance. Before that I read economics at CERGE-EI in Prague, and law in Berlin and Baku — a route into statistics that still shapes how I think about evidence and regulation.
 
-## Current Research Focus
-My work involves bridging the gap between theoretical statistics and practical applications. I'm particularly interested in:
-
-- **GARCH Models**: Developing extensions to volatility modeling
-- **Machine Learning in Finance**: Applying modern ML techniques to financial time series
-- **Statistical Software Development**: Creating tools for practical statistical analysis
-- **Educational Technology**: Developing interactive learning materials for statistics education
-
-## Teaching & Education
-I am passionate about making complex statistical concepts accessible and engaging for students. My teaching philosophy emphasizes both theoretical understanding and practical implementation using modern computational tools.
-
-### Interactive Course Materials
-I develop interactive lecture presentations that combine mathematical theory with hands-on calculations, visualizations, and real-time examples. Currently offering:
-
-- **Mathematical Statistics**: Interactive lectures covering probability foundations, distributions, and inference
-- **Applied Econometrics**: Practical approaches to economic data analysis
-- **Time Series Analysis**: From basic concepts to advanced modeling techniques
-
-## Academic Background
-- **Current Position**: Assistant Professor, ADA University (2022-present)
-- **Specialization**: Mathematics and Statistics with focus on time series and econometrics
-- **Location**: Baku, Azerbaijan
-
-## Technical Expertise
-- **Programming Languages**: Python, R, MATLAB
-- **Statistical Software**: Stata, EViews, SPSS
-- **Web Technologies**: HTML/CSS/JavaScript for educational content
-- **Tools**: Git, LaTeX, Jupyter Notebooks
-
-## Contact Information
-- **Email**: [sorujov@ada.edu.az](mailto:sorujov@ada.edu.az)
-- **Institution**: ADA University, School of Business
-- **GitHub**: [sorujov](https://github.com/sorujov)
-- **Website**: [https://sorujov.net](https://sorujov.net)
-
----
-
-*This portfolio showcases my research, teaching materials, and contributions to the field of statistics and econometrics. Feel free to explore my interactive lectures, publications, and ongoing projects.*
+I work mainly in Python and R, teach mathematical statistics with interactive lecture material, and write occasional poetry in Azerbaijani.

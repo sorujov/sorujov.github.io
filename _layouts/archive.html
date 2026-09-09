@@ -18,7 +18,10 @@ layout: default
   <div class="archive">
     {% unless page.header.overlay_color or page.header.overlay_image %}
       <h1 class="page__title">{{ page.title }}</h1>
+      {% if page.lead %}<p class="page__lead">{{ page.lead }}</p>{% endif %}
     {% endunless %}
-    {{ content }}
+    <div class="archive__body{% unless page.raw_body %} page__content{% endunless %}">
+      {{ content }}
+    </div>
   </div>
 </div>

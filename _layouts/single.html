@@ -35,42 +35,45 @@ layout: default
         {% endif %}
         
         {% if page.collection == 'teaching' %}
-          <p> {{ page.type }}, <i>{{ page.venue }}</i>, {{ page.date | default: "1900-01-01" | date: "%Y" }} </p>
+          <p class="entry-meta">{{ page.type }} &middot; <i>{{ page.venue }}</i> &middot; {{ page.term | default: page.date | date: "%Y" }}</p>
+        {% elsif page.collection == 'publications' %}
+          <p class="entry-meta">{% if page.venue and page.venue != '' %}<i>{{ page.venue }}</i> &middot; {% endif %}{{ page.date | default: "1900-01-01" | date: "%Y" }}</p>
         {% elsif page.venue and page.date %}
-          <p>Published in <i>{{ page.venue }}</i>, {{ page.date | default: "1900-01-01" | date: "%Y" }} </p>
+          <p class="entry-meta">Published in <i>{{ page.venue }}</i>, {{ page.date | default: "1900-01-01" | date: "%Y" }}</p>
         {% elsif page.date %}
           <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> {{ site.data.ui-text[site.locale].date_label | default: "Published:" }}</strong> <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | default: "1900-01-01" | date: "%B %d, %Y" }}</time></p>
         {% endif %}    
         </header>
       {% endunless %}
 
+      {% if page.archived %}
+        <div class="archive-notice">
+          <strong>Archived course.</strong> This page documents {{ page.term | default: "a past" }}{% unless page.term %} semester{% endunless %} and is kept for reference.
+          {% assign live = site.teaching | where: "current", true | sort: "date" | last %}
+          {% if live %}The course running now is <a href="{{ base_path }}{{ live.url }}">{{ live.title }}, {{ live.term }}</a>.{% endif %}
+        </div>
+      {% endif %}
+
       <section class="page__content" itemprop="text">
         {{ content }}
 
-        {% if page.citation and page.paperurl and page.slidesurl and page.bibtexurl %}
-          <p style="font-size: smaller">Recommended citation: {{ page.citation }}<br /><a href="{{ page.paperurl }}">Download Paper</a> | <a href="{{ page.slidesurl }}">Download Slides</a> | <a href="{{ page.bibtexurl }}">Download Bibtex</a></p>
-        {% elsif page.citation and page.paperurl and page.slidesurl %}
-          <p style="font-size: smaller">Recommended citation: {{ page.citation }}<br /><a href="{{ page.paperurl }}">Download Paper</a> | <a href="{{ page.slidesurl }}">Download Slides</a></p>
-        {% elsif page.citation and page.paperurl and page.bibtexurl %}
-          <p style="font-size: smaller">Recommended citation: {{ page.citation }}<br /><a href="{{ page.paperurl }}">Download Paper</a> | <a href="{{ page.bibtexurl }}">Download Bibtex</a></p>
-        {% elsif page.citation and page.paperurl %}
-          <p style="font-size: smaller">Recommended citation: {{ page.citation }}<br /><a href="{{ page.paperurl }}">Download Paper</a></p>
-        {% elsif page.citation and page.slidesurl and page.bibtexurl %}
-          <p style="font-size: smaller">Recommended citation: {{ page.citation }}<br /><a href="{{ page.slidesurl }}">Download Slides</a> | <a href="{{ page.bibtexurl }}">Download Bibtex</a></p>
-        {% elsif page.citation and page.slidesurl %}
-          <p style="font-size: smaller">Recommended citation: {{ page.citation }}<br /><a href="{{ page.slidesurl }}">Download Slides</a></p>
-        {% elsif page.slidesurl and page.bibtexurl %}
-          <p style="font-size: smaller"><a href="{{ page.slidesurl }}">Download Slides</a> | <a href="{{ page.bibtexurl }}">Download Bibtex</a></p>
-        {% elsif page.paperurl and page.bibtexurl %}
-          <p style="font-size: smaller"><a href="{{ page.paperurl }}">Download Paper</a> | <a href="{{ page.bibtexurl }}">Download Bibtex</a></p>
-        {% elsif page.citation and page.bibtexurl %}
-          <p style="font-size: smaller">Recommended citation: {{ page.citation }}<br /><a href="{{ page.bibtexurl }}">Download Bibtex</a></p>
-        {% elsif page.citation %}
-          <p style="font-size: smaller">Recommended citation: {{ page.citation }}</p>
-        {% elsif page.slidesurl %}
-          <p style="font-size: smaller"><a href="{{ page.slidesurl }}">Download Slides</a></p>
-        {% elsif page.bibtexurl %}
-          <p style="font-size: smaller"><a href="{{ page.bibtexurl }}">Download Bibtex</a></p>
+        {% assign junk_citation = false %}
+        {% if page.citation contains 'Citation information from ORCID' %}{% assign junk_citation = true %}{% endif %}
+
+        {% if page.paperurl or page.slidesurl or page.bibtexurl or page.doi or page.github or page.citation %}
+          <div class="citation-box">
+            {% if page.citation and junk_citation == false %}
+              <strong>Recommended citation</strong>
+              <p>{{ page.citation }}</p>
+            {% endif %}
+            <div class="citation-box__links">
+              {% if page.paperurl %}<a class="btn btn--ghost" href="{{ page.paperurl }}">Read the paper</a>{% endif %}
+              {% if page.doi %}<a class="btn btn--ghost" href="https://doi.org/{{ page.doi }}">DOI</a>{% endif %}
+              {% if page.slidesurl %}<a class="btn btn--ghost" href="{{ page.slidesurl }}">Slides</a>{% endif %}
+              {% if page.bibtexurl %}<a class="btn btn--ghost" href="{{ page.bibtexurl }}">BibTeX</a>{% endif %}
+              {% if page.github %}<a class="btn btn--ghost" href="{{ page.github }}">Code</a>{% endif %}
+            </div>
+          </div>
         {% endif %}
 
         {% if page.link %}<div><a href="{{ page.link }}" class="btn">{{ site.data.ui-text[site.locale].ext_link_label | default: "Direct Link" }}</a></div>{% endif %}
@@ -84,6 +87,12 @@ layout: default
       </footer>
 
       {% if page.share %}{% include social-share.html %}{% endif %}
+
+      {% if page.collection == 'publications' %}<a class="back-link" href="{{ base_path }}/publications/">&larr; All publications</a>
+      {% elsif page.collection == 'teaching' %}<a class="back-link" href="{{ base_path }}/teaching/">&larr; All courses</a>
+      {% elsif page.collection == 'talks' %}<a class="back-link" href="{{ base_path }}/talks/">&larr; All talks</a>
+      {% elsif page.collection == 'poems' %}<a class="back-link" href="{{ base_path }}/poems/">&larr; All poems</a>
+      {% endif %}
 
       {% include post_pagination.html %}
     </div>

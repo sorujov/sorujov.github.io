@@ -1,6 +1,6 @@
 ---
 title: "VS-LTGARCHX Research Project"
-excerpt: "Development of advanced time series modeling framework for financial econometrics<br/><img src='/images/time-series-500x300.jpg'>"
+excerpt: "Development of advanced time series modeling framework for financial econometrics"
 collection: portfolio
 ---
 
