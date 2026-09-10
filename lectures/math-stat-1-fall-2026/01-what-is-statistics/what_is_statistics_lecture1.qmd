@@ -388,15 +388,17 @@ sample = {
 }
 
 Plot.plot({
-  width: 1050,
-  height: 310,
-  marginLeft: 60,
-  marginBottom: 50,
+  width: 1150,
+  height: 330,
+  marginLeft: 78,
+  marginBottom: 58,
+  // Plot's default is 10px, which is unreadable on a projector.
+  style: {fontSize: "18px"},
   x: {label: "Daily return (%)"},
   y: {label: "Relative frequency", tickFormat: ".2f"},
   marks: [
     Plot.rectY(sample, Plot.binX(
-      {y: (bin, all) => bin.length / all.length},
+      {y: "proportion"},
       {x: d => d, thresholds: n_bins, fill: "#8b2635", fillOpacity: 0.85}
     )),
     Plot.ruleY([0])
@@ -475,9 +477,15 @@ returns <- 0.05 + 0.75 * rt(1250, df = 4)
 
 k        <- ceiling(sqrt(length(returns)))   # a defensible starting choice
 breaks   <- pretty(range(returns), n = k)
-rel_freq <- table(cut(returns, breaks)) / length(returns)
+counts   <- table(cut(returns, breaks))
+rel_freq <- counts / length(returns)
 
-round(head(rel_freq, 8), 3)
+# The outermost classes hold a handful of observations each, so print the
+# part of the table that carries the mass: the classes around the mode.
+centre <- which.max(counts)
+data.frame(class     = names(counts),
+           frequency = as.integer(counts),
+           rel_freq  = round(as.numeric(rel_freq), 3))[(centre - 3):(centre + 3), ]
 ```
 
 ---

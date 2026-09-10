@@ -344,7 +344,10 @@ data2 = {
   const out = [];
   for (let i = 0; i < 2000; i++) {
     if (dist_shape === "mound-shaped") out.push(0.05 + 1.2 * norm2());
-    else if (dist_shape === "skewed right") out.push(Math.exp(0.35 * norm2()) - 1);
+    // Scaled to s ~ 1.2, the same spread as the mound-shaped case. Unscaled
+    // this lognormal has s ~ 0.37, and on the fixed +/-8% axis it collapsed to
+    // a spike -- the one shape whose skew the slide exists to show.
+    else if (dist_shape === "skewed right") out.push(2.3 * (Math.exp(0.45 * norm2()) - 1));
     else out.push(1.2 * norm2() * (rng2() < 0.06 ? 4 : 1));
   }
   return out;
@@ -362,14 +365,17 @@ stats = {
 md`**Mean** ${stats.mean.toFixed(2)}%  ·  **s** ${stats.sd.toFixed(2)}%  ·  **Actually inside** ${(100 * stats.inside).toFixed(1)}%  ·  **Tchebysheff guarantees at least** ${(100 * stats.bound).toFixed(1)}%`
 
 Plot.plot({
-  width: 1050,
+  width: 1150,
   height: 330,
-  marginLeft: 60,
+  marginLeft: 78,
+  marginBottom: 58,
+  // Plot's default is 10px, which is unreadable on a projector.
+  style: {fontSize: "18px"},
   x: {label: "Daily return (%)", domain: [-8, 8]},
   y: {label: "Relative frequency", tickFormat: ".2f"},
   marks: [
     Plot.rectY(data2, Plot.binX(
-      {y: (bin, all) => bin.length / all.length},
+      {y: "proportion"},
       {x: d => d, thresholds: 60, fill: d => Math.abs(d - stats.mean) <= k_sd * stats.sd ? "#8b2635" : "#cbb8a9"}
     )),
     Plot.ruleX([stats.mean - k_sd * stats.sd, stats.mean + k_sd * stats.sd],

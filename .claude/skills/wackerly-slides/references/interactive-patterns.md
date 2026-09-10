@@ -142,6 +142,28 @@ OJS runs in the browser, so students can drag a slider during the lecture.
 Use it where the *shape* of a change is the lesson (sample size, a rate
 parameter, the number of histogram classes) — not where a single number is.
 
+### An OJS deck must be opened over HTTP
+
+Quarto compiles this guard into every deck that contains an OJS cell:
+
+```js
+if (window.location.protocol === "file:") { alert("The OJS runtime does not
+work with file:// URLs. Please use a web server to view this document."); }
+```
+
+Two consequences, and both have cost time already:
+
+1. **In class, do not double-click the `.html`.** Over `file://` the sliders
+   are inert and the plots never draw — you get a modal alert and a dead
+   slide. Present from `quarto preview`, from `python -m http.server` in the
+   repository root, or from the published site.
+2. **Nothing headless can drive such a deck over `file://`.** An `alert()`
+   blocks the renderer's main thread for good, so `--print-to-pdf`,
+   `--virtual-time-budget`, `?print-pdf` and bare CDP `Runtime.evaluate` all
+   hang and the renderer is eventually killed. `scripts/qa_slides.py` starts
+   its own loopback server for exactly this reason. Do not spend time
+   re-diagnosing it as "OJS keeps the event loop busy" — it is a dialog.
+
 ```{ojs}
 //| echo: false
 viewof n = Inputs.range([5, 200], {step: 1, value: 30, label: "Sample size n"})
@@ -164,10 +186,90 @@ Plot.plot({
 })
 ```
 
-Rules learned the hard way:
+### The binX reducer trap
 
-- **Height 320 or less.** The canvas is 720px tall; a heading, a slider and a
-  380px plot overflow, and reveal.js clips silently rather than scrolling.
+Lecture 1 shipped this, and it is worth understanding because it fails
+*silently and convincingly*:
+
+```js
+// WRONG — every bar drawn full height, y-axis showing only 0.00
+Plot.rectY(sample, Plot.binX(
+  {y: (bin, all) => bin.length / all.length},
+  {x: d => d, thresholds: n_bins}
+))
+```
+
+A custom reducer passed as a function is called as `f(data, extent)`. The
+second argument is that bin's `{x1, x2}` extent — **not** the whole dataset.
+So `all.length` is `undefined`, every `y` is `NaN`, the y-scale collapses, and
+Plot draws a row of identical full-height bars with a single `0.00` tick. It
+looks like a rendered chart, so nothing downstream complains.
+
+Use the built-in reducer, which is what it is for:
+
+```js
+// RIGHT
+Plot.rectY(sample, Plot.binX(
+  {y: "proportion"},                  // count in bin / total count
+  {x: d => d, thresholds: n_bins}
+))
+```
+
+`"count"`, `"proportion"` and `"proportion-facet"` cover nearly every histogram
+you will want. Reach for a custom reducer only when none of them fit, and then
+write it as `{reduce(index, values, extent) {...}}` so the arguments are
+explicit.
+
+**A histogram whose bars are all the same height is broken, not uniform.**
+Check it in the QA images.
+
+### A fixed axis domain needs comparable spreads
+
+An explorable that switches between generated shapes usually pins the axis —
+`x: {domain: [-8, 8]}` — so the picture does not jump when the student moves a
+slider. That is right, but it makes the generators' *scales* part of the
+design.
+
+Lecture 2 shipped this trio:
+
+```js
+if (shape === "mound-shaped")      out.push(0.05 + 1.2 * norm());   // s ~ 1.2
+else if (shape === "skewed right") out.push(Math.exp(0.35*norm())-1); // s ~ 0.37
+else                               out.push(1.2*norm()*(rng()<0.06?4:1)); // s ~ 1.7
+```
+
+On a fixed ±8 axis the skewed case occupied about a tenth of the width — a
+narrow spike with no visible tail, on the one slide whose whole purpose was to
+show what right skew does to coverage. Every automated check passed: the data
+were real, the axis was real, the bars varied in height.
+
+Scale each generator to roughly the same standard deviation:
+
+```js
+else if (shape === "skewed right") out.push(2.3 * (Math.exp(0.45*norm()) - 1)); // s ~ 1.2
+```
+
+The rule: **if the axis is fixed, the shapes must be comparable in spread.**
+Otherwise let the domain follow the data and accept the jump. Either way this
+is visible only in the QA images — check every setting of the control, not
+just the one the slide loads with.
+
+### Sizing and inputs
+
+- **Observable Inputs need their own font size.** `slide-fit.scss` sets the root
+  to 46px, and the Inputs label column is a fixed 120px. "Sample size n:" wraps
+  to three lines at that size and shoves the plot off the canvas. The stylesheet
+  now scales those controls down and widens the label column; if you build
+  inputs some other way, check them in the QA images.
+
+- **Set `style: {fontSize: "18px"}` on every `Plot.plot`.** Plot's default is
+  10px. It is fine on a laptop and invisible from the back of a lecture
+  theatre, and because the chart is drawn correctly nothing else complains.
+  Widen `marginLeft`/`marginBottom` to about 78/58 to fit the larger ticks.
+
+- **Height 330 or less, width up to 1150.** The canvas is 720px tall and the
+  content box 1152px wide; a heading, three controls and a 380px plot
+  overflow, and reveal.js clips silently rather than scrolling.
 - `viewof` is what makes it interactive. OJS cells with no `viewof` are just a
   slower way to draw a static chart — use R for those.
 - OJS cells are reactive and order-independent, but keep the definition above
