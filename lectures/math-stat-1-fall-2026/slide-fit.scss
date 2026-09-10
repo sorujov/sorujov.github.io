@@ -1,0 +1,62 @@
+/*-- scss:defaults --*/
+
+// Quarto's revealjs default is 40px on the 1280x720 canvas. These decks are
+// written sparse -- a heading plus a callout, or six short bullets -- so at the
+// default size a typical slide used only the top third of the canvas. Raising
+// the root scales every relative size with it (headings, callouts, lists) and
+// keeps the deck above the 30pt floor set out in SLIDE_OPTIMIZATION_SKILL.md.
+//
+// Raise this further only after re-checking the dense slides for overflow; see
+// the note at the bottom of this file for how.
+$presentation-font-size-root: 46px;
+
+/*-- scss:rules --*/
+
+// Vertical fit.
+//
+// Quarto ships `center: false` and pairs it with `.reveal .slide:not(.center)
+// { height: 100% }`. Every slide therefore already fills the canvas, which
+// makes reveal's own `center: true` option a no-op -- it computes a top offset
+// of (canvasHeight - slideHeight) / 2 = 0 and content stays pinned to the top
+// with the whole surplus collected at the bottom.
+//
+// Centring has to happen *inside* the full-height section instead. Flex column
+// + justify-content leaves the horizontal axis alone, so columns, r-stretch
+// figures and OJS panels lay out exactly as before.
+// `!important` is load-bearing: reveal.js drives slide visibility by setting
+// `display: block` on the section it is showing, so a plain declaration here
+// loses and the slide silently falls back to top-aligned block layout.
+.reveal .slides > section.slide:not(#title-slide) {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+}
+
+// A slide long enough to overflow must scroll from its own top rather than
+// stay centred, otherwise the first line is clipped above the canvas edge.
+.reveal .slides > section.slide.scrollable {
+  justify-content: flex-start;
+}
+
+// Slides carrying live controls, a fixed-height plot or a quiz option list have
+// no slack to give. They were already over the canvas at the old 40px root
+// (lecture 1 slide 16 by 31px, slide 20 by 26px), and a larger root only widens
+// that gap -- a Plot.plot height is a fixed pixel count and does not shrink with
+// the type around it. Hold these back near the old size and let the prose
+// slides, the ones that were actually empty, absorb the increase.
+// 0.61em of the 46px root lands at ~28px, which is what Quarto's own `.smaller`
+// produced against the old 40px root. These slides therefore end up the size
+// they always were, while the plot trim below buys back the overflow they had
+// even then. Overriding `.smaller` rather than leaving it alone is deliberate:
+// left to itself it would compute against the larger root and grow by ~21%.
+.reveal .slides > section.slide.smaller,
+.reveal .slides > section.slide.quiz-question {
+  font-size: 0.61em;
+}
+
+// To audit for overflow after changing the root size, open a deck and run:
+//   [...document.querySelectorAll('.reveal .slides > section.slide')]
+//     .filter(s => s.scrollHeight > s.clientHeight + 1)
+//     .map(s => s.querySelector('h2')?.textContent)
+// Anything listed needs splitting into two slides, per the skill's Step 0 --
+// shrinking the text back down is the wrong lever.

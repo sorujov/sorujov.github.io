@@ -6,8 +6,8 @@
 <script src="what_is_statistics_lecture1_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="what_is_statistics_lecture1_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="what_is_statistics_lecture1_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="what_is_statistics_lecture1_files/libs/quarto-html/quarto-syntax-highlighting-673ef696772ae3f5d735fbdc0f05a12f.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.6.43">
+<link href="what_is_statistics_lecture1_files/libs/quarto-html/quarto-syntax-highlighting-12757e4b7af482b2d9c5bd8860d2b707.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Samir Orujov, PhD">
   <meta name="dcterms.date" content="2026-09-10">
@@ -18,10 +18,16 @@
   <link rel="stylesheet" href="what_is_statistics_lecture1_files/libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="what_is_statistics_lecture1_files/libs/revealjs/dist/reveal.css">
   <style>
-    code{white-space: pre-wrap;}
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     span.smallcaps{font-variant: small-caps;}
-    div.columns{display: flex; gap: min(4vw, 1.5em);}
-    div.column{flex: auto; overflow-x: auto;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
     ul.task-list li input[type="checkbox"] {
@@ -30,8 +36,9 @@
       vertical-align: middle;
     }
     /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
     .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -42,7 +49,7 @@
     }
     @media print {
     pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
     }
     pre.numberSource code
       { counter-reset: source-line 0; }
@@ -93,7 +100,7 @@
     code span.vs { color: #4e9a06; } /* VerbatimString */
     code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="what_is_statistics_lecture1_files/libs/revealjs/dist/theme/quarto-e95ba6ce43e8df275e13c7422d9529ae.css">
+  <link rel="stylesheet" href="what_is_statistics_lecture1_files/libs/revealjs/dist/theme/quarto-b249b50956bf048482d008ad06bcc532.css">
   <link href="what_is_statistics_lecture1_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="what_is_statistics_lecture1_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="what_is_statistics_lecture1_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -202,7 +209,7 @@
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-Samir Orujov, PhD 
+Samir Orujov, PhD
 </div>
         <p class="quarto-title-affiliation">
             ADA University, School of Business
@@ -525,27 +532,27 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="sourceCode cell-code hidden" id="cb1" data-startfrom="332" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 331;"><span id="cb1-332"><a href=""></a>viewof n_obs <span class="op">=</span> {</span>
-<span id="cb1-333"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">20</span><span class="op">,</span> <span class="dv">1000</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">200</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="dv">20</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Sample size n:"</span>})<span class="op">;</span></span>
-<span id="cb1-334"><a href=""></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
-<span id="cb1-335"><a href=""></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
-<span id="cb1-336"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
-<span id="cb1-337"><a href=""></a>}</span>
-<span id="cb1-338"><a href=""></a></span>
-<span id="cb1-339"><a href=""></a>viewof n_bins <span class="op">=</span> {</span>
-<span id="cb1-340"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">3</span><span class="op">,</span> <span class="dv">40</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">12</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Number of classes k:"</span>})<span class="op">;</span></span>
-<span id="cb1-341"><a href=""></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
-<span id="cb1-342"><a href=""></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
-<span id="cb1-343"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
-<span id="cb1-344"><a href=""></a>}</span>
-<span id="cb1-345"><a href=""></a></span>
-<span id="cb1-346"><a href=""></a>viewof shape <span class="op">=</span> {</span>
-<span id="cb1-347"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>([<span class="st">"mound-shaped"</span><span class="op">,</span> <span class="st">"skewed right"</span><span class="op">,</span> <span class="st">"heavy-tailed"</span>]<span class="op">,</span></span>
-<span id="cb1-348"><a href=""></a>    {<span class="dt">value</span><span class="op">:</span> <span class="st">"mound-shaped"</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Population shape:"</span>})<span class="op">;</span></span>
-<span id="cb1-349"><a href=""></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
-<span id="cb1-350"><a href=""></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
-<span id="cb1-351"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
-<span id="cb1-352"><a href=""></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="332" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 331;"><span id="cb1-332"><a href="" aria-label="332"></a>viewof n_obs <span class="op">=</span> {</span>
+<span id="cb1-333"><a href="" aria-label="333"></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">20</span><span class="op">,</span> <span class="dv">1000</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">200</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="dv">20</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Sample size n:"</span>})<span class="op">;</span></span>
+<span id="cb1-334"><a href="" aria-label="334"></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
+<span id="cb1-335"><a href="" aria-label="335"></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
+<span id="cb1-336"><a href="" aria-label="336"></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb1-337"><a href="" aria-label="337"></a>}</span>
+<span id="cb1-338"><a href="" aria-label="338"></a></span>
+<span id="cb1-339"><a href="" aria-label="339"></a>viewof n_bins <span class="op">=</span> {</span>
+<span id="cb1-340"><a href="" aria-label="340"></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">3</span><span class="op">,</span> <span class="dv">40</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">12</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Number of classes k:"</span>})<span class="op">;</span></span>
+<span id="cb1-341"><a href="" aria-label="341"></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
+<span id="cb1-342"><a href="" aria-label="342"></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
+<span id="cb1-343"><a href="" aria-label="343"></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb1-344"><a href="" aria-label="344"></a>}</span>
+<span id="cb1-345"><a href="" aria-label="345"></a></span>
+<span id="cb1-346"><a href="" aria-label="346"></a>viewof shape <span class="op">=</span> {</span>
+<span id="cb1-347"><a href="" aria-label="347"></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>([<span class="st">"mound-shaped"</span><span class="op">,</span> <span class="st">"skewed right"</span><span class="op">,</span> <span class="st">"heavy-tailed"</span>]<span class="op">,</span></span>
+<span id="cb1-348"><a href="" aria-label="348"></a>    {<span class="dt">value</span><span class="op">:</span> <span class="st">"mound-shaped"</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Population shape:"</span>})<span class="op">;</span></span>
+<span id="cb1-349"><a href="" aria-label="349"></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
+<span id="cb1-350"><a href="" aria-label="350"></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
+<span id="cb1-351"><a href="" aria-label="351"></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb1-352"><a href="" aria-label="352"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -572,41 +579,41 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="sourceCode cell-code hidden" id="cb2" data-startfrom="359" data-source-offset="-75"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 358;"><span id="cb2-359"><a href=""></a>rng <span class="op">=</span> {</span>
-<span id="cb2-360"><a href=""></a>  <span class="kw">let</span> s <span class="op">=</span> <span class="dv">42</span><span class="op">;</span></span>
-<span id="cb2-361"><a href=""></a>  <span class="cf">return</span> () <span class="kw">=&gt;</span> (s <span class="op">=</span> (s <span class="op">*</span> <span class="dv">1103515245</span> <span class="op">+</span> <span class="dv">12345</span>) <span class="op">%</span> <span class="dv">2147483648</span>) <span class="op">/</span> <span class="dv">2147483648</span><span class="op">;</span></span>
-<span id="cb2-362"><a href=""></a>}</span>
-<span id="cb2-363"><a href=""></a></span>
-<span id="cb2-364"><a href=""></a>normal <span class="op">=</span> () <span class="kw">=&gt;</span> {</span>
-<span id="cb2-365"><a href=""></a>  <span class="kw">const</span> u <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="fu">rng</span>()<span class="op">,</span> <span class="fl">1e-12</span>)<span class="op">,</span> v <span class="op">=</span> <span class="fu">rng</span>()<span class="op">;</span></span>
-<span id="cb2-366"><a href=""></a>  <span class="cf">return</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(<span class="op">-</span><span class="dv">2</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(u)) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">cos</span>(<span class="dv">2</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">*</span> v)<span class="op">;</span></span>
-<span id="cb2-367"><a href=""></a>}</span>
-<span id="cb2-368"><a href=""></a></span>
-<span id="cb2-369"><a href=""></a>sample <span class="op">=</span> {</span>
-<span id="cb2-370"><a href=""></a>  <span class="kw">const</span> out <span class="op">=</span> []<span class="op">;</span></span>
-<span id="cb2-371"><a href=""></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n_obs<span class="op">;</span> i<span class="op">++</span>) {</span>
-<span id="cb2-372"><a href=""></a>    <span class="cf">if</span> (shape <span class="op">===</span> <span class="st">"mound-shaped"</span>) out<span class="op">.</span><span class="fu">push</span>(<span class="fl">0.05</span> <span class="op">+</span> <span class="fl">1.2</span> <span class="op">*</span> <span class="fu">normal</span>())<span class="op">;</span></span>
-<span id="cb2-373"><a href=""></a>    <span class="cf">else</span> <span class="cf">if</span> (shape <span class="op">===</span> <span class="st">"skewed right"</span>) out<span class="op">.</span><span class="fu">push</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(<span class="fl">0.35</span> <span class="op">*</span> <span class="fu">normal</span>()) <span class="op">-</span> <span class="dv">1</span>)<span class="op">;</span></span>
-<span id="cb2-374"><a href=""></a>    <span class="cf">else</span> out<span class="op">.</span><span class="fu">push</span>(<span class="fl">1.2</span> <span class="op">*</span> <span class="fu">normal</span>() <span class="op">*</span> (<span class="fu">rng</span>() <span class="op">&lt;</span> <span class="fl">0.06</span> <span class="op">?</span> <span class="dv">4</span> <span class="op">:</span> <span class="dv">1</span>))<span class="op">;</span></span>
-<span id="cb2-375"><a href=""></a>  }</span>
-<span id="cb2-376"><a href=""></a>  <span class="cf">return</span> out<span class="op">;</span></span>
-<span id="cb2-377"><a href=""></a>}</span>
-<span id="cb2-378"><a href=""></a></span>
-<span id="cb2-379"><a href=""></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
-<span id="cb2-380"><a href=""></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">1050</span><span class="op">,</span></span>
-<span id="cb2-381"><a href=""></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">380</span><span class="op">,</span></span>
-<span id="cb2-382"><a href=""></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">60</span><span class="op">,</span></span>
-<span id="cb2-383"><a href=""></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
-<span id="cb2-384"><a href=""></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Daily return (%)"</span>}<span class="op">,</span></span>
-<span id="cb2-385"><a href=""></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Relative frequency"</span><span class="op">,</span> <span class="dt">tickFormat</span><span class="op">:</span> <span class="st">".2f"</span>}<span class="op">,</span></span>
-<span id="cb2-386"><a href=""></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
-<span id="cb2-387"><a href=""></a>    Plot<span class="op">.</span><span class="fu">rectY</span>(sample<span class="op">,</span> Plot<span class="op">.</span><span class="fu">binX</span>(</span>
-<span id="cb2-388"><a href=""></a>      {<span class="dt">y</span><span class="op">:</span> (bin<span class="op">,</span> all) <span class="kw">=&gt;</span> bin<span class="op">.</span><span class="at">length</span> <span class="op">/</span> all<span class="op">.</span><span class="at">length</span>}<span class="op">,</span></span>
-<span id="cb2-389"><a href=""></a>      {<span class="dt">x</span><span class="op">:</span> d <span class="kw">=&gt;</span> d<span class="op">,</span> <span class="dt">thresholds</span><span class="op">:</span> n_bins<span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#8b2635"</span><span class="op">,</span> <span class="dt">fillOpacity</span><span class="op">:</span> <span class="fl">0.85</span>}</span>
-<span id="cb2-390"><a href=""></a>    ))<span class="op">,</span></span>
-<span id="cb2-391"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
-<span id="cb2-392"><a href=""></a>  ]</span>
-<span id="cb2-393"><a href=""></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="359" data-source-offset="-75"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 358;"><span id="cb2-359"><a href="" aria-label="359"></a>rng <span class="op">=</span> {</span>
+<span id="cb2-360"><a href="" aria-label="360"></a>  <span class="kw">let</span> s <span class="op">=</span> <span class="dv">42</span><span class="op">;</span></span>
+<span id="cb2-361"><a href="" aria-label="361"></a>  <span class="cf">return</span> () <span class="kw">=&gt;</span> (s <span class="op">=</span> (s <span class="op">*</span> <span class="dv">1103515245</span> <span class="op">+</span> <span class="dv">12345</span>) <span class="op">%</span> <span class="dv">2147483648</span>) <span class="op">/</span> <span class="dv">2147483648</span><span class="op">;</span></span>
+<span id="cb2-362"><a href="" aria-label="362"></a>}</span>
+<span id="cb2-363"><a href="" aria-label="363"></a></span>
+<span id="cb2-364"><a href="" aria-label="364"></a>normal <span class="op">=</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb2-365"><a href="" aria-label="365"></a>  <span class="kw">const</span> u <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="fu">rng</span>()<span class="op">,</span> <span class="fl">1e-12</span>)<span class="op">,</span> v <span class="op">=</span> <span class="fu">rng</span>()<span class="op">;</span></span>
+<span id="cb2-366"><a href="" aria-label="366"></a>  <span class="cf">return</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(<span class="op">-</span><span class="dv">2</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(u)) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">cos</span>(<span class="dv">2</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">*</span> v)<span class="op">;</span></span>
+<span id="cb2-367"><a href="" aria-label="367"></a>}</span>
+<span id="cb2-368"><a href="" aria-label="368"></a></span>
+<span id="cb2-369"><a href="" aria-label="369"></a>sample <span class="op">=</span> {</span>
+<span id="cb2-370"><a href="" aria-label="370"></a>  <span class="kw">const</span> out <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb2-371"><a href="" aria-label="371"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n_obs<span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb2-372"><a href="" aria-label="372"></a>    <span class="cf">if</span> (shape <span class="op">===</span> <span class="st">"mound-shaped"</span>) out<span class="op">.</span><span class="fu">push</span>(<span class="fl">0.05</span> <span class="op">+</span> <span class="fl">1.2</span> <span class="op">*</span> <span class="fu">normal</span>())<span class="op">;</span></span>
+<span id="cb2-373"><a href="" aria-label="373"></a>    <span class="cf">else</span> <span class="cf">if</span> (shape <span class="op">===</span> <span class="st">"skewed right"</span>) out<span class="op">.</span><span class="fu">push</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(<span class="fl">0.35</span> <span class="op">*</span> <span class="fu">normal</span>()) <span class="op">-</span> <span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb2-374"><a href="" aria-label="374"></a>    <span class="cf">else</span> out<span class="op">.</span><span class="fu">push</span>(<span class="fl">1.2</span> <span class="op">*</span> <span class="fu">normal</span>() <span class="op">*</span> (<span class="fu">rng</span>() <span class="op">&lt;</span> <span class="fl">0.06</span> <span class="op">?</span> <span class="dv">4</span> <span class="op">:</span> <span class="dv">1</span>))<span class="op">;</span></span>
+<span id="cb2-375"><a href="" aria-label="375"></a>  }</span>
+<span id="cb2-376"><a href="" aria-label="376"></a>  <span class="cf">return</span> out<span class="op">;</span></span>
+<span id="cb2-377"><a href="" aria-label="377"></a>}</span>
+<span id="cb2-378"><a href="" aria-label="378"></a></span>
+<span id="cb2-379"><a href="" aria-label="379"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb2-380"><a href="" aria-label="380"></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">1050</span><span class="op">,</span></span>
+<span id="cb2-381"><a href="" aria-label="381"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">310</span><span class="op">,</span></span>
+<span id="cb2-382"><a href="" aria-label="382"></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">60</span><span class="op">,</span></span>
+<span id="cb2-383"><a href="" aria-label="383"></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
+<span id="cb2-384"><a href="" aria-label="384"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Daily return (%)"</span>}<span class="op">,</span></span>
+<span id="cb2-385"><a href="" aria-label="385"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Relative frequency"</span><span class="op">,</span> <span class="dt">tickFormat</span><span class="op">:</span> <span class="st">".2f"</span>}<span class="op">,</span></span>
+<span id="cb2-386"><a href="" aria-label="386"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb2-387"><a href="" aria-label="387"></a>    Plot<span class="op">.</span><span class="fu">rectY</span>(sample<span class="op">,</span> Plot<span class="op">.</span><span class="fu">binX</span>(</span>
+<span id="cb2-388"><a href="" aria-label="388"></a>      {<span class="dt">y</span><span class="op">:</span> (bin<span class="op">,</span> all) <span class="kw">=&gt;</span> bin<span class="op">.</span><span class="at">length</span> <span class="op">/</span> all<span class="op">.</span><span class="at">length</span>}<span class="op">,</span></span>
+<span id="cb2-389"><a href="" aria-label="389"></a>      {<span class="dt">x</span><span class="op">:</span> d <span class="kw">=&gt;</span> d<span class="op">,</span> <span class="dt">thresholds</span><span class="op">:</span> n_bins<span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#8b2635"</span><span class="op">,</span> <span class="dt">fillOpacity</span><span class="op">:</span> <span class="fl">0.85</span>}</span>
+<span id="cb2-390"><a href="" aria-label="390"></a>    ))<span class="op">,</span></span>
+<span id="cb2-391"><a href="" aria-label="391"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
+<span id="cb2-392"><a href="" aria-label="392"></a>  ]</span>
+<span id="cb2-393"><a href="" aria-label="393"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -667,25 +674,25 @@ Samir Orujov, PhD
 <h2>💰 Case Study: Descriptive Analysis of Real Returns</h2>
 <div style="font-size: 28px">
 <p>Run this in R to repeat today’s construction on live market data.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">library</span>(quantmod)</span>
-<span id="cb3-2"><a href=""></a></span>
-<span id="cb3-3"><a href=""></a><span class="co"># Download five years of daily prices</span></span>
-<span id="cb3-4"><a href=""></a><span class="fu">getSymbols</span>(<span class="st">"^GSPC"</span>, <span class="at">src =</span> <span class="st">"yahoo"</span>, <span class="at">from =</span> <span class="st">"2021-01-01"</span>, <span class="at">auto.assign =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb3-5"><a href=""></a></span>
-<span id="cb3-6"><a href=""></a>prices  <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">Cl</span>(GSPC))</span>
-<span id="cb3-7"><a href=""></a>returns <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">diff</span>(<span class="fu">log</span>(prices))          <span class="co"># daily log returns, in per cent</span></span>
-<span id="cb3-8"><a href=""></a></span>
-<span id="cb3-9"><a href=""></a><span class="co"># 1. The frequency distribution</span></span>
-<span id="cb3-10"><a href=""></a>k        <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(<span class="fu">sqrt</span>(<span class="fu">length</span>(returns)))  <span class="co"># a defensible starting choice</span></span>
-<span id="cb3-11"><a href=""></a>breaks   <span class="ot">&lt;-</span> <span class="fu">pretty</span>(<span class="fu">range</span>(returns), <span class="at">n =</span> k)</span>
-<span id="cb3-12"><a href=""></a>tab      <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="fu">cut</span>(returns, breaks))</span>
-<span id="cb3-13"><a href=""></a>rel_freq <span class="ot">&lt;-</span> tab <span class="sc">/</span> <span class="fu">length</span>(returns)</span>
-<span id="cb3-14"><a href=""></a></span>
-<span id="cb3-15"><a href=""></a><span class="fu">round</span>(rel_freq, <span class="dv">3</span>)</span>
-<span id="cb3-16"><a href=""></a></span>
-<span id="cb3-17"><a href=""></a><span class="co"># 2. The relative frequency histogram</span></span>
-<span id="cb3-18"><a href=""></a><span class="fu">hist</span>(returns, <span class="at">breaks =</span> breaks, <span class="at">freq =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb3-19"><a href=""></a>     <span class="at">main =</span> <span class="st">"S&amp;P 500 daily returns"</span>, <span class="at">xlab =</span> <span class="st">"Return (%)"</span>, <span class="at">col =</span> <span class="st">"grey85"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-label="1"></a><span class="fu">library</span>(quantmod)</span>
+<span id="cb3-2"><a href="" aria-label="2"></a></span>
+<span id="cb3-3"><a href="" aria-label="3"></a><span class="co"># Download five years of daily prices</span></span>
+<span id="cb3-4"><a href="" aria-label="4"></a><span class="fu">getSymbols</span>(<span class="st">"^GSPC"</span>, <span class="at">src =</span> <span class="st">"yahoo"</span>, <span class="at">from =</span> <span class="st">"2021-01-01"</span>, <span class="at">auto.assign =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-5"><a href="" aria-label="5"></a></span>
+<span id="cb3-6"><a href="" aria-label="6"></a>prices  <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">Cl</span>(GSPC))</span>
+<span id="cb3-7"><a href="" aria-label="7"></a>returns <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">diff</span>(<span class="fu">log</span>(prices))          <span class="co"># daily log returns, in per cent</span></span>
+<span id="cb3-8"><a href="" aria-label="8"></a></span>
+<span id="cb3-9"><a href="" aria-label="9"></a><span class="co"># 1. The frequency distribution</span></span>
+<span id="cb3-10"><a href="" aria-label="10"></a>k        <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(<span class="fu">sqrt</span>(<span class="fu">length</span>(returns)))  <span class="co"># a defensible starting choice</span></span>
+<span id="cb3-11"><a href="" aria-label="11"></a>breaks   <span class="ot">&lt;-</span> <span class="fu">pretty</span>(<span class="fu">range</span>(returns), <span class="at">n =</span> k)</span>
+<span id="cb3-12"><a href="" aria-label="12"></a>tab      <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="fu">cut</span>(returns, breaks))</span>
+<span id="cb3-13"><a href="" aria-label="13"></a>rel_freq <span class="ot">&lt;-</span> tab <span class="sc">/</span> <span class="fu">length</span>(returns)</span>
+<span id="cb3-14"><a href="" aria-label="14"></a></span>
+<span id="cb3-15"><a href="" aria-label="15"></a><span class="fu">round</span>(rel_freq, <span class="dv">3</span>)</span>
+<span id="cb3-16"><a href="" aria-label="16"></a></span>
+<span id="cb3-17"><a href="" aria-label="17"></a><span class="co"># 2. The relative frequency histogram</span></span>
+<span id="cb3-18"><a href="" aria-label="18"></a><span class="fu">hist</span>(returns, <span class="at">breaks =</span> breaks, <span class="at">freq =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb3-19"><a href="" aria-label="19"></a>     <span class="at">main =</span> <span class="st">"S&amp;P 500 daily returns"</span>, <span class="at">xlab =</span> <span class="st">"Return (%)"</span>, <span class="at">col =</span> <span class="st">"grey85"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Ask of the output:</strong> where is the centre, how wide is the spread, and how much mass sits beyond ±3%?</p>
 </div>
 </section>
@@ -957,7 +964,7 @@ Samir Orujov, PhD
         margin: 0.1,
 
         math: {
-          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
           config: 'TeX-AMS_HTML-full',
           tex2jax: {
             inlineMath: [['\\(','\\)']],
@@ -984,7 +991,7 @@ Samir Orujov, PhD
       });
     </script>
     <script type="ojs-module-contents">
-    eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6Ilxudmlld29mIG5fb2JzID0ge1xuICBjb25zdCBpbnB1dCA9IElucHV0cy5yYW5nZShbMjAsIDEwMDBdLCB7dmFsdWU6IDIwMCwgc3RlcDogMjAsIGxhYmVsOiBcIlNhbXBsZSBzaXplIG46XCJ9KTtcbiAgWydwb2ludGVyZG93bicsJ3RvdWNoc3RhcnQnLCdtb3VzZWRvd24nLCdjbGljaycsJ3doZWVsJywncG9pbnRlcm1vdmUnLCd0b3VjaG1vdmUnXVxuICAgIC5mb3JFYWNoKGUgPT4gaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcihlLCBldiA9PiBldi5zdG9wUHJvcGFnYXRpb24oKSkpO1xuICByZXR1cm4gaW5wdXQ7XG59XG5cbnZpZXdvZiBuX2JpbnMgPSB7XG4gIGNvbnN0IGlucHV0ID0gSW5wdXRzLnJhbmdlKFszLCA0MF0sIHt2YWx1ZTogMTIsIHN0ZXA6IDEsIGxhYmVsOiBcIk51bWJlciBvZiBjbGFzc2VzIGs6XCJ9KTtcbiAgWydwb2ludGVyZG93bicsJ3RvdWNoc3RhcnQnLCdtb3VzZWRvd24nLCdjbGljaycsJ3doZWVsJywncG9pbnRlcm1vdmUnLCd0b3VjaG1vdmUnXVxuICAgIC5mb3JFYWNoKGUgPT4gaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcihlLCBldiA9PiBldi5zdG9wUHJvcGFnYXRpb24oKSkpO1xuICByZXR1cm4gaW5wdXQ7XG59XG5cbnZpZXdvZiBzaGFwZSA9IHtcbiAgY29uc3QgaW5wdXQgPSBJbnB1dHMuc2VsZWN0KFtcIm1vdW5kLXNoYXBlZFwiLCBcInNrZXdlZCByaWdodFwiLCBcImhlYXZ5LXRhaWxlZFwiXSxcbiAgICB7dmFsdWU6IFwibW91bmQtc2hhcGVkXCIsIGxhYmVsOiBcIlBvcHVsYXRpb24gc2hhcGU6XCJ9KTtcbiAgWydwb2ludGVyZG93bicsJ3RvdWNoc3RhcnQnLCdtb3VzZWRvd24nLCdjbGljaycsJ3doZWVsJywncG9pbnRlcm1vdmUnLCd0b3VjaG1vdmUnXVxuICAgIC5mb3JFYWNoKGUgPT4gaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcihlLCBldiA9PiBldi5zdG9wUHJvcGFnYXRpb24oKSkpO1xuICByZXR1cm4gaW5wdXQ7XG59XG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTIiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJcbi8vIGRldGVybWluaXN0aWMgZ2VuZXJhdG9yLCBzbyB0aGUgY2xhc3Mgc2VlcyB0aGUgc2FtZSBwaWN0dXJlIGV2ZXJ5IHRpbWVcbnJuZyA9IHtcbiAgbGV0IHMgPSA0MjtcbiAgcmV0dXJuICgpID0+IChzID0gKHMgKiAxMTAzNTE1MjQ1ICsgMTIzNDUpICUgMjE0NzQ4MzY0OCkgLyAyMTQ3NDgzNjQ4O1xufVxuXG5ub3JtYWwgPSAoKSA9PiB7XG4gIGNvbnN0IHUgPSBNYXRoLm1heChybmcoKSwgMWUtMTIpLCB2ID0gcm5nKCk7XG4gIHJldHVybiBNYXRoLnNxcnQoLTIgKiBNYXRoLmxvZyh1KSkgKiBNYXRoLmNvcygyICogTWF0aC5QSSAqIHYpO1xufVxuXG5zYW1wbGUgPSB7XG4gIGNvbnN0IG91dCA9IFtdO1xuICBmb3IgKGxldCBpID0gMDsgaSA8IG5fb2JzOyBpKyspIHtcbiAgICBpZiAoc2hhcGUgPT09IFwibW91bmQtc2hhcGVkXCIpIG91dC5wdXNoKDAuMDUgKyAxLjIgKiBub3JtYWwoKSk7XG4gICAgZWxzZSBpZiAoc2hhcGUgPT09IFwic2tld2VkIHJpZ2h0XCIpIG91dC5wdXNoKE1hdGguZXhwKDAuMzUgKiBub3JtYWwoKSkgLSAxKTtcbiAgICBlbHNlIG91dC5wdXNoKDEuMiAqIG5vcm1hbCgpICogKHJuZygpIDwgMC4wNiA/IDQgOiAxKSk7XG4gIH1cbiAgcmV0dXJuIG91dDtcbn1cblxuUGxvdC5wbG90KHtcbiAgd2lkdGg6IDEwNTAsXG4gIGhlaWdodDogMzgwLFxuICBtYXJnaW5MZWZ0OiA2MCxcbiAgbWFyZ2luQm90dG9tOiA1MCxcbiAgeDoge2xhYmVsOiBcIkRhaWx5IHJldHVybiAoJSlcIn0sXG4gIHk6IHtsYWJlbDogXCJSZWxhdGl2ZSBmcmVxdWVuY3lcIiwgdGlja0Zvcm1hdDogXCIuMmZcIn0sXG4gIG1hcmtzOiBbXG4gICAgUGxvdC5yZWN0WShzYW1wbGUsIFBsb3QuYmluWChcbiAgICAgIHt5OiAoYmluLCBhbGwpID0+IGJpbi5sZW5ndGggLyBhbGwubGVuZ3RofSxcbiAgICAgIHt4OiBkID0+IGQsIHRocmVzaG9sZHM6IG5fYmlucywgZmlsbDogXCIjOGIyNjM1XCIsIGZpbGxPcGFjaXR5OiAwLjg1fVxuICAgICkpLFxuICAgIFBsb3QucnVsZVkoWzBdKVxuICBdXG59KVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCduX29icycpIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCduX2JpbnMnKSJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgnc2hhcGUnKSJ9XX0=
+    eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6Ilxudmlld29mIG5fb2JzID0ge1xuICBjb25zdCBpbnB1dCA9IElucHV0cy5yYW5nZShbMjAsIDEwMDBdLCB7dmFsdWU6IDIwMCwgc3RlcDogMjAsIGxhYmVsOiBcIlNhbXBsZSBzaXplIG46XCJ9KTtcbiAgWydwb2ludGVyZG93bicsJ3RvdWNoc3RhcnQnLCdtb3VzZWRvd24nLCdjbGljaycsJ3doZWVsJywncG9pbnRlcm1vdmUnLCd0b3VjaG1vdmUnXVxuICAgIC5mb3JFYWNoKGUgPT4gaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcihlLCBldiA9PiBldi5zdG9wUHJvcGFnYXRpb24oKSkpO1xuICByZXR1cm4gaW5wdXQ7XG59XG5cbnZpZXdvZiBuX2JpbnMgPSB7XG4gIGNvbnN0IGlucHV0ID0gSW5wdXRzLnJhbmdlKFszLCA0MF0sIHt2YWx1ZTogMTIsIHN0ZXA6IDEsIGxhYmVsOiBcIk51bWJlciBvZiBjbGFzc2VzIGs6XCJ9KTtcbiAgWydwb2ludGVyZG93bicsJ3RvdWNoc3RhcnQnLCdtb3VzZWRvd24nLCdjbGljaycsJ3doZWVsJywncG9pbnRlcm1vdmUnLCd0b3VjaG1vdmUnXVxuICAgIC5mb3JFYWNoKGUgPT4gaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcihlLCBldiA9PiBldi5zdG9wUHJvcGFnYXRpb24oKSkpO1xuICByZXR1cm4gaW5wdXQ7XG59XG5cbnZpZXdvZiBzaGFwZSA9IHtcbiAgY29uc3QgaW5wdXQgPSBJbnB1dHMuc2VsZWN0KFtcIm1vdW5kLXNoYXBlZFwiLCBcInNrZXdlZCByaWdodFwiLCBcImhlYXZ5LXRhaWxlZFwiXSxcbiAgICB7dmFsdWU6IFwibW91bmQtc2hhcGVkXCIsIGxhYmVsOiBcIlBvcHVsYXRpb24gc2hhcGU6XCJ9KTtcbiAgWydwb2ludGVyZG93bicsJ3RvdWNoc3RhcnQnLCdtb3VzZWRvd24nLCdjbGljaycsJ3doZWVsJywncG9pbnRlcm1vdmUnLCd0b3VjaG1vdmUnXVxuICAgIC5mb3JFYWNoKGUgPT4gaW5wdXQuYWRkRXZlbnRMaXN0ZW5lcihlLCBldiA9PiBldi5zdG9wUHJvcGFnYXRpb24oKSkpO1xuICByZXR1cm4gaW5wdXQ7XG59XG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTIiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJcbi8vIGRldGVybWluaXN0aWMgZ2VuZXJhdG9yLCBzbyB0aGUgY2xhc3Mgc2VlcyB0aGUgc2FtZSBwaWN0dXJlIGV2ZXJ5IHRpbWVcbnJuZyA9IHtcbiAgbGV0IHMgPSA0MjtcbiAgcmV0dXJuICgpID0+IChzID0gKHMgKiAxMTAzNTE1MjQ1ICsgMTIzNDUpICUgMjE0NzQ4MzY0OCkgLyAyMTQ3NDgzNjQ4O1xufVxuXG5ub3JtYWwgPSAoKSA9PiB7XG4gIGNvbnN0IHUgPSBNYXRoLm1heChybmcoKSwgMWUtMTIpLCB2ID0gcm5nKCk7XG4gIHJldHVybiBNYXRoLnNxcnQoLTIgKiBNYXRoLmxvZyh1KSkgKiBNYXRoLmNvcygyICogTWF0aC5QSSAqIHYpO1xufVxuXG5zYW1wbGUgPSB7XG4gIGNvbnN0IG91dCA9IFtdO1xuICBmb3IgKGxldCBpID0gMDsgaSA8IG5fb2JzOyBpKyspIHtcbiAgICBpZiAoc2hhcGUgPT09IFwibW91bmQtc2hhcGVkXCIpIG91dC5wdXNoKDAuMDUgKyAxLjIgKiBub3JtYWwoKSk7XG4gICAgZWxzZSBpZiAoc2hhcGUgPT09IFwic2tld2VkIHJpZ2h0XCIpIG91dC5wdXNoKE1hdGguZXhwKDAuMzUgKiBub3JtYWwoKSkgLSAxKTtcbiAgICBlbHNlIG91dC5wdXNoKDEuMiAqIG5vcm1hbCgpICogKHJuZygpIDwgMC4wNiA/IDQgOiAxKSk7XG4gIH1cbiAgcmV0dXJuIG91dDtcbn1cblxuUGxvdC5wbG90KHtcbiAgd2lkdGg6IDEwNTAsXG4gIGhlaWdodDogMzEwLFxuICBtYXJnaW5MZWZ0OiA2MCxcbiAgbWFyZ2luQm90dG9tOiA1MCxcbiAgeDoge2xhYmVsOiBcIkRhaWx5IHJldHVybiAoJSlcIn0sXG4gIHk6IHtsYWJlbDogXCJSZWxhdGl2ZSBmcmVxdWVuY3lcIiwgdGlja0Zvcm1hdDogXCIuMmZcIn0sXG4gIG1hcmtzOiBbXG4gICAgUGxvdC5yZWN0WShzYW1wbGUsIFBsb3QuYmluWChcbiAgICAgIHt5OiAoYmluLCBhbGwpID0+IGJpbi5sZW5ndGggLyBhbGwubGVuZ3RofSxcbiAgICAgIHt4OiBkID0+IGQsIHRocmVzaG9sZHM6IG5fYmlucywgZmlsbDogXCIjOGIyNjM1XCIsIGZpbGxPcGFjaXR5OiAwLjg1fVxuICAgICkpLFxuICAgIFBsb3QucnVsZVkoWzBdKVxuICBdXG59KVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCduX29icycpIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCduX2JpbnMnKSJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgnc2hhcGUnKSJ9XX0=
     </script>
     <script type="module">
     if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
@@ -995,190 +1002,173 @@ Samir Orujov, PhD
     window._ojs.runtime.interpretFromScriptTags();
     </script>
     <script id="quarto-html-after-body" type="application/javascript">
-    window.document.addEventListener("DOMContentLoaded", function (event) {
-      const toggleBodyColorMode = (bsSheetEl) => {
-        const mode = bsSheetEl.getAttribute("data-mode");
-        const bodyEl = window.document.querySelector("body");
-        if (mode === "dark") {
-          bodyEl.classList.add("quarto-dark");
-          bodyEl.classList.remove("quarto-light");
-        } else {
-          bodyEl.classList.add("quarto-light");
-          bodyEl.classList.remove("quarto-dark");
-        }
-      }
-      const toggleBodyColorPrimary = () => {
-        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-        if (bsSheetEl) {
-          toggleBodyColorMode(bsSheetEl);
-        }
-      }
-      toggleBodyColorPrimary();  
-      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
-      tabsets.forEach(function(tabset) {
-        const tabby = new Tabby('#' + tabset.id);
-      });
-      const isCodeAnnotation = (el) => {
-        for (const clz of el.classList) {
-          if (clz.startsWith('code-annotation-')) {                     
-            return true;
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
           }
+          return false;
         }
-        return false;
-      }
-      const onCopySuccess = function(e) {
-        // button target
-        const button = e.trigger;
-        // don't keep focus
-        button.blur();
-        // flash "checked"
-        button.classList.add('code-copy-button-checked');
-        var currentTitle = button.getAttribute("title");
-        button.setAttribute("title", "Copied!");
-        let tooltip;
-        if (window.bootstrap) {
-          button.setAttribute("data-bs-toggle", "tooltip");
-          button.setAttribute("data-bs-placement", "left");
-          button.setAttribute("data-bs-title", "Copied!");
-          tooltip = new bootstrap.Tooltip(button, 
-            { trigger: "manual", 
-              customClass: "code-copy-button-tooltip",
-              offset: [0, -8]});
-          tooltip.show();    
-        }
-        setTimeout(function() {
-          if (tooltip) {
-            tooltip.hide();
-            button.removeAttribute("data-bs-title");
-            button.removeAttribute("data-bs-toggle");
-            button.removeAttribute("data-bs-placement");
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
           }
-          button.setAttribute("title", currentTitle);
-          button.classList.remove('code-copy-button-checked');
-        }, 1000);
-        // clear code selection
-        e.clearSelection();
-      }
-      const getTextToCopy = function(trigger) {
-          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
           for (const childEl of codeEl.children) {
             if (isCodeAnnotation(childEl)) {
               childEl.remove();
             }
           }
           return codeEl.innerText;
-      }
-      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-        text: getTextToCopy
-      });
-      clipboard.on('success', onCopySuccess);
-      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-          text: getTextToCopy,
-          container: window.document.getElementById('quarto-embedded-source-code-modal')
-        });
-        clipboardModal.on('success', onCopySuccess);
-      }
-        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-        var mailtoRegex = new RegExp(/^mailto:/);
-          var filterRegex = new RegExp('/' + window.location.host + '/');
-        var isInternal = (href) => {
-            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
         }
-        // Inspect non-navigation links and adorn them if external
-     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-        for (var i=0; i<links.length; i++) {
-          const link = links[i];
-          if (!isInternal(link.href)) {
-            // undo the damage that might have been done by quarto-nav.js in the case of
-            // links that we want to consider external
-            if (link.dataset.originalHref !== undefined) {
-              link.href = link.dataset.originalHref;
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
             }
           }
-        }
-      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-        const config = {
-          allowHTML: true,
-          maxWidth: 500,
-          delay: 100,
-          arrow: false,
-          appendTo: function(el) {
-              return el.closest('section.slide') || el.parentElement;
-          },
-          interactive: true,
-          interactiveBorder: 10,
-          theme: 'light-border',
-          placement: 'bottom-start',
-        };
-        if (contentFn) {
-          config.content = contentFn;
-        }
-        if (onTriggerFn) {
-          config.onTrigger = onTriggerFn;
-        }
-        if (onUntriggerFn) {
-          config.onUntrigger = onUntriggerFn;
-        }
-          config['offset'] = [0,0];
-          config['maxWidth'] = 700;
-        window.tippy(el, config); 
-      }
-      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-      for (var i=0; i<noterefs.length; i++) {
-        const ref = noterefs[i];
-        tippyHover(ref, function() {
-          // use id or data attribute instead here
-          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-          try { href = new URL(href).hash; } catch {}
-          const id = href.replace(/^#\/?/, "");
-          const note = window.document.getElementById(id);
-          if (note) {
-            return note.innerHTML;
-          } else {
-            return "";
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
           }
-        });
-      }
-      const findCites = (el) => {
-        const parentEl = el.parentElement;
-        if (parentEl) {
-          const cites = parentEl.dataset.cites;
-          if (cites) {
-            return {
-              el,
-              cites: cites.split(' ')
-            };
-          } else {
-            return findCites(el.parentElement)
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
           }
-        } else {
-          return undefined;
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
         }
-      };
-      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-      for (var i=0; i<bibliorefs.length; i++) {
-        const ref = bibliorefs[i];
-        const citeInfo = findCites(ref);
-        if (citeInfo) {
-          tippyHover(citeInfo.el, function() {
-            var popup = window.document.createElement('div');
-            citeInfo.cites.forEach(function(cite) {
-              var citeDiv = window.document.createElement('div');
-              citeDiv.classList.add('hanging-indent');
-              citeDiv.classList.add('csl-entry');
-              var biblioDiv = window.document.getElementById('ref-' + cite);
-              if (biblioDiv) {
-                citeDiv.innerHTML = biblioDiv.innerHTML;
-              }
-              popup.appendChild(citeDiv);
-            });
-            return popup.innerHTML;
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
           });
         }
-      }
-    });
-    </script>
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
     
 
 </body></html>

@@ -567,41 +567,48 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
 
   &__portrait {
     position: relative;
+    display: block;          /* the base theme makes every <figure> a flex container, which collapses the frame below to zero width */
     margin: 0;
     justify-self: end;
     width: 100%;
     max-width: 320px;
 
-    img {
-      display: block;
-      margin: 0;               /* the base theme adds a 1em bottom margin, which made the figure taller than the photo */
+    /* Clipping window. The photo is oversized inside it and pulled into place,
+       which crops the lectern out of the bottom and centres the face. The
+       accent border sits on this element so it wraps the photo exactly. */
+    &-frame {
       position: relative;
       z-index: 1;
-      width: 100%;
+      overflow: hidden;
+      box-sizing: border-box;
       aspect-ratio: 4 / 5;
-      object-fit: cover;
+      border: 1px solid var(--accent);
       border-radius: 3px;
-      filter: grayscale(12%) contrast(1.02);
       box-shadow: var(--shadow-lg);
     }
 
-    /* Offset backing block: the photo sits on top of it and covers two of its sides */
-    &::after {
-      content: "";
+    img {
+      display: block;
+      margin: 0;               /* the base theme adds a 1em bottom margin, which made the figure taller than the photo */
       position: absolute;
-      inset: 14px -14px -14px 14px;
-      background: var(--accent-tint);
-      border: 1px solid var(--accent);
-      border-radius: 3px;
-      z-index: 0;
+      top: 0;
+      /* Source is 721x793. These two values show the region x 90..571, y 0..600
+         of it: head with the little headroom the original allows, badge intact,
+         lectern gone, face on the vertical centre line. Widen the crop by
+         lowering `width` and raising `left` by half as much again. */
+      left: -18.8%;
+      width: 150%;
+      max-width: none;         /* the reset clamps every img to 100%, which would cancel the zoom above */
+      height: auto;
+      filter: grayscale(12%) contrast(1.02);
     }
+
   }
 }
 
 @media (max-width: 860px) {
   .hero { grid-template-columns: 1fr; gap: 2.5rem; padding-top: 2.5rem; }
   .hero__portrait { justify-self: start; max-width: 240px; order: -1; }
-  .hero__portrait::after { inset: 10px -10px -10px 10px; }
 }
 
 /* --------------------------------------------------------------------------
@@ -784,7 +791,6 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
 @media (max-width: 1000px) { .card-grid--four { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px)  { .card-grid--four { grid-template-columns: 1fr; } }
 
-.hero__portrait img { object-position: 50% 22%; }
 
 /* --------------------------------------------------------------------------
    Collection index pages
