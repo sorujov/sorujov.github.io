@@ -5,6 +5,15 @@ description: Convert Wackerly Mathematical Statistics textbook chapters into int
 
 # Wackerly to QMD Lecture Converter
 
+> **Superseded (10 September 2026).** Use the `wackerly-slides` skill in
+> `.claude/skills/wackerly-slides/` instead. It is keyed to the course plan
+> rather than to whole chapters, it verifies that R chunks actually executed,
+> and it carries the think-pair-share timer. The book has moved to
+> `local/books/wackerly-7e.pdf` (gitignored), so the paths below are stale.
+> Kept for the Spring 2026 Math Stat II decks that were built with it.
+
+
+
 Convert Wackerly's "Mathematical Statistics and Applications" (7th Edition) textbook chapters into interactive RevealJS lecture presentations.
 
 ## 🎓 Target Audience

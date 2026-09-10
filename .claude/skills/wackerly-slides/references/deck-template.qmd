@@ -1,0 +1,240 @@
+---
+title: "Mathematical Statistics I"
+subtitle: "SESSION TITLE — Wackerly §§X.Y–X.Z"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: [default, ../slide-fit.scss]
+    logo: ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    footer: "Mathematical Statistics I — SHORT TITLE"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+# knitr is named explicitly so engine selection cannot drift to jupyter and
+# quietly stop running the R chunks.
+engine: knitr
+execute:
+  echo: true        # students see the code that produced the number
+  warning: false
+  message: false
+  freeze: false
+knitr:
+  opts_chunk:
+    dev: png
+    dpi: 150
+    fig.align: center
+---
+
+```{r}
+#| label: setup
+#| include: false
+# One seed for the whole deck: every render produces the same numbers, so the
+# figures on the slides match what is said out loud about them.
+set.seed(2026)
+library(ggplot2)
+theme_set(theme_minimal(base_size = 18))
+```
+
+## 🎯 Learning Objectives
+
+::: {style="font-size: 34px"}
+By the end of this lecture, you will be able to:
+
+- **Verb** the first objective, in a financial or economic setting
+
+- **Verb** the second objective
+
+- **Verb** the third objective
+
+- **Verb** the fourth objective
+:::
+
+---
+
+## Motivating Question
+
+::: {.callout-important}
+## The question this lecture answers
+State the question in one sentence, in economic terms, before any notation.
+:::
+
+---
+
+## Definition {.smaller}
+
+::: {.callout-note}
+## Definition (Wackerly §X.Y)
+State the definition exactly as the book gives it, then restate it in one
+plain sentence.
+:::
+
+$$
+\text{display the notation here}
+$$
+
+---
+
+## Worked Example — Finance Context
+
+::: {style="font-size: 30px"}
+Set the scene in two lines: a portfolio, a default count, a waiting time.
+
+**Step 1.** What we know.
+
+**Step 2.** The calculation, done in full.
+
+**Step 3.** The answer, read back in economic terms.
+:::
+
+---
+
+## Computation in R
+
+```{r}
+#| label: worked-example
+# Executable: this runs at render time and its output appears below.
+returns <- rnorm(500, mean = 0.05, sd = 1.2)
+round(c(mean = mean(returns), sd = sd(returns)), 3)
+```
+
+---
+
+## The Picture
+
+```{r}
+#| label: worked-figure
+#| fig-height: 4.2
+#| fig-width: 9
+#| echo: false
+ggplot(data.frame(r = returns), aes(r)) +
+  geom_histogram(aes(y = after_stat(density)), bins = 30,
+                 fill = "grey85", colour = "white") +
+  labs(x = "Daily return (%)", y = "Relative frequency", title = NULL)
+```
+
+---
+
+## 🧠 Think–Pair–Share
+
+```{r}
+#| label: tps-timer
+#| echo: false
+# R-native timer. Renders to self-contained HTML/JS, so it runs offline in
+# the hall with no clicking away from the slide.
+countdown::countdown(
+  minutes = 3, seconds = 0,
+  top = 0, right = 0,
+  font_size = "2em",
+  warn_when = 30
+)
+```
+
+::: {style="font-size: 32px"}
+**Think** (1 min) — on your own, write down your answer to the question below.
+
+**Pair** (1 min) — compare with your neighbour; find where you disagree.
+
+**Share** (1 min) — one pair reports back.
+
+> Put the single discussion question here, phrased so that a wrong answer is
+> as interesting as a right one.
+:::
+
+---
+
+## Explore It
+
+```{ojs}
+//| echo: false
+viewof n = Inputs.range([5, 200], {step: 1, value: 30, label: "Sample size n"})
+```
+
+```{ojs}
+//| echo: false
+Plot.plot({
+  width: 1050,
+  height: 320,
+  marginLeft: 60,
+  x: {label: "Value"},
+  y: {label: "Density"},
+  marks: [
+    Plot.rectY(sample, Plot.binX({y: "proportion"}, {x: d => d, fill: "#8ba3c7"})),
+    Plot.ruleY([0])
+  ]
+})
+```
+
+```{ojs}
+//| echo: false
+sample = Array.from({length: n}, d3.randomNormal(0, 1))
+```
+
+---
+
+## Q1: Question text goes here {.quiz-question}
+
+- A distractor that a student could plausibly pick
+- [The correct option]{.correct data-explanation="Say why it is correct in one sentence, and why the tempting distractor is not."}
+- Another distractor
+- A fourth option
+
+---
+
+## Key Formulas
+
+::: {.callout-important}
+## Take these away
+$$\text{formula one}$$
+
+$$\text{formula two}$$
+:::
+
+---
+
+## Summary
+
+::: {style="font-size: 32px"}
+- The first thing we established
+
+- The second
+
+- What it sets up for next session
+:::
+
+---
+
+## Next Session
+
+::: {style="font-size: 32px"}
+**Reading:** Wackerly §§X.Y–X.Z
+
+**Problem Set N** closes DATE at 23:59.
+:::
