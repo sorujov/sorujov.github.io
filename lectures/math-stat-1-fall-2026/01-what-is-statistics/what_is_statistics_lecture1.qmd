@@ -38,6 +38,17 @@ format:
       includeScore: true
 revealjs-plugins:
   - quiz
+# Named explicitly so engine selection cannot drift away from R.
+engine: knitr
+execute:
+  echo: true
+  warning: false
+  message: false
+knitr:
+  opts_chunk:
+    dev: png
+    dpi: 150
+    fig.align: center
 ---
 
 ## 🎯 Learning Objectives
@@ -397,10 +408,18 @@ Plot.plot({
 
 ## 🧠 Think-Pair-Share
 
+```{r}
+#| label: tps-timer
+#| echo: false
+countdown::countdown(minutes = 3, seconds = 0,
+                     top = 0, right = 0,
+                     font_size = "2em", warn_when = 30)
+```
+
 ::: {style="font-size: 32px"}
 A colleague shows you a histogram of 500 daily returns built with **3 classes**. It looks perfectly symmetric, and he concludes the returns are normally distributed.
 
-**Two minutes, in pairs:**
+**Three minutes, in pairs:**
 
 1. What has his choice of classes hidden?
 
@@ -427,34 +446,57 @@ The moral: a histogram is a *claim*, and the number of classes is part of the cl
 
 ---
 
-## 💰 Case Study: Descriptive Analysis of Real Returns
+## 💰 Case Study: Getting the Data
 
 ::: {style="font-size: 28px"}
-Run this in R to repeat today's construction on live market data.
+On your own machine, this is how you would pull five years of real prices:
 
-```r
+```{.r .display-only}
 library(quantmod)
-
-# Download five years of daily prices
 getSymbols("^GSPC", src = "yahoo", from = "2021-01-01", auto.assign = TRUE)
-
-prices  <- as.numeric(Cl(GSPC))
-returns <- 100 * diff(log(prices))          # daily log returns, in per cent
-
-# 1. The frequency distribution
-k        <- ceiling(sqrt(length(returns)))  # a defensible starting choice
-breaks   <- pretty(range(returns), n = k)
-tab      <- table(cut(returns, breaks))
-rel_freq <- tab / length(returns)
-
-round(rel_freq, 3)
-
-# 2. The relative frequency histogram
-hist(returns, breaks = breaks, freq = FALSE,
-     main = "S&P 500 daily returns", xlab = "Return (%)", col = "grey85")
+returns <- 100 * diff(log(as.numeric(Cl(GSPC))))   # daily log returns, %
 ```
 
-**Ask of the output:** where is the centre, how wide is the spread, and how much mass sits beyond ±3%?
+We will not run it here: it needs a live connection, and the numbers would
+change between one lecture and the next. Instead we use a **simulated sample
+of 1,250 daily returns**, drawn to match the S&P 500's centre and spread.
+:::
+
+---
+
+## 💰 The Frequency Distribution
+
+```{r}
+#| label: case-study-freq
+set.seed(2026)
+# Five years of daily returns, in per cent. The t distribution gives the
+# heavy tails that real returns have and a normal sample would not.
+returns <- 0.05 + 0.75 * rt(1250, df = 4)
+
+k        <- ceiling(sqrt(length(returns)))   # a defensible starting choice
+breaks   <- pretty(range(returns), n = k)
+rel_freq <- table(cut(returns, breaks)) / length(returns)
+
+round(head(rel_freq, 8), 3)
+```
+
+---
+
+## 💰 The Relative Frequency Histogram
+
+```{r}
+#| label: case-study-hist
+#| fig-height: 4
+#| fig-width: 9
+#| echo: false
+hist(returns, breaks = breaks, freq = FALSE,
+     main = NULL, xlab = "Daily return (%)", ylab = "Density",
+     col = "grey85", border = "white")
+```
+
+::: {style="font-size: 28px"}
+**Ask of the output:** where is the centre, how wide is the spread, and how
+much mass sits beyond ±3%?
 :::
 
 ---
@@ -549,3 +591,4 @@ Read §§1.4 – 1.6. We will replace the picture with three numbers, and then a
 
 - Can a histogram ever be *wrong*, or only misleading?
 :::
+

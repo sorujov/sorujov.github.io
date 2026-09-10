@@ -33,20 +33,35 @@ class Report:
         self.notes.append(msg)
 
 
+def executable_chunks(qmd_text):
+    """Bodies of chunks that actually run, so checks can ignore display blocks."""
+    return re.findall(r"^```\{(?:r|python|ojs)[^}]*\}\s*\n(.*?)^```",
+                      qmd_text, re.MULTILINE | re.DOTALL)
+
+
 def check_dead_code_fences(qmd_text, rep):
-    """```r is a picture of code; ```{r} is code. Same for python and ojs."""
+    """```r is a picture of code; ```{r} is code. Same for python and ojs.
+
+    Showing code without running it is sometimes deliberate -- "here is how you
+    would download the real data" next to a chunk that runs on a reproducible
+    sample. Mark those ```{.r .display-only} and they are left alone; anything
+    else that looks executable but is not gets flagged.
+    """
     for lang in ("r", "python", "ojs"):
-        pattern = r"^```\{?\.?" + lang + r"\}?\s*$"
+        pattern = r"^```\{?\.?" + lang + r"(?:[^}\n]*)\}?\s*$"
         for m in re.finditer(pattern, qmd_text, re.MULTILINE):
             fence = m.group(0).strip()
-            if fence == "```{" + lang + "}":
+            if fence.startswith("```{" + lang):
                 continue                      # executable, this is the good form
+            if "display-only" in fence:
+                continue                      # deliberately shown, not run
             line = qmd_text[: m.start()].count("\n") + 1
             rep.fail(
                 "DEAD CODE",
                 "line %d: fence %s renders as static text and never executes. "
                 "Change it to ```{%s} so the code runs and its output lands on "
-                "the slide." % (line, fence, lang),
+                "the slide, or mark it ```{.%s .display-only} if that is "
+                "deliberate." % (line, fence, lang, lang),
             )
 
 
@@ -68,8 +83,11 @@ def check_network_calls(qmd_text, rep):
         (r"download\.file\s*\(", "download.file"),
         (r"\bhttr::|\bcurl::|\bGET\s*\(", "an HTTP client call"),
     ]
+    # Only chunks that run can break the render. The same call shown in a
+    # display-only block is documentation and is fine.
+    running = "\n".join(executable_chunks(qmd_text))
     for pat, what in patterns:
-        if re.search(pat, qmd_text):
+        if re.search(pat, running):
             rep.fail(
                 "NETWORK",
                 "%s in a slide chunk. The render breaks when the network or the API "

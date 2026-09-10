@@ -197,6 +197,10 @@
   </style>
   <script type="module" src="what_is_statistics_lecture1_files/libs/quarto-ojs/quarto-ojs-runtime.js"></script>
   <link href="what_is_statistics_lecture1_files/libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+  <link href="what_is_statistics_lecture1_files/libs/countdown-0.6.0/countdown.css" rel="stylesheet">
+
+  <script src="what_is_statistics_lecture1_files/libs/countdown-0.6.0/countdown.js"></script>
+
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -532,27 +536,27 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="332" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 331;"><span id="cb1-332"><a href="" aria-label="332"></a>viewof n_obs <span class="op">=</span> {</span>
-<span id="cb1-333"><a href="" aria-label="333"></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">20</span><span class="op">,</span> <span class="dv">1000</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">200</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="dv">20</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Sample size n:"</span>})<span class="op">;</span></span>
-<span id="cb1-334"><a href="" aria-label="334"></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
-<span id="cb1-335"><a href="" aria-label="335"></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
-<span id="cb1-336"><a href="" aria-label="336"></a>  <span class="cf">return</span> input<span class="op">;</span></span>
-<span id="cb1-337"><a href="" aria-label="337"></a>}</span>
-<span id="cb1-338"><a href="" aria-label="338"></a></span>
-<span id="cb1-339"><a href="" aria-label="339"></a>viewof n_bins <span class="op">=</span> {</span>
-<span id="cb1-340"><a href="" aria-label="340"></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">3</span><span class="op">,</span> <span class="dv">40</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">12</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Number of classes k:"</span>})<span class="op">;</span></span>
-<span id="cb1-341"><a href="" aria-label="341"></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
-<span id="cb1-342"><a href="" aria-label="342"></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
-<span id="cb1-343"><a href="" aria-label="343"></a>  <span class="cf">return</span> input<span class="op">;</span></span>
-<span id="cb1-344"><a href="" aria-label="344"></a>}</span>
-<span id="cb1-345"><a href="" aria-label="345"></a></span>
-<span id="cb1-346"><a href="" aria-label="346"></a>viewof shape <span class="op">=</span> {</span>
-<span id="cb1-347"><a href="" aria-label="347"></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>([<span class="st">"mound-shaped"</span><span class="op">,</span> <span class="st">"skewed right"</span><span class="op">,</span> <span class="st">"heavy-tailed"</span>]<span class="op">,</span></span>
-<span id="cb1-348"><a href="" aria-label="348"></a>    {<span class="dt">value</span><span class="op">:</span> <span class="st">"mound-shaped"</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Population shape:"</span>})<span class="op">;</span></span>
-<span id="cb1-349"><a href="" aria-label="349"></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
-<span id="cb1-350"><a href="" aria-label="350"></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
-<span id="cb1-351"><a href="" aria-label="351"></a>  <span class="cf">return</span> input<span class="op">;</span></span>
-<span id="cb1-352"><a href="" aria-label="352"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="343" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 342;"><span id="cb1-343"><a href="" aria-label="343"></a>viewof n_obs <span class="op">=</span> {</span>
+<span id="cb1-344"><a href="" aria-label="344"></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">20</span><span class="op">,</span> <span class="dv">1000</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">200</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="dv">20</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Sample size n:"</span>})<span class="op">;</span></span>
+<span id="cb1-345"><a href="" aria-label="345"></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
+<span id="cb1-346"><a href="" aria-label="346"></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
+<span id="cb1-347"><a href="" aria-label="347"></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb1-348"><a href="" aria-label="348"></a>}</span>
+<span id="cb1-349"><a href="" aria-label="349"></a></span>
+<span id="cb1-350"><a href="" aria-label="350"></a>viewof n_bins <span class="op">=</span> {</span>
+<span id="cb1-351"><a href="" aria-label="351"></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">3</span><span class="op">,</span> <span class="dv">40</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">12</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Number of classes k:"</span>})<span class="op">;</span></span>
+<span id="cb1-352"><a href="" aria-label="352"></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
+<span id="cb1-353"><a href="" aria-label="353"></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
+<span id="cb1-354"><a href="" aria-label="354"></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb1-355"><a href="" aria-label="355"></a>}</span>
+<span id="cb1-356"><a href="" aria-label="356"></a></span>
+<span id="cb1-357"><a href="" aria-label="357"></a>viewof shape <span class="op">=</span> {</span>
+<span id="cb1-358"><a href="" aria-label="358"></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>([<span class="st">"mound-shaped"</span><span class="op">,</span> <span class="st">"skewed right"</span><span class="op">,</span> <span class="st">"heavy-tailed"</span>]<span class="op">,</span></span>
+<span id="cb1-359"><a href="" aria-label="359"></a>    {<span class="dt">value</span><span class="op">:</span> <span class="st">"mound-shaped"</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Population shape:"</span>})<span class="op">;</span></span>
+<span id="cb1-360"><a href="" aria-label="360"></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
+<span id="cb1-361"><a href="" aria-label="361"></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
+<span id="cb1-362"><a href="" aria-label="362"></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb1-363"><a href="" aria-label="363"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -579,41 +583,41 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="359" data-source-offset="-75"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 358;"><span id="cb2-359"><a href="" aria-label="359"></a>rng <span class="op">=</span> {</span>
-<span id="cb2-360"><a href="" aria-label="360"></a>  <span class="kw">let</span> s <span class="op">=</span> <span class="dv">42</span><span class="op">;</span></span>
-<span id="cb2-361"><a href="" aria-label="361"></a>  <span class="cf">return</span> () <span class="kw">=&gt;</span> (s <span class="op">=</span> (s <span class="op">*</span> <span class="dv">1103515245</span> <span class="op">+</span> <span class="dv">12345</span>) <span class="op">%</span> <span class="dv">2147483648</span>) <span class="op">/</span> <span class="dv">2147483648</span><span class="op">;</span></span>
-<span id="cb2-362"><a href="" aria-label="362"></a>}</span>
-<span id="cb2-363"><a href="" aria-label="363"></a></span>
-<span id="cb2-364"><a href="" aria-label="364"></a>normal <span class="op">=</span> () <span class="kw">=&gt;</span> {</span>
-<span id="cb2-365"><a href="" aria-label="365"></a>  <span class="kw">const</span> u <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="fu">rng</span>()<span class="op">,</span> <span class="fl">1e-12</span>)<span class="op">,</span> v <span class="op">=</span> <span class="fu">rng</span>()<span class="op">;</span></span>
-<span id="cb2-366"><a href="" aria-label="366"></a>  <span class="cf">return</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(<span class="op">-</span><span class="dv">2</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(u)) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">cos</span>(<span class="dv">2</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">*</span> v)<span class="op">;</span></span>
-<span id="cb2-367"><a href="" aria-label="367"></a>}</span>
-<span id="cb2-368"><a href="" aria-label="368"></a></span>
-<span id="cb2-369"><a href="" aria-label="369"></a>sample <span class="op">=</span> {</span>
-<span id="cb2-370"><a href="" aria-label="370"></a>  <span class="kw">const</span> out <span class="op">=</span> []<span class="op">;</span></span>
-<span id="cb2-371"><a href="" aria-label="371"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n_obs<span class="op">;</span> i<span class="op">++</span>) {</span>
-<span id="cb2-372"><a href="" aria-label="372"></a>    <span class="cf">if</span> (shape <span class="op">===</span> <span class="st">"mound-shaped"</span>) out<span class="op">.</span><span class="fu">push</span>(<span class="fl">0.05</span> <span class="op">+</span> <span class="fl">1.2</span> <span class="op">*</span> <span class="fu">normal</span>())<span class="op">;</span></span>
-<span id="cb2-373"><a href="" aria-label="373"></a>    <span class="cf">else</span> <span class="cf">if</span> (shape <span class="op">===</span> <span class="st">"skewed right"</span>) out<span class="op">.</span><span class="fu">push</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(<span class="fl">0.35</span> <span class="op">*</span> <span class="fu">normal</span>()) <span class="op">-</span> <span class="dv">1</span>)<span class="op">;</span></span>
-<span id="cb2-374"><a href="" aria-label="374"></a>    <span class="cf">else</span> out<span class="op">.</span><span class="fu">push</span>(<span class="fl">1.2</span> <span class="op">*</span> <span class="fu">normal</span>() <span class="op">*</span> (<span class="fu">rng</span>() <span class="op">&lt;</span> <span class="fl">0.06</span> <span class="op">?</span> <span class="dv">4</span> <span class="op">:</span> <span class="dv">1</span>))<span class="op">;</span></span>
-<span id="cb2-375"><a href="" aria-label="375"></a>  }</span>
-<span id="cb2-376"><a href="" aria-label="376"></a>  <span class="cf">return</span> out<span class="op">;</span></span>
-<span id="cb2-377"><a href="" aria-label="377"></a>}</span>
-<span id="cb2-378"><a href="" aria-label="378"></a></span>
-<span id="cb2-379"><a href="" aria-label="379"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
-<span id="cb2-380"><a href="" aria-label="380"></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">1050</span><span class="op">,</span></span>
-<span id="cb2-381"><a href="" aria-label="381"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">310</span><span class="op">,</span></span>
-<span id="cb2-382"><a href="" aria-label="382"></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">60</span><span class="op">,</span></span>
-<span id="cb2-383"><a href="" aria-label="383"></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
-<span id="cb2-384"><a href="" aria-label="384"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Daily return (%)"</span>}<span class="op">,</span></span>
-<span id="cb2-385"><a href="" aria-label="385"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Relative frequency"</span><span class="op">,</span> <span class="dt">tickFormat</span><span class="op">:</span> <span class="st">".2f"</span>}<span class="op">,</span></span>
-<span id="cb2-386"><a href="" aria-label="386"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
-<span id="cb2-387"><a href="" aria-label="387"></a>    Plot<span class="op">.</span><span class="fu">rectY</span>(sample<span class="op">,</span> Plot<span class="op">.</span><span class="fu">binX</span>(</span>
-<span id="cb2-388"><a href="" aria-label="388"></a>      {<span class="dt">y</span><span class="op">:</span> (bin<span class="op">,</span> all) <span class="kw">=&gt;</span> bin<span class="op">.</span><span class="at">length</span> <span class="op">/</span> all<span class="op">.</span><span class="at">length</span>}<span class="op">,</span></span>
-<span id="cb2-389"><a href="" aria-label="389"></a>      {<span class="dt">x</span><span class="op">:</span> d <span class="kw">=&gt;</span> d<span class="op">,</span> <span class="dt">thresholds</span><span class="op">:</span> n_bins<span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#8b2635"</span><span class="op">,</span> <span class="dt">fillOpacity</span><span class="op">:</span> <span class="fl">0.85</span>}</span>
-<span id="cb2-390"><a href="" aria-label="390"></a>    ))<span class="op">,</span></span>
-<span id="cb2-391"><a href="" aria-label="391"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
-<span id="cb2-392"><a href="" aria-label="392"></a>  ]</span>
-<span id="cb2-393"><a href="" aria-label="393"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="370" data-source-offset="-75"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 369;"><span id="cb2-370"><a href="" aria-label="370"></a>rng <span class="op">=</span> {</span>
+<span id="cb2-371"><a href="" aria-label="371"></a>  <span class="kw">let</span> s <span class="op">=</span> <span class="dv">42</span><span class="op">;</span></span>
+<span id="cb2-372"><a href="" aria-label="372"></a>  <span class="cf">return</span> () <span class="kw">=&gt;</span> (s <span class="op">=</span> (s <span class="op">*</span> <span class="dv">1103515245</span> <span class="op">+</span> <span class="dv">12345</span>) <span class="op">%</span> <span class="dv">2147483648</span>) <span class="op">/</span> <span class="dv">2147483648</span><span class="op">;</span></span>
+<span id="cb2-373"><a href="" aria-label="373"></a>}</span>
+<span id="cb2-374"><a href="" aria-label="374"></a></span>
+<span id="cb2-375"><a href="" aria-label="375"></a>normal <span class="op">=</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb2-376"><a href="" aria-label="376"></a>  <span class="kw">const</span> u <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="fu">rng</span>()<span class="op">,</span> <span class="fl">1e-12</span>)<span class="op">,</span> v <span class="op">=</span> <span class="fu">rng</span>()<span class="op">;</span></span>
+<span id="cb2-377"><a href="" aria-label="377"></a>  <span class="cf">return</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(<span class="op">-</span><span class="dv">2</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(u)) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">cos</span>(<span class="dv">2</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">*</span> v)<span class="op">;</span></span>
+<span id="cb2-378"><a href="" aria-label="378"></a>}</span>
+<span id="cb2-379"><a href="" aria-label="379"></a></span>
+<span id="cb2-380"><a href="" aria-label="380"></a>sample <span class="op">=</span> {</span>
+<span id="cb2-381"><a href="" aria-label="381"></a>  <span class="kw">const</span> out <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb2-382"><a href="" aria-label="382"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n_obs<span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb2-383"><a href="" aria-label="383"></a>    <span class="cf">if</span> (shape <span class="op">===</span> <span class="st">"mound-shaped"</span>) out<span class="op">.</span><span class="fu">push</span>(<span class="fl">0.05</span> <span class="op">+</span> <span class="fl">1.2</span> <span class="op">*</span> <span class="fu">normal</span>())<span class="op">;</span></span>
+<span id="cb2-384"><a href="" aria-label="384"></a>    <span class="cf">else</span> <span class="cf">if</span> (shape <span class="op">===</span> <span class="st">"skewed right"</span>) out<span class="op">.</span><span class="fu">push</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(<span class="fl">0.35</span> <span class="op">*</span> <span class="fu">normal</span>()) <span class="op">-</span> <span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb2-385"><a href="" aria-label="385"></a>    <span class="cf">else</span> out<span class="op">.</span><span class="fu">push</span>(<span class="fl">1.2</span> <span class="op">*</span> <span class="fu">normal</span>() <span class="op">*</span> (<span class="fu">rng</span>() <span class="op">&lt;</span> <span class="fl">0.06</span> <span class="op">?</span> <span class="dv">4</span> <span class="op">:</span> <span class="dv">1</span>))<span class="op">;</span></span>
+<span id="cb2-386"><a href="" aria-label="386"></a>  }</span>
+<span id="cb2-387"><a href="" aria-label="387"></a>  <span class="cf">return</span> out<span class="op">;</span></span>
+<span id="cb2-388"><a href="" aria-label="388"></a>}</span>
+<span id="cb2-389"><a href="" aria-label="389"></a></span>
+<span id="cb2-390"><a href="" aria-label="390"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb2-391"><a href="" aria-label="391"></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">1050</span><span class="op">,</span></span>
+<span id="cb2-392"><a href="" aria-label="392"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">310</span><span class="op">,</span></span>
+<span id="cb2-393"><a href="" aria-label="393"></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">60</span><span class="op">,</span></span>
+<span id="cb2-394"><a href="" aria-label="394"></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
+<span id="cb2-395"><a href="" aria-label="395"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Daily return (%)"</span>}<span class="op">,</span></span>
+<span id="cb2-396"><a href="" aria-label="396"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Relative frequency"</span><span class="op">,</span> <span class="dt">tickFormat</span><span class="op">:</span> <span class="st">".2f"</span>}<span class="op">,</span></span>
+<span id="cb2-397"><a href="" aria-label="397"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb2-398"><a href="" aria-label="398"></a>    Plot<span class="op">.</span><span class="fu">rectY</span>(sample<span class="op">,</span> Plot<span class="op">.</span><span class="fu">binX</span>(</span>
+<span id="cb2-399"><a href="" aria-label="399"></a>      {<span class="dt">y</span><span class="op">:</span> (bin<span class="op">,</span> all) <span class="kw">=&gt;</span> bin<span class="op">.</span><span class="at">length</span> <span class="op">/</span> all<span class="op">.</span><span class="at">length</span>}<span class="op">,</span></span>
+<span id="cb2-400"><a href="" aria-label="400"></a>      {<span class="dt">x</span><span class="op">:</span> d <span class="kw">=&gt;</span> d<span class="op">,</span> <span class="dt">thresholds</span><span class="op">:</span> n_bins<span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#8b2635"</span><span class="op">,</span> <span class="dt">fillOpacity</span><span class="op">:</span> <span class="fl">0.85</span>}</span>
+<span id="cb2-401"><a href="" aria-label="401"></a>    ))<span class="op">,</span></span>
+<span id="cb2-402"><a href="" aria-label="402"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
+<span id="cb2-403"><a href="" aria-label="403"></a>  ]</span>
+<span id="cb2-404"><a href="" aria-label="404"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -647,9 +651,14 @@ Samir Orujov, PhD
 </section>
 <section id="think-pair-share" class="slide level2">
 <h2>🧠 Think-Pair-Share</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<countdown-timer class="countdown" id="timer_9c323739" minutes="3" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
+</div>
+</div>
 <div style="font-size: 32px">
 <p>A colleague shows you a histogram of 500 daily returns built with <strong>3 classes</strong>. It looks perfectly symmetric, and he concludes the returns are normally distributed.</p>
-<p><strong>Two minutes, in pairs:</strong></p>
+<p><strong>Three minutes, in pairs:</strong></p>
 <ol type="1">
 <li><p>What has his choice of classes hidden?</p></li>
 <li><p>What would you ask him to produce before you accept the conclusion?</p></li>
@@ -670,29 +679,45 @@ Samir Orujov, PhD
 </div>
 </div>
 </section>
-<section id="case-study-descriptive-analysis-of-real-returns" class="slide level2">
-<h2>💰 Case Study: Descriptive Analysis of Real Returns</h2>
+<section id="case-study-getting-the-data" class="slide level2">
+<h2>💰 Case Study: Getting the Data</h2>
 <div style="font-size: 28px">
-<p>Run this in R to repeat today’s construction on live market data.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-label="1"></a><span class="fu">library</span>(quantmod)</span>
-<span id="cb3-2"><a href="" aria-label="2"></a></span>
-<span id="cb3-3"><a href="" aria-label="3"></a><span class="co"># Download five years of daily prices</span></span>
-<span id="cb3-4"><a href="" aria-label="4"></a><span class="fu">getSymbols</span>(<span class="st">"^GSPC"</span>, <span class="at">src =</span> <span class="st">"yahoo"</span>, <span class="at">from =</span> <span class="st">"2021-01-01"</span>, <span class="at">auto.assign =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb3-5"><a href="" aria-label="5"></a></span>
-<span id="cb3-6"><a href="" aria-label="6"></a>prices  <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">Cl</span>(GSPC))</span>
-<span id="cb3-7"><a href="" aria-label="7"></a>returns <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">diff</span>(<span class="fu">log</span>(prices))          <span class="co"># daily log returns, in per cent</span></span>
-<span id="cb3-8"><a href="" aria-label="8"></a></span>
-<span id="cb3-9"><a href="" aria-label="9"></a><span class="co"># 1. The frequency distribution</span></span>
-<span id="cb3-10"><a href="" aria-label="10"></a>k        <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(<span class="fu">sqrt</span>(<span class="fu">length</span>(returns)))  <span class="co"># a defensible starting choice</span></span>
-<span id="cb3-11"><a href="" aria-label="11"></a>breaks   <span class="ot">&lt;-</span> <span class="fu">pretty</span>(<span class="fu">range</span>(returns), <span class="at">n =</span> k)</span>
-<span id="cb3-12"><a href="" aria-label="12"></a>tab      <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="fu">cut</span>(returns, breaks))</span>
-<span id="cb3-13"><a href="" aria-label="13"></a>rel_freq <span class="ot">&lt;-</span> tab <span class="sc">/</span> <span class="fu">length</span>(returns)</span>
-<span id="cb3-14"><a href="" aria-label="14"></a></span>
-<span id="cb3-15"><a href="" aria-label="15"></a><span class="fu">round</span>(rel_freq, <span class="dv">3</span>)</span>
-<span id="cb3-16"><a href="" aria-label="16"></a></span>
-<span id="cb3-17"><a href="" aria-label="17"></a><span class="co"># 2. The relative frequency histogram</span></span>
-<span id="cb3-18"><a href="" aria-label="18"></a><span class="fu">hist</span>(returns, <span class="at">breaks =</span> breaks, <span class="at">freq =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb3-19"><a href="" aria-label="19"></a>     <span class="at">main =</span> <span class="st">"S&amp;P 500 daily returns"</span>, <span class="at">xlab =</span> <span class="st">"Return (%)"</span>, <span class="at">col =</span> <span class="st">"grey85"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>On your own machine, this is how you would pull five years of real prices:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r display-only number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-label="1"></a><span class="fu">library</span>(quantmod)</span>
+<span id="cb3-2"><a href="" aria-label="2"></a><span class="fu">getSymbols</span>(<span class="st">"^GSPC"</span>, <span class="at">src =</span> <span class="st">"yahoo"</span>, <span class="at">from =</span> <span class="st">"2021-01-01"</span>, <span class="at">auto.assign =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-3"><a href="" aria-label="3"></a>returns <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">diff</span>(<span class="fu">log</span>(<span class="fu">as.numeric</span>(<span class="fu">Cl</span>(GSPC))))   <span class="co"># daily log returns, %</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>We will not run it here: it needs a live connection, and the numbers would change between one lecture and the next. Instead we use a <strong>simulated sample of 1,250 daily returns</strong>, drawn to match the S&amp;P 500’s centre and spread.</p>
+</div>
+</section>
+<section id="the-frequency-distribution" class="slide level2">
+<h2>💰 The Frequency Distribution</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="" aria-label="1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb4-2"><a href="" aria-label="2"></a><span class="co"># Five years of daily returns, in per cent. The t distribution gives the</span></span>
+<span id="cb4-3"><a href="" aria-label="3"></a><span class="co"># heavy tails that real returns have and a normal sample would not.</span></span>
+<span id="cb4-4"><a href="" aria-label="4"></a>returns <span class="ot">&lt;-</span> <span class="fl">0.05</span> <span class="sc">+</span> <span class="fl">0.75</span> <span class="sc">*</span> <span class="fu">rt</span>(<span class="dv">1250</span>, <span class="at">df =</span> <span class="dv">4</span>)</span>
+<span id="cb4-5"><a href="" aria-label="5"></a></span>
+<span id="cb4-6"><a href="" aria-label="6"></a>k        <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(<span class="fu">sqrt</span>(<span class="fu">length</span>(returns)))   <span class="co"># a defensible starting choice</span></span>
+<span id="cb4-7"><a href="" aria-label="7"></a>breaks   <span class="ot">&lt;-</span> <span class="fu">pretty</span>(<span class="fu">range</span>(returns), <span class="at">n =</span> k)</span>
+<span id="cb4-8"><a href="" aria-label="8"></a>rel_freq <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="fu">cut</span>(returns, breaks)) <span class="sc">/</span> <span class="fu">length</span>(returns)</span>
+<span id="cb4-9"><a href="" aria-label="9"></a></span>
+<span id="cb4-10"><a href="" aria-label="10"></a><span class="fu">round</span>(<span class="fu">head</span>(rel_freq, <span class="dv">8</span>), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  (-5,-4.8] (-4.8,-4.6] (-4.6,-4.4] (-4.4,-4.2]   (-4.2,-4]   (-4,-3.8] 
+      0.001       0.000       0.000       0.001       0.001       0.002 
+(-3.8,-3.6] (-3.6,-3.4] 
+      0.000       0.000 </code></pre>
+</div>
+</div>
+</section>
+<section id="the-relative-frequency-histogram" class="slide level2">
+<h2>💰 The Relative Frequency Histogram</h2>
+
+<img data-src="what_is_statistics_lecture1_files/figure-revealjs/case-study-hist-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1350"><div style="font-size: 28px">
 <p><strong>Ask of the output:</strong> where is the centre, how wide is the spread, and how much mass sits beyond ±3%?</p>
 </div>
 </section>
@@ -1001,6 +1026,82 @@ Samir Orujov, PhD
     window._ojs.selfContained = false;
     window._ojs.runtime.interpretFromScriptTags();
     </script>
+    
+
+    <script>
+
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+
+      // slide changes (different for each slide format).
+
+      (function () {
+
+        // dispatch for htmlwidgets
+
+        function fireSlideEnter() {
+
+          const event = window.document.createEvent("Event");
+
+          event.initEvent("slideenter", true, true);
+
+          window.document.dispatchEvent(event);
+
+        }
+
+    
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+
+          fireSlideEnter();
+
+    
+
+          // dispatch for shiny
+
+          if (window.jQuery) {
+
+            if (previousSlide) {
+
+              window.jQuery(previousSlide).trigger("hidden");
+
+            }
+
+            if (currentSlide) {
+
+              window.jQuery(currentSlide).trigger("shown");
+
+            }
+
+          }
+
+        }
+
+    
+
+        // hookup for slidy
+
+        if (window.w3c_slidy) {
+
+          window.w3c_slidy.add_observer(function (slide_num) {
+
+            // slide_num starts at position 1
+
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+
+          });
+
+        }
+
+    
+
+      })();
+
+    </script>
+
+    
+
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
         const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
