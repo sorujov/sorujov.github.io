@@ -573,6 +573,8 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
     max-width: 320px;
 
     img {
+      display: block;
+      margin: 0;               /* the base theme adds a 1em bottom margin, which made the figure taller than the photo */
       position: relative;
       z-index: 1;
       width: 100%;
@@ -583,10 +585,12 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
       box-shadow: var(--shadow-lg);
     }
 
+    /* Offset backing block: the photo sits on top of it and covers two of its sides */
     &::after {
       content: "";
       position: absolute;
-      inset: 18px -18px -18px 18px;
+      inset: 14px -14px -14px 14px;
+      background: var(--accent-tint);
       border: 1px solid var(--accent);
       border-radius: 3px;
       z-index: 0;
@@ -597,7 +601,7 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
 @media (max-width: 860px) {
   .hero { grid-template-columns: 1fr; gap: 2.5rem; padding-top: 2.5rem; }
   .hero__portrait { justify-self: start; max-width: 240px; order: -1; }
-  .hero__portrait::after { inset: 12px -12px -12px 12px; }
+  .hero__portrait::after { inset: 10px -10px -10px 10px; }
 }
 
 /* --------------------------------------------------------------------------

@@ -1,0 +1,533 @@
+---
+title: "Mathematical Statistics"
+subtitle: "Numerical Descriptive Measures, Tchebysheff's Theorem and the Empirical Rule"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: default
+    logo: ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    footer: "Mathematical Statistics I - Numerical Descriptive Measures"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+---
+
+## 🎯 Learning Objectives
+
+::: {style="font-size: 34px"}
+By the end of this lecture, you will be able to:
+
+- **Compute** the sample mean, variance and standard deviation, and explain the divisor $n-1$
+
+- **Distinguish** the parameters $\mu, \sigma^2$ from the statistics $\bar{y}, s^2$ that estimate them
+
+- **Apply** Tchebysheff's theorem to bound the mass within $k$ standard deviations, for *any* distribution
+
+- **Apply** the empirical rule to mound-shaped data, and state when it is not available to you
+
+- **Use** the range approximation $s \approx \text{range}/4$ to catch arithmetic errors before they reach a client
+:::
+
+---
+
+## 🗺️ Overview
+
+::: {style="font-size: 34px"}
+**Wackerly §§1.4 – 1.6**
+
+1. From pictures to numbers: why three numbers must replace the histogram
+
+2. Measures of centre: mean, median, mode
+
+3. Measures of variability: range, variance, standard deviation
+
+4. Tchebysheff's theorem — a bound that never fails
+
+5. The empirical rule — a sharper statement, at a price
+
+6. Why any of this counts as *inference*
+:::
+
+---
+
+## 💡 Motivation: Two Funds, One Mean
+
+::: {style="font-size: 32px"}
+Two funds report the same average monthly return of **1.0%**.
+
+::: {.fragment}
+Fund A: monthly returns between $-1\%$ and $+3\%$.
+
+Fund B: monthly returns between $-18\%$ and $+20\%$.
+:::
+
+::: {.fragment}
+The mean is identical and **useless on its own**. What separates them is *spread*, and spread is what the client is actually buying.
+:::
+
+::: {.fragment}
+Today we make "spread" precise, then bound how much of the data any spread can hide.
+:::
+:::
+
+---
+
+## 📝 Measures of Central Tendency
+
+::: {style="font-size: 32px"}
+::: {.callout-note}
+## Definition — the sample mean
+
+$$\bar{y} = \frac{1}{n}\sum_{i=1}^{n} y_i$$
+:::
+
+- The **median** is the middle value once sorted — robust to a single catastrophic day
+
+- The **mode** is the most frequent value — rarely useful for continuous returns
+
+::: {.fragment}
+For skewed data — loan losses, claim sizes — the mean sits to the right of the median. That gap *is* the skewness.
+:::
+:::
+
+---
+
+## 📏 Measures of Variability
+
+::: {style="font-size: 30px"}
+::: {.callout-note}
+## Definitions
+
+**Range** $= y_{(n)} - y_{(1)}$
+
+**Sample variance** $\displaystyle s^2 = \frac{1}{n-1}\sum_{i=1}^{n}(y_i - \bar{y})^2$
+
+**Sample standard deviation** $s = \sqrt{s^2}$
+:::
+
+::: {.fragment}
+The range uses two observations and throws away the rest. The variance uses all of them, which is why it is the one that survives into the rest of the course.
+:::
+:::
+
+---
+
+## ➗ Why $n-1$ and Not $n$?
+
+::: {style="font-size: 32px"}
+The deviations $y_i - \bar{y}$ are not free: they must sum to zero.
+
+$$\sum_{i=1}^{n}(y_i - \bar{y}) = 0$$
+
+::: {.fragment}
+Fix any $n-1$ of them and the last is determined. There are **$n-1$ degrees of freedom**, so we average over $n-1$.
+:::
+
+::: {.fragment}
+In Chapter 8 we prove the consequence: $E(s^2) = \sigma^2$. Dividing by $n$ would give an estimator that is systematically too small.
+:::
+:::
+
+---
+
+## 🧮 The Computing Formula
+
+::: {style="font-size: 32px"}
+$$s^2 = \frac{1}{n-1}\left[\sum_{i=1}^{n} y_i^2 - \frac{\left(\sum_{i=1}^{n} y_i\right)^2}{n}\right]$$
+
+::: {.fragment}
+Algebraically identical to the definition, one pass through the data instead of two.
+
+**Warning.** With large numbers of similar size — index levels rather than returns — the two sums nearly cancel and the formula loses precision. Compute on returns, not on prices.
+:::
+:::
+
+---
+
+## 📐 Tchebysheff's Theorem
+
+::: {style="font-size: 32px"}
+::: {.callout-important}
+## Theorem
+
+For **any** data set and any $k > 1$, at least
+
+$$1 - \frac{1}{k^2}$$
+
+of the measurements lie within $k$ standard deviations of the mean.
+:::
+
+::: {.fragment}
+No assumption whatsoever about shape. That is its power, and the reason for its weakness.
+:::
+:::
+
+---
+
+## 🔢 What the Bound Actually Says
+
+::: {style="font-size: 32px"}
+| $k$ | Interval | At least |
+|---|---|---|
+| 2 | $\bar{y} \pm 2s$ | 75% |
+| 3 | $\bar{y} \pm 3s$ | 88.9% |
+| 4 | $\bar{y} \pm 4s$ | 93.75% |
+
+::: {.fragment}
+At $k=1$ the bound says "at least 0%" — true, and worthless. The theorem earns its keep from $k=2$ onwards.
+:::
+:::
+
+---
+
+## 🔔 The Empirical Rule
+
+::: {style="font-size: 32px"}
+::: {.callout-note}
+## For mound-shaped, roughly symmetric data
+
+$\bar{y} \pm s$ contains approximately **68%**
+
+$\bar{y} \pm 2s$ contains approximately **95%**
+
+$\bar{y} \pm 3s$ contains approximately **99.7%**
+:::
+
+::: {.fragment}
+Compare $k=2$: Tchebysheff guarantees 75%, the empirical rule *suggests* 95%. Sharper — but only if the shape assumption holds.
+:::
+:::
+
+---
+
+## ⚖️ Which One Do You Use?
+
+::: {style="font-size: 30px"}
+::: {.columns}
+::: {.column width="50%"}
+**Tchebysheff**
+
+- Holds always, no assumptions
+
+- A *lower bound*, often far from the truth
+
+- Right tool when the shape is unknown or ugly
+:::
+
+::: {.column width="50%"}
+**Empirical rule**
+
+- Approximation, not a guarantee
+
+- Requires a mound shape
+
+- Fails exactly when it matters: crisis returns, claim sizes
+:::
+:::
+
+::: {.fragment}
+In risk work, quoting 95% from the empirical rule on heavy-tailed returns is how firms discover their tails at the worst possible moment.
+:::
+:::
+
+---
+
+## 📊 Worked Example: A Bank Share
+
+::: {style="font-size: 30px"}
+For $n = 40$ daily returns: $\bar{y} = 0.10\%$, $s = 1.45\%$.
+
+::: {.fragment}
+**Tchebysheff, $k = 2$:** at least 75% of days fall in
+$$0.10 \pm 2(1.45) = (-2.80,\ 3.00)$$
+:::
+
+::: {.fragment}
+**Empirical rule, if mound-shaped:** about 95% fall in that same interval.
+:::
+
+::: {.fragment}
+Count the actual data: 38 of 40, i.e. 95%. The empirical rule was the better description — and Tchebysheff was still correct.
+:::
+:::
+
+---
+
+## 🧰 The Range Approximation
+
+::: {style="font-size: 32px"}
+For a mound-shaped sample of moderate size,
+
+$$s \approx \frac{\text{range}}{4}$$
+
+::: {.fragment}
+Not a method of estimation — a **method of checking**. If your computed $s$ is ten times range/4, you have made an arithmetic error, and you would rather find it yourself than have a client find it.
+:::
+:::
+
+---
+
+## 🔬 Interactive: Coverage Versus Shape {.smaller}
+
+```{ojs}
+//| echo: false
+
+viewof k_sd = {
+  const input = Inputs.range([1, 4], {value: 2, step: 0.1, label: "k (standard deviations):"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+
+viewof dist_shape = {
+  const input = Inputs.select(["mound-shaped", "skewed right", "heavy-tailed"],
+    {value: "mound-shaped", label: "Population shape:"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+```
+
+```{ojs}
+//| echo: false
+
+rng2 = {
+  let s = 2026;
+  return () => (s = (s * 1103515245 + 12345) % 2147483648) / 2147483648;
+}
+
+norm2 = () => {
+  const u = Math.max(rng2(), 1e-12), v = rng2();
+  return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+}
+
+data2 = {
+  const out = [];
+  for (let i = 0; i < 2000; i++) {
+    if (dist_shape === "mound-shaped") out.push(0.05 + 1.2 * norm2());
+    else if (dist_shape === "skewed right") out.push(Math.exp(0.35 * norm2()) - 1);
+    else out.push(1.2 * norm2() * (rng2() < 0.06 ? 4 : 1));
+  }
+  return out;
+}
+
+stats = {
+  const n = data2.length;
+  const mean = data2.reduce((a, b) => a + b, 0) / n;
+  const v = data2.reduce((a, b) => a + (b - mean) ** 2, 0) / (n - 1);
+  const sd = Math.sqrt(v);
+  const inside = data2.filter(y => Math.abs(y - mean) <= k_sd * sd).length / n;
+  return {mean, sd, inside, bound: k_sd > 1 ? 1 - 1 / (k_sd ** 2) : 0};
+}
+
+md`**Mean** ${stats.mean.toFixed(2)}%  ·  **s** ${stats.sd.toFixed(2)}%  ·  **Actually inside** ${(100 * stats.inside).toFixed(1)}%  ·  **Tchebysheff guarantees at least** ${(100 * stats.bound).toFixed(1)}%`
+
+Plot.plot({
+  width: 1050,
+  height: 330,
+  marginLeft: 60,
+  x: {label: "Daily return (%)", domain: [-8, 8]},
+  y: {label: "Relative frequency", tickFormat: ".2f"},
+  marks: [
+    Plot.rectY(data2, Plot.binX(
+      {y: (bin, all) => bin.length / all.length},
+      {x: d => d, thresholds: 60, fill: d => Math.abs(d - stats.mean) <= k_sd * stats.sd ? "#8b2635" : "#cbb8a9"}
+    )),
+    Plot.ruleX([stats.mean - k_sd * stats.sd, stats.mean + k_sd * stats.sd],
+      {stroke: "#14130f", strokeDasharray: "4 4"}),
+    Plot.ruleY([0])
+  ]
+})
+```
+
+---
+
+## 🧠 Think-Pair-Share
+
+::: {style="font-size: 32px"}
+A portfolio has mean daily return $\bar{y} = 0.04\%$ and $s = 2.1\%$. A junior analyst writes:
+
+> "By the empirical rule, we lose more than 4.2% on at most 2.5% of days."
+
+**Three minutes, in pairs:**
+
+1. What has he assumed?
+
+2. What does Tchebysheff permit instead?
+
+3. Which number would you put in the risk report?
+:::
+
+---
+
+## ✅ Think-Pair-Share: Solution
+
+::: {style="font-size: 28px"}
+1. He assumed the returns are **mound-shaped and roughly symmetric**. Only then does $\bar{y} \pm 2s$ hold about 95%, leaving 2.5% in each tail.
+
+2. Tchebysheff at $k = 2$ guarantees only that **at least 75%** lies inside $\bar y \pm 2s$. Up to 25% may lie outside, and the theorem says nothing about how that 25% splits between the tails — in principle **all of it** could sit in the left tail.
+
+3. Report the Tchebysheff figure, and say which one you used. Then test the shape assumption: histogram, and later a formal test. Daily equity returns are famously heavy-tailed, so the empirical rule understates the frequency of large losses — the direction of the error is against you.
+
+::: {.fragment}
+The habit worth forming: **state the assumption next to the number**.
+:::
+:::
+
+---
+
+## 💰 Case Study: Do Real Returns Obey the Empirical Rule?
+
+::: {style="font-size: 28px"}
+```r
+library(quantmod)
+
+getSymbols("^GSPC", src = "yahoo", from = "2006-01-01", auto.assign = TRUE)
+r <- 100 * diff(log(as.numeric(Cl(GSPC))))
+
+m  <- mean(r)
+s  <- sd(r)
+
+coverage <- sapply(1:3, function(k) mean(abs(r - m) <= k * s))
+tcheby   <- sapply(1:3, function(k) if (k > 1) 1 - 1 / k^2 else 0)
+
+data.frame(
+  k          = 1:3,
+  empirical  = c(0.68, 0.95, 0.997),
+  actual     = round(coverage, 4),
+  tchebysheff = round(tcheby, 4)
+)
+```
+
+**What you will find:** the actual coverage at $k=1$ *exceeds* 68% and at $k=3$ falls short of 99.7%. Too much mass in the middle and too much in the tails — the signature of a heavy-tailed distribution, and the reason Chapter 4 spends so long on shapes.
+:::
+
+---
+
+## 📝 Quiz #1: Degrees of Freedom {.quiz-question}
+
+Why does the sample variance divide by $n-1$?
+
+- [The deviations from $\bar y$ sum to zero, so only $n-1$ are free to vary]{.correct data-explanation="✅ And the consequence, proved in Chapter 8, is that E(s²) = σ²."}
+- Because $n-1$ is smaller, making the estimate conservative
+- Because the mean is unknown and must be guessed
+- It is a convention with no mathematical basis
+
+---
+
+## 📝 Quiz #2: Tchebysheff {.quiz-question}
+
+A data set has $\bar{y} = 50$ and $s = 5$. What does Tchebysheff's theorem guarantee about the interval $(40, 60)$?
+
+- [At least 75% of the measurements lie inside it]{.correct data-explanation="✅ The interval is ȳ ± 2s, so k = 2 and the bound is 1 − 1/4 = 0.75."}
+- Exactly 95% lie inside it
+- At least 95% lie inside it
+- Nothing, unless the data are mound-shaped
+
+---
+
+## 📝 Quiz #3: Choosing the Right Tool {.quiz-question}
+
+You have 500 daily returns with pronounced heavy tails. Which statement is defensible?
+
+- [At least 88.9% of days fall within $\bar y \pm 3s$]{.correct data-explanation="✅ Tchebysheff needs no shape assumption, so it survives heavy tails."}
+- About 99.7% of days fall within $\bar y \pm 3s$
+- The empirical rule applies because $n$ is large
+- Neither rule applies to financial data
+
+---
+
+## 📝 Quiz #4: The Range Check {.quiz-question}
+
+A sample of returns runs from $-6\%$ to $+6\%$. Your spreadsheet reports $s = 0.03\%$. What should you do?
+
+- [Suspect an error: range/4 = 3%, a hundred times larger]{.correct data-explanation="✅ The range approximation is a check, not an estimate — and here it is shouting."}
+- Accept it; the range approximation is unreliable
+- Recompute using $n$ instead of $n-1$
+- Report both numbers and let the reader choose
+
+---
+
+## 📋 Summary
+
+::: {style="font-size: 32px"}
+- The **mean** locates the data; the **variance** and **standard deviation** measure how far it spreads
+
+- Dividing by $n-1$ reflects the $n-1$ free deviations, and makes $s^2$ unbiased for $\sigma^2$
+
+- **Tchebysheff's theorem** bounds the mass within $k$ standard deviations for any distribution: at least $1 - 1/k^2$
+
+- The **empirical rule** is sharper but assumes a mound shape, and financial returns often refuse it
+
+- $s \approx \text{range}/4$ is the arithmetic check that costs five seconds
+:::
+
+---
+
+## 📚 Practice Problems
+
+::: {style="font-size: 32px"}
+**Wackerly, 7th edition**
+
+- Exercises at the end of §§1.3 – 1.5
+
+- Chapter 1 supplementary exercises, especially those contrasting Tchebysheff with the empirical rule
+
+**Problem Set 1** closes **26 September at 23:59** on WeBWorK, covering Chapter 1 and §§2.1 – 2.8. A tutorial runs that week before the deadline.
+
+**Next class:** the probability of an event — sample spaces, the axioms, and the sample-point method.
+:::
+
+---
+
+## 🙏 Thank You
+
+::: {style="font-size: 34px"}
+**Dr. Samir Orujov**
+
+📧 sorujov@ada.edu.az
+🏢 Building D, Room D325
+🕓 Office hours: Wednesday, 16:00 – 18:00
+
+Slides and readings: **sorujov.net/teaching**
+:::
+
+---
+
+## ❓ Questions
+
+::: {style="font-size: 34px"}
+- Can you construct a data set where Tchebysheff's bound is exactly attained?
+
+- If $s$ doubles while $\bar y$ is unchanged, what happens to the interval that holds 75%?
+
+- Why should a *bound* that is usually far too loose be worth proving at all?
+:::

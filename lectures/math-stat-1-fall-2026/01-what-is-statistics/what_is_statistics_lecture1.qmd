@@ -1,0 +1,551 @@
+---
+title: "Mathematical Statistics"
+subtitle: "What Is Statistics? Populations, Samples and Frequency Distributions"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: default
+    logo: ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    footer: "Mathematical Statistics I - What Is Statistics?"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+---
+
+## 🎯 Learning Objectives
+
+::: {style="font-size: 34px"}
+By the end of this lecture, you will be able to:
+
+- **Distinguish** a population from a sample, and a parameter from a statistic, in a financial setting
+
+- **State** the objective of statistics as making an inference together with a measure of its goodness
+
+- **Construct** a frequency distribution and a relative frequency histogram from raw return data
+
+- **Choose** a sensible number of classes and explain how that choice changes what the picture shows
+
+- **Interpret** the shape of a distribution — symmetry, skewness, tail weight — in economic terms
+:::
+
+---
+
+## 🗺️ Overview
+
+::: {style="font-size: 34px"}
+**Wackerly §§1.1 – 1.3**
+
+1. What statistics is, and what it is for
+
+2. Populations, samples, parameters, statistics
+
+3. The inferential problem and its measure of goodness
+
+4. Describing a data set graphically
+
+5. Frequency distributions and relative frequency histograms
+
+6. Relative frequency as the bridge to probability
+:::
+
+---
+
+## 💡 Motivation: One Number Is Never Enough
+
+::: {style="font-size: 32px"}
+A risk desk in Baku holds a portfolio of bank shares. It has **250 daily returns** from last year.
+
+::: {.fragment}
+The desk does not care about those 250 days. It cares about **tomorrow**, and about the *process* that produced them.
+:::
+
+::: {.fragment}
+So it must reason from what it saw to what it did not see — and say **how much confidence** that reasoning deserves.
+:::
+
+::: {.fragment}
+That reasoning is the whole subject of this course.
+:::
+:::
+
+---
+
+## 📝 The Objective of Statistics
+
+::: {style="font-size: 34px"}
+::: {.callout-note}
+## Definition
+
+**Statistics** is the science of making an **inference** about a population, based on information contained in a **sample** from that population, together with a **measure of the goodness** of that inference.
+:::
+
+::: {.fragment}
+Three words carry the weight: *inference*, *sample*, *goodness*.
+
+Drop the third and you are not doing statistics — you are guessing with arithmetic.
+:::
+:::
+
+---
+
+## 👥 Population and Sample
+
+::: {style="font-size: 32px"}
+::: {.columns}
+::: {.column width="50%"}
+::: {.callout-note}
+## Population
+
+The **whole set** of measurements of interest to the investigator.
+
+*All daily returns the AZ banking index will ever generate.*
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## Sample
+
+A **subset** of measurements selected from the population.
+
+*The 250 daily returns actually observed in 2025.*
+:::
+:::
+:::
+
+::: {.fragment}
+The population is usually **conceptual and infinite**. The sample is finite and in your spreadsheet.
+:::
+:::
+
+---
+
+## 🔢 Parameter and Statistic
+
+::: {style="font-size: 32px"}
+| | Describes | Symbol | Known? |
+|---|---|---|---|
+| **Parameter** | Population | $\mu,\ \sigma^2,\ p$ | Never |
+| **Statistic** | Sample | $\bar{y},\ s^2,\ \hat{p}$ | Always |
+
+::: {.fragment}
+A statistic is a **function of the sample**, so it is computable — and it is a **random variable**, because a different sample would give a different value.
+
+That randomness is what we will spend the semester quantifying.
+:::
+:::
+
+---
+
+## 🤔 Why Sample At All?
+
+::: {style="font-size: 32px"}
+- **Cost.** Auditing every loan in a portfolio of 400,000 is not a budget line anyone approves.
+
+- **Time.** A credit decision made in six months is not a credit decision.
+
+- **Destruction.** Some tests consume the item — stress-testing a system until it fails.
+
+- **Impossibility.** The population may not exist yet: next year's returns have not happened.
+
+::: {.fragment}
+The last reason is the deep one. In finance, the population is almost always **hypothetical**.
+:::
+:::
+
+---
+
+## 🎯 The Inferential Problem
+
+::: {style="font-size: 32px"}
+Four questions, and this course answers them in order:
+
+1. What **population** is of interest?
+
+2. What **parameter** of it do we want to know?
+
+3. What **sample information** is available?
+
+4. How **good** is the resulting inference?
+
+::: {.fragment}
+Chapters 1–5 build the machinery of question 4. Everything before that is bookkeeping.
+:::
+:::
+
+---
+
+## 📊 Describing a Data Set
+
+::: {style="font-size: 32px"}
+Before inference, **look at the data**.
+
+A list of 250 numbers tells you nothing; the same 250 numbers arranged by size tell you a great deal.
+
+::: {.fragment}
+Two routes:
+
+- **Graphical** — frequency distributions, histograms (§1.2, today)
+
+- **Numerical** — mean, variance, standard deviation (§§1.4–1.5, Saturday)
+:::
+:::
+
+---
+
+## 🧱 Building a Frequency Distribution
+
+::: {style="font-size: 30px"}
+1. Find the **range**: $\text{range} = \max - \min$
+
+2. Choose the number of **classes** $k$: between 5 and 20; more data, more classes
+
+3. Class **width** $\approx \text{range} / k$, rounded to something a human reads easily
+
+4. Set **boundaries** so that no observation falls on one
+
+5. **Count** the observations in each class: the class frequency $f_i$
+
+6. Divide by $n$: the **relative frequency** $f_i / n$
+:::
+
+---
+
+## 📈 A Worked Example: 40 Daily Returns
+
+::: {style="font-size: 30px"}
+Forty daily percentage returns on a bank share, sorted into classes of width 1%:
+
+| Class (%) | Frequency $f_i$ | Relative frequency $f_i/n$ |
+|---|---|---|
+| $[-4,-3)$ | 1 | 0.025 |
+| $[-3,-2)$ | 3 | 0.075 |
+| $[-2,-1)$ | 6 | 0.150 |
+| $[-1,0)$ | 10 | 0.250 |
+| $[0,1)$ | 11 | 0.275 |
+| $[1,2)$ | 6 | 0.150 |
+| $[2,3)$ | 2 | 0.050 |
+| $[3,4)$ | 1 | 0.025 |
+
+The relative frequencies sum to 1. That is not an accident — it is the reason this construction matters.
+:::
+
+---
+
+## 🔑 Relative Frequency Is a Probability in Waiting
+
+::: {style="font-size: 32px"}
+::: {.callout-important}
+## The bridge to Chapter 2
+
+If a measurement is drawn at random from the sample, the probability that it lands in a class **is** that class's relative frequency.
+
+As $n$ grows, the histogram settles down toward the **probability distribution** of the population.
+:::
+
+::: {.fragment}
+Everything in Chapters 3 and 4 is this idea, made exact.
+:::
+:::
+
+---
+
+## 👀 Reading the Shape
+
+::: {style="font-size: 30px"}
+::: {.columns}
+::: {.column width="33%"}
+**Symmetric, mound-shaped**
+
+Returns of a broad index over a calm year. The empirical rule will apply.
+:::
+
+::: {.column width="33%"}
+**Skewed right**
+
+Loan losses, insurance claims, waiting times. A long right tail, most mass near zero.
+:::
+
+::: {.column width="33%"}
+**Heavy-tailed**
+
+Crisis-period returns. The centre looks normal; the tails are where the money is lost.
+:::
+:::
+
+::: {.fragment}
+The histogram is the first place a bad model announces itself.
+:::
+:::
+
+---
+
+## ⚠️ The Number of Classes Is a Choice
+
+::: {style="font-size: 32px"}
+- **Too few classes**: everything looks like one lump. Structure is hidden.
+
+- **Too many classes**: every observation gets its own bar. Noise looks like structure.
+
+::: {.fragment}
+There is no formula that removes the judgement. There is only the discipline of **trying several** and reporting one you can defend.
+
+Move the sliders on the next slide and watch a conclusion change shape.
+:::
+:::
+
+---
+
+## 🔬 Interactive: Sample Size and Bin Width {.smaller}
+
+```{ojs}
+//| echo: false
+
+viewof n_obs = {
+  const input = Inputs.range([20, 1000], {value: 200, step: 20, label: "Sample size n:"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+
+viewof n_bins = {
+  const input = Inputs.range([3, 40], {value: 12, step: 1, label: "Number of classes k:"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+
+viewof shape = {
+  const input = Inputs.select(["mound-shaped", "skewed right", "heavy-tailed"],
+    {value: "mound-shaped", label: "Population shape:"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+```
+
+```{ojs}
+//| echo: false
+
+// deterministic generator, so the class sees the same picture every time
+rng = {
+  let s = 42;
+  return () => (s = (s * 1103515245 + 12345) % 2147483648) / 2147483648;
+}
+
+normal = () => {
+  const u = Math.max(rng(), 1e-12), v = rng();
+  return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+}
+
+sample = {
+  const out = [];
+  for (let i = 0; i < n_obs; i++) {
+    if (shape === "mound-shaped") out.push(0.05 + 1.2 * normal());
+    else if (shape === "skewed right") out.push(Math.exp(0.35 * normal()) - 1);
+    else out.push(1.2 * normal() * (rng() < 0.06 ? 4 : 1));
+  }
+  return out;
+}
+
+Plot.plot({
+  width: 1050,
+  height: 380,
+  marginLeft: 60,
+  marginBottom: 50,
+  x: {label: "Daily return (%)"},
+  y: {label: "Relative frequency", tickFormat: ".2f"},
+  marks: [
+    Plot.rectY(sample, Plot.binX(
+      {y: (bin, all) => bin.length / all.length},
+      {x: d => d, thresholds: n_bins, fill: "#8b2635", fillOpacity: 0.85}
+    )),
+    Plot.ruleY([0])
+  ]
+})
+```
+
+---
+
+## 🧠 Think-Pair-Share
+
+::: {style="font-size: 32px"}
+A colleague shows you a histogram of 500 daily returns built with **3 classes**. It looks perfectly symmetric, and he concludes the returns are normally distributed.
+
+**Two minutes, in pairs:**
+
+1. What has his choice of classes hidden?
+
+2. What would you ask him to produce before you accept the conclusion?
+
+3. Which feature of returns is *most* likely to be invisible at $k = 3$?
+:::
+
+---
+
+## ✅ Think-Pair-Share: Solution
+
+::: {style="font-size: 30px"}
+1. With three classes every observation falls into a wide bin. Symmetry of three bars says almost nothing about symmetry of the underlying distribution — it is an artefact of coarse binning.
+
+2. Ask for the same data at $k \approx \sqrt{500} \approx 22$ classes, plus the numerical summaries of Saturday's lecture and, ideally, a normal reference curve on the same axes.
+
+3. **Tail behaviour.** Crisis returns live in the outer 1–2% of the data. At $k=3$ they are absorbed into the outermost bars and vanish. In risk management that is precisely the part you cannot afford to lose.
+
+::: {.fragment}
+The moral: a histogram is a *claim*, and the number of classes is part of the claim.
+:::
+:::
+
+---
+
+## 💰 Case Study: Descriptive Analysis of Real Returns
+
+::: {style="font-size: 28px"}
+Run this in R to repeat today's construction on live market data.
+
+```r
+library(quantmod)
+
+# Download five years of daily prices
+getSymbols("^GSPC", src = "yahoo", from = "2021-01-01", auto.assign = TRUE)
+
+prices  <- as.numeric(Cl(GSPC))
+returns <- 100 * diff(log(prices))          # daily log returns, in per cent
+
+# 1. The frequency distribution
+k        <- ceiling(sqrt(length(returns)))  # a defensible starting choice
+breaks   <- pretty(range(returns), n = k)
+tab      <- table(cut(returns, breaks))
+rel_freq <- tab / length(returns)
+
+round(rel_freq, 3)
+
+# 2. The relative frequency histogram
+hist(returns, breaks = breaks, freq = FALSE,
+     main = "S&P 500 daily returns", xlab = "Return (%)", col = "grey85")
+```
+
+**Ask of the output:** where is the centre, how wide is the spread, and how much mass sits beyond ±3%?
+:::
+
+---
+
+## 📝 Quiz #1: Population or Sample? {.quiz-question}
+
+A regulator collects the download speeds of **all 1.2 million** fixed broadband subscribers in the country during March.
+
+For the question *"what is the mean speed of subscribers in March?"*, this collection is:
+
+- [the population]{.correct data-explanation="✅ Every measurement of interest is present, so the mean computed from it is a parameter, not a statistic."}
+- a sample
+- a statistic
+- a parameter
+
+---
+
+## 📝 Quiz #2: Parameters and Statistics {.quiz-question}
+
+Which of the following is a **statistic**?
+
+- [The average return of the 250 days in your data set]{.correct data-explanation="✅ It is a function of the sample, so it is computable and it varies from sample to sample."}
+- The true mean daily return of the index
+- The population variance $\sigma^2$
+- The probability of default of a AAA borrower
+
+---
+
+## 📝 Quiz #3: Relative Frequency {.quiz-question}
+
+In a sample of $n = 40$ returns, 11 fall in the class $[0,1)$. The relative frequency of that class is:
+
+- [0.275]{.correct data-explanation="✅ 11/40 = 0.275. Sum all such values and you get 1."}
+- 11
+- 0.11
+- 2.75
+
+---
+
+## 📋 Summary
+
+::: {style="font-size: 32px"}
+- Statistics makes an **inference about a population from a sample**, and attaches a **measure of goodness** to it
+
+- **Parameters** describe populations and are unknown; **statistics** describe samples and are random variables
+
+- A **frequency distribution** groups data into classes; dividing by $n$ gives **relative frequencies** that sum to 1
+
+- The relative frequency histogram is the empirical ancestor of the **probability distribution**
+
+- The number of classes is a judgement, and it can hide exactly the tail behaviour that matters in finance
+:::
+
+---
+
+## 📚 Practice Problems
+
+::: {style="font-size: 32px"}
+**Wackerly, 7th edition**
+
+- Exercises at the end of §1.3 — construct relative frequency histograms and read them
+
+- Chapter 1 supplementary exercises 1.1 – 1.10
+
+**Before Saturday**
+
+Read §§1.4 – 1.6. We will replace the picture with three numbers, and then ask how much of the picture those numbers actually keep.
+:::
+
+---
+
+## 🙏 Thank You
+
+::: {style="font-size: 34px"}
+**Dr. Samir Orujov**
+
+📧 sorujov@ada.edu.az
+🏢 Building D, Room D325
+🕓 Office hours: Wednesday, 16:00 – 18:00
+
+**Next class:** Numerical descriptive measures — the mean, the variance, and Tchebysheff's theorem.
+:::
+
+---
+
+## ❓ Questions
+
+::: {style="font-size: 34px"}
+- Which populations in your own work are hypothetical rather than physical?
+
+- If a statistic is a random variable, what would its distribution look like?
+
+- Can a histogram ever be *wrong*, or only misleading?
+:::
