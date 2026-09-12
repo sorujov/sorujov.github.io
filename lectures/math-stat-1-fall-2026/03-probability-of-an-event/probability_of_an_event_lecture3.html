@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="probability_of_an_event_lecture3_files/libs/clipboard/clipboard.min.js"></script>
+<script src="probability_of_an_event_lecture3_files/libs/quarto-html/tabby.min.js"></script>
+<script src="probability_of_an_event_lecture3_files/libs/quarto-html/popper.min.js"></script>
+<script src="probability_of_an_event_lecture3_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="probability_of_an_event_lecture3_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="probability_of_an_event_lecture3_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="probability_of_an_event_lecture3_files/libs/quarto-html/quarto-syntax-highlighting-12757e4b7af482b2d9c5bd8860d2b707.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.10.18">
+
+  <meta name="author" content="Samir Orujov, PhD">
+  <meta name="dcterms.date" content="2026-09-12">
+  <title>Mathematical Statistics</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="probability_of_an_event_lecture3_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="probability_of_an_event_lecture3_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {  background-color: #f8f8f8; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ef2929; } /* Alert */
+    code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #204a87; } /* Attribute */
+    code span.bn { color: #0000cf; } /* BaseN */
+    code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4e9a06; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #8f5902; font-style: italic; } /* Comment */
+    code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+    code span.dt { color: #204a87; } /* DataType */
+    code span.dv { color: #0000cf; } /* DecVal */
+    code span.er { color: #a40000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #0000cf; } /* Float */
+    code span.fu { color: #204a87; font-weight: bold; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+    code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+    code span.ot { color: #8f5902; } /* Other */
+    code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+    code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+    code span.ss { color: #4e9a06; } /* SpecialString */
+    code span.st { color: #4e9a06; } /* String */
+    code span.va { color: #000000; } /* Variable */
+    code span.vs { color: #4e9a06; } /* VerbatimString */
+    code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="probability_of_an_event_lecture3_files/libs/revealjs/dist/theme/quarto-8f4eabb0e7fa2a8f159449dd4bce52c1.css">
+  <link href="probability_of_an_event_lecture3_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="probability_of_an_event_lecture3_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="probability_of_an_event_lecture3_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="probability_of_an_event_lecture3_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="probability_of_an_event_lecture3_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="probability_of_an_event_lecture3_files/libs/revealjs/plugin/reveal-quiz/quiz.css" rel="stylesheet">
+  <link href="probability_of_an_event_lecture3_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script type="module" src="probability_of_an_event_lecture3_files/libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+  <link href="probability_of_an_event_lecture3_files/libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+  <link href="probability_of_an_event_lecture3_files/libs/countdown-0.6.0/countdown.css" rel="stylesheet">
+
+  <script src="probability_of_an_event_lecture3_files/libs/countdown-0.6.0/countdown.js"></script>
+
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Mathematical Statistics</h1>
+  <p class="subtitle">The Probability of an Event: Sample Spaces, the Axioms and the Sample-Point Method</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Samir Orujov, PhD
+</div>
+        <p class="quarto-title-affiliation">
+            ADA University, School of Business
+          </p>
+        <p class="quarto-title-affiliation">
+            Information Communication Technologies Agency, Statistics Unit
+          </p>
+    </div>
+</div>
+
+  <p class="date">2026-09-12</p>
+</section>
+<section id="learning-objectives" class="slide level2">
+<h2>🎯 Learning Objectives</h2>
+<div style="font-size: 32px">
+<p>By the end of this lecture, you will be able to:</p>
+<ul>
+<li><p><strong>Translate</strong> a verbal description of an event into set notation, and read set notation back into words</p></li>
+<li><p><strong>Distinguish</strong> a simple event from a compound one, and write any event as a union of sample points</p></li>
+<li><p><strong>State</strong> the three axioms of probability and check whether a proposed assignment satisfies them</p></li>
+<li><p><strong>Execute</strong> the five steps of the sample-point method on a discrete sample space</p></li>
+<li><p><strong>Recognise</strong> that the axioms constrain an assignment of probabilities without ever choosing one</p></li>
+</ul>
+</div>
+</section>
+<section id="where-we-are" class="slide level2">
+<h2>🗺️ Where We Are</h2>
+<div style="font-size: 32px">
+<p><strong>Wackerly §§2.1 – 2.5</strong></p>
+<p>Last time we ended with a bound — Tchebysheff — that held for <em>any</em> data set. It bounded a proportion we could see.</p>
+<div class="fragment">
+<p>Today we start on the quantity that proportion is supposed to estimate. Three axioms, and a method for computing with them.</p>
+</div>
+<div class="fragment">
+<ol type="1">
+<li>Set notation as the language of events</li>
+<li>Experiments, sample spaces, simple and compound events</li>
+<li>The three axioms</li>
+<li>The sample-point method</li>
+</ol>
+</div>
+</div>
+</section>
+<section id="motivation-the-gamblers-argument" class="slide level2">
+<h2>💡 Motivation: The Gambler’s Argument</h2>
+<div style="font-size: 30px">
+<p>A trader claims his signal is worthless — a coin flip. You watch ten trades. <strong>All ten win.</strong></p>
+<div class="fragment">
+<p>You reject the claim. Not because ten wins is <em>impossible</em> under a fair coin, but because it is <strong>improbable</strong>.</p>
+</div>
+<div class="fragment">
+<p>That single word carries the whole inference. Change the data to <em>six</em> wins out of ten and intuition stops answering: is that improbable or not?</p>
+</div>
+<div class="fragment">
+<p>So we need a theory that returns a <strong>number</strong>. The number has to obey rules, or two analysts will compute different answers from the same experiment.</p>
+</div>
+</div>
+</section>
+<section id="set-notation-the-language-of-events" class="slide level2">
+<h2>📝 Set Notation: The Language of Events</h2>
+<div style="font-size: 30px">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Definitions</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math inline">\(S\)</span> — the <strong>universal set</strong>; <span class="math inline">\(\varnothing\)</span> — the <strong>null set</strong>; <span class="math inline">\(A \subset B\)</span> — <span class="math inline">\(A\)</span> is contained in <span class="math inline">\(B\)</span></p>
+<p><span class="math inline">\(A \cup B\)</span> — all points in <span class="math inline">\(A\)</span> <strong>or</strong> <span class="math inline">\(B\)</span> or both</p>
+<p><span class="math inline">\(A \cap B\)</span> (or <span class="math inline">\(AB\)</span>) — all points in <span class="math inline">\(A\)</span> <strong>and</strong> <span class="math inline">\(B\)</span></p>
+<p><span class="math inline">\(\bar{A}\)</span> — the <strong>complement</strong>: points of <span class="math inline">\(S\)</span> not in <span class="math inline">\(A\)</span>, so <span class="math inline">\(A \cup \bar{A} = S\)</span></p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>The two keywords are worth memorising: <strong>union is “or”</strong>, <strong>intersection is “and”</strong>.</p>
+</div>
+</div>
+</section>
+<section id="mutually-exclusive-sets" class="slide level2">
+<h2>🚫 Mutually Exclusive Sets</h2>
+<div style="font-size: 32px">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Definition</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are <strong>disjoint</strong>, or <strong>mutually exclusive</strong>, if <span class="math inline">\(A \cap B = \varnothing\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>For any set <span class="math inline">\(A\)</span>, the pair <span class="math inline">\(A\)</span> and <span class="math inline">\(\bar{A}\)</span> is mutually exclusive. That is the pair we will use most.</p>
+</div>
+<div class="fragment">
+<p>A bank’s loan is <em>current</em> or <em>in arrears</em>, never both. A tender is <em>won</em> or <em>lost</em>. Mutually exclusive events are the ones we can add probabilities over — Axiom 3 says so, and nothing weaker does.</p>
+</div>
+</div>
+</section>
+<section id="four-identities-you-will-use-constantly" class="slide level2">
+<h2>⚖️ Four Identities You Will Use Constantly</h2>
+<div style="font-size: 30px">
+<p><strong>Distributive laws</strong></p>
+<p><span class="math display">\[A \cap (B \cup C) = (A \cap B) \cup (A \cap C)\]</span> <span class="math display">\[A \cup (B \cap C) = (A \cup B) \cap (A \cup C)\]</span></p>
+<p><strong>DeMorgan’s laws</strong></p>
+<p><span class="math display">\[\overline{(A \cap B)} = \bar{A} \cup \bar{B} \qquad \overline{(A \cup B)} = \bar{A} \cap \bar{B}\]</span></p>
+<div class="fragment">
+<p>Read the second in words: “not (either covenant breached)” is “neither covenant breached”. Translating between the two is most of the work in a probability exercise.</p>
+</div>
+</div>
+</section>
+<section id="experiments-and-events" class="slide level2">
+<h2>🔬 Experiments and Events</h2>
+<div style="font-size: 30px">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Definition 2.1</strong></p>
+</div>
+<div class="callout-content">
+<p>An <strong>experiment</strong> is the process by which an observation is made.</p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>Note how wide that is. A controlled laboratory trial is an experiment; so is observing tomorrow’s closing price of a share you do not control at all.</p>
+</div>
+<div class="fragment">
+<p>Consider one trading day for a single share. Events of interest:</p>
+<p><span class="math inline">\(A\)</span>: the price rises. <span class="math inline">\(\quad\)</span> <span class="math inline">\(B\)</span>: the price moves by more than 2%. <span class="math inline">\(\quad\)</span> <span class="math inline">\(C\)</span>: the price is unchanged.</p>
+</div>
+</div>
+</section>
+<section id="simple-and-compound-events" class="slide level2">
+<h2>🧩 Simple and Compound Events</h2>
+<div style="font-size: 30px">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Definitions 2.2 – 2.3</strong></p>
+</div>
+<div class="callout-content">
+<p>A <strong>simple event</strong> cannot be decomposed, and corresponds to one and only one <strong>sample point</strong>, written <span class="math inline">\(E_i\)</span>.</p>
+<p>The <strong>sample space</strong> <span class="math inline">\(S\)</span> is the set of all sample points.</p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>A <strong>compound event</strong> happens in more than one distinct way. Observing an odd number on a die is compound: it happens through <span class="math inline">\(E_1\)</span>, <span class="math inline">\(E_3\)</span> or <span class="math inline">\(E_5\)</span>.</p>
+</div>
+<div class="fragment">
+<p>The test for membership is exact: <span class="math inline">\(E_i\)</span> belongs to <span class="math inline">\(A\)</span> <strong>if and only if</strong> <span class="math inline">\(A\)</span> occurs whenever <span class="math inline">\(E_i\)</span> occurs.</p>
+</div>
+</div>
+</section>
+<section id="discrete-sample-spaces" class="slide level2">
+<h2>🔢 Discrete Sample Spaces</h2>
+<div style="font-size: 30px">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Definitions 2.4 – 2.5</strong></p>
+</div>
+<div class="callout-content">
+<p>A <strong>discrete</strong> sample space contains a finite or countable number of distinct sample points.</p>
+<p>An <strong>event</strong> in a discrete sample space is any subset of <span class="math inline">\(S\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>Counting defaults in a portfolio gives <span class="math inline">\(S = \{E_0, E_1, E_2, \ldots\}\)</span> — infinite, but countable, so discrete.</p>
+</div>
+<div class="fragment">
+<p>Measuring a <em>yield</em> does not: the sample space is an interval of real numbers, which is uncountable. That case waits for Chapter 4.</p>
+</div>
+</div>
+</section>
+<section id="the-three-axioms" class="slide level2">
+<h2>📐 The Three Axioms</h2>
+<div style="font-size: 30px">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Definition 2.6</strong></p>
+</div>
+<div class="callout-content">
+<p>To every event <span class="math inline">\(A\)</span> in <span class="math inline">\(S\)</span> assign a number <span class="math inline">\(P(A)\)</span> such that</p>
+<p><strong>Axiom 1.</strong> <span class="math inline">\(P(A) \geq 0\)</span></p>
+<p><strong>Axiom 2.</strong> <span class="math inline">\(P(S) = 1\)</span></p>
+<p><strong>Axiom 3.</strong> If <span class="math inline">\(A_1, A_2, \ldots\)</span> are pairwise mutually exclusive, then <span class="math display">\[P(A_1 \cup A_2 \cup \cdots) = \sum_{i=1}^{\infty} P(A_i)\]</span></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="where-the-axioms-come-from" class="slide level2">
+<h2>🧭 Where the Axioms Come From</h2>
+<div style="font-size: 30px">
+<p>Each one is a relative frequency written as a rule:</p>
+<ul>
+<li><p>A relative frequency is never negative <span class="math inline">\(\;\Rightarrow\;\)</span> <strong>Axiom 1</strong></p></li>
+<li><p>Every repetition produces some outcome in <span class="math inline">\(S\)</span> <span class="math inline">\(\;\Rightarrow\;\)</span> <strong>Axiom 2</strong></p></li>
+<li><p>If a 1 occurs on <span class="math inline">\(1/6\)</span> of tosses and a 2 on <span class="math inline">\(1/6\)</span>, then a 1 <em>or</em> a 2 occurs on <span class="math inline">\(1/3\)</span> <span class="math inline">\(\;\Rightarrow\;\)</span> <strong>Axiom 3</strong></p></li>
+</ul>
+<div class="fragment">
+<p>Axiom 3 stated for an infinite sequence implies the finite version, which is the one you will actually use.</p>
+</div>
+</div>
+</section>
+<section id="what-the-axioms-do-not-say" class="slide level2">
+<h2>⚠️ What the Axioms Do <em>Not</em> Say</h2>
+<div style="font-size: 30px">
+<p>They state the conditions an assignment must satisfy. They do <strong>not</strong> tell you which assignment to make.</p>
+<div class="fragment">
+<p>A coin has come up heads on 800 of 1000 tosses. Toss it once more: <span class="math inline">\(S = \{H, T\}\)</span>. The axioms permit <span class="math inline">\(P(H) = 1/2\)</span> — and permit <span class="math inline">\(P(H) = 0.8\)</span>.</p>
+</div>
+<div class="fragment">
+<p>Both are legal models. Only one is a good one.</p>
+<p><strong>The axioms give consistency; the data must give the numbers.</strong></p>
+</div>
+</div>
+</section>
+<section id="the-sample-point-method" class="slide level2">
+<h2>🪜 The Sample-Point Method</h2>
+<div style="font-size: 28px">
+<ol type="1">
+<li><p>Define the experiment and say precisely what one simple event looks like</p></li>
+<li><p>List the simple events; check that none can be decomposed. This is <span class="math inline">\(S\)</span></p></li>
+<li><p>Assign probabilities to the sample points, with <span class="math inline">\(P(E_i) \geq 0\)</span> and <span class="math inline">\(\sum P(E_i) = 1\)</span></p></li>
+<li><p>Define the event <span class="math inline">\(A\)</span> as a specific collection of sample points</p></li>
+<li><p>Find <span class="math inline">\(P(A)\)</span> by <strong>summing</strong> the probabilities of the sample points in <span class="math inline">\(A\)</span></p></li>
+</ol>
+<div class="fragment">
+<p>Step 5 is legal only because of Axiom 3: distinct sample points are mutually exclusive.</p>
+</div>
+</div>
+</section>
+<section id="worked-example-a-credit-file-audit" class="slide level2">
+<h2>📊 Worked Example: A Credit File Audit</h2>
+<div style="font-size: 30px">
+<p>A branch has <strong>five</strong> loan files ready for review. Unknown to the reviewer, <strong>two</strong> were misclassified at origination. The auditor draws <strong>two files at random</strong>.</p>
+<p>Write the misclassified files <span class="math inline">\(M_1, M_2\)</span> and the sound ones <span class="math inline">\(G_1, G_2, G_3\)</span>.</p>
+<div class="fragment">
+<p><strong>Step 1.</strong> One simple event = the unordered pair drawn.</p>
+<p><strong>Step 2.</strong> There are ten pairs, so <span class="math inline">\(S = \{E_1, \ldots, E_{10}\}\)</span>.</p>
+</div>
+</div>
+</section>
+<section id="the-audit-steps-2-and-3" class="slide level2">
+<h2>📊 The Audit: Steps 2 and 3</h2>
+<div style="font-size: 28px">
+<table class="caption-top">
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(E_1: \{M_1, M_2\}\)</span></td>
+<td><span class="math inline">\(E_5: \{M_2, G_1\}\)</span></td>
+<td><span class="math inline">\(E_8: \{G_1, G_2\}\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(E_2: \{M_1, G_1\}\)</span></td>
+<td><span class="math inline">\(E_6: \{M_2, G_2\}\)</span></td>
+<td><span class="math inline">\(E_9: \{G_1, G_3\}\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(E_3: \{M_1, G_2\}\)</span></td>
+<td><span class="math inline">\(E_7: \{M_2, G_3\}\)</span></td>
+<td><span class="math inline">\(E_{10}: \{G_2, G_3\}\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(E_4: \{M_1, G_3\}\)</span></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p><strong>Step 3.</strong> The draw is at random, so no pair is favoured: <span class="math inline">\(P(E_i) = 1/10\)</span> for all <span class="math inline">\(i\)</span>.</p>
+</div>
+</div>
+</section>
+<section id="the-audit-steps-4-and-5" class="slide level2">
+<h2>📊 The Audit: Steps 4 and 5</h2>
+<div style="font-size: 30px">
+<p><strong>Step 4.</strong> Let <span class="math inline">\(A\)</span> be the event that the auditor sees <strong>no</strong> misclassified file. Checking every point, <span class="math display">\[A = \{E_8, E_9, E_{10}\}\]</span></p>
+<p><strong>Step 5.</strong> By Axiom 3, <span class="math display">\[P(A) = \tfrac{1}{10} + \tfrac{1}{10} + \tfrac{1}{10} = \tfrac{3}{10} = 0.3\]</span></p>
+<div class="fragment">
+<p>So the audit misses the problem entirely 30% of the time. That number, not a feeling, is what belongs in the report.</p>
+</div>
+</div>
+</section>
+<section id="the-audit-enumerated-in-r" class="slide level2">
+<h2>💻 The Audit, Enumerated in R</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-label="1"></a>files <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"M1"</span>, <span class="st">"M2"</span>, <span class="st">"G1"</span>, <span class="st">"G2"</span>, <span class="st">"G3"</span>)</span>
+<span id="cb1-2"><a href="" aria-label="2"></a>pairs <span class="ot">&lt;-</span> <span class="fu">combn</span>(files, <span class="dv">2</span>)                       <span class="co"># every unordered pair</span></span>
+<span id="cb1-3"><a href="" aria-label="3"></a></span>
+<span id="cb1-4"><a href="" aria-label="4"></a>sound_only <span class="ot">&lt;-</span> <span class="fu">apply</span>(pairs, <span class="dv">2</span>, <span class="cf">function</span>(p) <span class="sc">!</span><span class="fu">any</span>(<span class="fu">startsWith</span>(p, <span class="st">"M"</span>)))</span>
+<span id="cb1-5"><a href="" aria-label="5"></a></span>
+<span id="cb1-6"><a href="" aria-label="6"></a><span class="fu">data.frame</span>(</span>
+<span id="cb1-7"><a href="" aria-label="7"></a>  <span class="at">sample_points =</span> <span class="fu">ncol</span>(pairs),</span>
+<span id="cb1-8"><a href="" aria-label="8"></a>  <span class="at">points_in_A   =</span> <span class="fu">sum</span>(sound_only),</span>
+<span id="cb1-9"><a href="" aria-label="9"></a>  <span class="at">P_A           =</span> <span class="fu">sum</span>(sound_only) <span class="sc">/</span> <span class="fu">ncol</span>(pairs)</span>
+<span id="cb1-10"><a href="" aria-label="10"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  sample_points points_in_A P_A
+1            10           3 0.3</code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>The machine lists <span class="math inline">\(S\)</span> and counts. Step 2 is where human error lives, and this is the check against it.</p>
+</div>
+</section>
+<section id="unequal-sample-points-a-tender" class="slide level2">
+<h2>🏦 Unequal Sample Points: A Tender</h2>
+<div style="font-size: 30px">
+<p>A dealer bids in <strong>two</strong> consecutive treasury-bill auctions. From past auctions the odds she wins any one are <strong>two to one</strong>.</p>
+<div class="fragment">
+<p><span class="math inline">\(S\)</span> has four points, writing <span class="math inline">\(WL\)</span> for “won the first, lost the second”: <span class="math display">\[E_1: WW \quad E_2: WL \quad E_3: LW \quad E_4: LL\]</span></p>
+</div>
+<div class="fragment">
+<p>Equal probabilities would be wrong here. The assignment consistent with 2:1 odds is <span class="math display">\[P(E_1) = \tfrac{4}{9}, \; P(E_2) = P(E_3) = \tfrac{2}{9}, \; P(E_4) = \tfrac{1}{9}\]</span></p>
+</div>
+</div>
+</section>
+<section id="the-tender-at-least-one-win" class="slide level2">
+<h2>🏦 The Tender: At Least One Win</h2>
+<div style="font-size: 30px">
+<p>Check the assignment first: each <span class="math inline">\(P(E_i) \geq 0\)</span> and they sum to <span class="math inline">\(9/9 = 1\)</span>. Axioms 1 and 2 hold.</p>
+<div class="fragment">
+<p>Let <span class="math inline">\(C\)</span> be the event that she wins <strong>at least one</strong> auction. Then <span class="math inline">\(C = E_1 \cup E_2 \cup E_3\)</span> and <span class="math display">\[P(C) = \tfrac{4}{9} + \tfrac{2}{9} + \tfrac{2}{9} = \tfrac{8}{9} \approx 0.889\]</span></p>
+</div>
+<div class="fragment">
+<p>Equally likely points would have given <span class="math inline">\(3/4\)</span>. The sample-point method does not require equal probabilities — only <em>legal</em> ones.</p>
+</div>
+</div>
+</section>
+<section id="three-trading-days" class="slide level2">
+<h2>💻 Three Trading Days</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-label="1"></a>S <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">day1 =</span> <span class="fu">c</span>(<span class="st">"up"</span>, <span class="st">"down"</span>), <span class="at">day2 =</span> <span class="fu">c</span>(<span class="st">"up"</span>, <span class="st">"down"</span>),</span>
+<span id="cb3-2"><a href="" aria-label="2"></a>                 <span class="at">day3 =</span> <span class="fu">c</span>(<span class="st">"up"</span>, <span class="st">"down"</span>), <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb3-3"><a href="" aria-label="3"></a></span>
+<span id="cb3-4"><a href="" aria-label="4"></a>ups <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(S <span class="sc">==</span> <span class="st">"up"</span>)</span>
+<span id="cb3-5"><a href="" aria-label="5"></a>exact <span class="ot">&lt;-</span> <span class="fu">mean</span>(ups <span class="sc">==</span> <span class="dv">2</span>)                        <span class="co"># sample-point method</span></span>
+<span id="cb3-6"><a href="" aria-label="6"></a></span>
+<span id="cb3-7"><a href="" aria-label="7"></a>sim <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">replicate</span>(<span class="dv">200000</span>, <span class="fu">sum</span>(<span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"up"</span>, <span class="st">"down"</span>), <span class="dv">3</span>, <span class="cn">TRUE</span>) <span class="sc">==</span> <span class="st">"up"</span>)) <span class="sc">==</span> <span class="dv">2</span>)</span>
+<span id="cb3-8"><a href="" aria-label="8"></a></span>
+<span id="cb3-9"><a href="" aria-label="9"></a><span class="fu">data.frame</span>(<span class="at">sample_points =</span> <span class="fu">nrow</span>(S), <span class="at">exactly_two_up =</span> <span class="fu">sum</span>(ups <span class="sc">==</span> <span class="dv">2</span>),</span>
+<span id="cb3-10"><a href="" aria-label="10"></a>           <span class="at">by_enumeration =</span> exact, <span class="at">by_simulation =</span> <span class="fu">round</span>(sim, <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  sample_points exactly_two_up by_enumeration by_simulation
+1             8              3          0.375        0.3768</code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>Eight equally likely points, three of them with exactly two up days: <span class="math inline">\(P = 3/8\)</span>. The simulation agrees — as the relative-frequency reading of probability says it must.</p>
+</div>
+</section>
+<section id="interactive-why-relative-frequency-settles" class="slide level2 smaller">
+<h2>🔬 Interactive: Why Relative Frequency Settles</h2>
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb5" data-startfrom="452" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 451;"><span id="cb5-452"><a href="" aria-label="452"></a>viewof p_true <span class="op">=</span> {</span>
+<span id="cb5-453"><a href="" aria-label="453"></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.05</span><span class="op">,</span> <span class="fl">0.95</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="fl">0.375</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.005</span><span class="op">,</span></span>
+<span id="cb5-454"><a href="" aria-label="454"></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"True P(event):"</span>})<span class="op">;</span></span>
+<span id="cb5-455"><a href="" aria-label="455"></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
+<span id="cb5-456"><a href="" aria-label="456"></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
+<span id="cb5-457"><a href="" aria-label="457"></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb5-458"><a href="" aria-label="458"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb6" data-startfrom="466" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 465;"><span id="cb6-466"><a href="" aria-label="466"></a>rng3 <span class="op">=</span> {</span>
+<span id="cb6-467"><a href="" aria-label="467"></a>  <span class="kw">let</span> s <span class="op">=</span> <span class="dv">20260916</span><span class="op">;</span></span>
+<span id="cb6-468"><a href="" aria-label="468"></a>  <span class="cf">return</span> () <span class="kw">=&gt;</span> (s <span class="op">=</span> (s <span class="op">*</span> <span class="dv">1103515245</span> <span class="op">+</span> <span class="dv">12345</span>) <span class="op">%</span> <span class="dv">2147483648</span>) <span class="op">/</span> <span class="dv">2147483648</span><span class="op">;</span></span>
+<span id="cb6-469"><a href="" aria-label="469"></a>}</span>
+<span id="cb6-470"><a href="" aria-label="470"></a></span>
+<span id="cb6-471"><a href="" aria-label="471"></a><span class="co">// The running relative frequency after 1, 2, ..., 1500 repetitions.</span></span>
+<span id="cb6-472"><a href="" aria-label="472"></a>path <span class="op">=</span> {</span>
+<span id="cb6-473"><a href="" aria-label="473"></a>  <span class="kw">const</span> out <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb6-474"><a href="" aria-label="474"></a>  <span class="kw">let</span> hits <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb6-475"><a href="" aria-label="475"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> <span class="dv">1500</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb6-476"><a href="" aria-label="476"></a>    <span class="cf">if</span> (<span class="fu">rng3</span>() <span class="op">&lt;</span> p_true) hits<span class="op">++;</span></span>
+<span id="cb6-477"><a href="" aria-label="477"></a>    out<span class="op">.</span><span class="fu">push</span>({<span class="dt">n</span><span class="op">:</span> i<span class="op">,</span> <span class="dt">freq</span><span class="op">:</span> hits <span class="op">/</span> i})<span class="op">;</span></span>
+<span id="cb6-478"><a href="" aria-label="478"></a>  }</span>
+<span id="cb6-479"><a href="" aria-label="479"></a>  <span class="cf">return</span> out<span class="op">;</span></span>
+<span id="cb6-480"><a href="" aria-label="480"></a>}</span>
+<span id="cb6-481"><a href="" aria-label="481"></a></span>
+<span id="cb6-482"><a href="" aria-label="482"></a><span class="fu">md</span><span class="vs">`After 1500 repetitions the relative frequency is **</span><span class="sc">${</span>path[<span class="dv">1499</span>]<span class="op">.</span><span class="at">freq</span><span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="vs">**, against a true probability of **</span><span class="sc">${</span>p_true<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="vs">**.`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-3" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb7" data-startfrom="484" data-source-offset="-491"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 483;"><span id="cb7-484"><a href="" aria-label="484"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb7-485"><a href="" aria-label="485"></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">1150</span><span class="op">,</span></span>
+<span id="cb7-486"><a href="" aria-label="486"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">320</span><span class="op">,</span></span>
+<span id="cb7-487"><a href="" aria-label="487"></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">78</span><span class="op">,</span></span>
+<span id="cb7-488"><a href="" aria-label="488"></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">58</span><span class="op">,</span></span>
+<span id="cb7-489"><a href="" aria-label="489"></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontSize</span><span class="op">:</span> <span class="st">"18px"</span>}<span class="op">,</span></span>
+<span id="cb7-490"><a href="" aria-label="490"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Number of repetitions"</span><span class="op">,</span> <span class="dt">type</span><span class="op">:</span> <span class="st">"log"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">1</span><span class="op">,</span> <span class="dv">1500</span>]}<span class="op">,</span></span>
+<span id="cb7-491"><a href="" aria-label="491"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Relative frequency"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> <span class="dt">tickFormat</span><span class="op">:</span> <span class="st">".1f"</span>}<span class="op">,</span></span>
+<span id="cb7-492"><a href="" aria-label="492"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb7-493"><a href="" aria-label="493"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([p_true]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"#8b2635"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="fl">2.5</span>})<span class="op">,</span></span>
+<span id="cb7-494"><a href="" aria-label="494"></a>    Plot<span class="op">.</span><span class="fu">line</span>(path<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"n"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"freq"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#14130f"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="fl">1.6</span>})<span class="op">,</span></span>
+<span id="cb7-495"><a href="" aria-label="495"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
+<span id="cb7-496"><a href="" aria-label="496"></a>  ]</span>
+<span id="cb7-497"><a href="" aria-label="497"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-4" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="think-pair-share" class="slide level2">
+<h2>🧠 Think-Pair-Share</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<countdown-timer class="countdown" id="timer_2217665c" minutes="3" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
+</div>
+</div>
+<div style="font-size: 30px">
+<p>A risk officer assigns, for one loan reviewed next month:</p>
+<p><span class="math display">\[P(\text{current}) = 0.82, \quad P(\text{in arrears}) = 0.15, \quad P(\text{written off}) = 0.05\]</span></p>
+<p><strong>Three minutes, in pairs:</strong></p>
+<ol type="1">
+<li><p>Is this assignment legal under Definition 2.6?</p></li>
+<li><p>If not, which axiom fails, and by how much?</p></li>
+<li><p>He then claims <span class="math inline">\(P(\text{arrears or written off}) = 0.20\)</span>. On what does that step depend?</p></li>
+</ol>
+</div>
+</section>
+<section id="think-pair-share-solution" class="slide level2">
+<h2>✅ Think-Pair-Share: Solution</h2>
+<div style="font-size: 28px">
+<ol type="1">
+<li><p><strong>Not legal.</strong> Axiom 1 holds — all three are non-negative. Axiom 2 fails: the three outcomes are exhaustive, so their probabilities must sum to <span class="math inline">\(P(S) = 1\)</span>. They sum to <span class="math inline">\(1.02\)</span>.</p></li>
+<li><p>The excess is <span class="math inline">\(0.02\)</span>. Small, and still fatal: every probability computed from this model can now exceed 1, and the model can no longer be called a probability at all.</p></li>
+</ol>
+<div class="fragment">
+<p>An assignment that fails Axiom 2 is not “slightly wrong”. It is outside the definition.</p>
+</div>
+</div>
+</section>
+<section id="think-pair-share-the-addition" class="slide level2">
+<h2>✅ Think-Pair-Share: The Addition</h2>
+<div style="font-size: 30px">
+<ol start="3" type="1">
+<li>Adding <span class="math inline">\(0.15 + 0.05\)</span> uses <strong>Axiom 3</strong>, and Axiom 3 requires the two events to be <strong>mutually exclusive</strong>.</li>
+</ol>
+<div class="fragment">
+<p>Here they are: one loan, at one review date, cannot be both in arrears and written off. So the step is sound — once the assignment is repaired.</p>
+</div>
+<div class="fragment">
+<p>The habit worth forming: <strong>before adding two probabilities, say out loud why the events cannot both occur.</strong> Next week’s §2.8 is what to do when they can.</p>
+</div>
+</div>
+</section>
+<section id="quiz-1-reading-set-notation" class="slide level2 quiz-question">
+<h2>📝 Quiz #1: Reading Set Notation</h2>
+<p>Two covenants, <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, may be breached. Which expression says “neither is breached”?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ By DeMorgan this is the complement of (A ∪ B) — not (either one breached), which is exactly neither."><span class="math inline">\(\bar{A} \cap \bar{B}\)</span></span></li>
+<li><span class="math inline">\(\bar{A} \cup \bar{B}\)</span></li>
+<li><span class="math inline">\(\overline{A \cap B}\)</span></li>
+<li><span class="math inline">\(A \cap B\)</span></li>
+</ul>
+</section>
+<section id="quiz-2-simple-or-compound" class="slide level2 quiz-question">
+<h2>📝 Quiz #2: Simple or Compound?</h2>
+<p>A share is watched for three days and each day recorded as <em>up</em> or <em>down</em>, so one simple event is a triple such as <span class="math inline">\((up, down, up)\)</span>. Which of these is a <strong>compound</strong> event?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ It occurs through three distinct sample points — UUD, UDU and DUU — so it decomposes. The other three each name a single triple.">Exactly two of the three days are up</span></li>
+<li>All three days are up</li>
+<li>All three days are down</li>
+<li>The first day is up, the second down, the third up</li>
+</ul>
+</section>
+<section id="quiz-3-testing-an-assignment" class="slide level2 quiz-question">
+<h2>📝 Quiz #3: Testing an Assignment</h2>
+<p>A sample space has four points with <span class="math inline">\(P(E_1) = 0.4\)</span>, <span class="math inline">\(P(E_2) = 0.3\)</span>, <span class="math inline">\(P(E_3) = 0.4\)</span>, <span class="math inline">\(P(E_4) = -0.1\)</span>. Which axioms fail?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ 0.4 + 0.3 + 0.4 − 0.1 = 1, so Axiom 2 holds; but P(E₄) < 0 violates Axiom 1.">Axiom 1 only — the four probabilities do sum to 1</span></li>
+<li>Axiom 2 only</li>
+<li>Axioms 1 and 2</li>
+<li>None of them fail</li>
+</ul>
+</section>
+<section id="quiz-4-the-sample-point-method" class="slide level2 quiz-question">
+<h2>📝 Quiz #4: The Sample-Point Method</h2>
+<p>Three files are drawn at random from six, two of which are misclassified. What is the first step?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Step 1. Nearly every failed exercise fails here: list the wrong kind of object and every later step is wasted.">State exactly what one simple event is — here, the unordered set of three files drawn</span></li>
+<li>Assign probability <span class="math inline">\(1/6\)</span> to each file</li>
+<li>Compute the probability of the event of interest</li>
+<li>Decide whether the sample points are equally likely</li>
+</ul>
+</section>
+<section id="summary" class="slide level2">
+<h2>📋 Summary</h2>
+<div style="font-size: 30px">
+<ul>
+<li><p>Events are <strong>sets</strong>; union is “or”, intersection is “and”, and DeMorgan’s laws move between them</p></li>
+<li><p>A <strong>simple event</strong> is one sample point; a <strong>compound event</strong> is a union of several</p></li>
+<li><p>The three axioms — non-negativity, <span class="math inline">\(P(S) = 1\)</span>, additivity over mutually exclusive events — are the whole definition</p></li>
+<li><p>The axioms <strong>constrain</strong> an assignment; they never <strong>choose</strong> one. Data does that</p></li>
+<li><p>The <strong>sample-point method</strong>: describe, list, assign, collect, sum</p></li>
+</ul>
+</div>
+</section>
+<section id="practice-problems" class="slide level2">
+<h2>📚 Practice Problems</h2>
+<div style="font-size: 30px">
+<p><strong>Wackerly, 7th edition</strong></p>
+<ul>
+<li><p>Exercises at the end of §2.4 — especially 2.11, 2.15, 2.18 and 2.19</p></li>
+<li><p>Exercises 2.1 – 2.8 for set notation, and 2.3 for DeMorgan by Venn diagram</p></li>
+</ul>
+<p><strong>Problem Set 1</strong> closes <strong>26 September at 23:59</strong> on WeBWorK, covering Chapter 1 and §§2.1 – 2.8. A tutorial runs that week, before the deadline.</p>
+<p><strong>Next class:</strong> tools for counting sample points — the <span class="math inline">\(mn\)</span> rule, permutations, combinations, and partitions.</p>
+</div>
+</section>
+<section id="thank-you" class="slide level2">
+<h2>🙏 Thank You</h2>
+<div style="font-size: 34px">
+<p><strong>Dr.&nbsp;Samir Orujov</strong></p>
+<p>📧 sorujov@ada.edu.az 🏢 Building D, Room D325 🕓 Office hours: Wednesday, 16:00 – 18:00</p>
+<p>Slides and readings: <strong>sorujov.net/teaching</strong></p>
+</div>
+</section>
+<section id="questions" class="slide level2">
+<h2>❓ Questions</h2>
+<div style="font-size: 32px">
+<ul>
+<li><p>Can an event have probability 0 without being impossible?</p></li>
+<li><p>The audit missed the problem 30% of the time with two files out of five. How many files must be drawn before that falls below 5%?</p></li>
+<li><p>Why state Axiom 3 for an infinite sequence when every example in this lecture is finite?</p></li>
+</ul>
+</div>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="ADA.png" class="slide-logo"></p>
+<div class="footer footer-default">
+<p>Mathematical Statistics I - The Probability of an Event</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="probability_of_an_event_lecture3_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="probability_of_an_event_lecture3_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="probability_of_an_event_lecture3_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="probability_of_an_event_lecture3_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="probability_of_an_event_lecture3_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="probability_of_an_event_lecture3_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="probability_of_an_event_lecture3_files/libs/revealjs/plugin/reveal-quiz/quiz.js"></script>
+  <script src="probability_of_an_event_lecture3_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="probability_of_an_event_lecture3_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="probability_of_an_event_lecture3_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="probability_of_an_event_lecture3_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="probability_of_an_event_lecture3_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'quiz': {"checkKey":"c","resetKey":"r","shuffleKey":"s","allowNumberKeys":true,"disableOnCheck":false,"shuffleOptions":true,"defaultCorrect":"✅ Correct! Well done.","defaultIncorrect":"❌ Not quite. Try again or check the explanation.","includeScore":true,"disableReset":false},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 720,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, RevealQuiz, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script type="ojs-module-contents">
+    eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6Ilxudmlld29mIHBfdHJ1ZSA9IHtcbiAgY29uc3QgaW5wdXQgPSBJbnB1dHMucmFuZ2UoWzAuMDUsIDAuOTVdLCB7dmFsdWU6IDAuMzc1LCBzdGVwOiAwLjAwNSxcbiAgICBsYWJlbDogXCJUcnVlIFAoZXZlbnQpOlwifSk7XG4gIFsncG9pbnRlcmRvd24nLCd0b3VjaHN0YXJ0JywnbW91c2Vkb3duJywnY2xpY2snLCd3aGVlbCcsJ3BvaW50ZXJtb3ZlJywndG91Y2htb3ZlJ11cbiAgICAuZm9yRWFjaChlID0+IGlucHV0LmFkZEV2ZW50TGlzdGVuZXIoZSwgZXYgPT4gZXYuc3RvcFByb3BhZ2F0aW9uKCkpKTtcbiAgcmV0dXJuIGlucHV0O1xufVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC0yIiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoiXG5ybmczID0ge1xuICBsZXQgcyA9IDIwMjYwOTE2O1xuICByZXR1cm4gKCkgPT4gKHMgPSAocyAqIDExMDM1MTUyNDUgKyAxMjM0NSkgJSAyMTQ3NDgzNjQ4KSAvIDIxNDc0ODM2NDg7XG59XG5cbi8vIFRoZSBydW5uaW5nIHJlbGF0aXZlIGZyZXF1ZW5jeSBhZnRlciAxLCAyLCAuLi4sIDE1MDAgcmVwZXRpdGlvbnMuXG5wYXRoID0ge1xuICBjb25zdCBvdXQgPSBbXTtcbiAgbGV0IGhpdHMgPSAwO1xuICBmb3IgKGxldCBpID0gMTsgaSA8PSAxNTAwOyBpKyspIHtcbiAgICBpZiAocm5nMygpIDwgcF90cnVlKSBoaXRzKys7XG4gICAgb3V0LnB1c2goe246IGksIGZyZXE6IGhpdHMgLyBpfSk7XG4gIH1cbiAgcmV0dXJuIG91dDtcbn1cblxubWRgQWZ0ZXIgMTUwMCByZXBldGl0aW9ucyB0aGUgcmVsYXRpdmUgZnJlcXVlbmN5IGlzICoqJHtwYXRoWzE0OTldLmZyZXEudG9GaXhlZCgzKX0qKiwgYWdhaW5zdCBhIHRydWUgcHJvYmFiaWxpdHkgb2YgKioke3BfdHJ1ZS50b0ZpeGVkKDMpfSoqLmBcblxuUGxvdC5wbG90KHtcbiAgd2lkdGg6IDExNTAsXG4gIGhlaWdodDogMzIwLFxuICBtYXJnaW5MZWZ0OiA3OCxcbiAgbWFyZ2luQm90dG9tOiA1OCxcbiAgc3R5bGU6IHtmb250U2l6ZTogXCIxOHB4XCJ9LFxuICB4OiB7bGFiZWw6IFwiTnVtYmVyIG9mIHJlcGV0aXRpb25zXCIsIHR5cGU6IFwibG9nXCIsIGRvbWFpbjogWzEsIDE1MDBdfSxcbiAgeToge2xhYmVsOiBcIlJlbGF0aXZlIGZyZXF1ZW5jeVwiLCBkb21haW46IFswLCAxXSwgdGlja0Zvcm1hdDogXCIuMWZcIn0sXG4gIG1hcmtzOiBbXG4gICAgUGxvdC5ydWxlWShbcF90cnVlXSwge3N0cm9rZTogXCIjOGIyNjM1XCIsIHN0cm9rZVdpZHRoOiAyLjV9KSxcbiAgICBQbG90LmxpbmUocGF0aCwge3g6IFwiblwiLCB5OiBcImZyZXFcIiwgc3Ryb2tlOiBcIiMxNDEzMGZcIiwgc3Ryb2tlV2lkdGg6IDEuNn0pLFxuICAgIFBsb3QucnVsZVkoWzBdKVxuICBdXG59KVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCdwX3RydWUnKSJ9XX0=
+    </script>
+    <script type="module">
+    if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+    window._ojs.paths.runtimeToDoc = "../../..";
+    window._ojs.paths.runtimeToRoot = "../../..";
+    window._ojs.paths.docToRoot = "";
+    window._ojs.selfContained = false;
+    window._ojs.runtime.interpretFromScriptTags();
+    </script>
+    
+
+    <script>
+
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+
+      // slide changes (different for each slide format).
+
+      (function () {
+
+        // dispatch for htmlwidgets
+
+        function fireSlideEnter() {
+
+          const event = window.document.createEvent("Event");
+
+          event.initEvent("slideenter", true, true);
+
+          window.document.dispatchEvent(event);
+
+        }
+
+    
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+
+          fireSlideEnter();
+
+    
+
+          // dispatch for shiny
+
+          if (window.jQuery) {
+
+            if (previousSlide) {
+
+              window.jQuery(previousSlide).trigger("hidden");
+
+            }
+
+            if (currentSlide) {
+
+              window.jQuery(currentSlide).trigger("shown");
+
+            }
+
+          }
+
+        }
+
+    
+
+        // hookup for slidy
+
+        if (window.w3c_slidy) {
+
+          window.w3c_slidy.add_observer(function (slide_num) {
+
+            // slide_num starts at position 1
+
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+
+          });
+
+        }
+
+    
+
+      })();
+
+    </script>
+
+    
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

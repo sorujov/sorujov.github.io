@@ -1,0 +1,622 @@
+---
+title: "Mathematical Statistics"
+subtitle: "Tools for Counting Sample Points: the mn Rule, Permutations, Combinations and Partitions"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: [default, ../slide-fit.scss]
+    logo: ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    footer: "Mathematical Statistics I - Counting Sample Points"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+# Named explicitly so engine selection cannot drift away from R.
+engine: knitr
+execute:
+  echo: true
+  warning: false
+  message: false
+knitr:
+  opts_chunk:
+    dev: png
+    dpi: 150
+    fig.align: center
+---
+
+```{r}
+#| label: setup
+#| include: false
+set.seed(2026)
+```
+
+## 🎯 Learning Objectives
+
+::: {style="font-size: 32px"}
+By the end of this lecture, you will be able to:
+
+- **Apply** the $mn$ rule, and its extension, to count the sample points of a multi-stage experiment
+
+- **Distinguish** an ordered selection from an unordered one, and choose $P^n_r$ or $\binom{n}{r}$ accordingly
+
+- **Compute** the number of partitions of $n$ objects into $k$ groups of stated sizes
+
+- **Derive** $\binom{n}{r} = P^n_r / r!$, and explain why the division by $r!$ is there
+
+- **Calculate** $P(A) = n_a / N$ for an equiprobable sample space without listing a single point
+:::
+
+---
+
+## 🗺️ Where We Are
+
+::: {style="font-size: 32px"}
+**Wackerly §2.6**
+
+Last time: the sample-point method. Describe, **list**, assign, collect, sum.
+
+::: {.fragment}
+Step 2 is the one that breaks. Five loan files gave ten pairs, which we listed on one slide. Thirty bidders taken three at a time gives 24,360 — and no slide.
+:::
+
+::: {.fragment}
+Today we replace listing with **counting**. Four theorems, and one identity that makes them worth having.
+:::
+:::
+
+---
+
+## 💡 The Identity That Does the Work
+
+::: {style="font-size: 32px"}
+::: {.callout-important}
+## Equiprobable sample points
+
+If $S$ contains $N$ equiprobable sample points and $A$ contains exactly $n_a$ of them, then
+$$P(A) = \frac{n_a}{N}$$
+:::
+
+::: {.fragment}
+This follows from Axiom 3 alone: sum $1/N$ over the $n_a$ points of $A$.
+:::
+
+::: {.fragment}
+So the whole probability problem collapses into **two counting problems** — and we never write down a sample point.
+:::
+:::
+
+---
+
+## 📐 Theorem 2.1: The $mn$ Rule
+
+::: {style="font-size: 32px"}
+::: {.callout-important}
+## Theorem 2.1
+
+With $m$ elements $a_1, \ldots, a_m$ and $n$ elements $b_1, \ldots, b_n$, it is possible to form
+$$mn = m \times n$$
+pairs containing one element from each group.
+:::
+
+::: {.fragment}
+The proof is a rectangle: $m$ rows, $n$ columns, one square per pair.
+:::
+:::
+
+---
+
+## ⛓️ The Extension
+
+::: {style="font-size: 32px"}
+Three groups of sizes $m$, $n$, $p$ give $mnp$ triples — apply Theorem 2.1 twice, treating each $(a_i, b_j)$ pair as a single object.
+
+::: {.fragment}
+And so on for any number of stages. **If a sample point is built by making $k$ choices in sequence, multiply the number of options at each stage.**
+:::
+
+::: {.fragment}
+A retail deposit product is specified by 5 maturities, 4 interest-payment frequencies, 2 currencies and 3 early-withdrawal terms:
+$$5 \times 4 \times 2 \times 3 = 120 \text{ distinct products}$$
+:::
+:::
+
+---
+
+## 📊 Worked Example: Two Rating Agencies
+
+::: {style="font-size: 30px"}
+Two agencies each rate a bond on a six-grade scale. A sample point is the ordered pair (first agency's grade, second agency's grade).
+
+::: {.fragment}
+The first grade can be one of six; so can the second. By Theorem 2.1,
+$$N = 6 \times 6 = 36$$
+:::
+
+::: {.fragment}
+Small enough to list, which is exactly why it is worth counting: the rule is **verified** here, so it can be trusted where listing is impossible.
+:::
+:::
+
+---
+
+## 🔢 Definition 2.7: Permutations
+
+::: {style="font-size: 32px"}
+::: {.callout-note}
+## Definition 2.7
+
+An **ordered** arrangement of $r$ distinct objects is a **permutation**. The number of ways of ordering $n$ distinct objects taken $r$ at a time is $P^n_r$.
+:::
+
+::: {.fragment}
+"Ordered" is the whole content of the definition. $M_1 G_2$ and $G_2 M_1$ are two permutations and one subset.
+:::
+:::
+
+---
+
+## 📐 Theorem 2.2
+
+::: {style="font-size: 32px"}
+::: {.callout-important}
+## Theorem 2.2
+
+$$P^n_r = n(n-1)(n-2)\cdots(n-r+1) = \frac{n!}{(n-r)!}$$
+:::
+
+::: {.fragment}
+Straight from the $mn$ rule: $n$ ways to fill the first position, then $n-1$, then $n-2$, down to $n-r+1$ for the last.
+:::
+:::
+
+---
+
+## 🏆 Worked Example: Three Unequal Bonuses
+
+::: {style="font-size: 30px"}
+Three names are drawn **without replacement** from 30 analysts. The first drawn receives 100 manat, the second 50, the third 25.
+
+::: {.fragment}
+The prizes differ, so **order matters**: the sample point is an ordered triple of names.
+$$P^{30}_3 = \frac{30!}{27!} = 30 \times 29 \times 28 = 24{,}360$$
+:::
+
+::: {.fragment}
+Make the three bonuses equal and the same draw has only $\binom{30}{3} = 4{,}060$ outcomes. The prize structure changes the sample space.
+:::
+:::
+
+---
+
+## 🔁 When $r = n$
+
+::: {style="font-size: 32px"}
+An audit has four stages that may be performed in any sequence. How many sequences?
+
+$$P^4_4 = \frac{4!}{(4-4)!} = \frac{4!}{0!} = 24$$
+
+::: {.fragment}
+Recall the convention $0! = 1$. It is not arbitrary: it is what makes Theorem 2.2 return $n!$ when every object is used.
+:::
+:::
+
+---
+
+## 🧩 Theorem 2.3: Partitions
+
+::: {style="font-size: 28px"}
+::: {.callout-important}
+## Theorem 2.3
+
+The number of ways of partitioning $n$ distinct objects into $k$ distinct groups of sizes $n_1, \ldots, n_k$, with $\sum_i n_i = n$, is
+$$N = \binom{n}{n_1\; n_2\; \cdots\; n_k} = \frac{n!}{n_1!\, n_2! \cdots n_k!}$$
+:::
+
+::: {.fragment}
+The proof divides out what we do not want: $n!$ orders all $n$ objects, then we divide by $n_i!$ for each group, because order **inside** a group does not count.
+:::
+:::
+
+---
+
+## 🏢 Worked Example: Staffing Four Desks
+
+::: {style="font-size: 30px"}
+Twenty analysts are assigned at random to four desks needing 6, 4, 5 and 5 people.
+
+$$N = \binom{20}{6\;4\;5\;5} = \frac{20!}{6!\,4!\,5!\,5!}$$
+
+::: {.fragment}
+All four members of one small team end up on the least popular desk. Let $A$ be that event. The remaining 16 fill the remaining places:
+$$n_a = \binom{16}{2\;4\;5\;5} = \frac{16!}{2!\,4!\,5!\,5!}$$
+:::
+:::
+
+---
+
+## 🏢 The Desks: Was It Random?
+
+::: {style="font-size: 30px"}
+$$P(A) = \frac{n_a}{N} = 0.0031$$
+
+::: {.fragment}
+Three chances in a thousand. The assignment was announced as random.
+:::
+
+::: {.fragment}
+This is the gambler's argument from Wednesday, now with a number attached: we do not conclude that random assignment was *impossible*, only that the observed outcome is **very improbable** under it — which is grounds to doubt the claim.
+:::
+:::
+
+---
+
+## 🎯 Definition 2.8: Combinations
+
+::: {style="font-size: 32px"}
+::: {.callout-note}
+## Definition 2.8
+
+The number of **combinations** of $n$ objects taken $r$ at a time is the number of **subsets** of size $r$, written $\binom{n}{r}$.
+:::
+
+::: {.fragment}
+A subset has no internal order, which is the only difference from Definition 2.7 — and it is worth a factor of $r!$.
+:::
+:::
+
+---
+
+## 📐 Theorem 2.4
+
+::: {style="font-size: 32px"}
+::: {.callout-important}
+## Theorem 2.4
+
+$$\binom{n}{r} = \frac{P^n_r}{r!} = \frac{n!}{r!\,(n-r)!}$$
+:::
+
+::: {.fragment}
+A special case of Theorem 2.3 with $k = 2$: the $r$ chosen, and the $n-r$ left behind.
+:::
+:::
+
+---
+
+## ➗ Why Divide by $r!$?
+
+::: {style="font-size: 32px"}
+$P^n_r$ counts ordered selections. Every **subset** of size $r$ has been counted once for each of its $r!$ orderings.
+
+::: {.fragment}
+Draw files $\{M_1, G_2\}$: the permutation count records $M_1 G_2$ and $G_2 M_1$ as two outcomes. The audit does not care which was picked up first.
+:::
+
+::: {.fragment}
+**Ask of every problem: would swapping two chosen objects give a different outcome?** If yes, permutations. If no, combinations.
+:::
+:::
+
+---
+
+## 📋 Back to the Credit File Audit
+
+::: {style="font-size: 30px"}
+Wednesday's example: five loan files, two misclassified, two drawn. We listed all ten pairs. Now count them:
+$$N = \binom{5}{2} = \frac{5!}{2!\,3!} = 10$$
+
+::: {.fragment}
+Let $A$ be the event that **exactly one** of the two misclassified files is drawn. Choose one of the two bad files, and one of the three sound ones:
+$$n_a = \binom{2}{1}\binom{3}{1} = 2 \times 3 = 6$$
+:::
+
+::: {.fragment}
+$$P(A) = \frac{6}{10} = 0.6$$
+:::
+:::
+
+---
+
+## 💻 Counting in R
+
+```{r}
+#| label: counting
+files <- c("M1", "M2", "G1", "G2", "G3")
+pairs <- combn(files, 2)
+bad   <- colSums(matrix(startsWith(pairs, "M"), nrow = 2))
+
+data.frame(
+  formula     = c("choose(5,2)", "choose(2,1)*choose(3,1)", "P(exactly one bad)"),
+  counted     = c(choose(5, 2), choose(2, 1) * choose(3, 1), 0.6),
+  enumerated  = c(ncol(pairs), sum(bad == 1), mean(bad == 1))
+)
+```
+
+::: {style="font-size: 28px"}
+The formula and the enumeration agree. On five files either is fine; the formula is the one that still works on five hundred.
+:::
+
+---
+
+## 📅 A Problem Listing Cannot Touch
+
+::: {style="font-size: 30px"}
+A bank holds **20** bonds, each maturing on one of 365 dates. A sample point is an ordered 20-tuple of dates, so
+$$N = 365^{20}$$
+
+::: {.fragment}
+Let $A$ be the event that **no two mature on the same day**. Fill the positions in turn: 365 choices, then 364, then 363, …
+$$n_a = 365 \times 364 \times \cdots \times 346$$
+:::
+
+::: {.fragment}
+$$P(A) = \frac{365 \times 364 \times \cdots \times 346}{365^{20}} = 0.5886$$
+:::
+:::
+
+---
+
+## 💻 The Maturity Clash, Computed
+
+```{r}
+#| label: birthday
+p_all_distinct <- function(n, d = 365) prod((d - seq_len(n) + 1) / d)
+
+data.frame(
+  n_bonds      = c(10, 20, 23, 40),
+  all_distinct = round(sapply(c(10, 20, 23, 40), p_all_distinct), 4),
+  some_clash   = round(1 - sapply(c(10, 20, 23, 40), p_all_distinct), 4)
+)
+```
+
+::: {style="font-size: 28px"}
+With 20 bonds a clash is already about as likely as not; with 23 it is the favourite. Nobody guesses this, which is the point of Wednesday's motivation slide.
+:::
+
+---
+
+## 🔬 Interactive: How Fast the Clash Arrives {.smaller}
+
+```{ojs}
+//| echo: false
+
+viewof n_items = {
+  const input = Inputs.range([2, 60], {value: 20, step: 1,
+    label: "Number of bonds:"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+```
+
+```{ojs}
+//| echo: false
+
+pDistinct = (n) => {
+  let p = 1;
+  for (let i = 0; i < n; i++) p *= (365 - i) / 365;
+  return p;
+}
+
+curve = Array.from({length: 59}, (_, i) => ({n: i + 2, p: 1 - pDistinct(i + 2)}))
+
+md`With **${n_items}** bonds, the probability that at least two share a maturity date is **${(100 * (1 - pDistinct(n_items))).toFixed(1)}%**.`
+
+Plot.plot({
+  width: 1150,
+  height: 320,
+  marginLeft: 78,
+  marginBottom: 58,
+  style: {fontSize: "18px"},
+  x: {label: "Number of bonds", domain: [2, 60]},
+  y: {label: "P(at least one clash)", domain: [0, 1], tickFormat: ".1f"},
+  marks: [
+    Plot.ruleY([0.5], {stroke: "#cbb8a9", strokeDasharray: "4 4"}),
+    Plot.line(curve, {x: "n", y: "p", stroke: "#14130f", strokeWidth: 2}),
+    Plot.dot([{n: n_items, p: 1 - pDistinct(n_items)}],
+      {x: "n", y: "p", r: 8, fill: "#8b2635"}),
+    Plot.ruleY([0])
+  ]
+})
+```
+
+---
+
+## 🧠 Think-Pair-Share
+
+```{r}
+#| label: tps-timer
+#| echo: false
+countdown::countdown(minutes = 3, seconds = 0,
+                     top = 0, right = 0,
+                     font_size = "2em", warn_when = 30)
+```
+
+::: {style="font-size: 30px"}
+A fund must fill **three** roles from **eight** candidates.
+
+**Three minutes, in pairs:**
+
+1. The three roles are Chief Analyst, Deputy and Trainee. How many outcomes?
+
+2. Instead, the three simply join an equal-standing committee. How many now?
+
+3. The second number is the first divided by what, and why exactly that?
+:::
+
+---
+
+## ✅ Think-Pair-Share: Solution
+
+::: {style="font-size: 30px"}
+1. Distinct roles, so the outcome is an **ordered** triple:
+$$P^8_3 = 8 \times 7 \times 6 = 336$$
+
+2. An equal-standing committee is a **subset**:
+$$\binom{8}{3} = \frac{8!}{3!\,5!} = 56$$
+
+::: {.fragment}
+3. $336 / 56 = 6 = 3!$ — the number of ways to order any one committee of three. Each committee was counted $3!$ times when the roles were distinct.
+:::
+:::
+
+---
+
+## ✅ Think-Pair-Share: The Habit
+
+::: {style="font-size: 30px"}
+The arithmetic is easy; choosing between $336$ and $56$ is the whole question, and it is settled before any formula is written.
+
+::: {.fragment}
+**Test:** name two of the chosen objects and swap them. If the outcome you are counting has changed, order matters.
+:::
+
+::: {.fragment}
+Swap the Deputy and the Trainee: a different appointment. Swap two committee members: the same committee.
+:::
+:::
+
+---
+
+## 📝 Quiz #1: Which Rule? {.quiz-question}
+
+A portfolio manager must pick 4 stocks out of 25 for an equally weighted basket. How many baskets are possible?
+
+- [$\binom{25}{4} = 12{,}650$]{.correct data-explanation="✅ Equal weights mean the basket is a subset — swapping two picks leaves the same basket, so it is a combination."}
+- $P^{25}_4 = 303{,}600$
+- $25^4 = 390{,}625$
+- $4! \times 25 = 600$
+
+---
+
+## 📝 Quiz #2: The $mn$ Rule {.quiz-question}
+
+A loan application passes three independent checks, with 4, 3 and 5 possible outcomes respectively. How many outcome sequences are there?
+
+- [$4 \times 3 \times 5 = 60$]{.correct data-explanation="✅ The extended mn rule: multiply the number of options available at each stage."}
+- $4 + 3 + 5 = 12$
+- $\binom{12}{3} = 220$
+- $12! / 3! = 79{,}833{,}600$
+
+---
+
+## 📝 Quiz #3: Partitions {.quiz-question}
+
+Nine auditors are split into three named teams of 3, 3 and 3. How many splits are there?
+
+- [$\dfrac{9!}{3!\,3!\,3!} = 1680$]{.correct data-explanation="✅ Theorem 2.3 with n = 9 and three groups of 3. The teams are named, so the three groups are distinct."}
+- $\binom{9}{3} = 84$
+- $9! = 362{,}880$
+- $3^9 = 19{,}683$
+
+---
+
+## 📝 Quiz #4: Order or Not? {.quiz-question}
+
+In which of these does **order** matter?
+
+- [Awarding a gold, a silver and a bronze prize among six competing desks]{.correct data-explanation="✅ Swapping the gold and silver winners gives a different outcome, so the selection is ordered — a permutation."}
+- Choosing three desks to audit this quarter
+- Choosing a two-stock hedge from a list of twenty
+- Selecting five files from a drawer for review
+
+---
+
+## 📋 Key Formulas
+
+::: {style="font-size: 30px"}
+| | Counts | Formula |
+|---|---|---|
+| $mn$ rule | sequences of choices | $m \times n \times p \cdots$ |
+| $P^n_r$ | ordered selections | $\dfrac{n!}{(n-r)!}$ |
+| $\binom{n}{r}$ | subsets | $\dfrac{n!}{r!\,(n-r)!}$ |
+| $\binom{n}{n_1 \cdots n_k}$ | partitions into named groups | $\dfrac{n!}{n_1! \cdots n_k!}$ |
+
+::: {.fragment}
+And the one that turns any of them into a probability: $P(A) = n_a/N$.
+:::
+:::
+
+---
+
+## 📋 Summary
+
+::: {style="font-size: 30px"}
+- Counting replaces listing once $S$ is large; the sample-point method is otherwise unchanged
+
+- The **$mn$ rule** handles anything built as a sequence of choices
+
+- **Permutations** count ordered selections, **combinations** count subsets, and $\binom{n}{r} = P^n_r/r!$
+
+- **Theorem 2.3** is the general result: permutations and combinations are both special cases
+
+- For an equiprobable $S$, every probability is a ratio of two counts
+:::
+
+---
+
+## 📚 Practice Problems
+
+::: {style="font-size: 30px"}
+**Wackerly, 7th edition**
+
+- Exercises at the end of §2.6 — start with 2.35 – 2.40, then 2.44 and 2.49
+
+- Redo Wednesday's Exercise 2.7 by counting rather than listing, and check that the two agree
+
+**Problem Set 1** closes **26 September at 23:59** on WeBWorK, covering Chapter 1 and §§2.1 – 2.8. A tutorial runs that week, before the deadline.
+
+**Next class:** conditional probability and the independence of events — and why independence is not mutual exclusivity.
+:::
+
+---
+
+## 🙏 Thank You
+
+::: {style="font-size: 34px"}
+**Dr. Samir Orujov**
+
+📧 sorujov@ada.edu.az
+🏢 Building D, Room D325
+🕓 Office hours: Wednesday, 16:00 – 18:00
+
+Slides and readings: **sorujov.net/teaching**
+:::
+
+---
+
+## ❓ Questions
+
+::: {style="font-size: 32px"}
+- Why does $\binom{n}{r} = \binom{n}{n-r}$, without computing either side?
+
+- The four desks had *named* jobs. What changes if the four groups are interchangeable?
+
+- The maturity-clash probability passes 0.5 at 23 bonds out of 365 dates. Why so few?
+:::

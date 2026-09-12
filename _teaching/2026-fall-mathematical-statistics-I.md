@@ -181,13 +181,13 @@ description: "Probability from the axioms upward: counting, conditional probabil
         <td>16 September</td>
         <td>The probability of an event: sample spaces, simple and compound events, set notation, and the three axioms. The sample-point method for discrete sample spaces.</td>
         <td>Wackerly §§2.1–2.5. Exercises at the end of §2.4.</td>
-        <td class="muted-cell">&mdash;</td>
+        <td><a class="slide-link" href="/lectures/math-stat-1-fall-2026/03-probability-of-an-event/probability_of_an_event_lecture3.html" target="_blank">Slides &rarr;</a></td>
       </tr>
       <tr>
         <td>19 September</td>
         <td>Tools for counting sample points: the mn rule, permutations, combinations, and partitions into groups. Sampling with and without replacement.</td>
         <td>Wackerly §2.6. Exercises at the end of §2.6.</td>
-        <td class="muted-cell">&mdash;</td>
+        <td><a class="slide-link" href="/lectures/math-stat-1-fall-2026/04-counting-sample-points/counting_sample_points_lecture4.html" target="_blank">Slides &rarr;</a></td>
       </tr>
       <tr>
         <td>23 September</td>

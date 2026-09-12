@@ -1,0 +1,656 @@
+---
+title: "Mathematical Statistics"
+subtitle: "The Probability of an Event: Sample Spaces, the Axioms and the Sample-Point Method"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: [default, ../slide-fit.scss]
+    logo: ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    footer: "Mathematical Statistics I - The Probability of an Event"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+# Named explicitly so engine selection cannot drift away from R.
+engine: knitr
+execute:
+  echo: true
+  warning: false
+  message: false
+knitr:
+  opts_chunk:
+    dev: png
+    dpi: 150
+    fig.align: center
+---
+
+```{r}
+#| label: setup
+#| include: false
+set.seed(2026)
+```
+
+## 🎯 Learning Objectives
+
+::: {style="font-size: 32px"}
+By the end of this lecture, you will be able to:
+
+- **Translate** a verbal description of an event into set notation, and read set notation back into words
+
+- **Distinguish** a simple event from a compound one, and write any event as a union of sample points
+
+- **State** the three axioms of probability and check whether a proposed assignment satisfies them
+
+- **Execute** the five steps of the sample-point method on a discrete sample space
+
+- **Recognise** that the axioms constrain an assignment of probabilities without ever choosing one
+:::
+
+---
+
+## 🗺️ Where We Are
+
+::: {style="font-size: 32px"}
+**Wackerly §§2.1 – 2.5**
+
+Last time we ended with a bound — Tchebysheff — that held for *any* data set. It bounded a proportion we could see.
+
+::: {.fragment}
+Today we start on the quantity that proportion is supposed to estimate. Three axioms, and a method for computing with them.
+:::
+
+::: {.fragment}
+1. Set notation as the language of events
+2. Experiments, sample spaces, simple and compound events
+3. The three axioms
+4. The sample-point method
+:::
+:::
+
+---
+
+## 💡 Motivation: The Gambler's Argument
+
+::: {style="font-size: 30px"}
+A trader claims his signal is worthless — a coin flip. You watch ten trades. **All ten win.**
+
+::: {.fragment}
+You reject the claim. Not because ten wins is *impossible* under a fair coin, but because it is **improbable**.
+:::
+
+::: {.fragment}
+That single word carries the whole inference. Change the data to *six* wins out of ten and intuition stops answering: is that improbable or not?
+:::
+
+::: {.fragment}
+So we need a theory that returns a **number**. The number has to obey rules, or two analysts will compute different answers from the same experiment.
+:::
+:::
+
+---
+
+## 📝 Set Notation: The Language of Events
+
+::: {style="font-size: 30px"}
+::: {.callout-note}
+## Definitions
+
+$S$ — the **universal set**; $\varnothing$ — the **null set**; $A \subset B$ — $A$ is contained in $B$
+
+$A \cup B$ — all points in $A$ **or** $B$ or both
+
+$A \cap B$ (or $AB$) — all points in $A$ **and** $B$
+
+$\bar{A}$ — the **complement**: points of $S$ not in $A$, so $A \cup \bar{A} = S$
+:::
+
+::: {.fragment}
+The two keywords are worth memorising: **union is "or"**, **intersection is "and"**.
+:::
+:::
+
+---
+
+## 🚫 Mutually Exclusive Sets
+
+::: {style="font-size: 32px"}
+::: {.callout-note}
+## Definition
+
+$A$ and $B$ are **disjoint**, or **mutually exclusive**, if $A \cap B = \varnothing$.
+:::
+
+::: {.fragment}
+For any set $A$, the pair $A$ and $\bar{A}$ is mutually exclusive. That is the pair we will use most.
+:::
+
+::: {.fragment}
+A bank's loan is *current* or *in arrears*, never both. A tender is *won* or *lost*. Mutually exclusive events are the ones we can add probabilities over — Axiom 3 says so, and nothing weaker does.
+:::
+:::
+
+---
+
+## ⚖️ Four Identities You Will Use Constantly
+
+::: {style="font-size: 30px"}
+**Distributive laws**
+
+$$A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$$
+$$A \cup (B \cap C) = (A \cup B) \cap (A \cup C)$$
+
+**DeMorgan's laws**
+
+$$\overline{(A \cap B)} = \bar{A} \cup \bar{B} \qquad \overline{(A \cup B)} = \bar{A} \cap \bar{B}$$
+
+::: {.fragment}
+Read the second in words: "not (either covenant breached)" is "neither covenant breached". Translating between the two is most of the work in a probability exercise.
+:::
+:::
+
+---
+
+## 🔬 Experiments and Events
+
+::: {style="font-size: 30px"}
+::: {.callout-note}
+## Definition 2.1
+
+An **experiment** is the process by which an observation is made.
+:::
+
+::: {.fragment}
+Note how wide that is. A controlled laboratory trial is an experiment; so is observing tomorrow's closing price of a share you do not control at all.
+:::
+
+::: {.fragment}
+Consider one trading day for a single share. Events of interest:
+
+$A$: the price rises.  $\quad$ $B$: the price moves by more than 2%.  $\quad$ $C$: the price is unchanged.
+:::
+:::
+
+---
+
+## 🧩 Simple and Compound Events
+
+::: {style="font-size: 30px"}
+::: {.callout-note}
+## Definitions 2.2 – 2.3
+
+A **simple event** cannot be decomposed, and corresponds to one and only one **sample point**, written $E_i$.
+
+The **sample space** $S$ is the set of all sample points.
+:::
+
+::: {.fragment}
+A **compound event** happens in more than one distinct way. Observing an odd number on a die is compound: it happens through $E_1$, $E_3$ or $E_5$.
+:::
+
+::: {.fragment}
+The test for membership is exact: $E_i$ belongs to $A$ **if and only if** $A$ occurs whenever $E_i$ occurs.
+:::
+:::
+
+---
+
+## 🔢 Discrete Sample Spaces
+
+::: {style="font-size: 30px"}
+::: {.callout-note}
+## Definitions 2.4 – 2.5
+
+A **discrete** sample space contains a finite or countable number of distinct sample points.
+
+An **event** in a discrete sample space is any subset of $S$.
+:::
+
+::: {.fragment}
+Counting defaults in a portfolio gives $S = \{E_0, E_1, E_2, \ldots\}$ — infinite, but countable, so discrete.
+:::
+
+::: {.fragment}
+Measuring a *yield* does not: the sample space is an interval of real numbers, which is uncountable. That case waits for Chapter 4.
+:::
+:::
+
+---
+
+## 📐 The Three Axioms
+
+::: {style="font-size: 30px"}
+::: {.callout-important}
+## Definition 2.6
+
+To every event $A$ in $S$ assign a number $P(A)$ such that
+
+**Axiom 1.** $P(A) \geq 0$
+
+**Axiom 2.** $P(S) = 1$
+
+**Axiom 3.** If $A_1, A_2, \ldots$ are pairwise mutually exclusive, then
+$$P(A_1 \cup A_2 \cup \cdots) = \sum_{i=1}^{\infty} P(A_i)$$
+:::
+:::
+
+---
+
+## 🧭 Where the Axioms Come From
+
+::: {style="font-size: 30px"}
+Each one is a relative frequency written as a rule:
+
+- A relative frequency is never negative $\;\Rightarrow\;$ **Axiom 1**
+
+- Every repetition produces some outcome in $S$ $\;\Rightarrow\;$ **Axiom 2**
+
+- If a 1 occurs on $1/6$ of tosses and a 2 on $1/6$, then a 1 *or* a 2 occurs on $1/3$ $\;\Rightarrow\;$ **Axiom 3**
+
+::: {.fragment}
+Axiom 3 stated for an infinite sequence implies the finite version, which is the one you will actually use.
+:::
+:::
+
+---
+
+## ⚠️ What the Axioms Do *Not* Say
+
+::: {style="font-size: 30px"}
+They state the conditions an assignment must satisfy. They do **not** tell you which assignment to make.
+
+::: {.fragment}
+A coin has come up heads on 800 of 1000 tosses. Toss it once more: $S = \{H, T\}$. The axioms permit $P(H) = 1/2$ — and permit $P(H) = 0.8$.
+:::
+
+::: {.fragment}
+Both are legal models. Only one is a good one.
+
+**The axioms give consistency; the data must give the numbers.**
+:::
+:::
+
+---
+
+## 🪜 The Sample-Point Method
+
+::: {style="font-size: 28px"}
+1. Define the experiment and say precisely what one simple event looks like
+
+2. List the simple events; check that none can be decomposed. This is $S$
+
+3. Assign probabilities to the sample points, with $P(E_i) \geq 0$ and $\sum P(E_i) = 1$
+
+4. Define the event $A$ as a specific collection of sample points
+
+5. Find $P(A)$ by **summing** the probabilities of the sample points in $A$
+
+::: {.fragment}
+Step 5 is legal only because of Axiom 3: distinct sample points are mutually exclusive.
+:::
+:::
+
+---
+
+## 📊 Worked Example: A Credit File Audit
+
+::: {style="font-size: 30px"}
+A branch has **five** loan files ready for review. Unknown to the reviewer, **two** were misclassified at origination. The auditor draws **two files at random**.
+
+Write the misclassified files $M_1, M_2$ and the sound ones $G_1, G_2, G_3$.
+
+::: {.fragment}
+**Step 1.** One simple event = the unordered pair drawn.
+
+**Step 2.** There are ten pairs, so $S = \{E_1, \ldots, E_{10}\}$.
+:::
+:::
+
+---
+
+## 📊 The Audit: Steps 2 and 3
+
+::: {style="font-size: 28px"}
+| | | |
+|---|---|---|
+| $E_1: \{M_1, M_2\}$ | $E_5: \{M_2, G_1\}$ | $E_8: \{G_1, G_2\}$ |
+| $E_2: \{M_1, G_1\}$ | $E_6: \{M_2, G_2\}$ | $E_9: \{G_1, G_3\}$ |
+| $E_3: \{M_1, G_2\}$ | $E_7: \{M_2, G_3\}$ | $E_{10}: \{G_2, G_3\}$ |
+| $E_4: \{M_1, G_3\}$ | | |
+
+::: {.fragment}
+**Step 3.** The draw is at random, so no pair is favoured: $P(E_i) = 1/10$ for all $i$.
+:::
+:::
+
+---
+
+## 📊 The Audit: Steps 4 and 5
+
+::: {style="font-size: 30px"}
+**Step 4.** Let $A$ be the event that the auditor sees **no** misclassified file. Checking every point,
+$$A = \{E_8, E_9, E_{10}\}$$
+
+**Step 5.** By Axiom 3,
+$$P(A) = \tfrac{1}{10} + \tfrac{1}{10} + \tfrac{1}{10} = \tfrac{3}{10} = 0.3$$
+
+::: {.fragment}
+So the audit misses the problem entirely 30% of the time. That number, not a feeling, is what belongs in the report.
+:::
+:::
+
+---
+
+## 💻 The Audit, Enumerated in R
+
+```{r}
+#| label: audit
+files <- c("M1", "M2", "G1", "G2", "G3")
+pairs <- combn(files, 2)                       # every unordered pair
+
+sound_only <- apply(pairs, 2, function(p) !any(startsWith(p, "M")))
+
+data.frame(
+  sample_points = ncol(pairs),
+  points_in_A   = sum(sound_only),
+  P_A           = sum(sound_only) / ncol(pairs)
+)
+```
+
+::: {style="font-size: 28px"}
+The machine lists $S$ and counts. Step 2 is where human error lives, and this is the check against it.
+:::
+
+---
+
+## 🏦 Unequal Sample Points: A Tender
+
+::: {style="font-size: 30px"}
+A dealer bids in **two** consecutive treasury-bill auctions. From past auctions the odds she wins any one are **two to one**.
+
+::: {.fragment}
+$S$ has four points, writing $WL$ for "won the first, lost the second":
+$$E_1: WW \quad E_2: WL \quad E_3: LW \quad E_4: LL$$
+:::
+
+::: {.fragment}
+Equal probabilities would be wrong here. The assignment consistent with 2:1 odds is
+$$P(E_1) = \tfrac{4}{9}, \; P(E_2) = P(E_3) = \tfrac{2}{9}, \; P(E_4) = \tfrac{1}{9}$$
+:::
+:::
+
+---
+
+## 🏦 The Tender: At Least One Win
+
+::: {style="font-size: 30px"}
+Check the assignment first: each $P(E_i) \geq 0$ and they sum to $9/9 = 1$. Axioms 1 and 2 hold.
+
+::: {.fragment}
+Let $C$ be the event that she wins **at least one** auction. Then $C = E_1 \cup E_2 \cup E_3$ and
+$$P(C) = \tfrac{4}{9} + \tfrac{2}{9} + \tfrac{2}{9} = \tfrac{8}{9} \approx 0.889$$
+:::
+
+::: {.fragment}
+Equally likely points would have given $3/4$. The sample-point method does not require equal probabilities — only *legal* ones.
+:::
+:::
+
+---
+
+## 💻 Three Trading Days
+
+```{r}
+#| label: three-days
+S <- expand.grid(day1 = c("up", "down"), day2 = c("up", "down"),
+                 day3 = c("up", "down"), stringsAsFactors = FALSE)
+
+ups <- rowSums(S == "up")
+exact <- mean(ups == 2)                        # sample-point method
+
+sim <- mean(replicate(200000, sum(sample(c("up", "down"), 3, TRUE) == "up")) == 2)
+
+data.frame(sample_points = nrow(S), exactly_two_up = sum(ups == 2),
+           by_enumeration = exact, by_simulation = round(sim, 4))
+```
+
+::: {style="font-size: 28px"}
+Eight equally likely points, three of them with exactly two up days: $P = 3/8$. The simulation agrees — as the relative-frequency reading of probability says it must.
+:::
+
+---
+
+## 🔬 Interactive: Why Relative Frequency Settles {.smaller}
+
+```{ojs}
+//| echo: false
+
+viewof p_true = {
+  const input = Inputs.range([0.05, 0.95], {value: 0.375, step: 0.005,
+    label: "True P(event):"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+```
+
+```{ojs}
+//| echo: false
+
+rng3 = {
+  let s = 20260916;
+  return () => (s = (s * 1103515245 + 12345) % 2147483648) / 2147483648;
+}
+
+// The running relative frequency after 1, 2, ..., 1500 repetitions.
+path = {
+  const out = [];
+  let hits = 0;
+  for (let i = 1; i <= 1500; i++) {
+    if (rng3() < p_true) hits++;
+    out.push({n: i, freq: hits / i});
+  }
+  return out;
+}
+
+md`After 1500 repetitions the relative frequency is **${path[1499].freq.toFixed(3)}**, against a true probability of **${p_true.toFixed(3)}**.`
+
+Plot.plot({
+  width: 1150,
+  height: 320,
+  marginLeft: 78,
+  marginBottom: 58,
+  style: {fontSize: "18px"},
+  x: {label: "Number of repetitions", type: "log", domain: [1, 1500]},
+  y: {label: "Relative frequency", domain: [0, 1], tickFormat: ".1f"},
+  marks: [
+    Plot.ruleY([p_true], {stroke: "#8b2635", strokeWidth: 2.5}),
+    Plot.line(path, {x: "n", y: "freq", stroke: "#14130f", strokeWidth: 1.6}),
+    Plot.ruleY([0])
+  ]
+})
+```
+
+---
+
+## 🧠 Think-Pair-Share
+
+```{r}
+#| label: tps-timer
+#| echo: false
+countdown::countdown(minutes = 3, seconds = 0,
+                     top = 0, right = 0,
+                     font_size = "2em", warn_when = 30)
+```
+
+::: {style="font-size: 30px"}
+A risk officer assigns, for one loan reviewed next month:
+
+$$P(\text{current}) = 0.82, \quad P(\text{in arrears}) = 0.15, \quad P(\text{written off}) = 0.05$$
+
+**Three minutes, in pairs:**
+
+1. Is this assignment legal under Definition 2.6?
+
+2. If not, which axiom fails, and by how much?
+
+3. He then claims $P(\text{arrears or written off}) = 0.20$. On what does that step depend?
+:::
+
+---
+
+## ✅ Think-Pair-Share: Solution
+
+::: {style="font-size: 28px"}
+1. **Not legal.** Axiom 1 holds — all three are non-negative. Axiom 2 fails: the three outcomes are exhaustive, so their probabilities must sum to $P(S) = 1$. They sum to $1.02$.
+
+2. The excess is $0.02$. Small, and still fatal: every probability computed from this model can now exceed 1, and the model can no longer be called a probability at all.
+
+::: {.fragment}
+An assignment that fails Axiom 2 is not "slightly wrong". It is outside the definition.
+:::
+:::
+
+---
+
+## ✅ Think-Pair-Share: The Addition
+
+::: {style="font-size: 30px"}
+3. Adding $0.15 + 0.05$ uses **Axiom 3**, and Axiom 3 requires the two events to be **mutually exclusive**.
+
+::: {.fragment}
+Here they are: one loan, at one review date, cannot be both in arrears and written off. So the step is sound — once the assignment is repaired.
+:::
+
+::: {.fragment}
+The habit worth forming: **before adding two probabilities, say out loud why the events cannot both occur.** Next week's §2.8 is what to do when they can.
+:::
+:::
+
+---
+
+## 📝 Quiz #1: Reading Set Notation {.quiz-question}
+
+Two covenants, $A$ and $B$, may be breached. Which expression says "neither is breached"?
+
+- [$\bar{A} \cap \bar{B}$]{.correct data-explanation="✅ By DeMorgan this is the complement of (A ∪ B) — not (either one breached), which is exactly neither."}
+- $\bar{A} \cup \bar{B}$
+- $\overline{A \cap B}$
+- $A \cap B$
+
+---
+
+## 📝 Quiz #2: Simple or Compound? {.quiz-question}
+
+A share is watched for three days and each day recorded as *up* or *down*, so one simple event is a triple such as $(up, down, up)$. Which of these is a **compound** event?
+
+- [Exactly two of the three days are up]{.correct data-explanation="✅ It occurs through three distinct sample points — UUD, UDU and DUU — so it decomposes. The other three each name a single triple."}
+- All three days are up
+- All three days are down
+- The first day is up, the second down, the third up
+
+---
+
+## 📝 Quiz #3: Testing an Assignment {.quiz-question}
+
+A sample space has four points with $P(E_1) = 0.4$, $P(E_2) = 0.3$, $P(E_3) = 0.4$, $P(E_4) = -0.1$. Which axioms fail?
+
+- [Axiom 1 only — the four probabilities do sum to 1]{.correct data-explanation="✅ 0.4 + 0.3 + 0.4 − 0.1 = 1, so Axiom 2 holds; but P(E₄) < 0 violates Axiom 1."}
+- Axiom 2 only
+- Axioms 1 and 2
+- None of them fail
+
+---
+
+## 📝 Quiz #4: The Sample-Point Method {.quiz-question}
+
+Three files are drawn at random from six, two of which are misclassified. What is the first step?
+
+- [State exactly what one simple event is — here, the unordered set of three files drawn]{.correct data-explanation="✅ Step 1. Nearly every failed exercise fails here: list the wrong kind of object and every later step is wasted."}
+- Assign probability $1/6$ to each file
+- Compute the probability of the event of interest
+- Decide whether the sample points are equally likely
+
+---
+
+## 📋 Summary
+
+::: {style="font-size: 30px"}
+- Events are **sets**; union is "or", intersection is "and", and DeMorgan's laws move between them
+
+- A **simple event** is one sample point; a **compound event** is a union of several
+
+- The three axioms — non-negativity, $P(S) = 1$, additivity over mutually exclusive events — are the whole definition
+
+- The axioms **constrain** an assignment; they never **choose** one. Data does that
+
+- The **sample-point method**: describe, list, assign, collect, sum
+:::
+
+---
+
+## 📚 Practice Problems
+
+::: {style="font-size: 30px"}
+**Wackerly, 7th edition**
+
+- Exercises at the end of §2.4 — especially 2.11, 2.15, 2.18 and 2.19
+
+- Exercises 2.1 – 2.8 for set notation, and 2.3 for DeMorgan by Venn diagram
+
+**Problem Set 1** closes **26 September at 23:59** on WeBWorK, covering Chapter 1 and §§2.1 – 2.8. A tutorial runs that week, before the deadline.
+
+**Next class:** tools for counting sample points — the $mn$ rule, permutations, combinations, and partitions.
+:::
+
+---
+
+## 🙏 Thank You
+
+::: {style="font-size: 34px"}
+**Dr. Samir Orujov**
+
+📧 sorujov@ada.edu.az
+🏢 Building D, Room D325
+🕓 Office hours: Wednesday, 16:00 – 18:00
+
+Slides and readings: **sorujov.net/teaching**
+:::
+
+---
+
+## ❓ Questions
+
+::: {style="font-size: 32px"}
+- Can an event have probability 0 without being impossible?
+
+- The audit missed the problem 30% of the time with two files out of five. How many files must be drawn before that falls below 5%?
+
+- Why state Axiom 3 for an infinite sequence when every example in this lecture is finite?
+:::
