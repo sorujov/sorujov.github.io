@@ -96,7 +96,7 @@ description: "Probability from the axioms upward: counting, conditional probabil
 
 <p>The course meets twice a week for 75 minutes, on Wednesdays and Saturdays. Each session pairs a lecture that develops the theory with worked problems solved at the board. Derivations are done in full, and students are expected to reproduce them; roughly a third of each session is given over to guided problem solving.</p>
 
-<p>Between sessions students work through biweekly problem sets on WeBWorK. The problems are randomised, so each student receives a different version and gets immediate feedback. Alongside the lectures, the teaching assistant runs seven biweekly tutorials — one in each week that a problem set closes — as working sessions rather than repeat lectures.</p>
+<p>Every session has a problem set of its own on WeBWorK — two a week, one per lecture, twenty problems each. The problems are randomised, so each student receives a different version and gets immediate feedback, and a practice copy of each set is posted beside that session's slides in the course plan below. Alongside the lectures, the teaching assistant runs seven tutorials in alternate weeks, as working sessions rather than repeat lectures.</p>
 
 <p>Assessment is delivered on the same platform as the practice, so the tool used for homework is the tool used for examination and no student meets the interface for the first time under exam conditions. Every probability model introduced in the course is motivated by an economic or financial application: insurance claims, default counts, waiting times, portfolio variance.</p>
 
@@ -107,7 +107,7 @@ description: "Probability from the axioms upward: counting, conditional probabil
     <div class="assessment-item">
       <h4>Problem sets</h4>
       <span class="assessment-percentage">10%</span>
-      <span class="grade-range">Seven, biweekly</span>
+      <span class="grade-range">Two each week</span>
     </div>
     <div class="assessment-item">
       <h4>Quiz I</h4>
@@ -138,24 +138,34 @@ description: "Probability from the axioms upward: counting, conditional probabil
   <p>Every quiz and examination is written on WeBWorK during the regular class period of each section, on a laptop. Statistical tables and a formula sheet are built into each set. Problems are set in several parts and credit is awarded part by part, so intermediate quantities carry marks of their own.</p>
 </div>
 
-<h2 id="problem-sets">Problem set deadlines</h2>
+<h2 id="problem-sets">Problem sets</h2>
 
-<p>Seven sets are released on WeBWorK at two-week intervals and close at 23:59 on the dates below. Attempts before the deadline are unlimited, and the lowest set is dropped. A TA-led tutorial runs in each of these weeks, before the deadline.</p>
+<p>Each lecture has its own set on WeBWorK. The set for a Wednesday lecture is <em>ps1</em> for that week and the set for the Saturday lecture is <em>ps2</em>; both open on the day of their lecture and close at <strong>23:59 on the following Saturday</strong>, so there is always a full week to work on each. Attempts before the deadline are unlimited. A practice copy of every set, with its own randomly generated numbers, is linked beside the slides in the course plan below — the figures in it will not match your own copy, which is the point.</p>
 
 <div class="schedule-table">
   <table>
-    <thead><tr><th>Set</th><th>Closes</th><th>Covers</th></tr></thead>
+    <thead><tr><th>Week</th><th>Sessions</th><th>ps1 covers</th><th>ps2 covers</th><th>Both close</th></tr></thead>
     <tbody>
-      <tr><td>1</td><td>26 September 2026</td><td>Chapter 1 and 2.1-2.8</td></tr>
-      <tr><td>2</td><td>10 October 2026</td><td>2.9-2.12 and 3.1-3.3</td></tr>
-      <tr><td>3</td><td>21 October 2026</td><td>3.4-3.8</td></tr>
-      <tr><td>4</td><td>7 November 2026</td><td>3.9-3.11 and 4.1-4.4</td></tr>
-      <tr><td>5</td><td>21 November 2026</td><td>4.5-4.11</td></tr>
-      <tr><td>6</td><td>5 December 2026</td><td>5.1-5.6</td></tr>
-      <tr><td>7</td><td>16 December 2026</td><td>5.7-5.12</td></tr>
+      <tr><td>1</td><td>9 and 12 September</td><td>§§1.1–1.2</td><td>§§1.3–1.6</td><td>19 September</td></tr>
+      <tr><td>2</td><td>16 and 19 September</td><td>§§2.1–2.5</td><td>§2.6</td><td>26 September</td></tr>
+      <tr><td>3</td><td>23 and 26 September</td><td>§2.7</td><td>§2.8</td><td>3 October</td></tr>
+      <tr><td>4</td><td>30 September and 3 October</td><td>§2.9</td><td>§2.10</td><td>10 October</td></tr>
+      <tr><td>5</td><td>7 and 10 October</td><td>§§2.11–2.13</td><td>§§3.1–3.3</td><td>17 October</td></tr>
+      <tr><td>6</td><td>14 and 17 October</td><td>§3.4</td><td>§§3.5–3.6</td><td>24 October</td></tr>
+      <tr><td>7</td><td>21 October</td><td>§§3.7–3.8</td><td class="muted-cell">&mdash;</td><td>31 October</td></tr>
+      <tr><td>8</td><td>28 and 31 October</td><td>§3.9</td><td>§§3.10–3.11</td><td>7 November</td></tr>
+      <tr><td>9</td><td>4 and 7 November</td><td>§§4.1–4.2</td><td>§§4.3–4.4</td><td>14 November</td></tr>
+      <tr><td>10</td><td>11 and 14 November</td><td>§4.5</td><td>§4.6</td><td>21 November</td></tr>
+      <tr><td>11</td><td>18 and 21 November</td><td>§§4.7–4.8</td><td>§§4.9–4.11</td><td>28 November</td></tr>
+      <tr><td>12</td><td>25 and 28 November</td><td>§§5.1–5.2</td><td>§5.3</td><td>5 December</td></tr>
+      <tr><td>13</td><td>2 and 5 December</td><td>§5.4</td><td>§§5.5–5.7</td><td>12 December</td></tr>
+      <tr><td>14</td><td>9 and 12 December</td><td>§5.8</td><td>§5.9</td><td>18 December</td></tr>
+      <tr><td>15</td><td>16 December</td><td>§§5.10–5.12</td><td class="muted-cell">&mdash;</td><td>18 December</td></tr>
     </tbody>
   </table>
 </div>
+
+<p>Weeks 7 and 15 carry a single set, because the second session of each is an examination rather than a lecture.</p>
 
 <h2 id="schedule">Course plan</h2>
 
@@ -168,26 +178,26 @@ description: "Probability from the axioms upward: counting, conditional probabil
       <tr>
         <td>9 September</td>
         <td>Course orientation. What statistics is: populations, samples, and the inferential problem. Describing a data set: frequency distributions and relative frequency histograms.</td>
-        <td>Wackerly, Mathematical Statistics with Applications, 7th ed., §§1.1–1.3. Skim the Chapter 1 introduction before class.</td>
-        <td><a class="slide-link" href="/lectures/math-stat-1-fall-2026/01-what-is-statistics/what_is_statistics_lecture1.html" target="_blank">Slides &rarr;</a></td>
+        <td>Wackerly, Mathematical Statistics with Applications, 7th ed., §§1.1–1.2. Skim the Chapter 1 introduction before class.</td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/01-what-is-statistics/what_is_statistics_lecture1.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/01-what-is-statistics/week01ps1-practice.pdf" target="_blank">Problems &rarr;</a></div></td>
       </tr>
       <tr>
         <td>12 September</td>
         <td>Numerical descriptive measures: the mean, the variance and the standard deviation. Tchebysheff's theorem and the empirical rule as distribution-free bounds. Why inference requires a measure of goodness.</td>
-        <td>Wackerly §§1.4–1.6. Exercises at the end of §§1.3–1.5.</td>
-        <td><a class="slide-link" href="/lectures/math-stat-1-fall-2026/02-descriptive-measures/descriptive_measures_lecture2.html" target="_blank">Slides &rarr;</a></td>
+        <td>Wackerly §§1.3–1.6. Exercises at the end of §1.3, and the Chapter 1 supplementary exercises.</td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/02-descriptive-measures/descriptive_measures_lecture2.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/02-descriptive-measures/week01ps2-practice.pdf" target="_blank">Problems &rarr;</a></div></td>
       </tr>
       <tr>
         <td>16 September</td>
         <td>The probability of an event: sample spaces, simple and compound events, set notation, and the three axioms. The sample-point method for discrete sample spaces.</td>
         <td>Wackerly §§2.1–2.5. Exercises at the end of §2.4.</td>
-        <td><a class="slide-link" href="/lectures/math-stat-1-fall-2026/03-probability-of-an-event/probability_of_an_event_lecture3.html" target="_blank">Slides &rarr;</a></td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/03-probability-of-an-event/probability_of_an_event_lecture3.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/03-probability-of-an-event/week02ps1-practice.pdf" target="_blank">Problems &rarr;</a></div></td>
       </tr>
       <tr>
         <td>19 September</td>
         <td>Tools for counting sample points: the mn rule, permutations, combinations, and partitions into groups. Sampling with and without replacement.</td>
         <td>Wackerly §2.6. Exercises at the end of §2.6.</td>
-        <td><a class="slide-link" href="/lectures/math-stat-1-fall-2026/04-counting-sample-points/counting_sample_points_lecture4.html" target="_blank">Slides &rarr;</a></td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/04-counting-sample-points/counting_sample_points_lecture4.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/04-counting-sample-points/week02ps2-practice.pdf" target="_blank">Problems &rarr;</a></div></td>
       </tr>
       <tr>
         <td>23 September</td>
@@ -198,7 +208,7 @@ description: "Probability from the axioms upward: counting, conditional probabil
       <tr>
         <td>26 September</td>
         <td>The additive and multiplicative laws of probability. Probabilities of unions, intersections and complements.</td>
-        <td>Wackerly §2.8. Exercises at the end of §2.8. Problem Set 1 due at 23:59. Tutorial week: TA-led tutorial before the deadline.</td>
+        <td>Wackerly §2.8. Exercises at the end of §2.8. Tutorial week: TA-led tutorial this week.</td>
         <td class="muted-cell">&mdash;</td>
       </tr>
       <tr>
@@ -216,13 +226,13 @@ description: "Probability from the axioms upward: counting, conditional probabil
       <tr>
         <td>7 October</td>
         <td>Numerical events and random variables: the passage from events to distributions. Chapter 2 synthesis and problem clinic.</td>
-        <td>Wackerly §§2.11–2.12. Supplementary exercises, Chapter 2.</td>
+        <td>Wackerly §§2.11–2.13. Supplementary exercises, Chapter 2.</td>
         <td class="muted-cell">&mdash;</td>
       </tr>
       <tr>
         <td>10 October</td>
         <td>Discrete random variables: the probability mass function and its properties. Expected value of a random variable and of a function of one; variance and standard deviation.</td>
-        <td>Wackerly §§3.1–3.3. Exercises at the end of §3.3. Problem Set 2 due at 23:59. Tutorial week: TA-led tutorial before the deadline.</td>
+        <td>Wackerly §§3.1–3.3. Exercises at the end of §3.3. Tutorial week: TA-led tutorial this week.</td>
         <td class="muted-cell">&mdash;</td>
       </tr>
       <tr class="schedule-highlight">
@@ -240,7 +250,7 @@ description: "Probability from the axioms upward: counting, conditional probabil
       <tr class="schedule-highlight">
         <td>21 October</td>
         <td>The hypergeometric and Poisson distributions; the Poisson limit of the binomial. Review session for Midterm Examination I.</td>
-        <td>Wackerly §§3.7–3.8. Supplementary exercises, Chapters 1–3 (§§3.1–3.8). Problem Set 3 due at 23:59. Tutorial week: TA-led tutorial before the deadline.</td>
+        <td>Wackerly §§3.7–3.8. Supplementary exercises, Chapters 1–3 (§§3.1–3.8). Tutorial week: TA-led tutorial this week.</td>
         <td class="muted-cell">&mdash;</td>
       </tr>
       <tr class="schedule-highlight">
@@ -270,7 +280,7 @@ description: "Probability from the axioms upward: counting, conditional probabil
       <tr>
         <td>7 November</td>
         <td>Expected values for continuous random variables. The uniform distribution and its role as a reference model.</td>
-        <td>Wackerly §§4.3–4.4. Exercises at the end of §§4.3–4.4. Problem Set 4 due at 23:59. Tutorial week: TA-led tutorial before the deadline.</td>
+        <td>Wackerly §§4.3–4.4. Exercises at the end of §§4.3–4.4. Tutorial week: TA-led tutorial this week.</td>
         <td class="muted-cell">&mdash;</td>
       </tr>
       <tr>
@@ -294,7 +304,7 @@ description: "Probability from the axioms upward: counting, conditional probabil
       <tr>
         <td>21 November</td>
         <td>Moment-generating functions for continuous random variables; Tchebysheff's theorem; expectations of discontinuous functions. Chapter 4 synthesis.</td>
-        <td>Wackerly §§4.9–4.11. Supplementary exercises, Chapter 4. Problem Set 5 due at 23:59. Tutorial week: TA-led tutorial before the deadline.</td>
+        <td>Wackerly §§4.9–4.11. Supplementary exercises, Chapter 4. Tutorial week: TA-led tutorial this week.</td>
         <td class="muted-cell">&mdash;</td>
       </tr>
       <tr>
@@ -318,25 +328,25 @@ description: "Probability from the axioms upward: counting, conditional probabil
       <tr>
         <td>5 December</td>
         <td>The expected value of a function of several random variables. Covariance: definition, computation, and interpretation as co-movement.</td>
-        <td>Wackerly §§5.5–5.6. Exercises at the end of §§5.5–5.6. Problem Set 6 due at 23:59. Tutorial week: TA-led tutorial before the deadline.</td>
+        <td>Wackerly §§5.5–5.7. Exercises at the end of §§5.5–5.7. Tutorial week: TA-led tutorial this week.</td>
         <td class="muted-cell">&mdash;</td>
       </tr>
       <tr>
         <td>9 December</td>
         <td>The mean and variance of a linear combination of random variables; the variance of a two-asset portfolio and the arithmetic of diversification. The multinomial distribution.</td>
-        <td>Wackerly §§5.7–5.8. Exercises at the end of §§5.7–5.8.</td>
+        <td>Wackerly §5.8. Exercises at the end of §5.8.</td>
         <td class="muted-cell">&mdash;</td>
       </tr>
       <tr class="schedule-highlight">
         <td>12 December</td>
-        <td>Quiz II on WeBWorK, first 30 minutes of class (Chapter 4 and §§5.1–5.8). The bivariate normal distribution.</td>
+        <td>Quiz II on WeBWorK, first 30 minutes of class (Chapter 4 and §§5.1–5.8). The multinomial distribution.</td>
         <td>Prepare Wackerly Chapter 4 and §§5.1–5.8 for the quiz. Reading for the lecture: §5.9.</td>
         <td class="muted-cell">&mdash;</td>
       </tr>
       <tr class="schedule-highlight">
         <td>16 December</td>
         <td>Conditional expectations and the regression function. Chapter 5 synthesis and comprehensive review of Chapters 1–5 in preparation for Midterm Examination II.</td>
-        <td>Wackerly §§5.10–5.12. Supplementary exercises, Chapter 5. Problem Set 7 due at 23:59. Tutorial week: TA-led tutorial before the deadline.</td>
+        <td>Wackerly §§5.10–5.12. Supplementary exercises, Chapter 5. Tutorial week: TA-led tutorial this week.</td>
         <td class="muted-cell">&mdash;</td>
       </tr>
       <tr class="schedule-highlight">
@@ -382,7 +392,7 @@ description: "Probability from the axioms upward: counting, conditional probabil
     </div>
     <div class="tech-item">
       <h4>Tutorials</h4>
-      <p>Seven biweekly working sessions run by the teaching assistant. Day, time and room are announced on Blackboard in the first week.</p>
+      <p>Seven working sessions in alternate weeks, run by the teaching assistant. Day, time and room are announced on Blackboard in the first week.</p>
     </div>
     <div class="tech-item">
       <h4>Contact</h4>
