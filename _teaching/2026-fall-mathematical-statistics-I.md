@@ -112,7 +112,7 @@ description: "Probability from the axioms upward: counting, conditional probabil
     <div class="assessment-item">
       <h4>Quiz I</h4>
       <span class="assessment-percentage">10%</span>
-      <span class="grade-range">14 October &middot; Chapters 1-2</span>
+      <span class="grade-range">17 October &middot; Chapters 1-2</span>
     </div>
     <div class="assessment-item">
       <h4>Midterm Examination I</h4>
@@ -127,7 +127,7 @@ description: "Probability from the axioms upward: counting, conditional probabil
     <div class="assessment-item">
       <h4>Midterm Examination II</h4>
       <span class="assessment-percentage">40%</span>
-      <span class="grade-range">19 December &middot; Comprehensive</span>
+      <span class="grade-range">23 December &middot; Comprehensive</span>
     </div>
   </div>
 
@@ -159,13 +159,13 @@ description: "Probability from the axioms upward: counting, conditional probabil
       <tr><td>11</td><td>18 and 21 November</td><td>§§4.7–4.8</td><td>§§4.9–4.11</td><td>28 November</td></tr>
       <tr><td>12</td><td>25 and 28 November</td><td>§§5.1–5.2</td><td>§5.3</td><td>5 December</td></tr>
       <tr><td>13</td><td>2 and 5 December</td><td>§5.4</td><td>§§5.5–5.7</td><td>12 December</td></tr>
-      <tr><td>14</td><td>9 and 12 December</td><td>§5.8</td><td>§5.9</td><td>18 December</td></tr>
-      <tr><td>15</td><td>16 December</td><td>§§5.10–5.12</td><td class="muted-cell">&mdash;</td><td>18 December</td></tr>
+      <tr><td>14</td><td>9 and 12 December</td><td>§5.8</td><td>§5.9</td><td>19 December</td></tr>
+      <tr><td>15</td><td>16 and 19 December</td><td>§§5.10–5.11</td><td>§5.12 and Chapters 1–5 review</td><td>22 December</td></tr>
     </tbody>
   </table>
 </div>
 
-<p>Weeks 7 and 15 carry a single set, because the second session of each is an examination rather than a lecture.</p>
+<p>Week 7 carries a single set, because its second session is Midterm Examination I rather than a lecture. The two sets of week 15 close on Tuesday 22 December, the day before Midterm Examination II, rather than on the following Saturday.</p>
 
 <h2 id="schedule">Course plan</h2>
 
@@ -235,16 +235,16 @@ description: "Probability from the axioms upward: counting, conditional probabil
         <td>Wackerly §§3.1–3.3. Exercises at the end of §3.3. Tutorial week: TA-led tutorial this week.</td>
         <td class="muted-cell">&mdash;</td>
       </tr>
-      <tr class="schedule-highlight">
+      <tr>
         <td>14 October</td>
-        <td>Quiz I on WeBWorK, first 30 minutes of class (Chapters 1–2). The binomial distribution: derivation from Bernoulli trials, mean, variance, and use in counting defaults and defects.</td>
-        <td>Prepare Wackerly Chapters 1–2 for the quiz. Reading for the lecture: §3.4.</td>
+        <td>The binomial distribution: derivation from Bernoulli trials, mean, variance, and use in counting defaults and defects.</td>
+        <td>Wackerly §3.4. Exercises at the end of §3.4.</td>
         <td class="muted-cell">&mdash;</td>
       </tr>
-      <tr>
+      <tr class="schedule-highlight">
         <td>17 October</td>
-        <td>The geometric and negative binomial distributions: waiting for the first success and for the rth success; memorylessness in discrete time.</td>
-        <td>Wackerly §§3.5–3.6. Exercises at the end of §§3.5–3.6.</td>
+        <td>Quiz I on WeBWorK, first 30 minutes of class (Chapters 1–2). The geometric and negative binomial distributions: waiting for the first success and for the rth success; memorylessness in discrete time.</td>
+        <td>Prepare Wackerly Chapters 1–2 for the quiz. Reading for the lecture: §§3.5–3.6.</td>
         <td class="muted-cell">&mdash;</td>
       </tr>
       <tr class="schedule-highlight">
@@ -343,14 +343,20 @@ description: "Probability from the axioms upward: counting, conditional probabil
         <td>Prepare Wackerly Chapter 4 and §§5.1–5.8 for the quiz. Reading for the lecture: §5.9.</td>
         <td class="muted-cell">&mdash;</td>
       </tr>
-      <tr class="schedule-highlight">
+      <tr>
         <td>16 December</td>
-        <td>Conditional expectations and the regression function. Chapter 5 synthesis and comprehensive review of Chapters 1–5 in preparation for Midterm Examination II.</td>
-        <td>Wackerly §§5.10–5.12. Supplementary exercises, Chapter 5. Tutorial week: TA-led tutorial this week.</td>
+        <td>The bivariate normal distribution. Conditional expectations and the regression function; the law of iterated expectations and the conditional-variance decomposition.</td>
+        <td>Wackerly §§5.10–5.11. Exercises at the end of §5.11. Tutorial week: TA-led tutorial this week.</td>
         <td class="muted-cell">&mdash;</td>
       </tr>
       <tr class="schedule-highlight">
         <td>19 December</td>
+        <td>Chapter 5 synthesis and comprehensive review of Chapters 1–5 in preparation for Midterm Examination II.</td>
+        <td>Wackerly §5.12. Supplementary exercises, Chapter 5.</td>
+        <td class="muted-cell">&mdash;</td>
+      </tr>
+      <tr class="schedule-highlight">
+        <td>23 December</td>
         <td>Midterm Examination II on WeBWorK — comprehensive over Chapters 1–5, with emphasis on Chapters 4–5, written during the regular class period of each section.</td>
         <td>Wackerly Chapters 1–5, with emphasis on Chapters 4–5. Bring a charged laptop. Statistical tables and a formula sheet are built into the WeBWorK set.</td>
         <td class="muted-cell">&mdash;</td>
