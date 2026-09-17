@@ -13,6 +13,8 @@ import json
 import os
 import pandas as pd
 
+from ict_common import global_index_filled
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 ARCHIVE = os.path.join(HERE, "archive")
@@ -47,7 +49,8 @@ def r(x, nd=2):
 
 
 def global_index() -> tuple[dict, str]:
-    gi = pd.read_csv(os.path.join(ARCHIVE, "global_index.csv"), dtype={"month": str})
+    raw = pd.read_csv(os.path.join(ARCHIVE, "global_index.csv"), dtype={"month": str})
+    gi = global_index_filled()
     out: dict = {}
     for (country, network, statistic), frame in gi.groupby(["country", "network", "statistic"]):
         iso = COUNTRIES[country][1]
@@ -59,8 +62,8 @@ def global_index() -> tuple[dict, str]:
         ]
         out.setdefault(iso, {}).setdefault(network, {})[statistic] = rows
     # First month reported as a rolling three-month figure.
-    rolling = gi.loc[gi["period_type"] == "rolling_quarter", "month"]
-    return out, (rolling.min() if len(rolling) else None), gi["month"].max()
+    rolling = raw.loc[raw["period_type"] == "rolling_quarter", "month"]
+    return out, (rolling.min() if len(rolling) else None), raw["month"].max()
 
 
 MIN_TESTS = 30  # below this a unit's quarterly figure is shown as too uncertain

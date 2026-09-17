@@ -24,7 +24,9 @@ Jekyll does not publish this folder; the page reads the JSON files that
 | `update_apnic_ipv6.py` | Rebuilds the monthly IPv6 series from APNIC's daily data |
 | `build_azerbaijan_regions.py` | Adds new Open Data quarters for Azerbaijan (run quarterly) |
 | `verify.py` | Refuses a refresh in which any country loses months |
-| `export_json.py` | Writes the four JSON files in `assets/data/ict/` |
+| `ict_common.py` | Shared helper: the Global Index with gaps of up to three months filled by linear interpolation (display and projections only; the archive is untouched) |
+| `export_json.py` | Writes the JSON files the page reads in `assets/data/ict/` |
+| `forecast.py` | Refits the auto-ARIMA projections (writes `assets/data/ict/forecast.json`; a few minutes) |
 
 The monthly job is `.github/workflows/update-ict-data.yml`.
 
@@ -37,6 +39,7 @@ python data-pipeline/ict/update_owid.py
 python data-pipeline/ict/update_apnic_ipv6.py
 python data-pipeline/ict/verify.py
 python data-pipeline/ict/export_json.py
+python data-pipeline/ict/forecast.py
 ```
 
 Known gaps: May and June 2025 are missing from the Global Index archive and
