@@ -1,0 +1,75 @@
+name: Update ICT data
+
+on:
+  schedule:
+    # 1st of each month, 09:00 UTC (13:00 Baku), and again on the 16th in case
+    # Ookla publishes the new month late.
+    - cron: '0 9 1,16 * *'
+  workflow_dispatch:
+    inputs:
+      open_data:
+        description: 'Also add new Ookla Open Data quarters for Azerbaijan'
+        type: boolean
+        default: false
+
+concurrency:
+  group: update-ict-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: data-pipeline/ict/requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r data-pipeline/ict/requirements.txt
+
+      - name: Speedtest Global Index
+        # A failed country is reported but must not stop the others from being saved.
+        run: python data-pipeline/ict/update_global_index.py || echo "::warning::Some countries could not be refreshed"
+
+      - name: Our World in Data
+        run: python data-pipeline/ict/update_owid.py || echo "::warning::Some OWID series could not be refreshed"
+
+      - name: APNIC IPv6
+        run: python data-pipeline/ict/update_apnic_ipv6.py || echo "::warning::Some IPv6 series could not be refreshed"
+
+      - name: Is this a quarter month?
+        id: when
+        run: echo "month=$(date -u +%m)" >> "$GITHUB_OUTPUT"
+
+      - name: Ookla Open Data for Azerbaijan's cities and districts (quarter months, or on request)
+        if: >-
+          inputs.open_data == true ||
+          (github.event_name == 'schedule' && contains('01 04 07 10', steps.when.outputs.month))
+        run: python data-pipeline/ict/build_azerbaijan_regions.py
+
+      - name: Verify
+        run: python data-pipeline/ict/verify.py
+
+      - name: Export JSON for the page
+        run: python data-pipeline/ict/export_json.py
+
+      - name: Refit the projections
+        run: python data-pipeline/ict/forecast.py
+
+      - name: Commit
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data-pipeline/ict/archive assets/data/ict
+          if git diff --cached --quiet; then
+            echo "No changes."
+          else
+            git commit -m "Update ICT data ($(date -u +%Y-%m-%d))"
+            git push
+          fi
