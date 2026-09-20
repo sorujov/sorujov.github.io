@@ -1,0 +1,536 @@
+---
+title: "Mathematical Statistics"
+subtitle: "Two Laws of Probability: the Multiplicative and Additive Laws"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: [default, ../slide-fit.scss]
+    logo: ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    footer: "Mathematical Statistics I - Two Laws of Probability"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+# Named explicitly so engine selection cannot drift away from R.
+engine: knitr
+execute:
+  echo: true
+  warning: false
+  message: false
+knitr:
+  opts_chunk:
+    dev: png
+    dpi: 150
+    fig.align: center
+---
+
+```{r}
+#| label: setup
+#| include: false
+set.seed(2026)
+```
+
+## 🎯 Learning Objectives
+
+::: {style="font-size: 32px"}
+By the end of this lecture, you will be able to:
+
+- **Apply** the multiplicative law $P(A \cap B) = P(A)P(B \mid A)$, in either order
+
+- **Extend** it to a chain of three or more dependent stages
+
+- **Apply** the additive law $P(A \cup B) = P(A) + P(B) - P(A \cap B)$, and say what the subtraction repairs
+
+- **Use** the complement $P(A) = 1 - P(\bar{A})$ to convert an "at least one" event into an easy one
+
+- **Choose** between the two laws by reading whether the event is an intersection or a union
+:::
+
+---
+
+## 🗺️ Where We Are
+
+::: {style="font-size: 32px"}
+**Wackerly §2.8**
+
+Wednesday: $P(A \mid B) = P(A \cap B)/P(B)$. We used it to *read information out of* a table.
+
+::: {.fragment}
+Today we read it the other way. Multiply both sides by $P(B)$ and the definition stops being a measurement and becomes a **construction**: a way to build the probability of an intersection out of pieces.
+:::
+
+::: {.fragment}
+Two laws, one for $\cap$ and one for $\cup$. Between them they handle every compound event in this chapter.
+:::
+:::
+
+---
+
+## 📐 Theorem 2.5: The Multiplicative Law
+
+::: {style="font-size: 30px"}
+::: {.callout-important}
+## Theorem 2.5
+
+For any two events $A$ and $B$,
+$$P(A \cap B) = P(A)P(B \mid A) = P(B)P(A \mid B)$$
+and if $A$ and $B$ are independent,
+$$P(A \cap B) = P(A)P(B)$$
+:::
+
+::: {.fragment}
+The proof is Definition 2.9 with the denominator moved across. There is no new content — only a new use.
+:::
+:::
+
+---
+
+## 🔑 Two Forms, One of Which You Can Evaluate
+
+::: {style="font-size: 30px"}
+$$P(A \cap B) = P(A)P(B \mid A) = P(B)P(A \mid B)$$
+
+::: {.fragment}
+The two expressions are always equal, but a problem rarely hands you both. It gives you one marginal and the conditional that goes with it.
+:::
+
+::: {.fragment}
+**So the first question is which conditioning you were given, not which formula you prefer.** Choosing the other form leaves you with two unknowns and one equation.
+:::
+:::
+
+---
+
+## 📊 Worked Example: Two Loans From a Pool
+
+::: {style="font-size: 30px"}
+A securitisation pool holds 12 mortgages, of which 4 are in arrears. Two are drawn without replacement for a file review. What is the probability that **both** are in arrears?
+
+::: {.fragment}
+$$P(A_1 \cap A_2) = P(A_1)\,P(A_2 \mid A_1) = \frac{4}{12} \times \frac{3}{11} = \frac{12}{132} = 0.0909$$
+:::
+
+::: {.fragment}
+Note what the law did: it turned a question about a **pair** into two questions about a **single draw**, and the second one was easy because the first had already been answered.
+:::
+:::
+
+---
+
+## ⛓️ The Extension to Three
+
+::: {style="font-size: 30px"}
+::: {.callout-important}
+## Three events
+
+$$P(A \cap B \cap C) = P(A)\,P(B \mid A)\,P(C \mid A \cap B)$$
+:::
+
+::: {.fragment}
+Each factor conditions on **everything already assumed**. Drawing a third mortgage from the same pool:
+$$P(A_1 \cap A_2 \cap A_3) = \frac{4}{12} \times \frac{3}{11} \times \frac{2}{10} = 0.0182$$
+:::
+
+::: {.fragment}
+The pattern continues for any number of stages, and it is how sampling without replacement is handled throughout the course.
+:::
+:::
+
+---
+
+## 🤝 The Independent Case
+
+::: {style="font-size: 30px"}
+Azerbaijani and Georgian trade receivables are insured under separate policies, and a claim on one is taken to be independent of a claim on the other. With $P(A) = 0.07$ and $P(G) = 0.05$,
+$$P(A \cap G) = 0.07 \times 0.05 = 0.0035$$
+
+::: {.fragment}
+Independence is what licenses the shortcut — it is not the default. **When a problem does not say "independent", the conditional does not disappear**, and assuming it does is the most common way to arrive confidently at the wrong number.
+:::
+:::
+
+---
+
+## 📐 Theorem 2.6: The Additive Law
+
+::: {style="font-size: 30px"}
+::: {.callout-important}
+## Theorem 2.6
+
+For any two events $A$ and $B$,
+$$P(A \cup B) = P(A) + P(B) - P(A \cap B)$$
+and if $A$ and $B$ are mutually exclusive,
+$$P(A \cup B) = P(A) + P(B)$$
+:::
+
+::: {.fragment}
+The second line is Axiom 3 itself. The first is what Axiom 3 becomes when the events overlap.
+:::
+:::
+
+---
+
+## ➖ What the Subtraction Repairs
+
+::: {style="font-size: 30px"}
+Write $A \cup B$ as a union of three **disjoint** pieces: $A \cap \bar{B}$, $\bar{A} \cap B$, and $A \cap B$. Axiom 3 applies to those, and adding them gives the law.
+
+::: {.fragment}
+Adding $P(A)$ and $P(B)$ counts the overlap twice — once inside $A$, once inside $B$. Subtracting $P(A \cap B)$ removes one of the two copies.
+:::
+
+::: {.fragment}
+So the subtraction is not a correction for an error. It is **bookkeeping**, and it disappears exactly when there is nothing to double count.
+:::
+:::
+
+---
+
+## 🏦 Worked Example: A Customer Relationship
+
+::: {style="font-size: 28px"}
+Of a bank's retail customers, 62% hold a current account ($C$), 45% hold a card ($K$), and 31% hold both.
+
+::: {.fragment}
+$$P(C \cup K) = 0.62 + 0.45 - 0.31 = 0.76$$
+:::
+
+::: {.fragment}
+Drop the subtraction and you get 1.07 — a probability above 1, which Axiom 2 forbids. **An answer above 1 is almost always a forgotten intersection.**
+:::
+
+::: {.fragment}
+And $P(\bar{C} \cap \bar{K}) = 1 - 0.76 = 0.24$ hold neither: 24% of the customer base carries no product at all.
+:::
+:::
+
+---
+
+## 📐 Theorem 2.7: The Complement
+
+::: {style="font-size: 32px"}
+::: {.callout-important}
+## Theorem 2.7
+
+$$P(A) = 1 - P(\bar{A})$$
+:::
+
+::: {.fragment}
+$A$ and $\bar{A}$ are mutually exclusive and their union is $S$, so $P(A) + P(\bar{A}) = P(S) = 1$ by Axiom 2 and Axiom 3.
+:::
+
+::: {.fragment}
+Three lines of proof, and it is the most useful result in the chapter.
+:::
+:::
+
+---
+
+## 💡 "At Least One" Is an Intersection in Disguise
+
+::: {style="font-size: 30px"}
+A bank guarantees 8 SME loans. Each is called with probability 0.06, independently. What is the probability that **at least one** is called?
+
+::: {.fragment}
+As a union, this is eight events overlapping in every combination — 255 terms of inclusion and exclusion.
+:::
+
+::: {.fragment}
+As a complement, it is one line. "At least one is called" fails exactly when **none** is called, and *none* is an intersection:
+$$P(\text{at least one}) = 1 - (1 - 0.06)^8 = 1 - 0.6096 = 0.3904$$
+:::
+:::
+
+---
+
+## 💻 At Least One, Across Portfolio Sizes
+
+```{r}
+#| label: at-least-one
+p_call <- 0.06
+n      <- c(1, 4, 8, 12, 20, 40)
+
+data.frame(
+  guarantees   = n,
+  none_called  = round((1 - p_call)^n, 4),
+  at_least_one = round(1 - (1 - p_call)^n, 4)
+)
+```
+
+::: {style="font-size: 28px"}
+A 6% chance on one guarantee is better than even odds by twelve. Small independent risks accumulate, and the complement is what makes that visible in one line.
+:::
+
+---
+
+## 🔬 Interactive: The Accumulation {.smaller}
+
+```{ojs}
+//| echo: false
+
+viewof p_each = {
+  const input = Inputs.range([0.01, 0.30], {value: 0.06, step: 0.01,
+    label: "Probability each guarantee is called:"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+```
+
+```{ojs}
+//| echo: false
+
+atLeastOne = (n, p) => 1 - Math.pow(1 - p, n)
+curve = Array.from({length: 40}, (_, i) => ({n: i + 1, p: atLeastOne(i + 1, p_each)}))
+half = curve.find(d => d.p >= 0.5)
+
+md`At **${(100 * p_each).toFixed(0)}%** each, the portfolio passes a 50-50 chance of at least
+one call at **${half ? half.n : "more than 40"}** guarantees.`
+
+Plot.plot({
+  width: 1150,
+  height: 320,
+  marginLeft: 78,
+  marginBottom: 58,
+  style: {fontSize: "18px"},
+  x: {label: "Number of guarantees", domain: [1, 40]},
+  y: {label: "P(at least one called)", domain: [0, 1], tickFormat: ".1f"},
+  marks: [
+    Plot.ruleY([0.5], {stroke: "#cbb8a9", strokeDasharray: "4 4"}),
+    Plot.line(curve, {x: "n", y: "p", stroke: "#14130f", strokeWidth: 2}),
+    Plot.dot(half ? [half] : [], {x: "n", y: "p", r: 8, fill: "#8b2635"}),
+    Plot.ruleY([0])
+  ]
+})
+```
+
+---
+
+## 🧠 Think-Pair-Share
+
+```{r}
+#| label: tps-timer
+#| echo: false
+# The timer is the only thing in this deck that needs a package beyond base R.
+# Guarded so a machine without it renders the deck anyway, with a static
+# figure in the same corner, rather than halting the whole build.
+if (requireNamespace("countdown", quietly = TRUE)) {
+  countdown::countdown(minutes = 4, seconds = 0,
+                       top = 0, right = 0,
+                       font_size = "2em", warn_when = 30)
+} else {
+  htmltools::HTML(paste0(
+    '<div style="position:absolute; top:0; right:0; font-size:2em;',
+    ' font-weight:700; opacity:0.75">4:00</div>'))
+}
+```
+
+::: {style="font-size: 30px"}
+A borrower must clear two hurdles to draw on a credit line: an **affordability test** ($T$) and a **collateral valuation** ($V$).
+
+$P(T) = 0.80$, and among those who pass the affordability test, 70% also pass the valuation.
+
+**Four minutes, in pairs:**
+
+1. What is $P(T \cap V)$?
+
+2. If additionally $P(V) = 0.62$, what is $P(T \cup V)$?
+
+3. What is the probability the borrower fails **both**?
+:::
+
+---
+
+## ✅ Think-Pair-Share: Solution
+
+::: {style="font-size: 30px"}
+1. The 70% is a **conditional**, $P(V \mid T) = 0.70$. Theorem 2.5:
+$$P(T \cap V) = 0.80 \times 0.70 = 0.56$$
+
+2. Theorem 2.6: $P(T \cup V) = 0.80 + 0.62 - 0.56 = 0.86$.
+
+::: {.fragment}
+3. "Fails both" is $\bar{T} \cap \bar{V}$, which by De Morgan is $\overline{T \cup V}$. Theorem 2.7:
+$$P(\bar{T} \cap \bar{V}) = 1 - 0.86 = 0.14$$
+:::
+:::
+
+---
+
+## ✅ Think-Pair-Share: The Habit
+
+::: {style="font-size: 30px"}
+Part 3 is where the three results become one tool: De Morgan turned an **intersection of complements** into the **complement of a union**, and the union was already computed.
+
+::: {.fragment}
+**Before reaching for a formula, write the event in set notation.** "Neither", "both", "at least one", "only one" each have exactly one reading, and the reading picks the law.
+:::
+
+::: {.fragment}
+It is the same discipline as Wednesday's *order matters or not* — the mathematics is easy once the event is named correctly.
+:::
+:::
+
+---
+
+## 🧭 Which Law? A Reading Guide
+
+::: {style="font-size: 28px"}
+| The event says | In set notation | Reach for |
+|---|---|---|
+| "both", "and", "all of" | $A \cap B$ | Theorem 2.5 |
+| "either", "or", "at least one of two" | $A \cup B$ | Theorem 2.6 |
+| "at least one of many" | $\overline{\bar{A_1} \cap \cdots \cap \bar{A_n}}$ | 2.7, then 2.5 |
+| "neither", "none" | $\bar{A} \cap \bar{B}$ | De Morgan, then 2.7 |
+| "exactly one" | $(A \cap \bar{B}) \cup (\bar{A} \cap B)$ | disjoint, so Axiom 3 |
+
+::: {.fragment}
+The last row is worth remembering: those two pieces never overlap, so no subtraction is needed.
+:::
+:::
+
+---
+
+## 📝 Quiz #1: Which Law? {.quiz-question}
+
+$P(A) = 0.5$, $P(B) = 0.4$, $P(A \cap B) = 0.2$. What is $P(A \cup B)$?
+
+- [$0.7$]{.correct data-explanation="✅ Theorem 2.6: 0.5 + 0.4 − 0.2 = 0.7. The intersection is subtracted once, because adding the marginals counted it twice."}
+- $0.9$
+- $0.2$
+- $1.1$
+
+---
+
+## 📝 Quiz #2: The Conditional Is Not Optional {.quiz-question}
+
+$P(A) = 0.6$ and $P(B \mid A) = 0.25$. What is $P(A \cap B)$?
+
+- [$0.15$]{.correct data-explanation="✅ Theorem 2.5: P(A ∩ B) = P(A)P(B | A) = 0.6 × 0.25 = 0.15. No independence is needed or claimed."}
+- $0.85$
+- $0.25$
+- Cannot be found without $P(B)$
+
+---
+
+## 📝 Quiz #3: At Least One {.quiz-question}
+
+Three independent suppliers each deliver late with probability 0.2. What is the probability that at least one is late?
+
+- [$1 - 0.8^3 = 0.488$]{.correct data-explanation="✅ 'At least one' fails only when none is late, and 'none' is an intersection of independent events: 1 − (0.8)³."}
+- $3 \times 0.2 = 0.6$
+- $0.2^3 = 0.008$
+- $1 - 0.2^3 = 0.992$
+
+---
+
+## 📝 Quiz #4: Neither {.quiz-question}
+
+$P(A \cup B) = 0.75$. What is $P(\bar{A} \cap \bar{B})$?
+
+- [$0.25$]{.correct data-explanation="✅ De Morgan gives Ā ∩ B̄ = complement of (A ∪ B), so Theorem 2.7 gives 1 − 0.75 = 0.25."}
+- $0.75$
+- $0.5625$
+- Cannot be found from $P(A \cup B)$ alone
+
+---
+
+## 📋 Key Formulas
+
+::: {style="font-size: 30px"}
+| | Statement |
+|---|---|
+| Theorem 2.5 | $P(A \cap B) = P(A)P(B \mid A) = P(B)P(A \mid B)$ |
+| independent case | $P(A \cap B) = P(A)P(B)$ |
+| Theorem 2.5, three events | $P(A \cap B \cap C) = P(A)P(B \mid A)P(C \mid A \cap B)$ |
+| Theorem 2.6 | $P(A \cup B) = P(A) + P(B) - P(A \cap B)$ |
+| mutually exclusive case | $P(A \cup B) = P(A) + P(B)$ |
+| Theorem 2.7 | $P(A) = 1 - P(\bar{A})$ |
+:::
+
+---
+
+## 📋 Summary
+
+::: {style="font-size: 30px"}
+- The multiplicative law is Definition 2.9 rearranged — it **builds** an intersection from a marginal and a conditional
+
+- Use the form whose conditioning the problem actually gave you
+
+- The additive law subtracts the intersection because adding the marginals counts it twice
+
+- The complement turns "at least one" from a 255-term union into a single line
+
+- De Morgan converts between "neither" and "not either", and the laws do the rest
+
+- Name the event in set notation **first**; the law follows from the name
+:::
+
+---
+
+## 📚 Practice Problems
+
+::: {style="font-size: 28px"}
+**Wackerly, 7th edition**
+
+- Exercises at the end of §2.8 — start with 2.85 – 2.91, then 2.95 and 2.97
+
+- Return to Wednesday's bond table and verify Theorem 2.5 on it directly, computing $P(S \cap D)$ both ways round
+
+**Week 3, Problem Set 2** opens today and closes **3 October at 23:59** on WeBWorK, covering §2.8. The TA-led tutorial runs this week, before both deadlines.
+
+**Next class:** the event-composition method — how to decide, for a compound event with no obvious decomposition, which events to name in the first place.
+:::
+
+---
+
+## 🙏 Thank You
+
+::: {style="font-size: 34px"}
+**Dr. Samir Orujov**
+
+📧 sorujov@ada.edu.az
+🏢 Building D, Room D325
+🕓 Office hours: Wednesday, 16:00 – 18:00
+
+Slides and readings: **sorujov.net/teaching**
+:::
+
+---
+
+## ❓ Questions
+
+::: {style="font-size: 32px"}
+- Given only $P(A)$ and $P(B)$, what are the largest and smallest values $P(A \cap B)$ can take?
+
+- The additive law subtracts one term for two events. How many terms does it need for three?
+
+- Mutually exclusive events add, independent events multiply. Which of the two is the stronger assumption to make without evidence?
+:::

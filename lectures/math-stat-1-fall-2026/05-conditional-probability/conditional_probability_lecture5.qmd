@@ -1,0 +1,566 @@
+---
+title: "Mathematical Statistics"
+subtitle: "Conditional Probability and the Independence of Events"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: [default, ../slide-fit.scss]
+    logo: ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    footer: "Mathematical Statistics I - Conditional Probability and Independence"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+# Named explicitly so engine selection cannot drift away from R.
+engine: knitr
+execute:
+  echo: true
+  warning: false
+  message: false
+knitr:
+  opts_chunk:
+    dev: png
+    dpi: 150
+    fig.align: center
+---
+
+```{r}
+#| label: setup
+#| include: false
+set.seed(2026)
+```
+
+## 🎯 Learning Objectives
+
+::: {style="font-size: 32px"}
+By the end of this lecture, you will be able to:
+
+- **State** Definition 2.9 and compute $P(A \mid B)$ from a table or from stated probabilities
+
+- **Explain** the division by $P(B)$ as a rescaling of the sample space
+
+- **Distinguish** $P(A \mid B)$ from $P(B \mid A)$, and say why they differ
+
+- **Test** a pair of events for independence using Definition 2.10
+
+- **Argue** why two mutually exclusive events of positive probability are necessarily *dependent*
+:::
+
+---
+
+## 🗺️ Where We Are
+
+::: {style="font-size: 32px"}
+**Wackerly §2.7**
+
+Saturday we counted. Every probability was $n_a/N$, and every sample point carried the same weight $1/N$.
+
+::: {.fragment}
+That weighting was an assumption about **ignorance**: we knew nothing that separated one point from another.
+:::
+
+::: {.fragment}
+Today: information arrives. A bond is known to be speculative-grade; a borrower is known to have missed a payment. **What does the arrival of information do to a probability?**
+:::
+:::
+
+---
+
+## 💡 The Motivating Question
+
+::: {style="font-size: 30px"}
+Of 1,000 corporate bond issues tracked over five years, 80 defaulted. Unconditionally,
+$$P(D) = \frac{80}{1000} = 0.08$$
+
+::: {.fragment}
+Now you are told the issue was **speculative grade**. Is 0.08 still your answer?
+:::
+
+::: {.fragment}
+Obviously not — and "obviously" is exactly what needs a definition. The intuition is that we are no longer working in a sample space of 1,000 issues.
+:::
+:::
+
+---
+
+## 📖 Definition 2.9
+
+::: {style="font-size: 32px"}
+::: {.callout-note}
+## Definition 2.9
+
+The **conditional probability** of an event $A$, given that an event $B$ has occurred, is
+$$P(A \mid B) = \frac{P(A \cap B)}{P(B)}$$
+provided $P(B) > 0$.
+:::
+
+::: {.fragment}
+The proviso is not a technicality. Conditioning on something that cannot happen is not a harder problem; it is not a problem.
+:::
+:::
+
+---
+
+## ⚖️ Why Divide by $P(B)$?
+
+::: {style="font-size: 30px"}
+Learning that $B$ occurred does two things.
+
+::: {.fragment}
+**It discards** every sample point outside $B$. The ones left are exactly those in $A \cap B$ — which is why the numerator is $P(A \cap B)$ and not $P(A)$.
+:::
+
+::: {.fragment}
+**It rescales** what remains. The surviving points carry total weight $P(B)$, not 1, so dividing by $P(B)$ restores Axiom 2: $P(B \mid B) = 1$.
+:::
+
+::: {.fragment}
+Conditioning is not a new kind of probability. It is the **same probability measure on a smaller sample space**.
+:::
+:::
+
+---
+
+## 📊 The Bond Book
+
+::: {style="font-size: 28px"}
+1,000 issues, classified by rating at issue and by whether they defaulted within five years.
+
+| | Defaulted ($D$) | Did not default | Total |
+|---|---|---|---|
+| Investment grade ($I$) | 12 | 688 | 700 |
+| Speculative grade ($S$) | 68 | 232 | 300 |
+| **Total** | **80** | **920** | **1000** |
+
+::: {.fragment}
+One issue is drawn at random, every issue equally likely. Then
+$$P(D \mid S) = \frac{P(D \cap S)}{P(S)} = \frac{68/1000}{300/1000} = \frac{68}{300} = 0.2267$$
+:::
+:::
+
+---
+
+## 🔍 The Counts Were Enough
+
+::: {style="font-size: 30px"}
+$$P(D \mid S) = \frac{68/1000}{300/1000} = \frac{68}{300}$$
+
+The 1000s cancel. With equiprobable points, a conditional probability is just **the row read on its own**.
+
+::: {.fragment}
+That is a computational convenience, not the definition. It fails the moment the sample points stop being equally likely — and Definition 2.9 does not.
+:::
+:::
+
+---
+
+## ↔️ $P(A \mid B)$ Is Not $P(B \mid A)$
+
+::: {style="font-size: 30px"}
+$$P(D \mid S) = \frac{68}{300} = 0.2267 \qquad P(S \mid D) = \frac{68}{80} = 0.8500$$
+
+::: {.fragment}
+Same numerator, different denominator, and they answer different questions.
+
+- $P(D \mid S)$: *of the speculative issues, how many defaulted?*
+- $P(S \mid D)$: *of the defaults, how many were speculative?*
+:::
+
+::: {.fragment}
+Reading one as the other is the most expensive single error in applied probability. We will meet it again on 3 October under its own name.
+:::
+:::
+
+---
+
+## 💻 Both Conditionals in R
+
+```{r}
+#| label: bond-table
+bonds <- matrix(c(12, 688, 68, 232), nrow = 2, byrow = TRUE,
+                dimnames = list(c("Investment", "Speculative"),
+                                c("Default", "No default")))
+
+data.frame(
+  quantity = c("P(D)", "P(D | S)", "P(D | I)", "P(S | D)"),
+  value    = round(c(sum(bonds[, 1]) / sum(bonds),
+                     bonds["Speculative", "Default"] / sum(bonds["Speculative", ]),
+                     bonds["Investment",  "Default"] / sum(bonds["Investment",  ]),
+                     bonds["Speculative", "Default"] / sum(bonds[, "Default"])), 4)
+)
+```
+
+::: {style="font-size: 28px"}
+$P(D \mid S) = 0.2267$ against $P(D \mid I) = 0.0171$. Rating carries information about default, and that comparison is the whole of the next definition.
+:::
+
+---
+
+## 📖 Definition 2.10
+
+::: {style="font-size: 30px"}
+::: {.callout-note}
+## Definition 2.10
+
+Two events $A$ and $B$ are **independent** if any one of
+$$P(A \mid B) = P(A), \qquad P(B \mid A) = P(B), \qquad P(A \cap B) = P(A)P(B)$$
+holds. If none holds, $A$ and $B$ are **dependent**.
+:::
+
+::: {.fragment}
+Any one — the three are equivalent whenever both conditioning probabilities are defined. The third is the one to use, because it needs no proviso and is symmetric in $A$ and $B$.
+:::
+:::
+
+---
+
+## 🧮 Testing the Bond Book
+
+::: {style="font-size: 30px"}
+$$P(S \cap D) = \frac{68}{1000} = 0.068 \qquad P(S)P(D) = 0.300 \times 0.080 = 0.024$$
+
+::: {.fragment}
+$0.068 \neq 0.024$, so rating class and default are **dependent** — and the direction is informative: defaults among speculative issues run at nearly three times the rate the product rule would predict.
+:::
+
+::: {.fragment}
+Equivalently, $P(D \mid S) = 0.2267 \neq 0.08 = P(D)$. Conditioning **moved** the probability, and that movement *is* the dependence.
+:::
+:::
+
+---
+
+## 🎚️ Independence Is a Statement About a Pair
+
+::: {style="font-size: 30px"}
+Independence is not a property of $A$, nor of $B$, nor of the experiment. It is a property of the **pair**.
+
+::: {.fragment}
+A classification with three or more categories can be independent of an event in one category and dependent in another. Verifying one pair tells you nothing about the rest.
+:::
+
+::: {.fragment}
+Nor is it a physical claim about causation. Independence is an arithmetic relation among three numbers, and nothing more.
+:::
+:::
+
+---
+
+## ⚠️ Independence Is Not Mutual Exclusivity
+
+::: {style="font-size: 30px"}
+These two are confused more often than any other pair of ideas in Chapter 2, and they are close to opposites.
+
+::: {.fragment}
+- **Mutually exclusive**: $A \cap B = \varnothing$. If one happens, the other cannot.
+- **Independent**: $P(A \cap B) = P(A)P(B)$. If one happens, the other is *no less likely than before*.
+:::
+
+::: {.fragment}
+One says the events are maximally informative about each other. The other says they carry no information at all.
+:::
+:::
+
+---
+
+## 📐 The Argument in One Line
+
+::: {style="font-size: 30px"}
+::: {.callout-important}
+## A small result worth stating
+
+If $P(A) > 0$, $P(B) > 0$ and $A \cap B = \varnothing$, then $A$ and $B$ are **dependent**.
+:::
+
+::: {.fragment}
+$$P(A \cap B) = P(\varnothing) = 0, \qquad P(A)P(B) > 0$$
+so the product rule fails. Equivalently $P(A \mid B) = 0 \neq P(A)$: learning that $B$ occurred has driven $A$'s probability to zero, which is as much information as one event can carry about another.
+:::
+:::
+
+---
+
+## 🏛️ A Concrete Case
+
+::: {style="font-size: 30px"}
+A ministry awards a single contract. Let $A$ be "firm A wins", $B$ be "firm B wins", with $P(A) = 0.45$ and $P(B) = 0.35$.
+
+::: {.fragment}
+One contract, so $A \cap B = \varnothing$ and $P(A \cap B) = 0$. But $P(A)P(B) = 0.1575$.
+:::
+
+::: {.fragment}
+They are **dependent** — strongly so. Told that firm B won, you know firm A did not. Two firms competing for the same contract are about as far from independent as events get.
+:::
+:::
+
+---
+
+## 🔬 Interactive: How Far From Independence? {.smaller}
+
+```{ojs}
+//| echo: false
+
+viewof spec_def = {
+  const input = Inputs.range([6, 140], {value: 68, step: 1,
+    label: "Speculative issues that defaulted:"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+```
+
+```{ojs}
+//| echo: false
+
+tot = 1000
+nS = 300
+nI = 700
+invDef = (s) => Math.max(0, 150 - s)
+pD = (s) => (s + invDef(s)) / tot
+bars = {
+  const s = spec_def;
+  return [
+    {what: "P(D | S)", p: s / nS},
+    {what: "P(D | I)", p: invDef(s) / nI},
+    {what: "P(D)", p: pD(s)}
+  ];
+}
+
+md`With **${spec_def}** speculative defaults: P(D | S) = **${(spec_def/nS).toFixed(4)}**,
+P(D) = **${pD(spec_def).toFixed(4)}**. The two agree exactly when the bars level out —
+and that is independence.`
+
+Plot.plot({
+  width: 1150,
+  height: 300,
+  marginLeft: 120,
+  marginBottom: 55,
+  style: {fontSize: "18px"},
+  x: {label: "Probability", domain: [0, 0.5]},
+  y: {label: null, domain: ["P(D | S)", "P(D | I)", "P(D)"]},
+  marks: [
+    Plot.barX(bars, {y: "what", x: "p", fill: "#8b2635"}),
+    Plot.ruleX([pD(spec_def)], {stroke: "#14130f", strokeDasharray: "4 4"}),
+    Plot.ruleX([0])
+  ]
+})
+```
+
+---
+
+## 🧠 Think-Pair-Share
+
+```{r}
+#| label: tps-timer
+#| echo: false
+# The timer is the only thing in this deck that needs a package beyond base R.
+# Guarded so a machine without it renders the deck anyway, with a static
+# figure in the same corner, rather than halting the whole build.
+if (requireNamespace("countdown", quietly = TRUE)) {
+  countdown::countdown(minutes = 3, seconds = 0,
+                       top = 0, right = 0,
+                       font_size = "2em", warn_when = 30)
+} else {
+  htmltools::HTML(paste0(
+    '<div style="position:absolute; top:0; right:0; font-size:2em;',
+    ' font-weight:700; opacity:0.75">3:00</div>'))
+}
+```
+
+::: {style="font-size: 30px"}
+A bank's currency desk records, for each trading day, whether the **euro book** made a profit ($E$) and whether the **dollar book** made a profit ($U$).
+
+Over 500 days: $E$ on 300, $U$ on 250, both on 150.
+
+**Three minutes, in pairs:**
+
+1. Compute $P(U \mid E)$ and $P(U)$.
+
+2. Are $E$ and $U$ independent?
+
+3. Are they mutually exclusive? Could they be both?
+:::
+
+---
+
+## ✅ Think-Pair-Share: Solution
+
+::: {style="font-size: 30px"}
+1. $P(U \mid E) = \dfrac{150/500}{300/500} = \dfrac{150}{300} = 0.50$, and $P(U) = \dfrac{250}{500} = 0.50$.
+
+2. They are **equal**, so by Definition 2.10 the two books are **independent**. The product check agrees: $P(E \cap U) = 0.30 = 0.60 \times 0.50$.
+
+::: {.fragment}
+3. Not mutually exclusive — they happened together on 150 days. And they could not be both: mutually exclusive events of positive probability are always dependent.
+:::
+:::
+
+---
+
+## 🔄 Conditioning in Sequence
+
+::: {style="font-size: 28px"}
+A placement of 12 mortgage loans contains 4 already in arrears. Two are drawn for review, without replacement.
+
+::: {.fragment}
+$$P(A_1) = \frac{4}{12} = 0.3333$$
+:::
+
+::: {.fragment}
+The second draw is made from what is left, so its probability is **conditional by construction**:
+$$P(A_2 \mid A_1) = \frac{3}{11} = 0.2727, \qquad P(A_2 \mid \bar{A_1}) = \frac{4}{11} = 0.3636$$
+:::
+
+::: {.fragment}
+The two differ, so $A_1$ and $A_2$ are dependent. Sampling **without** replacement always produces dependence; sampling **with** replacement never does.
+:::
+:::
+
+---
+
+## 📝 Quiz #1: Reading the Definition {.quiz-question}
+
+$P(A \cap B) = 0.12$ and $P(B) = 0.40$. What is $P(A \mid B)$?
+
+- [$0.30$]{.correct data-explanation="✅ Definition 2.9: 0.12 / 0.40 = 0.30. The intersection goes on top, the conditioning event underneath."}
+- $0.048$
+- $0.52$
+- $3.33$
+
+---
+
+## 📝 Quiz #2: Which Way Round? {.quiz-question}
+
+Of 200 flagged transactions, 30 were genuinely fraudulent; the bank processed 5,000 transactions in all. Which quantity is $30/200$?
+
+- [$P(\text{fraud} \mid \text{flagged})$]{.correct data-explanation="✅ The denominator is the flagged transactions, so that is the conditioning event: among those flagged, the proportion fraudulent."}
+- $P(\text{flagged} \mid \text{fraud})$
+- $P(\text{fraud} \cap \text{flagged})$
+- $P(\text{flagged})$
+
+---
+
+## 📝 Quiz #3: Exclusive or Independent? {.quiz-question}
+
+$A$ and $B$ are mutually exclusive, with $P(A) = 0.3$ and $P(B) = 0.5$. Are they independent?
+
+- [No — $P(A \cap B) = 0$ but $P(A)P(B) = 0.15$]{.correct data-explanation="✅ Mutually exclusive events of positive probability are always dependent: knowing B occurred rules A out entirely."}
+- Yes — mutually exclusive events are always independent
+- Yes, because $P(A) + P(B) < 1$
+- There is not enough information to say
+
+---
+
+## 📝 Quiz #4: What Independence Buys {.quiz-question}
+
+$A$ and $B$ are independent with $P(A) = 0.6$ and $P(B) = 0.25$. What is $P(A \mid B)$?
+
+- [$0.60$]{.correct data-explanation="✅ Under independence the conditioning does nothing: P(A | B) = P(A) = 0.60. That is precisely what Definition 2.10 says."}
+- $0.15$
+- $0.25$
+- $2.40$
+
+---
+
+## 📋 Key Formulas
+
+::: {style="font-size: 30px"}
+| | Statement | Requires |
+|---|---|---|
+| Definition 2.9 | $P(A \mid B) = \dfrac{P(A \cap B)}{P(B)}$ | $P(B) > 0$ |
+| Definition 2.10 | $P(A \cap B) = P(A)P(B)$ | nothing |
+| equivalently | $P(A \mid B) = P(A)$ | $P(B) > 0$ |
+| mutually exclusive | $P(A \cap B) = 0$ | nothing |
+
+::: {.fragment}
+The last two rows are compatible only when one of the events has probability zero.
+:::
+:::
+
+---
+
+## 📋 Summary
+
+::: {style="font-size: 30px"}
+- Conditioning **discards** the points outside $B$ and **rescales** what is left by $P(B)$
+
+- $P(A \mid B)$ and $P(B \mid A)$ share a numerator and answer different questions
+
+- Independence means the conditioning changes nothing: $P(A \mid B) = P(A)$
+
+- Independence is a property of a **pair**, verified pair by pair
+
+- Mutually exclusive events of positive probability are **dependent**, never independent
+
+- Sampling without replacement is the everyday source of dependence
+:::
+
+---
+
+## 📚 Practice Problems
+
+::: {style="font-size: 28px"}
+**Wackerly, 7th edition**
+
+- Exercises at the end of §2.7 — start with 2.69 – 2.75, then 2.79 and 2.81
+
+- Redo the bond table with the roles of the two classifications swapped, and check that the dependence verdict is unchanged
+
+**Week 3, Problem Set 1** opens today and closes **3 October at 23:59** on WeBWorK, covering §2.7. Twenty problems; unlimited attempts before the deadline.
+
+**Next class:** the multiplicative and additive laws — Definition 2.9 rearranged into a tool, and the rule for the probability of a union.
+:::
+
+---
+
+## 🙏 Thank You
+
+::: {style="font-size: 34px"}
+**Dr. Samir Orujov**
+
+📧 sorujov@ada.edu.az
+🏢 Building D, Room D325
+🕓 Office hours: Wednesday, 16:00 – 18:00
+
+Slides and readings: **sorujov.net/teaching**
+:::
+
+---
+
+## ❓ Questions
+
+::: {style="font-size: 32px"}
+- If $A \subset B$, what are $P(A \mid B)$ and $P(B \mid A)$, without computing either?
+
+- Can an event be independent of itself? Which events, exactly?
+
+- The bond table's dependence was read as "rating carries information about default". What would have to be true of the table for the phrase to be reversed?
+:::
