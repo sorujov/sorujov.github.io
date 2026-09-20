@@ -203,13 +203,13 @@ description: "Probability from the axioms upward: counting, conditional probabil
         <td>23 September</td>
         <td>Conditional probability and the independence of events; independence contrasted with mutual exclusivity.</td>
         <td>Wackerly §2.7. Exercises at the end of §2.7.</td>
-        <td class="muted-cell">&mdash;</td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/05-conditional-probability/conditional_probability_lecture5.html" target="_blank">Slides &rarr;</a></div></td>
       </tr>
       <tr>
         <td>26 September</td>
         <td>The additive and multiplicative laws of probability. Probabilities of unions, intersections and complements.</td>
         <td>Wackerly §2.8. Exercises at the end of §2.8. Tutorial week: TA-led tutorial this week.</td>
-        <td class="muted-cell">&mdash;</td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/06-two-laws-of-probability/two_laws_of_probability_lecture6.html" target="_blank">Slides &rarr;</a></div></td>
       </tr>
       <tr>
         <td>30 September</td>
