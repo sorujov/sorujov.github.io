@@ -140,7 +140,7 @@ description: "Probability from the axioms upward: counting, conditional probabil
 
 <h2 id="problem-sets">Problem sets</h2>
 
-<p>Each lecture has its own set on WeBWorK. The set for a Wednesday lecture is <em>ps1</em> for that week and the set for the Saturday lecture is <em>ps2</em>; both open on the day of their lecture and close at <strong>23:59 on the following Saturday</strong>, so there is always a full week to work on each. Attempts before the deadline are unlimited. A practice copy of every set, with its own randomly generated numbers, is linked beside the slides in the course plan below — the figures in it will not match your own copy, which is the point.</p>
+<p>Each lecture has its own set on WeBWorK. The set for a Wednesday lecture is <em>ps1</em> for that week and the set for the Saturday lecture is <em>ps2</em>; both open on the day of their lecture and close at <strong>23:59 on the following Saturday</strong>, so there is always a full week to work on each. Attempts before the deadline are unlimited. Two copies of every set are linked beside the slides in the course plan below: a <strong>practice</strong> copy of the problems, and a <strong>solutions</strong> copy of the same problems worked through in full with an answer key at the end. Both carry their own randomly generated numbers, so the figures in them will not match your own copy on WeBWorK — which is the point. Follow the method, not the arithmetic.</p>
 
 <div class="schedule-table">
   <table>
@@ -179,37 +179,37 @@ description: "Probability from the axioms upward: counting, conditional probabil
         <td>9 September</td>
         <td>Course orientation. What statistics is: populations, samples, and the inferential problem. Describing a data set: frequency distributions and relative frequency histograms.</td>
         <td>Wackerly, Mathematical Statistics with Applications, 7th ed., §§1.1–1.2. Skim the Chapter 1 introduction before class.</td>
-        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/01-what-is-statistics/what_is_statistics_lecture1.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/01-what-is-statistics/week01ps1-practice.pdf" target="_blank">Problems &rarr;</a></div></td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/01-what-is-statistics/what_is_statistics_lecture1.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/01-what-is-statistics/week01ps1-practice.pdf" target="_blank">Problems &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/01-what-is-statistics/week01ps1-solutions.pdf" target="_blank">Solutions &rarr;</a></div></td>
       </tr>
       <tr>
         <td>12 September</td>
         <td>Numerical descriptive measures: the mean, the variance and the standard deviation. Tchebysheff's theorem and the empirical rule as distribution-free bounds. Why inference requires a measure of goodness.</td>
         <td>Wackerly §§1.3–1.6. Exercises at the end of §1.3, and the Chapter 1 supplementary exercises.</td>
-        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/02-descriptive-measures/descriptive_measures_lecture2.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/02-descriptive-measures/week01ps2-practice.pdf" target="_blank">Problems &rarr;</a></div></td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/02-descriptive-measures/descriptive_measures_lecture2.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/02-descriptive-measures/week01ps2-practice.pdf" target="_blank">Problems &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/02-descriptive-measures/week01ps2-solutions.pdf" target="_blank">Solutions &rarr;</a></div></td>
       </tr>
       <tr>
         <td>16 September</td>
         <td>The probability of an event: sample spaces, simple and compound events, set notation, and the three axioms. The sample-point method for discrete sample spaces.</td>
         <td>Wackerly §§2.1–2.5. Exercises at the end of §2.4.</td>
-        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/03-probability-of-an-event/probability_of_an_event_lecture3.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/03-probability-of-an-event/week02ps1-practice.pdf" target="_blank">Problems &rarr;</a></div></td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/03-probability-of-an-event/probability_of_an_event_lecture3.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/03-probability-of-an-event/week02ps1-practice.pdf" target="_blank">Problems &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/03-probability-of-an-event/week02ps1-solutions.pdf" target="_blank">Solutions &rarr;</a></div></td>
       </tr>
       <tr>
         <td>19 September</td>
         <td>Tools for counting sample points: the mn rule, permutations, combinations, and partitions into groups. Sampling with and without replacement.</td>
         <td>Wackerly §2.6. Exercises at the end of §2.6.</td>
-        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/04-counting-sample-points/counting_sample_points_lecture4.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/04-counting-sample-points/week02ps2-practice.pdf" target="_blank">Problems &rarr;</a></div></td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/04-counting-sample-points/counting_sample_points_lecture4.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/04-counting-sample-points/week02ps2-practice.pdf" target="_blank">Problems &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/04-counting-sample-points/week02ps2-solutions.pdf" target="_blank">Solutions &rarr;</a></div></td>
       </tr>
       <tr>
         <td>23 September</td>
         <td>Conditional probability and the independence of events; independence contrasted with mutual exclusivity.</td>
         <td>Wackerly §2.7. Exercises at the end of §2.7.</td>
-        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/05-conditional-probability/conditional_probability_lecture5.html" target="_blank">Slides &rarr;</a></div></td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/05-conditional-probability/conditional_probability_lecture5.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/05-conditional-probability/week03ps1-practice.pdf" target="_blank">Problems &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/05-conditional-probability/week03ps1-solutions.pdf" target="_blank">Solutions &rarr;</a></div></td>
       </tr>
       <tr>
         <td>26 September</td>
         <td>The additive and multiplicative laws of probability. Probabilities of unions, intersections and complements.</td>
         <td>Wackerly §2.8. Exercises at the end of §2.8. Tutorial week: TA-led tutorial this week.</td>
-        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/06-two-laws-of-probability/two_laws_of_probability_lecture6.html" target="_blank">Slides &rarr;</a></div></td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/06-two-laws-of-probability/two_laws_of_probability_lecture6.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/06-two-laws-of-probability/week03ps2-practice.pdf" target="_blank">Problems &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/06-two-laws-of-probability/week03ps2-solutions.pdf" target="_blank">Solutions &rarr;</a></div></td>
       </tr>
       <tr>
         <td>30 September</td>
