@@ -1,0 +1,544 @@
+---
+title: "Mathematical Statistics"
+subtitle: "The Event-Composition Method"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: [default, ../slide-fit.scss]
+    logo: ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    footer: "Mathematical Statistics I - The Event-Composition Method"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+# Named explicitly so engine selection cannot drift away from R.
+engine: knitr
+execute:
+  echo: true
+  warning: false
+  message: false
+knitr:
+  opts_chunk:
+    dev: png
+    dpi: 150
+    fig.align: center
+---
+
+```{r}
+#| label: setup
+#| include: false
+set.seed(2026)
+```
+
+## 🎯 Learning Objectives
+
+::: {style="font-size: 32px"}
+By the end of this lecture, you will be able to:
+
+- **Follow** the four steps of the event-composition method (Wackerly §2.9)
+
+- **Write** a compound event as unions, intersections and complements of events whose probabilities are known
+
+- **Test** a composition against the sample points before trusting it
+
+- **Compute** the reliability of series and parallel systems, and of a chain that mixes them
+
+- **Handle** "at least one" and sequential draws without replacement by composition
+:::
+
+---
+
+## 🗺️ Where We Are
+
+::: {style="font-size: 32px"}
+**Wackerly §2.9**
+
+Last class ended on a promise: *the event-composition method — how to decide, for a compound event with no obvious decomposition, which events to name in the first place.*
+
+::: {.fragment}
+We now own the tools: Theorem 2.5 for $\cap$, Theorem 2.6 for $\cup$, Theorem 2.7 for complements.
+:::
+
+::: {.fragment}
+Today is about the step **before** the tools — choosing the events so that every probability the laws ask for is one you actually know.
+:::
+:::
+
+---
+
+## 💳 Motivating Question
+
+::: {style="font-size: 30px"}
+::: {.callout-important}
+## A card payment in a Baku supermarket
+
+The payment passes a **terminal**, the **acquirer's switch**, the **card network** (run from two redundant data centres) and the **issuing bank**. Each piece has a published availability.
+
+What is the probability that the payment is authorised?
+:::
+
+::: {.fragment}
+Nobody publishes "the probability the payment goes through". It has to be **built** from the pieces — and the building is the method.
+:::
+:::
+
+---
+
+## 📐 The Event-Composition Method
+
+::: {style="font-size: 30px"}
+::: {.callout-note}
+## Wackerly §2.9: the four steps
+
+1. Define the experiment.
+2. Visualize the nature of the sample points. Identify a few to clarify your thinking.
+3. Write an equation expressing the event of interest, $A$, as a composition of two or more events, using unions, intersections and/or complements. Make certain that $A$ and the composition represent the **same set of sample points**.
+4. Apply the additive and multiplicative laws to the composition to find $P(A)$.
+:::
+
+Unlike the sample-point method, no list of $S$ is needed — only a clear picture of a typical sample point.
+:::
+
+---
+
+## 🔑 Step 3 Is the Hard One
+
+::: {style="font-size: 30px"}
+Many compositions equal $A$. **Pick the one in which every probability in step 4 is known.** If one is unknown, the method fails.
+
+::: {.fragment}
+Two kinds of pieces make step 4 easy:
+
+- **mutually exclusive** pieces, so the additive law has no subtraction
+- **independent** pieces, so the multiplicative law has no conditionals
+:::
+
+::: {.fragment}
+The most common error is a composition that is simply not equal to $A$. **Test the equality**: take a sample point in $A$ and check it lands in the composition, and the other way round.
+:::
+:::
+
+---
+
+## 🚢 Example 2.17: Export Shipments
+
+::: {style="font-size: 28px"}
+An exporter sends 40% of its shipments to Europe through **Alat port** ($R$) and 60% overland through the **Red Bridge** crossing ($D$). Customs clears 70% of Alat shipments and 80% of Red Bridge shipments within 48 hours ($F$). A shipment is picked at random.
+
+::: {.fragment}
+**Step 3.** Every shipment takes exactly one route, so
+$$F = (F \cap R) \cup (F \cap D), \qquad \text{two mutually exclusive pieces.}$$
+:::
+
+::: {.fragment}
+**Step 4.** $P(F \cap R) = P(F \mid R)P(R) = 0.7 \times 0.4 = 0.28$ and $P(F \cap D) = 0.8 \times 0.6 = 0.48$, so
+$$P(F) = 0.28 + 0.48 = 0.76$$
+:::
+:::
+
+---
+
+## 🏦 Example 2.19: A Clearing Mandate
+
+::: {style="font-size: 28px"}
+Five correspondent banks bid to clear a company's euro payments; two quote the **lowest fees**. The treasurer shortlists **two at random**. What is $P(A)$, $A$ = *exactly one of the two cheapest is shortlisted*?
+
+::: {.fragment}
+Let $B_1$: cheapest bank on the first pick, $B_2$: one of the three dearer banks on the second, and $B_3, B_4$ the same the other way round. Define $C_1, \ldots, C_4$ likewise for the **second-cheapest** bank. Then
+$$A = (B_1 \cap B_2) \cup (B_3 \cap B_4) \cup (C_1 \cap C_2) \cup (C_3 \cap C_4)$$
+:::
+
+::: {.fragment}
+**Test it:** every shortlist with exactly one cheap bank lies in exactly one of the four pieces, and no other shortlist lies in any.
+:::
+:::
+
+---
+
+## 🧮 Example 2.19: Step 4, and a Check
+
+::: {style="font-size: 28px"}
+The four pieces are mutually exclusive, and each is a two-stage draw:
+$$P(B_1 \cap B_2) = P(B_1)P(B_2 \mid B_1) = \tfrac{1}{5} \times \tfrac{3}{4} = \tfrac{3}{20}, \qquad P(A) = 4 \times \tfrac{3}{20} = \tfrac{3}{5}$$
+:::
+
+```{r}
+#| label: clearing-check
+# Sample-point check: list all C(5,2) = 10 shortlists; banks 1 and 2 are cheapest
+shortlists <- combn(5, 2)
+n_cheap    <- colSums(shortlists <= 2)
+c(shortlists = ncol(shortlists), exactly_one = sum(n_cheap == 1),
+  P_A = mean(n_cheap == 1))
+```
+
+::: {style="font-size: 28px"}
+Same answer as the sample-point method, reached without writing $S$ down.
+:::
+
+---
+
+## ⚡ Example 2.20: Power Feeds
+
+::: {style="font-size: 28px"}
+A Baku data centre hosting a bank's core system has **three independent power feeds**, each live during a grid event with probability 0.9. What is $P(A)$, $A$ = *at least one feed is live*?
+
+::: {.fragment}
+Let $B_i$: feed $i$ fails, so $P(B_i) = 0.1$. Then $\bar{A} = B_1 \cap B_2 \cap B_3$, and by Theorem 2.7 and independence
+$$P(A) = 1 - P(B_1)P(B_2)P(B_3) = 1 - (0.1)^3 = 0.999$$
+:::
+
+::: {.fragment}
+As a union, $A$ needs seven terms of inclusion–exclusion. As a complement, it is **one intersection**. Frequently $P(\bar{A})$ is the easy one.
+:::
+:::
+
+---
+
+## 🔗 Series and Parallel Systems
+
+::: {style="font-size: 28px"}
+$n$ independent components, each working with probability $p$.
+
+:::: {.columns}
+::: {.column width="50%"}
+::: {.callout-note}
+## Series: all must work
+A payment settlement chain.
+$$W = W_1 \cap W_2 \cap \cdots \cap W_n$$
+$$P(W) = p^n$$
+:::
+:::
+::: {.column width="50%"}
+::: {.callout-note}
+## Parallel: one is enough
+Redundant power feeds.
+$$\bar{W} = \bar{W}_1 \cap \bar{W}_2 \cap \cdots \cap \bar{W}_n$$
+$$P(W) = 1 - (1-p)^n$$
+:::
+:::
+::::
+
+::: {.fragment}
+Same components, opposite compositions: every link added to a series **costs** reliability, every feed added in parallel **buys** it.
+:::
+:::
+
+---
+
+## 💻 Series vs Parallel in R
+
+```{r}
+#| label: series-parallel
+p <- 0.95                          # each component works 95% of the time
+n <- c(1, 2, 4, 8, 12, 20)
+data.frame(components = n,
+           series     = round(p^n, 4),
+           parallel   = round(1 - (1 - p)^n, 4),
+           parallel_fails = signif((1 - p)^n, 3))
+```
+
+::: {style="font-size: 28px"}
+Twelve 95% links in series work only 54% of the time; two 95% feeds in parallel already give 99.75%.
+:::
+
+---
+
+## 🔬 Interactive: Series Versus Parallel {.smaller}
+
+```{ojs}
+//| echo: false
+
+viewof p_comp = {
+  const input = Inputs.range([0.50, 0.99], {value: 0.95, step: 0.01,
+    label: "Reliability of each component p:"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+```
+
+```{ojs}
+//| echo: false
+
+rel = Array.from({length: 20}, (_, i) => i + 1).flatMap(n => [
+  {n, R: Math.pow(p_comp, n), system: "series"},
+  {n, R: 1 - Math.pow(1 - p_comp, n), system: "parallel"}
+])
+halfN = (rel.find(d => d.system === "series" && d.R < 0.5) || {n: "more than 20"}).n
+
+md`At **p = ${p_comp.toFixed(2)}**, a series chain drops below 50% at **${halfN}** components.`
+
+Plot.plot({
+  width: 1150,
+  height: 300,
+  marginLeft: 78,
+  marginBottom: 58,
+  marginRight: 110,
+  marginTop: 40,
+  style: {fontSize: "18px"},
+  x: {label: "Number of components n", domain: [1, 20], ticks: [1, 5, 10, 15, 20]},
+  y: {label: "P(system works)", domain: [0, 1], tickFormat: ".1f"},
+  color: {domain: ["series", "parallel"], range: ["#8b2635", "#2f5d8a"]},
+  marks: [
+    Plot.ruleY([0.5], {stroke: "#cbb8a9", strokeDasharray: "4 4"}),
+    Plot.line(rel, {x: "n", y: "R", stroke: "system", strokeWidth: 3}),
+    Plot.text(rel.filter(d => d.n === 20), {x: "n", y: "R", text: "system",
+      fill: "system", dx: 12, textAnchor: "start", fontSize: 20}),
+    Plot.ruleY([0])
+  ]
+})
+```
+
+---
+
+## 💳 Back to the Card Payment
+
+::: {style="font-size: 28px"}
+Terminal $T$ (0.995), acquirer switch $Q$ (0.99), network data centres $N_1, N_2$ (0.97 each), issuer $I$ (0.99), all independent. Authorisation needs every stage, and the network needs **either** centre:
+$$\text{Auth} = T \cap Q \cap (N_1 \cup N_2) \cap I$$
+
+::: {.fragment}
+$$P(N_1 \cup N_2) = 1 - (0.03)^2 = 0.9991$$
+$$P(\text{Auth}) = 0.995 \times 0.99 \times 0.9991 \times 0.99 = 0.9743$$
+:::
+
+::: {.fragment}
+With a single data centre it would be $0.995 \times 0.99 \times 0.97 \times 0.99 = 0.9459$. The second centre halves the failure rate, from 5.4% to 2.6%.
+:::
+:::
+
+---
+
+## 🏠 Example 2.21: Mortgage Pipeline
+
+::: {style="font-size: 28px"}
+Each application arriving at a bank's mortgage desk needs **manual underwriting** with probability $p = 1/6$, independently. $A_i$: application $i$ does **not**. The $r$th is the first manual case:
+$$E_r = A_1 \cap \cdots \cap A_{r-1} \cap \bar{A}_r, \qquad P(E_r) = (5/6)^{r-1}(1/6)$$
+:::
+
+```{r}
+#| label: first-manual
+r   <- 1:6
+P_r <- (5/6)^(r - 1) * (1/6)
+round(c(setNames(P_r, paste0("r=", r)), within_6 = sum(P_r)), 4)
+```
+
+::: {style="font-size: 28px"}
+Over all $r$ the geometric series sums to $\frac{1/6}{1 - 5/6} = 1$.
+:::
+
+---
+
+## 📦 Draws Without Replacement
+
+::: {style="font-size: 28px"}
+A customs post holds **8 containers**, of which **2** carry undeclared goods. Inspectors open them one at a time in random order. $N_i$: the $i$th container opened is clean.
+
+::: {.fragment}
+**(a) At least one flagged container among the first three.** The complement is "the first three are all clean", a chain in which each factor conditions on what came before:
+$$P = 1 - P(N_1)P(N_2 \mid N_1)P(N_3 \mid N_1 \cap N_2) = 1 - \tfrac{6}{8}\cdot\tfrac{5}{7}\cdot\tfrac{4}{6} = 1 - \tfrac{5}{14} = 0.6429$$
+:::
+
+::: {.fragment}
+The factors are **not** $\tfrac{6}{8}$ three times: a clean container that has been opened is not put back.
+:::
+:::
+
+---
+
+## 📦 Found on the Fourth Opening
+
+::: {style="font-size: 28px"}
+**(b)** Exactly one flagged container in the first three, then a flagged one: three **mutually exclusive** orders, FNNF, NFNF, NNFF, each with the probability of FNNF:
+$$\tfrac{2}{8}\cdot\tfrac{6}{7}\cdot\tfrac{5}{6}\cdot\tfrac{1}{5} = \tfrac{1}{28}, \qquad P = 3 \times \tfrac{1}{28} = \tfrac{3}{28} = 0.1071$$
+:::
+
+```{r}
+#| label: containers
+# The two flagged containers occupy 2 of 8 opening positions, all C(8,2) = 28 equally likely
+pos <- combn(8, 2)
+c(at_least_one_in_first_3 = mean(pos[1, ] <= 3),
+  second_found_on_4th     = mean(pos[2, ] == 4))
+```
+
+---
+
+## 🧠 Think-Pair-Share
+
+```{r}
+#| label: tps-timer
+#| echo: false
+# The timer is the only thing in this deck that needs a package beyond base R.
+# Guarded so a machine without it renders the deck anyway, with a static
+# figure in the same corner, rather than halting the whole build.
+if (requireNamespace("countdown", quietly = TRUE)) {
+  countdown::countdown(minutes = 4, seconds = 0,
+                       top = 0, right = 0,
+                       font_size = "2em", warn_when = 30)
+} else {
+  htmltools::HTML(paste0(
+    '<div style="position:absolute; top:0; right:0; font-size:2em;',
+    ' font-weight:700; opacity:0.75">4:00</div>'))
+}
+```
+
+::: {style="font-size: 30px"}
+A cotton shipment from Baku to Poti leaves on time only if **customs** clears it (0.92), a **rail slot** is booked through either of two forwarders (0.75 each), and the **port** accepts it (0.96). All independent.
+
+**Four minutes, in pairs:**
+
+1. Write the event "leaves on time" as a composition. Then find its probability.
+
+2. Which is worth more: a **third forwarder**, or raising customs to **0.97**?
+:::
+
+---
+
+## ✅ Think-Pair-Share: Solution
+
+::: {style="font-size: 28px"}
+1. $\text{OnTime} = C \cap (F_1 \cup F_2) \cap P$, and $P(F_1 \cup F_2) = 1 - 0.25^2 = 0.9375$:
+$$P(\text{OnTime}) = 0.92 \times 0.9375 \times 0.96 = 0.828$$
+
+::: {.fragment}
+2. Third forwarder: $0.92 \times (1 - 0.25^3) \times 0.96 = 0.8694$.
+   Better customs: $0.97 \times 0.9375 \times 0.96 = 0.8730$.
+:::
+
+::: {.fragment}
+Customs wins, narrowly. The parallel block is already at 94%; the weakest **series** link is where the reliability leaks. The composition tells you where to spend money.
+:::
+:::
+
+---
+
+## 📝 Quiz #1: A Settlement Chain {.quiz-question}
+
+A cross-border payment passes three independent links, each working with probability 0.98. What is the probability the payment settles?
+
+- [$0.98^3 = 0.9412$]{.correct data-explanation="✅ Settlement needs every link, an intersection of independent events: 0.98 × 0.98 × 0.98 = 0.9412."}
+- $1 - 0.02^3 = 0.999992$
+- $0.98$
+- $3 \times 0.02 = 0.06$
+
+---
+
+## 📝 Quiz #2: Test the Composition {.quiz-question}
+
+$A$: the export licence is approved; $B$: the import licence is approved. Which composition is the event **exactly one** licence is approved?
+
+- $A \cup B$
+- [$(A \cap \bar{B}) \cup (\bar{A} \cap B)$]{.correct data-explanation="✅ A sample point with exactly one approval lies in exactly one of these two disjoint pieces. A ∪ B also contains the point where both are approved, so it fails the test."}
+- $\overline{A \cap B}$
+- $\bar{A} \cap \bar{B}$
+
+---
+
+## 📝 Quiz #3: Without Replacement {.quiz-question}
+
+Of 5 letters of credit, 2 contain discrepancies. They are checked one at a time in random order. What is the probability the first two checked are both clean?
+
+- [$\tfrac{3}{5} \times \tfrac{2}{4} = 0.30$]{.correct data-explanation="✅ Theorem 2.5 in sequence: 3/5 clean on the first check, then 2 clean left among 4. The second factor conditions on the first."}
+- $\left(\tfrac{3}{5}\right)^2 = 0.36$
+- $\tfrac{3}{5} = 0.60$
+- $\tfrac{2}{5} \times \tfrac{1}{4} = 0.10$
+
+---
+
+## 📋 Key Formulas
+
+::: {style="font-size: 30px"}
+| | Statement |
+|---|---|
+| partition by route | $P(F) = P(F \mid R)P(R) + P(F \mid D)P(D)$ |
+| series, $n$ components | $P(W) = p^n$ |
+| parallel, $n$ components | $P(W) = 1 - (1-p)^n$ |
+| at least one | $P(A) = 1 - P(\bar{A}_1 \cap \cdots \cap \bar{A}_n)$ |
+| first success on trial $r$ | $P(E_r) = (1-p)^{r-1}p$ |
+| sequential, no replacement | $P(A_1 \cap A_2 \cap A_3) = P(A_1)P(A_2 \mid A_1)P(A_3 \mid A_1 \cap A_2)$ |
+:::
+
+---
+
+## 📋 Summary
+
+::: {style="font-size: 30px"}
+- The method has four steps; step 3, **writing the composition**, is where the work is
+
+- Choose pieces whose probabilities you know, preferably mutually exclusive or independent
+
+- Test the composition against sample points before applying any law
+
+- Series is an intersection, parallel is the complement of an intersection
+
+- "At least one" goes through the complement; draws without replacement go through the chain of conditionals
+:::
+
+---
+
+## 📚 Practice Problems
+
+::: {style="font-size: 28px"}
+**Wackerly, 7th edition**
+
+- Exercises at the end of §2.9 — start with 2.110, 2.112, 2.116, then 2.120 and 2.121
+
+- For 2.116, draw the three lines as a series or parallel diagram **before** writing any probability
+
+**Week 4, Problem Set 1** opens today and closes **10 October at 23:59** on WeBWorK, covering §2.9.
+
+**Next class:** what to do when the event depends on which state the world is in — the law of total probability and Bayes' rule.
+:::
+
+---
+
+## 🙏 Thank You
+
+::: {style="font-size: 34px"}
+**Dr. Samir Orujov**
+
+📧 sorujov@ada.edu.az
+🏢 Building D, Room D325
+🕓 Office hours: Wednesday, 16:00 – 18:00
+
+Slides and readings: **sorujov.net/teaching**
+:::
+
+---
+
+## ❓ Questions
+
+::: {style="font-size: 32px"}
+- Example 2.17 split $F$ by route. What goes wrong if some shipments could use both routes?
+
+- A system of four 0.9 components can be wired as two parallel pairs in series, or two series pairs in parallel. Which is more reliable?
+
+- Why does the method fail, rather than approximate, when one probability in step 4 is unknown?
+:::

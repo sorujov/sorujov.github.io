@@ -215,25 +215,25 @@ description: "Probability from the axioms upward: counting, conditional probabil
         <td>30 September</td>
         <td>Calculating the probability of an event: the event-composition method. Extended worked problems on system reliability and compound financial events.</td>
         <td>Wackerly §2.9. Exercises at the end of §2.9.</td>
-        <td class="muted-cell">&mdash;</td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/07-event-composition/event_composition_lecture7.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/07-event-composition/week04ps1-practice.pdf" target="_blank">Problems &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/07-event-composition/week04ps1-solutions.pdf" target="_blank">Solutions &rarr;</a></div></td>
       </tr>
       <tr>
         <td>3 October</td>
         <td>The law of total probability and Bayes' rule. Applications: credit screening, diagnostic testing, and the revision of prior beliefs in the light of evidence.</td>
         <td>Wackerly §2.10. Exercises at the end of §2.10.</td>
-        <td class="muted-cell">&mdash;</td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/08-total-probability-and-bayes/total_probability_bayes_lecture8.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/08-total-probability-and-bayes/week04ps2-practice.pdf" target="_blank">Problems &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/08-total-probability-and-bayes/week04ps2-solutions.pdf" target="_blank">Solutions &rarr;</a></div></td>
       </tr>
       <tr>
         <td>7 October</td>
         <td>Numerical events and random variables: the passage from events to distributions. Chapter 2 synthesis and problem clinic.</td>
         <td>Wackerly §§2.11–2.13. Supplementary exercises, Chapter 2.</td>
-        <td class="muted-cell">&mdash;</td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/09-random-variables-and-sampling/random_variables_sampling_lecture9.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/09-random-variables-and-sampling/week05ps1-practice.pdf" target="_blank">Problems &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/09-random-variables-and-sampling/week05ps1-solutions.pdf" target="_blank">Solutions &rarr;</a></div></td>
       </tr>
       <tr>
         <td>10 October</td>
         <td>Discrete random variables: the probability mass function and its properties. Expected value of a random variable and of a function of one; variance and standard deviation.</td>
         <td>Wackerly §§3.1–3.3. Exercises at the end of §3.3. Tutorial week: TA-led tutorial this week.</td>
-        <td class="muted-cell">&mdash;</td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/10-discrete-random-variables/discrete_random_variables_lecture10.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/10-discrete-random-variables/week05ps2-practice.pdf" target="_blank">Problems &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/10-discrete-random-variables/week05ps2-solutions.pdf" target="_blank">Solutions &rarr;</a></div></td>
       </tr>
       <tr>
         <td>14 October</td>
