@@ -140,32 +140,32 @@ description: "Probability from the axioms upward: counting, conditional probabil
 
 <h2 id="problem-sets">Problem sets</h2>
 
-<p>Each lecture has its own set on WeBWorK. The set for a Wednesday lecture is <em>ps1</em> for that week and the set for the Saturday lecture is <em>ps2</em>; both open on the day of their lecture and close at <strong>23:59 on the following Saturday</strong>, so there is always a full week to work on each. Attempts before the deadline are unlimited. Two copies of every set are linked beside the slides in the course plan below: a <strong>practice</strong> copy of the problems, and a <strong>solutions</strong> copy of the same problems worked through in full with an answer key at the end. Both carry their own randomly generated numbers, so the figures in them will not match your own copy on WeBWorK — which is the point. Follow the method, not the arithmetic.</p>
+<p>Each lecture has its own set on WeBWorK. The set for a Wednesday lecture is <em>ps1</em> for that week and the set for the Saturday lecture is <em>ps2</em>; both open when they are published, before their lecture, and close at <strong>23:59 on the Sunday of the week after their lectures</strong>, so there is always more than a full week to work on each. Attempts before the deadline are unlimited. Two copies of every set are linked beside the slides in the course plan below: a <strong>practice</strong> copy of the problems, and a <strong>solutions</strong> copy of the same problems worked through in full with an answer key at the end. Both carry their own randomly generated numbers, so the figures in them will not match your own copy on WeBWorK — which is the point. Follow the method, not the arithmetic.</p>
 
 <div class="schedule-table">
   <table>
     <thead><tr><th>Week</th><th>Sessions</th><th>ps1 covers</th><th>ps2 covers</th><th>Both close</th></tr></thead>
     <tbody>
-      <tr><td>1</td><td>9 and 12 September</td><td>§§1.1–1.2</td><td>§§1.3–1.6</td><td>19 September</td></tr>
-      <tr><td>2</td><td>16 and 19 September</td><td>§§2.1–2.5</td><td>§2.6</td><td>26 September</td></tr>
-      <tr><td>3</td><td>23 and 26 September</td><td>§2.7</td><td>§2.8</td><td>3 October</td></tr>
-      <tr><td>4</td><td>30 September and 3 October</td><td>§2.9</td><td>§2.10</td><td>10 October</td></tr>
-      <tr><td>5</td><td>7 and 10 October</td><td>§§2.11–2.13</td><td>§§3.1–3.3</td><td>17 October</td></tr>
-      <tr><td>6</td><td>14 and 17 October</td><td>§3.4</td><td>§§3.5–3.6</td><td>24 October</td></tr>
-      <tr><td>7</td><td>21 October</td><td>§§3.7–3.8</td><td class="muted-cell">&mdash;</td><td>31 October</td></tr>
-      <tr><td>8</td><td>28 and 31 October</td><td>§3.9</td><td>§§3.10–3.11</td><td>7 November</td></tr>
-      <tr><td>9</td><td>4 and 7 November</td><td>§§4.1–4.2</td><td>§§4.3–4.4</td><td>14 November</td></tr>
-      <tr><td>10</td><td>11 and 14 November</td><td>§4.5</td><td>§4.6</td><td>21 November</td></tr>
-      <tr><td>11</td><td>18 and 21 November</td><td>§§4.7–4.8</td><td>§§4.9–4.11</td><td>28 November</td></tr>
-      <tr><td>12</td><td>25 and 28 November</td><td>§§5.1–5.2</td><td>§5.3</td><td>5 December</td></tr>
-      <tr><td>13</td><td>2 and 5 December</td><td>§5.4</td><td>§§5.5–5.7</td><td>12 December</td></tr>
-      <tr><td>14</td><td>9 and 12 December</td><td>§5.8</td><td>§5.9</td><td>19 December</td></tr>
-      <tr><td>15</td><td>16 and 19 December</td><td>§§5.10–5.11</td><td>§5.12 and Chapters 1–5 review</td><td>22 December</td></tr>
+      <tr><td>1</td><td>9 and 12 September</td><td>§§1.1–1.2</td><td>§§1.3–1.6</td><td>27 September</td></tr>
+      <tr><td>2</td><td>16 and 19 September</td><td>§§2.1–2.5</td><td>§2.6</td><td>4 October</td></tr>
+      <tr><td>3</td><td>23 and 26 September</td><td>§2.7</td><td>§2.8</td><td>4 October</td></tr>
+      <tr><td>4</td><td>30 September and 3 October</td><td>§2.9</td><td>§2.10</td><td>11 October</td></tr>
+      <tr><td>5</td><td>7 and 10 October</td><td>§§2.11–2.13</td><td>§§3.1–3.3</td><td>18 October</td></tr>
+      <tr><td>6</td><td>14 and 17 October</td><td>§3.4</td><td>§§3.5–3.6</td><td>25 October</td></tr>
+      <tr><td>7</td><td>21 October</td><td>§§3.7–3.8</td><td class="muted-cell">&mdash;</td><td>1 November</td></tr>
+      <tr><td>8</td><td>28 and 31 October</td><td>§3.9</td><td>§§3.10–3.11</td><td>8 November</td></tr>
+      <tr><td>9</td><td>4 and 7 November</td><td>§§4.1–4.2</td><td>§§4.3–4.4</td><td>15 November</td></tr>
+      <tr><td>10</td><td>11 and 14 November</td><td>§4.5</td><td>§4.6</td><td>22 November</td></tr>
+      <tr><td>11</td><td>18 and 21 November</td><td>§§4.7–4.8</td><td>§§4.9–4.11</td><td>29 November</td></tr>
+      <tr><td>12</td><td>25 and 28 November</td><td>§§5.1–5.2</td><td>§5.3</td><td>6 December</td></tr>
+      <tr><td>13</td><td>2 and 5 December</td><td>§5.4</td><td>§§5.5–5.7</td><td>13 December</td></tr>
+      <tr><td>14</td><td>9 and 12 December</td><td>§5.8</td><td>§5.9</td><td>20 December</td></tr>
+      <tr><td>15</td><td>16 and 19 December</td><td>§§5.10–5.11</td><td>§5.12 and Chapters 1–5 review</td><td>27 December</td></tr>
     </tbody>
   </table>
 </div>
 
-<p>Week 7 carries a single set, because its second session is Midterm Examination I rather than a lecture. The two sets of week 15 close on Tuesday 22 December, the day before Midterm Examination II, rather than on the following Saturday.</p>
+<p>Week 7 carries a single set, because its second session is Midterm Examination I rather than a lecture.</p>
 
 <h2 id="schedule">Course plan</h2>
 
