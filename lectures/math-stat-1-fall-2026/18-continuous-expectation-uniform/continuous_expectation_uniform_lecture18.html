@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="continuous_expectation_uniform_lecture18_files/libs/clipboard/clipboard.min.js"></script>
+<script src="continuous_expectation_uniform_lecture18_files/libs/quarto-html/tabby.min.js"></script>
+<script src="continuous_expectation_uniform_lecture18_files/libs/quarto-html/popper.min.js"></script>
+<script src="continuous_expectation_uniform_lecture18_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="continuous_expectation_uniform_lecture18_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="continuous_expectation_uniform_lecture18_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="continuous_expectation_uniform_lecture18_files/libs/quarto-html/quarto-syntax-highlighting-12757e4b7af482b2d9c5bd8860d2b707.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.10.18">
+
+  <meta name="author" content="Samir Orujov, PhD">
+  <meta name="dcterms.date" content="2026-09-24">
+  <title>Mathematical Statistics</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="continuous_expectation_uniform_lecture18_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="continuous_expectation_uniform_lecture18_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {  background-color: #f8f8f8; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ef2929; } /* Alert */
+    code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #204a87; } /* Attribute */
+    code span.bn { color: #0000cf; } /* BaseN */
+    code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4e9a06; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #8f5902; font-style: italic; } /* Comment */
+    code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+    code span.dt { color: #204a87; } /* DataType */
+    code span.dv { color: #0000cf; } /* DecVal */
+    code span.er { color: #a40000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #0000cf; } /* Float */
+    code span.fu { color: #204a87; font-weight: bold; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+    code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+    code span.ot { color: #8f5902; } /* Other */
+    code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+    code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+    code span.ss { color: #4e9a06; } /* SpecialString */
+    code span.st { color: #4e9a06; } /* String */
+    code span.va { color: #000000; } /* Variable */
+    code span.vs { color: #4e9a06; } /* VerbatimString */
+    code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="continuous_expectation_uniform_lecture18_files/libs/revealjs/dist/theme/quarto-8f4eabb0e7fa2a8f159449dd4bce52c1.css">
+  <link href="continuous_expectation_uniform_lecture18_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="continuous_expectation_uniform_lecture18_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="continuous_expectation_uniform_lecture18_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="continuous_expectation_uniform_lecture18_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="continuous_expectation_uniform_lecture18_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="continuous_expectation_uniform_lecture18_files/libs/revealjs/plugin/reveal-quiz/quiz.css" rel="stylesheet">
+  <link href="continuous_expectation_uniform_lecture18_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <link href="continuous_expectation_uniform_lecture18_files/libs/countdown-0.6.0/countdown.css" rel="stylesheet">
+  <script src="continuous_expectation_uniform_lecture18_files/libs/countdown-0.6.0/countdown.js"></script>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Mathematical Statistics</h1>
+  <p class="subtitle">Expected Values for Continuous Random Variables; the Uniform Distribution</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Samir Orujov, PhD
+</div>
+        <p class="quarto-title-affiliation">
+            ADA University, School of Business
+          </p>
+        <p class="quarto-title-affiliation">
+            Information Communication Technologies Agency, Statistics Unit
+          </p>
+    </div>
+</div>
+
+  <p class="date">2026-09-24</p>
+</section>
+<section id="learning-objectives" class="slide level2">
+<h2>🎯 Learning Objectives</h2>
+<div style="font-size: 32px">
+<p>By the end of this lecture, you will be able to:</p>
+<ul>
+<li><p><strong>Compute</strong> <span class="math inline">\(E(Y) = \int y f(y)\,dy\)</span> and <span class="math inline">\(V(Y) = E(Y^2) - \mu^2\)</span> for a continuous random variable</p></li>
+<li><p><strong>Evaluate</strong> <span class="math inline">\(E[g(Y)]\)</span> for a cost or payoff <span class="math inline">\(g\)</span> with Theorem 4.4, and simplify it with Theorem 4.5</p></li>
+<li><p><strong>Recognise</strong> a uniform model on <span class="math inline">\((\theta_1, \theta_2)\)</span> and find interval probabilities as length over length</p></li>
+<li><p><strong>Apply</strong> Theorem 4.6, <span class="math inline">\(\mu = (\theta_1 + \theta_2)/2\)</span> and <span class="math inline">\(\sigma^2 = (\theta_2 - \theta_1)^2/12\)</span></p></li>
+<li><p><strong>Explain</strong> why the expected cost of a delay is not the cost of the expected delay</p></li>
+</ul>
+</div>
+</section>
+<section id="where-we-are" class="slide level2">
+<h2>🗺️ Where We Are</h2>
+<div style="font-size: 30px">
+<p><strong>Wackerly §§4.3–4.4</strong></p>
+<p>Wednesday opened Chapter 4 with the <strong>distribution function</strong> <span class="math inline">\(F(y)\)</span> and the <strong>density</strong> <span class="math inline">\(f(y) = dF/dy\)</span>. A density is a height, not a probability; probabilities are areas, <span class="math inline">\(F(b) - F(a)\)</span>, and quantiles invert <span class="math inline">\(F\)</span>.</p>
+<div class="fragment">
+<p>Chapter 3 followed exactly this path: first the distribution, then the <strong>mean and variance</strong> that summarise it. Today we take that second step for continuous variables. The rule is one substitution: <strong>sums become integrals, and <span class="math inline">\(p(y)\)</span> becomes <span class="math inline">\(f(y)\,dy\)</span>.</strong></p>
+</div>
+<div class="fragment">
+<p>Then the first named continuous model, the simplest one there is: the <strong>uniform</strong>.</p>
+</div>
+</div>
+</section>
+<section id="motivating-question" class="slide level2">
+<h2>❓ Motivating Question</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>The procurement desk’s problem</strong></p>
+</div>
+<div class="callout-content">
+<p>A plant waits for a replacement turbine part. Delivery takes between 1 and 5 days, any time equally likely. Lost output costs <strong>2,000 AZN plus 150 AZN times the square of the delay</strong> in days.</p>
+<p>What should the budget line say the part will cost <em>on average</em>?</p>
+</div>
+</div>
+</div>
+<div class="fragment" style="font-size: 30px">
+<p>The tempting answer plugs in the average delay of 3 days: <span class="math inline">\(2000 + 150 \times 9 = 3350\)</span> AZN. By the end of today we will see why that number is <strong>too low</strong>, and by exactly how much.</p>
+</div>
+</section>
+<section id="definition-4.5-expected-value" class="slide level2">
+<h2>📐 Definition 4.5: Expected Value</h2>
+<div style="font-size: 30px">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Definition 4.5</strong></p>
+</div>
+<div class="callout-content">
+<p>The expected value of a continuous random variable <span class="math inline">\(Y\)</span> is <span class="math display">\[E(Y) = \int_{-\infty}^{\infty} y f(y)\,dy,\]</span> provided that the integral exists.</p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>Compare Chapter 3: <span class="math inline">\(E(Y) = \sum_y y\,p(y)\)</span>. The quantity <span class="math inline">\(f(y)\,dy\)</span> plays the role of <span class="math inline">\(p(y)\)</span>, the probability of a thin slice around <span class="math inline">\(y\)</span>, and the integral adds up value times probability over all the slices.</p>
+</div>
+<div class="fragment">
+<p>“Exists” means <span class="math inline">\(\int |y| f(y)\,dy &lt; \infty\)</span>. Every model in this course passes that test.</p>
+</div>
+</div>
+</section>
+<section id="theorems-4.4-and-4.5" class="slide level2">
+<h2>📐 Theorems 4.4 and 4.5</h2>
+<div style="font-size: 29px">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Theorem 4.4</strong></p>
+</div>
+<div class="callout-content">
+<p>Let <span class="math inline">\(g(Y)\)</span> be a function of <span class="math inline">\(Y\)</span>; then <span class="math inline">\(\displaystyle E[g(Y)] = \int_{-\infty}^{\infty} g(y) f(y)\,dy\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Theorem 4.5</strong></p>
+</div>
+<div class="callout-content">
+<p>For a constant <span class="math inline">\(c\)</span> and functions <span class="math inline">\(g, g_1, \ldots, g_k\)</span> of <span class="math inline">\(Y\)</span>: <span class="math display">\[E(c) = c, \qquad E[cg(Y)] = cE[g(Y)], \qquad E\Big[\sum_{i=1}^k g_i(Y)\Big] = \sum_{i=1}^k E[g_i(Y)]\]</span></p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>With <span class="math inline">\(g(Y) = (Y - \mu)^2\)</span> these give, exactly as in Chapter 3, <span class="math inline">\(\;V(Y) = E[(Y-\mu)^2] = E(Y^2) - \mu^2\)</span>.</p>
+</div>
+</div>
+</section>
+<section id="worked-example-reserve-power" class="slide level2">
+<h2>⚡ Worked Example: Reserve Power</h2>
+<div style="font-size: 29px">
+<p>On a winter evening a grid operator must buy reserve power for <span class="math inline">\(Y\)</span> hours, <span class="math inline">\(0 \le Y \le 2\)</span>, with density <span class="math inline">\(f(y) = \tfrac{3}{8}y^2\)</span> (Wackerly’s Example 4.6). Long shortfalls are the likely ones.</p>
+<div class="fragment">
+<p><span class="math display">\[E(Y) = \int_0^2 y \cdot \tfrac{3}{8}y^2\,dy = \tfrac{3}{8}\cdot\tfrac{y^4}{4}\Big|_0^2 = \tfrac{3}{8}\cdot 4 = 1.5 \text{ hours}\]</span></p>
+</div>
+<div class="fragment">
+<p><span class="math display">\[E(Y^2) = \int_0^2 y^2 \cdot \tfrac{3}{8}y^2\,dy = \tfrac{3}{8}\cdot\tfrac{y^5}{5}\Big|_0^2 = \tfrac{3}{8}\cdot\tfrac{32}{5} = 2.4\]</span></p>
+</div>
+<div class="fragment">
+<p><span class="math display">\[\sigma^2 = 2.4 - 1.5^2 = 0.15, \qquad \sigma = 0.387 \text{ hours} \approx 23 \text{ minutes}\]</span></p>
+</div>
+</div>
+</section>
+<section id="checking-it-in-r" class="slide level2">
+<h2>💻 Checking It in R</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-label="1"></a>f   <span class="ot">&lt;-</span> <span class="cf">function</span>(y) <span class="dv">3</span><span class="sc">/</span><span class="dv">8</span> <span class="sc">*</span> y<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb1-2"><a href="" aria-label="2"></a>EY  <span class="ot">&lt;-</span> <span class="fu">integrate</span>(<span class="cf">function</span>(y) y   <span class="sc">*</span> <span class="fu">f</span>(y), <span class="dv">0</span>, <span class="dv">2</span>)<span class="sc">$</span>value</span>
+<span id="cb1-3"><a href="" aria-label="3"></a>EY2 <span class="ot">&lt;-</span> <span class="fu">integrate</span>(<span class="cf">function</span>(y) y<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">f</span>(y), <span class="dv">0</span>, <span class="dv">2</span>)<span class="sc">$</span>value</span>
+<span id="cb1-4"><a href="" aria-label="4"></a><span class="fu">c</span>(<span class="at">mean =</span> EY, <span class="at">E_Y2 =</span> EY2, <span class="at">var =</span> EY2 <span class="sc">-</span> EY<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>mean E_Y2  var 
+1.50 2.40 0.15 </code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-label="1"></a><span class="co"># Simulation: F(y) = y^3/8, so Y = 2 U^(1/3) for U uniform on (0,1)</span></span>
+<span id="cb3-2"><a href="" aria-label="2"></a>y <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">runif</span>(<span class="dv">100000</span>)<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)</span>
+<span id="cb3-3"><a href="" aria-label="3"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">sim_mean =</span> <span class="fu">mean</span>(y), <span class="at">sim_var =</span> <span class="fu">var</span>(y)), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>sim_mean  sim_var 
+  1.5011   0.1504 </code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>The simulation feeds uniform draws through Wednesday’s quantile function, <span class="math inline">\(F^{-1}(u) = 2u^{1/3}\)</span>. Keep that in mind: it is why the uniform matters.</p>
+</div>
+</section>
+<section id="from-hours-to-azn" class="slide level2">
+<h2>💰 From Hours to AZN</h2>
+<div style="font-size: 30px">
+<p>Reserve power costs the operator a fixed <strong>500 AZN</strong> fee plus <strong>800 AZN per hour</strong>: <span class="math inline">\(C = 500 + 800Y\)</span>.</p>
+<div class="fragment">
+<p>By Theorem 4.5, with no new integral: <span class="math display">\[E(C) = 500 + 800\,E(Y) = 500 + 800(1.5) = 1700 \text{ AZN}\]</span></p>
+</div>
+<div class="fragment">
+<p><span class="math display">\[V(C) = 800^2\,V(Y) = 640000 \times 0.15 = 96000, \qquad \sigma_C = 309.84 \text{ AZN}\]</span></p>
+</div>
+<div class="fragment">
+<p>For a <strong>linear</strong> cost, the expected cost is the cost of the expected hours. The constant 500 shifts the mean and leaves the spread alone. Hold on to the word <em>linear</em>.</p>
+</div>
+</div>
+</section>
+<section id="a-settlement-window" class="slide level2">
+<h2>📏 §4.4: A Settlement Window</h2>
+<div style="font-size: 29px">
+<p>A correspondent bank promises a large transfer “between 10:00 and 10:30”, with no subinterval favoured: it is as likely to land in 10:00–10:05 as in 10:25–10:30. Let <span class="math inline">\(Y\)</span> be the minutes after 10:00.</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Definition 4.6</strong></p>
+</div>
+<div class="callout-content">
+<p>If <span class="math inline">\(\theta_1 &lt; \theta_2\)</span>, <span class="math inline">\(Y\)</span> has a <strong>continuous uniform</strong> distribution on <span class="math inline">\((\theta_1, \theta_2)\)</span> if and only if <span class="math display">\[f(y) = \frac{1}{\theta_2 - \theta_1}, \quad \theta_1 \le y \le \theta_2, \qquad f(y) = 0 \text{ elsewhere.}\]</span></p>
+</div>
+</div>
+</div>
+<p><strong>Definition 4.7:</strong> constants that fix a density’s form, here <span class="math inline">\(\theta_1\)</span> and <span class="math inline">\(\theta_2\)</span>, are its <strong>parameters</strong>.</p>
+</div>
+</section>
+<section id="probability-is-length-over-length" class="slide level2">
+<h2>📊 Probability Is Length over Length</h2>
+
+<img data-src="continuous_expectation_uniform_lecture18_files/figure-revealjs/uniform-window-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1500"><div style="font-size: 28px">
+<p>Wackerly’s Example 4.7: if exactly one Poisson arrival occurred in <span class="math inline">\((0, 30)\)</span>, its time is uniform there, so <span class="math inline">\(P(25 \le Y \le 30) = \int_{25}^{30} \tfrac{1}{30}\,dy = \tfrac{5}{30} = \tfrac{1}{6}\)</span>. <strong>Every</strong> 5-minute stretch gets the same <span class="math inline">\(1/6\)</span>.</p>
+</div>
+</section>
+<section id="theorem-4.6-mean-and-variance" class="slide level2">
+<h2>📐 Theorem 4.6: Mean and Variance</h2>
+<div style="font-size: 29px">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Theorem 4.6</strong></p>
+</div>
+<div class="callout-content">
+<p>If <span class="math inline">\(\theta_1 &lt; \theta_2\)</span> and <span class="math inline">\(Y\)</span> is uniformly distributed on <span class="math inline">\((\theta_1, \theta_2)\)</span>, then <span class="math display">\[\mu = E(Y) = \frac{\theta_1 + \theta_2}{2} \qquad \text{and} \qquad \sigma^2 = V(Y) = \frac{(\theta_2 - \theta_1)^2}{12}.\]</span></p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><strong>Proof of the mean.</strong> <span class="math inline">\(\displaystyle E(Y) = \int_{\theta_1}^{\theta_2} \frac{y}{\theta_2 - \theta_1}\,dy = \frac{\theta_2^2 - \theta_1^2}{2(\theta_2 - \theta_1)} = \frac{\theta_1 + \theta_2}{2}\)</span>, the midpoint.</p>
+</div>
+<div class="fragment">
+<p><strong>The variance</strong> (Exercise 4.41): <span class="math inline">\(E(Y^2) = \dfrac{\theta_1^2 + \theta_1\theta_2 + \theta_2^2}{3}\)</span>; subtract <span class="math inline">\(\mu^2\)</span> and the <span class="math inline">\(\theta_1\theta_2\)</span> terms collapse to <span class="math inline">\((\theta_2 - \theta_1)^2/12\)</span>. It depends on the <strong>width</strong> only.</p>
+</div>
+</div>
+</section>
+<section id="worked-example-a-uniform-low-bid" class="slide level2">
+<h2>🏗️ Worked Example: A Uniform Low Bid</h2>
+<div style="font-size: 29px">
+<p>In a municipal road-resurfacing tender, the low bid <span class="math inline">\(Y\)</span> is uniform between <strong>420 and 500 thousand AZN</strong>, so <span class="math inline">\(f(y) = 1/80\)</span>.</p>
+<div class="fragment">
+<ul>
+<li><span class="math inline">\(P(Y &lt; 440) = \dfrac{440 - 420}{80} = 0.25\)</span>, <span class="math inline">\(\quad P(Y &gt; 490) = \dfrac{10}{80} = 0.125\)</span></li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li><span class="math inline">\(E(Y) = \dfrac{420 + 500}{2} = 460\)</span>, <span class="math inline">\(\quad V(Y) = \dfrac{80^2}{12} = 533.33\)</span>, <span class="math inline">\(\quad \sigma = 23.09\)</span> thousand AZN</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>The first bid opened is above 440. Now <span class="math inline">\(P(Y &gt; 480 \mid Y &gt; 440) = \dfrac{P(Y &gt; 480)}{P(Y &gt; 440)} = \dfrac{20/80}{60/80} = \dfrac{1}{3}\)</span></li>
+</ul>
+</div>
+<div class="fragment">
+<p>Conditioning a uniform on a subinterval leaves it <strong>uniform on that subinterval</strong>: 20 of the remaining 60.</p>
+</div>
+</div>
+</section>
+<section id="rounding-errors-at-the-till" class="slide level2">
+<h2>🪙 Rounding Errors at the Till</h2>
+<div style="font-size: 29px">
+<p>A supermarket chain rounds each cash bill to the nearest <strong>5 qəpik</strong>. The rounding error <span class="math inline">\(E\)</span> (actual minus charged, in AZN) is uniform on <span class="math inline">\((-0.025, 0.025)\)</span>.</p>
+<div class="fragment">
+<ul>
+<li>Theorem 4.6: <span class="math inline">\(\mu = 0\)</span> and <span class="math inline">\(\sigma = \dfrac{0.05}{\sqrt{12}} = 0.0144\)</span> AZN. Rounding is <strong>unbiased</strong>: the chain neither gains nor loses on average.</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Theorem 4.4 with <span class="math inline">\(g(e) = |e|\)</span> gives the typical size of the error: <span class="math display">\[E|E| = \int_{-0.025}^{0.025} |e| \cdot \frac{1}{0.05}\,de = 2 \int_0^{0.025} \frac{e}{0.05}\,de = 0.0125 \text{ AZN}\]</span></li>
+</ul>
+</div>
+<div class="fragment">
+<p>Mean zero is not size zero: each bill is off by 1.25 qəpik on average, in one direction or the other.</p>
+</div>
+</div>
+</section>
+<section id="back-to-the-delayed-part" class="slide level2">
+<h2>🚚 Back to the Delayed Part</h2>
+<div style="font-size: 29px">
+<p>Delay <span class="math inline">\(Y\)</span> is uniform on <span class="math inline">\((1, 5)\)</span> days; cost <span class="math inline">\(C = 2000 + 150Y^2\)</span> (compare Wackerly’s Exercise 4.47).</p>
+<div class="fragment">
+<p><span class="math inline">\(E(Y) = 3\)</span> and <span class="math inline">\(V(Y) = \dfrac{4^2}{12} = \dfrac{4}{3}\)</span>, so <span class="math inline">\(E(Y^2) = V(Y) + [E(Y)]^2 = \dfrac{4}{3} + 9 = \dfrac{31}{3} = 10.33\)</span>.</p>
+</div>
+<div class="fragment">
+<p>Theorem 4.5: <span class="math display">\[E(C) = 2000 + 150\,E(Y^2) = 2000 + 150 \times \tfrac{31}{3} = 3550 \text{ AZN}\]</span></p>
+</div>
+<div class="fragment">
+<p>Plugging in the average delay gave <strong>3350</strong>. The gap is <span class="math inline">\(150\,V(Y) = 150 \times \tfrac{4}{3} = 200\)</span> AZN: <strong><span class="math inline">\(E[g(Y)] \ne g[E(Y)]\)</span></strong> when <span class="math inline">\(g\)</span> is not linear, and for a convex cost the plug-in number is always too low.</p>
+</div>
+</div>
+</section>
+<section id="why-the-plug-in-undershoots" class="slide level2">
+<h2>📈 Why the Plug-in Undershoots</h2>
+
+<img data-src="continuous_expectation_uniform_lecture18_files/figure-revealjs/convex-cost-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1500"><div style="font-size: 28px">
+<p>Averaging a curve that bends upward lands <strong>above</strong> the curve’s value at the average. Long delays cost disproportionately, and the mean of <span class="math inline">\(Y^2\)</span> remembers them.</p>
+</div>
+</section>
+<section id="think-pair-share" class="slide level2">
+<h2>🧠 Think-Pair-Share</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<countdown-timer class="countdown" id="timer_2adf8a4d" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
+</div>
+</div>
+<div style="font-size: 30px">
+<p>A crude tanker’s loading time at a Caspian terminal is <span class="math inline">\(Y \sim\)</span> uniform on <span class="math inline">\((18, 30)\)</span> hours. The charterer pays <strong>demurrage of 2,000 AZN per hour</strong> beyond 24 hours.</p>
+<p><strong>Four minutes, in pairs:</strong></p>
+<ol type="1">
+<li><p>Find <span class="math inline">\(E(Y)\)</span> and <span class="math inline">\(V(Y)\)</span>.</p></li>
+<li><p>Loading has already passed 24 hours. What is <span class="math inline">\(P(Y &gt; 27 \mid Y &gt; 24)\)</span>?</p></li>
+<li><p>What is the expected demurrage bill? Is it <span class="math inline">\(2000 \times \max(E(Y) - 24,\, 0)\)</span>?</p></li>
+</ol>
+</div>
+</section>
+<section id="think-pair-share-solution" class="slide level2">
+<h2>✅ Think-Pair-Share: Solution</h2>
+<div style="font-size: 29px">
+<ol type="1">
+<li><p>Theorem 4.6: <span class="math inline">\(E(Y) = \dfrac{18 + 30}{2} = 24\)</span> hours, <span class="math inline">\(V(Y) = \dfrac{12^2}{12} = 12\)</span>, <span class="math inline">\(\sigma = 3.46\)</span> hours.</p></li>
+<li><p>Given <span class="math inline">\(Y &gt; 24\)</span>, <span class="math inline">\(Y\)</span> is uniform on <span class="math inline">\((24, 30)\)</span>: <span class="math inline">\(P(Y &gt; 27 \mid Y &gt; 24) = \dfrac{3}{6} = 0.5\)</span>.</p></li>
+</ol>
+<div class="fragment">
+<ol start="3" type="1">
+<li>Demurrage is <span class="math inline">\(g(Y) = 2000\max(Y - 24, 0)\)</span>. Theorem 4.4: <span class="math display">\[E[g(Y)] = \int_{24}^{30} 2000\,(y - 24)\,\frac{1}{12}\,dy = \frac{2000}{12} \cdot \frac{6^2}{2} = 3000 \text{ AZN}\]</span></li>
+</ol>
+</div>
+<div class="fragment">
+<p>The plug-in answer is <span class="math inline">\(2000 \times \max(24 - 24, 0) = 0\)</span>. <strong>A contract that charges only on the bad side has positive expected cost even when the average outcome costs nothing.</strong></p>
+</div>
+</div>
+</section>
+<section id="quiz-1-the-uniform-variance" class="slide level2 quiz-question">
+<h2>📝 Quiz #1: The Uniform Variance</h2>
+<p>A payment arrives at a uniformly distributed time within a 40-minute window. What is <span class="math inline">\(V(Y)\)</span>, in minutes squared?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Theorem 4.6: the variance is the squared width over 12. The position of the window does not matter, only its 40-minute width."><span class="math inline">\(40^2/12 = 133.3\)</span></span></li>
+<li><span class="math inline">\(40^2/4 = 400\)</span></li>
+<li><span class="math inline">\(40/\sqrt{12} = 11.5\)</span></li>
+<li><span class="math inline">\(40^2/3 = 533.3\)</span></li>
+</ul>
+</section>
+<section id="quiz-2-mean-of-a-square" class="slide level2 quiz-question">
+<h2>📝 Quiz #2: Mean of a Square</h2>
+<p><span class="math inline">\(Y\)</span> is uniform on <span class="math inline">\((0, 2)\)</span>. What is <span class="math inline">\(E(Y^2)\)</span>?</p>
+<ul>
+<li><span class="math inline">\(1\)</span>, because <span class="math inline">\(E(Y) = 1\)</span> and <span class="math inline">\(1^2 = 1\)</span></li>
+<li><span class="correct" data-explanation="✅ Theorem 4.4: the integral of y^2 times 1/2 from 0 to 2 is 8/6 = 4/3. Equivalently V(Y) + [E(Y)]^2 = 1/3 + 1. Squaring the mean misses the variance."><span class="math inline">\(4/3\)</span></span></li>
+<li><span class="math inline">\(2\)</span></li>
+<li><span class="math inline">\(1/3\)</span></li>
+</ul>
+</section>
+<section id="quiz-3-a-bid-already-above-11" class="slide level2 quiz-question">
+<h2>📝 Quiz #3: A Bid Already Above 11</h2>
+<p>A sealed bid is uniform on <span class="math inline">\((10, 14)\)</span> thousand AZN. Given that it exceeds 11, what is the probability that it exceeds 13?</p>
+<ul>
+<li><span class="math inline">\(1/4\)</span></li>
+<li><span class="math inline">\(3/4\)</span></li>
+<li><span class="math inline">\(1/2\)</span></li>
+<li><span class="correct" data-explanation="✅ Given Y > 11, Y is uniform on (11, 14): the part above 13 is 1 unit of the remaining 3. Equivalently (1/4)/(3/4) = 1/3."><span class="math inline">\(1/3\)</span></span></li>
+</ul>
+</section>
+<section id="key-formulas" class="slide level2">
+<h2>📋 Key Formulas</h2>
+<div style="font-size: 30px">
+<table class="caption-top">
+<colgroup>
+<col style="width: 22%">
+<col style="width: 77%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Statement</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Definition 4.5</td>
+<td style="text-align: left;"><span class="math inline">\(E(Y) = \int_{-\infty}^{\infty} y f(y)\,dy\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Theorem 4.4</td>
+<td style="text-align: left;"><span class="math inline">\(E[g(Y)] = \int_{-\infty}^{\infty} g(y) f(y)\,dy\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Theorem 4.5</td>
+<td style="text-align: left;"><span class="math inline">\(E(c) = c\)</span>, <span class="math inline">\(\ E[cg(Y)] = cE[g(Y)]\)</span>, <span class="math inline">\(\ E[\sum g_i] = \sum E[g_i]\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">variance</td>
+<td style="text-align: left;"><span class="math inline">\(V(Y) = E(Y^2) - \mu^2\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">linear cost</td>
+<td style="text-align: left;"><span class="math inline">\(E(aY + b) = a\mu + b\)</span>, <span class="math inline">\(\ V(aY + b) = a^2 V(Y)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Definition 4.6</td>
+<td style="text-align: left;"><span class="math inline">\(f(y) = 1/(\theta_2 - \theta_1)\)</span> on <span class="math inline">\(\theta_1 \le y \le \theta_2\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Theorem 4.6</td>
+<td style="text-align: left;"><span class="math inline">\(\mu = (\theta_1 + \theta_2)/2\)</span>, <span class="math inline">\(\quad \sigma^2 = (\theta_2 - \theta_1)^2/12\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="summary" class="slide level2">
+<h2>📋 Summary</h2>
+<div style="font-size: 30px">
+<ul>
+<li><p>Continuous expectation is Chapter 3 with <span class="math inline">\(\sum\)</span> replaced by <span class="math inline">\(\int\)</span> and <span class="math inline">\(p(y)\)</span> by <span class="math inline">\(f(y)\,dy\)</span></p></li>
+<li><p>Theorem 4.4 prices any function of <span class="math inline">\(Y\)</span>, and Theorem 4.5 does linear ones with no new integral</p></li>
+<li><p>A uniform on <span class="math inline">\((\theta_1, \theta_2)\)</span> gives probability proportional to length; conditioned on a subinterval it stays uniform</p></li>
+<li><p>Its mean is the midpoint and its variance is width squared over 12</p></li>
+<li><p>For a non-linear cost, <span class="math inline">\(E[g(Y)] \ne g[E(Y)]\)</span>: a convex cost or a one-sided penalty makes the plug-in answer too low</p></li>
+</ul>
+</div>
+</section>
+<section id="practice-problems" class="slide level2">
+<h2>📚 Practice Problems</h2>
+<div style="font-size: 28px">
+<p><strong>Wackerly, 7th edition</strong></p>
+<ul>
+<li><p>§4.3: Exercises 4.20 – 4.33; start with 4.20, 4.26, 4.30 and 4.32</p></li>
+<li><p>§4.4: Exercises 4.38 – 4.53; start with 4.41, 4.45 – 4.47 and 4.51</p></li>
+<li><p>Redo the delayed part with delivery uniform on <span class="math inline">\((2, 4)\)</span>: same mean, smaller spread. What happens to the 200 AZN gap?</p></li>
+</ul>
+<p><strong>Week 9, Problem Set 2</strong> is open now and closes <strong>Sunday 15 November at 23:59</strong> on WeBWorK, covering §§4.3–4.4.</p>
+<p><strong>Next class:</strong> 11 November, the most important continuous model of all, the normal probability distribution (Wackerly §4.5).</p>
+</div>
+</section>
+<section id="thank-you" class="slide level2">
+<h2>🙏 Thank You</h2>
+<div style="font-size: 34px">
+<p><strong>Dr.&nbsp;Samir Orujov</strong></p>
+<p>📧 sorujov@ada.edu.az<br>
+🏢 Building D, Room D325<br>
+🕓 Office hours: Wednesday, 16:00 – 18:00</p>
+<p>Slides and readings: <strong>sorujov.net/teaching</strong></p>
+</div>
+</section>
+<section id="questions" class="slide level2">
+<h2>❓ Questions</h2>
+<div style="font-size: 32px">
+<ul>
+<li><p>The median of a uniform on <span class="math inline">\((\theta_1, \theta_2)\)</span> equals its mean. Would that still hold for the reserve-power density <span class="math inline">\(\tfrac{3}{8}y^2\)</span>?</p></li>
+<li><p>Two windows have the same width but different positions. Which of <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span> changes?</p></li>
+<li><p>A penalty that is <strong>concave</strong> in the delay: is the plug-in cost now too high or too low?</p></li>
+</ul>
+</div>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="ADA.png" class="slide-logo"></p>
+<div class="footer footer-default">
+<p>Mathematical Statistics I - Continuous Expectation and the Uniform</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="continuous_expectation_uniform_lecture18_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="continuous_expectation_uniform_lecture18_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="continuous_expectation_uniform_lecture18_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="continuous_expectation_uniform_lecture18_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="continuous_expectation_uniform_lecture18_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="continuous_expectation_uniform_lecture18_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="continuous_expectation_uniform_lecture18_files/libs/revealjs/plugin/reveal-quiz/quiz.js"></script>
+  <script src="continuous_expectation_uniform_lecture18_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="continuous_expectation_uniform_lecture18_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="continuous_expectation_uniform_lecture18_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="continuous_expectation_uniform_lecture18_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="continuous_expectation_uniform_lecture18_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'quiz': {"checkKey":"c","resetKey":"r","shuffleKey":"s","allowNumberKeys":true,"disableOnCheck":false,"shuffleOptions":true,"defaultCorrect":"✅ Correct! Well done.","defaultIncorrect":"❌ Not quite. Try again or check the explanation.","includeScore":true,"disableReset":false},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 720,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, RevealQuiz, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

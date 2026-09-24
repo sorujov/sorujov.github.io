@@ -1,0 +1,553 @@
+---
+title: "Mathematical Statistics"
+subtitle: "The Normal Probability Distribution"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: [default, ../slide-fit.scss]
+    logo: ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    footer: "Mathematical Statistics I - The Normal Distribution"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+# Named explicitly so engine selection cannot drift away from R.
+engine: knitr
+execute:
+  echo: true
+  warning: false
+  message: false
+knitr:
+  opts_chunk:
+    dev: png
+    dpi: 150
+    fig.align: center
+---
+
+```{r}
+#| label: setup
+#| include: false
+set.seed(2026)
+library(ggplot2)
+theme_set(theme_minimal(base_size = 18) +
+            theme(legend.text = element_text(size = 18),
+                  legend.title = element_text(size = 18)))
+```
+
+## 🎯 Learning Objectives
+
+::: {style="font-size: 32px"}
+By the end of this lecture, you will be able to:
+
+- **State** Definition 4.8 and read $\mu$ and $\sigma$ off a normal density (Theorem 4.7)
+
+- **Standardise** any normal variable with $Z = (Y - \mu)/\sigma$ and find probabilities from Table 4 and from `pnorm`
+
+- **Invert** the calculation with `qnorm` to find a quantile: a cut-off, a fill setting, a budget
+
+- **Compute** a one-day Value-at-Risk at the normal quantile
+
+- **Explain** why real daily returns have heavier tails than the normal model allows
+:::
+
+---
+
+## 🗺️ Where We Are
+
+::: {style="font-size: 30px"}
+**Wackerly §4.5**
+
+Saturday: **expected values for continuous random variables**, $E(Y) = \int y f(y)\,dy$, and the **uniform distribution**, where every probability is a length divided by a length.
+
+::: {.fragment}
+The uniform made the integral easy. Today's density is the opposite: the one the whole course leans on, and the one whose integral **has no closed form at all**.
+:::
+
+::: {.fragment}
+So the skill today is not integration. It is **standardising**, and then reading a table or asking R.
+:::
+:::
+
+---
+
+## ❓ The Question This Lecture Answers
+
+::: {style="font-size: 30px"}
+::: {.callout-important}
+## A risk desk in Baku
+A bank's trading book holds **2,000,000 AZN** in a broad equity index. The daily return has mean $0.04\%$ and standard deviation $1.2\%$.
+
+What loss will the book **not exceed on 99% of trading days**?
+:::
+
+::: {.fragment}
+That number is the one-day 99% **Value-at-Risk**. To compute it we need a model for the return, a way to find a tail area under that model, and a way to run the calculation backwards from an area to a cut-off.
+:::
+:::
+
+---
+
+## 📐 Definition 4.8
+
+::: {style="font-size: 30px"}
+::: {.callout-note}
+## Definition 4.8
+A random variable $Y$ is said to have a **normal probability distribution** if and only if, for $\sigma > 0$ and $-\infty < \mu < \infty$, the density function of $Y$ is
+$$f(y) = \frac{1}{\sigma\sqrt{2\pi}}\, e^{-(y-\mu)^2/(2\sigma^2)}, \qquad -\infty < y < \infty.$$
+:::
+
+::: {.fragment}
+Two parameters, $\mu$ and $\sigma$. The exponent is a squared distance from $\mu$, measured in units of $\sigma$: the further from $\mu$, the faster the density falls away.
+:::
+:::
+
+---
+
+## 📐 Theorem 4.7
+
+::: {style="font-size: 30px"}
+::: {.callout-important}
+## Theorem 4.7
+If $Y$ is normally distributed with parameters $\mu$ and $\sigma$, then
+$$E(Y) = \mu \qquad \text{and} \qquad V(Y) = \sigma^2.$$
+:::
+
+The proof waits for §4.9, via the moment-generating function.
+
+::: {.fragment}
+- $\mu$ **locates** the centre; the density is symmetric about it, so the median is $\mu$ too
+
+- $\sigma$ **measures the spread**: the peak is $1/(\sigma\sqrt{2\pi})$ at $y = \mu$, and the curve bends at $\mu \pm \sigma$ (Exercises 4.78, 4.79)
+:::
+:::
+
+---
+
+## 📊 $\mu$ Locates, $\sigma$ Spreads
+
+```{r}
+#| label: three-normals
+#| echo: false
+#| fig-width: 10
+#| fig-height: 4.6
+y  <- seq(-6, 6, by = 0.02)
+dd <- rbind(
+  data.frame(y = y, f = dnorm(y, 0, 0.8), model = "a"),
+  data.frame(y = y, f = dnorm(y, 0, 1.6), model = "b"),
+  data.frame(y = y, f = dnorm(y, 2, 0.8), model = "c")
+)
+ggplot(dd, aes(y, f, colour = model)) +
+  geom_line(linewidth = 1.3) +
+  scale_colour_manual(values = c("#14130f", "#3d6b9e", "#8b2635"),
+    labels = c(expression(paste("calm index:  ", mu == 0, ",  ", sigma == 0.8)),
+               expression(paste("volatile index:  ", mu == 0, ",  ", sigma == 1.6)),
+               expression(paste("shifted:  ", mu == 2, ",  ", sigma == 0.8)))) +
+  labs(x = "Daily return (%)", y = "f(y)", colour = NULL) +
+  theme(legend.position = "top", legend.direction = "vertical",
+        legend.text = element_text(size = 18, hjust = 0))
+```
+
+::: {style="font-size: 28px"}
+Doubling $\sigma$ halves the peak and doubles the width. Area stays 1.
+:::
+
+---
+
+## 🧮 No Closed Form: Table 4 and R
+
+::: {style="font-size: 30px"}
+$$P(a \le Y \le b) = \int_a^b \frac{1}{\sigma\sqrt{2\pi}}\, e^{-(y-\mu)^2/(2\sigma^2)}\,dy$$
+has **no closed-form** antiderivative. It is evaluated numerically, and there are two ways to get the answer:
+
+- **Table 4, Appendix 3** gives $A(z) = P(Z > z)$, the area to the **right** of $z$, for the standard normal only
+
+- **R**: `pnorm(y0, mu, sigma)` gives $P(Y \le y_0)$; `qnorm(p, mu, sigma)` gives the $p$th quantile $\phi_p$ with $P(Y \le \phi_p) = p$
+
+::: {.fragment}
+The only advantage of software is **more decimal places**. Watch the direction: the table is a right tail, `pnorm` is a left tail.
+:::
+:::
+
+---
+
+## 🔄 One Table for Every Normal
+
+::: {style="font-size: 30px"}
+There are infinitely many normal distributions, but one table is enough, because
+$$Z = \frac{Y - \mu}{\sigma}$$
+is a **standard normal** random variable: mean 0, standard deviation 1 (proved in Chapter 6).
+
+::: {.fragment}
+$z$ is the distance from the mean **in standard deviations**. So
+$$P(Y > y_0) = P\!\left(Z > \frac{y_0 - \mu}{\sigma}\right) = A\!\left(\frac{y_0 - \mu}{\sigma}\right).$$
+:::
+
+::: {.fragment}
+A return of $-2.36\%$ on a day with $\mu = 0.04\%$, $\sigma = 1.2\%$ is $z = -2$: two standard deviations below the mean, whatever the units.
+:::
+:::
+
+---
+
+## 📊 Example 4.8: Table vs R
+
+::: {style="font-size: 28px"}
+$Z$ standard normal, Table 4:
+
+**(a)** $P(Z > 2) = A(2.0) = .0228$\
+**(b)** $P(-2 \le Z \le 2) = 1 - 2(.0228) = .9544$\
+**(c)** $P(0 \le Z \le 1.73) = .5 - A(1.73) = .5 - .0418 = .4582$
+:::
+
+```{r}
+#| label: example-4-8
+#| code-fold: false
+round(c(a = 1 - pnorm(2),
+        b = pnorm(2) - pnorm(-2),
+        c = pnorm(1.73) - 0.5), 5)
+```
+
+::: {style="font-size: 28px"}
+Part (b) differs in the fourth decimal: $.9544$ from the rounded table, $.95450$ from R. Symmetry did the work in (b) and (c): the table only covers one side.
+:::
+
+---
+
+## 🏭 Worked Example: Filling Flour Sacks
+
+::: {style="font-size: 28px"}
+A flour mill in Ganja packs **50 kg** sacks. The fill weight is normal with $\mu = 50.2$ kg and $\sigma = 0.4$ kg. What fraction of sacks is **underweight**?
+
+::: {.fragment}
+$$z = \frac{50 - 50.2}{0.4} = -0.5, \qquad P(Y < 50) = P(Z < -0.5) = A(0.5) = .3085$$
+Almost a third of the sacks break the label. Symmetry turned a left tail at $-0.5$ into the table's right tail at $+0.5$.
+:::
+
+::: {.fragment}
+Within $49.5$ to $51$ kg: $z_1 = -1.75$, $z_2 = 2.0$, so
+$$P = 1 - A(1.75) - A(2.0) = 1 - .0401 - .0228 = .9371$$
+:::
+:::
+
+---
+
+## 🎯 Backwards: Setting the Mean
+
+::: {style="font-size: 28px"}
+The regulator allows **1%** underweight. Keep $\sigma = 0.4$; where must the machine's mean be set?
+
+::: {.fragment}
+We need $P(Y < 50) = .01$, so $50$ must sit $z_{.01}$ standard deviations below $\mu$. Table 4: $A(2.33) = .0099 \approx .01$.
+$$\mu = 50 + 2.33(0.4) = 50.932 \text{ kg}$$
+:::
+
+```{r}
+#| label: fill-mean
+#| code-fold: false
+50 + qnorm(0.99) * 0.4
+```
+
+::: {.fragment}
+The price of the rule: about **0.73 kg of extra flour per sack** over today's setting. The alternative is a better machine: a smaller $\sigma$ needs a smaller safety margin.
+:::
+:::
+
+---
+
+## 💳 Standardising Credit Scores
+
+::: {style="font-size: 28px"}
+A Baku bank scores applicants on a scale that is normal with $\mu = 640$, $\sigma = 80$, and approves at **700** or above.
+
+::: {.fragment}
+$$z = \frac{700 - 640}{80} = 0.75, \qquad P(Y \ge 700) = A(0.75) = .2266$$
+:::
+
+::: {.fragment}
+It buys a second bureau's scores, normal with $\mu = 520$, $\sigma = 60$. The **comparable** cut-off is the one with the same $z$:
+$$520 + 0.75(60) = 565$$
+:::
+
+::: {.fragment}
+Between 600 and 720 on the first scale: $1 - A(0.5) - A(1.0) = 1 - .3085 - .1587 = .5328$.
+:::
+:::
+
+---
+
+## 📉 Value-at-Risk at the Normal Quantile
+
+::: {style="font-size: 28px"}
+Back to the trading book: $R \sim$ normal, $\mu = 0.04\%$, $\sigma = 1.2\%$, position $2{,}000{,}000$ AZN.
+
+::: {.fragment}
+The 1% quantile of the return is $\mu - z_{.01}\,\sigma$. With the table's $2.33$:
+$$\phi_{.01} = 0.04 - 2.33(1.2) = -2.756\%$$
+:::
+
+::: {.fragment}
+$$\text{VaR}_{99\%} = 0.02756 \times 2{,}000{,}000 \approx 55{,}120 \text{ AZN}$$
+On 99 days in 100 the book loses less than this. On the other one day it loses **more**, and the model says nothing about how much more.
+:::
+:::
+
+---
+
+## 💻 VaR in R
+
+```{r}
+#| label: var
+V   <- 2e6; mu <- 0.04; sigma <- 1.2
+q01 <- qnorm(0.01, mu, sigma)        # 1% quantile of the return, in %
+data.frame(quantile_pct = round(q01, 4), VaR_AZN = round(-q01 / 100 * V))
+```
+
+```{r}
+#| label: var-figure
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.3
+r <- seq(-5, 5, by = 0.01)
+tail_df <- data.frame(r = r[r <= q01], f = dnorm(r[r <= q01], mu, sigma))
+ggplot(data.frame(r = r, f = dnorm(r, mu, sigma)), aes(r, f)) +
+  geom_area(data = tail_df, fill = "#8b2635", alpha = 0.7) +
+  geom_line(linewidth = 1.2) +
+  geom_vline(xintercept = q01, linetype = "dashed") +
+  annotate("text", x = q01 - 0.1, y = 0.25, hjust = 1, size = 6,
+           label = "1% of days") +
+  labs(x = "Daily return (%)", y = "f(r)")
+```
+
+::: {style="font-size: 28px"}
+`qnorm` gives $55{,}032$ AZN; the table's rounded $2.33$ overstates by about 90 AZN.
+:::
+
+---
+
+## ⚠️ Why Real Tails Are Heavier
+
+::: {style="font-size: 28px"}
+Under the normal model a move beyond $4\sigma$ has probability $2A(4) \approx 0.000063$: **once in about 63 years** of 250 trading days. Equity indices produce such days far more often.
+
+A heavier-tailed model with the **same** $\sigma$ (Student's $t$ with 3 df, rescaled; met properly in Chapter 7), simulated for ten years:
+:::
+
+```{r}
+#| label: heavy-tails
+#| code-fold: true
+n_days <- 2500
+r_t <- 0.04 + 1.2 * rt(n_days, df = 3) / sqrt(3)   # sd = 1.2, fat tails
+data.frame(beyond = c("3 sigma", "4 sigma"),
+           simulated_days  = c(sum(abs(r_t - 0.04) > 3 * 1.2),
+                               sum(abs(r_t - 0.04) > 4 * 1.2)),
+           normal_expected = round(n_days * 2 * pnorm(-c(3, 4)), 2))
+```
+
+---
+
+## 📈 The Tail, on a Log Scale
+
+```{r}
+#| label: tail-figure
+#| echo: false
+#| fig-width: 10
+#| fig-height: 4.4
+k  <- seq(1, 5, by = 0.05)
+tl <- rbind(data.frame(k = k, p = 2 * pnorm(-k),          model = "normal"),
+            data.frame(k = k, p = 2 * pt(-k * sqrt(3), 3), model = "heavy-tailed (t, 3 df)"))
+ggplot(tl, aes(k, p, colour = model)) +
+  geom_line(linewidth = 1.3) +
+  scale_y_log10(breaks = 10^(-6:0), labels = c("0.000001", "0.00001", "0.0001",
+                                               "0.001", "0.01", "0.1", "1")) +
+  scale_colour_manual(values = c("#8b2635", "#14130f")) +
+  labs(x = "k (standard deviations from the mean)",
+       y = expression(P(abs(R - mu) > k * sigma)), colour = NULL) +
+  theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+Same mean, same $\sigma$; the curves cross near $2\sigma$. At $4\sigma$ the heavy tail is about **100 times** as likely, so normal VaR **understates** extreme losses.
+:::
+
+---
+
+## 🧠 Think-Pair-Share
+
+```{r}
+#| label: tps-timer
+#| echo: false
+# The timer is the only thing in this deck that needs a package beyond base R.
+# Guarded so a machine without it renders the deck anyway, with a static
+# figure in the same corner, rather than halting the whole build.
+if (requireNamespace("countdown", quietly = TRUE)) {
+  countdown::countdown(minutes = 4, seconds = 0,
+                       top = 0, right = 0,
+                       font_size = "2em", warn_when = 30)
+} else {
+  htmltools::HTML(paste0(
+    '<div style="position:absolute; top:0; right:0; font-size:2em;',
+    ' font-weight:700; opacity:0.75">4:00</div>'))
+}
+```
+
+::: {style="font-size: 30px"}
+A mobile operator models a subscriber's monthly data use as normal with $\mu = 12$ GB and $\sigma = 4$ GB.
+
+**Four minutes, in pairs:**
+
+1. What fraction of subscribers use more than 20 GB?
+
+2. A "heavy user" tariff targets the top 5%. Where is its threshold?
+
+3. What does the model say about $P(Y < 0)$, and what does that tell you about the model?
+:::
+
+---
+
+## ✅ Think-Pair-Share: Solution
+
+::: {style="font-size: 30px"}
+1. $z = (20 - 12)/4 = 2$, so $P(Y > 20) = A(2.0) = .0228$: about 2.3% of subscribers.
+
+2. The top 5% starts at $z_{.05} = 1.645$: $\;12 + 1.645(4) = 18.58$ GB. In R, `qnorm(0.95, 12, 4)`.
+
+::: {.fragment}
+3. $P(Y < 0) = P(Z < -3) = A(3.0) = .00135$. Small, but **impossible** usage has positive probability. Data use is bounded below by zero and skewed to the right; the normal is a working approximation near the centre, not a law of nature. Check the support before you trust the tails.
+:::
+:::
+
+---
+
+## 📝 Quiz #1: Reading the Table {.quiz-question}
+
+$Z$ is standard normal. What is $P(Z > 1.5)$?
+
+- [$0.0668$]{.correct data-explanation="✅ Table 4 tabulates the right tail directly: A(1.5) = .0668. In R, 1 - pnorm(1.5)."}
+- $0.9332$
+- $0.4332$
+- $0.1336$
+
+---
+
+## 📝 Quiz #2: Setting a Budget {.quiz-question}
+
+A power plant's weekly fuel bill is normal with $\mu = 4000$ AZN and $\sigma = 250$ AZN. What budget is exceeded in only 10% of weeks?
+
+- [About $4320$ AZN]{.correct data-explanation="✅ The 90th percentile: 4000 + 1.28(250) = 4320. In R, qnorm(0.90, 4000, 250) = 4320.4."}
+- About $4411$ AZN
+- About $4490$ AZN
+- About $4250$ AZN
+
+---
+
+## 📝 Quiz #3: What the Normal Misses {.quiz-question}
+
+Real daily index returns show many more moves beyond $4\sigma$ than the normal model predicts. What does this do to a 99.9% normal VaR?
+
+- [It understates the loss the book can actually suffer]{.correct data-explanation="✅ The normal quantile sits too close to the mean when the true tail is heavier, so extreme losses are more likely than the VaR suggests."}
+- It overstates the loss, so the bank holds too much capital
+- Nothing: VaR depends only on $\mu$ and $\sigma$, which are unchanged
+- It makes VaR undefined
+
+---
+
+## 📋 Key Formulas
+
+::: {style="font-size: 30px"}
+| | Statement |
+|---|---|
+| Definition 4.8 | $f(y) = \frac{1}{\sigma\sqrt{2\pi}}\, e^{-(y-\mu)^2/(2\sigma^2)}$ |
+| Theorem 4.7 | $E(Y) = \mu, \; V(Y) = \sigma^2$ |
+| standardising | $Z = (Y - \mu)/\sigma$ |
+| Table 4 | $A(z) = P(Z > z)$ |
+| R, forwards | `pnorm(y0, mu, sigma)` $= P(Y \le y_0)$ |
+| R, backwards | `qnorm(p, mu, sigma)` $= \phi_p$ |
+| quantiles | $z_{.10} = 1.28,\ z_{.05} = 1.645,\ z_{.025} = 1.96,\ z_{.01} = 2.33$ |
+:::
+
+---
+
+## 📋 Summary
+
+::: {style="font-size: 30px"}
+- The normal density has two parameters: $\mu$ is the mean and centre, $\sigma$ the standard deviation and spread
+
+- Its integral has no closed form, so every probability goes through $Z = (Y - \mu)/\sigma$ and then Table 4 or `pnorm`
+
+- Quantiles run the same step backwards: $y = \mu + z\sigma$, or `qnorm`
+
+- A fill setting, an equivalent cut-off and a VaR are all one quantile
+
+- Real returns have heavier tails than the normal, so normal VaR is optimistic about the worst days
+:::
+
+---
+
+## 📚 Practice Problems
+
+::: {style="font-size: 28px"}
+**Wackerly, 7th edition, §4.5**
+
+- Table practice: 4.58, 4.59; then 4.63 – 4.65 and 4.68 – 4.71
+
+- Quantiles and settings: 4.73 – 4.77; for the brave, 4.78 and 4.79
+
+- Do each one twice: once with Table 4, once with `pnorm`/`qnorm`
+
+**Week 10, Problem Set 1** is open now and closes **Sunday 22 November at 23:59** on WeBWorK, covering §4.5.
+
+**Next class:** 14 November, the gamma, exponential and chi-square distributions (Wackerly §4.6).
+:::
+
+---
+
+## 🙏 Thank You
+
+::: {style="font-size: 34px"}
+**Dr. Samir Orujov**
+
+📧 sorujov@ada.edu.az\
+🏢 Building D, Room D325\
+🕓 Office hours: Wednesday, 16:00 – 18:00
+
+Slides and readings: **sorujov.net/teaching**
+:::
+
+---
+
+## ❓ Questions
+
+::: {style="font-size: 32px"}
+- Why does one table suffice for infinitely many normal distributions?
+
+- If $\sigma$ halves, what happens to the 99% VaR, and to the fill setting in the flour example?
+
+- Where else in finance would a normal model put positive probability on an impossible value?
+:::

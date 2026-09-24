@@ -1,0 +1,532 @@
+---
+title: "Mathematical Statistics"
+subtitle: "Expected Values for Continuous Random Variables; the Uniform Distribution"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: [default, ../slide-fit.scss]
+    logo: ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    footer: "Mathematical Statistics I - Continuous Expectation and the Uniform"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+# Named explicitly so engine selection cannot drift away from R.
+engine: knitr
+execute:
+  echo: true
+  warning: false
+  message: false
+knitr:
+  opts_chunk:
+    dev: png
+    dpi: 150
+    fig.align: center
+---
+
+```{r}
+#| label: setup
+#| include: false
+set.seed(2026)
+library(ggplot2)
+theme_set(theme_minimal(base_size = 18))
+```
+
+## 🎯 Learning Objectives
+
+::: {style="font-size: 32px"}
+By the end of this lecture, you will be able to:
+
+- **Compute** $E(Y) = \int y f(y)\,dy$ and $V(Y) = E(Y^2) - \mu^2$ for a continuous random variable
+
+- **Evaluate** $E[g(Y)]$ for a cost or payoff $g$ with Theorem 4.4, and simplify it with Theorem 4.5
+
+- **Recognise** a uniform model on $(\theta_1, \theta_2)$ and find interval probabilities as length over length
+
+- **Apply** Theorem 4.6, $\mu = (\theta_1 + \theta_2)/2$ and $\sigma^2 = (\theta_2 - \theta_1)^2/12$
+
+- **Explain** why the expected cost of a delay is not the cost of the expected delay
+:::
+
+---
+
+## 🗺️ Where We Are
+
+::: {style="font-size: 30px"}
+**Wackerly §§4.3–4.4**
+
+Wednesday opened Chapter 4 with the **distribution function** $F(y)$ and the **density** $f(y) = dF/dy$. A density is a height, not a probability; probabilities are areas, $F(b) - F(a)$, and quantiles invert $F$.
+
+::: {.fragment}
+Chapter 3 followed exactly this path: first the distribution, then the **mean and variance** that summarise it. Today we take that second step for continuous variables. The rule is one substitution: **sums become integrals, and $p(y)$ becomes $f(y)\,dy$.**
+:::
+
+::: {.fragment}
+Then the first named continuous model, the simplest one there is: the **uniform**.
+:::
+:::
+
+---
+
+## ❓ Motivating Question
+
+::: {.callout-important}
+## The procurement desk's problem
+A plant waits for a replacement turbine part. Delivery takes between 1 and 5 days, any time equally likely. Lost output costs **2,000 AZN plus 150 AZN times the square of the delay** in days.
+
+What should the budget line say the part will cost *on average*?
+:::
+
+::: {.fragment style="font-size: 30px"}
+The tempting answer plugs in the average delay of 3 days: $2000 + 150 \times 9 = 3350$ AZN. By the end of today we will see why that number is **too low**, and by exactly how much.
+:::
+
+---
+
+## 📐 Definition 4.5: Expected Value
+
+::: {style="font-size: 30px"}
+::: {.callout-note}
+## Definition 4.5
+The expected value of a continuous random variable $Y$ is
+$$E(Y) = \int_{-\infty}^{\infty} y f(y)\,dy,$$
+provided that the integral exists.
+:::
+
+::: {.fragment}
+Compare Chapter 3: $E(Y) = \sum_y y\,p(y)$. The quantity $f(y)\,dy$ plays the role of $p(y)$, the probability of a thin slice around $y$, and the integral adds up value times probability over all the slices.
+:::
+
+::: {.fragment}
+"Exists" means $\int |y| f(y)\,dy < \infty$. Every model in this course passes that test.
+:::
+:::
+
+---
+
+## 📐 Theorems 4.4 and 4.5
+
+::: {style="font-size: 29px"}
+::: {.callout-important}
+## Theorem 4.4
+Let $g(Y)$ be a function of $Y$; then $\displaystyle E[g(Y)] = \int_{-\infty}^{\infty} g(y) f(y)\,dy$.
+:::
+
+::: {.callout-important}
+## Theorem 4.5
+For a constant $c$ and functions $g, g_1, \ldots, g_k$ of $Y$:
+$$E(c) = c, \qquad E[cg(Y)] = cE[g(Y)], \qquad E\Big[\sum_{i=1}^k g_i(Y)\Big] = \sum_{i=1}^k E[g_i(Y)]$$
+:::
+
+::: {.fragment}
+With $g(Y) = (Y - \mu)^2$ these give, exactly as in Chapter 3, $\;V(Y) = E[(Y-\mu)^2] = E(Y^2) - \mu^2$.
+:::
+:::
+
+---
+
+## ⚡ Worked Example: Reserve Power
+
+::: {style="font-size: 29px"}
+On a winter evening a grid operator must buy reserve power for $Y$ hours, $0 \le Y \le 2$, with density $f(y) = \tfrac{3}{8}y^2$ (Wackerly's Example 4.6). Long shortfalls are the likely ones.
+
+::: {.fragment}
+$$E(Y) = \int_0^2 y \cdot \tfrac{3}{8}y^2\,dy = \tfrac{3}{8}\cdot\tfrac{y^4}{4}\Big|_0^2 = \tfrac{3}{8}\cdot 4 = 1.5 \text{ hours}$$
+:::
+
+::: {.fragment}
+$$E(Y^2) = \int_0^2 y^2 \cdot \tfrac{3}{8}y^2\,dy = \tfrac{3}{8}\cdot\tfrac{y^5}{5}\Big|_0^2 = \tfrac{3}{8}\cdot\tfrac{32}{5} = 2.4$$
+:::
+
+::: {.fragment}
+$$\sigma^2 = 2.4 - 1.5^2 = 0.15, \qquad \sigma = 0.387 \text{ hours} \approx 23 \text{ minutes}$$
+:::
+:::
+
+---
+
+## 💻 Checking It in R
+
+```{r}
+#| label: reserve-power
+f   <- function(y) 3/8 * y^2
+EY  <- integrate(function(y) y   * f(y), 0, 2)$value
+EY2 <- integrate(function(y) y^2 * f(y), 0, 2)$value
+c(mean = EY, E_Y2 = EY2, var = EY2 - EY^2)
+
+# Simulation: F(y) = y^3/8, so Y = 2 U^(1/3) for U uniform on (0,1)
+y <- 2 * runif(100000)^(1/3)
+round(c(sim_mean = mean(y), sim_var = var(y)), 4)
+```
+
+::: {style="font-size: 28px"}
+The simulation feeds uniform draws through Wednesday's quantile function, $F^{-1}(u) = 2u^{1/3}$. Keep that in mind: it is why the uniform matters.
+:::
+
+---
+
+## 💰 From Hours to AZN
+
+::: {style="font-size: 30px"}
+Reserve power costs the operator a fixed **500 AZN** fee plus **800 AZN per hour**: $C = 500 + 800Y$.
+
+::: {.fragment}
+By Theorem 4.5, with no new integral:
+$$E(C) = 500 + 800\,E(Y) = 500 + 800(1.5) = 1700 \text{ AZN}$$
+:::
+
+::: {.fragment}
+$$V(C) = 800^2\,V(Y) = 640000 \times 0.15 = 96000, \qquad \sigma_C = 309.84 \text{ AZN}$$
+:::
+
+::: {.fragment}
+For a **linear** cost, the expected cost is the cost of the expected hours. The constant 500 shifts the mean and leaves the spread alone. Hold on to the word *linear*.
+:::
+:::
+
+---
+
+## 📏 §4.4: A Settlement Window
+
+::: {style="font-size: 29px"}
+A correspondent bank promises a large transfer "between 10:00 and 10:30", with no subinterval favoured: it is as likely to land in 10:00–10:05 as in 10:25–10:30. Let $Y$ be the minutes after 10:00.
+
+::: {.callout-note}
+## Definition 4.6
+If $\theta_1 < \theta_2$, $Y$ has a **continuous uniform** distribution on $(\theta_1, \theta_2)$ if and only if
+$$f(y) = \frac{1}{\theta_2 - \theta_1}, \quad \theta_1 \le y \le \theta_2, \qquad f(y) = 0 \text{ elsewhere.}$$
+:::
+
+**Definition 4.7:** constants that fix a density's form, here $\theta_1$ and $\theta_2$, are its **parameters**.
+:::
+
+---
+
+## 📊 Probability Is Length over Length
+
+```{r}
+#| label: uniform-window
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.3
+dens <- data.frame(y = c(-3, 0, 0, 30, 30, 33), f = c(0, 0, 1/30, 1/30, 0, 0))
+ggplot() +
+  annotate("rect", xmin = 0, xmax = 5, ymin = 0, ymax = 1/30, fill = "#8ba3c7", alpha = 0.8) +
+  annotate("rect", xmin = 25, xmax = 30, ymin = 0, ymax = 1/30, fill = "#8b2635", alpha = 0.7) +
+  geom_line(data = dens, aes(y, f), linewidth = 1.1) +
+  annotate("text", x = 2.5, y = 0.017, label = "A[1] == 1/6", parse = TRUE, size = 6, colour = "white") +
+  annotate("text", x = 27.5, y = 0.017, label = "A[2] == 1/6", parse = TRUE, size = 6, colour = "white") +
+  scale_x_continuous(breaks = seq(0, 30, 5)) +
+  scale_y_continuous(breaks = c(0, 1/30), labels = c("0", "1/30"), limits = c(0, 0.045)) +
+  labs(x = "Minutes after 10:00", y = "f(y)")
+```
+
+::: {style="font-size: 28px"}
+Wackerly's Example 4.7: if exactly one Poisson arrival occurred in $(0, 30)$, its time is uniform there, so $P(25 \le Y \le 30) = \int_{25}^{30} \tfrac{1}{30}\,dy = \tfrac{5}{30} = \tfrac{1}{6}$. **Every** 5-minute stretch gets the same $1/6$.
+:::
+
+---
+
+## 📐 Theorem 4.6: Mean and Variance
+
+::: {style="font-size: 29px"}
+::: {.callout-important}
+## Theorem 4.6
+If $\theta_1 < \theta_2$ and $Y$ is uniformly distributed on $(\theta_1, \theta_2)$, then
+$$\mu = E(Y) = \frac{\theta_1 + \theta_2}{2} \qquad \text{and} \qquad \sigma^2 = V(Y) = \frac{(\theta_2 - \theta_1)^2}{12}.$$
+:::
+
+::: {.fragment}
+**Proof of the mean.** $\displaystyle E(Y) = \int_{\theta_1}^{\theta_2} \frac{y}{\theta_2 - \theta_1}\,dy = \frac{\theta_2^2 - \theta_1^2}{2(\theta_2 - \theta_1)} = \frac{\theta_1 + \theta_2}{2}$, the midpoint.
+:::
+
+::: {.fragment}
+**The variance** (Exercise 4.41): $E(Y^2) = \dfrac{\theta_1^2 + \theta_1\theta_2 + \theta_2^2}{3}$; subtract $\mu^2$ and the $\theta_1\theta_2$ terms collapse to $(\theta_2 - \theta_1)^2/12$. It depends on the **width** only.
+:::
+:::
+
+---
+
+## 🏗️ Worked Example: A Uniform Low Bid
+
+::: {style="font-size: 29px"}
+In a municipal road-resurfacing tender, the low bid $Y$ is uniform between **420 and 500 thousand AZN**, so $f(y) = 1/80$.
+
+::: {.fragment}
+- $P(Y < 440) = \dfrac{440 - 420}{80} = 0.25$, $\quad P(Y > 490) = \dfrac{10}{80} = 0.125$
+:::
+
+::: {.fragment}
+- $E(Y) = \dfrac{420 + 500}{2} = 460$, $\quad V(Y) = \dfrac{80^2}{12} = 533.33$, $\quad \sigma = 23.09$ thousand AZN
+:::
+
+::: {.fragment}
+- The first bid opened is above 440. Now $P(Y > 480 \mid Y > 440) = \dfrac{P(Y > 480)}{P(Y > 440)} = \dfrac{20/80}{60/80} = \dfrac{1}{3}$
+:::
+
+::: {.fragment}
+Conditioning a uniform on a subinterval leaves it **uniform on that subinterval**: 20 of the remaining 60.
+:::
+:::
+
+---
+
+## 🪙 Rounding Errors at the Till
+
+::: {style="font-size: 29px"}
+A supermarket chain rounds each cash bill to the nearest **5 qəpik**. The rounding error $E$ (actual minus charged, in AZN) is uniform on $(-0.025, 0.025)$.
+
+::: {.fragment}
+- Theorem 4.6: $\mu = 0$ and $\sigma = \dfrac{0.05}{\sqrt{12}} = 0.0144$ AZN. Rounding is **unbiased**: the chain neither gains nor loses on average.
+:::
+
+::: {.fragment}
+- Theorem 4.4 with $g(e) = |e|$ gives the typical size of the error:
+$$E|E| = \int_{-0.025}^{0.025} |e| \cdot \frac{1}{0.05}\,de = 2 \int_0^{0.025} \frac{e}{0.05}\,de = 0.0125 \text{ AZN}$$
+:::
+
+::: {.fragment}
+Mean zero is not size zero: each bill is off by 1.25 qəpik on average, in one direction or the other.
+:::
+:::
+
+---
+
+## 🚚 Back to the Delayed Part
+
+::: {style="font-size: 29px"}
+Delay $Y$ is uniform on $(1, 5)$ days; cost $C = 2000 + 150Y^2$ (compare Wackerly's Exercise 4.47).
+
+::: {.fragment}
+$E(Y) = 3$ and $V(Y) = \dfrac{4^2}{12} = \dfrac{4}{3}$, so $E(Y^2) = V(Y) + [E(Y)]^2 = \dfrac{4}{3} + 9 = \dfrac{31}{3} = 10.33$.
+:::
+
+::: {.fragment}
+Theorem 4.5:
+$$E(C) = 2000 + 150\,E(Y^2) = 2000 + 150 \times \tfrac{31}{3} = 3550 \text{ AZN}$$
+:::
+
+::: {.fragment}
+Plugging in the average delay gave **3350**. The gap is $150\,V(Y) = 150 \times \tfrac{4}{3} = 200$ AZN: **$E[g(Y)] \ne g[E(Y)]$** when $g$ is not linear, and for a convex cost the plug-in number is always too low.
+:::
+:::
+
+---
+
+## 📈 Why the Plug-in Undershoots
+
+```{r}
+#| label: convex-cost
+#| echo: false
+#| fig-width: 10
+#| fig-height: 4.3
+cost <- function(y) 2000 + 150 * y^2
+EC   <- integrate(function(y) cost(y) / 4, 1, 5)$value   # 3550
+cdf  <- data.frame(y = seq(1, 5, length.out = 200))
+ggplot(cdf, aes(y, cost(y))) +
+  geom_line(linewidth = 1.2) +
+  annotate("segment", x = 1, xend = 5, y = cost(1), yend = cost(5),
+           linetype = "dashed", colour = "grey55") +
+  annotate("point", x = 3, y = cost(3), size = 5, colour = "#8ba3c7") +
+  annotate("point", x = 3, y = EC, size = 5, colour = "#8b2635") +
+  annotate("segment", x = 3.05, xend = 3.45, y = EC, yend = 3050, colour = "#8b2635") +
+  annotate("segment", x = 3.05, xend = 3.45, y = cost(3), yend = 2650, colour = "#3d5a80") +
+  annotate("text", x = 3.5, y = 3050, hjust = 0, size = 6.5,
+           label = sprintf("E[g(Y)] = %.0f", EC), colour = "#8b2635") +
+  annotate("text", x = 3.5, y = 2650, hjust = 0, size = 6.5,
+           label = sprintf("g(E[Y]) = %.0f", cost(3)), colour = "#3d5a80") +
+  scale_x_continuous(breaks = 1:5) +
+  labs(x = "Delay y (days)", y = "Cost (AZN)")
+```
+
+::: {style="font-size: 28px"}
+Averaging a curve that bends upward lands **above** the curve's value at the average. Long delays cost disproportionately, and the mean of $Y^2$ remembers them.
+:::
+
+---
+
+## 🧠 Think-Pair-Share
+
+```{r}
+#| label: tps-timer
+#| echo: false
+# The timer is the only thing in this deck that needs a package beyond base R.
+# Guarded so a machine without it renders the deck anyway, with a static
+# figure in the same corner, rather than halting the whole build.
+if (requireNamespace("countdown", quietly = TRUE)) {
+  countdown::countdown(minutes = 4, seconds = 0,
+                       top = 0, right = 0,
+                       font_size = "2em", warn_when = 30)
+} else {
+  htmltools::HTML(paste0(
+    '<div style="position:absolute; top:0; right:0; font-size:2em;',
+    ' font-weight:700; opacity:0.75">4:00</div>'))
+}
+```
+
+::: {style="font-size: 30px"}
+A crude tanker's loading time at a Caspian terminal is $Y \sim$ uniform on $(18, 30)$ hours. The charterer pays **demurrage of 2,000 AZN per hour** beyond 24 hours.
+
+**Four minutes, in pairs:**
+
+1. Find $E(Y)$ and $V(Y)$.
+
+2. Loading has already passed 24 hours. What is $P(Y > 27 \mid Y > 24)$?
+
+3. What is the expected demurrage bill? Is it $2000 \times \max(E(Y) - 24,\, 0)$?
+:::
+
+---
+
+## ✅ Think-Pair-Share: Solution
+
+::: {style="font-size: 29px"}
+1. Theorem 4.6: $E(Y) = \dfrac{18 + 30}{2} = 24$ hours, $V(Y) = \dfrac{12^2}{12} = 12$, $\sigma = 3.46$ hours.
+
+2. Given $Y > 24$, $Y$ is uniform on $(24, 30)$: $P(Y > 27 \mid Y > 24) = \dfrac{3}{6} = 0.5$.
+
+::: {.fragment}
+3. Demurrage is $g(Y) = 2000\max(Y - 24, 0)$. Theorem 4.4:
+$$E[g(Y)] = \int_{24}^{30} 2000\,(y - 24)\,\frac{1}{12}\,dy = \frac{2000}{12} \cdot \frac{6^2}{2} = 3000 \text{ AZN}$$
+:::
+
+::: {.fragment}
+The plug-in answer is $2000 \times \max(24 - 24, 0) = 0$. **A contract that charges only on the bad side has positive expected cost even when the average outcome costs nothing.**
+:::
+:::
+
+---
+
+## 📝 Quiz #1: The Uniform Variance {.quiz-question}
+
+A payment arrives at a uniformly distributed time within a 40-minute window. What is $V(Y)$, in minutes squared?
+
+- [$40^2/12 = 133.3$]{.correct data-explanation="✅ Theorem 4.6: the variance is the squared width over 12. The position of the window does not matter, only its 40-minute width."}
+- $40^2/4 = 400$
+- $40/\sqrt{12} = 11.5$
+- $40^2/3 = 533.3$
+
+---
+
+## 📝 Quiz #2: Mean of a Square {.quiz-question}
+
+$Y$ is uniform on $(0, 2)$. What is $E(Y^2)$?
+
+- $1$, because $E(Y) = 1$ and $1^2 = 1$
+- [$4/3$]{.correct data-explanation="✅ Theorem 4.4: the integral of y^2 times 1/2 from 0 to 2 is 8/6 = 4/3. Equivalently V(Y) + [E(Y)]^2 = 1/3 + 1. Squaring the mean misses the variance."}
+- $2$
+- $1/3$
+
+---
+
+## 📝 Quiz #3: A Bid Already Above 11 {.quiz-question}
+
+A sealed bid is uniform on $(10, 14)$ thousand AZN. Given that it exceeds 11, what is the probability that it exceeds 13?
+
+- $1/4$
+- $3/4$
+- $1/2$
+- [$1/3$]{.correct data-explanation="✅ Given Y > 11, Y is uniform on (11, 14): the part above 13 is 1 unit of the remaining 3. Equivalently (1/4)/(3/4) = 1/3."}
+
+---
+
+## 📋 Key Formulas
+
+::: {style="font-size: 30px"}
+| | Statement |
+|:-----------|:----------------------------------------|
+| Definition 4.5 | $E(Y) = \int_{-\infty}^{\infty} y f(y)\,dy$ |
+| Theorem 4.4 | $E[g(Y)] = \int_{-\infty}^{\infty} g(y) f(y)\,dy$ |
+| Theorem 4.5 | $E(c) = c$, $\ E[cg(Y)] = cE[g(Y)]$, $\ E[\sum g_i] = \sum E[g_i]$ |
+| variance | $V(Y) = E(Y^2) - \mu^2$ |
+| linear cost | $E(aY + b) = a\mu + b$, $\ V(aY + b) = a^2 V(Y)$ |
+| Definition 4.6 | $f(y) = 1/(\theta_2 - \theta_1)$ on $\theta_1 \le y \le \theta_2$ |
+| Theorem 4.6 | $\mu = (\theta_1 + \theta_2)/2$, $\quad \sigma^2 = (\theta_2 - \theta_1)^2/12$ |
+:::
+
+---
+
+## 📋 Summary
+
+::: {style="font-size: 30px"}
+- Continuous expectation is Chapter 3 with $\sum$ replaced by $\int$ and $p(y)$ by $f(y)\,dy$
+
+- Theorem 4.4 prices any function of $Y$, and Theorem 4.5 does linear ones with no new integral
+
+- A uniform on $(\theta_1, \theta_2)$ gives probability proportional to length; conditioned on a subinterval it stays uniform
+
+- Its mean is the midpoint and its variance is width squared over 12
+
+- For a non-linear cost, $E[g(Y)] \ne g[E(Y)]$: a convex cost or a one-sided penalty makes the plug-in answer too low
+:::
+
+---
+
+## 📚 Practice Problems
+
+::: {style="font-size: 28px"}
+**Wackerly, 7th edition**
+
+- §4.3: Exercises 4.20 – 4.33; start with 4.20, 4.26, 4.30 and 4.32
+
+- §4.4: Exercises 4.38 – 4.53; start with 4.41, 4.45 – 4.47 and 4.51
+
+- Redo the delayed part with delivery uniform on $(2, 4)$: same mean, smaller spread. What happens to the 200 AZN gap?
+
+**Week 9, Problem Set 2** is open now and closes **Sunday 15 November at 23:59** on WeBWorK, covering §§4.3–4.4.
+
+**Next class:** 11 November, the most important continuous model of all, the normal probability distribution (Wackerly §4.5).
+:::
+
+---
+
+## 🙏 Thank You
+
+::: {style="font-size: 34px"}
+**Dr. Samir Orujov**
+
+📧 sorujov@ada.edu.az\
+🏢 Building D, Room D325\
+🕓 Office hours: Wednesday, 16:00 – 18:00
+
+Slides and readings: **sorujov.net/teaching**
+:::
+
+---
+
+## ❓ Questions
+
+::: {style="font-size: 32px"}
+- The median of a uniform on $(\theta_1, \theta_2)$ equals its mean. Would that still hold for the reserve-power density $\tfrac{3}{8}y^2$?
+
+- Two windows have the same width but different positions. Which of $\mu$ and $\sigma^2$ changes?
+
+- A penalty that is **concave** in the delay: is the plug-in cost now too high or too low?
+:::

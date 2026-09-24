@@ -1,0 +1,524 @@
+---
+title: "Mathematical Statistics"
+subtitle: "The Bivariate Normal Distribution and Conditional Expectations"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: [default, ../slide-fit.scss]
+    logo: ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    footer: "Mathematical Statistics I - Bivariate Normal and Conditional Expectations"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+# Named explicitly so engine selection cannot drift away from R.
+engine: knitr
+execute:
+  echo: true
+  warning: false
+  message: false
+knitr:
+  opts_chunk:
+    dev: png
+    dpi: 150
+    fig.align: center
+---
+
+```{r}
+#| label: setup
+#| include: false
+set.seed(2026)
+library(ggplot2)
+theme_set(theme_minimal(base_size = 18))
+```
+
+## 🎯 Learning Objectives
+
+::: {style="font-size: 32px"}
+By the end of this lecture, you will be able to:
+
+- **Describe** the bivariate normal by its five parameters, and say what $\rho$ does to its shape
+
+- **Compute** a conditional expectation $E(Y_1 \mid Y_2 = y_2)$ from a conditional density (Definition 5.13)
+
+- **Apply** Theorem 5.14, $E(Y_1) = E[E(Y_1 \mid Y_2)]$, to a hierarchical model
+
+- **Split** a variance with Theorem 5.15 into a within part and a between part
+
+- **Read** each piece of that split in economic terms
+:::
+
+---
+
+## 🗺️ Where We Are
+
+::: {style="font-size: 30px"}
+**Wackerly §§5.10–5.11**
+
+Friday: the multinomial, the joint distribution of the counts in several categories at once.
+
+::: {.fragment}
+Today closes Chapter 5 with two ideas. **§5.10** is the book's optional section: we meet the bivariate normal descriptively, as the picture behind "two correlated returns".
+:::
+
+::: {.fragment}
+**§5.11** is the load-bearing one. Once we know the distribution of $Y_1$ *given* $Y_2$, its mean and variance are ordinary means and variances, and Theorems 5.14–5.15 put them back together.
+:::
+:::
+
+---
+
+## ❓ Motivating Question
+
+::: {style="font-size: 30px"}
+::: {.callout-important}
+## The question this lecture answers
+A household in Baku earns 1,500 AZN this month. How much do we expect it to spend, and what does averaging that forecast over **all** incomes tell us about average spending?
+:::
+
+::: {.fragment}
+The first answer is a number that **depends on the income**: a regression function. The second is Theorem 5.14.
+:::
+:::
+
+---
+
+## 📐 §5.10: The Bivariate Normal Density
+
+::: {style="font-size: 28px"}
+$$f(y_1, y_2) = \frac{e^{-Q/2}}{2\pi\sigma_1\sigma_2\sqrt{1-\rho^2}}, \qquad -\infty < y_1, y_2 < \infty,$$
+
+$$Q = \frac{1}{1-\rho^2}\left[\frac{(y_1-\mu_1)^2}{\sigma_1^2} - 2\rho\frac{(y_1-\mu_1)(y_2-\mu_2)}{\sigma_1\sigma_2} + \frac{(y_2-\mu_2)^2}{\sigma_2^2}\right]$$
+
+::: {.fragment}
+Five parameters: $\mu_1, \mu_2, \sigma_1^2, \sigma_2^2, \rho$. Nobody integrates this in class; we read off what it **implies**.
+:::
+:::
+
+---
+
+## 🔑 What the Five Parameters Mean
+
+::: {style="font-size: 28px"}
+- **Marginals** are normal: $Y_1 \sim N(\mu_1, \sigma_1^2)$ and $Y_2 \sim N(\mu_2, \sigma_2^2)$ (Exercise 5.128)
+
+- **Covariance**: $\text{Cov}(Y_1, Y_2) = \rho\sigma_1\sigma_2$, so $\rho$ is the correlation
+
+- **Independence**: $\rho = 0$ makes $f$ factor, so $Y_1, Y_2$ are independent **if and only if** $\text{Cov} = 0$
+
+- **Conditional** (Exercise 5.129): given $Y_2 = y_2$, $Y_1$ is normal with
+$$\text{mean } \mu_1 + \rho\frac{\sigma_1}{\sigma_2}(y_2 - \mu_2), \qquad \text{variance } \sigma_1^2(1-\rho^2)$$
+:::
+
+::: {style="font-size: 28px"}
+::: {.fragment}
+Zero covariance does **not** imply independence in general (recall the Brent straddle from §5.7). The bivariate normal is the exception.
+:::
+:::
+
+---
+
+## 📈 Two Correlated Indices
+
+```{r}
+#| label: bvn-figure
+#| echo: false
+#| fig-width: 11
+#| fig-height: 3.9
+mu1 <- 0.8; s1 <- 4.5; mu2 <- 0.6; s2 <- 3.8
+z1 <- rnorm(300); z2 <- rnorm(300)
+panels <- do.call(rbind, lapply(c(0, 0.5, 0.9), function(r) {
+  y2 <- mu2 + s2 * z1
+  y1 <- mu1 + s1 * (r * z1 + sqrt(1 - r^2) * z2)
+  data.frame(rho = r, y1 = y1, y2 = y2)
+}))
+lines <- data.frame(rho = c(0, 0.5, 0.9))
+lines$slope <- lines$rho * s1 / s2
+lines$int   <- mu1 - lines$slope * mu2
+ggplot(panels, aes(y2, y1)) +
+  geom_point(colour = "#3d6e8f", alpha = 0.55, size = 1.8) +
+  geom_abline(data = lines, aes(slope = slope, intercept = int),
+              colour = "#8b2635", linewidth = 1.3) +
+  facet_wrap(~ rho, labeller = label_bquote(rho == .(rho))) +
+  scale_x_continuous(breaks = c(-8, -4, 0, 4, 8)) +
+  labs(x = "Emerging-markets index, monthly return (%)",
+       y = "Regional index (%)") +
+  theme(strip.text = element_text(size = 20),
+        panel.spacing = unit(2, "lines"))
+```
+
+::: {style="font-size: 28px"}
+Same marginals in all three panels. The red line is $E(Y_1 \mid Y_2 = y_2)$; as $\rho$ rises the cloud tilts onto it and the spread about it shrinks from 4.5% to 1.96%.
+:::
+
+---
+
+## 📐 Definition 5.13
+
+::: {style="font-size: 30px"}
+::: {.callout-note}
+## Definition 5.13
+
+If $Y_1$ and $Y_2$ are any two random variables, the conditional expectation of $g(Y_1)$, given that $Y_2 = y_2$, is
+$$E(g(Y_1) \mid Y_2 = y_2) = \int_{-\infty}^{\infty} g(y_1) f(y_1 \mid y_2)\, dy_1$$
+if jointly continuous, and $\sum_{\text{all } y_1} g(y_1)\,p(y_1 \mid y_2)$ if jointly discrete.
+:::
+
+::: {.fragment}
+An ordinary expectation, computed with the **conditional** density in place of the marginal.
+:::
+:::
+
+---
+
+## 🛒 Consumption Given Income
+
+::: {style="font-size: 28px"}
+$Y_2$ = a household's monthly income and $Y_1$ = its consumption, both in thousand AZN, with spending never above income:
+$$f(y_1, y_2) = 1/2, \qquad 0 \le y_1 \le y_2 \le 2$$
+
+::: {.fragment}
+**Step 1.** $f_2(y_2) = \int_0^{y_2} \tfrac12\, dy_1 = y_2/2$, so $f(y_1 \mid y_2) = \dfrac{1/2}{y_2/2} = \dfrac{1}{y_2}$ on $0 < y_1 \le y_2$.
+:::
+
+::: {.fragment}
+**Step 2.** $E(Y_1 \mid Y_2 = y_2) = \int_0^{y_2} y_1 \dfrac{1}{y_2}\, dy_1 = \dfrac{y_2}{2}$.
+:::
+
+::: {.fragment}
+**Step 3.** At $y_2 = 1.5$: expected spending is $0.75$, i.e. **750 AZN**. The slope $1/2$ is a marginal propensity to consume.
+:::
+:::
+
+---
+
+## 🔁 A Random Variable of Its Own
+
+::: {style="font-size: 30px"}
+$E(Y_1 \mid Y_2 = y_2) = y_2/2$ is a **number** for each income level.
+
+::: {.fragment}
+Let the income vary and it becomes $E(Y_1 \mid Y_2) = Y_2/2$: a function of the random variable $Y_2$, so **itself a random variable**, with a mean and a variance of its own.
+:::
+
+::: {.fragment}
+Its mean is Theorem 5.14. Its variance is half of Theorem 5.15.
+:::
+:::
+
+---
+
+## 📐 Theorem 5.14: Average the Averages
+
+::: {style="font-size: 28px"}
+::: {.callout-important}
+## Theorem 5.14
+
+$$E(Y_1) = E[E(Y_1 \mid Y_2)]$$
+the inner expectation over the conditional distribution of $Y_1$ given $Y_2$, the outer over the distribution of $Y_2$.
+:::
+
+::: {.fragment}
+Consumption check: $E(Y_2) = \int_0^2 y_2 \cdot \tfrac{y_2}{2}\, dy_2 = \tfrac43$, so
+$$E(Y_1) = E(Y_2/2) = \tfrac23 \approx 667 \text{ AZN}$$
+Directly, $f_1(y_1) = (2 - y_1)/2$ gives $\int_0^2 y_1 \tfrac{2-y_1}{2}\, dy_1 = \tfrac23$ as well.
+:::
+:::
+
+---
+
+## 🚚 Claims per Fleet Policy
+
+::: {style="font-size: 28px"}
+An insurer writes fleet policies on 10 delivery vans each. Within a fleet, each van has a claim in the year independently with probability $p$, so $Y \mid p \sim \text{Bin}(10, p)$.
+
+But fleets differ: $p$ is uniform on $(0, 1/4)$ across the book (Example 5.32).
+
+::: {.fragment}
+$$E(Y) = E[E(Y \mid p)] = E(10p) = 10 \cdot \frac{0 + 1/4}{2} = \frac{10}{8} = 1.25$$
+:::
+
+::: {.fragment}
+1.25 claims per policy per year, found **without** the marginal distribution of $Y$.
+:::
+:::
+
+---
+
+## 📐 Theorem 5.15: Splitting a Variance
+
+::: {style="font-size: 28px"}
+The conditional variance: $V(Y_1 \mid Y_2 = y_2) = E(Y_1^2 \mid Y_2 = y_2) - [E(Y_1 \mid Y_2 = y_2)]^2$.
+
+::: {.callout-important}
+## Theorem 5.15
+
+$$V(Y_1) = E[V(Y_1 \mid Y_2)] + V[E(Y_1 \mid Y_2)]$$
+:::
+
+::: {.fragment}
+- $E[V(Y_1 \mid Y_2)]$: the **within** part, average spread around each conditional mean
+- $V[E(Y_1 \mid Y_2)]$: the **between** part, how much the conditional means themselves move
+:::
+:::
+
+---
+
+## 🚚 The Variance of Claims
+
+::: {style="font-size: 28px"}
+$E(Y \mid p) = 10p$ and $V(Y \mid p) = 10p(1-p)$. With $E(p) = \tfrac18$, $V(p) = \tfrac{(1/4)^2}{12} = \tfrac{1}{192}$, $E(p^2) = \tfrac{1}{192} + \tfrac{1}{64} = \tfrac{1}{48}$:
+
+::: {.fragment}
+$$E[V(Y \mid p)] = 10\left(\tfrac18 - \tfrac{1}{48}\right) = 1.0417, \qquad V[E(Y \mid p)] = 100 \cdot \tfrac{1}{192} = 0.5208$$
+$$V(Y) = 1.5625, \qquad \sigma = 1.25$$
+:::
+
+::: {.fragment}
+A binomial with $p$ fixed at $1/8$ would give only $10 \cdot \tfrac18 \cdot \tfrac78 = 1.09$. **Not knowing the fleet adds risk**, and the between part is where it shows.
+:::
+:::
+
+---
+
+## 💻 The Fleet Book, Simulated
+
+```{r}
+#| label: fleet-sim
+#| code-fold: false
+set.seed(2026)
+p <- runif(1e5, 0, 1/4)        # one risk level per fleet
+y <- rbinom(1e5, 10, p)        # claims on that fleet
+c(mean = mean(y), var = var(y),
+  within = mean(10 * p * (1 - p)), between = var(10 * p))
+```
+
+::: {style="font-size: 28px"}
+Theory: 1.25, 1.5625, 1.0417, 0.5208. The simulation agrees to two decimals; within + between recovers the total.
+:::
+
+---
+
+## 🏛️ Risk Across Market Regimes
+
+::: {style="font-size: 28px"}
+A pension fund's monthly return $R$ (%) depends on the regime $M$:
+
+| Regime | $P(M)$ | $E(R \mid M)$ | $\text{SD}(R \mid M)$ |
+|---|---|---|---|
+| calm | 0.8 | 1.2 | 3 |
+| oil-price stress | 0.2 | $-2.5$ | 7 |
+
+::: {.fragment}
+$E(R) = 0.8(1.2) + 0.2(-2.5) = 0.46\%$ by Theorem 5.14.
+:::
+
+::: {.fragment}
+Within: $E[V(R \mid M)] = 0.8(9) + 0.2(49) = 17.00$
+:::
+:::
+
+---
+
+## 🏛️ The Split, Read as Risk
+
+::: {style="font-size: 28px"}
+Between: $V[E(R \mid M)] = 0.8(1.2)^2 + 0.2(2.5)^2 - 0.46^2 = 2.40 - 0.21 = 2.19$
+
+::: {.fragment}
+$$V(R) = 17.00 + 2.19 = 19.19, \qquad \text{SD}(R) = 4.38\%$$
+:::
+
+::: {.fragment}
+- **89%** of the variance is ordinary month-to-month noise inside a regime
+- **11%** comes from not knowing which regime we are in
+:::
+
+::: {.fragment}
+Quoting only the calm-regime 3% understates the fund's risk by almost a third.
+:::
+:::
+
+---
+
+## 🧠 Think-Pair-Share
+
+```{r}
+#| label: tps-timer
+#| echo: false
+# The timer is the only thing in this deck that needs a package beyond base R.
+# Guarded so a machine without it renders the deck anyway, with a static
+# figure in the same corner, rather than halting the whole build.
+if (requireNamespace("countdown", quietly = TRUE)) {
+  countdown::countdown(minutes = 4, seconds = 0,
+                       top = 0, right = 0,
+                       font_size = "2em", warn_when = 30)
+} else {
+  htmltools::HTML(paste0(
+    '<div style="position:absolute; top:0; right:0; font-size:2em;',
+    ' font-weight:700; opacity:0.75">4:00</div>'))
+}
+```
+
+::: {style="font-size: 28px"}
+Monthly household income $Y_2$ and consumption $Y_1$ (AZN) are bivariate normal: $\mu_2 = 1400$, $\sigma_2 = 400$, $\mu_1 = 1100$, $\sigma_1 = 250$, $\rho = 0.8$.
+
+**Four minutes, in pairs:**
+
+1. Expected consumption of a household earning 1,800 AZN? Earning 1,000?
+
+2. The standard deviation of consumption **given** income?
+
+3. Check Theorem 5.15: do within and between add up to $\sigma_1^2$?
+:::
+
+---
+
+## ✅ Think-Pair-Share: Solution
+
+::: {style="font-size: 28px"}
+1. Slope $\rho\,\sigma_1/\sigma_2 = 0.8 \times 250/400 = 0.5$, so
+$$E(Y_1 \mid Y_2 = 1800) = 1100 + 0.5(400) = 1300, \qquad E(Y_1 \mid Y_2 = 1000) = 900$$
+
+::: {.fragment}
+2. $V(Y_1 \mid Y_2) = 250^2(1 - 0.64) = 22{,}500$, so the conditional SD is **150 AZN**, the same at every income.
+:::
+
+::: {.fragment}
+3. Within $= 22{,}500$. Between $= V(0.5\,Y_2) = 0.25 \times 400^2 = 40{,}000$. Sum $= 62{,}500 = 250^2$. ✔
+:::
+:::
+
+---
+
+## 📝 Quiz #1: Claims per Policy {.quiz-question}
+
+70% of a motor book is standard, with mean 0.10 claims per policy; 30% is high-risk, with mean 0.40. What is the expected number of claims per policy?
+
+- [$0.19$]{.correct data-explanation="✅ Theorem 5.14: E(Y) = 0.7(0.10) + 0.3(0.40) = 0.07 + 0.12 = 0.19. The conditional means are weighted by how often each type occurs."}
+- $0.25$
+- $0.40$
+- $0.50$
+
+---
+
+## 📝 Quiz #2: Within Plus Between {.quiz-question}
+
+For a loan book, $E[V(Y \mid X)] = 9$ and $V[E(Y \mid X)] = 4$. What is $V(Y)$?
+
+- [$13$]{.correct data-explanation="✅ Theorem 5.15 adds the two parts: V(Y) = 9 + 4 = 13. Variances add here, not standard deviations."}
+- $5$
+- $9$
+- $25$
+
+---
+
+## 📝 Quiz #3: Zero Covariance {.quiz-question}
+
+$Y_1$ and $Y_2$ are bivariate normal with $\text{Cov}(Y_1, Y_2) = 0$. What follows?
+
+- [They are independent]{.correct data-explanation="✅ With ρ = 0 the bivariate normal density factors into g(y1)h(y2), so Theorem 5.5 gives independence. For the bivariate normal, zero covariance and independence are equivalent."}
+- They may still be dependent
+- Their marginals need not be normal
+- $E(Y_1 \mid Y_2) = Y_2$
+
+---
+
+## 📋 Key Formulas
+
+::: {style="font-size: 28px"}
+| | Statement |
+|---|---|
+| Bivariate normal | $\text{Cov}(Y_1, Y_2) = \rho\sigma_1\sigma_2$; independent iff $\rho = 0$ |
+| its conditional | $E(Y_1 \mid y_2) = \mu_1 + \rho\frac{\sigma_1}{\sigma_2}(y_2 - \mu_2)$, $V = \sigma_1^2(1-\rho^2)$ |
+| Definition 5.13 | $E(g(Y_1) \mid Y_2 = y_2) = \int g(y_1) f(y_1 \mid y_2)\, dy_1$ |
+| conditional variance | $V(Y_1 \mid y_2) = E(Y_1^2 \mid y_2) - [E(Y_1 \mid y_2)]^2$ |
+| Theorem 5.14 | $E(Y_1) = E[E(Y_1 \mid Y_2)]$ |
+| Theorem 5.15 | $V(Y_1) = E[V(Y_1 \mid Y_2)] + V[E(Y_1 \mid Y_2)]$ |
+:::
+
+---
+
+## 📋 Summary
+
+::: {style="font-size: 30px"}
+- The bivariate normal is fixed by two means, two variances and $\rho$; its marginals and conditionals are normal
+
+- For it alone among our models, $\rho = 0$ means independence
+
+- $E(Y_1 \mid Y_2)$ is a regression function, and a random variable
+
+- Theorem 5.14: average the conditional means to get the mean
+
+- Theorem 5.15: total risk = average within-group risk + spread of the group means
+
+- Hierarchical models (a rate that itself varies) are where both theorems pay off
+:::
+
+---
+
+## 📚 Practice Problems
+
+::: {style="font-size: 28px"}
+**Wackerly, 7th edition**
+
+- §5.11 exercises: start with 5.133, 5.135 and 5.137, then 5.136 and 5.138
+- Optional, §5.10: the starred 5.128 and 5.129 derive the marginal and conditional used today
+
+**Week 15, Problem Set 1** is open now and closes **Sunday 27 December at 23:59** on WeBWorK, covering §§5.10–5.11. Midterm Examination II is on 23 December.
+
+**Next class:** 19 December, Chapter 5 in review and a comprehensive review of Chapters 1–5 (Wackerly §5.12).
+:::
+
+---
+
+## 🙏 Thank You
+
+::: {style="font-size: 34px"}
+**Dr. Samir Orujov**
+
+📧 sorujov@ada.edu.az\
+🏢 Building D, Room D325\
+🕓 Office hours: Wednesday, 16:00 – 18:00
+
+Slides and readings: **sorujov.net/teaching**
+:::
+
+---
+
+## ❓ Questions
+
+::: {style="font-size: 30px"}
+- In the fleet book, what would $p$'s distribution have to be for the between part to vanish?
+
+- Why is the conditional SD of consumption the same at every income level in the bivariate normal, but not in the triangle example?
+
+- Theorem 5.15 says conditioning never increases variance on average. Where have you already relied on that in finance?
+:::

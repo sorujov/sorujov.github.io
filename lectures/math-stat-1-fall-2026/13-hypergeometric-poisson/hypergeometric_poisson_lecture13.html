@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="hypergeometric_poisson_lecture13_files/libs/clipboard/clipboard.min.js"></script>
+<script src="hypergeometric_poisson_lecture13_files/libs/quarto-html/tabby.min.js"></script>
+<script src="hypergeometric_poisson_lecture13_files/libs/quarto-html/popper.min.js"></script>
+<script src="hypergeometric_poisson_lecture13_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="hypergeometric_poisson_lecture13_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="hypergeometric_poisson_lecture13_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="hypergeometric_poisson_lecture13_files/libs/quarto-html/quarto-syntax-highlighting-12757e4b7af482b2d9c5bd8860d2b707.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.10.18">
+
+  <meta name="author" content="Samir Orujov, PhD">
+  <meta name="dcterms.date" content="2026-09-24">
+  <title>Mathematical Statistics</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="hypergeometric_poisson_lecture13_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="hypergeometric_poisson_lecture13_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {  background-color: #f8f8f8; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ef2929; } /* Alert */
+    code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #204a87; } /* Attribute */
+    code span.bn { color: #0000cf; } /* BaseN */
+    code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4e9a06; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #8f5902; font-style: italic; } /* Comment */
+    code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+    code span.dt { color: #204a87; } /* DataType */
+    code span.dv { color: #0000cf; } /* DecVal */
+    code span.er { color: #a40000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #0000cf; } /* Float */
+    code span.fu { color: #204a87; font-weight: bold; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+    code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+    code span.ot { color: #8f5902; } /* Other */
+    code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+    code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+    code span.ss { color: #4e9a06; } /* SpecialString */
+    code span.st { color: #4e9a06; } /* String */
+    code span.va { color: #000000; } /* Variable */
+    code span.vs { color: #4e9a06; } /* VerbatimString */
+    code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="hypergeometric_poisson_lecture13_files/libs/revealjs/dist/theme/quarto-8f4eabb0e7fa2a8f159449dd4bce52c1.css">
+  <link href="hypergeometric_poisson_lecture13_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="hypergeometric_poisson_lecture13_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="hypergeometric_poisson_lecture13_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="hypergeometric_poisson_lecture13_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="hypergeometric_poisson_lecture13_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="hypergeometric_poisson_lecture13_files/libs/revealjs/plugin/reveal-quiz/quiz.css" rel="stylesheet">
+  <link href="hypergeometric_poisson_lecture13_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script type="module" src="hypergeometric_poisson_lecture13_files/libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+  <link href="hypergeometric_poisson_lecture13_files/libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+  <link href="hypergeometric_poisson_lecture13_files/libs/countdown-0.6.0/countdown.css" rel="stylesheet">
+  <script src="hypergeometric_poisson_lecture13_files/libs/countdown-0.6.0/countdown.js"></script>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Mathematical Statistics</h1>
+  <p class="subtitle">The Hypergeometric and Poisson Distributions; Midterm I Review</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Samir Orujov, PhD
+</div>
+        <p class="quarto-title-affiliation">
+            ADA University, School of Business
+          </p>
+        <p class="quarto-title-affiliation">
+            Information Communication Technologies Agency, Statistics Unit
+          </p>
+    </div>
+</div>
+
+  <p class="date">2026-09-24</p>
+</section>
+<section id="learning-objectives" class="slide level2">
+<h2>🎯 Learning Objectives</h2>
+<div style="font-size: 32px">
+<p>By the end of this lecture, you will be able to:</p>
+<ul>
+<li><p><strong>Recognise</strong> sampling without replacement from a finite pool, and model it with the hypergeometric distribution</p></li>
+<li><p><strong>Compute</strong> hypergeometric probabilities, mean and variance, and explain the factor <span class="math inline">\(\frac{N-n}{N-1}\)</span></p></li>
+<li><p><strong>Apply</strong> the Poisson distribution to counts of events in time, including a Poisson process over <span class="math inline">\(a\)</span> units</p></li>
+<li><p><strong>Use</strong> the Poisson as the limit of the binomial for rare events</p></li>
+<li><p><strong>Choose</strong> among the five discrete models of Chapter 3 for Midterm I</p></li>
+</ul>
+</div>
+</section>
+<section id="where-we-are" class="slide level2">
+<h2>🗺️ Where We Are</h2>
+<div style="font-size: 32px">
+<p><strong>Wackerly §3.7–3.8</strong></p>
+<p>Saturday ended on one sentence: <em>the binomial fixes the trials; the geometric and negative binomial fix the successes and count the trials.</em> All three rest on the same two assumptions — <strong>independent</strong> trials with a <strong>constant</strong> <span class="math inline">\(p\)</span>.</p>
+<div class="fragment">
+<p>Today we drop the assumptions themselves, one at a time. Draw <strong>without replacement</strong> from a small pool and independence fails: that is the hypergeometric. Let <span class="math inline">\(n \to \infty\)</span> while <span class="math inline">\(p \to 0\)</span> and there is no <span class="math inline">\(n\)</span> left to count: that is the Poisson.</p>
+</div>
+</div>
+</section>
+<section id="why-the-binomial-fails-in-an-audit" class="slide level2">
+<h2>🧾 Why the Binomial Fails in an Audit</h2>
+<div style="font-size: 30px">
+<p>An auditor receives a batch of <strong>25 invoices</strong> from a Baku construction supplier. Unknown to her, <strong>5</strong> are misstated. She pulls <strong>6</strong> at random for testing.</p>
+<div class="fragment">
+<p>The first draw is misstated with probability <span class="math inline">\(5/25 = 0.20\)</span>. If it was, the second is misstated with probability <span class="math inline">\(4/24 = 0.167\)</span>; if it was not, <span class="math inline">\(5/24 = 0.208\)</span>.</p>
+</div>
+<div class="fragment">
+<p><strong>The trials are not independent and <span class="math inline">\(p\)</span> is not constant</strong>, so <span class="math inline">\(Y\)</span>, the number of misstated invoices in the sample, is not binomial. It is a counting problem over subsets — Section 2.6 — and that is where the book derives the answer.</p>
+</div>
+</div>
+</section>
+<section id="definition-3.10-hypergeometric" class="slide level2">
+<h2>📐 Definition 3.10: Hypergeometric</h2>
+<div style="font-size: 30px">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Definition 3.10</strong></p>
+</div>
+<div class="callout-content">
+<p>A random variable <span class="math inline">\(Y\)</span> has a <strong>hypergeometric probability distribution</strong> if and only if <span class="math display">\[p(y) = \frac{\binom{r}{y}\binom{N-r}{n-y}}{\binom{N}{n}},\]</span> where <span class="math inline">\(y\)</span> is an integer <span class="math inline">\(0, 1, 2, \ldots, n\)</span>, subject to <span class="math inline">\(y \le r\)</span> and <span class="math inline">\(n - y \le N - r\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>Numerator: choose <span class="math inline">\(y\)</span> of the <span class="math inline">\(r\)</span> “red” elements <strong>and</strong> <span class="math inline">\(n-y\)</span> of the <span class="math inline">\(N-r\)</span> others (the <span class="math inline">\(mn\)</span> rule). Denominator: all <span class="math inline">\(\binom{N}{n}\)</span> equally likely samples. In R: <code>dhyper(y, r, N - r, n)</code>.</p>
+</div>
+</div>
+</section>
+<section id="worked-example-the-audit-rule" class="slide level2">
+<h2>📊 Worked Example: The Audit Rule</h2>
+<div style="font-size: 30px">
+<p>The firm’s rule: <strong>escalate to a full audit if two or more</strong> of the 6 sampled invoices are misstated. With <span class="math inline">\(N = 25\)</span>, <span class="math inline">\(r = 5\)</span>, <span class="math inline">\(n = 6\)</span>:</p>
+<div class="fragment">
+<p><span class="math display">\[p(0) = \frac{\binom{5}{0}\binom{20}{6}}{\binom{25}{6}} = \frac{38760}{177100} = 0.2189, \qquad p(1) = \frac{\binom{5}{1}\binom{20}{5}}{\binom{25}{6}} = \frac{77520}{177100} = 0.4377\]</span></p>
+</div>
+<div class="fragment">
+<p><span class="math display">\[P(Y \ge 2) = 1 - p(0) - p(1) = 1 - 0.2189 - 0.4377 = 0.3434\]</span></p>
+</div>
+<div class="fragment">
+<p>A batch with <strong>one invoice in five</strong> misstated still passes the test about two times in three. The complement did the work, exactly as in Chapter 2.</p>
+</div>
+</div>
+</section>
+<section id="theorem-3.10-mean-and-variance" class="slide level2">
+<h2>📐 Theorem 3.10: Mean and Variance</h2>
+<div style="font-size: 30px">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Theorem 3.10</strong></p>
+</div>
+<div class="callout-content">
+<p>If <span class="math inline">\(Y\)</span> has a hypergeometric distribution, <span class="math display">\[\mu = E(Y) = \frac{nr}{N} \qquad \sigma^2 = V(Y) = n\left(\frac{r}{N}\right)\left(\frac{N-r}{N}\right)\left(\frac{N-n}{N-1}\right)\]</span></p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>With <span class="math inline">\(p = r/N\)</span> this is <span class="math inline">\(\mu = np\)</span> and <span class="math inline">\(\sigma^2 = npq\,\frac{N-n}{N-1}\)</span>: the binomial, times a <strong>finite-population correction</strong>.</p>
+</div>
+<div class="fragment">
+<p>Audit: <span class="math inline">\(\mu = 6(5)/25 = 1.2\)</span> and <span class="math inline">\(\sigma^2 = 6(0.2)(0.8)(19/24) = 0.76\)</span>. The binomial would say <span class="math inline">\(0.96\)</span> — sampling without replacement removes about a fifth of the variance.</p>
+</div>
+</div>
+</section>
+<section id="when-does-the-pool-size-matter" class="slide level2">
+<h2>💻 When Does the Pool Size Matter?</h2>
+
+<img data-src="hypergeometric_poisson_lecture13_files/figure-revealjs/hyper-vs-binom-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1500"><div style="font-size: 28px">
+<p>Same <span class="math inline">\(r/N = 0.2\)</span> throughout. At <span class="math inline">\(N = 250\)</span> the sample is 2.4% of the pool and the hypergeometric is indistinguishable from the binomial; at <span class="math inline">\(N = 25\)</span> it is 24% and the distribution is visibly tighter.</p>
+</div>
+</section>
+<section id="from-binomial-to-poisson" class="slide level2">
+<h2>🌧️ From Binomial to Poisson</h2>
+<div style="font-size: 30px">
+<p>Split a day into <span class="math inline">\(n\)</span> tiny subintervals, each holding at most one event with probability <span class="math inline">\(p\)</span>, independently. The count is binomial. Now let <span class="math inline">\(n \to \infty\)</span> with <span class="math inline">\(\lambda = np\)</span> fixed: <span class="math display">\[\lim_{n\to\infty}\binom{n}{y}p^y(1-p)^{n-y} = \frac{\lambda^y}{y!}e^{-\lambda}\]</span></p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Definition 3.11</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math inline">\(Y\)</span> has a <strong>Poisson probability distribution</strong> if and only if <span class="math display">\[p(y) = \frac{\lambda^y}{y!}e^{-\lambda}, \qquad y = 0, 1, 2, \ldots, \quad \lambda &gt; 0.\]</span></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="worked-example-a-claims-desk" class="slide level2">
+<h2>📦 Worked Example: A Claims Desk</h2>
+<div style="font-size: 30px">
+<p>The cargo-insurance desk of a Baku insurer receives on average <span class="math inline">\(\lambda = 3\)</span> claims per day, and can fully process <strong>4</strong> in a day. Let <span class="math inline">\(Y\)</span> be tomorrow’s claim count.</p>
+<div class="fragment">
+<p><span class="math display">\[P(Y = 0) = e^{-3} = 0.0498 \quad P(Y = 1) = 3e^{-3} = 0.1494 \quad P(Y = 2) = 4.5e^{-3} = 0.2240\]</span></p>
+</div>
+<div class="fragment">
+<p>The desk falls behind when <span class="math inline">\(Y \ge 5\)</span>: <span class="math display">\[P(Y \ge 5) = 1 - P(Y \le 4) = 1 - 0.8153 = 0.1847\]</span></p>
+</div>
+<div class="fragment">
+<p>Roughly <strong>one working day in five</strong> leaves a backlog. In R: <code>1 - ppois(4, 3)</code>, or Table 3 of Appendix 3.</p>
+</div>
+</div>
+</section>
+<section id="theorem-3.11-mean-variance" class="slide level2">
+<h2>📐 Theorem 3.11: Mean = Variance</h2>
+<div style="font-size: 30px">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Theorem 3.11</strong></p>
+</div>
+<div class="callout-content">
+<p>If <span class="math inline">\(Y\)</span> has a Poisson distribution with parameter <span class="math inline">\(\lambda\)</span>, then <span class="math inline">\(\mu = E(Y) = \lambda\)</span> and <span class="math inline">\(\sigma^2 = V(Y) = \lambda\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><strong>Proof idea.</strong> In <span class="math inline">\(\sum_{y} y\,\lambda^y e^{-\lambda}/y!\)</span> the <span class="math inline">\(y = 0\)</span> term vanishes; cancel <span class="math inline">\(y\)</span> against <span class="math inline">\(y!\)</span>, factor out <span class="math inline">\(\lambda\)</span>, and put <span class="math inline">\(z = y - 1\)</span>. What remains is a Poisson sum, which equals 1. The variance is Exercise 3.138.</p>
+</div>
+<div class="fragment">
+<p>A practical test: if claim counts show a sample variance far above their mean, the Poisson model — not just its <span class="math inline">\(\lambda\)</span> — is in doubt.</p>
+</div>
+</div>
+</section>
+<section id="a-poisson-process-one-atm" class="slide level2">
+<h2>🏧 A Poisson Process: One ATM</h2>
+<div style="font-size: 28px">
+<p>If events occur as a Poisson process at <span class="math inline">\(\lambda\)</span> per unit, the count in <span class="math inline">\(a\)</span> units is Poisson with mean <span class="math inline">\(a\lambda\)</span>. An ATM in Nizami Street averages <strong>12 withdrawals per hour</strong>.</p>
+</div>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-label="1"></a>lambda_hr <span class="ot">&lt;-</span> <span class="dv">12</span></span>
+<span id="cb1-2"><a href="" aria-label="2"></a>hours <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb1-3"><a href="" aria-label="3"></a><span class="fu">data.frame</span>(</span>
+<span id="cb1-4"><a href="" aria-label="4"></a>  <span class="at">window     =</span> <span class="fu">c</span>(<span class="st">"10 min"</span>, <span class="st">"30 min"</span>, <span class="st">"1 hour"</span>, <span class="st">"2 hours"</span>),</span>
+<span id="cb1-5"><a href="" aria-label="5"></a>  <span class="at">mean       =</span> hours <span class="sc">*</span> lambda_hr,</span>
+<span id="cb1-6"><a href="" aria-label="6"></a>  <span class="at">P_none     =</span> <span class="fu">round</span>(<span class="fu">exp</span>(<span class="sc">-</span>hours <span class="sc">*</span> lambda_hr), <span class="dv">4</span>),</span>
+<span id="cb1-7"><a href="" aria-label="7"></a>  <span class="at">P_over_30  =</span> <span class="fu">round</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">ppois</span>(<span class="dv">30</span>, hours <span class="sc">*</span> lambda_hr), <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>   window mean P_none P_over_30
+1  10 min    2 0.1353    0.0000
+2  30 min    6 0.0025    0.0000
+3  1 hour   12 0.0000    0.0000
+4 2 hours   24 0.0000    0.0958</code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>No withdrawal in 10 minutes: <span class="math inline">\(e^{-2} = 0.1353\)</span>. A cassette good for 30 withdrawals runs out within 2 hours with probability <span class="math inline">\(0.0958\)</span>.</p>
+</div>
+</section>
+<section id="the-poisson-limit-rare-losses" class="slide level2">
+<h2>⚠️ The Poisson Limit: Rare Losses</h2>
+<div style="font-size: 28px">
+<p>A bank’s trading desk has a loss event (a failed settlement, a fat-finger trade) on any of <strong>250</strong> trading days with probability <strong>0.008</strong>, independently. Binomial, or Poisson with <span class="math inline">\(\lambda = np = 2\)</span>?</p>
+</div>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-label="1"></a>y <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">5</span></span>
+<span id="cb3-2"><a href="" aria-label="2"></a><span class="fu">data.frame</span>(y,</span>
+<span id="cb3-3"><a href="" aria-label="3"></a>  <span class="at">binomial =</span> <span class="fu">round</span>(<span class="fu">dbinom</span>(y, <span class="dv">250</span>, <span class="fl">0.008</span>), <span class="dv">4</span>),</span>
+<span id="cb3-4"><a href="" aria-label="4"></a>  <span class="at">poisson  =</span> <span class="fu">round</span>(<span class="fu">dpois</span>(y, <span class="dv">2</span>), <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  y binomial poisson
+1 0   0.1343  0.1353
+2 1   0.2707  0.2707
+3 2   0.2718  0.2707
+4 3   0.1812  0.1804
+5 4   0.0902  0.0902
+6 5   0.0358  0.0361</code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>Agreement to the third decimal: <span class="math inline">\(P(Y \ge 4)\)</span> is <span class="math inline">\(0.1421\)</span> exact and <span class="math inline">\(0.1429\)</span> Poisson. The book’s rule of thumb: large <span class="math inline">\(n\)</span>, small <span class="math inline">\(p\)</span>, <span class="math inline">\(\lambda = np\)</span> below about 7.</p>
+</div>
+</section>
+<section id="interactive-binomial-to-poisson" class="slide level2 smaller">
+<h2>🔬 Interactive: Binomial to Poisson</h2>
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb5" data-startfrom="298" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 297;"><span id="cb5-298"><a href="" aria-label="298"></a>viewof n_sub <span class="op">=</span> {</span>
+<span id="cb5-299"><a href="" aria-label="299"></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">4</span><span class="op">,</span> <span class="dv">200</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">6</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb5-300"><a href="" aria-label="300"></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Number of trials n (λ = np = 2):"</span>})<span class="op">;</span></span>
+<span id="cb5-301"><a href="" aria-label="301"></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
+<span id="cb5-302"><a href="" aria-label="302"></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
+<span id="cb5-303"><a href="" aria-label="303"></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb5-304"><a href="" aria-label="304"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb6" data-startfrom="312" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 311;"><span id="cb6-312"><a href="" aria-label="312"></a>lam <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb6-313"><a href="" aria-label="313"></a>binomPmf <span class="op">=</span> (n<span class="op">,</span> p) <span class="kw">=&gt;</span> {</span>
+<span id="cb6-314"><a href="" aria-label="314"></a>  <span class="kw">const</span> out <span class="op">=</span> [<span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(<span class="dv">1</span> <span class="op">-</span> p<span class="op">,</span> n)]<span class="op">;</span></span>
+<span id="cb6-315"><a href="" aria-label="315"></a>  <span class="cf">for</span> (<span class="kw">let</span> k <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> k <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> k<span class="op">++</span>) out<span class="op">.</span><span class="fu">push</span>(k <span class="op">+</span> <span class="dv">1</span> <span class="op">&gt;</span> n <span class="op">?</span> <span class="dv">0</span> <span class="op">:</span> out[k] <span class="op">*</span> (n <span class="op">-</span> k) <span class="op">/</span> (k <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> p <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> p))<span class="op">;</span></span>
+<span id="cb6-316"><a href="" aria-label="316"></a>  <span class="cf">return</span> out<span class="op">;</span></span>
+<span id="cb6-317"><a href="" aria-label="317"></a>}</span>
+<span id="cb6-318"><a href="" aria-label="318"></a>poisPmf <span class="op">=</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({<span class="dt">length</span><span class="op">:</span> <span class="dv">11</span>}<span class="op">,</span> (_<span class="op">,</span> k) <span class="kw">=&gt;</span> {</span>
+<span id="cb6-319"><a href="" aria-label="319"></a>  <span class="kw">let</span> f <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">2</span><span class="op">;</span> i <span class="op">&lt;=</span> k<span class="op">;</span> i<span class="op">++</span>) f <span class="op">*=</span> i<span class="op">;</span></span>
+<span id="cb6-320"><a href="" aria-label="320"></a>  <span class="cf">return</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(<span class="op">-</span>lam) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(lam<span class="op">,</span> k) <span class="op">/</span> f<span class="op">;</span></span>
+<span id="cb6-321"><a href="" aria-label="321"></a>})</span>
+<span id="cb6-322"><a href="" aria-label="322"></a>bin <span class="op">=</span> <span class="fu">binomPmf</span>(n_sub<span class="op">,</span> lam <span class="op">/</span> n_sub)<span class="op">.</span><span class="fu">map</span>((p<span class="op">,</span> k) <span class="kw">=&gt;</span> ({<span class="dt">y</span><span class="op">:</span> k<span class="op">,</span> p}))</span>
+<span id="cb6-323"><a href="" aria-label="323"></a>pois <span class="op">=</span> poisPmf<span class="op">.</span><span class="fu">map</span>((p<span class="op">,</span> k) <span class="kw">=&gt;</span> ({<span class="dt">y</span><span class="op">:</span> k<span class="op">,</span> p}))</span>
+<span id="cb6-324"><a href="" aria-label="324"></a>gap <span class="op">=</span> d3<span class="op">.</span><span class="fu">max</span>(bin<span class="op">,</span> (d<span class="op">,</span> k) <span class="kw">=&gt;</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span>(d<span class="op">.</span><span class="at">p</span> <span class="op">-</span> pois[k]<span class="op">.</span><span class="at">p</span>))</span>
+<span id="cb6-325"><a href="" aria-label="325"></a></span>
+<span id="cb6-326"><a href="" aria-label="326"></a><span class="fu">md</span><span class="vs">`With **n = </span><span class="sc">${</span>n_sub<span class="sc">}</span><span class="vs">** and **p = </span><span class="sc">${</span>(lam <span class="op">/</span> n_sub)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">4</span>)<span class="sc">}</span><span class="vs">**, the largest gap between binomial bars and Poisson dots is **</span><span class="sc">${</span>gap<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">4</span>)<span class="sc">}</span><span class="vs">**.`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-4" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-5" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-6" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-7" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb7" data-startfrom="328" data-source-offset="-640"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 327;"><span id="cb7-328"><a href="" aria-label="328"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb7-329"><a href="" aria-label="329"></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">1150</span><span class="op">,</span></span>
+<span id="cb7-330"><a href="" aria-label="330"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">300</span><span class="op">,</span></span>
+<span id="cb7-331"><a href="" aria-label="331"></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">78</span><span class="op">,</span></span>
+<span id="cb7-332"><a href="" aria-label="332"></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">58</span><span class="op">,</span></span>
+<span id="cb7-333"><a href="" aria-label="333"></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontSize</span><span class="op">:</span> <span class="st">"18px"</span>}<span class="op">,</span></span>
+<span id="cb7-334"><a href="" aria-label="334"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> d3<span class="op">.</span><span class="fu">range</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">11</span>)<span class="op">,</span> <span class="dt">padding</span><span class="op">:</span> <span class="fl">0.25</span>}<span class="op">,</span></span>
+<span id="cb7-335"><a href="" aria-label="335"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"p(y)"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="fl">0.45</span>]<span class="op">,</span> <span class="dt">tickFormat</span><span class="op">:</span> <span class="st">".2f"</span>}<span class="op">,</span></span>
+<span id="cb7-336"><a href="" aria-label="336"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb7-337"><a href="" aria-label="337"></a>    Plot<span class="op">.</span><span class="fu">barY</span>(bin<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"p"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#cbb8a9"</span>})<span class="op">,</span></span>
+<span id="cb7-338"><a href="" aria-label="338"></a>    Plot<span class="op">.</span><span class="fu">dot</span>(pois<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"p"</span><span class="op">,</span> <span class="dt">r</span><span class="op">:</span> <span class="dv">8</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#8b2635"</span>})<span class="op">,</span></span>
+<span id="cb7-339"><a href="" aria-label="339"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
+<span id="cb7-340"><a href="" aria-label="340"></a>  ]</span>
+<span id="cb7-341"><a href="" aria-label="341"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-8" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="think-pair-share" class="slide level2">
+<h2>🧠 Think-Pair-Share</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<countdown-timer class="countdown" id="timer_5dcc4b24" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
+</div>
+</div>
+<div style="font-size: 30px">
+<p>A bank’s risk desk has recorded operational-loss events as a Poisson process at <strong>2 per month</strong> for years. Last quarter (3 months) there were <strong>11</strong>.</p>
+<p><strong>Four minutes, in pairs:</strong></p>
+<ol type="1">
+<li><p>What is the distribution of <span class="math inline">\(Y\)</span>, the number of events in a quarter?</p></li>
+<li><p>Where does 11 fall relative to <span class="math inline">\(\mu \pm 2\sigma\)</span>?</p></li>
+<li><p>Is 11 alarming enough to report to the risk committee?</p></li>
+</ol>
+</div>
+</section>
+<section id="think-pair-share-solution" class="slide level2">
+<h2>✅ Think-Pair-Share: Solution</h2>
+<div style="font-size: 30px">
+<ol type="1">
+<li><p>A Poisson process over <span class="math inline">\(a = 3\)</span> months: <span class="math inline">\(Y\)</span> is Poisson with <span class="math inline">\(\lambda^\star = 3 \times 2 = 6\)</span>.</p></li>
+<li><p>Theorem 3.11: <span class="math inline">\(\mu = 6\)</span>, <span class="math inline">\(\sigma = \sqrt{6} = 2.45\)</span>, so <span class="math inline">\(\mu + 2\sigma = 6 + 2(2.45) = 10.90\)</span>. The observed 11 lies <strong>just outside</strong>.</p></li>
+</ol>
+<div class="fragment">
+<ol start="3" type="1">
+<li>Exactly: <span class="math inline">\(P(Y \ge 11) = 1 - P(Y \le 10) = 1 - 0.9574 = 0.0426\)</span>, from <code>1 - ppois(10, 6)</code>.</li>
+</ol>
+<p>Not impossible, but a one-in-25 quarter under the old rate — worth an investigation into whether <span class="math inline">\(\lambda\)</span> has risen, which is the reasoning of Example 3.22.</p>
+</div>
+</div>
+</section>
+<section id="quiz-1-a-licence-lottery" class="slide level2 quiz-question">
+<h2>📝 Quiz #1: A Licence Lottery</h2>
+<p>The Energy Ministry awards 6 solar licences by lottery among 16 bidders, of whom 4 are joint ventures. What is the probability that <strong>no</strong> joint venture wins?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Licences are drawn without replacement from a finite pool of 16, so Y is hypergeometric with N = 16, r = 4, n = 6: p(0) = 924/8008 = 0.1154."><span class="math inline">\(\binom{12}{6}\big/\binom{16}{6} = 0.1154\)</span></span></li>
+<li><span class="math inline">\((0.75)^6 = 0.1780\)</span></li>
+<li><span class="math inline">\(\binom{12}{6}\big/\binom{16}{4} = 0.5077\)</span></li>
+<li><span class="math inline">\(12/16 = 0.75\)</span></li>
+</ul>
+</section>
+<section id="quiz-2-scaling-the-interval" class="slide level2 quiz-question">
+<h2>📝 Quiz #2: Scaling the Interval</h2>
+<p>Withdrawals at an ATM follow a Poisson process at 12 per hour. What is the probability of <strong>no</strong> withdrawal in a 5-minute window?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Five minutes is a = 1/12 of an hour, so the count is Poisson with mean aλ = 1, and P(Y = 0) = e⁻¹ = 0.368."><span class="math inline">\(e^{-1} = 0.368\)</span></span></li>
+<li><span class="math inline">\(e^{-12} = 0.000006\)</span></li>
+<li><span class="math inline">\(1 - e^{-1} = 0.632\)</span></li>
+<li><span class="math inline">\(1/12 = 0.083\)</span></li>
+</ul>
+</section>
+<section id="review-which-discrete-model" class="slide level2">
+<h2>🧭 Review: Which Discrete Model?</h2>
+<div style="font-size: 28px">
+<table class="caption-top">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 43%">
+<col style="width: 12%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model</th>
+<th><span class="math inline">\(Y\)</span> is…</th>
+<th><span class="math inline">\(E(Y)\)</span></th>
+<th><span class="math inline">\(V(Y)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Binomial §3.4</td>
+<td>successes in <span class="math inline">\(n\)</span> independent trials</td>
+<td><span class="math inline">\(np\)</span></td>
+<td><span class="math inline">\(npq\)</span></td>
+</tr>
+<tr class="even">
+<td>Geometric §3.5</td>
+<td>the trial of the <strong>first</strong> success</td>
+<td><span class="math inline">\(1/p\)</span></td>
+<td><span class="math inline">\(q/p^2\)</span></td>
+</tr>
+<tr class="odd">
+<td>Negative binomial §3.6</td>
+<td>the trial of the <span class="math inline">\(r\)</span>-th success</td>
+<td><span class="math inline">\(r/p\)</span></td>
+<td><span class="math inline">\(rq/p^2\)</span></td>
+</tr>
+<tr class="even">
+<td>Hypergeometric §3.7</td>
+<td>“red” items in <span class="math inline">\(n\)</span> drawn <strong>without replacement</strong></td>
+<td><span class="math inline">\(nr/N\)</span></td>
+<td><span class="math inline">\(npq\frac{N-n}{N-1}\)</span></td>
+</tr>
+<tr class="odd">
+<td>Poisson §3.8</td>
+<td>events in a fixed interval</td>
+<td><span class="math inline">\(\lambda\)</span></td>
+<td><span class="math inline">\(\lambda\)</span></td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p>Ask in order: <strong>is <span class="math inline">\(n\)</span> fixed?</strong> Independent trials, binomial; a finite pool, hypergeometric. <strong>Is the trial count the variable?</strong> Geometric or negative binomial. <strong>Only a rate?</strong> Poisson.</p>
+</div>
+</div>
+</section>
+<section id="exam-style-question-1" class="slide level2">
+<h2>✍️ Exam-Style Question 1</h2>
+<div style="font-size: 30px">
+<p>Of a bank’s 12 branches, 3 failed an internal compliance check. The Central Bank inspects 4 branches chosen at random. Find the probability that it finds <strong>at least one</strong> failing branch, and the mean and variance of the number it finds.</p>
+<div class="fragment">
+<p>Without replacement from <span class="math inline">\(N = 12\)</span> with <span class="math inline">\(r = 3\)</span>, <span class="math inline">\(n = 4\)</span>: <span class="math display">\[P(Y \ge 1) = 1 - \frac{\binom{3}{0}\binom{9}{4}}{\binom{12}{4}} = 1 - \frac{126}{495} = 0.7455\]</span></p>
+</div>
+<div class="fragment">
+<p><span class="math inline">\(\mu = 4(3)/12 = 1\)</span> and <span class="math inline">\(\sigma^2 = 4(0.25)(0.75)(8/11) = 0.5455\)</span>. Treating it as binomial would give <span class="math inline">\(1 - 0.75^4 = 0.6836\)</span> — wrong, and by 6 points.</p>
+</div>
+</div>
+</section>
+<section id="exam-style-question-2" class="slide level2">
+<h2>✍️ Exam-Style Question 2</h2>
+<div style="font-size: 30px">
+<p>Large claims (above 50,000 AZN) reach a reinsurer as a Poisson process at 0.5 per week. Call a 4-week month <strong>quiet</strong> if it has at most one large claim. Months are independent. Find the probability that at least 2 of the next 6 months are quiet.</p>
+<div class="fragment">
+<p><strong>Step 1 (§3.8).</strong> A month has <span class="math inline">\(\lambda = 4(0.5) = 2\)</span>: <span class="math inline">\(w = P(Y \le 1) = e^{-2} + 2e^{-2} = 3e^{-2} = 0.4060\)</span>.</p>
+</div>
+<div class="fragment">
+<p><strong>Step 2 (§3.4).</strong> Quiet months <span class="math inline">\(X\)</span> are binomial with <span class="math inline">\(n = 6\)</span>, <span class="math inline">\(p = w = 0.4060\)</span>: <span class="math display">\[P(X \ge 2) = 1 - (0.5940)^6 - 6(0.4060)(0.5940)^5 = 1 - 0.0439 - 0.1801 = 0.7759\]</span></p>
+</div>
+</div>
+</section>
+<section id="quiz-3-exam-style-a-cost-built-on-a-count" class="slide level2 quiz-question">
+<h2>📝 Quiz #3: Exam-Style — A Cost Built on a Count</h2>
+<p>Claims at a desk are Poisson with <span class="math inline">\(\lambda = 4\)</span> per day. Daily handling cost is <span class="math inline">\(C = 500 + 800Y\)</span> AZN. What is the <strong>standard deviation</strong> of <span class="math inline">\(C\)</span>?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ V(C) = 800² V(Y) = 640000 × 4 = 2,560,000, so σ = 800 × √4 = 1600 AZN. The constant 500 shifts the cost but adds no spread; E(C) = 500 + 800(4) = 3700 AZN."><span class="math inline">\(1600\)</span> AZN</span></li>
+<li><span class="math inline">\(3200\)</span> AZN</li>
+<li><span class="math inline">\(3700\)</span> AZN</li>
+<li><span class="math inline">\(2100\)</span> AZN</li>
+</ul>
+</section>
+<section id="key-formulas" class="slide level2">
+<h2>📋 Key Formulas</h2>
+<div style="font-size: 30px">
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Statement</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Definition 3.10</td>
+<td><span class="math inline">\(p(y) = \binom{r}{y}\binom{N-r}{n-y}\big/\binom{N}{n}\)</span></td>
+</tr>
+<tr class="even">
+<td>Theorem 3.10</td>
+<td><span class="math inline">\(\mu = \frac{nr}{N}\)</span>, <span class="math inline">\(\ \sigma^2 = n\frac{r}{N}\frac{N-r}{N}\frac{N-n}{N-1}\)</span></td>
+</tr>
+<tr class="odd">
+<td>Definition 3.11</td>
+<td><span class="math inline">\(p(y) = \frac{\lambda^y}{y!}e^{-\lambda}\)</span>, <span class="math inline">\(\ y = 0, 1, 2, \ldots\)</span></td>
+</tr>
+<tr class="even">
+<td>Theorem 3.11</td>
+<td><span class="math inline">\(\mu = \sigma^2 = \lambda\)</span></td>
+</tr>
+<tr class="odd">
+<td>Poisson process</td>
+<td>count in <span class="math inline">\(a\)</span> units is Poisson with mean <span class="math inline">\(a\lambda\)</span></td>
+</tr>
+<tr class="even">
+<td>Poisson limit</td>
+<td><span class="math inline">\(\binom{n}{y}p^y q^{n-y} \approx \frac{(np)^y}{y!}e^{-np}\)</span>, large <span class="math inline">\(n\)</span>, small <span class="math inline">\(p\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="summary" class="slide level2">
+<h2>📋 Summary</h2>
+<div style="font-size: 30px">
+<ul>
+<li><p>Drawing <strong>without replacement</strong> from a small pool breaks independence: the count is hypergeometric</p></li>
+<li><p>Its mean is the binomial’s <span class="math inline">\(np\)</span>; its variance is <span class="math inline">\(npq\)</span> shrunk by <span class="math inline">\(\frac{N-n}{N-1}\)</span>, which matters when <span class="math inline">\(n/N\)</span> is not small</p></li>
+<li><p>Counts of rare events in an interval are Poisson, and the single parameter <span class="math inline">\(\lambda\)</span> is both the mean and the variance</p></li>
+<li><p>Over <span class="math inline">\(a\)</span> units of a Poisson process the mean is <span class="math inline">\(a\lambda\)</span>; for large <span class="math inline">\(n\)</span> and small <span class="math inline">\(p\)</span> the binomial is close to Poisson(<span class="math inline">\(np\)</span>)</p></li>
+<li><p>For Midterm I, name the model <strong>before</strong> computing: fixed <span class="math inline">\(n\)</span>? finite pool? trials to a success? only a rate?</p></li>
+</ul>
+</div>
+</section>
+<section id="practice-problems" class="slide level2">
+<h2>📚 Practice Problems</h2>
+<div style="font-size: 28px">
+<p><strong>Wackerly, 7th edition</strong></p>
+<ul>
+<li>§3.7: Exercises 3.103, 3.105, 3.108, 3.112, 3.117</li>
+<li>§3.8: Exercises 3.121, 3.122, 3.126, 3.128, 3.134, 3.139</li>
+</ul>
+<p><strong>Week 7, Problem Set 1</strong> is open now and closes <strong>Sunday 1 November at 23:59</strong> on WeBWorK, covering §§3.7–3.8. It is the only set this week.</p>
+<p><strong>Midterm Examination I</strong> is on <strong>Saturday 24 October</strong>: Chapters 1–3, §§3.1–3.8.</p>
+<p><strong>Next class:</strong> 28 October, after the midterm — moments and moment-generating functions (Wackerly §3.9).</p>
+</div>
+</section>
+<section id="thank-you" class="slide level2">
+<h2>🙏 Thank You</h2>
+<div style="font-size: 34px">
+<p><strong>Dr.&nbsp;Samir Orujov</strong></p>
+<p>📧 sorujov@ada.edu.az<br>
+🏢 Building D, Room D325<br>
+🕓 Office hours: Wednesday, 16:00 – 18:00</p>
+<p>Slides and readings: <strong>sorujov.net/teaching</strong></p>
+</div>
+</section>
+<section id="questions" class="slide level2">
+<h2>❓ Questions</h2>
+<div style="font-size: 32px">
+<ul>
+<li><p>In the audit, how large must the batch <span class="math inline">\(N\)</span> be before the binomial answer is within 0.005 of the hypergeometric one?</p></li>
+<li><p>Why can a Poisson count exceed any bound, when a binomial count never exceeds <span class="math inline">\(n\)</span>?</p></li>
+<li><p>Two independent ATMs average 12 and 8 withdrawals an hour. What would you guess the distribution of their total is — and how would you check it?</p></li>
+</ul>
+</div>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="ADA.png" class="slide-logo"></p>
+<div class="footer footer-default">
+<p>Mathematical Statistics I - Hypergeometric and Poisson; Midterm I Review</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="hypergeometric_poisson_lecture13_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="hypergeometric_poisson_lecture13_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="hypergeometric_poisson_lecture13_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="hypergeometric_poisson_lecture13_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="hypergeometric_poisson_lecture13_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="hypergeometric_poisson_lecture13_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="hypergeometric_poisson_lecture13_files/libs/revealjs/plugin/reveal-quiz/quiz.js"></script>
+  <script src="hypergeometric_poisson_lecture13_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="hypergeometric_poisson_lecture13_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="hypergeometric_poisson_lecture13_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="hypergeometric_poisson_lecture13_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="hypergeometric_poisson_lecture13_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'quiz': {"checkKey":"c","resetKey":"r","shuffleKey":"s","allowNumberKeys":true,"disableOnCheck":false,"shuffleOptions":true,"defaultCorrect":"✅ Correct! Well done.","defaultIncorrect":"❌ Not quite. Try again or check the explanation.","includeScore":true,"disableReset":false},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 720,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, RevealQuiz, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script type="ojs-module-contents">
+    eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6Ilxudmlld29mIG5fc3ViID0ge1xuICBjb25zdCBpbnB1dCA9IElucHV0cy5yYW5nZShbNCwgMjAwXSwge3ZhbHVlOiA2LCBzdGVwOiAxLFxuICAgIGxhYmVsOiBcIk51bWJlciBvZiB0cmlhbHMgbiAozrsgPSBucCA9IDIpOlwifSk7XG4gIFsncG9pbnRlcmRvd24nLCd0b3VjaHN0YXJ0JywnbW91c2Vkb3duJywnY2xpY2snLCd3aGVlbCcsJ3BvaW50ZXJtb3ZlJywndG91Y2htb3ZlJ11cbiAgICAuZm9yRWFjaChlID0+IGlucHV0LmFkZEV2ZW50TGlzdGVuZXIoZSwgZXYgPT4gZXYuc3RvcFByb3BhZ2F0aW9uKCkpKTtcbiAgcmV0dXJuIGlucHV0O1xufVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC0yIiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoiXG5sYW0gPSAyXG5iaW5vbVBtZiA9IChuLCBwKSA9PiB7XG4gIGNvbnN0IG91dCA9IFtNYXRoLnBvdygxIC0gcCwgbildO1xuICBmb3IgKGxldCBrID0gMDsgayA8IDEwOyBrKyspIG91dC5wdXNoKGsgKyAxID4gbiA/IDAgOiBvdXRba10gKiAobiAtIGspIC8gKGsgKyAxKSAqIHAgLyAoMSAtIHApKTtcbiAgcmV0dXJuIG91dDtcbn1cbnBvaXNQbWYgPSBBcnJheS5mcm9tKHtsZW5ndGg6IDExfSwgKF8sIGspID0+IHtcbiAgbGV0IGYgPSAxOyBmb3IgKGxldCBpID0gMjsgaSA8PSBrOyBpKyspIGYgKj0gaTtcbiAgcmV0dXJuIE1hdGguZXhwKC1sYW0pICogTWF0aC5wb3cobGFtLCBrKSAvIGY7XG59KVxuYmluID0gYmlub21QbWYobl9zdWIsIGxhbSAvIG5fc3ViKS5tYXAoKHAsIGspID0+ICh7eTogaywgcH0pKVxucG9pcyA9IHBvaXNQbWYubWFwKChwLCBrKSA9PiAoe3k6IGssIHB9KSlcbmdhcCA9IGQzLm1heChiaW4sIChkLCBrKSA9PiBNYXRoLmFicyhkLnAgLSBwb2lzW2tdLnApKVxuXG5tZGBXaXRoICoqbiA9ICR7bl9zdWJ9KiogYW5kICoqcCA9ICR7KGxhbSAvIG5fc3ViKS50b0ZpeGVkKDQpfSoqLCB0aGUgbGFyZ2VzdCBnYXAgYmV0d2VlbiBiaW5vbWlhbCBiYXJzIGFuZCBQb2lzc29uIGRvdHMgaXMgKioke2dhcC50b0ZpeGVkKDQpfSoqLmBcblxuUGxvdC5wbG90KHtcbiAgd2lkdGg6IDExNTAsXG4gIGhlaWdodDogMzAwLFxuICBtYXJnaW5MZWZ0OiA3OCxcbiAgbWFyZ2luQm90dG9tOiA1OCxcbiAgc3R5bGU6IHtmb250U2l6ZTogXCIxOHB4XCJ9LFxuICB4OiB7bGFiZWw6IFwieVwiLCBkb21haW46IGQzLnJhbmdlKDAsIDExKSwgcGFkZGluZzogMC4yNX0sXG4gIHk6IHtsYWJlbDogXCJwKHkpXCIsIGRvbWFpbjogWzAsIDAuNDVdLCB0aWNrRm9ybWF0OiBcIi4yZlwifSxcbiAgbWFya3M6IFtcbiAgICBQbG90LmJhclkoYmluLCB7eDogXCJ5XCIsIHk6IFwicFwiLCBmaWxsOiBcIiNjYmI4YTlcIn0pLFxuICAgIFBsb3QuZG90KHBvaXMsIHt4OiBcInlcIiwgeTogXCJwXCIsIHI6IDgsIGZpbGw6IFwiIzhiMjYzNVwifSksXG4gICAgUGxvdC5ydWxlWShbMF0pXG4gIF1cbn0pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ25fc3ViJykifV19
+    </script>
+    <script type="module">
+    if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+    window._ojs.paths.runtimeToDoc = "../../..";
+    window._ojs.paths.runtimeToRoot = "../../..";
+    window._ojs.paths.docToRoot = "";
+    window._ojs.selfContained = false;
+    window._ojs.runtime.interpretFromScriptTags();
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

@@ -1,0 +1,509 @@
+---
+title: "Mathematical Statistics"
+subtitle: "Bivariate and Multivariate Probability Distributions"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: [default, ../slide-fit.scss]
+    logo: ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    footer: "Mathematical Statistics I - Bivariate and Multivariate Distributions"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+# Named explicitly so engine selection cannot drift away from R.
+engine: knitr
+execute:
+  echo: true
+  warning: false
+  message: false
+knitr:
+  opts_chunk:
+    dev: png
+    dpi: 150
+    fig.align: center
+---
+
+```{r}
+#| label: setup
+#| include: false
+set.seed(2026)
+library(ggplot2)
+theme_set(theme_minimal(base_size = 22))
+```
+
+## 🎯 Learning Objectives
+
+::: {style="font-size: 32px"}
+By the end of this lecture, you will be able to:
+
+- **Explain** why two marginal probabilities do not determine the probability of a joint event
+
+- **Construct** a joint probability function from a sample space, and check it against Theorem 5.1
+
+- **Evaluate** a joint distribution function $F(y_1, y_2)$ from a table, including the rectangle rule of Theorem 5.2
+
+- **Compute** a joint probability as a double integral of a joint density over a sketched region
+
+- **Extend** the definitions from two random variables to $n$
+:::
+
+---
+
+## 🗺️ Where We Are
+
+::: {style="font-size: 32px"}
+**Wackerly §5.1–5.2 — the start of Chapter 5**
+
+Saturday closed Chapter 4: one continuous random variable at a time — its density, its expected values, its MGF, and Tchebysheff's bound on how far it strays.
+
+::: {.fragment}
+Every model so far has described **one** quantity. A loan book, a portfolio, a payment system is never one quantity.
+:::
+
+::: {.fragment}
+Today the object becomes a **pair** $(Y_1, Y_2)$, and the question becomes how two random variables behave *together*. This chapter carries the rest of the course.
+:::
+:::
+
+---
+
+## ❓ The Question This Lecture Answers
+
+::: {style="font-size: 30px"}
+Two SME borrowers of a Baku bank, both in construction, each default within the year with probability $0.07$. What is the probability that **both** default?
+
+::: {.fragment}
+- If they are unrelated: $0.07 \times 0.07 = 0.0049$
+- If they always move together: $0.07$
+:::
+
+::: {.fragment}
+A fourteen-fold range, and the two marginals cannot choose between them. The answer lives in the **joint** distribution, which §5.2 defines.
+:::
+
+::: {.fragment}
+§5.1: every sample $(y_1, \ldots, y_n)$ is also such an intersection, $(Y_1 = y_1, \ldots, Y_n = y_n)$. We build the tools with $n = 2$, then extend.
+:::
+:::
+
+---
+
+## 📐 Definition 5.1 and Theorem 5.1
+
+::: {style="font-size: 29px"}
+::: {.callout-note}
+## Definition 5.1
+Let $Y_1$ and $Y_2$ be discrete random variables. The **joint (or bivariate) probability function** for $Y_1$ and $Y_2$ is
+$$p(y_1, y_2) = P(Y_1 = y_1, Y_2 = y_2), \quad -\infty < y_1 < \infty,\ -\infty < y_2 < \infty.$$
+:::
+
+::: {.callout-important}
+## Theorem 5.1
+1. $p(y_1, y_2) \ge 0$ for all $y_1, y_2$.
+2. $\sum_{y_1, y_2} p(y_1, y_2) = 1$, summing over all pairs given nonzero probability.
+:::
+:::
+
+---
+
+## 🏦 Routing Two Loan Applications
+
+::: {style="font-size: 28px"}
+Two applications are each sent **at random, independently**, to committee 1 (Corporate), 2 (SME) or 3 (Retail). $Y_1$ = number sent to Corporate, $Y_2$ = number to SME. All $3 \times 3 = 9$ routings $\{i, j\}$ are equally likely.
+
+| | $y_1 = 0$ | $y_1 = 1$ | $y_1 = 2$ |
+|---|:---:|:---:|:---:|
+| $y_2 = 0$ | $1/9$ | $2/9$ | $1/9$ |
+| $y_2 = 1$ | $2/9$ | $2/9$ | $0$ |
+| $y_2 = 2$ | $1/9$ | $0$ | $0$ |
+
+::: {.fragment}
+$p(1,1) = 2/9$: both $\{1,2\}$ and $\{2,1\}$ give it. The zeros say $Y_1 + Y_2 \le 2$: **the support is a region, not a rectangle**.
+:::
+:::
+
+---
+
+## 📈 Joint Returns of Two Assets
+
+::: {style="font-size: 28px"}
+Monthly returns (%) on a Baku-listed bank share, $Y_1$, and an oil-sector bond fund, $Y_2$:
+
+| | $y_2 = -1$ | $y_2 = 1$ | $y_2 = 3$ |
+|---|:---:|:---:|:---:|
+| $y_1 = -2$ | $0.10$ | $0.08$ | $0.02$ |
+| $y_1 = 0$ | $0.06$ | $0.30$ | $0.09$ |
+| $y_1 = 4$ | $0.02$ | $0.12$ | $0.21$ |
+
+::: {.fragment}
+- Both gain: $p(4,1) + p(4,3) = 0.33$. Both lose: $p(-2,-1) = 0.10$.
+- An equal-weight portfolio gains when $y_1 + y_2 > 0$: six cells, total $0.76$.
+:::
+:::
+
+---
+
+## 💻 The Table in R
+
+```{r}
+#| label: joint-returns
+p <- matrix(c(0.10, 0.08, 0.02,
+              0.06, 0.30, 0.09,
+              0.02, 0.12, 0.21), nrow = 3, byrow = TRUE,
+            dimnames = list(y1 = c(-2, 0, 4), y2 = c(-1, 1, 3)))
+y1 <- as.numeric(rownames(p)); y2 <- as.numeric(colnames(p))
+Fjoint <- function(a, b) sum(p[y1 <= a, y2 <= b])     # Definition 5.2
+c(min = min(p), total = sum(p),                        # Theorem 5.1
+  both_gain = sum(p[y1 > 0, y2 > 0]),
+  port_gain = sum(p[outer(y1, y2, "+") > 0]),
+  F01 = Fjoint(0, 1), F4m1 = Fjoint(4, -1))
+```
+
+---
+
+## 🖼️ Mass Sits on the Diagonal
+
+```{r}
+#| label: joint-returns-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 4.6
+d <- expand.grid(y1 = y1, y2 = y2)
+d$p <- as.vector(p)
+ggplot(d, aes(y1, y2)) +
+  geom_point(aes(size = p), colour = "#8b2635", alpha = 0.8) +
+  geom_text(aes(label = sprintf("%.2f", p)), nudge_x = 0.75, size = 7) +
+  scale_size_area(max_size = 26, guide = "none") +
+  scale_x_continuous(breaks = y1, limits = c(-2.7, 5.2)) +
+  scale_y_continuous(breaks = y2, limits = c(-1.8, 3.8)) +
+  labs(x = "Bank share return (%)", y = "Bond fund return (%)")
+```
+
+::: {style="font-size: 28px"}
+The large masses run from bottom left to top right: the two assets tend to move together.
+:::
+
+---
+
+## 📐 Definition 5.2: The Joint CDF
+
+::: {style="font-size: 29px"}
+::: {.callout-note}
+## Definition 5.2
+For any random variables $Y_1$ and $Y_2$, the **joint distribution function** is
+$F(y_1, y_2) = P(Y_1 \le y_1, Y_2 \le y_2)$. For discrete variables, $F(y_1, y_2) = \sum_{t_1 \le y_1} \sum_{t_2 \le y_2} p(t_1, t_2)$.
+:::
+
+On the returns table:
+
+- $F(0, 1) = 0.10 + 0.08 + 0.06 + 0.30 = 0.54$
+- $F(0.5, 1.5) = 0.54$ as well — no new mass between the grid points
+- $F(-3, 5) = 0$ and $F(5, 5) = 1$
+:::
+
+---
+
+## 📐 Theorem 5.2: Properties of $F$
+
+::: {style="font-size: 28px"}
+::: {.callout-important}
+## Theorem 5.2
+1. $F(-\infty, -\infty) = F(-\infty, y_2) = F(y_1, -\infty) = 0$.
+2. $F(\infty, \infty) = 1$.
+3. If $y_1^* \ge y_1$ and $y_2^* \ge y_2$, then $F(y_1^*, y_2^*) - F(y_1^*, y_2) - F(y_1, y_2^*) + F(y_1, y_2) \ge 0$.
+:::
+
+::: {.fragment}
+Part 3 is $P(y_1 < Y_1 \le y_1^*,\ y_2 < Y_2 \le y_2^*)$: the rectangle rule. On the returns table,
+$$P(-2 < Y_1 \le 4,\ -1 < Y_2 \le 3) = 1 - 0.18 - 0.20 + 0.10 = 0.72,$$
+which is the four cells $0.30 + 0.09 + 0.12 + 0.21$.
+:::
+:::
+
+---
+
+## 📝 Quiz #1: Reading $F$ From a Table {.quiz-question}
+
+In the joint returns table, what is $F(4, -1) = P(Y_1 \le 4, Y_2 \le -1)$?
+
+- [$0.18$]{.correct data-explanation="✅ Every value of Y1 is at most 4, so only the condition Y2 ≤ −1 bites: the whole y2 = −1 column, 0.10 + 0.06 + 0.02 = 0.18."}
+- $0.02$
+- $0.10$
+- $1$
+
+---
+
+## 📐 Definition 5.3 and Theorem 5.3
+
+::: {style="font-size: 28px"}
+::: {.callout-note}
+## Definition 5.3
+If there is a nonnegative $f(y_1, y_2)$ with
+$F(y_1, y_2) = \int_{-\infty}^{y_1} \int_{-\infty}^{y_2} f(t_1, t_2)\, dt_2\, dt_1$ for all $y_1, y_2$, then $Y_1, Y_2$ are **jointly continuous**, and $f$ is the **joint probability density function**.
+:::
+
+::: {.callout-important}
+## Theorem 5.3
+1. $f(y_1, y_2) \ge 0$ for all $y_1, y_2$.
+2. $\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(y_1, y_2)\, dy_1\, dy_2 = 1$.
+:::
+
+Probabilities are now **volumes**: $P(a_1 \le Y_1 \le a_2,\ b_1 \le Y_2 \le b_2) = \int_{b_1}^{b_2} \int_{a_1}^{a_2} f(y_1, y_2)\, dy_1\, dy_2$.
+:::
+
+---
+
+## ⏱️ Two Settlement Times
+
+::: {style="font-size: 29px"}
+An AZN/USD foreign-exchange trade settles in two legs. $Y_1$ = hours until the **first** leg settles, $Y_2$ = hours until the **second**. By construction $Y_1 \le Y_2$. Suppose
+$$f(y_1, y_2) = \begin{cases} 2e^{-(y_1 + y_2)}, & 0 \le y_1 \le y_2 < \infty,\\ 0, & \text{elsewhere.} \end{cases}$$
+
+::: {.fragment}
+**Check Theorem 5.3.** $f \ge 0$, and, integrating $y_1$ first over $0 \le y_1 \le y_2$,
+$$\int_0^\infty 2e^{-y_2}\left(1 - e^{-y_2}\right) dy_2 = 2\left(1 - \tfrac{1}{2}\right) = 1.$$
+:::
+:::
+
+---
+
+## ✏️ Worked Example: Two Probabilities
+
+::: {style="font-size: 28px"}
+**Both legs settled within one hour.** Only $Y_2 \le 1$ bites, because $Y_1 \le Y_2$:
+$$F(1, 1) = \int_0^1 \int_0^{y_2} 2e^{-(y_1 + y_2)}\, dy_1\, dy_2 = 2(1 - e^{-1}) - (1 - e^{-2}) = (1 - e^{-1})^2 = 0.3996$$
+
+::: {.fragment}
+**First leg within 30 minutes, second after an hour.** The rectangle $0 \le y_1 \le 0.5,\ y_2 > 1$ lies wholly inside the support:
+$$\int_0^{0.5} \int_1^{\infty} 2e^{-(y_1 + y_2)}\, dy_2\, dy_1 = 2e^{-1}\left(1 - e^{-0.5}\right) = 0.2895$$
+:::
+:::
+
+---
+
+## ⚠️ Settlement Risk: The Gap
+
+::: {style="font-size: 28px"}
+While one leg has settled and the other has not, the bank is exposed to its counterparty. What is $P(Y_2 - Y_1 > 1)$?
+
+::: {.fragment}
+**Sketch the region first.** It is the part of the support above the line $y_2 = y_1 + 1$. For each $y_1$, $y_2$ runs from $y_1 + 1$ to $\infty$:
+$$\int_0^{\infty} \int_{y_1 + 1}^{\infty} 2e^{-(y_1 + y_2)}\, dy_2\, dy_1 = \int_0^{\infty} 2e^{-1}e^{-2y_1}\, dy_1 = e^{-1} = 0.3679$$
+:::
+
+::: {.fragment}
+More than a third of trades leave the bank exposed for over an hour.
+:::
+:::
+
+---
+
+## 💻 Checking the Integrals by Simulation
+
+```{r}
+#| label: settlement-sim
+# Two independent exponential(1) legs; the earlier is Y1, the later Y2.
+# This pair has exactly the joint density 2exp(-(y1 + y2)) on 0 <= y1 <= y2.
+n  <- 100000
+a  <- rexp(n); b <- rexp(n)
+Y1 <- pmin(a, b); Y2 <- pmax(a, b)
+rbind(simulated = c(F_1_1 = mean(Y1 <= 1 & Y2 <= 1),
+                    rect  = mean(Y1 <= 0.5 & Y2 > 1),
+                    gap   = mean(Y2 - Y1 > 1)),
+      exact     = c((1 - exp(-1))^2, 2 * exp(-1) * (1 - exp(-0.5)), exp(-1))) |>
+  round(4)
+```
+
+::: {style="font-size: 28px"}
+A hundred thousand simulated trades land within $0.003$ of all three integrals — the region and the limits were right.
+:::
+
+---
+
+## 🖼️ Where the Gap Lives
+
+```{r}
+#| label: settlement-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 4.8
+s <- data.frame(y1 = Y1[1:3000], y2 = Y2[1:3000])
+s$gap <- ifelse(s$y2 - s$y1 > 1, "Gap over 1 hour", "Gap under 1 hour")
+ggplot(s, aes(y1, y2, colour = gap)) +
+  geom_point(alpha = 0.45, size = 1.6) +
+  geom_abline(intercept = 0, slope = 1, linewidth = 0.9) +
+  geom_abline(intercept = 1, slope = 1, linetype = "dashed", linewidth = 0.9) +
+  scale_colour_manual(values = c("Gap over 1 hour" = "#8b2635",
+                                 "Gap under 1 hour" = "#8ba3c7"), name = NULL) +
+  coord_cartesian(xlim = c(0, 3), ylim = c(0, 5)) +
+  labs(x = expression("First leg " * Y[1] * " (hours)"),
+       y = expression("Second leg " * Y[2] * " (hours)")) +
+  theme(legend.position = "top", legend.text = element_text(size = 18))
+```
+
+::: {style="font-size: 28px"}
+No point falls below the solid line $y_2 = y_1$; the red points above the dashed line are the event.
+:::
+
+---
+
+## 🧠 Think-Pair-Share
+
+```{r}
+#| label: tps-timer
+#| echo: false
+# The timer is the only thing in this deck that needs a package beyond base R.
+# Guarded so a machine without it renders the deck anyway, with a static
+# figure in the same corner, rather than halting the whole build.
+if (requireNamespace("countdown", quietly = TRUE)) {
+  countdown::countdown(minutes = 4, seconds = 0,
+                       top = 0, right = 0,
+                       font_size = "2em", warn_when = 30)
+} else {
+  htmltools::HTML(paste0(
+    '<div style="position:absolute; top:0; right:0; font-size:2em;',
+    ' font-weight:700; opacity:0.75">4:00</div>'))
+}
+```
+
+::: {style="font-size: 29px"}
+Back to the two construction borrowers. $Y_i = 1$ if borrower $i$ defaults, $0$ if not:
+
+| | $y_2 = 0$ | $y_2 = 1$ |
+|---|:---:|:---:|
+| $y_1 = 0$ | $0.88$ | $0.05$ |
+| $y_1 = 1$ | $0.05$ | $c$ |
+
+**Four minutes, in pairs:** (1) find $c$; (2) find the probability that at least one defaults; (3) compare $P(\text{both})$ with $0.07 \times 0.07$.
+:::
+
+---
+
+## ✅ Think-Pair-Share: Solution
+
+::: {style="font-size: 29px"}
+1. Theorem 5.1: the entries sum to 1, so $c = 1 - 0.88 - 0.05 - 0.05 = 0.02$. Each borrower still defaults with probability $0.05 + 0.02 = 0.07$.
+
+2. "At least one" fails only at $(0, 0)$: $1 - p(0,0) = 1 - 0.88 = 0.12$.
+
+::: {.fragment}
+3. $P(Y_1 = 1, Y_2 = 1) = 0.02$, about **four times** the $0.0049$ that unrelated borrowers would give.
+:::
+
+::: {.fragment}
+Same marginals, very different risk of a double loss. That is the opening question answered: **only the joint table could say.**
+:::
+:::
+
+---
+
+## 📝 Quiz #2: Making a Density Valid {.quiz-question}
+
+A credit line's limit $Y_1$ and the amount drawn $Y_2$ (million AZN) have constant density $f(y_1, y_2) = k$ on the triangle $0 \le y_2 \le y_1 \le 2$. What is $k$?
+
+- [$1/2$]{.correct data-explanation="✅ Theorem 5.3 needs the volume to be 1. The triangle has area (1/2)(2)(2) = 2, so k × 2 = 1 and k = 1/2."}
+- $1$
+- $1/4$
+- $2$
+
+---
+
+## 📋 Key Formulas
+
+::: {style="font-size: 28px"}
+| | Statement |
+|---|---|
+| Definition 5.1 | $p(y_1, y_2) = P(Y_1 = y_1, Y_2 = y_2)$ |
+| Theorem 5.1 | $p \ge 0$, $\ \sum_{y_1, y_2} p(y_1, y_2) = 1$ |
+| Definition 5.2 | $F(y_1, y_2) = P(Y_1 \le y_1, Y_2 \le y_2)$ |
+| Theorem 5.2, part 3 | $P(y_1 < Y_1 \le y_1^*, y_2 < Y_2 \le y_2^*) = F(y_1^*, y_2^*) - F(y_1^*, y_2) - F(y_1, y_2^*) + F(y_1, y_2)$ |
+| Theorem 5.3 | $f \ge 0$, $\ \iint f(y_1, y_2)\, dy_1\, dy_2 = 1$ |
+| $n$ variables | $F(y_1, \ldots, y_n) = \int_{-\infty}^{y_1} \cdots \int_{-\infty}^{y_n} f(t_1, \ldots, t_n)\, dt_n \cdots dt_1$ |
+:::
+
+---
+
+## 📋 Summary
+
+::: {style="font-size: 30px"}
+- Marginal probabilities alone cannot price a joint event; the joint distribution can
+
+- A joint probability function is a table of nonnegative entries summing to 1
+
+- $F(y_1, y_2)$ accumulates mass below and to the left; differences of $F$ give rectangles
+
+- For jointly continuous variables, probabilities are volumes under $f(y_1, y_2)$
+
+- **Sketch the support and the event before writing the limits**
+
+- Everything extends to $(Y_1, \ldots, Y_n)$ — the setting of every sample
+:::
+
+---
+
+## 📚 Practice Problems
+
+::: {style="font-size: 28px"}
+**Wackerly, 7th edition**
+
+- Exercises at the end of §5.2 — start with 5.1, 5.3 and 5.4 (tables), then 5.5, 5.7, 5.9 and 5.11 (densities: sketch every region first)
+
+- On the settlement model, find $P(Y_1 + Y_2 < 2)$ and check it with the simulation code above
+
+**Week 12, Problem Set 1** is open now and closes **Sunday 6 December at 23:59** on WeBWorK, covering §5.1–5.2.
+
+**Next class:** 28 November — marginal and conditional probability distributions (Wackerly §5.3): how to recover each borrower's 7% from the joint table, and what one default says about the other.
+:::
+
+---
+
+## 🙏 Thank You
+
+::: {style="font-size: 34px"}
+**Dr. Samir Orujov**\
+📧 sorujov@ada.edu.az\
+🏢 Building D, Room D325\
+🕓 Office hours: Wednesday, 16:00 – 18:00
+
+Slides and readings: **sorujov.net/teaching**
+:::
+
+---
+
+## ❓ Questions
+
+::: {style="font-size: 32px"}
+- Given two marginal default probabilities of $0.07$, what are the largest and smallest values $P(\text{both default})$ can take?
+
+- Why must a joint density's support be sketched before the limits are written, when a single density's never had to be?
+
+- In the settlement model, is $P(Y_2 - Y_1 > h)$ a shape worth knowing for every $h$? Guess its form from $h = 1$.
+:::

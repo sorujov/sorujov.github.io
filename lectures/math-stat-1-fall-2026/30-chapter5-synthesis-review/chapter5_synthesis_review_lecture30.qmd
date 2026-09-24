@@ -1,0 +1,516 @@
+---
+title: "Mathematical Statistics"
+subtitle: "Chapter 5 in Review and a Comprehensive Review of Chapters 1-5"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: [default, ../slide-fit.scss]
+    logo: ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    footer: "Mathematical Statistics I - Chapters 1-5 in Review"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+# Named explicitly so engine selection cannot drift away from R.
+engine: knitr
+execute:
+  echo: true
+  warning: false
+  message: false
+knitr:
+  opts_chunk:
+    dev: png
+    dpi: 150
+    fig.align: center
+---
+
+```{r}
+#| label: setup
+#| include: false
+set.seed(2026)
+library(ggplot2)
+theme_set(theme_minimal(base_size = 18))
+```
+
+## 🎯 Learning Objectives
+
+::: {style="font-size: 32px"}
+By the end of this lecture, you will be able to:
+
+- **Place** every tool of Chapters 1–5 on one map, and say which kind of question each one answers
+
+- **Choose** a probability model by reading what the random variable counts or measures
+
+- **Move** between joint, marginal and conditional distributions, and test independence
+
+- **Combine** Chapter 5's covariance and linear-function results with Chapter 4's normal model
+
+- **Solve** multi-part, exam-style problems that cross chapter boundaries
+:::
+
+---
+
+## 🗺️ Where We Are
+
+::: {style="font-size: 30px"}
+**Wackerly §5.12**
+
+Wednesday: the bivariate normal distribution and conditional expectations. $E(Y_1) = E[E(Y_1 \mid Y_2)]$ (Theorem 5.14) and $V(Y_1) = E[V(Y_1 \mid Y_2)] + V[E(Y_1 \mid Y_2)]$ (Theorem 5.15), the last new theorems of the course.
+
+::: {.fragment}
+Today there is **no new theory**. We put the five chapters on one page, then work four exam-style problems that each cross at least two chapters.
+:::
+
+::: {.fragment}
+**Midterm Examination II** is on **23 December**: comprehensive over Chapters 1–5, with the emphasis on Chapters 4 and 5.
+:::
+:::
+
+---
+
+## 🧭 What Chapter 5 Was For
+
+::: {style="font-size: 30px"}
+The book's summary names the multinomial experiment (§5.9) as the chapter's theme: most experiments yield **several** measurements $y_1, y_2, \ldots, y_k$, observations on $k$ random variables.
+
+::: {.fragment}
+To say how likely a whole sample is, we need **joint, marginal and conditional** distributions.
+:::
+
+::: {.fragment}
+A sample $Y_1, \ldots, Y_n$ is usually **independent** with one common distribution, and independence is what lets the joint probability factor.
+:::
+
+::: {.fragment}
+Wackerly's warning: do not drown in the details. They exist to prepare **inference**, the subject of Math Stat II.
+:::
+:::
+
+---
+
+## 🗺️ The Course on One Page
+
+::: {style="font-size: 28px"}
+| Ch. | The tools | The question they answer |
+|---|---|---|
+| 1 | $\bar{y}$, $s^2$, $s$; the empirical rule | What does this data set look like? |
+| 2 | axioms; counting; $P(A \mid B)$; Theorems 2.5–2.9 | How likely is this **event**? |
+| 3 | $p(y)$, $E(Y)$, $V(Y)$; five discrete models; $m(t)$, $P(t)$; Tchebysheff | How is this **count** distributed? |
+| 4 | $F(y)$, $f(y)$; uniform, normal, gamma, beta; $m(t)$; Tchebysheff | How is this **measurement** distributed? |
+| 5 | joint, marginal, conditional; Cov, $\rho$; Theorems 5.12–5.15 | How do **several** variables behave together? |
+
+: {tbl-colwidths="[7,56,37]"}
+
+Each chapter reuses the last: Chapter 5 is Chapters 3 and 4 in two dimensions.
+:::
+
+---
+
+## 🔎 Which Model? Read the Variable
+
+::: {style="font-size: 28px"}
+| The variable is | Model | Mean |
+|---|---|---|
+| successes in $n$ independent trials | binomial | $np$ |
+| the trial of the first (or $r$-th) success | geometric (negative binomial) | $1/p$ ($r/p$) |
+| successes drawn **without** replacement | hypergeometric | $nr/N$ |
+| events in a fixed time or space | Poisson | $\lambda$ |
+| a time to the next (or $\alpha$-th) event | exponential (gamma) | $\beta$ ($\alpha\beta$) |
+| a sum of many small effects | normal | $\mu$ |
+| a proportion on $[0, 1]$ | beta | $\alpha/(\alpha + \beta)$ |
+| counts in $k$ categories | multinomial | $np_i$ |
+
+: {tbl-colwidths="[45,35,20]"}
+:::
+
+---
+
+## ⛓️ Chapter 5 as One Chain
+
+::: {style="font-size: 28px"}
+| Step | Discrete form | Result |
+|---|---|---|
+| joint | $p(y_1, y_2)$ | Definition 5.1 |
+| marginal | $p_1(y_1) = \sum_{y_2} p(y_1, y_2)$ | Definition 5.4 |
+| conditional | $p(y_1 \mid y_2) = p(y_1, y_2)/p_2(y_2)$ | Definition 5.5 |
+| independence | $p(y_1, y_2) = p_1(y_1)p_2(y_2)$ for **all** pairs | Theorem 5.4 |
+| covariance | $\text{Cov}(Y_1, Y_2) = E(Y_1Y_2) - \mu_1\mu_2$ | Theorem 5.10 |
+| linear functions | $V(\sum a_iY_i) = \sum a_i^2V(Y_i) + 2\sum_{i<j} a_ia_j\text{Cov}(Y_i, Y_j)$ | Theorem 5.12 |
+| iterated expectation | $E(Y_1) = E[E(Y_1 \mid Y_2)]$ | Theorem 5.14 |
+
+For continuous variables, replace each sum by an integral and $p$ by $f$.
+:::
+
+---
+
+## 📝 Problem 1: A Home-Insurance Book
+
+::: {style="font-size: 30px"}
+An insurer in Baku holds **400** home policies. Each policy, independently, produces a claim during the year with probability **0.01**. Let $Y$ be the number of policies with a claim. A reinsurance treaty pays out if $Y \ge 9$.
+
+a. Name the distribution of $Y$, and find $E(Y)$ and $V(Y)$.
+
+b. Find $P(Y \ge 9)$ exactly, and by the Poisson approximation.
+
+c. What does Tchebysheff's theorem guarantee for $P(|Y - 4| < 2\sigma)$? Compare with the exact value.
+
+*Chapters 3 and 1.*
+:::
+
+---
+
+## ✅ Problem 1: Solution
+
+```{r}
+#| label: insurance
+n <- 400; p <- 0.01
+sigma <- sqrt(n * p * (1 - p))
+# |Y - 4| < 2(1.99) means 0.02 < Y < 7.98, i.e. Y = 1, ..., 7
+data.frame(quantity = c("E(Y) = np", "V(Y) = npq", "P(Y >= 9), binomial",
+                        "P(Y >= 9), Poisson(4)", "Tchebysheff bound, k = 2",
+                        "exact P(1 <= Y <= 7)"),
+           value = round(c(n * p, n * p * (1 - p), 1 - pbinom(8, n, p),
+                           1 - ppois(8, 4), 1 - 1/2^2,
+                           pbinom(7, n, p) - pbinom(0, n, p)), 4))
+```
+
+::: {style="font-size: 28px"}
+Binomial, $\mu = 4$, $\sigma^2 = 3.96$. The treaty is triggered with probability about **0.021**; Poisson ($\lambda = np = 4$) misses by less than 0.001. Tchebysheff promises **at least 0.75**; the truth is **0.932**.
+:::
+
+---
+
+## 📝 Problem 2: Two Loans, One Sector
+
+::: {style="font-size: 30px"}
+A Baku bank lends to two construction firms. $D_i = 1$ if firm $i$ defaults within the year:
+
+| | $D_2 = 0$ | $D_2 = 1$ |
+|---|---|---|
+| $D_1 = 0$ | 0.90 | 0.04 |
+| $D_1 = 1$ | 0.04 | 0.02 |
+
+a. Find the marginal default probabilities and $P(D_2 = 1 \mid D_1 = 1)$. Are $D_1$ and $D_2$ independent?
+
+b. Find $\text{Cov}(D_1, D_2)$ and $\rho$.
+
+c. Given that at least one firm defaults, what is the probability that firm 1 did?
+:::
+
+---
+
+## ✅ Problem 2: Solution
+
+::: {style="font-size: 30px"}
+a. $P(D_1 = 1) = 0.04 + 0.02 = 0.06$, and likewise $P(D_2 = 1) = 0.06$.
+$$P(D_2 = 1 \mid D_1 = 1) = \frac{0.02}{0.06} = 0.333 \ne 0.06,$$
+so they are **dependent** (Theorem 5.4 fails at the cell $(1, 1)$: $0.02 \ne 0.06^2$).
+
+b. $E(D_1D_2) = P(D_1 = 1, D_2 = 1) = 0.02$, so $\text{Cov} = 0.02 - 0.06^2 = 0.0164$, and
+$$\rho = \frac{0.0164}{\sqrt{0.06 \times 0.94}\sqrt{0.06 \times 0.94}} = \frac{0.0164}{0.0564} = 0.291.$$
+
+c. $P(\text{at least one}) = 1 - 0.90 = 0.10$, so $P(D_1 = 1 \mid \text{at least one}) = 0.06/0.10 = 0.6$.
+:::
+
+---
+
+## 💻 Problem 2, Continued: The Loss
+
+::: {style="font-size: 28px"}
+Exposures are 80,000 and 120,000 AZN, with 45% lost on default, so $L = 36{,}000D_1 + 54{,}000D_2$.
+:::
+
+```{r}
+#| label: loan-loss
+a <- 36000; b <- 54000
+v <- 0.06 * 0.94; cv <- 0.02 - 0.06^2
+EL <- (a + b) * 0.06
+VL <- a^2 * v + b^2 * v + 2 * a * b * cv          # Theorem 5.12
+c(E_L = EL, sd_L = round(sqrt(VL)),
+  sd_if_independent = round(sqrt(a^2 * v + b^2 * v)))
+```
+
+::: {style="font-size: 28px"}
+The expected loss, 5,400 AZN, needs only the marginals. The spread does not: the covariance term raises the standard deviation from 15,413 to **17,359 AZN**. Same-sector loans default together, and Theorem 5.12 prices that in.
+:::
+
+---
+
+## 📝 Problem 3: A Two-Fund Portfolio
+
+::: {style="font-size: 28px"}
+A client puts **60%** of 50,000 AZN in a bank-share fund $A$ and **40%** in an AZN bond fund $B$. Monthly returns (%): $\mu_A = 1.2$, $\sigma_A = 5$; $\mu_B = 0.8$, $\sigma_B = 1.5$; $\rho = -0.2$. Assume the portfolio return $R$ is normal.
+
+::: {.fragment}
+**Mean** (Theorem 5.12): $E(R) = 0.6(1.2) + 0.4(0.8) = 1.04$.
+
+**Variance**: $V(R) = 0.36(25) + 0.16(2.25) + 2(0.6)(0.4)(-0.2)(5)(1.5) = 9 + 0.36 - 0.72 = 8.64$, so $\sigma_R = 2.939$.
+:::
+
+::: {.fragment}
+**Loss of more than 3%** (Chapter 4): $P(R < -3) = P\left(Z < \frac{-3 - 1.04}{2.939}\right) = P(Z < -1.37) = 0.085$.
+
+**5% worst case**: $1.04 - 1.645(2.939) = -3.79\%$, a loss of about **1,897 AZN**.
+:::
+:::
+
+---
+
+## 📊 Problem 3: The Picture
+
+```{r}
+#| label: portfolio-figure
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.7
+mp <- 1.04; sp <- sqrt(8.64)
+x  <- seq(-10, 12, by = 0.02)
+df <- data.frame(x = x, port = dnorm(x, mp, sp), fundA = dnorm(x, 1.2, 5))
+tail_df <- subset(df, x <= -3)
+ggplot(df, aes(x)) +
+  geom_area(data = tail_df, aes(y = port), fill = "#8b2635", alpha = 0.35) +
+  geom_line(aes(y = port, colour = "60/40 portfolio"), linewidth = 1.4) +
+  geom_line(aes(y = fundA, colour = "fund A alone"), linewidth = 1.2, linetype = "dashed") +
+  geom_vline(xintercept = -3, colour = "grey40") +
+  scale_colour_manual(values = c("60/40 portfolio" = "#14130f", "fund A alone" = "#3d6e8f")) +
+  labs(x = "Monthly return (%)", y = "Density", colour = NULL) +
+  theme(legend.position = "top", legend.text = element_text(size = 18))
+```
+
+::: {style="font-size: 28px"}
+Shaded: $P(R < -3) = 0.085$. Holding fund $A$ alone, the same loss has probability $0.200$. The negative $\rho$ and the bond fund's small $\sigma$ do the work.
+:::
+
+---
+
+## 🧠 Think-Pair-Share: Waiting Times
+
+```{r}
+#| label: tps-timer
+#| echo: false
+# The timer is the only thing in this deck that needs a package beyond base R.
+# Guarded so a machine without it renders the deck anyway, with a static
+# figure in the same corner, rather than halting the whole build.
+if (requireNamespace("countdown", quietly = TRUE)) {
+  countdown::countdown(minutes = 4, seconds = 0,
+                       top = 0, right = 0,
+                       font_size = "2em", warn_when = 30)
+} else {
+  htmltools::HTML(paste0(
+    '<div style="position:absolute; top:0; right:0; font-size:2em;',
+    ' font-weight:700; opacity:0.75">4:00</div>'))
+}
+```
+
+::: {style="font-size: 30px"}
+A bank's call centre has a **retail** line and a **business** line. The time to the next call is exponential, mean 4 minutes on retail ($Y_1$) and 6 minutes on business ($Y_2$), independently.
+
+**Four minutes, in pairs:**
+
+1. Find $P(Y_1 > 5)$. The retail line has been silent for 3 minutes: now what is the chance of 5 more?
+
+2. Find $E(Y_1 + Y_2)$ and $V(Y_1 + Y_2)$.
+
+3. Find $P(Y_1 < Y_2)$, the chance that retail rings first.
+:::
+
+---
+
+## ✅ Think-Pair-Share: Solution
+
+::: {style="font-size: 28px"}
+1. $P(Y_1 > 5) = e^{-5/4} = 0.287$, and by memorylessness $P(Y_1 > 8 \mid Y_1 > 3) = e^{-5/4} = 0.287$ as well.
+
+2. Theorem 4.10 and Theorem 5.12 with $\text{Cov} = 0$ (independence, Theorem 5.11):
+$$E(Y_1 + Y_2) = 4 + 6 = 10, \qquad V(Y_1 + Y_2) = 4^2 + 6^2 = 52.$$
+
+3. Independence makes the joint density the product (Chapter 5), then integrate over $y_1 < y_2$:
+$$P(Y_1 < Y_2) = \int_0^\infty \frac{1}{4}e^{-y_1/4}\int_{y_1}^\infty \frac{1}{6}e^{-y_2/6}\,dy_2\,dy_1 = \int_0^\infty \frac{1}{4}e^{-5y_1/12}\,dy_1 = \frac{1/4}{5/12} = 0.6.$$
+:::
+
+---
+
+## 💻 Checking Part 3 by Simulation
+
+```{r}
+#| label: waiting-sim
+y1 <- rexp(100000, rate = 1/4); y2 <- rexp(100000, rate = 1/6)
+round(c(retail_first = mean(y1 < y2), mean_sum = mean(y1 + y2), var_sum = var(y1 + y2)), 3)
+```
+
+```{r}
+#| label: waiting-figure
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.5
+pts <- data.frame(y1 = y1[1:1500], y2 = y2[1:1500])
+ggplot(pts, aes(y1, y2, colour = y1 < y2)) +
+  geom_point(size = 1.8, alpha = 0.6) + geom_abline(slope = 1, intercept = 0) +
+  coord_cartesian(xlim = c(0, 20), ylim = c(0, 20)) +
+  scale_colour_manual(values = c("TRUE" = "#8b2635", "FALSE" = "#3d6e8f"),
+                      labels = c("TRUE" = "retail first", "FALSE" = "business first")) +
+  labs(x = expression(y[1] ~ "(minutes)"), y = expression(y[2] ~ "(minutes)"), colour = NULL) +
+  theme(legend.position = "right", legend.text = element_text(size = 18))
+```
+
+::: {style="font-size: 28px"}
+100,000 simulated pairs: retail rings first about 60% of the time, as the integral said.
+:::
+
+---
+
+## ⚠️ Where Marks Are Lost
+
+::: {style="font-size: 28px"}
+- **Variance of a sum without the covariance.** $V(Y_1 + Y_2) = V(Y_1) + V(Y_2)$ only when $\text{Cov} = 0$.
+
+- **$\rho$ divided by variances.** It is $\text{Cov}/(\sigma_1\sigma_2)$: standard deviations.
+
+- **Independence from one cell.** One cell with $p(y_1, y_2) = p_1(y_1)p_2(y_2)$ proves nothing; one cell without it proves dependence.
+
+- **Zero covariance read as independence.** Theorem 5.11 runs one way only.
+
+- **Limits of integration.** On a triangular support such as $0 \le y_2 \le y_1 \le 1$, the inner limits depend on the outer variable.
+
+- **$\beta$ read as a rate.** In Wackerly, the exponential with parameter $\beta$ has **mean** $\beta$.
+:::
+
+---
+
+## 📝 Quiz #1: Default Across the Cycle {.quiz-question}
+
+A borrower's default probability is 0.02 in an expansion and 0.08 in a recession. The economy is in expansion with probability 0.7. What is the unconditional default probability?
+
+- [$0.038$]{.correct data-explanation="✅ Theorem 5.14 with D an indicator, which is Theorem 2.8 in Chapter 5 dress: E(D) = 0.7(0.02) + 0.3(0.08) = 0.014 + 0.024 = 0.038."}
+- $0.050$
+- $0.080$
+- $0.0016$
+
+---
+
+## 📝 Quiz #2: A Hedged Position {.quiz-question}
+
+A trader is long $Y_1$ and short $Y_2$, with $V(Y_1) = 4$, $V(Y_2) = 9$ and $\text{Cov}(Y_1, Y_2) = 3$. What is $V(Y_1 - Y_2)$?
+
+- [$7$]{.correct data-explanation="✅ Theorem 5.12 with a1 = 1, a2 = −1: V = 4 + 9 + 2(1)(−1)(3) = 13 − 6 = 7. Positive covariance makes the hedge less risky than either leg would suggest added together."}
+- $13$
+- $19$
+- $-5$
+
+---
+
+## 📝 Quiz #3: Which Model? {.quiz-question}
+
+On the retail line above (exponential, mean 4 minutes), what is the distribution of the time until the **third** call?
+
+- [Gamma with $\alpha = 3$, $\beta = 4$: mean 12 minutes]{.correct data-explanation="✅ A sum of three independent exponentials with mean β = 4 is gamma(α = 3, β = 4), with mean αβ = 12 and variance αβ² = 48."}
+- Exponential with mean 12 minutes
+- Poisson with $\lambda = 3$
+- Geometric with $p = 1/4$
+
+---
+
+## 📋 Key Formulas
+
+::: {style="font-size: 28px"}
+| | Statement |
+|---|---|
+| Theorem 2.9 (Bayes) | $P(B_j \mid A) = P(A \mid B_j)P(B_j) / \sum_i P(A \mid B_i)P(B_i)$ |
+| Tchebysheff | $P(\lvert Y - \mu \rvert < k\sigma) \ge 1 - 1/k^2$ |
+| Theorem 5.4 | independent iff $p(y_1, y_2) = p_1(y_1)p_2(y_2)$ for all pairs |
+| Theorem 5.10 | $\text{Cov}(Y_1, Y_2) = E(Y_1Y_2) - \mu_1\mu_2$, $\quad \rho = \text{Cov}/(\sigma_1\sigma_2)$ |
+| Theorem 5.12 | $V(\sum a_iY_i) = \sum a_i^2V(Y_i) + 2\sum_{i<j}a_ia_j\text{Cov}(Y_i, Y_j)$ |
+| Theorem 5.14 | $E(Y_1) = E[E(Y_1 \mid Y_2)]$ |
+| Theorem 5.15 | $V(Y_1) = E[V(Y_1 \mid Y_2)] + V[E(Y_1 \mid Y_2)]$ |
+
+: {tbl-colwidths="[27,73]"}
+:::
+
+---
+
+## 📋 Summary
+
+::: {style="font-size: 30px"}
+- Chapters 1–5 are one argument: events, then counts, then measurements, then several variables at once
+
+- Choose the model by reading what the variable counts or measures, before any formula
+
+- Chapter 5's chain: joint, marginal, conditional, independence, covariance, linear functions, iterated expectation
+
+- Means of sums need only marginals; **variances of sums need covariances**
+
+- Most exam problems join two chapters: a Chapter 5 result feeding a Chapter 3 or 4 model
+
+- Wackerly's advice for the midterm: master the ideas, and let the details serve them
+:::
+
+---
+
+## 📚 Practice Problems
+
+::: {style="font-size: 28px"}
+**Wackerly, 7th edition**
+
+- Chapter 5 Supplementary Exercises 5.144 – 5.167; start with 5.145, 5.147, 5.148, 5.150, 5.153, 5.158 and 5.161
+
+- The Supplementary Exercises of Chapters 3 and 4, for the models in the map
+
+- Redo Problem 3 with $\rho = +0.2$: how much does $\sigma_R$ rise?
+
+**Week 15, Problem Set 2** is open now and closes **Sunday 27 December at 23:59** on WeBWorK, covering Chapters 1–5 in review (§5.12).
+
+**Next class:** Midterm Examination II, 23 December, comprehensive over Chapters 1–5.
+:::
+
+---
+
+## 🙏 Thank You
+
+::: {style="font-size: 34px"}
+**Dr. Samir Orujov**
+
+📧 sorujov@ada.edu.az\
+🏢 Building D, Room D325\
+🕓 Office hours: Wednesday, 16:00 – 18:00
+
+Slides and readings: **sorujov.net/teaching**
+:::
+
+---
+
+## ❓ Questions
+
+::: {style="font-size: 32px"}
+- In Problem 2, what would the four cells have to be for $D_1$ and $D_2$ to be independent, with both marginals still 0.06?
+
+- In Problem 1, why is Tchebysheff's bound so far below the exact 0.932, and when would you still prefer it?
+
+- In Problem 3, normality of $R$ was assumed. What would you assume about the **pair** of fund returns to justify it?
+:::

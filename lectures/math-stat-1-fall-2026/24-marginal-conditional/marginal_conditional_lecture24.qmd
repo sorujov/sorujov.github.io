@@ -1,0 +1,543 @@
+---
+title: "Mathematical Statistics"
+subtitle: "Marginal and Conditional Probability Distributions"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: [default, ../slide-fit.scss]
+    logo: ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    footer: "Mathematical Statistics I - Marginal and Conditional Distributions"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+# Named explicitly so engine selection cannot drift away from R.
+engine: knitr
+execute:
+  echo: true
+  warning: false
+  message: false
+knitr:
+  opts_chunk:
+    dev: png
+    dpi: 150
+    fig.align: center
+---
+
+```{r}
+#| label: setup
+#| include: false
+set.seed(2026)
+library(ggplot2)
+theme_set(theme_minimal(base_size = 18))
+```
+
+## 🎯 Learning Objectives
+
+::: {style="font-size: 32px"}
+By the end of this lecture, you will be able to:
+
+- **Recover** the marginal distribution of one variable from a joint table by summing, and from a joint density by integrating (Definition 5.4)
+
+- **Read** the limits of that integral off a sketch of the support
+
+- **Compute** a conditional probability function $p(y_1 \mid y_2)$ and a conditional density $f(y_1 \mid y_2)$ (Definitions 5.5 and 5.7)
+
+- **Build** a joint table from a marginal and a set of conditionals, and reverse the conditioning
+
+- **Condition** a claim-size density on the event that the claim exceeds a deductible
+:::
+
+---
+
+## 🗺️ Where We Are
+
+::: {style="font-size: 30px"}
+**Wackerly §5.3**
+
+Wednesday opened Chapter 5 with **bivariate and multivariate probability distributions**: a joint probability function $p(y_1, y_2)$ or a joint density $f(y_1, y_2)$ describes two random variables *at once*, and we found probabilities of events about the pair.
+
+::: {.fragment}
+A joint distribution holds more than we usually ask of it. Today we take two things out of it: the distribution of **one variable alone** (the *marginal*), and the distribution of one variable **once the other is known** (the *conditional*).
+:::
+:::
+
+---
+
+## ❓ Motivating Question
+
+::: {.callout-important}
+## The retail desk's question
+A Baku bank's household survey records monthly **income** $Y_1$ and monthly **consumption spending** $Y_2$, in AZN, as a joint table.
+
+The card team wants the distribution of spending across all customers. The credit team wants it **for customers earning 600 AZN**. Same table, two different questions.
+:::
+
+::: {.fragment style="font-size: 30px"}
+The first is a **marginal** distribution; the second is a **conditional** one. Both are read out of the joint table without any new data.
+:::
+
+---
+
+## 📐 Definition 5.4: Marginal Distributions
+
+::: {style="font-size: 30px"}
+::: {.callout-note}
+## Definition 5.4
+**a.** If $Y_1, Y_2$ are jointly discrete with probability function $p(y_1, y_2)$, the marginal probability functions are
+$$p_1(y_1) = \sum_{\text{all } y_2} p(y_1, y_2), \qquad p_2(y_2) = \sum_{\text{all } y_1} p(y_1, y_2).$$
+**b.** If $Y_1, Y_2$ are jointly continuous with density $f(y_1, y_2)$, the marginal densities are
+$$f_1(y_1) = \int_{-\infty}^{\infty} f(y_1, y_2)\,dy_2, \qquad f_2(y_2) = \int_{-\infty}^{\infty} f(y_1, y_2)\,dy_1.$$
+:::
+
+The events $(Y_1 = y_1, Y_2 = y_2)$ are mutually exclusive, so $(Y_1 = y_1)$ is their union over $y_2$: sum out the variable you do not want.
+:::
+
+---
+
+## 🏠 Income and Consumption
+
+::: {style="font-size: 30px"}
+| $p(y_1, y_2)$ | $y_2 = 500$ | $y_2 = 900$ | $y_2 = 1500$ | $p_1(y_1)$ |
+|---|---|---|---|---|
+| $y_1 = 600$ | 0.20 | 0.08 | 0.02 | **0.30** |
+| $y_1 = 1200$ | 0.10 | 0.25 | 0.10 | **0.45** |
+| $y_1 = 2400$ | 0.02 | 0.08 | 0.15 | **0.25** |
+| $p_2(y_2)$ | **0.32** | **0.41** | **0.27** | 1 |
+
+::: {.fragment}
+Row totals give income alone; column totals give spending alone. The card team's answer is the bottom row: $p_2(500) = 0.20 + 0.10 + 0.02 = 0.32$.
+:::
+
+::: {.fragment}
+The totals sit in the **margins** of the table, which is where the name comes from.
+:::
+:::
+
+---
+
+## ⛽ A Fuel Station's Day
+
+::: {style="font-size: 30px"}
+A Sumgait filling station starts the day with $Y_2$ thousand litres of diesel and sells $Y_1$. With no delivery during the day, $Y_1 \le Y_2$, and
+$$f(y_1, y_2) = \tfrac{1}{8}, \qquad 0 \le y_1 \le y_2 \le 4 \quad (0 \text{ elsewhere}).$$
+
+::: {.fragment}
+**Sales alone.** For fixed $y_1$, the density is positive only for $y_1 \le y_2 \le 4$:
+$$f_1(y_1) = \int_{y_1}^{4} \tfrac{1}{8}\,dy_2 = \frac{4 - y_1}{8}, \qquad 0 \le y_1 \le 4.$$
+:::
+
+::: {.fragment}
+**Stock alone.** For fixed $y_2$, it is positive only for $0 \le y_1 \le y_2$:
+$$f_2(y_2) = \int_{0}^{y_2} \tfrac{1}{8}\,dy_1 = \frac{y_2}{8}, \qquad 0 \le y_2 \le 4.$$
+:::
+:::
+
+---
+
+## 📈 The Limits Come From the Picture
+
+```{r}
+#| label: triangle-figure
+#| echo: false
+#| fig-width: 10
+#| fig-height: 4.6
+tri <- data.frame(y1 = c(0, 4, 0), y2 = c(0, 4, 4))
+ggplot(tri, aes(y1, y2)) +
+  geom_polygon(fill = "#8ba3c7", alpha = 0.45, colour = "#14130f") +
+  annotate("segment", x = 1, xend = 1, y = 1, yend = 4,
+           colour = "#8b2635", linewidth = 2) +
+  annotate("segment", x = 0, xend = 3, y = 3, yend = 3,
+           colour = "#3d6e8f", linewidth = 2) +
+  annotate("text", x = 1.15, y = 1.6, hjust = 0, size = 6.5, colour = "#8b2635",
+           label = "f[1](1):~y[2]~runs~from~1~to~4", parse = TRUE) +
+  annotate("text", x = 3.15, y = 3, hjust = 0, size = 6.5, colour = "#3d6e8f",
+           label = "f[2](3):~y[1]~runs~from~0~to~3", parse = TRUE) +
+  coord_cartesian(xlim = c(0, 6.8), ylim = c(0, 4.1)) +
+  scale_x_continuous(breaks = 0:4) + scale_y_continuous(breaks = 0:4) +
+  labs(x = expression(y[1]~"= sales (thousand litres)"),
+       y = expression(y[2]~"= opening stock"))
+```
+
+::: {style="font-size: 28px"}
+Integrating out $y_2$ walks **up** a vertical slice; integrating out $y_1$ walks **across** a horizontal one. Sketch the support first, every time.
+:::
+
+---
+
+## 📐 Definition 5.5: Discrete Conditionals
+
+::: {style="font-size: 30px"}
+The multiplicative law, applied to the events $(Y_1 = y_1)$ and $(Y_2 = y_2)$, gives
+$$p(y_1, y_2) = p_1(y_1)\,p(y_2 \mid y_1) = p_2(y_2)\,p(y_1 \mid y_2).$$
+
+::: {.callout-note}
+## Definition 5.5
+If $Y_1, Y_2$ are jointly discrete with joint probability function $p(y_1, y_2)$ and marginals $p_1(y_1)$, $p_2(y_2)$, the conditional discrete probability function of $Y_1$ given $Y_2$ is
+$$p(y_1 \mid y_2) = P(Y_1 = y_1 \mid Y_2 = y_2) = \frac{p(y_1, y_2)}{p_2(y_2)}, \quad \text{provided } p_2(y_2) > 0.$$
+:::
+:::
+
+---
+
+## 🏠 The Credit Team's Answer
+
+::: {style="font-size: 30px"}
+Condition on income $Y_1 = 600$: keep that **row** and divide it by its total, $p_1(600) = 0.30$.
+
+$$\begin{aligned} p(500 \mid 600) &= 0.20 / 0.30 = 0.667 \\ p(900 \mid 600) &= 0.08 / 0.30 = 0.267 \\ p(1500 \mid 600) &= 0.02 / 0.30 = 0.067 \end{aligned}$$
+
+::: {.fragment}
+The three add to 1: a conditional distribution **is** a distribution, just over a smaller world.
+:::
+
+::: {.fragment}
+Across all customers, $P(Y_2 = 500) = 0.32$. Among the 600-AZN earners it is **0.667**. Knowing income more than doubles the chance of the lowest spending band.
+:::
+:::
+
+---
+
+## 💻 Every Conditional at Once
+
+```{r}
+#| label: conditional-table
+#| code-fold: false
+p <- matrix(c(0.20, 0.08, 0.02,
+              0.10, 0.25, 0.10,
+              0.02, 0.08, 0.15), nrow = 3, byrow = TRUE,
+            dimnames = list(income = c(600, 1200, 2400),
+                            spend  = c(500, 900, 1500)))
+rowSums(p)                   # p1(y1): income alone
+round(p / rowSums(p), 3)     # p(y2 | y1): each row divided by its total
+```
+
+---
+
+## 📊 Spending Shifts With Income
+
+```{r}
+#| label: conditional-figure
+#| echo: false
+#| fig-width: 10.5
+#| fig-height: 4.6
+cond <- p / rowSums(p)
+df <- rbind(
+  data.frame(spend = colnames(p), prob = colSums(p), given = "All customers (marginal)"),
+  data.frame(spend = colnames(p), prob = cond["600", ], given = "Income 600 AZN"),
+  data.frame(spend = colnames(p), prob = cond["2400", ], given = "Income 2400 AZN"))
+df$spend <- factor(df$spend, levels = colnames(p))
+df$given <- factor(df$given, levels = unique(df$given))
+ggplot(df, aes(spend, prob, fill = given)) +
+  geom_col(position = position_dodge(width = 0.8), width = 0.75) +
+  geom_text(aes(label = sprintf("%.2f", prob)), vjust = -0.3, size = 5.5,
+            position = position_dodge(width = 0.8)) +
+  scale_fill_manual(values = c("grey70", "#8b2635", "#3d6e8f")) +
+  scale_y_continuous(limits = c(0, 0.75), breaks = seq(0, 0.75, 0.25)) +
+  labs(x = "Monthly consumption spending (AZN)", y = "Probability", fill = NULL) +
+  theme(legend.position = "top", legend.text = element_text(size = 18))
+```
+
+---
+
+## 🏦 Loan Size and Default
+
+::: {style="font-size: 29px"}
+A lender's book is 50% small loans ($Y_1 = 1$), 30% medium ($Y_1 = 2$), 20% large ($Y_1 = 3$). Annual default rates $p(1 \mid y_1)$ are 6%, 5% and 10%. So $p(y_1, 1) = p_1(y_1)\,p(1 \mid y_1)$:
+
+| | small | medium | large | $p_2(y_2)$ |
+|---|---|---|---|---|
+| $y_2 = 1$ (default) | 0.030 | 0.015 | 0.020 | **0.065** |
+| $y_2 = 0$ (repays) | 0.470 | 0.285 | 0.180 | **0.935** |
+
+::: {.fragment}
+The risk committee asks the **other** conditional: what share of defaults are large?
+$$p(3 \mid 1) = \frac{p(3, 1)}{p_2(1)} = \frac{0.020}{0.065} = 0.308$$
+Large loans are 20% of the book but 31% of the defaults.
+:::
+:::
+
+---
+
+## 📐 Definition 5.7: Conditional Densities
+
+::: {style="font-size: 29px"}
+For continuous variables $P(Y_2 = y_2) = 0$, so Definition 5.5 would divide by zero. Wackerly instead starts from the **conditional distribution function** $F(y_1 \mid y_2) = P(Y_1 \le y_1 \mid Y_2 = y_2)$ (Definition 5.6) and its integrand.
+
+::: {.callout-note}
+## Definition 5.7
+For any $y_2$ with $f_2(y_2) > 0$, the conditional density of $Y_1$ given $Y_2 = y_2$ is
+$$f(y_1 \mid y_2) = \frac{f(y_1, y_2)}{f_2(y_2)},$$
+and for any $y_1$ with $f_1(y_1) > 0$, $\;f(y_2 \mid y_1) = f(y_1, y_2)/f_1(y_1)$.
+:::
+
+Same recipe as the table: take a **slice** of the joint, divide by its total.
+:::
+
+---
+
+## ⛽ Back at the Fuel Station
+
+::: {style="font-size: 30px"}
+Given an opening stock $y_2$, with $0 < y_2 \le 4$:
+$$f(y_1 \mid y_2) = \frac{1/8}{y_2/8} = \frac{1}{y_2}, \qquad 0 \le y_1 \le y_2.$$
+Given the stock, sales are **uniform** on $[0, y_2]$.
+
+::: {.fragment}
+Probability of selling at most 1 thousand litres:
+
+| | $P(Y_1 \le 1 \mid \cdot)$ |
+|---|---|
+| stock $Y_2 = 3$ | $\int_0^1 \frac{1}{3}\,dy_1 = 0.333$ |
+| stock $Y_2 = 1.5$ | $\int_0^1 \frac{1}{1.5}\,dy_1 = 0.667$ |
+| stock unknown, $f_1$ | $\int_0^1 \frac{4 - y_1}{8}\,dy_1 = 0.4375$ |
+:::
+:::
+
+---
+
+## 🚗 A Claim Above the Deductible
+
+::: {style="font-size: 28px"}
+Motor claims $Y$ (thousand AZN) are gamma, $\alpha = 2$, $\beta = 0.4$: mean 800 AZN. With a 500 AZN deductible the insurer only **sees** claims with $Y > 0.5$. By Definition 2.9, $P(Y \le y \mid Y > d) = [F(y) - F(d)]/[1 - F(d)]$; differentiate:
+$$f(y \mid Y > d) = \frac{f(y)}{P(Y > d)}, \quad y > d \qquad (0 \text{ for } y \le d).$$
+
+```{r}
+#| label: deductible
+S <- function(y) pgamma(y, shape = 2, scale = 0.4, lower.tail = FALSE)
+round(c(P_above_d = S(0.5), scale_up = 1 / S(0.5),
+        P_over_1.5 = S(1.5), P_over_1.5_given_d = S(1.5) / S(0.5)), 3)
+```
+
+Cut the density at $d$, then stretch what is left so it again has area 1.
+:::
+
+---
+
+## 🔬 Interactive: Move the Deductible {.smaller}
+
+```{ojs}
+//| echo: false
+
+viewof d = {
+  const input = Inputs.range([0, 2], {value: 0.5, step: 0.05,
+    label: "Deductible d (thousand AZN):"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+```
+
+```{ojs}
+//| echo: false
+
+fy = y => y * Math.exp(-y / 0.4) / 0.16          // gamma(2, 0.4) density
+Sd = Math.exp(-d / 0.4) * (1 + d / 0.4)           // P(Y > d)
+grid = Array.from({length: 400}, (_, i) => {
+  const y = (i + 1) / 100;
+  return {y, f: fy(y), c: y > d ? fy(y) / Sd : 0};
+})
+
+md`P(Y > d) = **${Sd.toFixed(3)}**, so every surviving density value is multiplied by **${(1 / Sd).toFixed(2)}**. Dashed: f(y). Shaded: f(y | Y > d).`
+
+Plot.plot({
+  width: 1150, height: 290, marginLeft: 78, marginBottom: 58,
+  style: {fontSize: "18px"},
+  x: {label: "Claim size y (thousand AZN)", domain: [0, 4], ticks: 8},
+  y: {label: "Density", domain: [0, 2.6]},
+  marks: [
+    Plot.areaY(grid, {x: "y", y: "c", fill: "#8b2635", fillOpacity: 0.35}),
+    Plot.line(grid, {x: "y", y: "c", stroke: "#8b2635", strokeWidth: 2.5}),
+    Plot.line(grid, {x: "y", y: "f", stroke: "#14130f", strokeWidth: 2, strokeDasharray: "6 4"}),
+    Plot.ruleX([d], {stroke: "#3d6e8f", strokeWidth: 2}),
+    Plot.ruleY([0])
+  ]
+})
+```
+
+---
+
+## 🧠 Think-Pair-Share
+
+```{r}
+#| label: tps-timer
+#| echo: false
+# The timer is the only thing in this deck that needs a package beyond base R.
+# Guarded so a machine without it renders the deck anyway, with a static
+# figure in the same corner, rather than halting the whole build.
+if (requireNamespace("countdown", quietly = TRUE)) {
+  countdown::countdown(minutes = 4, seconds = 0,
+                       top = 0, right = 0,
+                       font_size = "2em", warn_when = 30)
+} else {
+  htmltools::HTML(paste0(
+    '<div style="position:absolute; top:0; right:0; font-size:2em;',
+    ' font-weight:700; opacity:0.75">4:00</div>'))
+}
+```
+
+::: {style="font-size: 29px"}
+An internet provider links $Y_1$, a household's broadband outages last month, to $Y_2 = 1$ if it then switched provider.
+
+| | $y_1 = 0$ | $y_1 = 1$ | $y_1 = 2$ |
+|---|---|---|---|
+| $y_2 = 1$ (switched) | 0.06 | 0.08 | 0.06 |
+| $y_2 = 0$ (stayed) | 0.54 | 0.22 | 0.04 |
+
+**Four minutes, in pairs:** (1) Find $p_1(y_1)$ and $p_2(1)$. (2) Find $p(1 \mid y_1)$ for each $y_1$. (3) Of the households that switched, what share had two outages?
+:::
+
+---
+
+## ✅ Think-Pair-Share: Solution
+
+::: {style="font-size: 30px"}
+1. Column totals: $p_1(0) = 0.60$, $p_1(1) = 0.30$, $p_1(2) = 0.10$. Row total: $p_2(1) = 0.20$.
+
+2. Divide each switching entry by its column total:
+$$p(1 \mid 0) = \tfrac{0.06}{0.60} = 0.10, \quad p(1 \mid 1) = \tfrac{0.08}{0.30} = 0.267, \quad p(1 \mid 2) = \tfrac{0.06}{0.10} = 0.60$$
+
+::: {.fragment}
+3. Now condition the other way: $p(2 \mid 1) = 0.06/0.20 = 0.30$. Only 10% of households had two outages, but they are 30% of the churn.
+:::
+
+::: {.fragment}
+Part 2 is the engineer's number; part 3 is the marketing team's. **Name which variable is given before you divide.**
+:::
+:::
+
+---
+
+## 📝 Quiz #1: Condition on the Column {.quiz-question}
+
+$Y_1 = 1$ if a household holds a term deposit, $Y_2 = 1$ if it holds a card loan: $p(0,0) = 0.30$, $p(0,1) = 0.20$, $p(1,0) = 0.10$, $p(1,1) = 0.40$. What is $P(Y_1 = 1 \mid Y_2 = 1)$?
+
+- [$0.667$]{.correct data-explanation="✅ First the marginal: p2(1) = 0.20 + 0.40 = 0.60. Then Definition 5.5: 0.40 / 0.60 = 0.667."}
+- $0.40$
+- $0.80$
+- $0.50$
+
+---
+
+## 📝 Quiz #2: A Continuous Slice {.quiz-question}
+
+At the fuel station, $f(y_1, y_2) = 1/8$ on $0 \le y_1 \le y_2 \le 4$. Given an opening stock of $Y_2 = 2$, the conditional density of sales $Y_1$ is
+
+- [$1/2$ for $0 \le y_1 \le 2$]{.correct data-explanation="✅ f2(2) = 2/8, so f(y1 | 2) = (1/8)/(2/8) = 1/2 on [0, 2]: uniform over what could be sold."}
+- $1/8$ for $0 \le y_1 \le 2$
+- $(4 - y_1)/8$ for $0 \le y_1 \le 4$
+- $1/4$ for $0 \le y_1 \le 4$
+
+---
+
+## 📝 Quiz #3: The Deductible {.quiz-question}
+
+A claim density has $P(Y > d) = 0.64$ at the deductible $d$. For a claim size $y > d$, the conditional density $f(y \mid Y > d)$ equals
+
+- [$f(y) / 0.64$]{.correct data-explanation="✅ Cut at d, then rescale the surviving area 0.64 back to 1: divide by P(Y > d). The conditional density is larger than f(y) wherever it is not zero."}
+- $f(y)$, unchanged
+- $0.64 \, f(y)$
+- $f(y) - f(d)$
+
+---
+
+## 📋 Key Formulas
+
+::: {style="font-size: 28px"}
+| | Statement |
+|---|---|
+| Definition 5.4(a) | $p_1(y_1) = \sum_{\text{all } y_2} p(y_1, y_2)$ |
+| Definition 5.4(b) | $f_1(y_1) = \int_{-\infty}^{\infty} f(y_1, y_2)\,dy_2$ |
+| multiplicative law | $p(y_1, y_2) = p_1(y_1)\,p(y_2 \mid y_1) = p_2(y_2)\,p(y_1 \mid y_2)$ |
+| Definition 5.5 | $p(y_1 \mid y_2) = p(y_1, y_2)/p_2(y_2)$, $\; p_2(y_2) > 0$ |
+| Definition 5.6 | $F(y_1 \mid y_2) = P(Y_1 \le y_1 \mid Y_2 = y_2)$ |
+| Definition 5.7 | $f(y_1 \mid y_2) = f(y_1, y_2)/f_2(y_2)$, $\; f_2(y_2) > 0$ |
+| given an event | $f(y \mid Y > d) = f(y)/P(Y > d)$, $\; y > d$ |
+:::
+
+---
+
+## 📋 Summary
+
+::: {style="font-size: 30px"}
+- A **marginal** removes a variable: sum it out of a table, integrate it out of a density
+
+- The integration limits come from the **support**; sketch it before integrating
+
+- A **conditional** keeps one slice of the joint and divides by that slice's total
+
+- $p(y_2 \mid y_1)$ and $p(y_1 \mid y_2)$ answer different questions; name what is given first
+
+- Conditioning on an event such as $Y > d$ truncates the density and rescales it by $1/P(Y > d)$
+:::
+
+---
+
+## 📚 Practice Problems
+
+::: {style="font-size: 28px"}
+**Wackerly, 7th edition**
+
+- §5.3: Exercises 5.19 – 5.38; start with 5.19, 5.22, 5.23, 5.25, 5.27, 5.33 and 5.38
+
+- Exercise 5.25(f) and 5.33(d) ask whether a conditional equals a marginal. Hold on to your answers
+
+- Redo the deductible slide with $d = 1$ thousand AZN: what is $P(Y > 1.5 \mid Y > 1)$?
+
+**Week 12, Problem Set 2** is open now and closes **Sunday 6 December at 23:59** on WeBWorK, covering §5.3.
+
+**Next class:** 2 December, independent random variables (Wackerly §5.4): what it means when conditioning on one variable leaves the other's distribution unchanged.
+:::
+
+---
+
+## 🙏 Thank You
+
+::: {style="font-size: 34px"}
+**Dr. Samir Orujov**
+
+📧 sorujov@ada.edu.az\
+🏢 Building D, Room D325\
+🕓 Office hours: Wednesday, 16:00 – 18:00
+
+Slides and readings: **sorujov.net/teaching**
+:::
+
+---
+
+## ❓ Questions
+
+::: {style="font-size: 32px"}
+- Two different joint tables can share the same two marginals. Can you build one for the loan book?
+
+- In the fuel example, why is $f(y_1 \mid y_2)$ undefined for $y_2 > 4$?
+
+- If $p(y_2 \mid y_1)$ were the same for every $y_1$, what would the income and consumption table look like?
+:::

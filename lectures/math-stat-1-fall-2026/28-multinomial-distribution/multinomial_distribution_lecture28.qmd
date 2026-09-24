@@ -1,0 +1,380 @@
+---
+title: "Mathematical Statistics"
+subtitle: "The Multinomial Probability Distribution"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: [default, ../slide-fit.scss]
+    logo: ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    footer: "Mathematical Statistics I - The Multinomial Distribution"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+# Named explicitly so engine selection cannot drift away from R.
+engine: knitr
+execute:
+  echo: true
+  warning: false
+  message: false
+knitr:
+  opts_chunk:
+    dev: png
+    dpi: 150
+    fig.align: center
+---
+
+```{r}
+#| label: setup
+#| include: false
+set.seed(2026)
+library(ggplot2)
+theme_set(theme_minimal(base_size = 18))
+```
+
+## 🎯 Learning Objectives
+
+::: {style="font-size: 32px"}
+By the end of this lecture, you will be able to:
+
+- **Recognise** a multinomial experiment from the five properties of Definition 5.11
+
+- **Evaluate** the multinomial probability function for a given set of cell counts
+
+- **State** Theorem 5.13: the mean, variance and covariance of the cell counts
+
+- **Explain** why every covariance between two cells is negative
+
+- **Combine** Theorem 5.13 with Theorem 5.12 to find the mean and variance of a revenue total
+:::
+
+---
+
+## 🗺️ Where We Are
+
+::: {style="font-size: 30px"}
+**Wackerly §5.9** · Quiz II is behind us.
+
+Wednesday ended on Theorem 5.12: the variance of $\sum a_i Y_i$ is every weight applied to a variance **and to a covariance**. Portfolio risk lives in those cross terms.
+
+::: {.fragment}
+Today, one distribution in which every cross term is known in advance, from the design of the experiment alone. The binomial counted two outcomes per trial; the **multinomial** counts $k$.
+:::
+
+::: {.fragment}
+A rating review ends in *up*, *stable*, *down* or *default*, not in two classes. How are the counts distributed, and how do they move together?
+:::
+:::
+
+---
+
+## 📐 A Multinomial Experiment
+
+::: {style="font-size: 30px"}
+::: {.callout-important}
+## Definition 5.11
+
+1. The experiment consists of $n$ identical trials.
+2. The outcome of each trial falls into one of $k$ classes or cells.
+3. The probability that a trial falls into cell $i$ is $p_i$, the same from trial to trial, with $p_1 + p_2 + \cdots + p_k = 1$.
+4. The trials are independent.
+5. $Y_i$ is the number of trials falling into cell $i$, so $Y_1 + Y_2 + \cdots + Y_k = n$.
+:::
+
+With $k = 2$ this is exactly the binomial experiment of Chapter 3.
+:::
+
+---
+
+## 📐 The Probability Function
+
+::: {style="font-size: 30px"}
+::: {.callout-important}
+## Definition 5.12
+
+$Y_1, \ldots, Y_k$ have a multinomial distribution with parameters $n$ and $p_1, \ldots, p_k$ if
+$$p(y_1, \ldots, y_k) = \frac{n!}{y_1!\,y_2! \cdots y_k!}\; p_1^{y_1} p_2^{y_2} \cdots p_k^{y_k},$$
+where each $y_i = 0, 1, \ldots, n$ and $\sum_{i=1}^{k} y_i = n$.
+:::
+
+::: {.fragment}
+It is Chapter 2 in two factors: **one** ordered sequence with these counts has probability $p_1^{y_1} \cdots p_k^{y_k}$, and the coefficient is the number of ways to partition $n$ trials into groups of sizes $y_1, \ldots, y_k$.
+:::
+:::
+
+---
+
+## 📊 Worked Example: Rating Transitions
+
+::: {style="font-size: 28px"}
+A bank's loan book holds 8 firms rated BB. Over one year each firm, independently, is **upgraded** (0.10), stays **stable** (0.75), is **downgraded** (0.12) or **defaults** (0.03). Find the probability of 1 upgrade, 6 stable, 1 downgrade and no default.
+
+::: {.fragment}
+$$p(1, 6, 1, 0) = \frac{8!}{1!\,6!\,1!\,0!}\,(0.10)^1 (0.75)^6 (0.12)^1 (0.03)^0 = 56 \times 0.10 \times 0.17798 \times 0.12 = 0.1196$$
+:::
+
+::: {.fragment}
+Even the single most likely year, $(0, 7, 1, 0)$, has probability only 0.1281: with four cells, probability is spread over **165** possible outcomes.
+:::
+:::
+
+---
+
+## 📐 Moments of the Counts
+
+::: {style="font-size: 30px"}
+::: {.callout-important}
+## Theorem 5.13
+
+If $Y_1, \ldots, Y_k$ have a multinomial distribution with parameters $n$ and $p_1, \ldots, p_k$, then
+
+1. $E(Y_i) = np_i$ and $V(Y_i) = np_iq_i$, where $q_i = 1 - p_i$.
+2. $\text{Cov}(Y_s, Y_t) = -np_sp_t$, if $s \neq t$.
+:::
+
+::: {.fragment}
+**Part 1.** Merge every cell except $i$ into one: each trial lands in cell $i$ or not, so $Y_i$ is **binomial** $(n, p_i)$.
+:::
+
+::: {.fragment}
+**Part 2.** On a single trial, landing in cell $s$ rules out cell $t$, so the two indicators have covariance $0 - p_sp_t$. Different trials are independent, and Theorem 5.12 adds the $n$ same-trial terms: $-np_sp_t$.
+:::
+:::
+
+---
+
+## 📱 Worked Example: Tariff Choice
+
+::: {style="font-size: 28px"}
+A Baku mobile operator signs 200 new subscribers. Each independently picks **Basic** (10 AZN a month, $p_1 = 0.50$), **Standard** (20 AZN, $p_2 = 0.35$) or **Premium** (35 AZN, $p_3 = 0.15$).
+
+| | Basic | Standard | Premium |
+|---|---|---|---|
+| $E(Y_i) = np_i$ | 100 | 70 | 30 |
+| $V(Y_i) = np_iq_i$ | 50 | 45.5 | 25.5 |
+
+$\text{Cov}(Y_1, Y_2) = -35$, $\ \text{Cov}(Y_1, Y_3) = -15$, $\ \text{Cov}(Y_2, Y_3) = -10.5$.
+:::
+
+---
+
+## 💰 Monthly Revenue
+
+::: {style="font-size: 28px"}
+Revenue is $R = 10Y_1 + 20Y_2 + 35Y_3$ AZN.
+
+$$E(R) = 10(100) + 20(70) + 35(30) = 3450 \text{ AZN}$$
+
+::: {.fragment}
+$$\begin{aligned} V(R) &= 100(50) + 400(45.5) + 1225(25.5) \\ &\quad + 2\big[200(-35) + 350(-15) + 700(-10.5)\big] \end{aligned}$$
+:::
+
+::: {.fragment}
+$V(R) = 54\,437.5 - 39\,200 = 15\,237.5$, so the standard deviation is **123.4 AZN**. Dropping the covariances would report 233.3 AZN: a subscriber who picks Premium is one who did not pick Basic.
+:::
+:::
+
+---
+
+## 💻 Checking It by Simulation
+
+```{r}
+#| label: tariff-sim
+n <- 200; p <- c(0.50, 0.35, 0.15); fee <- c(10, 20, 35)
+Y <- t(rmultinom(10000, size = n, prob = p))    # 10,000 cohorts
+R <- Y %*% fee
+round(c(cov_basic_premium = cov(Y[, 1], Y[, 3]), theory = -n * p[1] * p[3],
+        sd_revenue = sd(R), theory = sqrt(15237.5)), 1)
+```
+
+```{r}
+#| label: tariff-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 2.9
+cells <- as.data.frame(table(basic = Y[, 1], premium = Y[, 3]))
+cells <- subset(cells, Freq > 0)
+cells$basic <- as.integer(as.character(cells$basic))
+cells$premium <- as.integer(as.character(cells$premium))
+ggplot(cells, aes(basic, premium)) +
+  geom_tile(aes(fill = Freq)) +
+  geom_abline(intercept = 60, slope = -0.3, colour = "#8b2635", linewidth = 1.2) +
+  scale_fill_gradient(low = "grey88", high = "#14130f", name = "Cohorts") +
+  labs(x = "Basic subscribers", y = "Premium subscribers") +
+  theme(legend.title = element_text(size = 16), legend.text = element_text(size = 14))
+```
+
+::: {style="font-size: 28px"}
+Each tile is a count of cohorts; the red line is $0.3(200 - y_1)$, the average Premium count given $y_1$ Basic. Its slope is the negative covariance made visible.
+:::
+
+---
+
+## 🧠 Think-Pair-Share
+
+```{r}
+#| label: tps-timer
+#| echo: false
+# The timer is the only thing in this deck that needs a package beyond base R.
+# Guarded so a machine without it renders the deck anyway, with a static
+# figure in the same corner, rather than halting the whole build.
+if (requireNamespace("countdown", quietly = TRUE)) {
+  countdown::countdown(minutes = 4, seconds = 0,
+                       top = 0, right = 0,
+                       font_size = "2em", warn_when = 30)
+} else {
+  htmltools::HTML(paste0(
+    '<div style="position:absolute; top:0; right:0; font-size:2em;',
+    ' font-weight:700; opacity:0.75">4:00</div>'))
+}
+```
+
+::: {style="font-size: 30px"}
+A trader classifies each of 20 trading days on the Baku exchange as **up** (0.45), **flat** (0.20) or **down** (0.35), independently.
+
+**Four minutes, in pairs:**
+
+1. What is the probability of exactly 10 up, 4 flat and 6 down days?
+
+2. Let $D = Y_{\text{up}} - Y_{\text{down}}$. Find $E(D)$ and $V(D)$.
+
+3. What is $\text{Cov}(Y_{\text{up}}, Y_{\text{down}})$, and what does its sign say?
+:::
+
+---
+
+## ✅ Think-Pair-Share: Solution
+
+::: {style="font-size: 28px"}
+1. Definition 5.12: $\dfrac{20!}{10!\,4!\,6!}(0.45)^{10}(0.20)^4(0.35)^6 = 38\,798\,760 \times \cdots = 0.0389$
+
+::: {.fragment}
+2. $E(D) = 20(0.45) - 20(0.35) = 2$. By Theorem 5.12, with the covariance from part 3,
+$$V(D) = 20(0.45)(0.55) + 20(0.35)(0.65) - 2(-3.15) = 4.95 + 4.55 + 6.30 = 15.8$$
+:::
+
+::: {.fragment}
+3. $\text{Cov} = -20(0.45)(0.35) = -3.15$. Every up day is a day that was not down. The negative covariance **widens** the spread of a difference: $-2\,\text{Cov}$ adds to $V(D)$.
+:::
+:::
+
+---
+
+## 📝 Quiz #1: The Sign of the Covariance {.quiz-question}
+
+Twelve customers each choose Basic (0.50), Standard (0.35) or Premium (0.15), independently. What is $\text{Cov}(Y_1, Y_2)$?
+
+- [$-2.1$]{.correct data-explanation="✅ Theorem 5.13: Cov(Y1, Y2) = −n p1 p2 = −12 × 0.50 × 0.35 = −2.1. It is negative because the counts share a fixed total of 12."}
+- $2.1$
+- $0$, because the customers choose independently
+- $-0.175$
+
+---
+
+## 📝 Quiz #2: Is It Multinomial? {.quiz-question}
+
+Which of these is **not** a multinomial experiment?
+
+- Classifying 30 independent trading days as up, flat or down
+- Recording which of three tariffs each of 200 independent new subscribers picks
+- [Drawing 5 firms without replacement from a list of 12, four in each of three rating grades]{.correct data-explanation="✅ Without replacement from a small list, each draw changes the probabilities for the next: property 3 (constant p_i) and property 4 (independence) both fail. This is a hypergeometric setting."}
+- Rating 50 independent loan applicants as approve, refer or decline
+
+---
+
+## 📋 Key Formulas
+
+::: {style="font-size: 30px"}
+| | Statement |
+|---|---|
+| Definition 5.12 | $p(y_1, \ldots, y_k) = \dfrac{n!}{y_1! \cdots y_k!}\,p_1^{y_1} \cdots p_k^{y_k}$ |
+| constraints | $\sum p_i = 1$, $\ \sum y_i = n$ |
+| Theorem 5.13, part 1 | $E(Y_i) = np_i$, $\ V(Y_i) = np_iq_i$ |
+| Theorem 5.13, part 2 | $\text{Cov}(Y_s, Y_t) = -np_sp_t$, $\ s \neq t$ |
+| each marginal | $Y_i \sim$ binomial $(n, p_i)$ |
+:::
+
+---
+
+## 📋 Summary
+
+::: {style="font-size: 30px"}
+- The multinomial is the binomial with $k$ cells instead of two
+
+- Its probability function is one sequence's probability times the number of sequences
+
+- Merge the other cells, and any single count is binomial
+
+- Two counts always covary negatively: they share the fixed total $n$
+
+- For a total such as revenue, Theorem 5.13 supplies the covariances and Theorem 5.12 combines them
+:::
+
+---
+
+## 📚 Practice Problems
+
+::: {style="font-size: 28px"}
+**Wackerly, 7th edition**
+
+- §5.9: Exercises 5.119 – 5.127; start with 5.119, 5.123, 5.124, 5.125 and 5.126
+
+- In the tariff example, what premium share $p_3$ maximises $V(Y_3)$ for fixed $n$?
+
+**Week 14, Problem Set 2** is open now and closes **Sunday 20 December at 23:59** on WeBWorK, covering §5.9.
+
+**Next class:** 16 December, the bivariate normal distribution and conditional expectations (§§5.10–5.11).
+:::
+
+---
+
+## 🙏 Thank You
+
+::: {style="font-size: 34px"}
+**Dr. Samir Orujov**
+
+📧 sorujov@ada.edu.az\
+🏢 Building D, Room D325\
+🕓 Office hours: Wednesday, 16:00 – 18:00
+
+Slides and readings: **sorujov.net/teaching**
+:::
+
+---
+
+## ❓ Questions
+
+::: {style="font-size: 32px"}
+- Why can the four counts in the loan book never be independent of one another?
+
+- Given $Y_1 = y_1$, what is the distribution of the remaining counts?
+
+- The correlation of $Y_s$ and $Y_t$ does not depend on $n$. Why?
+:::

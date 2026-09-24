@@ -1,0 +1,552 @@
+---
+title: "Mathematical Statistics"
+subtitle: "The Beta Distribution and Choosing a Continuous Model"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: [default, ../slide-fit.scss]
+    logo: ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    footer: "Mathematical Statistics I - The Beta Distribution and Model Choice"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+# Named explicitly so engine selection cannot drift away from R.
+engine: knitr
+execute:
+  echo: true
+  warning: false
+  message: false
+knitr:
+  opts_chunk:
+    dev: png
+    dpi: 150
+    fig.align: center
+---
+
+```{r}
+#| label: setup
+#| include: false
+set.seed(2026)
+library(ggplot2)
+theme_set(theme_minimal(base_size = 18))
+```
+
+## 🎯 Learning Objectives
+
+::: {style="font-size: 32px"}
+By the end of this lecture, you will be able to:
+
+- **Recognise** a beta density $f(y) \propto y^{\alpha-1}(1-y)^{\beta-1}$ on $[0, 1]$ and find its constant $B(\alpha, \beta)$
+
+- **Read** the shape of a beta density from $\alpha$ and $\beta$, and rescale it to any interval $[c, d]$
+
+- **Compute** $E(Y)$, $V(Y)$ and beta probabilities by direct integration, by the binomial link, and with `pbeta`
+
+- **Choose** a continuous model for an economic quantity from theory, from its support, and from a histogram
+:::
+
+---
+
+## 🗺️ Where We Are
+
+::: {style="font-size: 30px"}
+**Wackerly §§4.7–4.8**
+
+Saturday closed the gamma family: the exponential and the chi-square as special cases, all living on $(0, \infty)$. Waiting times and claim sizes, with no ceiling.
+
+::: {.fragment}
+Many quantities in finance **do** have a ceiling. A recovery rate, a market share, a utilisation rate, a portfolio weight: each is a proportion, trapped between 0 and 1.
+:::
+
+::: {.fragment}
+Today, the model built for that: the **beta** (§4.7). Then §4.8 steps back and asks how we pick among the Chapter 4 densities in the first place.
+:::
+:::
+
+---
+
+## ❓ Motivating Question
+
+::: {.callout-important}
+## The workout desk's problem
+A Baku bank's workout unit has closed 250 defaulted SME loans. The share of each exposure it recovered averaged **0.40**, with a standard deviation of **0.20**.
+
+For loss-given-default provisioning it needs $P(\text{recovery} < 0.20)$.
+:::
+
+::: {.fragment style="font-size: 30px"}
+A normal with that mean and sd gives 0.159, and also puts **2.3%** probability on recovering *less than nothing*. A model for a proportion must live on $[0, 1]$.
+:::
+
+---
+
+## 📐 Definition 4.12: The Beta Density
+
+::: {style="font-size: 30px"}
+::: {.callout-note}
+## Definition 4.12
+$Y$ has a **beta distribution** with parameters $\alpha > 0$ and $\beta > 0$ if and only if its density is
+$$f(y) = \frac{y^{\alpha-1}(1-y)^{\beta-1}}{B(\alpha, \beta)}, \quad 0 \le y \le 1, \qquad f(y) = 0 \text{ elsewhere,}$$
+where $$B(\alpha, \beta) = \int_0^1 y^{\alpha-1}(1-y)^{\beta-1}\,dy = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}$$
+:::
+
+::: {.fragment}
+$B(\alpha, \beta)$ only makes the area 1. With integers: $B(2, 3) = 1!\,2!/4! = 1/12$, so $f(y) = 12\,y(1-y)^2$.
+:::
+:::
+
+---
+
+## 🔬 Interactive: Two Parameters, Many Shapes {.smaller}
+
+```{ojs}
+//| echo: false
+
+viewof a = {
+  const input = Inputs.range([0.5, 8], {value: 2, step: 0.5, label: "alpha:"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+viewof b = {
+  const input = Inputs.range([0.5, 8], {value: 3, step: 0.5, label: "beta:"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+```
+
+```{ojs}
+//| echo: false
+
+lgam = {                 // Lanczos approximation to log Gamma(x), x > 0
+  function f(x) {
+  const g = 7, c = [0.99999999999980993, 676.5203681218851, -1259.1392167224028,
+    771.32342877765313, -176.61502916214059, 12.507343278686905,
+    -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7];
+  if (x < 0.5) return Math.log(Math.PI / Math.sin(Math.PI * x)) - f(1 - x);
+  x -= 1; let s = c[0];
+  for (let i = 1; i < g + 2; i++) s += c[i] / (x + i);
+  const t = x + g + 0.5;
+  return 0.5 * Math.log(2 * Math.PI) + (x + 0.5) * Math.log(t) - t + Math.log(s);
+  }
+  return f;
+}
+logB = lgam(a) + lgam(b) - lgam(a + b)
+dens = Array.from({length: 399}, (_, i) => {
+  const y = (i + 1) / 400;
+  return {y, f: Math.exp((a - 1) * Math.log(y) + (b - 1) * Math.log(1 - y) - logB)};
+})
+mu = a / (a + b)
+sd = Math.sqrt(a * b / ((a + b) ** 2 * (a + b + 1)))
+
+md`Beta(**${a}**, **${b}**): mean **${mu.toFixed(3)}**, standard deviation **${sd.toFixed(3)}**`
+
+Plot.plot({
+  width: 1150, height: 250, marginLeft: 78, marginBottom: 58,
+  style: {fontSize: "18px"},
+  x: {label: "y (a proportion)", domain: [0, 1]},
+  y: {label: "f(y)", domain: [0, 5]},
+  marks: [
+    Plot.areaY(dens, {x: "y", y: "f", fill: "#8ba3c7", fillOpacity: 0.5, clip: true}),
+    Plot.line(dens, {x: "y", y: "f", stroke: "#14130f", strokeWidth: 2, clip: true}),
+    Plot.ruleX([mu], {stroke: "#8b2635", strokeWidth: 2, strokeDasharray: "6 4"}),
+    Plot.ruleY([0])
+  ]
+})
+```
+
+---
+
+## 🧭 Reading the Shape
+
+::: {style="font-size: 29px"}
+- $\alpha = \beta = 1$: $f(y) = 1$, the **uniform** on $(0, 1)$ (Exercise 4.127)
+
+- $\alpha = \beta$: **symmetric** about $1/2$; larger values pull it tighter (Exercise 4.115)
+
+- $\alpha < \beta$: mass nearer 0, **skewed right**; $\alpha > \beta$: **skewed left**
+
+- $\alpha, \beta > 1$: one hump, zero at both ends; setting $f^{(1)}(y) = 0$ puts the mode at $\dfrac{\alpha-1}{\alpha+\beta-2}$
+
+- $\alpha < 1$ or $\beta < 1$: the density **rises without bound** at that edge
+
+- $1 - Y$ is beta with the parameters **swapped**, $(\beta, \alpha)$ (a Chapter 6 result, Exercise 4.114)
+:::
+
+---
+
+## 📏 Beyond Proportions: Rescaling
+
+::: {style="font-size: 30px"}
+If $c \le y \le d$, then $y^* = (y - c)/(d - c)$ lies in $[0, 1]$. The beta is not restricted to proportions; it is restricted to **bounded** quantities.
+
+::: {.fragment}
+A pension fund's mandate keeps its equity weight $Y$ between **30% and 70%**. Model $Y^* = (Y - 0.30)/0.40$ as Beta(2, 2), so $F(y) = 3y^2 - 2y^3$.
+:::
+
+::: {.fragment}
+$$E(Y) = 0.30 + 0.40 \times 0.5 = 0.50$$
+$$P(Y > 0.60) = P(Y^* > 0.75) = 1 - F(0.75) = 1 - 0.84375 = 0.156$$
+:::
+:::
+
+---
+
+## 📐 Theorem 4.11: Mean and Variance
+
+::: {style="font-size: 30px"}
+::: {.callout-important}
+## Theorem 4.11
+If $Y$ is beta with parameters $\alpha > 0$ and $\beta > 0$,
+$$\mu = E(Y) = \frac{\alpha}{\alpha + \beta} \qquad \text{and} \qquad \sigma^2 = V(Y) = \frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}$$
+:::
+
+::: {.fragment}
+**Proof of the mean.** Multiplying by $y$ adds one to the exponent, so the integral is another beta constant:
+$$E(Y) = \frac{B(\alpha+1, \beta)}{B(\alpha, \beta)} = \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)} \cdot \frac{\alpha\,\Gamma(\alpha)\Gamma(\beta)}{(\alpha+\beta)\,\Gamma(\alpha+\beta)} = \frac{\alpha}{\alpha+\beta}$$
+The variance is Exercise 4.130.
+:::
+:::
+
+---
+
+## 🏦 Worked Example: Recovery Rates
+
+::: {style="font-size: 30px"}
+The workout desk models the recovery rate as Beta(2, 3), so $f(y) = 12\,y(1-y)^2$ on $[0, 1]$.
+
+::: {.fragment}
+$$E(Y) = \frac{2}{5} = 0.40, \qquad V(Y) = \frac{2 \times 3}{5^2 \times 6} = 0.04, \qquad \sigma = 0.20$$
+It matches the desk's mean and standard deviation.
+:::
+
+::: {.fragment}
+$$P(Y < 0.2) = \int_0^{0.2} 12\,(y - 2y^2 + y^3)\,dy = \Big[\,6y^2 - 8y^3 + 3y^4\,\Big]_0^{0.2}$$
+$$= 0.24 - 0.064 + 0.0048 = 0.1808$$
+The normal said 0.159. **About 18% of defaulted loans recover under a fifth**, and the beta never predicts a negative recovery.
+:::
+:::
+
+---
+
+## 🔗 The Binomial Link
+
+::: {style="font-size: 30px"}
+The beta CDF is the **incomplete beta function** $I_y(\alpha, \beta)$. When $\alpha$ and $\beta$ are integers, with $n = \alpha + \beta - 1$,
+$$F(y) = \int_0^y \frac{t^{\alpha-1}(1-t)^{\beta-1}}{B(\alpha, \beta)}\,dt = \sum_{i=\alpha}^{n} \binom{n}{i} y^i (1-y)^{n-i}$$
+
+::: {.fragment}
+The right side is $P(W \ge \alpha)$ for $W \sim$ binomial$(n, p = y)$. For the recoveries, $n = 4$ and $p = 0.2$:
+$$P(Y < 0.2) = P(W \ge 2) = 1 - 0.8^4 - 4(0.2)(0.8)^3 = 1 - 0.4096 - 0.4096 = 0.1808$$
+:::
+
+::: {.fragment}
+The same number, with no integral. Exercise 4.134 uses exactly this.
+:::
+:::
+
+---
+
+## 💻 The Same Numbers in R
+
+```{r}
+#| label: beta-r
+#| code-fold: false
+pbeta(0.2, shape1 = 2, shape2 = 3)          # P(Y < 0.2)
+1 - pbinom(1, size = 4, prob = 0.2)         # binomial link: P(W >= 2)
+qbeta(c(0.50, 0.95), 2, 3)                  # median and 95th percentile
+
+rec <- rbeta(1e5, 2, 3)                     # 100,000 simulated recoveries
+round(c(mean = mean(rec), sd = sd(rec), below_0.2 = mean(rec < 0.2)), 4)
+```
+
+::: {style="font-size: 28px"}
+The book prints `pbeta(y0, α, 1/β)`, a reciprocal carried over from the gamma; for the beta the call is `pbeta(y0, α, β)`.
+:::
+
+---
+
+## ⛽ Worked Example: A Pipeline
+
+::: {style="font-size: 30px"}
+Example 4.11, moved to an export pipeline. The fraction $Y$ of weekly capacity actually shipped is Beta(4, 2). Above 90% the operator pays a congestion surcharge. How often?
+
+::: {.fragment}
+$$f(y) = \frac{\Gamma(6)}{\Gamma(4)\Gamma(2)}\,y^3(1-y) = 20\,(y^3 - y^4), \qquad 0 \le y \le 1$$
+:::
+
+::: {.fragment}
+$$P(Y > 0.9) = 20\left[\frac{y^4}{4} - \frac{y^5}{5}\right]_{0.9}^{1} = 20 \times 0.004073 = 0.0815$$
+Roughly **one week in twelve**; the book rounds it to 0.08. The mean utilisation is $4/6 = 0.667$, with $\sigma = 0.178$.
+:::
+:::
+
+---
+
+## 🧠 Think-Pair-Share
+
+```{r}
+#| label: tps-timer
+#| echo: false
+# The timer is the only thing in this deck that needs a package beyond base R.
+# Guarded so a machine without it renders the deck anyway, with a static
+# figure in the same corner, rather than halting the whole build.
+if (requireNamespace("countdown", quietly = TRUE)) {
+  countdown::countdown(minutes = 4, seconds = 0,
+                       top = 0, right = 0,
+                       font_size = "2em", warn_when = 30)
+} else {
+  htmltools::HTML(paste0(
+    '<div style="position:absolute; top:0; right:0; font-size:2em;',
+    ' font-weight:700; opacity:0.75">4:00</div>'))
+}
+```
+
+::: {style="font-size: 30px"}
+A mobile operator's share $Y$ of new subscriptions in a region, month by month, is modelled as **Beta(7,&nbsp;13)**.
+
+**Four minutes, in pairs:**
+
+1. Find $E(Y)$ and the standard deviation of $Y$.
+
+2. What is the most likely share (the mode)?
+
+3. The rivals together hold $1 - Y$. What is its distribution, and its mean?
+:::
+
+---
+
+## ✅ Think-Pair-Share: Solution
+
+::: {style="font-size: 30px"}
+1. Theorem 4.11 with $\alpha + \beta = 20$:
+$$E(Y) = \frac{7}{20} = 0.35, \qquad V(Y) = \frac{7 \times 13}{20^2 \times 21} = 0.01083, \qquad \sigma = 0.104$$
+
+2. Both parameters exceed 1, so the mode is $\dfrac{7 - 1}{20 - 2} = \dfrac{1}{3}$, just below the mean: the density is **skewed right**.
+
+::: {.fragment}
+3. Swap the parameters: $1 - Y$ is **Beta(13, 7)**, with mean $13/20 = 0.65 = 1 - 0.35$ and the **same** standard deviation, since the formula for $V$ is symmetric in $\alpha, \beta$.
+:::
+:::
+
+---
+
+## 🧭 §4.8: How Do We Choose a Model?
+
+::: {style="font-size: 29px"}
+No density is a perfect picture of nature. **A good model is one that yields good inferences** about the population, not one that fits every bump.
+
+::: {.fragment}
+Wackerly names three routes:
+
+1. **Theory.** Poisson events in time make the gap between them exponential, and the time from the $a$th to the $b$th event gamma with $\alpha = b - a$. The central limit theorem (Chapter 7) points to the normal.
+
+2. **A histogram** (Chapter 1) of sample data, compared with candidate curves.
+
+3. **Formal tests** of fit, later in the course.
+:::
+:::
+
+---
+
+## 🗂️ Start From the Support
+
+::: {style="font-size: 28px"}
+| Model | Support | Typical economic quantity |
+|---|---|---|
+| Uniform$(\theta_1, \theta_2)$ | $[\theta_1, \theta_2]$ | arrival time inside a settlement window |
+| Normal$(\mu, \sigma^2)$ | $(-\infty, \infty)$ | a daily return, a forecast error |
+| Exponential, gamma, $\chi^2$ | $(0, \infty)$ | time between events, a claim amount |
+| Beta$(\alpha, \beta)$ | $[0, 1]$, or $[c, d]$ rescaled | recovery rate, market share, utilisation, a weight |
+
+::: {.fragment}
+The support rules models **out** before any data are seen. Within what is left, the shape of a histogram decides.
+:::
+:::
+
+---
+
+## 💻 Fitting the Recoveries
+
+```{r}
+#| label: fit-recoveries
+#| code-fold: false
+set.seed(2026)
+recov <- rbeta(250, 2, 3)          # stand-in for the desk's 250 closed files
+m <- mean(recov); s <- sd(recov)
+k <- m * (1 - m) / s^2 - 1         # Theorem 4.11 solved for alpha + beta
+round(c(mean = m, sd = s, alpha = m * k, beta = (1 - m) * k), 3)
+round(c(normal_below_0 = pnorm(0, m, s),
+        beta_below_0.2 = pbeta(0.2, m * k, (1 - m) * k),
+        data_below_0.2 = mean(recov < 0.2)), 3)
+```
+
+::: {style="font-size: 28px"}
+Matching the sample mean and sd recovers $\alpha \approx 2.1$, $\beta \approx 3.1$. The normal still spends 2% on impossible values.
+:::
+
+---
+
+## 📈 Two Candidates, One Histogram
+
+```{r}
+#| label: fit-figure
+#| echo: false
+#| fig-width: 10
+#| fig-height: 4.4
+a_hat <- m * k; b_hat <- (1 - m) * k
+yy <- seq(-0.3, 1.1, by = 0.002)
+curves <- rbind(
+  data.frame(y = yy, f = ifelse(yy >= 0 & yy <= 1, dbeta(pmin(pmax(yy, 1e-6), 1 - 1e-6), a_hat, b_hat), 0),
+             model = "Beta, mean and sd matched"),
+  data.frame(y = yy, f = dnorm(yy, m, s), model = "Normal, mean and sd matched"))
+ggplot(data.frame(y = recov), aes(y)) +
+  annotate("rect", xmin = -0.3, xmax = 0, ymin = 0, ymax = Inf,
+           fill = "#8b2635", alpha = 0.10) +
+  geom_histogram(aes(y = after_stat(density)), breaks = seq(0, 1, 0.05),
+                 fill = "grey80", colour = "white") +
+  geom_line(data = curves, aes(y, f, colour = model), linewidth = 1.3) +
+  annotate("text", x = -0.15, y = 2.1, label = "recovery < 0:\nimpossible",
+           colour = "#8b2635", size = 6) +
+  scale_colour_manual(values = c("#14130f", "#3d6e8f")) +
+  scale_x_continuous(breaks = seq(-0.25, 1, 0.25)) +
+  labs(x = "Recovery rate on a defaulted loan", y = "Density", colour = NULL) +
+  theme(legend.position = "top", legend.text = element_text(size = 18))
+```
+
+---
+
+## 📝 Quiz #1: The Mean {.quiz-question}
+
+A telecom regulator models an operator's market share as Beta(3, 7). What is its expected share?
+
+- [$0.30$]{.correct data-explanation="✅ Theorem 4.11: E(Y) = α/(α + β) = 3/10 = 0.30."}
+- $0.43$
+- $0.70$
+- $0.019$
+
+---
+
+## 📝 Quiz #2: The Shape {.quiz-question}
+
+Recovery rates on unsecured consumer loans follow Beta(2, 8). Which description fits?
+
+- [Skewed right: most recoveries are small, with a tail towards 1]{.correct data-explanation="✅ α < β puts the mass near 0. With both above 1 the density is 0 at the ends, and the mode is (2 − 1)/(2 + 8 − 2) = 0.125."}
+- Symmetric about 0.5
+- Skewed left: most recoveries are close to 1
+- Uniform on [0, 1]
+
+---
+
+## 📝 Quiz #3: Choosing a Model {.quiz-question}
+
+A fund reports the proportion of its assets held in equities each quarter. Which model respects what that number can be?
+
+- [Beta, because the proportion lies in [0, 1]]{.correct data-explanation="✅ Start from the support (§4.8). A weight is bounded by 0 and 1; only the beta lives there. The normal and the exponential put probability outside it, and the Poisson is for counts."}
+- Normal, because averages tend to be normal
+- Exponential, because it is positive
+- Poisson, because it is reported at regular intervals
+
+---
+
+## 📋 Key Formulas
+
+::: {style="font-size: 28px"}
+| | Statement |
+|---|---|
+| Definition 4.12 | $f(y) = \dfrac{y^{\alpha-1}(1-y)^{\beta-1}}{B(\alpha, \beta)}$, $\; 0 \le y \le 1$ |
+| beta function | $B(\alpha, \beta) = \dfrac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}$ |
+| Theorem 4.11, mean | $E(Y) = \alpha/(\alpha+\beta)$ |
+| Theorem 4.11, variance | $V(Y) = \dfrac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}$ |
+| binomial link, $n = \alpha+\beta-1$ | $F(y) = \sum_{i=\alpha}^{n} \binom{n}{i} y^i(1-y)^{n-i}$ |
+| in R | `pbeta(y0, α, β)`, `qbeta(p, α, β)` |
+:::
+
+---
+
+## 📋 Summary
+
+::: {style="font-size: 30px"}
+- The beta is the Chapter 4 model for a **bounded** quantity: a proportion, or anything rescaled to $[0, 1]$
+
+- $\alpha$ and $\beta$ set the shape: symmetric, skewed either way, humped or U-shaped; $(1, 1)$ is the uniform
+
+- $E(Y) = \alpha/(\alpha + \beta)$; with integer parameters the CDF is a binomial tail
+
+- A good model yields good inferences; perfect fit is not the test
+
+- Choose by **theory**, then by **support**, then by the **histogram**
+:::
+
+---
+
+## 📚 Practice Problems
+
+::: {style="font-size: 28px"}
+**Wackerly, 7th edition**
+
+- §4.7: Exercises 4.124 – 4.134; start with 4.124, 4.125, 4.128, 4.132 and 4.134(a)
+
+- Applet Exercises 4.114 – 4.119: use today's slider in place of the applet
+
+- Redo the workout desk with Beta(3, 4.5): same mean, smaller spread. What happens to $P(Y < 0.2)$?
+
+**Week 11, Problem Set 1** is open now and closes **Sunday 29 November at 23:59** on WeBWorK, covering §§4.7–4.8.
+
+**Next class:** 21 November, other expected values, Tchebysheff's theorem for continuous variables, and Chapter 4 in review (Wackerly §§4.9–4.11).
+:::
+
+---
+
+## 🙏 Thank You
+
+::: {style="font-size: 34px"}
+**Dr. Samir Orujov**
+
+📧 sorujov@ada.edu.az\
+🏢 Building D, Room D325\
+🕓 Office hours: Wednesday, 16:00 – 18:00
+
+Slides and readings: **sorujov.net/teaching**
+:::
+
+---
+
+## ❓ Questions
+
+::: {style="font-size: 32px"}
+- Beta(2, 3) and Beta(20, 30) have the same mean. How do their standard deviations compare, and what does that say about the evidence behind each?
+
+- Why does the beta density blow up at 0 when $\alpha < 1$, and could a recovery-rate distribution plausibly look like that?
+
+- A loss rate can be exactly 0 for many loans. Can a continuous beta model that point mass?
+:::

@@ -1,0 +1,483 @@
+---
+title: "Mathematical Statistics"
+subtitle: "Independent Random Variables"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "ADA University, School of Business"
+      - name: "Information Communication Technologies Agency, Statistics Unit"
+date: today
+format:
+  revealjs:
+    theme: [default, ../slide-fit.scss]
+    logo: ADA.png
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    footer: "Mathematical Statistics I - Independent Random Variables"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+# Named explicitly so engine selection cannot drift away from R.
+engine: knitr
+execute:
+  echo: true
+  warning: false
+  message: false
+knitr:
+  opts_chunk:
+    dev: png
+    dpi: 150
+    fig.align: center
+---
+
+```{r}
+#| label: setup
+#| include: false
+set.seed(2026)
+library(ggplot2)
+theme_set(theme_minimal(base_size = 18))
+```
+
+## 🎯 Learning Objectives
+
+::: {style="font-size: 32px"}
+By the end of this lecture, you will be able to:
+
+- **State** Definition 5.8: $Y_1, Y_2$ are independent when $F(y_1, y_2) = F_1(y_1)F_2(y_2)$
+
+- **Test** a joint table cell by cell with Theorem 5.4, and **stop** at the first cell that fails
+
+- **Apply** the factorisation criterion (Theorem 5.5) to a joint density without finding its marginals
+
+- **Recognise** a support that is not a rectangle as a proof of dependence
+
+- **Explain** why co-moving asset returns cannot be priced as independent
+:::
+
+---
+
+## 🗺️ Where We Are
+
+::: {style="font-size: 32px"}
+**Wackerly §5.4**
+
+Saturday (§5.3): a **marginal** removes a variable, $p_1(y_1) = \sum_{y_2} p(y_1, y_2)$; a **conditional** keeps one slice of the joint and divides by its total, $p(y_1 \mid y_2) = p(y_1, y_2)/p_2(y_2)$.
+
+::: {.fragment}
+We ended on the question for today: what does it mean when conditioning on one variable **leaves the other's distribution unchanged**? Then learning $Y_2$ tells you nothing about $Y_1$, and the joint is just the two marginals multiplied.
+:::
+:::
+
+---
+
+## ❓ The Question
+
+::: {.callout-important}
+## Two branches, one cash van
+A Baku bank refills the ATMs of two branches, one in Nizami and one in Khatai, from a single cash centre. Does a heavy day of withdrawals in Nizami make a heavy day in Khatai more likely?
+:::
+
+::: {style="font-size: 30px"}
+If **no**, the treasury can plan each branch from its own history and multiply. If **yes**, it has to plan from the joint distribution, and both branches running dry on the same day is more likely than the product suggests.
+:::
+
+---
+
+## 📐 Definition 5.8
+
+::: {style="font-size: 30px"}
+::: {.callout-note}
+## Definition 5.8 (Wackerly §5.4)
+Let $Y_1$ have distribution function $F_1(y_1)$, $Y_2$ have distribution function $F_2(y_2)$, and $Y_1$ and $Y_2$ have joint distribution function $F(y_1, y_2)$. Then $Y_1$ and $Y_2$ are **independent** if and only if
+$$F(y_1, y_2) = F_1(y_1)F_2(y_2)$$
+for every pair of real numbers $(y_1, y_2)$. Otherwise they are **dependent**.
+:::
+
+It is the Chapter 2 rule $P(A \cap B) = P(A)P(B)$, applied to every pair of events $\{Y_1 \le y_1\}$ and $\{Y_2 \le y_2\}$ at once.
+:::
+
+---
+
+## 📐 Theorem 5.4: The Working Test
+
+::: {style="font-size: 30px"}
+::: {.callout-important}
+## Theorem 5.4
+**Discrete:** $Y_1$ and $Y_2$ are independent if and only if
+$$p(y_1, y_2) = p_1(y_1)\,p_2(y_2) \quad \text{for all pairs } (y_1, y_2).$$
+**Continuous:** $Y_1$ and $Y_2$ are independent if and only if
+$$f(y_1, y_2) = f_1(y_1)\,f_2(y_2) \quad \text{for all pairs } (y_1, y_2).$$
+:::
+
+::: {.fragment}
+"For **all** pairs" cuts both ways: to prove independence you check every cell; to prove dependence **one** failing cell is enough.
+:::
+:::
+
+---
+
+## 🏦 Two Branches: Large Withdrawals
+
+::: {style="font-size: 28px"}
+$Y_1$, $Y_2$ = number of withdrawals above 20,000 AZN before noon at Nizami and at Khatai.
+
+| | $y_2 = 0$ | $y_2 = 1$ | $y_2 = 2$ | $p_1(y_1)$ |
+|---|---|---|---|---|
+| $y_1 = 0$ | 0.30 | 0.15 | 0.05 | 0.50 |
+| $y_1 = 1$ | 0.18 | 0.09 | 0.03 | 0.30 |
+| $y_1 = 2$ | 0.12 | 0.06 | 0.02 | 0.20 |
+| $p_2(y_2)$ | 0.60 | 0.30 | 0.10 | 1.00 |
+
+::: {.fragment}
+Cell $(1, 1)$: $p_1(1)\,p_2(1) = 0.30 \times 0.30 = 0.09 = p(1, 1)$. The same holds in all nine cells, so $Y_1$ and $Y_2$ are **independent**.
+:::
+:::
+
+---
+
+## 📡 Tower Outages After a Storm
+
+::: {style="font-size: 28px"}
+Daily cell-tower outages: $Y_1$ in Baku, $Y_2$ in Sumgait. One storm hits both.
+
+| | $y_2 = 0$ | $y_2 = 1$ | $y_2 = 2$ | $p_1(y_1)$ |
+|---|---|---|---|---|
+| $y_1 = 0$ | 0.40 | 0.08 | 0.02 | 0.50 |
+| $y_1 = 1$ | 0.08 | 0.14 | 0.08 | 0.30 |
+| $y_1 = 2$ | 0.02 | 0.08 | 0.10 | 0.20 |
+| $p_2(y_2)$ | 0.50 | 0.30 | 0.20 | 1.00 |
+
+::: {.fragment}
+Cell $(0, 0)$: $p(0, 0) = 0.40$ but $p_1(0)\,p_2(0) = 0.25$. **Dependent.** Also $P(Y_2 = 0 \mid Y_1 = 0) = 0.80$ but $P(Y_2 = 0 \mid Y_1 = 2) = 0.10$.
+:::
+:::
+
+---
+
+## 💻 Checking Every Cell in R
+
+```{r}
+#| label: cell-check
+branches <- matrix(c(.30, .15, .05,  .18, .09, .03,  .12, .06, .02),
+                   nrow = 3, byrow = TRUE)
+towers   <- matrix(c(.40, .08, .02,  .08, .14, .08,  .02, .08, .10),
+                   nrow = 3, byrow = TRUE)
+# ratio p(y1, y2) / (p1(y1) p2(y2)): every entry is 1 exactly when independent
+ratio <- function(p) p / outer(rowSums(p), colSums(p))
+round(ratio(branches), 3)
+round(ratio(towers), 3)
+```
+
+::: {style="font-size: 28px"}
+Ratios above 1 on the diagonal: outages **cluster** on the same days.
+:::
+
+---
+
+## 📈 Continuous: A Density That Splits
+
+::: {style="font-size: 28px"}
+$Y_1$, $Y_2$ = fraction of each branch's ATM cassette dispensed by closing time, with
+$$f(y_1, y_2) = 6y_1y_2^2, \qquad 0 \le y_1 \le 1,\ 0 \le y_2 \le 1.$$
+
+::: {.fragment}
+Marginals (limits of integration are **constants**):
+$$f_1(y_1) = \int_0^1 6y_1y_2^2\,dy_2 = 2y_1, \qquad f_2(y_2) = \int_0^1 6y_1y_2^2\,dy_1 = 3y_2^2$$
+:::
+
+::: {.fragment}
+$f_1(y_1)f_2(y_2) = 6y_1y_2^2 = f(y_1, y_2)$ everywhere: **independent** (compare Example 5.11). So
+$$P(Y_1 > 0.5,\ Y_2 > 0.5) = (1 - 0.5^2)(1 - 0.5^3) = 0.75 \times 0.875 = 0.656$$
+:::
+:::
+
+---
+
+## 🔺 A Triangle Is Never Independent
+
+::: {style="font-size: 28px"}
+$Y_1$ = fraction of the vault's capacity stocked at opening, $Y_2$ = fraction withdrawn during the day. You cannot withdraw more than was stocked:
+$$f(y_1, y_2) = 2, \qquad 0 \le y_2 \le y_1 \le 1.$$
+
+::: {.fragment}
+$f_1(y_1) = \int_0^{y_1} 2\,dy_2 = 2y_1$ and $f_2(y_2) = \int_{y_2}^{1} 2\,dy_1 = 2(1 - y_2)$ (compare Example 5.12).
+:::
+
+::: {.fragment}
+At $(0.25, 0.75)$: $f = 0$, but $f_1(0.25)f_2(0.75) = 0.5 \times 0.5 = 0.25$. **Dependent.** The limits of integration depended on the other variable, and that was the warning.
+:::
+:::
+
+---
+
+## 📐 Theorem 5.5: Factorisation
+
+::: {style="font-size: 30px"}
+::: {.callout-important}
+## Theorem 5.5
+Let $Y_1$ and $Y_2$ have a joint density $f(y_1, y_2)$ that is positive if and only if $a \le y_1 \le b$ and $c \le y_2 \le d$, for constants $a, b, c, d$; and $f(y_1, y_2) = 0$ otherwise. Then $Y_1$ and $Y_2$ are independent if and only if
+$$f(y_1, y_2) = g(y_1)\,h(y_2),$$
+where $g$ is a nonnegative function of $y_1$ alone and $h$ of $y_2$ alone.
+:::
+
+No marginals needed, and $g$, $h$ need not be densities. Two conditions: a **rectangle** support, and a **product** formula.
+:::
+
+---
+
+## 🔍 Factor or Not?
+
+::: {style="font-size: 28px"}
+| Joint density | Support | Verdict |
+|---|---|---|
+| $12\,y_1\,y_2(1 - y_2)$ | $[0,1] \times [0,1]$ | $g = y_1$, $h = 12y_2(1-y_2)$: **independent** |
+| $\tfrac32(y_1^2 + y_2^2)$ | $[0,1] \times [0,1]$ | a sum, no split: **dependent** |
+| $8\,y_1y_2$ | $0 \le y_2 \le y_1 \le 1$ | a product, but a triangle: **dependent** |
+
+::: {.fragment}
+Row 2: $f_1(y_1) = \tfrac32 y_1^2 + \tfrac12$, so at $(0,0)$ we have $f = 0$ but $f_1 f_2 = 0.25$.
+
+Row 3 is the trap. The formula factors, the support does not; at $(0.25, 0.75)$, $f = 0$ but $f_1 f_2 = 0.0625 \times 1.3125 = 0.082$.
+:::
+:::
+
+---
+
+## 💵 Worked Example: Cash Demand
+
+::: {style="font-size: 28px"}
+Daily cash withdrawn (units of 100,000 AZN): $Y_1$ at Nizami, $Y_2$ at Khatai, with
+$$f(y_1, y_2) = \tfrac12\, y_1 e^{-y_1} e^{-y_2/2}, \qquad y_1 > 0,\ y_2 > 0.$$
+
+::: {.fragment}
+**Step 1.** Support $(0, \infty) \times (0, \infty)$ is a rectangle; $g(y_1) = y_1e^{-y_1}$, $h(y_2) = \tfrac12 e^{-y_2/2}$. Independent by Theorem 5.5: $Y_1$ is gamma$(2, 1)$, $Y_2$ exponential with mean 2.
+:::
+
+::: {.fragment}
+**Step 2.** Both branches above 200,000 AZN: one double integral becomes two single ones,
+$$P(Y_1 > 2,\ Y_2 > 2) = 3e^{-2} \times e^{-1} = 0.406 \times 0.368 = 3e^{-3} = 0.149.$$
+:::
+:::
+
+---
+
+## 💻 Cash Demand in R
+
+```{r}
+#| label: cash-sim
+n  <- 100000
+y1 <- rgamma(n, shape = 2, rate = 1)   # Nizami, mean 2 (200,000 AZN)
+y2 <- rexp(n, rate = 1/2)              # Khatai, mean 2
+c(P_Y1_gt2  = pgamma(2, 2, 1, lower.tail = FALSE),
+  P_Y2_gt2  = pexp(2, 1/2, lower.tail = FALSE),
+  product   = 3 * exp(-3),
+  simulated = mean(y1 > 2 & y2 > 2)) |> round(4)
+```
+
+::: {style="font-size: 28px"}
+About one day in seven, both branches need a large top-up: the cash centre plans for that directly from the two marginals.
+:::
+
+---
+
+## 🛢️ Co-Moving Returns
+
+```{r}
+#| label: comoving
+#| echo: false
+#| fig-width: 11
+#| fig-height: 4.2
+set.seed(2026)
+n_days <- 750
+z1 <- rnorm(n_days); z2 <- rnorm(n_days)
+make <- function(rho, lab) data.frame(
+  brent = 2.0 * z1,                                  # Brent daily return, %
+  bond  = 0.8 * (rho * z1 + sqrt(1 - rho^2) * z2),   # energy-issuer bond, %
+  panel = lab)
+df <- rbind(make(0, "independent"), make(0.6, "co-moving"))
+df$panel <- factor(df$panel, levels = c("independent", "co-moving"))
+ggplot(df, aes(brent, bond)) +
+  geom_point(alpha = 0.35, size = 1.6, colour = "#2f4b7c") +
+  geom_vline(xintercept = -2, linetype = "dashed", colour = "#8b2635") +
+  facet_wrap(~ panel) +
+  labs(x = "Brent daily return (%)", y = "Bond daily return (%)") +
+  theme(strip.text = element_text(size = 20, face = "bold"))
+```
+
+::: {style="font-size: 28px"}
+Same marginals in both panels. When Brent falls more than 2% (left of the dashes), the bond falls with probability 0.50 on the left but **0.86** on the right.
+:::
+
+---
+
+## 🧠 Think-Pair-Share
+
+```{r}
+#| label: tps-timer
+#| echo: false
+# The timer is the only thing in this deck that needs a package beyond base R.
+# Guarded so a machine without it renders the deck anyway, with a static
+# figure in the same corner, rather than halting the whole build.
+if (requireNamespace("countdown", quietly = TRUE)) {
+  countdown::countdown(minutes = 4, seconds = 0,
+                       top = 0, right = 0,
+                       font_size = "2em", warn_when = 30)
+} else {
+  htmltools::HTML(paste0(
+    '<div style="position:absolute; top:0; right:0; font-size:2em;',
+    ' font-weight:700; opacity:0.75">4:00</div>'))
+}
+```
+
+::: {style="font-size: 28px"}
+$Y_1$ = tanker loadings delayed at an oil terminal today (0 or 1); $Y_2$ = pipeline pumping-station alarms (0, 1, 2).
+
+| | $y_2 = 0$ | $y_2 = 1$ | $y_2 = 2$ |
+|---|---|---|---|
+| $y_1 = 0$ | 0.42 | 0.21 | 0.07 |
+| $y_1 = 1$ | 0.18 | ? | ? |
+
+1. If $Y_1$ and $Y_2$ are independent, fill in the two missing cells.
+2. A colleague enters $0.12$ and $0$ instead. Independent?
+:::
+
+---
+
+## ✅ Think-Pair-Share: Solution
+
+::: {style="font-size: 28px"}
+1. Row 0 gives $p_1(0) = 0.70$, so $p_1(1) = 0.30$. Independence in row 0 fixes $p_2$:
+$$p_2(0) = \tfrac{0.42}{0.70} = 0.6,\quad p_2(1) = \tfrac{0.21}{0.70} = 0.3,\quad p_2(2) = 0.1$$
+Check $p(1,0) = 0.3 \times 0.6 = 0.18$ ✓. Then $p(1,1) = 0.09$ and $p(1,2) = 0.03$.
+
+::: {.fragment}
+2. The table still sums to 1, but $p(1, 2) = 0$ while $p_1(1)\,p_2(2) = 0.30 \times 0.07 = 0.021$. **Dependent.** A zero cell under two positive marginals always is (compare Example 5.10).
+:::
+:::
+
+---
+
+## 📝 Quiz #1: Factorisation {.quiz-question}
+
+$f(y_1, y_2) = \tfrac19\, y_1^2 e^{-y_2}$ for $0 \le y_1 \le 3$, $y_2 > 0$, and 0 elsewhere. Are $Y_1$, $Y_2$ independent?
+
+- [Yes: the support is a rectangle and $f = g(y_1)h(y_2)$]{.correct data-explanation="✅ Theorem 5.5: the support [0,3] × (0,∞) is a rectangle, and f splits as g(y1) = y1²/9 times h(y2) = e^(−y2)."}
+- No: $y_1$ has a finite range but $y_2$ does not
+- Cannot say without computing both marginals
+- No: $g(y_1) = y_1^2$ is not a density
+
+---
+
+## 📝 Quiz #2: One Cell {.quiz-question}
+
+In a joint table of two exporters' monthly shipment counts, $p(2, 0) = 0$, while $p_1(2) = 0.2$ and $p_2(0) = 0.4$. What follows?
+
+- [$Y_1$ and $Y_2$ are dependent]{.correct data-explanation="✅ Theorem 5.4 needs p(y1, y2) = p1(y1)p2(y2) for every pair. Here 0 ≠ 0.2 × 0.4 = 0.08, and one failing cell settles it."}
+- Nothing, until the other cells are checked
+- They are independent, since $0 \le 0.08$
+- The table is invalid
+
+---
+
+## 📝 Quiz #3: Using Definition 5.8 {.quiz-question}
+
+Daily losses $Y_1$, $Y_2$ (in million AZN) on two unrelated trading books are independent, with $P(Y_1 \le 1) = 0.7$ and $P(Y_2 \le 1) = 0.4$. What is $P(Y_1 \le 1,\ Y_2 \le 1)$?
+
+- [$0.28$]{.correct data-explanation="✅ Definition 5.8: F(1, 1) = F1(1)F2(1) = 0.7 × 0.4 = 0.28."}
+- $0.82$
+- $1.10$
+- $0.40$
+
+---
+
+## 📋 Key Formulas
+
+::: {style="font-size: 28px"}
+| | Independent if and only if |
+|---|---|
+| Definition 5.8 | $F(y_1, y_2) = F_1(y_1)F_2(y_2)$ for all $(y_1, y_2)$ |
+| Theorem 5.4, discrete | $p(y_1, y_2) = p_1(y_1)p_2(y_2)$ for all pairs |
+| Theorem 5.4, continuous | $f(y_1, y_2) = f_1(y_1)f_2(y_2)$ for all pairs |
+| Theorem 5.5 (rectangle support) | $f(y_1, y_2) = g(y_1)h(y_2)$ |
+| Exercise 5.43 | $f(y_1 \mid y_2) = f_1(y_1)$ whenever $f_2(y_2) > 0$ |
+| $n$ variables | $F(y_1, \ldots, y_n) = F_1(y_1)\cdots F_n(y_n)$ |
+:::
+
+---
+
+## 📋 Summary
+
+::: {style="font-size: 30px"}
+- Independence means the joint distribution is the product of the marginals, **everywhere**
+
+- Tables: check every cell to prove it, find one cell to refute it; a zero cell is the quickest refutation
+
+- Densities: a rectangle support plus a product formula proves it (Theorem 5.5), no integration needed
+
+- A support that is not a rectangle proves dependence, however neatly the formula factors
+
+- A common factor (oil, a storm) makes variables co-move; at correlation 0.6, $P(\text{both fall}) = 0.352$, not $0.5 \times 0.5 = 0.25$
+:::
+
+---
+
+## 📚 Practice Problems
+
+::: {style="font-size: 28px"}
+**Wackerly, 7th edition**
+
+- Exercises at the end of §5.4: start with 5.45, 5.48, 5.51 and 5.53, then 5.56, 5.60, 5.61, and 5.63 – 5.64
+
+- Return to the cash-demand example and find $P(Y_1 < 1,\ Y_2 < 1)$ as a product of two marginal probabilities
+
+**Week 13, Problem Set 1** is open now and closes **Sunday 13 December at 23:59** on WeBWorK, covering §5.4.
+
+**Next class (5 December):** Wackerly §§5.5–5.7, expected values of functions of random variables and covariance.
+:::
+
+---
+
+## 🙏 Thank You
+
+::: {style="font-size: 34px"}
+**Dr. Samir Orujov**
+
+📧 sorujov@ada.edu.az\
+🏢 Building D, Room D325\
+🕓 Office hours: Wednesday, 16:00 – 18:00
+
+Slides and readings: **sorujov.net/teaching**
+:::
+
+---
+
+## ❓ Questions
+
+::: {style="font-size: 32px"}
+- Is a random variable independent of itself? When?
+
+- Can two variables have a triangular support and still have $F(y_1, y_2) = F_1(y_1)F_2(y_2)$ at some points?
+
+- If Brent and the bond were independent, what would the right-hand scatter plot look like?
+:::

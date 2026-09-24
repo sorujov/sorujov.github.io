@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="marginal_conditional_lecture24_files/libs/clipboard/clipboard.min.js"></script>
+<script src="marginal_conditional_lecture24_files/libs/quarto-html/tabby.min.js"></script>
+<script src="marginal_conditional_lecture24_files/libs/quarto-html/popper.min.js"></script>
+<script src="marginal_conditional_lecture24_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="marginal_conditional_lecture24_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="marginal_conditional_lecture24_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="marginal_conditional_lecture24_files/libs/quarto-html/quarto-syntax-highlighting-12757e4b7af482b2d9c5bd8860d2b707.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.10.18">
+
+  <meta name="author" content="Samir Orujov, PhD">
+  <meta name="dcterms.date" content="2026-09-24">
+  <title>Mathematical Statistics</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="marginal_conditional_lecture24_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="marginal_conditional_lecture24_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {  background-color: #f8f8f8; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ef2929; } /* Alert */
+    code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #204a87; } /* Attribute */
+    code span.bn { color: #0000cf; } /* BaseN */
+    code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4e9a06; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #8f5902; font-style: italic; } /* Comment */
+    code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+    code span.dt { color: #204a87; } /* DataType */
+    code span.dv { color: #0000cf; } /* DecVal */
+    code span.er { color: #a40000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #0000cf; } /* Float */
+    code span.fu { color: #204a87; font-weight: bold; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+    code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+    code span.ot { color: #8f5902; } /* Other */
+    code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+    code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+    code span.ss { color: #4e9a06; } /* SpecialString */
+    code span.st { color: #4e9a06; } /* String */
+    code span.va { color: #000000; } /* Variable */
+    code span.vs { color: #4e9a06; } /* VerbatimString */
+    code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="marginal_conditional_lecture24_files/libs/revealjs/dist/theme/quarto-8f4eabb0e7fa2a8f159449dd4bce52c1.css">
+  <link href="marginal_conditional_lecture24_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="marginal_conditional_lecture24_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="marginal_conditional_lecture24_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="marginal_conditional_lecture24_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="marginal_conditional_lecture24_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="marginal_conditional_lecture24_files/libs/revealjs/plugin/reveal-quiz/quiz.css" rel="stylesheet">
+  <link href="marginal_conditional_lecture24_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script type="module" src="marginal_conditional_lecture24_files/libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+  <link href="marginal_conditional_lecture24_files/libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+  <link href="marginal_conditional_lecture24_files/libs/countdown-0.6.0/countdown.css" rel="stylesheet">
+  <script src="marginal_conditional_lecture24_files/libs/countdown-0.6.0/countdown.js"></script>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Mathematical Statistics</h1>
+  <p class="subtitle">Marginal and Conditional Probability Distributions</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Samir Orujov, PhD
+</div>
+        <p class="quarto-title-affiliation">
+            ADA University, School of Business
+          </p>
+        <p class="quarto-title-affiliation">
+            Information Communication Technologies Agency, Statistics Unit
+          </p>
+    </div>
+</div>
+
+  <p class="date">2026-09-24</p>
+</section>
+<section id="learning-objectives" class="slide level2">
+<h2>🎯 Learning Objectives</h2>
+<div style="font-size: 32px">
+<p>By the end of this lecture, you will be able to:</p>
+<ul>
+<li><p><strong>Recover</strong> the marginal distribution of one variable from a joint table by summing, and from a joint density by integrating (Definition 5.4)</p></li>
+<li><p><strong>Read</strong> the limits of that integral off a sketch of the support</p></li>
+<li><p><strong>Compute</strong> a conditional probability function <span class="math inline">\(p(y_1 \mid y_2)\)</span> and a conditional density <span class="math inline">\(f(y_1 \mid y_2)\)</span> (Definitions 5.5 and 5.7)</p></li>
+<li><p><strong>Build</strong> a joint table from a marginal and a set of conditionals, and reverse the conditioning</p></li>
+<li><p><strong>Condition</strong> a claim-size density on the event that the claim exceeds a deductible</p></li>
+</ul>
+</div>
+</section>
+<section id="where-we-are" class="slide level2">
+<h2>🗺️ Where We Are</h2>
+<div style="font-size: 30px">
+<p><strong>Wackerly §5.3</strong></p>
+<p>Wednesday opened Chapter 5 with <strong>bivariate and multivariate probability distributions</strong>: a joint probability function <span class="math inline">\(p(y_1, y_2)\)</span> or a joint density <span class="math inline">\(f(y_1, y_2)\)</span> describes two random variables <em>at once</em>, and we found probabilities of events about the pair.</p>
+<div class="fragment">
+<p>A joint distribution holds more than we usually ask of it. Today we take two things out of it: the distribution of <strong>one variable alone</strong> (the <em>marginal</em>), and the distribution of one variable <strong>once the other is known</strong> (the <em>conditional</em>).</p>
+</div>
+</div>
+</section>
+<section id="motivating-question" class="slide level2">
+<h2>❓ Motivating Question</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>The retail desk’s question</strong></p>
+</div>
+<div class="callout-content">
+<p>A Baku bank’s household survey records monthly <strong>income</strong> <span class="math inline">\(Y_1\)</span> and monthly <strong>consumption spending</strong> <span class="math inline">\(Y_2\)</span>, in AZN, as a joint table.</p>
+<p>The card team wants the distribution of spending across all customers. The credit team wants it <strong>for customers earning 600 AZN</strong>. Same table, two different questions.</p>
+</div>
+</div>
+</div>
+<div class="fragment" style="font-size: 30px">
+<p>The first is a <strong>marginal</strong> distribution; the second is a <strong>conditional</strong> one. Both are read out of the joint table without any new data.</p>
+</div>
+</section>
+<section id="definition-5.4-marginal-distributions" class="slide level2">
+<h2>📐 Definition 5.4: Marginal Distributions</h2>
+<div style="font-size: 30px">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Definition 5.4</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>a.</strong> If <span class="math inline">\(Y_1, Y_2\)</span> are jointly discrete with probability function <span class="math inline">\(p(y_1, y_2)\)</span>, the marginal probability functions are <span class="math display">\[p_1(y_1) = \sum_{\text{all } y_2} p(y_1, y_2), \qquad p_2(y_2) = \sum_{\text{all } y_1} p(y_1, y_2).\]</span> <strong>b.</strong> If <span class="math inline">\(Y_1, Y_2\)</span> are jointly continuous with density <span class="math inline">\(f(y_1, y_2)\)</span>, the marginal densities are <span class="math display">\[f_1(y_1) = \int_{-\infty}^{\infty} f(y_1, y_2)\,dy_2, \qquad f_2(y_2) = \int_{-\infty}^{\infty} f(y_1, y_2)\,dy_1.\]</span></p>
+</div>
+</div>
+</div>
+<p>The events <span class="math inline">\((Y_1 = y_1, Y_2 = y_2)\)</span> are mutually exclusive, so <span class="math inline">\((Y_1 = y_1)\)</span> is their union over <span class="math inline">\(y_2\)</span>: sum out the variable you do not want.</p>
+</div>
+</section>
+<section id="income-and-consumption" class="slide level2">
+<h2>🏠 Income and Consumption</h2>
+<div style="font-size: 30px">
+<table class="caption-top">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="math inline">\(p(y_1, y_2)\)</span></th>
+<th><span class="math inline">\(y_2 = 500\)</span></th>
+<th><span class="math inline">\(y_2 = 900\)</span></th>
+<th><span class="math inline">\(y_2 = 1500\)</span></th>
+<th><span class="math inline">\(p_1(y_1)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(y_1 = 600\)</span></td>
+<td>0.20</td>
+<td>0.08</td>
+<td>0.02</td>
+<td><strong>0.30</strong></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(y_1 = 1200\)</span></td>
+<td>0.10</td>
+<td>0.25</td>
+<td>0.10</td>
+<td><strong>0.45</strong></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(y_1 = 2400\)</span></td>
+<td>0.02</td>
+<td>0.08</td>
+<td>0.15</td>
+<td><strong>0.25</strong></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(p_2(y_2)\)</span></td>
+<td><strong>0.32</strong></td>
+<td><strong>0.41</strong></td>
+<td><strong>0.27</strong></td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p>Row totals give income alone; column totals give spending alone. The card team’s answer is the bottom row: <span class="math inline">\(p_2(500) = 0.20 + 0.10 + 0.02 = 0.32\)</span>.</p>
+</div>
+<div class="fragment">
+<p>The totals sit in the <strong>margins</strong> of the table, which is where the name comes from.</p>
+</div>
+</div>
+</section>
+<section id="a-fuel-stations-day" class="slide level2">
+<h2>⛽ A Fuel Station’s Day</h2>
+<div style="font-size: 30px">
+<p>A Sumgait filling station starts the day with <span class="math inline">\(Y_2\)</span> thousand litres of diesel and sells <span class="math inline">\(Y_1\)</span>. With no delivery during the day, <span class="math inline">\(Y_1 \le Y_2\)</span>, and <span class="math display">\[f(y_1, y_2) = \tfrac{1}{8}, \qquad 0 \le y_1 \le y_2 \le 4 \quad (0 \text{ elsewhere}).\]</span></p>
+<div class="fragment">
+<p><strong>Sales alone.</strong> For fixed <span class="math inline">\(y_1\)</span>, the density is positive only for <span class="math inline">\(y_1 \le y_2 \le 4\)</span>: <span class="math display">\[f_1(y_1) = \int_{y_1}^{4} \tfrac{1}{8}\,dy_2 = \frac{4 - y_1}{8}, \qquad 0 \le y_1 \le 4.\]</span></p>
+</div>
+<div class="fragment">
+<p><strong>Stock alone.</strong> For fixed <span class="math inline">\(y_2\)</span>, it is positive only for <span class="math inline">\(0 \le y_1 \le y_2\)</span>: <span class="math display">\[f_2(y_2) = \int_{0}^{y_2} \tfrac{1}{8}\,dy_1 = \frac{y_2}{8}, \qquad 0 \le y_2 \le 4.\]</span></p>
+</div>
+</div>
+</section>
+<section id="the-limits-come-from-the-picture" class="slide level2">
+<h2>📈 The Limits Come From the Picture</h2>
+
+<img data-src="marginal_conditional_lecture24_files/figure-revealjs/triangle-figure-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1500"><div style="font-size: 28px">
+<p>Integrating out <span class="math inline">\(y_2\)</span> walks <strong>up</strong> a vertical slice; integrating out <span class="math inline">\(y_1\)</span> walks <strong>across</strong> a horizontal one. Sketch the support first, every time.</p>
+</div>
+</section>
+<section id="definition-5.5-discrete-conditionals" class="slide level2">
+<h2>📐 Definition 5.5: Discrete Conditionals</h2>
+<div style="font-size: 30px">
+<p>The multiplicative law, applied to the events <span class="math inline">\((Y_1 = y_1)\)</span> and <span class="math inline">\((Y_2 = y_2)\)</span>, gives <span class="math display">\[p(y_1, y_2) = p_1(y_1)\,p(y_2 \mid y_1) = p_2(y_2)\,p(y_1 \mid y_2).\]</span></p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Definition 5.5</strong></p>
+</div>
+<div class="callout-content">
+<p>If <span class="math inline">\(Y_1, Y_2\)</span> are jointly discrete with joint probability function <span class="math inline">\(p(y_1, y_2)\)</span> and marginals <span class="math inline">\(p_1(y_1)\)</span>, <span class="math inline">\(p_2(y_2)\)</span>, the conditional discrete probability function of <span class="math inline">\(Y_1\)</span> given <span class="math inline">\(Y_2\)</span> is <span class="math display">\[p(y_1 \mid y_2) = P(Y_1 = y_1 \mid Y_2 = y_2) = \frac{p(y_1, y_2)}{p_2(y_2)}, \quad \text{provided } p_2(y_2) &gt; 0.\]</span></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="the-credit-teams-answer" class="slide level2">
+<h2>🏠 The Credit Team’s Answer</h2>
+<div style="font-size: 30px">
+<p>Condition on income <span class="math inline">\(Y_1 = 600\)</span>: keep that <strong>row</strong> and divide it by its total, <span class="math inline">\(p_1(600) = 0.30\)</span>.</p>
+<p><span class="math display">\[\begin{aligned} p(500 \mid 600) &amp;= 0.20 / 0.30 = 0.667 \\ p(900 \mid 600) &amp;= 0.08 / 0.30 = 0.267 \\ p(1500 \mid 600) &amp;= 0.02 / 0.30 = 0.067 \end{aligned}\]</span></p>
+<div class="fragment">
+<p>The three add to 1: a conditional distribution <strong>is</strong> a distribution, just over a smaller world.</p>
+</div>
+<div class="fragment">
+<p>Across all customers, <span class="math inline">\(P(Y_2 = 500) = 0.32\)</span>. Among the 600-AZN earners it is <strong>0.667</strong>. Knowing income more than doubles the chance of the lowest spending band.</p>
+</div>
+</div>
+</section>
+<section id="every-conditional-at-once" class="slide level2">
+<h2>💻 Every Conditional at Once</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-label="1"></a>p <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fl">0.20</span>, <span class="fl">0.08</span>, <span class="fl">0.02</span>,</span>
+<span id="cb1-2"><a href="" aria-label="2"></a>              <span class="fl">0.10</span>, <span class="fl">0.25</span>, <span class="fl">0.10</span>,</span>
+<span id="cb1-3"><a href="" aria-label="3"></a>              <span class="fl">0.02</span>, <span class="fl">0.08</span>, <span class="fl">0.15</span>), <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb1-4"><a href="" aria-label="4"></a>            <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="at">income =</span> <span class="fu">c</span>(<span class="dv">600</span>, <span class="dv">1200</span>, <span class="dv">2400</span>),</span>
+<span id="cb1-5"><a href="" aria-label="5"></a>                            <span class="at">spend  =</span> <span class="fu">c</span>(<span class="dv">500</span>, <span class="dv">900</span>, <span class="dv">1500</span>)))</span>
+<span id="cb1-6"><a href="" aria-label="6"></a><span class="fu">rowSums</span>(p)                   <span class="co"># p1(y1): income alone</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> 600 1200 2400 
+0.30 0.45 0.25 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-label="1"></a><span class="fu">round</span>(p <span class="sc">/</span> <span class="fu">rowSums</span>(p), <span class="dv">3</span>)     <span class="co"># p(y2 | y1): each row divided by its total</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      spend
+income   500   900  1500
+  600  0.667 0.267 0.067
+  1200 0.222 0.556 0.222
+  2400 0.080 0.320 0.600</code></pre>
+</div>
+</div>
+</section>
+<section id="spending-shifts-with-income" class="slide level2">
+<h2>📊 Spending Shifts With Income</h2>
+
+<img data-src="marginal_conditional_lecture24_files/figure-revealjs/conditional-figure-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1575"></section>
+<section id="loan-size-and-default" class="slide level2">
+<h2>🏦 Loan Size and Default</h2>
+<div style="font-size: 29px">
+<p>A lender’s book is 50% small loans (<span class="math inline">\(Y_1 = 1\)</span>), 30% medium (<span class="math inline">\(Y_1 = 2\)</span>), 20% large (<span class="math inline">\(Y_1 = 3\)</span>). Annual default rates <span class="math inline">\(p(1 \mid y_1)\)</span> are 6%, 5% and 10%. So <span class="math inline">\(p(y_1, 1) = p_1(y_1)\,p(1 \mid y_1)\)</span>:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>small</th>
+<th>medium</th>
+<th>large</th>
+<th><span class="math inline">\(p_2(y_2)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(y_2 = 1\)</span> (default)</td>
+<td>0.030</td>
+<td>0.015</td>
+<td>0.020</td>
+<td><strong>0.065</strong></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(y_2 = 0\)</span> (repays)</td>
+<td>0.470</td>
+<td>0.285</td>
+<td>0.180</td>
+<td><strong>0.935</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p>The risk committee asks the <strong>other</strong> conditional: what share of defaults are large? <span class="math display">\[p(3 \mid 1) = \frac{p(3, 1)}{p_2(1)} = \frac{0.020}{0.065} = 0.308\]</span> Large loans are 20% of the book but 31% of the defaults.</p>
+</div>
+</div>
+</section>
+<section id="definition-5.7-conditional-densities" class="slide level2">
+<h2>📐 Definition 5.7: Conditional Densities</h2>
+<div style="font-size: 29px">
+<p>For continuous variables <span class="math inline">\(P(Y_2 = y_2) = 0\)</span>, so Definition 5.5 would divide by zero. Wackerly instead starts from the <strong>conditional distribution function</strong> <span class="math inline">\(F(y_1 \mid y_2) = P(Y_1 \le y_1 \mid Y_2 = y_2)\)</span> (Definition 5.6) and its integrand.</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Definition 5.7</strong></p>
+</div>
+<div class="callout-content">
+<p>For any <span class="math inline">\(y_2\)</span> with <span class="math inline">\(f_2(y_2) &gt; 0\)</span>, the conditional density of <span class="math inline">\(Y_1\)</span> given <span class="math inline">\(Y_2 = y_2\)</span> is <span class="math display">\[f(y_1 \mid y_2) = \frac{f(y_1, y_2)}{f_2(y_2)},\]</span> and for any <span class="math inline">\(y_1\)</span> with <span class="math inline">\(f_1(y_1) &gt; 0\)</span>, <span class="math inline">\(\;f(y_2 \mid y_1) = f(y_1, y_2)/f_1(y_1)\)</span>.</p>
+</div>
+</div>
+</div>
+<p>Same recipe as the table: take a <strong>slice</strong> of the joint, divide by its total.</p>
+</div>
+</section>
+<section id="back-at-the-fuel-station" class="slide level2">
+<h2>⛽ Back at the Fuel Station</h2>
+<div style="font-size: 30px">
+<p>Given an opening stock <span class="math inline">\(y_2\)</span>, with <span class="math inline">\(0 &lt; y_2 \le 4\)</span>: <span class="math display">\[f(y_1 \mid y_2) = \frac{1/8}{y_2/8} = \frac{1}{y_2}, \qquad 0 \le y_1 \le y_2.\]</span> Given the stock, sales are <strong>uniform</strong> on <span class="math inline">\([0, y_2]\)</span>.</p>
+<div class="fragment">
+<p>Probability of selling at most 1 thousand litres:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th><span class="math inline">\(P(Y_1 \le 1 \mid \cdot)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>stock <span class="math inline">\(Y_2 = 3\)</span></td>
+<td><span class="math inline">\(\int_0^1 \frac{1}{3}\,dy_1 = 0.333\)</span></td>
+</tr>
+<tr class="even">
+<td>stock <span class="math inline">\(Y_2 = 1.5\)</span></td>
+<td><span class="math inline">\(\int_0^1 \frac{1}{1.5}\,dy_1 = 0.667\)</span></td>
+</tr>
+<tr class="odd">
+<td>stock unknown, <span class="math inline">\(f_1\)</span></td>
+<td><span class="math inline">\(\int_0^1 \frac{4 - y_1}{8}\,dy_1 = 0.4375\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="a-claim-above-the-deductible" class="slide level2">
+<h2>🚗 A Claim Above the Deductible</h2>
+<div style="font-size: 28px">
+<p>Motor claims <span class="math inline">\(Y\)</span> (thousand AZN) are gamma, <span class="math inline">\(\alpha = 2\)</span>, <span class="math inline">\(\beta = 0.4\)</span>: mean 800 AZN. With a 500 AZN deductible the insurer only <strong>sees</strong> claims with <span class="math inline">\(Y &gt; 0.5\)</span>. By Definition 2.9, <span class="math inline">\(P(Y \le y \mid Y &gt; d) = [F(y) - F(d)]/[1 - F(d)]\)</span>; differentiate: <span class="math display">\[f(y \mid Y &gt; d) = \frac{f(y)}{P(Y &gt; d)}, \quad y &gt; d \qquad (0 \text{ for } y \le d).\]</span></p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="" aria-label="1"></a>S <span class="ot">&lt;-</span> <span class="cf">function</span>(y) <span class="fu">pgamma</span>(y, <span class="at">shape =</span> <span class="dv">2</span>, <span class="at">scale =</span> <span class="fl">0.4</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb5-2"><a href="" aria-label="2"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">P_above_d =</span> <span class="fu">S</span>(<span class="fl">0.5</span>), <span class="at">scale_up =</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">S</span>(<span class="fl">0.5</span>),</span>
+<span id="cb5-3"><a href="" aria-label="3"></a>        <span class="at">P_over_1.5 =</span> <span class="fu">S</span>(<span class="fl">1.5</span>), <span class="at">P_over_1.5_given_d =</span> <span class="fu">S</span>(<span class="fl">1.5</span>) <span class="sc">/</span> <span class="fu">S</span>(<span class="fl">0.5</span>)), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>         P_above_d           scale_up         P_over_1.5 P_over_1.5_given_d 
+             0.645              1.551              0.112              0.173 </code></pre>
+</div>
+</div>
+<p>Cut the density at <span class="math inline">\(d\)</span>, then stretch what is left so it again has area 1.</p>
+</div>
+</section>
+<section id="interactive-move-the-deductible" class="slide level2 smaller">
+<h2>🔬 Interactive: Move the Deductible</h2>
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb7" data-startfrom="347" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 346;"><span id="cb7-347"><a href="" aria-label="347"></a>viewof d <span class="op">=</span> {</span>
+<span id="cb7-348"><a href="" aria-label="348"></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.05</span><span class="op">,</span></span>
+<span id="cb7-349"><a href="" aria-label="349"></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Deductible d (thousand AZN):"</span>})<span class="op">;</span></span>
+<span id="cb7-350"><a href="" aria-label="350"></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
+<span id="cb7-351"><a href="" aria-label="351"></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
+<span id="cb7-352"><a href="" aria-label="352"></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb7-353"><a href="" aria-label="353"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb8" data-startfrom="361" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 360;"><span id="cb8-361"><a href="" aria-label="361"></a>fy <span class="op">=</span> y <span class="kw">=&gt;</span> y <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(<span class="op">-</span>y <span class="op">/</span> <span class="fl">0.4</span>) <span class="op">/</span> <span class="fl">0.16</span>          <span class="co">// gamma(2, 0.4) density</span></span>
+<span id="cb8-362"><a href="" aria-label="362"></a>Sd <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(<span class="op">-</span>d <span class="op">/</span> <span class="fl">0.4</span>) <span class="op">*</span> (<span class="dv">1</span> <span class="op">+</span> d <span class="op">/</span> <span class="fl">0.4</span>)           <span class="co">// P(Y &gt; d)</span></span>
+<span id="cb8-363"><a href="" aria-label="363"></a>grid <span class="op">=</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({<span class="dt">length</span><span class="op">:</span> <span class="dv">400</span>}<span class="op">,</span> (_<span class="op">,</span> i) <span class="kw">=&gt;</span> {</span>
+<span id="cb8-364"><a href="" aria-label="364"></a>  <span class="kw">const</span> y <span class="op">=</span> (i <span class="op">+</span> <span class="dv">1</span>) <span class="op">/</span> <span class="dv">100</span><span class="op">;</span></span>
+<span id="cb8-365"><a href="" aria-label="365"></a>  <span class="cf">return</span> {y<span class="op">,</span> <span class="dt">f</span><span class="op">:</span> <span class="fu">fy</span>(y)<span class="op">,</span> <span class="dt">c</span><span class="op">:</span> y <span class="op">&gt;</span> d <span class="op">?</span> <span class="fu">fy</span>(y) <span class="op">/</span> Sd <span class="op">:</span> <span class="dv">0</span>}<span class="op">;</span></span>
+<span id="cb8-366"><a href="" aria-label="366"></a>})</span>
+<span id="cb8-367"><a href="" aria-label="367"></a></span>
+<span id="cb8-368"><a href="" aria-label="368"></a><span class="fu">md</span><span class="vs">`P(Y &gt; d) = **</span><span class="sc">${</span>Sd<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="vs">**, so every surviving density value is multiplied by **</span><span class="sc">${</span>(<span class="dv">1</span> <span class="op">/</span> Sd)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">**. Dashed: f(y). Shaded: f(y | Y &gt; d).`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-4" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb9" data-startfrom="370" data-source-offset="-416"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 369;"><span id="cb9-370"><a href="" aria-label="370"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb9-371"><a href="" aria-label="371"></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">1150</span><span class="op">,</span> <span class="dt">height</span><span class="op">:</span> <span class="dv">290</span><span class="op">,</span> <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">78</span><span class="op">,</span> <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">58</span><span class="op">,</span></span>
+<span id="cb9-372"><a href="" aria-label="372"></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontSize</span><span class="op">:</span> <span class="st">"18px"</span>}<span class="op">,</span></span>
+<span id="cb9-373"><a href="" aria-label="373"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Claim size y (thousand AZN)"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">4</span>]<span class="op">,</span> <span class="dt">ticks</span><span class="op">:</span> <span class="dv">8</span>}<span class="op">,</span></span>
+<span id="cb9-374"><a href="" aria-label="374"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Density"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="fl">2.6</span>]}<span class="op">,</span></span>
+<span id="cb9-375"><a href="" aria-label="375"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb9-376"><a href="" aria-label="376"></a>    Plot<span class="op">.</span><span class="fu">areaY</span>(grid<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"c"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#8b2635"</span><span class="op">,</span> <span class="dt">fillOpacity</span><span class="op">:</span> <span class="fl">0.35</span>})<span class="op">,</span></span>
+<span id="cb9-377"><a href="" aria-label="377"></a>    Plot<span class="op">.</span><span class="fu">line</span>(grid<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"c"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#8b2635"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="fl">2.5</span>})<span class="op">,</span></span>
+<span id="cb9-378"><a href="" aria-label="378"></a>    Plot<span class="op">.</span><span class="fu">line</span>(grid<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"f"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#14130f"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"6 4"</span>})<span class="op">,</span></span>
+<span id="cb9-379"><a href="" aria-label="379"></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([d]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"#3d6e8f"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span>})<span class="op">,</span></span>
+<span id="cb9-380"><a href="" aria-label="380"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
+<span id="cb9-381"><a href="" aria-label="381"></a>  ]</span>
+<span id="cb9-382"><a href="" aria-label="382"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-5" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="think-pair-share" class="slide level2">
+<h2>🧠 Think-Pair-Share</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<countdown-timer class="countdown" id="timer_bbf9113a" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
+</div>
+</div>
+<div style="font-size: 29px">
+<p>An internet provider links <span class="math inline">\(Y_1\)</span>, a household’s broadband outages last month, to <span class="math inline">\(Y_2 = 1\)</span> if it then switched provider.</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th><span class="math inline">\(y_1 = 0\)</span></th>
+<th><span class="math inline">\(y_1 = 1\)</span></th>
+<th><span class="math inline">\(y_1 = 2\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(y_2 = 1\)</span> (switched)</td>
+<td>0.06</td>
+<td>0.08</td>
+<td>0.06</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(y_2 = 0\)</span> (stayed)</td>
+<td>0.54</td>
+<td>0.22</td>
+<td>0.04</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Four minutes, in pairs:</strong> (1) Find <span class="math inline">\(p_1(y_1)\)</span> and <span class="math inline">\(p_2(1)\)</span>. (2) Find <span class="math inline">\(p(1 \mid y_1)\)</span> for each <span class="math inline">\(y_1\)</span>. (3) Of the households that switched, what share had two outages?</p>
+</div>
+</section>
+<section id="think-pair-share-solution" class="slide level2">
+<h2>✅ Think-Pair-Share: Solution</h2>
+<div style="font-size: 30px">
+<ol type="1">
+<li><p>Column totals: <span class="math inline">\(p_1(0) = 0.60\)</span>, <span class="math inline">\(p_1(1) = 0.30\)</span>, <span class="math inline">\(p_1(2) = 0.10\)</span>. Row total: <span class="math inline">\(p_2(1) = 0.20\)</span>.</p></li>
+<li><p>Divide each switching entry by its column total: <span class="math display">\[p(1 \mid 0) = \tfrac{0.06}{0.60} = 0.10, \quad p(1 \mid 1) = \tfrac{0.08}{0.30} = 0.267, \quad p(1 \mid 2) = \tfrac{0.06}{0.10} = 0.60\]</span></p></li>
+</ol>
+<div class="fragment">
+<ol start="3" type="1">
+<li>Now condition the other way: <span class="math inline">\(p(2 \mid 1) = 0.06/0.20 = 0.30\)</span>. Only 10% of households had two outages, but they are 30% of the churn.</li>
+</ol>
+</div>
+<div class="fragment">
+<p>Part 2 is the engineer’s number; part 3 is the marketing team’s. <strong>Name which variable is given before you divide.</strong></p>
+</div>
+</div>
+</section>
+<section id="quiz-1-condition-on-the-column" class="slide level2 quiz-question">
+<h2>📝 Quiz #1: Condition on the Column</h2>
+<p><span class="math inline">\(Y_1 = 1\)</span> if a household holds a term deposit, <span class="math inline">\(Y_2 = 1\)</span> if it holds a card loan: <span class="math inline">\(p(0,0) = 0.30\)</span>, <span class="math inline">\(p(0,1) = 0.20\)</span>, <span class="math inline">\(p(1,0) = 0.10\)</span>, <span class="math inline">\(p(1,1) = 0.40\)</span>. What is <span class="math inline">\(P(Y_1 = 1 \mid Y_2 = 1)\)</span>?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ First the marginal: p2(1) = 0.20 + 0.40 = 0.60. Then Definition 5.5: 0.40 / 0.60 = 0.667."><span class="math inline">\(0.667\)</span></span></li>
+<li><span class="math inline">\(0.40\)</span></li>
+<li><span class="math inline">\(0.80\)</span></li>
+<li><span class="math inline">\(0.50\)</span></li>
+</ul>
+</section>
+<section id="quiz-2-a-continuous-slice" class="slide level2 quiz-question">
+<h2>📝 Quiz #2: A Continuous Slice</h2>
+<p>At the fuel station, <span class="math inline">\(f(y_1, y_2) = 1/8\)</span> on <span class="math inline">\(0 \le y_1 \le y_2 \le 4\)</span>. Given an opening stock of <span class="math inline">\(Y_2 = 2\)</span>, the conditional density of sales <span class="math inline">\(Y_1\)</span> is</p>
+<ul>
+<li><span class="correct" data-explanation="✅ f2(2) = 2/8, so f(y1 | 2) = (1/8)/(2/8) = 1/2 on [0, 2]: uniform over what could be sold."><span class="math inline">\(1/2\)</span> for <span class="math inline">\(0 \le y_1 \le 2\)</span></span></li>
+<li><span class="math inline">\(1/8\)</span> for <span class="math inline">\(0 \le y_1 \le 2\)</span></li>
+<li><span class="math inline">\((4 - y_1)/8\)</span> for <span class="math inline">\(0 \le y_1 \le 4\)</span></li>
+<li><span class="math inline">\(1/4\)</span> for <span class="math inline">\(0 \le y_1 \le 4\)</span></li>
+</ul>
+</section>
+<section id="quiz-3-the-deductible" class="slide level2 quiz-question">
+<h2>📝 Quiz #3: The Deductible</h2>
+<p>A claim density has <span class="math inline">\(P(Y &gt; d) = 0.64\)</span> at the deductible <span class="math inline">\(d\)</span>. For a claim size <span class="math inline">\(y &gt; d\)</span>, the conditional density <span class="math inline">\(f(y \mid Y &gt; d)\)</span> equals</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Cut at d, then rescale the surviving area 0.64 back to 1: divide by P(Y > d). The conditional density is larger than f(y) wherever it is not zero."><span class="math inline">\(f(y) / 0.64\)</span></span></li>
+<li><span class="math inline">\(f(y)\)</span>, unchanged</li>
+<li><span class="math inline">\(0.64 \, f(y)\)</span></li>
+<li><span class="math inline">\(f(y) - f(d)\)</span></li>
+</ul>
+</section>
+<section id="key-formulas" class="slide level2">
+<h2>📋 Key Formulas</h2>
+<div style="font-size: 28px">
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Statement</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Definition 5.4(a)</td>
+<td><span class="math inline">\(p_1(y_1) = \sum_{\text{all } y_2} p(y_1, y_2)\)</span></td>
+</tr>
+<tr class="even">
+<td>Definition 5.4(b)</td>
+<td><span class="math inline">\(f_1(y_1) = \int_{-\infty}^{\infty} f(y_1, y_2)\,dy_2\)</span></td>
+</tr>
+<tr class="odd">
+<td>multiplicative law</td>
+<td><span class="math inline">\(p(y_1, y_2) = p_1(y_1)\,p(y_2 \mid y_1) = p_2(y_2)\,p(y_1 \mid y_2)\)</span></td>
+</tr>
+<tr class="even">
+<td>Definition 5.5</td>
+<td><span class="math inline">\(p(y_1 \mid y_2) = p(y_1, y_2)/p_2(y_2)\)</span>, <span class="math inline">\(\; p_2(y_2) &gt; 0\)</span></td>
+</tr>
+<tr class="odd">
+<td>Definition 5.6</td>
+<td><span class="math inline">\(F(y_1 \mid y_2) = P(Y_1 \le y_1 \mid Y_2 = y_2)\)</span></td>
+</tr>
+<tr class="even">
+<td>Definition 5.7</td>
+<td><span class="math inline">\(f(y_1 \mid y_2) = f(y_1, y_2)/f_2(y_2)\)</span>, <span class="math inline">\(\; f_2(y_2) &gt; 0\)</span></td>
+</tr>
+<tr class="odd">
+<td>given an event</td>
+<td><span class="math inline">\(f(y \mid Y &gt; d) = f(y)/P(Y &gt; d)\)</span>, <span class="math inline">\(\; y &gt; d\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="summary" class="slide level2">
+<h2>📋 Summary</h2>
+<div style="font-size: 30px">
+<ul>
+<li><p>A <strong>marginal</strong> removes a variable: sum it out of a table, integrate it out of a density</p></li>
+<li><p>The integration limits come from the <strong>support</strong>; sketch it before integrating</p></li>
+<li><p>A <strong>conditional</strong> keeps one slice of the joint and divides by that slice’s total</p></li>
+<li><p><span class="math inline">\(p(y_2 \mid y_1)\)</span> and <span class="math inline">\(p(y_1 \mid y_2)\)</span> answer different questions; name what is given first</p></li>
+<li><p>Conditioning on an event such as <span class="math inline">\(Y &gt; d\)</span> truncates the density and rescales it by <span class="math inline">\(1/P(Y &gt; d)\)</span></p></li>
+</ul>
+</div>
+</section>
+<section id="practice-problems" class="slide level2">
+<h2>📚 Practice Problems</h2>
+<div style="font-size: 28px">
+<p><strong>Wackerly, 7th edition</strong></p>
+<ul>
+<li><p>§5.3: Exercises 5.19 – 5.38; start with 5.19, 5.22, 5.23, 5.25, 5.27, 5.33 and 5.38</p></li>
+<li><p>Exercise 5.25(f) and 5.33(d) ask whether a conditional equals a marginal. Hold on to your answers</p></li>
+<li><p>Redo the deductible slide with <span class="math inline">\(d = 1\)</span> thousand AZN: what is <span class="math inline">\(P(Y &gt; 1.5 \mid Y &gt; 1)\)</span>?</p></li>
+</ul>
+<p><strong>Week 12, Problem Set 2</strong> is open now and closes <strong>Sunday 6 December at 23:59</strong> on WeBWorK, covering §5.3.</p>
+<p><strong>Next class:</strong> 2 December, independent random variables (Wackerly §5.4): what it means when conditioning on one variable leaves the other’s distribution unchanged.</p>
+</div>
+</section>
+<section id="thank-you" class="slide level2">
+<h2>🙏 Thank You</h2>
+<div style="font-size: 34px">
+<p><strong>Dr.&nbsp;Samir Orujov</strong></p>
+<p>📧 sorujov@ada.edu.az<br>
+🏢 Building D, Room D325<br>
+🕓 Office hours: Wednesday, 16:00 – 18:00</p>
+<p>Slides and readings: <strong>sorujov.net/teaching</strong></p>
+</div>
+</section>
+<section id="questions" class="slide level2">
+<h2>❓ Questions</h2>
+<div style="font-size: 32px">
+<ul>
+<li><p>Two different joint tables can share the same two marginals. Can you build one for the loan book?</p></li>
+<li><p>In the fuel example, why is <span class="math inline">\(f(y_1 \mid y_2)\)</span> undefined for <span class="math inline">\(y_2 &gt; 4\)</span>?</p></li>
+<li><p>If <span class="math inline">\(p(y_2 \mid y_1)\)</span> were the same for every <span class="math inline">\(y_1\)</span>, what would the income and consumption table look like?</p></li>
+</ul>
+</div>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="ADA.png" class="slide-logo"></p>
+<div class="footer footer-default">
+<p>Mathematical Statistics I - Marginal and Conditional Distributions</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="marginal_conditional_lecture24_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="marginal_conditional_lecture24_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="marginal_conditional_lecture24_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="marginal_conditional_lecture24_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="marginal_conditional_lecture24_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="marginal_conditional_lecture24_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="marginal_conditional_lecture24_files/libs/revealjs/plugin/reveal-quiz/quiz.js"></script>
+  <script src="marginal_conditional_lecture24_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="marginal_conditional_lecture24_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="marginal_conditional_lecture24_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="marginal_conditional_lecture24_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="marginal_conditional_lecture24_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'quiz': {"checkKey":"c","resetKey":"r","shuffleKey":"s","allowNumberKeys":true,"disableOnCheck":false,"shuffleOptions":true,"defaultCorrect":"✅ Correct! Well done.","defaultIncorrect":"❌ Not quite. Try again or check the explanation.","includeScore":true,"disableReset":false},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 720,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, RevealQuiz, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script type="ojs-module-contents">
+    eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6Ilxudmlld29mIGQgPSB7XG4gIGNvbnN0IGlucHV0ID0gSW5wdXRzLnJhbmdlKFswLCAyXSwge3ZhbHVlOiAwLjUsIHN0ZXA6IDAuMDUsXG4gICAgbGFiZWw6IFwiRGVkdWN0aWJsZSBkICh0aG91c2FuZCBBWk4pOlwifSk7XG4gIFsncG9pbnRlcmRvd24nLCd0b3VjaHN0YXJ0JywnbW91c2Vkb3duJywnY2xpY2snLCd3aGVlbCcsJ3BvaW50ZXJtb3ZlJywndG91Y2htb3ZlJ11cbiAgICAuZm9yRWFjaChlID0+IGlucHV0LmFkZEV2ZW50TGlzdGVuZXIoZSwgZXYgPT4gZXYuc3RvcFByb3BhZ2F0aW9uKCkpKTtcbiAgcmV0dXJuIGlucHV0O1xufVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC0yIiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoiXG5meSA9IHkgPT4geSAqIE1hdGguZXhwKC15IC8gMC40KSAvIDAuMTYgICAgICAgICAgLy8gZ2FtbWEoMiwgMC40KSBkZW5zaXR5XG5TZCA9IE1hdGguZXhwKC1kIC8gMC40KSAqICgxICsgZCAvIDAuNCkgICAgICAgICAgIC8vIFAoWSA+IGQpXG5ncmlkID0gQXJyYXkuZnJvbSh7bGVuZ3RoOiA0MDB9LCAoXywgaSkgPT4ge1xuICBjb25zdCB5ID0gKGkgKyAxKSAvIDEwMDtcbiAgcmV0dXJuIHt5LCBmOiBmeSh5KSwgYzogeSA+IGQgPyBmeSh5KSAvIFNkIDogMH07XG59KVxuXG5tZGBQKFkgPiBkKSA9ICoqJHtTZC50b0ZpeGVkKDMpfSoqLCBzbyBldmVyeSBzdXJ2aXZpbmcgZGVuc2l0eSB2YWx1ZSBpcyBtdWx0aXBsaWVkIGJ5ICoqJHsoMSAvIFNkKS50b0ZpeGVkKDIpfSoqLiBEYXNoZWQ6IGYoeSkuIFNoYWRlZDogZih5IHwgWSA+IGQpLmBcblxuUGxvdC5wbG90KHtcbiAgd2lkdGg6IDExNTAsIGhlaWdodDogMjkwLCBtYXJnaW5MZWZ0OiA3OCwgbWFyZ2luQm90dG9tOiA1OCxcbiAgc3R5bGU6IHtmb250U2l6ZTogXCIxOHB4XCJ9LFxuICB4OiB7bGFiZWw6IFwiQ2xhaW0gc2l6ZSB5ICh0aG91c2FuZCBBWk4pXCIsIGRvbWFpbjogWzAsIDRdLCB0aWNrczogOH0sXG4gIHk6IHtsYWJlbDogXCJEZW5zaXR5XCIsIGRvbWFpbjogWzAsIDIuNl19LFxuICBtYXJrczogW1xuICAgIFBsb3QuYXJlYVkoZ3JpZCwge3g6IFwieVwiLCB5OiBcImNcIiwgZmlsbDogXCIjOGIyNjM1XCIsIGZpbGxPcGFjaXR5OiAwLjM1fSksXG4gICAgUGxvdC5saW5lKGdyaWQsIHt4OiBcInlcIiwgeTogXCJjXCIsIHN0cm9rZTogXCIjOGIyNjM1XCIsIHN0cm9rZVdpZHRoOiAyLjV9KSxcbiAgICBQbG90LmxpbmUoZ3JpZCwge3g6IFwieVwiLCB5OiBcImZcIiwgc3Ryb2tlOiBcIiMxNDEzMGZcIiwgc3Ryb2tlV2lkdGg6IDIsIHN0cm9rZURhc2hhcnJheTogXCI2IDRcIn0pLFxuICAgIFBsb3QucnVsZVgoW2RdLCB7c3Ryb2tlOiBcIiMzZDZlOGZcIiwgc3Ryb2tlV2lkdGg6IDJ9KSxcbiAgICBQbG90LnJ1bGVZKFswXSlcbiAgXVxufSlcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgnZCcpIn1dfQ==
+    </script>
+    <script type="module">
+    if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+    window._ojs.paths.runtimeToDoc = "../../..";
+    window._ojs.paths.runtimeToRoot = "../../..";
+    window._ojs.paths.docToRoot = "";
+    window._ojs.selfContained = false;
+    window._ojs.runtime.interpretFromScriptTags();
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

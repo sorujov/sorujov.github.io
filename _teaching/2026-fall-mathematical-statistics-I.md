@@ -239,19 +239,19 @@ description: "Probability from the axioms upward: counting, conditional probabil
         <td>14 October</td>
         <td>The binomial distribution: derivation from Bernoulli trials, mean, variance, and use in counting defaults and defects.</td>
         <td>Wackerly §3.4. Exercises at the end of §3.4.</td>
-        <td class="muted-cell">&mdash;</td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/11-binomial-distribution/binomial_distribution_lecture11.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/11-binomial-distribution/week06ps1-practice.pdf" target="_blank">Problems &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/11-binomial-distribution/week06ps1-solutions.pdf" target="_blank">Solutions &rarr;</a></div></td>
       </tr>
       <tr class="schedule-highlight">
         <td>17 October</td>
         <td>Quiz I on WeBWorK, first 30 minutes of class (Chapters 1–2). The geometric and negative binomial distributions: waiting for the first success and for the rth success; memorylessness in discrete time.</td>
         <td>Prepare Wackerly Chapters 1–2 for the quiz. Reading for the lecture: §§3.5–3.6.</td>
-        <td class="muted-cell">&mdash;</td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/12-geometric-negative-binomial/geometric_negative_binomial_lecture12.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/12-geometric-negative-binomial/week06ps2-practice.pdf" target="_blank">Problems &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/12-geometric-negative-binomial/week06ps2-solutions.pdf" target="_blank">Solutions &rarr;</a></div></td>
       </tr>
       <tr class="schedule-highlight">
         <td>21 October</td>
         <td>The hypergeometric and Poisson distributions; the Poisson limit of the binomial. Review session for Midterm Examination I.</td>
         <td>Wackerly §§3.7–3.8. Supplementary exercises, Chapters 1–3 (§§3.1–3.8). Tutorial week: TA-led tutorial this week.</td>
-        <td class="muted-cell">&mdash;</td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/13-hypergeometric-poisson/hypergeometric_poisson_lecture13.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/13-hypergeometric-poisson/week07ps1-practice.pdf" target="_blank">Problems &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/13-hypergeometric-poisson/week07ps1-solutions.pdf" target="_blank">Solutions &rarr;</a></div></td>
       </tr>
       <tr class="schedule-highlight">
         <td>24 October</td>
@@ -263,97 +263,97 @@ description: "Probability from the axioms upward: counting, conditional probabil
         <td>28 October</td>
         <td>Moments and moment-generating functions of discrete random variables; recovering the moments of a distribution by differentiation.</td>
         <td>Wackerly §3.9. Exercises at the end of §3.9.</td>
-        <td class="muted-cell">&mdash;</td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/15-moment-generating-functions/moment_generating_functions_lecture15.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/15-moment-generating-functions/week08ps1-practice.pdf" target="_blank">Problems &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/15-moment-generating-functions/week08ps1-solutions.pdf" target="_blank">Solutions &rarr;</a></div></td>
       </tr>
       <tr>
         <td>31 October</td>
         <td>Probability-generating functions. Tchebysheff's theorem for discrete random variables. Chapter 3 synthesis: choosing among the discrete models.</td>
         <td>Wackerly §§3.10–3.11. Supplementary exercises, Chapter 3.</td>
-        <td class="muted-cell">&mdash;</td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/16-pgf-and-tchebysheff/pgf_tchebysheff_lecture16.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/16-pgf-and-tchebysheff/week08ps2-practice.pdf" target="_blank">Problems &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/16-pgf-and-tchebysheff/week08ps2-solutions.pdf" target="_blank">Solutions &rarr;</a></div></td>
       </tr>
       <tr>
         <td>4 November</td>
         <td>Continuous random variables: the distribution function and the density function; the probability of an interval as an area under the density.</td>
         <td>Wackerly §§4.1–4.2. Exercises at the end of §4.2.</td>
-        <td class="muted-cell">&mdash;</td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/17-continuous-random-variables/continuous_random_variables_lecture17.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/17-continuous-random-variables/week09ps1-practice.pdf" target="_blank">Problems &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/17-continuous-random-variables/week09ps1-solutions.pdf" target="_blank">Solutions &rarr;</a></div></td>
       </tr>
       <tr>
         <td>7 November</td>
         <td>Expected values for continuous random variables. The uniform distribution and its role as a reference model.</td>
         <td>Wackerly §§4.3–4.4. Exercises at the end of §§4.3–4.4. Tutorial week: TA-led tutorial this week.</td>
-        <td class="muted-cell">&mdash;</td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/18-continuous-expectation-uniform/continuous_expectation_uniform_lecture18.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/18-continuous-expectation-uniform/week09ps2-practice.pdf" target="_blank">Problems &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/18-continuous-expectation-uniform/week09ps2-solutions.pdf" target="_blank">Solutions &rarr;</a></div></td>
       </tr>
       <tr>
         <td>11 November</td>
         <td>The normal distribution: shape, standardisation, use of the normal tables, and its place in the modelling of asset returns.</td>
         <td>Wackerly §4.5. Exercises at the end of §4.5.</td>
-        <td class="muted-cell">&mdash;</td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/19-normal-distribution/normal_distribution_lecture19.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/19-normal-distribution/week10ps1-practice.pdf" target="_blank">Problems &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/19-normal-distribution/week10ps1-solutions.pdf" target="_blank">Solutions &rarr;</a></div></td>
       </tr>
       <tr>
         <td>14 November</td>
         <td>The gamma family: the gamma, exponential and chi-square distributions. Waiting times and lifetimes; the memoryless property in continuous time.</td>
         <td>Wackerly §4.6. Exercises at the end of §4.6.</td>
-        <td class="muted-cell">&mdash;</td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/20-gamma-exponential-chi-square/gamma_distribution_lecture20.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/20-gamma-exponential-chi-square/week10ps2-practice.pdf" target="_blank">Problems &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/20-gamma-exponential-chi-square/week10ps2-solutions.pdf" target="_blank">Solutions &rarr;</a></div></td>
       </tr>
       <tr>
         <td>18 November</td>
         <td>The beta distribution as a model for proportions. Choosing among the continuous models: general comments and comparisons.</td>
         <td>Wackerly §§4.7–4.8. Exercises at the end of §4.7.</td>
-        <td class="muted-cell">&mdash;</td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/21-beta-distribution/beta_distribution_lecture21.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/21-beta-distribution/week11ps1-practice.pdf" target="_blank">Problems &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/21-beta-distribution/week11ps1-solutions.pdf" target="_blank">Solutions &rarr;</a></div></td>
       </tr>
       <tr>
         <td>21 November</td>
         <td>Moment-generating functions for continuous random variables; Tchebysheff's theorem; expectations of discontinuous functions. Chapter 4 synthesis.</td>
         <td>Wackerly §§4.9–4.11. Supplementary exercises, Chapter 4. Tutorial week: TA-led tutorial this week.</td>
-        <td class="muted-cell">&mdash;</td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/22-continuous-mgf-tchebysheff/continuous_mgf_tchebysheff_lecture22.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/22-continuous-mgf-tchebysheff/week11ps2-practice.pdf" target="_blank">Problems &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/22-continuous-mgf-tchebysheff/week11ps2-solutions.pdf" target="_blank">Solutions &rarr;</a></div></td>
       </tr>
       <tr>
         <td>25 November</td>
         <td>Multivariate probability distributions: joint distribution functions and joint densities for the discrete and the continuous case.</td>
         <td>Wackerly §§5.1–5.2. Exercises at the end of §5.2.</td>
-        <td class="muted-cell">&mdash;</td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/23-bivariate-distributions/bivariate_distributions_lecture23.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/23-bivariate-distributions/week12ps1-practice.pdf" target="_blank">Problems &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/23-bivariate-distributions/week12ps1-solutions.pdf" target="_blank">Solutions &rarr;</a></div></td>
       </tr>
       <tr>
         <td>28 November</td>
         <td>Marginal and conditional distributions: recovering one variable's behaviour from the joint law, and conditioning on the other.</td>
         <td>Wackerly §5.3. Exercises at the end of §5.3.</td>
-        <td class="muted-cell">&mdash;</td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/24-marginal-conditional/marginal_conditional_lecture24.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/24-marginal-conditional/week12ps2-practice.pdf" target="_blank">Problems &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/24-marginal-conditional/week12ps2-solutions.pdf" target="_blank">Solutions &rarr;</a></div></td>
       </tr>
       <tr>
         <td>2 December</td>
         <td>Independent random variables: the factorisation criterion, and the ways independence fails in economic data.</td>
         <td>Wackerly §5.4. Exercises at the end of §5.4.</td>
-        <td class="muted-cell">&mdash;</td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/25-independent-random-variables/independent_random_variables_lecture25.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/25-independent-random-variables/week13ps1-practice.pdf" target="_blank">Problems &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/25-independent-random-variables/week13ps1-solutions.pdf" target="_blank">Solutions &rarr;</a></div></td>
       </tr>
       <tr>
         <td>5 December</td>
         <td>The expected value of a function of several random variables. Covariance: definition, computation, and interpretation as co-movement.</td>
         <td>Wackerly §§5.5–5.7. Exercises at the end of §§5.5–5.7. Tutorial week: TA-led tutorial this week.</td>
-        <td class="muted-cell">&mdash;</td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/26-expectation-covariance/expectation_covariance_lecture26.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/26-expectation-covariance/week13ps2-practice.pdf" target="_blank">Problems &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/26-expectation-covariance/week13ps2-solutions.pdf" target="_blank">Solutions &rarr;</a></div></td>
       </tr>
       <tr>
         <td>9 December</td>
-        <td>The mean and variance of a linear combination of random variables; the variance of a two-asset portfolio and the arithmetic of diversification. The multinomial distribution.</td>
+        <td>The mean and variance of a linear combination of random variables; the variance of a two-asset portfolio and the arithmetic of diversification.</td>
         <td>Wackerly §5.8. Exercises at the end of §5.8.</td>
-        <td class="muted-cell">&mdash;</td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/27-linear-functions/linear_functions_lecture27.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/27-linear-functions/week14ps1-practice.pdf" target="_blank">Problems &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/27-linear-functions/week14ps1-solutions.pdf" target="_blank">Solutions &rarr;</a></div></td>
       </tr>
       <tr class="schedule-highlight">
         <td>12 December</td>
         <td>Quiz II on WeBWorK, first 30 minutes of class (Chapter 4 and §§5.1–5.8). The multinomial distribution.</td>
         <td>Prepare Wackerly Chapter 4 and §§5.1–5.8 for the quiz. Reading for the lecture: §5.9.</td>
-        <td class="muted-cell">&mdash;</td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/28-multinomial-distribution/multinomial_distribution_lecture28.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/28-multinomial-distribution/week14ps2-practice.pdf" target="_blank">Problems &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/28-multinomial-distribution/week14ps2-solutions.pdf" target="_blank">Solutions &rarr;</a></div></td>
       </tr>
       <tr>
         <td>16 December</td>
         <td>The bivariate normal distribution. Conditional expectations and the regression function; the law of iterated expectations and the conditional-variance decomposition.</td>
         <td>Wackerly §§5.10–5.11. Exercises at the end of §5.11. Tutorial week: TA-led tutorial this week.</td>
-        <td class="muted-cell">&mdash;</td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/29-bivariate-normal-conditional-expectation/conditional_expectation_lecture29.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/29-bivariate-normal-conditional-expectation/week15ps1-practice.pdf" target="_blank">Problems &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/29-bivariate-normal-conditional-expectation/week15ps1-solutions.pdf" target="_blank">Solutions &rarr;</a></div></td>
       </tr>
       <tr class="schedule-highlight">
         <td>19 December</td>
         <td>Chapter 5 synthesis and comprehensive review of Chapters 1–5 in preparation for Midterm Examination II.</td>
         <td>Wackerly §5.12. Supplementary exercises, Chapter 5.</td>
-        <td class="muted-cell">&mdash;</td>
+        <td><div class="material-links"><a class="slide-link" href="/lectures/math-stat-1-fall-2026/30-chapter5-synthesis-review/chapter5_synthesis_review_lecture30.html" target="_blank">Slides &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/30-chapter5-synthesis-review/week15ps2-practice.pdf" target="_blank">Problems &rarr;</a><a class="slide-link" href="/lectures/math-stat-1-fall-2026/30-chapter5-synthesis-review/week15ps2-solutions.pdf" target="_blank">Solutions &rarr;</a></div></td>
       </tr>
       <tr class="schedule-highlight">
         <td>23 December</td>
