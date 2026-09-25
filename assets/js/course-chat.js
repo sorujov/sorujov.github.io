@@ -243,25 +243,40 @@ async function generate(question, result, onToken) {
 
 /* ----------------------------------------------------------------- widget -- */
 
-function mount(root) {
+const ICON_CHAT =
+  '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-4.2 3.6c-.5.4-1.3.1-1.3-.6V16A2.5 2.5 0 0 1 4 13.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8.5 8.5h7M8.5 11.5h4.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>';
+const ICON_SEND =
+  '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const ICON_CLOSE =
+  '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+
+function mount(root, { floating = false } = {}) {
   root.innerHTML = `
     <div class="cc-shell">
       <div class="cc-head">
-        <h2 class="cc-title">Ask about this course</h2>
-        <p class="cc-sub">Answers come from the syllabus and this term's lectures, and are
-          worked out on your own device. The syllabus is authoritative; for anything graded,
-          e-mail Dr. Orujov.</p>
+        <span class="cc-badge">${ICON_CHAT}</span>
+        <div class="cc-head-text">
+          <h2 class="cc-title">Ask about this course</h2>
+          <p class="cc-sub">STAT-2311 · runs on your device, nothing is sent</p>
+        </div>
+        ${floating ? `<button class="cc-close" type="button" aria-label="Close the assistant">${ICON_CLOSE}</button>` : ""}
       </div>
 
-      <div class="cc-log" role="log" aria-live="polite" aria-label="Answers"></div>
-
-      <div class="cc-chips"></div>
+      <div class="cc-body">
+        <div class="cc-welcome">
+          <p>Dates, deadlines, grading, or a topic from the lectures — answers are quoted
+            from the syllabus and this term's slides. The syllabus is authoritative; for
+            anything graded, e-mail Dr. Orujov.</p>
+        </div>
+        <div class="cc-log" role="log" aria-live="polite" aria-label="Answers"></div>
+        <div class="cc-chips"></div>
+      </div>
 
       <form class="cc-form" autocomplete="off">
         <label class="cc-label" for="cc-input">Your question</label>
         <input id="cc-input" class="cc-input" type="text" name="q"
                placeholder="When is Midterm I?" maxlength="200">
-        <button class="cc-send" type="submit">Ask</button>
+        <button class="cc-send" type="submit" aria-label="Ask">${ICON_SEND}</button>
       </form>
 
       <div class="cc-foot">
@@ -289,12 +304,22 @@ function mount(root) {
     chips.appendChild(chip);
   });
 
+  const body = root.querySelector(".cc-body");
+  const welcome = root.querySelector(".cc-welcome");
+
+  // Scroll the transcript, never the page behind it.
+  const follow = () => {
+    body.scrollTop = body.scrollHeight;
+  };
+
   const say = (html, cls = "") => {
+    welcome.hidden = true;
+    chips.hidden = true;
     const block = document.createElement("div");
     block.className = `cc-turn ${cls}`.trim();
     block.innerHTML = html;
     log.appendChild(block);
-    block.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    follow();
     return block;
   };
 
@@ -346,7 +371,9 @@ function mount(root) {
     paintUpgrade();
     if (model && store.get("cc-smart") === "1") {
       // Previously enabled on this device, so the weights are already cached.
-      upgrade.click();
+      // A closed floating panel waits until it is opened.
+      if (floating) input.addEventListener("focus", () => upgrade.click(), { once: true });
+      else upgrade.click();
     }
   });
 
@@ -373,6 +400,7 @@ function mount(root) {
       const result = ask(question, index, vector);
       pending.innerHTML = renderAnswer(result);
       typeset(pending);
+      follow();
 
       if (smart && engine && (result.kind === "fact" || result.kind === "passages")) {
         const prose = document.createElement("p");
@@ -380,6 +408,7 @@ function mount(root) {
         pending.prepend(prose);
         await generate(question, result, (text) => {
           prose.textContent = text;
+          follow();
         });
         typeset(pending);
         const note = document.createElement("p");
@@ -402,5 +431,68 @@ function mount(root) {
   input.addEventListener("focus", () => loadIndex().catch(() => {}), { once: true });
 }
 
+/* --------------------------------------------------------------- floating -- */
+
+// A launcher in the corner that opens the widget as a panel. It never opens on
+// its own; a first-time visitor gets a one-line hint beside the launcher.
+function mountFloating(root) {
+  root.classList.add("cc-floating");
+  root.innerHTML = `
+    <div class="cc-panel" id="cc-panel" role="dialog" aria-modal="false"
+         aria-label="Course assistant" hidden></div>
+    <div class="cc-teaser" hidden>
+      <button class="cc-teaser-text" type="button">Questions about the course? Ask here.</button>
+      <button class="cc-teaser-x" type="button" aria-label="Dismiss">${ICON_CLOSE}</button>
+    </div>
+    <button class="cc-launcher" type="button" aria-expanded="false" aria-controls="cc-panel">
+      ${ICON_CHAT}<span class="cc-launcher-label">Ask about STAT-2311</span>
+    </button>`;
+
+  const panel = root.querySelector(".cc-panel");
+  const launcher = root.querySelector(".cc-launcher");
+  const teaser = root.querySelector(".cc-teaser");
+  mount(panel, { floating: true });
+
+  const hideTeaser = () => {
+    teaser.hidden = true;
+  };
+
+  const setOpen = (open) => {
+    panel.hidden = !open;
+    root.classList.toggle("is-open", open);
+    launcher.setAttribute("aria-expanded", String(open));
+    hideTeaser();
+    if (open) {
+      store.set("cc-teased", "1");
+      panel.querySelector(".cc-input").focus();
+    } else {
+      launcher.focus();
+    }
+  };
+
+  launcher.addEventListener("click", () => setOpen(panel.hidden));
+  panel.querySelector(".cc-close").addEventListener("click", () => setOpen(false));
+  root.querySelector(".cc-teaser-text").addEventListener("click", () => setOpen(true));
+  root.querySelector(".cc-teaser-x").addEventListener("click", () => {
+    store.set("cc-teased", "1");
+    hideTeaser();
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !panel.hidden) setOpen(false);
+  });
+
+  if (store.get("cc-teased") !== "1") {
+    setTimeout(() => {
+      if (!panel.hidden) return;
+      teaser.hidden = false;
+      store.set("cc-teased", "1");
+      setTimeout(hideTeaser, 12000);
+    }, 2500);
+  }
+}
+
 const root = document.getElementById("course-chat");
-if (root) mount(root);
+if (root) {
+  if (root.dataset.mode === "floating") mountFloating(root);
+  else mount(root);
+}

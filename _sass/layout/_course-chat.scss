@@ -1,122 +1,201 @@
 /* ==========================================================================
    COURSE CHAT
-   The STAT-2311 assistant. Uses the editorial tokens only, so it follows the
-   light/dark toggle without a second set of rules.
+   The STAT-2311 assistant, either in the page or as a launcher in the
+   bottom-left corner. Uses the editorial tokens only, so it follows the
+   light/dark toggle without a second set of rules. Text on the accent uses
+   --paper, which is light on claret and dark on the dark theme's rose.
    ========================================================================== */
 
 #course-chat {
     margin: 2.5em 0;
-}
+    font-family: var(--font-ui);
 
-.cc-shell {
-    border: 1px solid var(--rule);
-    border-radius: 4px;
-    background: var(--paper-raised);
-    box-shadow: var(--shadow-sm);
-    padding: 1.5em 1.5em 1.25em;
-
-    @media (max-width: 600px) {
-        padding: 1.1em 1em 1em;
-        margin-left: -0.35em;
-        margin-right: -0.35em;
+    svg {
+        width: 1.15em;
+        height: 1.15em;
+        display: block;
+        flex: none;
     }
 }
 
+/* --- shell -------------------------------------------------------------- */
+
+.cc-shell {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    background: var(--paper-raised);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+}
+
 .cc-head {
+    display: flex;
+    align-items: center;
+    gap: 0.75em;
+    padding: 0.95em 1.1em;
     border-bottom: 1px solid var(--rule);
-    padding-bottom: 0.9em;
-    margin-bottom: 1em;
+    background: var(--paper);
+}
+
+.cc-badge {
+    display: grid;
+    place-items: center;
+    width: 2.3em;
+    height: 2.3em;
+    border-radius: 50%;
+    background: var(--accent-tint);
+    color: var(--accent);
+    flex: none;
+}
+
+.cc-head-text {
+    flex: 1 1 auto;
+    min-width: 0;
 }
 
 .cc-title {
-    font-family: var(--font-display, "Newsreader", Georgia, serif);
-    font-size: 1.35em;
+    font-family: var(--font-display);
+    font-size: 1.15em;
+    font-weight: 500;
     line-height: 1.2;
-    margin: 0 0 0.35em;
+    margin: 0;
     color: var(--ink);
 }
 
 .cc-sub {
-    font-size: 0.82em;
-    line-height: 1.55;
+    font-size: 0.74em;
+    line-height: 1.4;
     color: var(--ink-muted);
-    margin: 0;
-    max-width: 62ch;
+    margin: 0.15em 0 0;
+    letter-spacing: 0.01em;
 }
 
-/* --- transcript --------------------------------------------------------- */
+.cc-close {
+    display: grid;
+    place-items: center;
+    width: 2.1em;
+    height: 2.1em;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--ink-muted);
+    cursor: pointer;
+    flex: none;
 
-.cc-log {
-    &:empty {
-        display: none;
+    &:hover,
+    &:focus-visible {
+        background: var(--paper-sunken);
+        color: var(--ink);
     }
+}
 
-    max-height: 30em;
+/* --- body: welcome, transcript, suggestions ----------------------------- */
+
+.cc-body {
+    padding: 1.1em 1.1em 0.4em;
+    max-height: 32em;
     overflow-y: auto;
-    margin-bottom: 1em;
-    padding-right: 0.25em;
+    overscroll-behavior: contain;
+    scroll-behavior: smooth;
+}
+
+.cc-welcome p {
+    margin: 0 0 1em;
+    font-size: 0.86em;
+    line-height: 1.6;
+    color: var(--ink-soft);
+}
+
+.cc-log:empty {
+    display: none;
 }
 
 .cc-turn {
-    margin-bottom: 1.1em;
+    margin-bottom: 0.9em;
+}
 
-    &:last-child {
-        margin-bottom: 0.25em;
-    }
+/* The question: a bubble on the right. */
+.cc-turn-q {
+    display: flex;
+    justify-content: flex-end;
 }
 
 .cc-q {
-    font-weight: 600;
-    color: var(--ink);
+    max-width: 85%;
     margin: 0;
-    font-size: 0.95em;
-
-    &::before {
-        content: "\2192\00a0";
-        color: var(--accent);
-    }
+    padding: 0.55em 0.9em;
+    border-radius: 14px 14px 4px 14px;
+    background: var(--accent);
+    color: var(--paper);
+    font-size: 0.9em;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
 }
 
+/* The answer: a card on the left. */
 .cc-turn-a {
-    border-left: 2px solid var(--accent);
-    padding-left: 0.9em;
-    margin-top: 0.5em;
+    max-width: 94%;
+    padding: 0.8em 0.95em;
+    border: 1px solid var(--rule);
+    border-radius: 14px 14px 14px 4px;
+    background: var(--paper);
 }
 
 .cc-thinking {
-    color: var(--ink-muted);
-    font-style: italic;
     margin: 0;
-    font-size: 0.9em;
+    color: var(--ink-muted);
+    font-size: 0.88em;
+
+    &::after {
+        content: "";
+        display: inline-block;
+        width: 1.2em;
+        text-align: left;
+        animation: cc-dots 1.2s steps(4, end) infinite;
+    }
+}
+
+@keyframes cc-dots {
+    0%   { content: ""; }
+    25%  { content: "."; }
+    50%  { content: ".."; }
+    75%  { content: "..."; }
 }
 
 .cc-fact {
     margin: 0 0 0.4em;
-    font-size: 0.97em;
+    font-size: 0.95em;
     line-height: 1.55;
     color: var(--ink);
 }
 
 .cc-generated {
-    margin: 0 0 0.5em;
-    font-size: 0.97em;
+    margin: 0 0 0.4em;
+    font-size: 0.95em;
     line-height: 1.6;
     color: var(--ink);
 }
 
 .cc-note,
 .cc-cite {
-    font-size: 0.78em;
+    font-size: 0.76em;
     color: var(--ink-muted);
-    margin: 0 0 0.6em;
+    margin: 0 0 0.5em;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
 }
 
 .cc-lead {
-    font-size: 0.82em;
+    font-size: 0.7em;
+    font-weight: 600;
     color: var(--ink-muted);
-    margin: 0 0 0.5em;
+    margin: 0 0 0.6em;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
 }
 
 .cc-passages {
@@ -126,21 +205,33 @@
 }
 
 .cc-passage {
-    margin-bottom: 0.9em;
+    margin: 0 0 0.8em;
+    padding-left: 0.75em;
+    border-left: 2px solid var(--rule-strong);
+
+    &:last-child {
+        margin-bottom: 0;
+    }
 
     blockquote {
-        margin: 0 0 0.25em;
+        margin: 0 0 0.3em;
         padding: 0;
         border: 0;
-        font-size: 0.9em;
+        font-size: 0.87em;
         line-height: 1.55;
         color: var(--ink-soft);
         font-style: normal;
+
+        &::before,
+        &::after {
+            content: none;
+        }
     }
 }
 
 .cc-source {
-    font-size: 0.78em;
+    font-size: 0.76em;
+    font-weight: 500;
     color: var(--accent);
     text-decoration: none;
     border-bottom: 1px solid transparent;
@@ -153,13 +244,14 @@
 
 .cc-refusal {
     margin: 0;
-    font-size: 0.93em;
+    font-size: 0.9em;
     line-height: 1.6;
     color: var(--ink-soft);
 }
 
 .cc-more {
-    font-size: 0.82em;
+    margin-top: 0.3em;
+    font-size: 0.8em;
     color: var(--ink-muted);
 
     summary {
@@ -172,26 +264,28 @@
     }
 }
 
-/* --- suggestions -------------------------------------------------------- */
-
 .cc-chips {
     display: flex;
     flex-wrap: wrap;
     gap: 0.4em;
-    margin-bottom: 0.9em;
+    margin-bottom: 0.7em;
+
+    &[hidden] {
+        display: none;
+    }
 }
 
 .cc-chip {
     font-family: inherit;
     font-size: 0.78em;
     line-height: 1.2;
-    padding: 0.45em 0.75em;
+    padding: 0.5em 0.8em;
     border: 1px solid var(--rule-strong);
     border-radius: 999px;
-    background: var(--paper-sunken);
+    background: var(--paper);
     color: var(--ink-soft);
     cursor: pointer;
-    transition: var(--global-transition, all 0.2s ease);
+    transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
 
     &:hover,
     &:focus-visible {
@@ -205,8 +299,19 @@
 
 .cc-form {
     display: flex;
-    gap: 0.5em;
-    align-items: stretch;
+    align-items: center;
+    gap: 0.4em;
+    margin: 0.4em 1.1em 0;
+    padding: 0.3em 0.3em 0.3em 0.95em;
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px;
+    background: var(--paper);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+    &:focus-within {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px var(--accent-tint);
+    }
 }
 
 .cc-label {
@@ -222,42 +327,45 @@
     flex: 1 1 auto;
     min-width: 0;
     font-family: inherit;
-    font-size: 0.95em;
-    padding: 0.6em 0.8em;
-    border: 1px solid var(--rule-strong);
-    border-radius: 3px;
-    background: var(--paper);
+    font-size: 0.93em;
+    padding: 0.45em 0;
+    border: 0;
+    background: transparent;
     color: var(--ink);
+    box-shadow: none;
 
     &::placeholder {
         color: var(--ink-muted);
-        opacity: 0.75;
+        opacity: 0.8;
     }
 
     &:focus {
         outline: none;
-        border-color: var(--accent);
-        box-shadow: 0 0 0 2px var(--accent-tint);
+        box-shadow: none;
     }
 }
 
 .cc-send {
-    flex: 0 0 auto;
-    font-family: inherit;
-    font-size: 0.9em;
-    font-weight: 600;
-    padding: 0.6em 1.3em;
-    border: 1px solid var(--accent);
-    border-radius: 3px;
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 2.35em;
+    height: 2.35em;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
     background: var(--accent);
-    color: #fff;
+    color: var(--paper);
     cursor: pointer;
-    transition: var(--global-transition, all 0.2s ease);
+    transition: background 0.15s ease, transform 0.15s ease;
 
     &:hover,
     &:focus-visible {
         background: var(--accent-hover);
-        border-color: var(--accent-hover);
+    }
+
+    &:active {
+        transform: scale(0.94);
     }
 }
 
@@ -267,22 +375,30 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.6em;
-    margin-top: 0.85em;
-    padding-top: 0.75em;
-    border-top: 1px solid var(--rule);
-    min-height: 1.6em;
+    gap: 0.5em;
+    padding: 0.6em 1.1em 0.8em;
+    min-height: 1.4em;
+
+    // Nothing to show (no WebGPU, no status): just the bottom margin.
+    &:has(.cc-upgrade[hidden]):has(.cc-status:empty) {
+        min-height: 0;
+        padding-top: 0.4em;
+    }
 }
 
 .cc-upgrade {
     font-family: inherit;
-    font-size: 0.76em;
-    padding: 0.35em 0.7em;
+    font-size: 0.72em;
+    padding: 0.3em 0.7em;
     border: 1px dashed var(--rule-strong);
-    border-radius: 3px;
+    border-radius: 999px;
     background: transparent;
     color: var(--ink-muted);
     cursor: pointer;
+
+    &[hidden] {
+        display: none;
+    }
 
     &:hover:not(:disabled),
     &:focus-visible {
@@ -303,14 +419,224 @@
 }
 
 .cc-status {
-    font-size: 0.76em;
+    font-size: 0.72em;
     color: var(--ink-muted);
     flex: 1 1 12em;
 }
 
+/* --- floating: launcher, hint, panel ------------------------------------ */
+
+#course-chat.cc-floating {
+    margin: 0;
+}
+
+.cc-launcher {
+    position: fixed;
+    left: 1.25rem;
+    bottom: 1.25rem;
+    z-index: 45;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55em;
+    padding: 0.8em 1.15em 0.8em 1em;
+    border: 0;
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--paper);
+    font-family: var(--font-ui);
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.005em;
+    box-shadow: var(--shadow-lg), var(--shadow-md);
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.2s ease;
+
+    svg {
+        width: 1.3em;
+        height: 1.3em;
+    }
+
+    &:hover,
+    &:focus-visible {
+        background: var(--accent-hover);
+        transform: translateY(-2px);
+    }
+
+    .is-open & {
+        transform: none;
+    }
+}
+
+.cc-teaser {
+    position: fixed;
+    left: 1.25rem;
+    bottom: 4.8rem;
+    z-index: 45;
+    display: flex;
+    align-items: center;
+    gap: 0.2em;
+    max-width: calc(100vw - 2.5rem);
+    padding: 0.25em 0.3em 0.25em 0.2em;
+    border: 1px solid var(--rule);
+    border-radius: 12px 12px 12px 4px;
+    background: var(--paper-raised);
+    box-shadow: var(--shadow-md);
+    animation: cc-rise 0.3s ease-out;
+
+    &[hidden] {
+        display: none;
+    }
+}
+
+.cc-teaser-text {
+    border: 0;
+    background: transparent;
+    padding: 0.45em 0.6em;
+    font-family: var(--font-ui);
+    font-size: 0.84rem;
+    color: var(--ink);
+    cursor: pointer;
+    text-align: left;
+
+    &:hover,
+    &:focus-visible {
+        color: var(--accent);
+    }
+}
+
+.cc-teaser-x {
+    display: grid;
+    place-items: center;
+    width: 1.8em;
+    height: 1.8em;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--ink-muted);
+    cursor: pointer;
+
+    svg {
+        width: 0.9em !important;
+        height: 0.9em !important;
+    }
+
+    &:hover,
+    &:focus-visible {
+        background: var(--paper-sunken);
+        color: var(--ink);
+    }
+}
+
+.cc-panel {
+    position: fixed;
+    left: 1.25rem;
+    bottom: 5rem;
+    z-index: 45;
+    width: min(25rem, calc(100vw - 2.5rem));
+    height: min(38rem, calc(100vh - 7rem));
+    animation: cc-rise 0.22s ease-out;
+
+    &[hidden] {
+        display: none;
+    }
+
+    .cc-shell {
+        height: 100%;
+        box-shadow: var(--shadow-lg), var(--shadow-md);
+    }
+
+    .cc-body {
+        flex: 1 1 auto;
+        max-height: none;
+    }
+}
+
+@keyframes cc-rise {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Phones: an icon-only launcher, and the panel as a bottom sheet over the page. */
+@media (max-width: 600px) {
+    .cc-launcher {
+        left: 1rem;
+        bottom: 1rem;
+        width: 3.4rem;
+        height: 3.4rem;
+        padding: 0;
+        justify-content: center;
+
+        svg {
+            width: 1.5em;
+            height: 1.5em;
+        }
+    }
+
+    .cc-launcher-label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+    }
+
+    .cc-teaser {
+        left: 1rem;
+        bottom: 5rem;
+    }
+
+    .cc-floating.is-open .cc-launcher {
+        display: none;
+    }
+
+    .cc-panel {
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 60;
+        width: auto;
+        height: 88vh;
+        height: 88dvh;
+
+        .cc-shell {
+            border-radius: 16px 16px 0 0;
+            border-bottom: 0;
+        }
+    }
+
+    .cc-foot {
+        padding-bottom: max(0.8em, env(safe-area-inset-bottom));
+    }
+}
+
+@media print {
+    #course-chat {
+        display: none;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     .cc-chip,
-    .cc-send {
+    .cc-send,
+    .cc-form,
+    .cc-launcher,
+    .cc-teaser,
+    .cc-panel,
+    .cc-body {
         transition: none;
+        animation: none;
+        scroll-behavior: auto;
+    }
+
+    .cc-thinking::after {
+        animation: none;
+        content: "…";
     }
 }

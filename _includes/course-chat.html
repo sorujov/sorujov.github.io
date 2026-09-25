@@ -1,9 +1,10 @@
 {% comment %}
   STAT-2311 course assistant. Include anywhere a course page should carry it:
-      {% include course-chat.html %}
+      {% include course-chat.html %}                  in the page
+      {% include course-chat.html mode="floating" %}  launcher in the corner
   Everything runs client-side; see CLAUDE.md for the pipeline.
 {% endcomment %}
-<div id="course-chat" data-course="STAT-2311">
+<div id="course-chat" data-course="STAT-2311"{% if include.mode == "floating" %} data-mode="floating"{% endif %}>
   <noscript>
     <p class="cc-refusal">The course assistant needs JavaScript. Everything it knows is on
       this page and in the <a href="/teaching/2026-fall-mathematical-statistics-I">course plan</a>.</p>

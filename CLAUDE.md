@@ -67,7 +67,7 @@ own weights. A student who never presses that button still gets every answer.
 | `assets/js/course-chat-core.js` | retrieval — pure functions, no DOM, shared with the evaluation |
 | `assets/js/course-chat.js` | the widget: UI, model loading, optional generation |
 | `_sass/layout/_course-chat.scss` | styles, editorial tokens only |
-| `_includes/course-chat.html` | drop-in include |
+| `_includes/course-chat.html` | drop-in include; `mode="floating"` gives a bottom-left launcher that never opens by itself (course page, `/teaching/`) |
 | `_pages/ask.md` | standalone page at `/teaching/ask/` |
 | `scripts/eval/` | golden set, offline harness, browser checks, cluster benchmark |
 

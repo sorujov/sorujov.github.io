@@ -33,7 +33,7 @@ description: "Probability from the axioms upward: counting, conditional probabil
   </div>
 </div>
 
-{% include course-chat.html %}
+{% include course-chat.html mode="floating" %}
 
 <div class="course-info" id="course-info">
   <h2>Course information</h2>
