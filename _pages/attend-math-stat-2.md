@@ -1,5 +1,6 @@
 ---
 layout: single
+chat: false
 title: "Check-in - Mathematical Statistics II"
 permalink: /attend/math-stat-2/
 classes: wide

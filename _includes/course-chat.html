@@ -1,13 +1,15 @@
 {% comment %}
-  STAT-2311 course assistant. Include anywhere a course page should carry it:
+  Site assistant. _layouts/default.html puts the floating launcher on every
+  page; a page opts out with `chat: false` and prefers the STAT-2311 material
+  with `chat_scope: course`. To place it inside a page instead:
       {% include course-chat.html %}                  in the page
       {% include course-chat.html mode="floating" %}  launcher in the corner
   Everything runs client-side; see CLAUDE.md for the pipeline.
 {% endcomment %}
-<div id="course-chat" data-course="STAT-2311"{% if include.mode == "floating" %} data-mode="floating"{% endif %}>
-  <noscript>
-    <p class="cc-refusal">The course assistant needs JavaScript. Everything it knows is on
-      this page and in the <a href="/teaching/2026-fall-mathematical-statistics-I">course plan</a>.</p>
-  </noscript>
+<div id="course-chat" data-course="STAT-2311" data-scope="{{ include.scope | default: 'site' }}"{% if include.mode == "floating" %} data-mode="floating"{% endif %}>
+  {% unless include.mode == "floating" %}<noscript>
+    <p class="cc-refusal">The assistant needs JavaScript. Everything it knows is on this site,
+      starting with the <a href="/teaching/2026-fall-mathematical-statistics-I">course plan</a>.</p>
+  </noscript>{% endunless %}
 </div>
 <script type="module" src="{{ '/assets/js/course-chat.js' | relative_url }}" data-base="{{ '/assets/chat' | relative_url }}"></script>

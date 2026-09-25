@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Build the search index for the STAT-2311 course assistant.
+"""Build the search index for the site assistant.
 
-Reads the course pages and lecture sources in this repository and emits, into
-assets/chat/:
+Reads the STAT-2311 course page and lecture sources, and the rest of the site
+(home page, CV, publications, talks, portfolio, other course pages), and emits,
+into assets/chat/:
 
     facts.json       deterministic answers extracted from the course page
     chunks.json      retrievable passages with their source anchors
@@ -11,8 +12,12 @@ assets/chat/:
     meta.json        build metadata and index dimensions
 
 Nothing here is written by hand: every date, weight and room comes out of
-_teaching/2026-fall-mathematical-statistics-I.md, so the syllabus stays the
-single source of truth. Re-run after editing a course page or a lecture.
+_teaching/2026-fall-mathematical-statistics-I.md, and every fact about Sam out
+of _pages/about.md and _pages/cv.md, so the pages stay the single source of
+truth. Re-run after editing any of them, or a lecture.
+
+Every passage and fact carries a scope: "course" for STAT-2311 material, "site"
+for everything else. The widget prefers one scope over the other by page.
 
     python3 scripts/build_chat_index.py
 
@@ -33,6 +38,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import numpy as np
+import yaml
 from bs4 import BeautifulSoup
 
 REPO = Path(__file__).resolve().parent.parent
@@ -40,6 +46,10 @@ OUT = REPO / "assets" / "chat"
 COURSE = REPO / "_teaching" / "2026-fall-mathematical-statistics-I.md"
 LECTURES = REPO / "lectures" / "math-stat-1-fall-2026"
 COURSE_URL = "/teaching/2026-fall-mathematical-statistics-I"
+PAGES = REPO / "_pages"
+TEACHING = REPO / "_teaching"
+COLLECTIONS = ("publications", "talks", "portfolio")
+SITE_MIN_WORDS = 8
 
 MODEL_REPO = "Xenova/all-MiniLM-L6-v2"
 MODEL_FILE = "onnx/model_quantized.onnx"
@@ -508,6 +518,7 @@ def build_chunks() -> list[dict]:
                     "heading": block["heading"],
                     "url": f"{COURSE_URL}#{block['anchor']}",
                     "source": "course",
+                    "scope": "course",
                 }
             )
 
@@ -524,8 +535,11 @@ def build_chunks() -> list[dict]:
                         "heading": passage["heading"],
                         "url": url,
                         "source": "lecture",
+                        "scope": "course",
                     }
                 )
+
+    chunks.extend(site_chunks())
 
     seen, unique = set(), []
     for c in chunks:
@@ -534,6 +548,241 @@ def build_chunks() -> list[dict]:
             seen.add(key)
             unique.append(c)
     return unique, meta, soup
+
+
+# --------------------------------------------------------------------------
+# the rest of the site
+# --------------------------------------------------------------------------
+
+LIQUID = re.compile(r"\{%.*?%\}|\{\{.*?\}\}", re.S)
+# Published on the CV as a placeholder, and not something an assistant should
+# hand out even when it is real.
+PRIVATE_LINE = re.compile(r"^.*\b(phone|mobile|tel|address)\s*:.*$", re.I | re.M)
+
+
+def load_page(path: Path) -> tuple[dict, str]:
+    raw = path.read_text(encoding="utf-8", errors="ignore")
+    if not raw.startswith("---"):
+        return {}, raw
+    end = raw.index("\n---", 3)
+    meta = yaml.safe_load(raw[3:end]) or {}
+    return meta, raw[end + 4 :]
+
+
+def page_sections(body: str) -> list[tuple[str, str]]:
+    """(heading, plain text) per section of a Markdown/HTML page, maths kept."""
+    body = LIQUID.sub(" ", body)
+    body = PRIVATE_LINE.sub(" ", body)
+    body = re.sub(r"^(.+)\n=+\s*$", r"# \1", body, flags=re.M)      # setext headings
+    sections, heading, buf = [], "", []
+    for line in body.splitlines():
+        m = re.match(r"^#{1,4}\s+(.*)$", line)
+        if m:
+            sections.append((heading, buf))
+            heading, buf = EMOJI.sub("", m.group(1)).strip(), []
+        else:
+            buf.append(line)
+    sections.append((heading, buf))
+
+    out = []
+    for heading, lines in sections:
+        html = "\n".join(lines)
+        text = BeautifulSoup(html, "lxml").get_text("\n") if "<" in html else html
+        text = strip_markup(text)
+        if len(text.split()) >= SITE_MIN_WORDS:
+            out.append((heading, text))
+    return out
+
+
+def collection_url(name: str, path: Path, meta: dict) -> str:
+    return meta.get("permalink") or f"/{name}/{path.stem}/"
+
+
+def site_chunks() -> list[dict]:
+    chunks: list[dict] = []
+
+    # `context` names who or what a passage is about. It is indexed, so "who
+    # is Samir Orujov" finds a CV line that never says his name, but it is
+    # never shown: what the visitor reads is the site's own words.
+    def add(text, title, heading, url, source, context=""):
+        for piece in split_long(clean(text)):
+            chunks.append({"text": piece, "title": title, "heading": heading,
+                           "url": url, "source": source, "scope": "site",
+                           "context": clean(context)})
+
+    # --- home page: who Sam is ---------------------------------------------
+    meta, body = load_page(PAGES / "about.md")
+    name = meta.get("title", "")
+    add(f"{meta.get('role', '')}. {meta.get('lede', '')}", "Home", name, "/", "about", name)
+    for heading, text in page_sections(body):
+        add(text, "Home", heading or "About", "/", "about", name)
+    if meta.get("facts"):
+        add("; ".join(f"{f['label']}, {f['value']}" for f in meta["facts"]) + ".",
+            "Home", "At a glance", "/", "about", name)
+    for card in meta.get("research") or []:
+        add(card["body"], "Home", f"Research: {card['title']}", "/", "about", f"{name}, research")
+
+    # --- CV -----------------------------------------------------------------
+    _, body = load_page(PAGES / "cv.md")
+    for heading, text in page_sections(body):
+        add(text, "CV", heading, f"/cv/#{slug(heading)}", "cv", f"{name}, CV")
+
+    # --- publications, talks, portfolio -------------------------------------
+    for collection in COLLECTIONS:
+        for path in sorted((REPO / f"_{collection}").glob("*.md")):
+            meta, body = load_page(path)
+            title = clean(str(meta.get("title", path.stem)))
+            url = collection_url(collection, path, meta)
+            year = str(meta.get("date", ""))[:4]
+            lead = [title]
+            for key in ("type", "venue", "location"):
+                if meta.get(key):
+                    lead.append(clean(str(meta[key])))
+            if year:
+                lead.append(year)
+            if meta.get("category"):
+                lead.append({"working-papers": "working paper", "manuscripts": "published"}.get(
+                    meta["category"], str(meta["category"]).replace("-", " ")))
+            if meta.get("doi"):
+                lead.append(f"DOI {meta['doi']}")
+            head = ", ".join(lead) + "."
+            if meta.get("excerpt") and meta["excerpt"] != title:
+                head += " " + clean(str(meta["excerpt"]))
+            label = {"publications": "Publication", "talks": "Talk", "portfolio": "Project"}[collection]
+            add(head, label, title, url, collection.rstrip("s"), name)
+            for heading, text in page_sections(body):
+                if heading.lower() in ("presentation slides", "sources"):
+                    continue
+                add(text, label, f"{title} — {heading}" if heading else title,
+                    url, collection.rstrip("s"), f"{name}, {title}")
+
+    # --- other courses: passages only, their dates must not become facts ----
+    for path in sorted(TEACHING.glob("*.md")):
+        if path == COURSE:
+            continue
+        meta, body = load_page(path)
+        title = f"{meta.get('title', path.stem)} ({meta.get('term', '')})".replace(" ()", "")
+        url = collection_url("teaching", path, meta)
+        if meta.get("description"):
+            add(meta["description"], "Teaching", title, url, "teaching", name)
+        soup = BeautifulSoup(body, "lxml")
+        for block in paragraphs_from_course(soup) + card_passages(soup):
+            add(block["text"], "Teaching", f"{title} — {block['heading']}",
+                f"{url}#{block['anchor']}", "teaching", title)
+
+    return chunks
+
+
+def slug(text: str) -> str:
+    """kramdown's auto id, near enough for the headings on the CV."""
+    return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
+
+
+def extract_site_facts() -> list[dict]:
+    """Facts about Sam, pulled from the home page and CV. As with the course
+    facts, the key lists name phrasings a visitor might use, never answers."""
+    facts: list[dict] = []
+
+    def add(fid, keys, question, answer, url, label):
+        facts.append({"id": fid, "keys": [k.lower() for k in keys], "question": question,
+                      "answer": clean(answer), "url": url, "scope": "site", "label": label})
+
+    meta, body = load_page(PAGES / "about.md")
+    name = meta.get("title", "")
+    paras = [clean(strip_markup(p)) for p in re.split(r"\n\s*\n", LIQUID.sub(" ", body)) if p.strip()]
+
+    if paras:
+        add("site-who", ["who is samir orujov", "who is samir", "who is dr orujov", "about samir",
+                         "tell me about samir", "who is the professor", "about the professor",
+                         "who are you", "whose site", "whose website", "who is the instructor"],
+            f"Who is {name}?", paras[0], "/", "home page")
+    if len(paras) > 1:
+        add("site-background", ["background", "his background", "professional background",
+                                "career", "biography", "bio", "how did he get into statistics"],
+            f"What is {name}'s background?", paras[1], "/", "home page")
+    if meta.get("role"):
+        add("site-role", ["position", "job", "current role", "where does he work",
+                          "what does he do", "job title", "icta", "statistics unit"],
+            f"What is {name}'s position?", f"{name}: {meta['role']}.", "/", "home page")
+    if meta.get("research"):
+        areas = "; ".join(f"{c['title']} — {c['body'].rstrip('.')}" for c in meta["research"])
+        add("site-research", ["research", "research interests", "research areas",
+                              "what does he research", "what does he work on", "field of research",
+                              "area of expertise", "expertise"],
+            f"What does {name} research?", f"Research areas: {areas}.", "/", "home page")
+
+    _, cv = load_page(PAGES / "cv.md")
+    sections = dict(page_sections(cv))
+    raw_sections = {}
+    current = None
+    for line in re.sub(r"^(.+)\n=+\s*$", r"# \1", LIQUID.sub(" ", cv), flags=re.M).splitlines():
+        m = re.match(r"^#{1,2}\s+(.*)$", line)
+        if m:
+            current = m.group(1).strip()
+            raw_sections[current] = []
+        elif current:
+            raw_sections[current].append(line)
+
+    edu = []
+    lines = raw_sections.get("Education", [])
+    for i, line in enumerate(lines):
+        m = re.match(r"^\*\s+\*\*(.+?)\*\*\s*(\(([^)]*)\))?", line)
+        if m:
+            where = clean(re.sub(r"[*_]", "", lines[i + 1])) if i + 1 < len(lines) else ""
+            edu.append(f"{m.group(1)}, {where}" + (f" ({m.group(3)})" if m.group(3) else ""))
+    if edu:
+        add("site-education", ["education", "degrees", "qualifications", "phd", "ph.d", "doctorate",
+                               "where did he study", "where did he get his phd", "university",
+                               "masters", "studied", "study", "alma mater"],
+            f"Where did {name} study?", "Education: " + "; ".join(edu) + ".", "/cv/#education", "CV")
+
+    if "Languages" in sections:
+        add("site-languages", ["languages", "what languages", "speak"],
+            f"Which languages does {name} speak?", f"Languages: {sections['Languages']}.",
+            "/cv/#languages", "CV")
+
+    contact = [clean(re.sub(r"^\*\s*", "", l)) for l in raw_sections.get("Contact Information", [])
+               if l.strip().startswith("*") and not PRIVATE_LINE.match(l)]
+    if contact:
+        add("site-contact", ["contact samir", "contact dr orujov", "his email", "orcid", "linkedin",
+                             "github", "profiles", "contact details", "how can i reach samir",
+                             "get in touch"],
+            f"How can I contact {name}?", "; ".join(contact) + ".", "/cv/#contact-information", "CV")
+
+    pubs = []
+    for path in sorted((REPO / "_publications").glob("*.md"), reverse=True):
+        m, _ = load_page(path)
+        kind = {"working-papers": "working paper", "manuscripts": "published"}.get(
+            m.get("category", ""), str(m.get("category", "")).replace("-", " "))
+        venue = f", {m['venue']}" if m.get("venue") else ""
+        pubs.append(f"{clean(str(m.get('title', '')))} ({str(m.get('date', ''))[:4]}, {kind}{venue})")
+    if pubs:
+        add("site-publications", ["publications", "papers", "what has he published", "his papers",
+                                  "list of papers", "articles", "preprints", "working papers"],
+            f"What has {name} published?", "Publications: " + "; ".join(pubs) + ".",
+            "/publications/", "publications page")
+
+    courses = []
+    pages = [load_page(p)[0] for p in TEACHING.glob("*.md")]
+    for m in sorted(pages, key=lambda m: str(m.get("date", "")), reverse=True):
+        state = "current" if m.get("current") else "concluded" if m.get("archived") else ""
+        courses.append(f"{m.get('title', '')} ({m.get('term', '')}{', ' + state if state else ''})")
+    if courses:
+        add("site-teaching", ["what does he teach", "which courses", "courses he teaches",
+                              "courses taught", "what courses", "teaching experience"],
+            f"What does {name} teach?", "Courses on this site: " + "; ".join(courses) + ".",
+            "/teaching/", "teaching page")
+
+    talks = []
+    for path in sorted((REPO / "_talks").glob("*.md"), reverse=True):
+        m, _ = load_page(path)
+        talks.append(f"{clean(str(m.get('title', '')))} ({m.get('venue', '')}, {str(m.get('date', ''))[:10]})")
+    if talks:
+        add("site-talks", ["talks", "presentations", "interviews", "media appearances"],
+            f"What talks has {name} given?", "Talks: " + "; ".join(talks) + ".", "/talks/",
+            "talks page")
+
+    return facts
 
 
 # --------------------------------------------------------------------------
@@ -564,7 +813,7 @@ def build_lexical(chunks: list[dict]) -> dict:
     postings: dict[str, list[list[int]]] = defaultdict(list)
     lengths = []
     for idx, chunk in enumerate(chunks):
-        terms = tokenize(f"{chunk['heading']} {chunk['text']}")
+        terms = tokenize(f"{chunk.get('context', '')} {chunk['heading']} {chunk['text']}")
         lengths.append(len(terms))
         for term, tf in Counter(terms).items():
             postings[term].append([idx, tf])
@@ -629,17 +878,21 @@ def main() -> int:
     OUT.mkdir(parents=True, exist_ok=True)
     chunks, meta, soup = build_chunks()
     facts = extract_facts(soup, meta)
+    for entry in facts["entries"]:
+        entry.setdefault("scope", "course")
+        entry.setdefault("label", "course page")
+    facts["entries"].extend(extract_site_facts())
     lexical = build_lexical(chunks)
 
     print(f"{len(chunks)} chunks, {len(facts['entries'])} facts, "
           f"{len(lexical['postings'])} terms")
 
-    vectors = embed([f"{c['heading']}. {c['text']}" for c in chunks])
+    vectors = embed([f"{c.get('context', '')} {c['heading']}. {c['text']}".strip() for c in chunks])
     quantised = np.clip(np.round(vectors * 127.0), -127, 127).astype(np.int8)
 
     (OUT / "embeddings.bin").write_bytes(quantised.tobytes())
     (OUT / "chunks.json").write_text(
-        json.dumps([{k: c[k] for k in ("text", "title", "heading", "url", "source")}
+        json.dumps([{k: c[k] for k in ("text", "title", "heading", "url", "source", "scope")}
                     for c in chunks], ensure_ascii=False), encoding="utf-8")
     (OUT / "facts.json").write_text(json.dumps(facts, ensure_ascii=False), encoding="utf-8")
     (OUT / "lexical.json").write_text(json.dumps(lexical, ensure_ascii=False), encoding="utf-8")

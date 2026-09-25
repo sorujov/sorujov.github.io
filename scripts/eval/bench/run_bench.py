@@ -39,17 +39,21 @@ DEFAULT_MODELS = [
     "HuggingFaceTB/SmolLM2-1.7B-Instruct",
 ]
 
+# Keep in step with SYSTEM and the user message in assets/js/course-chat.js:
+# the benchmark is only worth running on the prompt visitors actually get.
 SYSTEM = (
-    "You are the assistant for STAT-2311 Mathematical Statistics I at ADA University. "
-    "Answer using ONLY the course material given in CONTEXT. "
-    "Quote dates, percentages and room numbers exactly as they appear; never adjust them. "
-    "If CONTEXT does not contain the answer, reply exactly: "
-    "I don't have that in the course material. "
-    "Do not guess, do not add information, and never work out a problem for the student. "
-    "Answer in at most three sentences."
+    "You help students of STAT-2311 Mathematical Statistics I at ADA University. "
+    "Use only the notes in the user's message; they are from the syllabus and the lecture slides. "
+    "Copy dates, percentages and room numbers exactly; never change a number. "
+    "If the notes answer the question, answer it directly in at most three sentences. "
+    "If the notes contain a worked example with numbers, walk through that example step by step "
+    "using its numbers, in at most five sentences. "
+    "Never invent a new problem, new numbers or facts that are not in the notes. "
+    "If the notes do not answer the question, reply only: I can't find that in the course notes. "
+    "Write mathematics as \\( ... \\), never with dollar signs."
 )
 
-USER = "CONTEXT:\n{context}\n\nQUESTION: {question}"
+USER = "Notes:\n{context}\n\nQuestion: {question}"
 
 DATE = re.compile(
     r"\b\d{1,2}\s+(?:January|February|March|April|May|June|July|August|September|"

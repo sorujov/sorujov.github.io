@@ -39,46 +39,61 @@ Lecture decks live under `lectures/math-stat-1-fall-2026/<nn-slug>/` as Quarto
 `.qmd` plus rendered `.html`. Slides marked `{.quiz-question}` contain the
 in-class poll answers in `[…]{.correct}` spans.
 
-## The course assistant
+## The site assistant
 
-A chatbot for STAT-2311 that runs entirely in the student's browser. Nothing is
-sent to a server, nothing is logged, and the site stays static.
+A chatbot that runs entirely in the visitor's browser. It started as a STAT-2311
+course assistant and now covers the whole site: on the course page it prefers
+the course material, everywhere else it answers about Sam's research,
+publications, talks, CV and teaching as well. Nothing is sent to a server,
+nothing is logged, and the site stays static.
 
 ### Shape
 
 ```
 question
-  ├─ guard      refuse: grades, extensions, worked solutions, exam speculation
-  ├─ facts      deterministic answers extracted from the course page
-  ├─ retrieve   BM25 + MiniLM cosine over the corpus, fused by RRF
+  ├─ guard      refuse: grades, extensions, worked solutions, exam speculation,
+  │             private details (phone, salary, family)
+  ├─ facts      deterministic answers extracted from the course page, home page and CV
+  ├─ retrieve   BM25 + MiniLM cosine over the corpus, fused by RRF; the page's
+  │             scope gets a small bonus; "give me an example" leads with the
+  │             topic lecture's worked slides
   └─ floor      refuse when nothing retrieved is close enough
 ```
+
+Every passage and fact has a `scope`: `course` (STAT-2311 page and lectures) or
+`site` (everything else). A page sets `chat_scope: course` in its front matter
+to prefer the course; the preference is a ranking nudge, never a filter.
 
 Generation is **optional and strictly downstream**: an opt-in WebLLM model
 rewrites retrieved passages into prose and is never allowed to answer from its
 own weights. A student who never presses that button still gets every answer.
+It only ever writes from **course** material: anything about Sam himself (home
+page, CV, publications) is shown as quotes and never paraphrased (`canWrite`).
 
 ### Files
 
 | path | what it is |
 |---|---|
-| `scripts/build_chat_index.py` | builds everything in `assets/chat/` from the course pages and `.qmd` sources |
-| `assets/chat/` | generated: `facts.json`, `chunks.json`, `lexical.json`, `embeddings.bin`, `meta.json` (~270 KB) |
+| `scripts/build_chat_index.py` | builds everything in `assets/chat/` from the course page, the `.qmd` lectures, `_pages/about.md`, `_pages/cv.md`, `_publications/`, `_talks/`, `_portfolio/` and the other `_teaching/` pages |
+| `assets/chat/` | generated: `facts.json`, `chunks.json`, `lexical.json`, `embeddings.bin`, `meta.json` (~1.1 MB, fetched on the first question) |
 | `assets/js/course-chat-core.js` | retrieval — pure functions, no DOM, shared with the evaluation |
 | `assets/js/course-chat.js` | the widget: UI, model loading, optional generation |
 | `_sass/layout/_course-chat.scss` | styles, editorial tokens only |
-| `_includes/course-chat.html` | drop-in include; `mode="floating"` gives a bottom-left launcher that never opens by itself (course page, `/teaching/`) |
+| `_includes/course-chat.html` | the include; `_layouts/default.html` puts it on every page as a bottom-left launcher that never opens by itself. `chat: false` in front matter opts a page out (attendance check-in, `/teaching/ask/`); `chat_scope: course` prefers STAT-2311 |
 | `_pages/ask.md` | standalone page at `/teaching/ask/` |
 | `scripts/eval/` | golden set, offline harness, browser checks, cluster benchmark |
 
 ### Rules that matter
 
 1. **Never hand-write a fact.** Every date, weight, room and deadline is
-   extracted from the course page by `build_chat_index.py`. The synonym lists in
-   `extract_facts` name *phrasings*, never answers. If a date is wrong on the
-   site, fix the site and rebuild.
-2. **Rebuild after editing a course page or a lecture**:
-   `python3 scripts/build_chat_index.py`.
+   extracted from the course page by `extract_facts`, and every fact about Sam
+   from the home page and CV by `extract_site_facts`. The key lists name
+   *phrasings*, never answers. If something is wrong on the site, fix the site
+   and rebuild. Other courses' pages give passages only, never facts: their
+   dates would collide with the current course's.
+2. **Rebuild after editing any indexed page, a publication or a lecture**:
+   `python3 scripts/build_chat_index.py`. The ORCID bot adds publications, so
+   the index lags it until the next rebuild.
 3. **The two tokenizers must agree.** `tokenize()` exists in both
    `build_chat_index.py` and `course-chat-core.js`. The stop list ships inside
    `lexical.json` so it cannot drift, and `lexical.probe` holds sample
@@ -94,7 +109,11 @@ own weights. A student who never presses that button still gets every answer.
    diverge. Do not switch the Python side to `sentence-transformers`.
 7. **Model weights never enter the repo.** GitHub blocks files over 100 MB and
    the Pages site has a ~1 GB budget; WebLLM and transformers.js fetch from their
-   own CDNs, so the site serves only the ~270 KB index.
+   own CDNs, so the site serves only the ~1.1 MB index.
+8. **Quotes are verbatim.** A passage's `text` is the site's own words. What a
+   passage is about ("Samir Orujov, CV") goes in its `context`, which is
+   indexed for search and never shipped. The CV's phone and address lines are
+   never indexed (`PRIVATE_LINE`).
 
 ### Checks
 
@@ -105,9 +124,13 @@ node     scripts/eval/run_eval.mjs         # retrieval gates; non-zero on failur
 python3  scripts/eval/browser_check.py     # drive the real widget in Chromium
 ```
 
-`run_eval.mjs` gates at 95% logistics, 85% content, 90% refusal and exits
-non-zero, so it is usable as a CI step. It imports `course-chat-core.js`
-directly: what it measures is what students get.
+`run_eval.mjs` gates at 95% logistics, 85% content, 90% refusal and 90% site,
+and exits non-zero, so it is usable as a CI step. Course cases run in course
+scope, site cases in site scope; content cases marked `worked` also require the
+first passage to be a worked example, and a short list of ordinary questions
+("a family with three children") must get past the privacy guard. It imports `course-chat-core.js`
+directly: what it measures is what visitors get. As of 26 September 2026 all
+117 cases pass, and the 84 course cases also pass when asked in site scope.
 
 ### The cluster
 
@@ -132,6 +155,18 @@ while keeping 24/24 figures exact. Thinking mode is off, as in the benchmark.
 accepted licence plus `HF_TOKEN` to benchmark. Their MLC builds are not gated,
 so the browser can still run them.
 
+### History: from course assistant to site assistant (26 September 2026)
+
+Sam asked for the whole site after a live session showed: "Who is Samir
+Orujov?" refused; "what is his background" matched the one-line Instructor fact
+and the model said it was "not provided in the CONTEXT"; "an example of
+conditional probability with calculations" returned the definition four ways;
+generated maths came out as raw `$…$`; "Related material" listed a link twice.
+Each has a fix and a golden case: site corpus and facts; a prompt that never
+names its inputs; `workedFirst` in the core; `texDelimiters` in the widget
+(prices such as "$5" are left alone); related material limited to the fact's
+own page and deduplicated.
+
 ## Conventions
 
 - Prose on this site is written, not generated-sounding. Short sentences, no
@@ -143,6 +178,14 @@ so the browser can still run them.
   which contains the full textbook PDF. Keep it excluded.
 
 ## Known open items
+
+- The generation prompt changed on 26 September 2026 (no "CONTEXT", worked
+  examples allowed, `\( \)` maths). Qwen3-0.6B was benchmarked on the old one;
+  re-run `scripts/eval/bench/` with the new prompt when the cluster is next free.
+- Generation has not been seen end to end on a GPU from this machine; Sam's
+  laptop downloads and loads the model.
+- The CV shows `Phone: +994 51 xxx xx xx`, a placeholder, publicly. The
+  assistant never indexes it.
 
 - The Wackerly textbook PDF is still in git history; `git rm --cached` would
   clean the working tree but not the history.

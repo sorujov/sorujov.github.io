@@ -5,6 +5,7 @@ layout: single
 classes: wide
 author_profile: false
 description: "A course assistant for STAT-2311 that runs entirely in your browser."
+chat: false
 ---
 
 Ask anything about how **STAT-2311 Mathematical Statistics I** runs this term — dates,
@@ -15,7 +16,7 @@ term's lecture material and answers by quoting them.
 It runs entirely inside your browser. Your questions are not sent anywhere, not stored,
 and not seen by anyone, including me.
 
-{% include course-chat.html %}
+{% include course-chat.html scope="course" %}
 
 ### What it can and cannot do
 

@@ -9,6 +9,7 @@ location: "Baku, Azerbaijan"
 classes: wide
 term: "Fall 2026"
 current: true
+chat_scope: course
 description: "Probability from the axioms upward: counting, conditional probability, discrete and continuous random variables, and multivariate distributions, worked throughout in economic and financial settings."
 ---
 
@@ -32,8 +33,6 @@ description: "Probability from the axioms upward: counting, conditional probabil
     <a href="#policies" class="toc-main-link">Policies</a>
   </div>
 </div>
-
-{% include course-chat.html mode="floating" %}
 
 <div class="course-info" id="course-info">
   <h2>Course information</h2>

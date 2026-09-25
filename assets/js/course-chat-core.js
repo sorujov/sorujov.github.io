@@ -1,5 +1,6 @@
 /*
- * course-chat-core.js — retrieval logic for the STAT-2311 assistant.
+ * course-chat-core.js — retrieval logic for the site assistant (STAT-2311 and
+ * the rest of sorujov.net).
  *
  * Pure functions, no DOM, no network. The browser widget and the offline
  * evaluation harness both import this file, so what is measured in
@@ -14,6 +15,9 @@
  *
  * Order matters. The guard runs before the facts so that "give me the answers
  * to week 6" is declined rather than matched to the week 6 reading.
+ *
+ * Every passage and fact has a scope, "course" or "site". A page asks with a
+ * preferred scope; that is a nudge in the ranking, never a filter.
  */
 
 const RRF_K = 60;
@@ -26,6 +30,7 @@ const COS_SOFT = 0.32;
 const COVERAGE_FLOOR = 0.60;
 const COVERAGE_HIGH = 0.90;
 const LEX_FLOOR = 2.5;
+const SCOPE_BONUS = 0.008;   // about eight RRF ranks at the top of the list
 
 /* ---------------------------------------------------------------- text --- */
 
@@ -97,6 +102,15 @@ const GUARDS = [
       "I can only tell you the coverage the syllabus states; I can't predict what " +
       "any particular paper will ask. The coverage for each quiz and midterm is on " +
       "the course page.",
+  },
+  {
+    kind: "private",
+    // Only about Dr. Orujov: "a family with three children" is a probability
+    // question, "does he have children" is not.
+    test: /(\b(he|his|him|samir|samirs|orujov|orujovs|professor|professors|instructor|dr)\b.*\b(phone|mobile|cell|whatsapp|address|live|lives|salary|earn|earns|paid|age|old|married|wife|girlfriend|children|kids|family|religion)\b)|(\b(phone|mobile|cell|whatsapp|address|salary|age|married|wife|children|kids|family|religion)\b.*\b(he|his|him|samir|samirs|orujov|orujovs|professor|instructor|dr)\b)|(\bhow old is (he|samir|orujov|the (professor|instructor))\b)/,
+    message:
+      "I only know what this site publishes about Dr. Orujov — his work, research, " +
+      "teaching and CV. For anything else, e-mail him at sorujov@ada.edu.az.",
   },
   {
     kind: "opinion",
@@ -238,17 +252,67 @@ export function termCoverage(question, lexical) {
   return known / terms.length;
 }
 
-const NOTHING =
-  "I don't have anything on that. I only know the STAT-2311 course page and " +
-  "this term's lectures — try asking about dates, assessment, policies or a " +
-  "topic from the course.";
+const NOTHING = {
+  course:
+    "I don't have anything on that. I know the STAT-2311 course page, this term's " +
+    "lectures and the rest of this site — try asking about dates, assessment, " +
+    "policies or a topic from the course.",
+  site:
+    "I don't have anything on that. I know what this site holds — Dr. Orujov's " +
+    "research, publications, talks, CV and teaching, including the STAT-2311 " +
+    "course and its lectures.",
+};
+
+/* "Give me an example with calculations" wants a worked slide, not the definition. */
+const EXAMPLE_INTENT = /\b(example|examples|worked|calculat\w*|compute|numerical|numbers|numeric|illustrat\w*|walk me through|show me how)\b/;
+
+/** A lecture slide that works something through with numbers. */
+export function isWorked(chunk) {
+  if (chunk.source !== "lecture") return false;
+  const heading = chunk.heading || "";
+  if (/\b(practice|exercises?|summary|key formulas|questions|learning objectives)\b/i.test(heading)) return false;
+  if (/\b(example|worked|case)\b/i.test(heading)) return true;
+  // Multi-digit numbers and decimals; TeX subscripts such as y_1 are single digits.
+  return (String(chunk.text).match(/\d*\.\d+|\d{2,}/g) || []).length >= 5;
+}
+
+/**
+ * For "give me an example of X": find the lecture that best matches X, then
+ * lead with that lecture's worked slides and keep the defining passage after
+ * them. Ranking alone cannot do this: a worked slide about bond defaults
+ * shares few words with "conditional probability", so it is never retrieved.
+ */
+function workedFirst(ranked, index, lexScores, vecScores) {
+  // The anchor is the lecture passage most about the topic, by meaning and by
+  // shared words together; either alone picks the wrong lecture on some topics.
+  const relevance = (h) => (h.cosine || 0) + 0.02 * (h.lexical || 0);
+  const lectures = ranked
+    .slice(0, 5)
+    .filter((h) => h.chunk.source === "lecture" && !/\b(practice|summary|questions)\b/i.test(h.chunk.heading || ""));
+  if (!lectures.length) return ranked;
+  const anchor = lectures.reduce((a, b) => (relevance(b) > relevance(a) ? b : a));
+  const examples = [];
+  index.chunks.forEach((chunk, idx) => {
+    if (chunk.url !== anchor.chunk.url || !isWorked(chunk)) return;
+    const cos = vecScores ? vecScores[idx] || 0 : 0;
+    const lex = lexScores[idx] || 0;
+    examples.push({ idx, chunk, score: anchor.score, lexical: lex, cosine: vecScores ? cos : null, rel: cos + 0.02 * lex });
+  });
+  if (!examples.length) return ranked;
+  examples.sort((a, b) => b.rel - a.rel);
+  const picked = examples.slice(0, 2);
+  const taken = new Set([anchor.idx, ...picked.map((p) => p.idx)]);
+  return [...picked, anchor, ...ranked.filter((h) => !taken.has(h.idx))];
+}
 
 /**
  * @param {string} question
  * @param {object} index  {facts, chunks, lexical, embeddings, meta}
  * @param {Float32Array|null} queryVec  null falls back to lexical-only retrieval
+ * @param {{scope?: "course"|"site"}} [options]  the scope the page prefers
  */
-export function ask(question, index, queryVec) {
+export function ask(question, index, queryVec, options = {}) {
+  const scope = options.scope === "course" ? "course" : "site";
   const text = String(question || "").trim();
   if (text.length < 2) return { kind: "empty" };
 
@@ -261,19 +325,41 @@ export function ask(question, index, queryVec) {
   const vecScores = queryVec
     ? cosine(queryVec, index.embeddings, index.meta.dims, index.meta.scale)
     : null;
-  const hits = fuse(lexScores, vecScores, 5).map((hit) => ({
-    ...hit,
-    chunk: index.chunks[hit.idx],
-  }));
+  let ranked = fuse(lexScores, vecScores, 15)
+    .map((hit) => {
+      const chunk = index.chunks[hit.idx];
+      const bonus = scope === "course" && chunk.scope === "course" ? SCOPE_BONUS : 0;
+      return { ...hit, score: hit.score + bonus, chunk };
+    })
+    .sort((a, b) => b.score - a.score);
+  // "How is the grade calculated" is a logistics question, not a request for
+  // a worked example; a matched fact settles which it is.
+  if (!fact && EXAMPLE_INTENT.test(normalize(text))) ranked = workedFirst(ranked, index, lexScores, vecScores);
+  const hits = ranked.slice(0, 5);
 
   if (fact) {
+    // Related material comes from the page the fact is on; a slide about credit
+    // grades is not related to "how is the grade calculated".
+    const page = (url) => String(url).split("#")[0].replace(/\/$/, "");
+    const seen = new Set();
+    const related = hits.filter((h) => {
+      const key = `${h.chunk.url}|${h.chunk.heading}`;
+      const here = page(h.chunk.url);
+      const there = page(fact.entry.url);
+      const same = there ? here === there || here.startsWith(`${there}/`) : here === "";
+      if (seen.has(key) || !same) return false;
+      seen.add(key);
+      return true;
+    });
     return {
       kind: "fact",
       answer: fact.entry.answer,
       url: fact.entry.url,
       question: fact.entry.question,
+      label: fact.entry.label || "course page",
+      scope: fact.entry.scope || "course",
       score: fact.score,
-      passages: hits.slice(0, 3),
+      passages: related.slice(0, 3),
     };
   }
 
@@ -293,10 +379,10 @@ export function ask(question, index, queryVec) {
     : bestLex >= LEX_FLOOR && coverage >= COVERAGE_HIGH;
 
   if (!hits.length || !confident) {
-    return { kind: "refusal", reason: "out-of-scope", message: NOTHING, passages: hits.slice(0, 2) };
+    return { kind: "refusal", reason: "out-of-scope", message: NOTHING[scope], passages: hits.slice(0, 2) };
   }
 
   return { kind: "passages", passages: hits.slice(0, 3), bestCos, bestLex, coverage };
 }
 
-export const TUNING = { RRF_K, BM25_K1, BM25_B, FACT_FLOOR, COS_STRONG, COS_FLOOR, COS_SOFT, COVERAGE_FLOOR, COVERAGE_HIGH, LEX_FLOOR };
+export const TUNING = { SCOPE_BONUS, RRF_K, BM25_K1, BM25_B, FACT_FLOOR, COS_STRONG, COS_FLOOR, COS_SOFT, COVERAGE_FLOOR, COVERAGE_HIGH, LEX_FLOOR };

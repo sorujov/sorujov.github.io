@@ -1,8 +1,9 @@
 /*
- * course-chat.js — the STAT-2311 course assistant.
+ * course-chat.js — the site assistant: STAT-2311 on the course pages, the
+ * whole of sorujov.net everywhere else.
  *
- * Everything runs in the student's browser. The page ships a ~300 KB index of
- * the course material; a ~23 MB embedding model is fetched on first use and
+ * Everything runs in the visitor's browser. The page ships a ~1 MB index of
+ * the site; a ~23 MB embedding model is fetched on first use and
  * cached; an optional ~335 MB chat model is fetched only if the student asks
  * for it. No question ever leaves the device, and nothing is logged.
  *
@@ -30,22 +31,61 @@ const CHAT_MODELS = {
   f32: { id: "Qwen3-0.6B-q4f32_1-MLC", mb: 335 },
 };
 
+/* Generation runs only on STAT-2311 material (see canWrite), so the prompt is
+ * the course's. It never names "context" or "material": a small model repeats
+ * such words back to the student. */
 const SYSTEM = [
-  "You are the assistant for STAT-2311 Mathematical Statistics I at ADA University.",
-  "Answer using ONLY the course material given in CONTEXT.",
-  "Quote dates, percentages and room numbers exactly as they appear; never adjust them.",
-  "If CONTEXT does not contain the answer, say you don't have it in the course material.",
-  "Never work a problem out for the student; point them to the lecture and the tutorial.",
-  "Answer in at most three sentences, in plain prose.",
+  "You help students of STAT-2311 Mathematical Statistics I at ADA University.",
+  "Use only the notes in the user's message; they are from the syllabus and the lecture slides.",
+  "Copy dates, percentages and room numbers exactly; never change a number.",
+  "If the notes answer the question, answer it directly in at most three sentences.",
+  "If the notes contain a worked example with numbers, walk through that example step by step using its numbers, in at most five sentences.",
+  "Never invent a new problem, new numbers or facts that are not in the notes.",
+  "If the notes do not answer the question, reply only: I can't find that in the course notes.",
+  "Write mathematics as \\( ... \\), never with dollar signs.",
 ].join(" ");
 
-const SUGGESTIONS = [
-  "When is Quiz II?",
-  "How is the grade calculated?",
-  "When are problem sets due?",
-  "What is conditional probability?",
-  "Which textbook do we use?",
-];
+const WORDING = {
+  course: {
+    title: "Ask about this course",
+    sub: "STAT-2311 · runs on your device, nothing is sent",
+    welcome:
+      "Dates, deadlines, grading, or a topic from the lectures — answers are quoted " +
+      "from the syllabus and this term's slides. The syllabus is authoritative; for " +
+      "anything graded, e-mail Dr. Orujov.",
+    launcher: "Ask about STAT-2311",
+    placeholder: "When is Midterm I?",
+    teaser: "Questions about the course? Ask here.",
+    suggestions: [
+      "When is Quiz II?",
+      "How is the grade calculated?",
+      "When are problem sets due?",
+      "Give me an example of conditional probability",
+      "Which textbook do we use?",
+    ],
+  },
+  site: {
+    title: "Ask about this site",
+    sub: "Research, teaching, CV · runs on your device, nothing is sent",
+    welcome:
+      "Ask about Dr. Orujov's research, publications, talks, CV or teaching, or about " +
+      "the STAT-2311 course. Answers are quoted from this site, with a link to the page " +
+      "each one comes from.",
+    launcher: "Ask about this site",
+    placeholder: "What does Dr. Orujov research?",
+    teaser: "Questions about my research or teaching? Ask here.",
+    suggestions: [
+      "What does he research?",
+      "Where did he get his PhD?",
+      "What has he published?",
+      "Which courses does he teach?",
+      "When is Quiz II?",
+    ],
+  },
+};
+
+const SCOPE = document.getElementById("course-chat")?.dataset.scope === "course" ? "course" : "site";
+const WORDS = WORDING[SCOPE];
 
 const store = {
   get(key) {
@@ -161,7 +201,7 @@ function renderAnswer(result) {
       .join("");
     return `
       <p class="cc-fact">${escape(result.answer)}</p>
-      <p class="cc-cite">From the <a href="${escape(result.url)}">course page</a>.</p>
+      <p class="cc-cite">From the <a href="${escape(result.url)}">${escape(result.label || "course page")}</a>.</p>
       ${extra ? `<details class="cc-more"><summary>Related material</summary><ul>${extra}</ul></details>` : ""}
     `;
   }
@@ -175,7 +215,8 @@ function renderAnswer(result) {
       </li>`
     )
     .join("");
-  return `<p class="cc-lead">From the course material:</p><ul class="cc-passages">${items}</ul>`;
+  const lead = result.passages.every((p) => p.chunk.scope === "course") ? "From the course material" : "From this site";
+  return `<p class="cc-lead">${lead}:</p><ul class="cc-passages">${items}</ul>`;
 }
 
 /* ------------------------------------------------------------ generation -- */
@@ -216,26 +257,44 @@ async function loadEngine(onProgress) {
   return enginePromise;
 }
 
-async function generate(question, result, onToken) {
-  const context =
-    result.kind === "fact"
-      ? result.answer
-      : result.passages.map((p) => p.chunk.text).join("\n\n");
+/**
+ * The notes the model may write from, or null when it must not write at all.
+ * Only STAT-2311 material qualifies: anything about Dr. Orujov himself — home
+ * page, CV, publications — is shown as quotes and never paraphrased.
+ */
+function canWrite(result) {
+  if (result.kind === "fact") return result.scope === "course" ? result.answer : null;
+  if (result.kind !== "passages" || result.passages[0]?.chunk.scope !== "course") return null;
+  return result.passages
+    .filter((p) => p.chunk.scope === "course")
+    .map((p) => p.chunk.text)
+    .join("\n\n");
+}
 
+// MathJax on this site reads \( \) and \[ \], not dollar signs. Only spans that
+// look like TeX are converted: the slides are about money, and "$5 and $6"
+// must stay two prices.
+const looksTeX = (m) => !/^\d/.test(m) && /[\\^_={}]|^[A-Za-z]$|[A-Za-z]\(/.test(m);
+const texDelimiters = (s) =>
+  s
+    .replace(/\$\$([\s\S]+?)\$\$/g, (all, m) => (looksTeX(m) ? `\\[${m}\\]` : all))
+    .replace(/\$([^$\n]+?)\$/g, (all, m) => (looksTeX(m) ? `\\(${m}\\)` : all));
+
+async function generate(question, notes, onToken) {
   const stream = await engine.chat.completions.create({
     messages: [
       { role: "system", content: SYSTEM },
-      { role: "user", content: `CONTEXT:\n${context}\n\nQUESTION: ${question}` },
+      { role: "user", content: `Notes:\n${notes}\n\nQuestion: ${question}` },
     ],
     temperature: 0.2,
-    max_tokens: 200,
+    max_tokens: 320,
     stream: true,
     // Qwen3 reasons aloud by default; the benchmark ran with this off too.
     extra_body: { enable_thinking: false },
   });
 
   // Belt and braces: never show a <think> block, even an empty one.
-  const clean = (s) => s.replace(/<think>[\s\S]*?(<\/think>|$)/g, "").trimStart();
+  const clean = (s) => texDelimiters(s.replace(/<think>[\s\S]*?(<\/think>|$)/g, "").trimStart());
 
   let text = "";
   for await (const part of stream) {
@@ -267,8 +326,8 @@ function mount(root, { floating = false } = {}) {
       <div class="cc-head">
         <span class="cc-badge">${ICON_CHAT}</span>
         <div class="cc-head-text">
-          <h2 class="cc-title">Ask about this course</h2>
-          <p class="cc-sub">STAT-2311 · runs on your device, nothing is sent</p>
+          <h2 class="cc-title">${WORDS.title}</h2>
+          <p class="cc-sub">${WORDS.sub}</p>
         </div>
         ${floating ? `<button class="cc-close cc-expand" type="button" aria-label="Full screen" aria-pressed="false">${ICON_EXPAND}</button>` : ""}
         ${floating ? `<button class="cc-close" type="button" aria-label="Close the assistant">${ICON_CLOSE}</button>` : ""}
@@ -276,9 +335,7 @@ function mount(root, { floating = false } = {}) {
 
       <div class="cc-body">
         <div class="cc-welcome">
-          <p>Dates, deadlines, grading, or a topic from the lectures — answers are quoted
-            from the syllabus and this term's slides. The syllabus is authoritative; for
-            anything graded, e-mail Dr. Orujov.</p>
+          <p>${WORDS.welcome}</p>
         </div>
         <div class="cc-log" role="log" aria-live="polite" aria-label="Answers"></div>
         <div class="cc-chips"></div>
@@ -287,7 +344,7 @@ function mount(root, { floating = false } = {}) {
       <form class="cc-form" autocomplete="off">
         <label class="cc-label" for="cc-input">Your question</label>
         <input id="cc-input" class="cc-input" type="text" name="q"
-               placeholder="When is Midterm I?" maxlength="200">
+               placeholder="${WORDS.placeholder}" maxlength="200">
         <button class="cc-send" type="submit" aria-label="Ask">${ICON_SEND}</button>
       </form>
 
@@ -304,7 +361,7 @@ function mount(root, { floating = false } = {}) {
   const status = root.querySelector(".cc-status");
   const upgrade = root.querySelector(".cc-upgrade");
 
-  SUGGESTIONS.forEach((text) => {
+  WORDS.suggestions.forEach((text) => {
     const chip = document.createElement("button");
     chip.type = "button";
     chip.className = "cc-chip";
@@ -409,16 +466,17 @@ function mount(root, { floating = false } = {}) {
       const vector = await embed(question);
       status.textContent = embedderFailed ? "Keyword search only — the model CDN is unreachable." : "";
 
-      const result = ask(question, index, vector);
+      const result = ask(question, index, vector, { scope: SCOPE });
       pending.innerHTML = renderAnswer(result);
       typeset(pending);
       follow();
 
-      if (smart && engine && (result.kind === "fact" || result.kind === "passages")) {
+      const notes = smart && engine ? canWrite(result) : null;
+      if (notes) {
         const prose = document.createElement("p");
         prose.className = "cc-generated";
         pending.prepend(prose);
-        await generate(question, result, (text) => {
+        await generate(question, notes, (text) => {
           prose.textContent = text;
           follow();
         });
@@ -431,8 +489,8 @@ function mount(root, { floating = false } = {}) {
     } catch (error) {
       console.error("course-chat", error);
       pending.innerHTML =
-        '<p class="cc-refusal">Something went wrong loading the course material. ' +
-        'Reload the page, or read the <a href="/teaching/2026-fall-mathematical-statistics-I">course page</a> directly.</p>';
+        '<p class="cc-refusal">Something went wrong loading the search index. ' +
+        'Reload the page, or browse the <a href="/teaching/">teaching</a> and <a href="/cv/">CV</a> pages directly.</p>';
     } finally {
       busy = false;
       input.focus();
@@ -452,13 +510,13 @@ function mountFloating(root) {
   root.innerHTML = `
     <div class="cc-backdrop" aria-hidden="true"></div>
     <div class="cc-panel" id="cc-panel" role="dialog" aria-modal="false"
-         aria-label="Course assistant" hidden></div>
+         aria-label="Site assistant" hidden></div>
     <div class="cc-teaser" hidden>
-      <button class="cc-teaser-text" type="button">Questions about the course? Ask here.</button>
+      <button class="cc-teaser-text" type="button">${WORDS.teaser}</button>
       <button class="cc-teaser-x" type="button" aria-label="Dismiss">${ICON_CLOSE}</button>
     </div>
     <button class="cc-launcher" type="button" aria-expanded="false" aria-controls="cc-panel">
-      ${ICON_CHAT}<span class="cc-launcher-label">Ask about STAT-2311</span>
+      ${ICON_CHAT}<span class="cc-launcher-label">${WORDS.launcher}</span>
     </button>`;
 
   const panel = root.querySelector(".cc-panel");
