@@ -16,12 +16,17 @@ import { ask, prepareFacts } from "./course-chat-core.js";
 const BASE =
   document.querySelector('script[src*="course-chat.js"]')?.dataset.base || "/assets/chat";
 const TRANSFORMERS = "https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.3.0";
-const WEBLLM = "https://esm.run/@mlc-ai/web-llm";
+// jsDelivr, not esm.run: the site's Content-Security-Policy allows only the former.
+const WEBLLM = "https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@0.2.85/+esm";
 const EMBED_MODEL = "Xenova/all-MiniLM-L6-v2";
 
-/* Chosen by scripts/eval/bench on the IRISA cluster — see CLAUDE.md. */
-const CHAT_MODEL = "Llama-3.2-1B-Instruct-q4f16_1-MLC";
-const CHAT_MODEL_MB = 879;
+/* Chosen by scripts/eval/bench on the IRISA cluster — see CLAUDE.md.
+ * The f16 build needs the GPU's shader-f16 feature; without it, the same
+ * model in f32. Sizes are WebLLM's own vram_required_MB. */
+const CHAT_MODELS = {
+  f16: { id: "Llama-3.2-1B-Instruct-q4f16_1-MLC", mb: 879 },
+  f32: { id: "Llama-3.2-1B-Instruct-q4f32_1-MLC", mb: 1129 },
+};
 
 const SYSTEM = [
   "You are the assistant for STAT-2311 Mathematical Statistics I at ADA University.",
@@ -173,18 +178,39 @@ function renderAnswer(result) {
 
 /* ------------------------------------------------------------ generation -- */
 
-function hasWebGPU() {
-  return typeof navigator !== "undefined" && "gpu" in navigator;
+let chatModelPromise = null;
+
+// Resolves to the CHAT_MODELS entry this device can run, or null when WebGPU
+// is absent or no adapter is available (blocklisted driver, remote desktop).
+function chatModel() {
+  if (chatModelPromise) return chatModelPromise;
+  chatModelPromise = (async () => {
+    if (typeof navigator === "undefined" || !("gpu" in navigator)) return null;
+    try {
+      const adapter = await navigator.gpu.requestAdapter();
+      if (!adapter) return null;
+      return adapter.features.has("shader-f16") ? CHAT_MODELS.f16 : CHAT_MODELS.f32;
+    } catch {
+      return null;
+    }
+  })();
+  return chatModelPromise;
 }
 
 async function loadEngine(onProgress) {
   if (engine) return engine;
   if (enginePromise) return enginePromise;
   enginePromise = (async () => {
+    const model = await chatModel();
+    if (!model) throw new Error("no usable WebGPU adapter");
     const webllm = await import(/* webpackIgnore: true */ WEBLLM);
-    engine = await webllm.CreateMLCEngine(CHAT_MODEL, { initProgressCallback: onProgress });
+    engine = await webllm.CreateMLCEngine(model.id, { initProgressCallback: onProgress });
     return engine;
   })();
+  // A failed attempt must not stick, or the button can never retry.
+  enginePromise.catch(() => {
+    enginePromise = null;
+  });
   return enginePromise;
 }
 
@@ -274,16 +300,17 @@ function mount(root) {
 
   /* --- optional generation ------------------------------------------- */
   let smart = false;
+  let model = null; // set once the GPU has been probed
 
   function paintUpgrade() {
-    if (!hasWebGPU()) {
+    if (!model) {
       upgrade.hidden = true;
       return;
     }
     upgrade.hidden = false;
     upgrade.textContent = smart
       ? "Conversational answers: on"
-      : `Turn on conversational answers (${CHAT_MODEL_MB} MB, once)`;
+      : `Turn on conversational answers (${model.mb} MB, once)`;
     upgrade.classList.toggle("is-on", smart);
   }
 
@@ -314,10 +341,14 @@ function mount(root) {
   });
 
   paintUpgrade();
-  if (hasWebGPU() && store.get("cc-smart") === "1") {
-    // Previously enabled on this device, so the weights are already cached.
-    upgrade.click();
-  }
+  chatModel().then((found) => {
+    model = found;
+    paintUpgrade();
+    if (model && store.get("cc-smart") === "1") {
+      // Previously enabled on this device, so the weights are already cached.
+      upgrade.click();
+    }
+  });
 
   /* --- asking ---------------------------------------------------------- */
   let busy = false;
