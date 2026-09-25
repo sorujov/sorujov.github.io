@@ -3,7 +3,7 @@
  *
  * Everything runs in the student's browser. The page ships a ~300 KB index of
  * the course material; a ~23 MB embedding model is fetched on first use and
- * cached; an optional ~900 MB chat model is fetched only if the student asks
+ * cached; an optional ~335 MB chat model is fetched only if the student asks
  * for it. No question ever leaves the device, and nothing is logged.
  *
  * Retrieval lives in course-chat-core.js, which the offline evaluation in
@@ -21,11 +21,13 @@ const WEBLLM = "https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@0.2.85/+esm";
 const EMBED_MODEL = "Xenova/all-MiniLM-L6-v2";
 
 /* Chosen by scripts/eval/bench on the IRISA cluster — see CLAUDE.md.
+ * Qwen3-0.6B was the only model to decline every out-of-context question
+ * (12/12) while carrying every figure through (24/24).
  * The f16 build needs the GPU's shader-f16 feature; without it, the same
- * model in f32. Sizes are WebLLM's own vram_required_MB. */
+ * model in f32. Sizes are the weight download (ndarray-cache.json). */
 const CHAT_MODELS = {
-  f16: { id: "Llama-3.2-1B-Instruct-q4f16_1-MLC", mb: 879 },
-  f32: { id: "Llama-3.2-1B-Instruct-q4f32_1-MLC", mb: 1129 },
+  f16: { id: "Qwen3-0.6B-q4f16_1-MLC", mb: 335 },
+  f32: { id: "Qwen3-0.6B-q4f32_1-MLC", mb: 335 },
 };
 
 const SYSTEM = [
@@ -228,17 +230,22 @@ async function generate(question, result, onToken) {
     temperature: 0.2,
     max_tokens: 200,
     stream: true,
+    // Qwen3 reasons aloud by default; the benchmark ran with this off too.
+    extra_body: { enable_thinking: false },
   });
+
+  // Belt and braces: never show a <think> block, even an empty one.
+  const clean = (s) => s.replace(/<think>[\s\S]*?(<\/think>|$)/g, "").trimStart();
 
   let text = "";
   for await (const part of stream) {
     const delta = part.choices?.[0]?.delta?.content || "";
     if (delta) {
       text += delta;
-      onToken(text);
+      onToken(clean(text));
     }
   }
-  return text;
+  return clean(text);
 }
 
 /* ----------------------------------------------------------------- widget -- */

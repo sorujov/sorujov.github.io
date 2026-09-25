@@ -124,6 +124,10 @@ no folder connected, drive the cluster from GitHub instead: push the branch,
 (torch 2.4.1+cu118, transformers 4.57). Use `cluster_inventory` to find a free
 GPU before submitting; sn5 has the A100s.
 
+The widget runs **Qwen3-0.6B** (`Qwen3-0.6B-q4f16_1-MLC`, q4f32 on GPUs without
+shader-f16, 335 MB), the only model that declined all 12 out-of-context questions
+while keeping 24/24 figures exact. Thinking mode is off, as in the benchmark.
+
 `gemma-3-1b-it` and `Llama-3.2-1B-Instruct` are gated on the Hub and need an
 accepted licence plus `HF_TOKEN` to benchmark. Their MLC builds are not gated,
 so the browser can still run them.
