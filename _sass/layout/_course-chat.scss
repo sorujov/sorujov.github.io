@@ -184,6 +184,10 @@
     color: var(--ink-muted);
     margin: 0 0 0.5em;
 
+    a {
+        color: var(--accent);
+    }
+
     &:last-child {
         margin-bottom: 0;
     }
@@ -261,6 +265,10 @@
     ul {
         margin: 0.4em 0 0;
         padding-left: 1.1em;
+    }
+
+    a {
+        color: var(--accent);
     }
 }
 
@@ -551,6 +559,56 @@
     }
 }
 
+/* Full screen: the panel fills the window over a dimmed page. */
+.cc-backdrop {
+    display: none;
+}
+
+@media (min-width: 601px) {
+.cc-floating.is-open.is-expanded {
+    .cc-backdrop {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 58;
+        background: var(--paper);
+        opacity: 0.8;
+        backdrop-filter: blur(2px);
+    }
+
+    .cc-panel {
+        z-index: 60;
+        left: 50%;
+        top: 1.5rem;
+        bottom: 1.5rem;
+        width: min(52rem, calc(100vw - 3rem));
+        height: auto;
+        transform: translateX(-50%);
+        animation: none;
+    }
+
+    .cc-q,
+    .cc-turn-a {
+        max-width: 80%;
+    }
+
+    .cc-body,
+    .cc-foot {
+        padding-left: 2em;
+        padding-right: 2em;
+    }
+
+    .cc-form {
+        margin-left: 2em;
+        margin-right: 2em;
+    }
+
+    .cc-launcher {
+        display: none;
+    }
+}
+}
+
 @keyframes cc-rise {
     from {
         opacity: 0;
@@ -592,7 +650,8 @@
         bottom: 5rem;
     }
 
-    .cc-floating.is-open .cc-launcher {
+    .cc-floating.is-open .cc-launcher,
+    .cc-expand {
         display: none;
     }
 

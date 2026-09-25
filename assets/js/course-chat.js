@@ -247,6 +247,10 @@ const ICON_CHAT =
   '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-4.2 3.6c-.5.4-1.3.1-1.3-.6V16A2.5 2.5 0 0 1 4 13.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8.5 8.5h7M8.5 11.5h4.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>';
 const ICON_SEND =
   '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const ICON_EXPAND =
+  '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const ICON_SHRINK =
+  '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 11h-6V5M5 13h6v6M13 11l7-7M11 13l-7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const ICON_CLOSE =
   '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
 
@@ -259,6 +263,7 @@ function mount(root, { floating = false } = {}) {
           <h2 class="cc-title">Ask about this course</h2>
           <p class="cc-sub">STAT-2311 · runs on your device, nothing is sent</p>
         </div>
+        ${floating ? `<button class="cc-close cc-expand" type="button" aria-label="Full screen" aria-pressed="false">${ICON_EXPAND}</button>` : ""}
         ${floating ? `<button class="cc-close" type="button" aria-label="Close the assistant">${ICON_CLOSE}</button>` : ""}
       </div>
 
@@ -438,6 +443,7 @@ function mount(root, { floating = false } = {}) {
 function mountFloating(root) {
   root.classList.add("cc-floating");
   root.innerHTML = `
+    <div class="cc-backdrop" aria-hidden="true"></div>
     <div class="cc-panel" id="cc-panel" role="dialog" aria-modal="false"
          aria-label="Course assistant" hidden></div>
     <div class="cc-teaser" hidden>
@@ -470,8 +476,20 @@ function mountFloating(root) {
     }
   };
 
+  const expand = panel.querySelector(".cc-expand");
+  const setExpanded = (on) => {
+    root.classList.toggle("is-expanded", on);
+    expand.setAttribute("aria-pressed", String(on));
+    expand.setAttribute("aria-label", on ? "Exit full screen" : "Full screen");
+    expand.innerHTML = on ? ICON_SHRINK : ICON_EXPAND;
+    store.set("cc-expanded", on ? "1" : "0");
+  };
+  expand.addEventListener("click", () => setExpanded(!root.classList.contains("is-expanded")));
+  setExpanded(store.get("cc-expanded") === "1");
+  root.querySelector(".cc-backdrop").addEventListener("click", () => setOpen(false));
+
   launcher.addEventListener("click", () => setOpen(panel.hidden));
-  panel.querySelector(".cc-close").addEventListener("click", () => setOpen(false));
+  panel.querySelector(".cc-close:not(.cc-expand)").addEventListener("click", () => setOpen(false));
   root.querySelector(".cc-teaser-text").addEventListener("click", () => setOpen(true));
   root.querySelector(".cc-teaser-x").addEventListener("click", () => {
     store.set("cc-teased", "1");
