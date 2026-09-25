@@ -1,0 +1,316 @@
+/* ==========================================================================
+   COURSE CHAT
+   The STAT-2311 assistant. Uses the editorial tokens only, so it follows the
+   light/dark toggle without a second set of rules.
+   ========================================================================== */
+
+#course-chat {
+    margin: 2.5em 0;
+}
+
+.cc-shell {
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    background: var(--paper-raised);
+    box-shadow: var(--shadow-sm);
+    padding: 1.5em 1.5em 1.25em;
+
+    @media (max-width: 600px) {
+        padding: 1.1em 1em 1em;
+        margin-left: -0.35em;
+        margin-right: -0.35em;
+    }
+}
+
+.cc-head {
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 0.9em;
+    margin-bottom: 1em;
+}
+
+.cc-title {
+    font-family: var(--font-display, "Newsreader", Georgia, serif);
+    font-size: 1.35em;
+    line-height: 1.2;
+    margin: 0 0 0.35em;
+    color: var(--ink);
+}
+
+.cc-sub {
+    font-size: 0.82em;
+    line-height: 1.55;
+    color: var(--ink-muted);
+    margin: 0;
+    max-width: 62ch;
+}
+
+/* --- transcript --------------------------------------------------------- */
+
+.cc-log {
+    &:empty {
+        display: none;
+    }
+
+    max-height: 30em;
+    overflow-y: auto;
+    margin-bottom: 1em;
+    padding-right: 0.25em;
+}
+
+.cc-turn {
+    margin-bottom: 1.1em;
+
+    &:last-child {
+        margin-bottom: 0.25em;
+    }
+}
+
+.cc-q {
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0;
+    font-size: 0.95em;
+
+    &::before {
+        content: "\2192\00a0";
+        color: var(--accent);
+    }
+}
+
+.cc-turn-a {
+    border-left: 2px solid var(--accent);
+    padding-left: 0.9em;
+    margin-top: 0.5em;
+}
+
+.cc-thinking {
+    color: var(--ink-muted);
+    font-style: italic;
+    margin: 0;
+    font-size: 0.9em;
+}
+
+.cc-fact {
+    margin: 0 0 0.4em;
+    font-size: 0.97em;
+    line-height: 1.55;
+    color: var(--ink);
+}
+
+.cc-generated {
+    margin: 0 0 0.5em;
+    font-size: 0.97em;
+    line-height: 1.6;
+    color: var(--ink);
+}
+
+.cc-note,
+.cc-cite {
+    font-size: 0.78em;
+    color: var(--ink-muted);
+    margin: 0 0 0.6em;
+}
+
+.cc-lead {
+    font-size: 0.82em;
+    color: var(--ink-muted);
+    margin: 0 0 0.5em;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.cc-passages {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.cc-passage {
+    margin-bottom: 0.9em;
+
+    blockquote {
+        margin: 0 0 0.25em;
+        padding: 0;
+        border: 0;
+        font-size: 0.9em;
+        line-height: 1.55;
+        color: var(--ink-soft);
+        font-style: normal;
+    }
+}
+
+.cc-source {
+    font-size: 0.78em;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+
+    &:hover,
+    &:focus {
+        border-bottom-color: currentColor;
+    }
+}
+
+.cc-refusal {
+    margin: 0;
+    font-size: 0.93em;
+    line-height: 1.6;
+    color: var(--ink-soft);
+}
+
+.cc-more {
+    font-size: 0.82em;
+    color: var(--ink-muted);
+
+    summary {
+        cursor: pointer;
+    }
+
+    ul {
+        margin: 0.4em 0 0;
+        padding-left: 1.1em;
+    }
+}
+
+/* --- suggestions -------------------------------------------------------- */
+
+.cc-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4em;
+    margin-bottom: 0.9em;
+}
+
+.cc-chip {
+    font-family: inherit;
+    font-size: 0.78em;
+    line-height: 1.2;
+    padding: 0.45em 0.75em;
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px;
+    background: var(--paper-sunken);
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: var(--global-transition, all 0.2s ease);
+
+    &:hover,
+    &:focus-visible {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: var(--accent-tint);
+    }
+}
+
+/* --- input -------------------------------------------------------------- */
+
+.cc-form {
+    display: flex;
+    gap: 0.5em;
+    align-items: stretch;
+}
+
+.cc-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+.cc-input {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-family: inherit;
+    font-size: 0.95em;
+    padding: 0.6em 0.8em;
+    border: 1px solid var(--rule-strong);
+    border-radius: 3px;
+    background: var(--paper);
+    color: var(--ink);
+
+    &::placeholder {
+        color: var(--ink-muted);
+        opacity: 0.75;
+    }
+
+    &:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 2px var(--accent-tint);
+    }
+}
+
+.cc-send {
+    flex: 0 0 auto;
+    font-family: inherit;
+    font-size: 0.9em;
+    font-weight: 600;
+    padding: 0.6em 1.3em;
+    border: 1px solid var(--accent);
+    border-radius: 3px;
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+    transition: var(--global-transition, all 0.2s ease);
+
+    &:hover,
+    &:focus-visible {
+        background: var(--accent-hover);
+        border-color: var(--accent-hover);
+    }
+}
+
+/* --- footer ------------------------------------------------------------- */
+
+.cc-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6em;
+    margin-top: 0.85em;
+    padding-top: 0.75em;
+    border-top: 1px solid var(--rule);
+    min-height: 1.6em;
+}
+
+.cc-upgrade {
+    font-family: inherit;
+    font-size: 0.76em;
+    padding: 0.35em 0.7em;
+    border: 1px dashed var(--rule-strong);
+    border-radius: 3px;
+    background: transparent;
+    color: var(--ink-muted);
+    cursor: pointer;
+
+    &:hover:not(:disabled),
+    &:focus-visible {
+        border-color: var(--accent);
+        color: var(--accent);
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: progress;
+    }
+
+    &.is-on {
+        border-style: solid;
+        border-color: var(--accent);
+        color: var(--accent);
+    }
+}
+
+.cc-status {
+    font-size: 0.76em;
+    color: var(--ink-muted);
+    flex: 1 1 12em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cc-chip,
+    .cc-send {
+        transition: none;
+    }
+}
