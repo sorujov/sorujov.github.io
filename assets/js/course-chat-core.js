@@ -282,10 +282,15 @@ export function isWorked(chunk) {
  * them. Ranking alone cannot do this: a worked slide about bond defaults
  * shares few words with "conditional probability", so it is never retrieved.
  */
-function workedFirst(ranked, index, lexScores, vecScores) {
-  // The anchor is the lecture passage most about the topic, by meaning and by
-  // shared words together; either alone picks the wrong lecture on some topics.
-  const relevance = (h) => (h.cosine || 0) + 0.02 * (h.lexical || 0);
+function workedFirst(question, ranked, index, lexScores, vecScores) {
+  // The anchor is the lecture passage most about the topic: by meaning and by
+  // shared words together (either alone picks the wrong lecture on some
+  // topics), and above all by the lecture's own title — "conditional
+  // probability" is the title of lecture 5, while lectures 6 and 24 merely
+  // use the phrase, and their passages can score within 0.01 of it.
+  const asked = new Set(tokenize(question, index.lexical.stop));
+  const titled = (h) => tokenize(h.chunk.title, index.lexical.stop).filter((t) => asked.has(t)).length;
+  const relevance = (h) => (h.cosine || 0) + 0.02 * (h.lexical || 0) + 0.1 * titled(h);
   const lectures = ranked
     .slice(0, 5)
     .filter((h) => h.chunk.source === "lecture" && !/\b(practice|summary|questions)\b/i.test(h.chunk.heading || ""));
@@ -334,7 +339,7 @@ export function ask(question, index, queryVec, options = {}) {
     .sort((a, b) => b.score - a.score);
   // "How is the grade calculated" is a logistics question, not a request for
   // a worked example; a matched fact settles which it is.
-  if (!fact && EXAMPLE_INTENT.test(normalize(text))) ranked = workedFirst(ranked, index, lexScores, vecScores);
+  if (!fact && EXAMPLE_INTENT.test(normalize(text))) ranked = workedFirst(text, ranked, index, lexScores, vecScores);
   const hits = ranked.slice(0, 5);
 
   if (fact) {

@@ -462,8 +462,12 @@ def qmd_passages(path: Path) -> list[dict]:
 
     sections: list[tuple[str, str, list[str]]] = []
     title, attrs, buf = "", "", []
+    fenced = False
     for line in body.splitlines():
-        match = re.match(r"^(#{1,3})\s+(.*)$", line)
+        # Inside a code chunk a leading # is an R comment, not a slide title.
+        if line.lstrip().startswith("```"):
+            fenced = not fenced
+        match = None if fenced else re.match(r"^(#{1,3})\s+(.*)$", line)
         if match:
             sections.append((title, attrs, buf))
             head = match.group(2)
@@ -574,9 +578,11 @@ def page_sections(body: str) -> list[tuple[str, str]]:
     body = LIQUID.sub(" ", body)
     body = PRIVATE_LINE.sub(" ", body)
     body = re.sub(r"^(.+)\n=+\s*$", r"# \1", body, flags=re.M)      # setext headings
-    sections, heading, buf = [], "", []
+    sections, heading, buf, fenced = [], "", [], False
     for line in body.splitlines():
-        m = re.match(r"^#{1,4}\s+(.*)$", line)
+        if line.lstrip().startswith("```"):
+            fenced = not fenced
+        m = None if fenced else re.match(r"^#{1,4}\s+(.*)$", line)
         if m:
             sections.append((heading, buf))
             heading, buf = EMOJI.sub("", m.group(1)).strip(), []

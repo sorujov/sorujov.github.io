@@ -11,7 +11,7 @@
  * scripts/eval imports unchanged.
  */
 
-import { ask, prepareFacts } from "./course-chat-core.js";
+import { ask, isWorked, prepareFacts } from "./course-chat-core.js";
 
 // document.currentScript is null inside a module, so find the tag by its src.
 const BASE =
@@ -262,23 +262,39 @@ async function loadEngine(onProgress) {
  * Only STAT-2311 material qualifies: anything about Dr. Orujov himself — home
  * page, CV, publications — is shown as quotes and never paraphrased.
  */
-function canWrite(result) {
+function canWrite(result, question) {
   if (result.kind === "fact") return result.scope === "course" ? result.answer : null;
   if (result.kind !== "passages" || result.passages[0]?.chunk.scope !== "course") return null;
-  return result.passages
-    .filter((p) => p.chunk.scope === "course")
-    .map((p) => p.chunk.text)
-    .join("\n\n");
+  // Asked for a formula, the answer is the formula: the slides render it and a
+  // 0.6B model can only garble it ("the formula is … the formula is …").
+  if (FORMULA_QUESTION.test(question)) return null;
+  // Formula sheets (over 40% maths) are never handed to the model, for the
+  // same reason; worked examples are, however much maths they carry, since a
+  // walkthrough is what the model is for.
+  const usable = result.passages.filter(
+    (p) => p.chunk.scope === "course" && (isWorked(p.chunk) || formulaShare(p.chunk.text) <= FORMULA_LIMIT)
+  );
+  return usable.length ? usable.map((p) => p.chunk.text).join("\n\n") : null;
 }
+
+const FORMULA_QUESTION = /\b(formula|formulas|formulae|equation|notation|define|definition|expression for)\b/i;
+
+const FORMULA_LIMIT = 0.4;
+const formulaShare = (text) =>
+  (text.match(/\\\([\s\S]*?\\\)|\\\[[\s\S]*?\\\]/g) || []).join("").length / Math.max(text.length, 1);
 
 // MathJax on this site reads \( \) and \[ \], not dollar signs. Only spans that
 // look like TeX are converted: the slides are about money, and "$5 and $6"
-// must stay two prices.
-const looksTeX = (m) => !/^\d/.test(m) && /[\\^_={}]|^[A-Za-z]$|[A-Za-z]\(/.test(m);
+// must stay two prices. The model also pads its maths: "$ r $", "$ r! $".
+const looksTeX = (raw) => {
+  const m = raw.trim();
+  if (!m || /^\d/.test(m)) return false;
+  return /[\\^_={}]|[A-Za-z]\(/.test(m) || /^[A-Za-z][A-Za-z0-9!'+\-*/ ]{0,15}$/.test(m);
+};
 const texDelimiters = (s) =>
   s
-    .replace(/\$\$([\s\S]+?)\$\$/g, (all, m) => (looksTeX(m) ? `\\[${m}\\]` : all))
-    .replace(/\$([^$\n]+?)\$/g, (all, m) => (looksTeX(m) ? `\\(${m}\\)` : all));
+    .replace(/\$\$([\s\S]+?)\$\$/g, (all, m) => (looksTeX(m) ? `\\[${m.trim()}\\]` : all))
+    .replace(/\$([^$\n]+?)\$/g, (all, m) => (looksTeX(m) ? `\\(${m.trim()}\\)` : all));
 
 async function generate(question, notes, onToken) {
   const stream = await engine.chat.completions.create({
@@ -287,6 +303,9 @@ async function generate(question, notes, onToken) {
       { role: "user", content: `Notes:\n${notes}\n\nQuestion: ${question}` },
     ],
     temperature: 0.2,
+    // Discourages the loops small models fall into; mild enough that a date
+    // or figure from the notes can still be copied exactly once.
+    frequency_penalty: 0.4,
     max_tokens: 320,
     stream: true,
     // Qwen3 reasons aloud by default; the benchmark ran with this off too.
@@ -471,7 +490,7 @@ function mount(root, { floating = false } = {}) {
       typeset(pending);
       follow();
 
-      const notes = smart && engine ? canWrite(result) : null;
+      const notes = smart && engine ? canWrite(result, question) : null;
       if (notes) {
         const prose = document.createElement("p");
         prose.className = "cc-generated";

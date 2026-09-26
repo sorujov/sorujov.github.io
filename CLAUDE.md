@@ -69,6 +69,10 @@ rewrites retrieved passages into prose and is never allowed to answer from its
 own weights. A student who never presses that button still gets every answer.
 It only ever writes from **course** material: anything about Sam himself (home
 page, CV, publications) is shown as quotes and never paraphrased (`canWrite`).
+Nor does it write when the answer *is* a formula ("formula", "definition",
+"notation" in the question), and formula-sheet passages (over 40% maths, not a
+worked example) are never handed to it: a 0.6B model loops over them. Worked
+examples always qualify, since a walkthrough is what it is for.
 
 ### Files
 
@@ -165,7 +169,9 @@ generated maths came out as raw `$…$`; "Related material" listed a link twice.
 Each has a fix and a golden case: site corpus and facts; a prompt that never
 names its inputs; `workedFirst` in the core; `texDelimiters` in the widget
 (prices such as "$5" are left alone); related material limited to the fact's
-own page and deduplicated.
+own page and deduplicated. Later the same day: `$ r $` with padding now
+renders, R comments inside code chunks no longer split slides (`qmd_passages`),
+and "example" questions anchor on the lecture whose title names the topic.
 
 ## Conventions
 
