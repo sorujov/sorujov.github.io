@@ -1,0 +1,226 @@
+WEBVTT
+
+00:00.000 --> 00:03.215
+Here's a puzzle. A bank screens every card payment with
+
+00:03.315 --> 00:07.373
+a fraud model. It catches ninety-five percent of fraudulent payments,
+
+00:07.473 --> 00:10.689
+and it wrongly flags only three percent of honest ones.
+
+00:10.789 --> 00:13.823
+About one payment in five hundred is actually fraud.
+
+00:13.916 --> 00:16.955
+Now a payment gets flagged. What's the chance it really
+
+00:17.055 --> 00:19.637
+is fraud? Take a second and commit to a number.
+
+00:19.737 --> 00:22.776
+Most people say something close to ninety-five percent.
+
+00:23.866 --> 00:27.958
+In the next few minutes you'll see why the honest answer is closer
+
+00:28.058 --> 00:32.023
+to six percent, and you'll meet two tools that make this kind of
+
+00:32.123 --> 00:36.723
+question almost mechanical: the law of total probability, and Bayes' rule.
+
+00:37.816 --> 00:40.522
+Forget formulas for a moment and just picture five
+
+00:40.622 --> 00:43.385
+hundred payments. On average, one of them is fraud.
+
+00:43.483 --> 00:46.273
+The screen almost always catches that one. But it
+
+00:46.373 --> 00:49.104
+also flags three percent of the four hundred and
+
+00:49.204 --> 00:52.526
+ninety-nine honest payments. That's about fifteen of them.
+
+00:52.616 --> 00:55.316
+So when the alarm goes off, you are looking at one
+
+00:55.416 --> 00:58.900
+of about sixteen flagged payments, and only one of those sixteen
+
+00:59.000 --> 01:01.476
+is fraud. One in sixteen is about six percent.
+
+01:01.566 --> 01:05.146
+The screen isn't bad. The trouble is that honest payments are
+
+01:05.246 --> 01:08.282
+so common that a small error rate, applied to all of
+
+01:08.382 --> 01:12.143
+them, swamps the rare fraud. Hold on to this picture. Everything
+
+01:12.243 --> 01:14.736
+that follows is a way of making it precise.
+
+01:15.833 --> 01:19.012
+To make it precise, let's trade dots for area. Draw
+
+01:19.112 --> 01:22.420
+every possible outcome as a square of total area one.
+
+01:22.516 --> 01:25.785
+Now cut the square into pieces that don't overlap and
+
+01:25.885 --> 01:29.090
+together fill it. A collection like that is called a
+
+01:29.190 --> 01:32.395
+partition. Every outcome lands in exactly one piece.
+
+01:32.783 --> 01:36.688
+For something concrete, think of a bank's loan book split by rating
+
+01:36.788 --> 01:40.694
+grade. Half the loans are grade A, thirty-five percent grade B, and
+
+01:40.794 --> 01:44.699
+fifteen percent grade C. Those shares are the widths of the pieces.
+
+01:44.783 --> 01:48.615
+Inside each grade, some fraction of loans default: one percent in
+
+01:48.715 --> 01:51.580
+A, four in B, twelve in C. Shade that fraction of
+
+01:51.680 --> 01:55.210
+each column. I've stretched the heights so you can see them.
+
+01:55.300 --> 01:58.931
+So what fraction of the whole square is shaded? Each shaded
+
+01:59.031 --> 02:02.409
+piece is a width times a height: the probability of the
+
+02:02.509 --> 02:06.519
+grade, times the probability of default given that grade. Add the
+
+02:06.619 --> 02:09.175
+pieces and you get point zero three seven.
+
+02:10.266 --> 02:15.662
+That's the law of total probability. In general, the probability of A is the
+
+02:15.762 --> 02:19.783
+sum, over the pieces of a partition, of P of A given B i,
+
+02:19.883 --> 02:24.194
+times P of B i. It's nothing more than adding up shaded area.
+
+02:25.283 --> 02:28.506
+Now flip the question around. A loan has defaulted. Which
+
+02:28.606 --> 02:31.713
+grade did it come from? Knowing that it defaulted means
+
+02:31.813 --> 02:34.979
+we are somewhere in the shaded region, and nowhere else.
+
+02:35.066 --> 02:37.559
+So pull the shaded pieces out and line them up.
+
+02:37.659 --> 02:40.538
+Together they make up point zero three seven, and each
+
+02:40.638 --> 02:42.855
+grade's share of that total is the answer.
+
+02:42.950 --> 02:46.549
+Grade C is only fifteen percent of the book, but almost
+
+02:46.649 --> 02:50.719
+half of the defaults. And that computation is Bayes' rule: one
+
+02:50.819 --> 02:54.082
+shaded piece, divided by all of the shaded pieces.
+
+02:54.166 --> 02:58.180
+Before we saw the default, grade C had fifteen percent. After, it
+
+02:58.280 --> 03:02.611
+has about forty-nine. The first number is called the prior, the second
+
+03:02.711 --> 03:06.788
+the posterior. Evidence is what carries you from one to the other.
+
+03:07.883 --> 03:11.516
+How much does that answer depend on how rare fraud is? Keep the
+
+03:11.616 --> 03:15.724
+screen exactly the same, and let the share of fraudulent payments grow.
+
+03:15.816 --> 03:18.874
+At two tenths of a percent we get our six percent.
+
+03:18.974 --> 03:22.978
+At two percent fraud, a flag means about thirty-nine percent. The
+
+03:23.078 --> 03:27.020
+curve only crosses one half when about three percent of payments
+
+03:27.120 --> 03:30.240
+are fraud. The base rate is doing most of the work.
+
+03:31.333 --> 03:35.380
+So what can the bank do? Take the sixteen flagged payments and send
+
+03:35.480 --> 03:39.898
+them to a second, independent check: a device check that fails for ninety
+
+03:39.998 --> 03:43.798
+percent of fraud, and for only five percent of honest payments.
+
+03:44.083 --> 03:49.001
+The fraud almost surely fails again. Of the fifteen honest ones, five
+
+03:49.101 --> 03:53.511
+percent is less than one. So after both checks we're left with
+
+03:53.611 --> 03:57.802
+roughly one fraud and one honest payment. About one in two.
+
+03:57.900 --> 04:00.749
+In exact numbers: the prior of point zero zero two
+
+04:00.849 --> 04:04.052
+becomes six percent after the flag, and that six percent
+
+04:04.152 --> 04:06.942
+is the prior for the second check, which lifts it
+
+04:07.042 --> 04:10.600
+to fifty-three percent. Today's posterior is tomorrow's prior.
+
+04:11.700 --> 04:14.661
+So here's the whole story in two lines. The law of
+
+04:14.761 --> 04:18.580
+total probability adds up the pieces of a partition. Bayes' rule
+
+04:18.680 --> 04:21.213
+takes one piece and divides by all of them.
+
+04:21.300 --> 04:23.628
+And the next time you hear that a test is
+
+04:23.728 --> 04:27.598
+ninety-five percent accurate, ask the question this video is really
+
+04:27.698 --> 04:31.508
+about: accurate, compared to what base rate? The practice problems
+
+04:31.608 --> 04:34.470
+for this week are on Blackboard. See you in class.
