@@ -86,6 +86,8 @@ examples always qualify, since a walkthrough is what it is for.
 | `_includes/course-chat.html` | the include; `_layouts/default.html` puts it on every page as a bottom-left launcher that never opens by itself. `chat: false` in front matter opts a page out (attendance check-in, `/teaching/ask/`); `chat_scope: course` prefers STAT-2311 |
 | `_pages/ask.md` | standalone page at `/teaching/ask/` |
 | `scripts/eval/` | golden set, offline harness, browser checks, cluster benchmark |
+| `.github/workflows/rebuild-chat-index.yml` | rebuilds and evaluates the index on GitHub after any indexed page changes and after every ORCID run; commits only if every gate passes and the passages or facts changed |
+| `scripts/requirements-chat.txt` | Python packages for the index build |
 
 ### Rules that matter
 
@@ -95,9 +97,12 @@ examples always qualify, since a walkthrough is what it is for.
    *phrasings*, never answers. If something is wrong on the site, fix the site
    and rebuild. Other courses' pages give passages only, never facts: their
    dates would collide with the current course's.
-2. **Rebuild after editing any indexed page, a publication or a lecture**:
-   `python3 scripts/build_chat_index.py`. The ORCID bot adds publications, so
-   the index lags it until the next rebuild.
+2. **The index rebuilds itself.** `rebuild-chat-index.yml` runs on GitHub
+   whenever an indexed page, publication or lecture changes, and after every
+   ORCID run. Rebuilding locally (`python3 scripts/build_chat_index.py`) is
+   still how to check a change before pushing. If the workflow fails, the
+   evaluation caught something: the live index is the previous one, and the
+   run's summary shows which gate failed.
 3. **The two tokenizers must agree.** `tokenize()` exists in both
    `build_chat_index.py` and `course-chat-core.js`. The stop list ships inside
    `lexical.json` so it cannot drift, and `lexical.probe` holds sample

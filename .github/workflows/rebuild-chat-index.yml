@@ -1,0 +1,113 @@
+name: Rebuild the site assistant index
+
+# Keeps assets/chat/ in step with the pages it is built from. Runs when one of
+# those pages changes, after every ORCID update (whose commits carry
+# [skip ci], so they never trigger a push event), and by hand from the Actions
+# tab ("Run workflow").
+#
+# The new index is committed only if the full evaluation passes, so a bad
+# rebuild never reaches the site: the previous index stays live. It is also
+# committed only when the passages or facts changed, not when the embeddings
+# merely differ in rounding between machines.
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - '_teaching/**'
+      - '_pages/about.md'
+      - '_pages/cv.md'
+      - '_publications/**'
+      - '_talks/**'
+      - '_portfolio/**'
+      - 'lectures/math-stat-1-fall-2026/**/*.qmd'
+      - 'scripts/build_chat_index.py'
+      - 'scripts/requirements-chat.txt'
+      - '.github/workflows/rebuild-chat-index.yml'
+  workflow_run:
+    workflows: ['Update ORCID Publications']
+    types: [completed]
+  workflow_dispatch:
+
+concurrency:
+  group: rebuild-chat-index
+  cancel-in-progress: false
+
+jobs:
+  rebuild:
+    # After an ORCID run, only when it succeeded.
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write   # commit the rebuilt index
+      pages: write      # request a Pages rebuild
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master   # workflow_run would otherwise check out the older commit
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: scripts/requirements-chat.txt
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: pip install -r scripts/requirements-chat.txt
+
+      - name: Cache the embedding model
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: hf-all-MiniLM-L6-v2
+
+      - name: Rebuild the index
+        run: python scripts/build_chat_index.py
+
+      - name: Evaluate (nothing is committed unless every gate passes)
+        run: |
+          set -o pipefail   # without it, tee would hide a failed gate
+          python scripts/eval/embed_queries.py
+          node scripts/eval/run_eval.mjs | tee eval.txt
+
+      - name: Commit and push
+        id: commit
+        run: |
+          # meta.json carries a timestamp and embeddings.bin can differ in
+          # int8 rounding between machines; neither alone is a real change.
+          if git diff --quiet -- assets/chat/chunks.json assets/chat/facts.json assets/chat/lexical.json; then
+            echo "The index already matches the site."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/chat
+          git commit -m "Rebuild the site assistant index"
+          # the ORCID or ICT job may have committed meanwhile
+          git pull --rebase origin master
+          git push origin HEAD:master
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Rebuild the website
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds" || echo "::notice::Pages will rebuild from the push itself"
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "### Site assistant index"
+            echo "- Triggered by: ${{ github.event_name }}"
+            echo "- Index committed: ${{ steps.commit.outputs.changed || 'no' }}"
+            echo '```'
+            grep -E "PASS|FAIL" eval.txt 2>/dev/null || echo "evaluation did not run"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
