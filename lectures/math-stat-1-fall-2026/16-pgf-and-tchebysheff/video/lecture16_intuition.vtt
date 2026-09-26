@@ -1,0 +1,106 @@
+WEBVTT
+
+00:00.000 --> 00:04.647
+A bank's risk desk counts failed transactions each day. It knows the average
+
+00:04.747 --> 00:09.269
+and the standard deviation, but it has no idea what the distribution looks
+
+00:09.369 --> 00:12.517
+like. Can it still say how rare a really bad day is?
+
+00:14.616 --> 00:18.075
+Two tools today. One packs a whole count distribution into a
+
+00:18.175 --> 00:21.752
+polynomial. The other bounds the tails using only two numbers.
+
+00:22.850 --> 00:27.020
+For random variables that count things, zero, one, two and so on,
+
+00:27.120 --> 00:33.130
+there's a cousin of the moment-generating function: the probability-generating function, P of
+
+00:33.230 --> 00:35.889
+t equals the expected value of t to the Y.
+
+00:35.983 --> 00:39.912
+Write it out for the outage example. It's just a polynomial,
+
+00:40.012 --> 00:44.949
+and its coefficients are the probabilities themselves. The coefficient of t
+
+00:45.049 --> 00:48.172
+to the y is the probability that Y equals y. The
+
+00:48.272 --> 00:51.530
+whole distribution, hung on a line of powers of t.
+
+00:52.616 --> 00:55.903
+Setting t to one adds up all the coefficients, so P
+
+00:56.003 --> 00:59.490
+of one is always one. Differentiate once, and set t to
+
+00:59.590 --> 01:03.740
+one: each probability gets multiplied by its y. That's the mean.
+
+01:03.840 --> 01:07.791
+Differentiate twice and you get the expected value of Y times
+
+01:07.891 --> 01:12.108
+Y minus one, a factorial moment, from which the variance follows.
+
+01:12.200 --> 01:14.997
+So the recipe mirrors the MGF, except that for
+
+01:15.097 --> 01:17.768
+the PGF you evaluate at one instead of zero.
+
+01:18.866 --> 01:23.661
+Now the risk desk. Tchebysheff's theorem, which we met for data, holds
+
+01:23.761 --> 01:28.556
+for any random variable: the probability of landing k or more standard
+
+01:28.656 --> 01:32.402
+deviations from the mean is at most one over k squared.
+
+01:32.500 --> 01:36.289
+Its power is that the shape doesn't matter. A bell curve, a
+
+01:36.389 --> 01:40.706
+sharp peak with long tails, or something lumpy and strange: as long
+
+01:40.806 --> 01:44.728
+as the mean and standard deviation are what they are, at most
+
+01:44.828 --> 01:49.013
+a quarter of the probability lies beyond two standard deviations.
+
+01:49.200 --> 01:52.778
+For the risk desk: if failures average forty a day with
+
+01:52.878 --> 01:56.723
+a standard deviation of five, then a day with fifty-five or
+
+01:56.823 --> 02:01.137
+more is at least three standard deviations out, so its probability
+
+02:01.237 --> 02:04.816
+is at most one ninth. That's a guarantee, with no model
+
+02:04.916 --> 02:08.561
+at all. It's usually conservative, but it's never wrong.
+
+02:09.650 --> 02:13.921
+So: the probability-generating function hangs the probabilities on powers of
+
+02:14.021 --> 02:16.854
+t, and its derivatives at one give the moments. And
+
+02:16.954 --> 02:20.592
+Tchebysheff gives a tail bound that holds for every distribution,
+
+02:20.692 --> 02:23.238
+from just the mean and the standard deviation.
