@@ -62,9 +62,12 @@ theme_set(theme_minimal(base_size = 18))
 ## 🎬 The Idea in 2 Minutes
 
 ::: {style="text-align:center"}
-<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture18_intuition.mp4"><track kind="captions" src="video/lecture18_intuition.vtt" srclang="en" label="English"></video>
+```{=html}
+<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture18_intuition.mp4"><track kind="captions" src="video/lecture18_intuition.vtt" srclang="en" label="English"><track kind="captions" src="video/lecture18_intuition.az.vtt" srclang="az" label="Azərbaycanca"></video>
+```
+[⬅ Previous lecture: 17 · Continuous Random Variables](../17-continuous-random-variables/continuous_random_variables_lecture17.html){style="font-size:28px"}
 
-[Watch this short intuition video before (or after) the slides. Captions: CC button.]{style="font-size:22px"}
+[Watch this short intuition video before (or after) the slides. Captions (English / Azərbaycanca): CC button.]{style="font-size:28px"}
 :::
 
 ---
@@ -84,6 +87,17 @@ By the end of this lecture, you will be able to:
 
 - **Explain** why the expected cost of a delay is not the cost of the expected delay
 :::
+
+---
+
+## 🔁 Warm-up from last time {.quiz-question}
+
+A density $f(y) = \dfrac{dF(y)}{dy}$ satisfies $\int_{-\infty}^{\infty} f(y)\,dy = 1$. What is $P(a \le Y \le b)$ for $a < b$?
+
+- [$F(b) - F(a)$]{.correct data-explanation="✅ Theorem 4.3: probability is area, P(a ≤ Y ≤ b) = ∫ₐᵇ f(y) dy = F(b) − F(a). Endpoints do not matter, since P(Y=a) = P(Y=b) = 0."}
+- $f(b) - f(a)$
+- $F(b) + F(a)$
+- $F(b) \cdot F(a)$
 
 ---
 
@@ -430,6 +444,94 @@ $$E[g(Y)] = \int_{24}^{30} 2000\,(y - 24)\,\frac{1}{12}\,dy = \frac{2000}{12} \c
 ::: {.fragment}
 The plug-in answer is $2000 \times \max(24 - 24, 0) = 0$. **A contract that charges only on the bad side has positive expected cost even when the average outcome costs nothing.**
 :::
+:::
+
+---
+
+## 💰 Case Study: Is the Month's Worst Day Uniform?
+
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
+
+Each month has one day with the largest absolute return. Call $Y$ its position, rescaled to $(0,1)$ by trading-day rank within the month.
+
+1. If $Y$ were Uniform$(0,1)$, what are $E(Y)$ and $V(Y)$ (Theorem 4.6)?
+2. Do the sample mean and variance match?
+3. Is the worst day spread evenly across the month, or does it bunch somewhere?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: S&P 500 daily close (FRED `SP500`)
+
+**Period**: Sep 2016 – Sep 2026, 120 months
+
+**Variable**: $Y$ = (rank of the month's largest $|{\log \text{return}}|$ $- 0.5$) / (trading days that month)
+:::
+:::
+::::
+
+---
+
+## 💰 Case Study: The Timing, in R
+
+```{r}
+#| label: case-uniform
+#| code-summary: "📦 Load the data and find each month's worst day"
+sp <- read.csv("data/sp500.csv", col.names = c("date", "close"))
+sp$close <- suppressWarnings(as.numeric(sp$close))   # FRED marks holidays "."
+sp <- na.omit(sp)
+
+r     <- diff(log(sp$close))
+month <- substr(sp$date[-1], 1, 7)
+frac  <- sapply(split(r, month), function(x) {
+  n <- length(x)
+  if (n < 5) return(NA)
+  (which.max(abs(x)) - 0.5) / n            # rescaled position in (0, 1)
+})
+frac <- na.omit(frac)
+
+round(c(months = length(frac), mean_Y = mean(frac), theta_mean = 0.5,
+        var_Y = var(frac), theta_var = 1/12), 4)
+```
+
+::: {style="font-size: 28px"}
+The mean is close to the uniform prediction of 0.5; the variance runs a little above $1/12$.
+:::
+
+---
+
+## 💰 Case Study: Where the Worst Days Land
+
+```{r}
+#| label: case-uniform-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.9
+sp <- read.csv("data/sp500.csv", col.names = c("date", "close"))
+sp$close <- suppressWarnings(as.numeric(sp$close))
+sp <- na.omit(sp)
+r <- diff(log(sp$close))
+month <- substr(sp$date[-1], 1, 7)
+frac <- na.omit(sapply(split(r, month), function(x) {
+  n <- length(x); if (n < 5) return(NA); (which.max(abs(x)) - 0.5) / n
+}))
+ggplot(data.frame(frac = frac), aes(frac)) +
+  geom_histogram(aes(y = after_stat(density)), bins = 8, fill = "#8ba3c7",
+                 colour = "white") +
+  geom_hline(aes(yintercept = 1, colour = "Uniform(0,1) density"), linewidth = 1.1) +
+  scale_colour_manual(values = c("Uniform(0,1) density" = "#8b2635"), name = NULL) +
+  labs(x = "Position of the month's worst day (0 = start, 1 = end)", y = "Density") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+**What the data say:** the histogram sits reasonably near the flat uniform line, so on average a big move is no more likely late in the month than early. It fails in the first quarter of the month, where bars run higher: monthly jobs and inflation releases and month-end rebalancing cluster real news near the start, so the position is not quite free of the calendar.
 :::
 
 ---
