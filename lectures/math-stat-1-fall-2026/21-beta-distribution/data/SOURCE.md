@@ -1,0 +1,1 @@
+`tcu.csv`: Capacity Utilization: Total Industry, percent of capacity, monthly (FRED series TCU, Board of Governors of the Federal Reserve System), Sep 2016 – Aug 2026, downloaded 27 Sep 2026 from https://fred.stlouisfed.org/series/TCU.

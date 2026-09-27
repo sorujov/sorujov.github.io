@@ -75,6 +75,17 @@ By the end of this lecture, you will be able to:
 
 ---
 
+## 🔁 Warm-up from last time {.quiz-question}
+
+A server's uptime between failures is exponential with mean 10 days. Using the memoryless property, what is $P(Y > 15 \mid Y > 5)$?
+
+- [$e^{-1} \approx 0.368$]{.correct data-explanation="✅ Memoryless: P(Y>15 | Y>5) = P(Y>10) = e^{-10/10} = e^{-1} ≈ 0.368. Surviving 5 more days from day 5 is the same bet as surviving 10 days from day 0."}
+- $e^{-1.5} \approx 0.223$
+- $e^{-0.5} \approx 0.607$
+- $0.667$
+
+---
+
 ## 🗺️ Where We Are
 
 ::: {style="font-size: 30px"}
@@ -442,6 +453,95 @@ ggplot(data.frame(y = recov), aes(y)) +
   labs(x = "Recovery rate on a defaulted loan", y = "Density", colour = NULL) +
   theme(legend.position = "top", legend.text = element_text(size = 18))
 ```
+
+---
+
+## 💰 Case Study: Fitting Capacity Utilisation With a Beta
+
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
+
+Industrial capacity utilisation is a proportion, $Y \in [0, 1]$.
+
+1. Matching the sample mean and sd to Theorem 4.11, what $\alpha$ and $\beta$ result?
+2. Does that beta predict $P(Y < 0.75)$ and $P(Y > 0.80)$ well?
+3. Where does treating each month as an independent beta draw break down?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: Total industry capacity utilisation (FRED `TCU`)
+
+**Period**: Sep 2016 – Aug 2026, 120 months
+
+**Variable**: $Y$ = TCU / 100
+:::
+:::
+::::
+
+---
+
+## 💰 Case Study: Matching Moments in R
+
+```{r}
+#| label: case-beta
+#| code-summary: "📦 Load the data and match alpha, beta to the mean and sd"
+tcu <- read.csv("data/tcu.csv", col.names = c("date", "tcu"))
+tcu$tcu <- suppressWarnings(as.numeric(tcu$tcu))   # FRED marks holidays "."
+tcu <- na.omit(tcu)
+
+y <- tcu$tcu / 100
+m <- mean(y); s <- sd(y)
+k <- m * (1 - m) / s^2 - 1                          # Theorem 4.11 solved for alpha + beta
+a_hat <- m * k; b_hat <- (1 - m) * k
+
+round(c(mean_Y = m, sd_Y = s, alpha = a_hat, beta = b_hat,
+        P_below_0.75_beta = pbeta(0.75, a_hat, b_hat),
+        P_below_0.75_data = mean(y < 0.75),
+        P_above_0.80_beta = pbeta(0.80, a_hat, b_hat, lower.tail = FALSE),
+        P_above_0.80_data = mean(y > 0.80)), 4)
+```
+
+::: {style="font-size: 28px"}
+The moment-matched beta puts real weight below 0.75 and above 0.80; the data almost never go there.
+:::
+
+---
+
+## 💰 Case Study: A Peaked Series, a Wider Beta
+
+```{r}
+#| label: case-beta-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.9
+tcu <- read.csv("data/tcu.csv", col.names = c("date", "tcu"))
+tcu$tcu <- suppressWarnings(as.numeric(tcu$tcu))
+tcu <- na.omit(tcu)
+y <- tcu$tcu / 100
+m <- mean(y); s <- sd(y)
+k <- m * (1 - m) / s^2 - 1
+a_hat <- m * k; b_hat <- (1 - m) * k
+yy <- seq(0.55, 0.90, length.out = 300)
+ggplot(data.frame(y = y), aes(y)) +
+  geom_histogram(aes(y = after_stat(density), fill = "Observed months"), bins = 15,
+                 colour = "white") +
+  geom_line(data = data.frame(x = yy, d = dbeta(yy, a_hat, b_hat)),
+            aes(x, d, colour = "Beta(alpha-hat, beta-hat)"), linewidth = 1.2) +
+  scale_fill_manual(values = c("Observed months" = "#8ba3c7"), name = NULL) +
+  scale_colour_manual(values = c("Beta(alpha-hat, beta-hat)" = "#8b2635"), name = NULL) +
+  labs(x = "Capacity utilisation, Y = TCU / 100", y = "Density") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+**What the data say:** the beta curve centres correctly and is roughly the right width. It fails because utilisation moves slowly from month to month rather than resetting independently, so the true series stays inside a narrower band (0.64 to 0.80) than 120 independent beta draws would produce.
+:::
 
 ---
 
