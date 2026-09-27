@@ -62,9 +62,12 @@ theme_set(theme_minimal(base_size = 18))
 ## 🎬 The Idea in 2 Minutes
 
 ::: {style="text-align:center"}
-<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture17_intuition.mp4"><track kind="captions" src="video/lecture17_intuition.vtt" srclang="en" label="English"></video>
+```{=html}
+<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture17_intuition.mp4"><track kind="captions" src="video/lecture17_intuition.vtt" srclang="en" label="English"><track kind="captions" src="video/lecture17_intuition.az.vtt" srclang="az" label="Azərbaycanca"></video>
+```
+[⬅ Previous lecture: 16 · Probability-Generating Functions, Tchebysheff's Theorem, and Chapter 3 in Review](../16-pgf-and-tchebysheff/pgf_tchebysheff_lecture16.html){style="font-size:28px"}
 
-[Watch this short intuition video before (or after) the slides. Captions: CC button.]{style="font-size:22px"}
+[Watch this short intuition video before (or after) the slides. Captions (English / Azərbaycanca): CC button.]{style="font-size:28px"}
 :::
 
 ---
@@ -84,6 +87,17 @@ By the end of this lecture, you will be able to:
 
 - **Find** a quantile $\phi_p$, such as the median settlement time of a payment
 :::
+
+---
+
+## 🔁 Warm-up from last time {.quiz-question}
+
+Tchebysheff's Theorem (3.14) says $P(|Y - \mu| < k\sigma) \ge 1 - 1/k^2$. What does it give for $k = 4$?
+
+- [At least $0.9375$]{.correct data-explanation="✅ Theorem 3.14: 1 − 1/k² = 1 − 1/16 = 0.9375. The bound uses only the mean and variance and holds for any distribution, discrete or continuous."}
+- Exactly $0.9375$
+- At least $0.75$
+- At least $0.99$
 
 ---
 
@@ -440,6 +454,89 @@ A move above 0.68% happens on about one trading day in twenty.
 ::: {.fragment}
 And $P(Y = 0) = 0$. **$f(0) = 1$ is a height, not a probability**; probability lives only in areas.
 :::
+:::
+
+---
+
+## 💰 Case Study: The ECDF Is an Estimate of F
+
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
+
+Theorem 4.3 needs $F$. For a real series we do not know $F$, only data.
+
+1. Can $F$ be estimated directly from data, without assuming a shape?
+2. Does $P(a \le Y \le b) = F(b) - F(a)$ still work with the estimate?
+3. Is the estimated $F$ a staircase or a smooth curve?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: S&P 500 daily close (FRED `SP500`)
+
+**Period**: Sep 2016 – Sep 2026, about 2,500 days
+
+**Variable**: $Y$ = daily log return, $\log(P_t/P_{t-1})$
+:::
+:::
+::::
+
+---
+
+## 💰 Case Study: Building $\hat{F}$ in R
+
+```{r}
+#| label: case-ecdf
+#| code-summary: "📦 Load the data and build the empirical distribution function"
+sp <- read.csv("data/sp500.csv", col.names = c("date", "close"))
+sp$close <- suppressWarnings(as.numeric(sp$close))   # FRED marks holidays "."
+sp <- na.omit(sp)
+
+y <- diff(log(sp$close))                              # daily log returns
+Fhat <- ecdf(y)                                        # Definition 4.1, estimated
+
+a <- -0.01; b <- 0.01
+round(c(n = length(y), mean_y = mean(y), sd_y = sd(y),
+        F_hat_a = Fhat(a), F_hat_b = Fhat(b),
+        P_a_to_b = Fhat(b) - Fhat(a)), 4)
+```
+
+::: {style="font-size: 28px"}
+The subtraction is exactly Theorem 4.3: about 76% of days move less than one percent either way.
+:::
+
+---
+
+## 💰 Case Study: $\hat{F}$ and $\hat{f}$ Beside the Data
+
+```{r}
+#| label: case-ecdf-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.9
+sp <- read.csv("data/sp500.csv", col.names = c("date", "close"))
+sp$close <- suppressWarnings(as.numeric(sp$close))
+sp <- na.omit(sp)
+y <- diff(log(sp$close))
+a <- -0.01; b <- 0.01
+dens <- density(y)
+shade <- data.frame(x = dens$x[dens$x >= a & dens$x <= b],
+                    y = dens$y[dens$x >= a & dens$x <= b])
+ggplot(data.frame(x = dens$x, y = dens$y), aes(x, y)) +
+  geom_area(data = shade, aes(x, y), fill = "#8ba3c7", alpha = 0.7) +
+  geom_line(linewidth = 1.2) +
+  geom_vline(xintercept = c(a, b), linetype = "dashed", colour = "#8b2635") +
+  labs(x = "Daily log return, y", y = "Estimated density") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+**What the data say:** the shaded area matches the subtraction on the previous slide. The peak is far taller and narrower than a smooth textbook curve, and the tails on either side are longer than they look, which is why one-day crashes are not as rare as a quick glance suggests.
 :::
 
 ---

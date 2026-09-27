@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Samir Orujov, PhD">
-  <meta name="dcterms.date" content="2026-09-24">
+  <meta name="dcterms.date" content="2026-09-27">
   <title>Mathematical Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -222,13 +222,14 @@ Samir Orujov, PhD
     </div>
 </div>
 
-  <p class="date">2026-09-24</p>
+  <p class="date">2026-09-27</p>
 </section>
-<section id="intuition-video" class="slide level2">
+<section id="the-idea-in-2-minutes" class="slide level2">
 <h2>🎬 The Idea in 2 Minutes</h2>
 <div style="text-align:center">
-<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture17_intuition.mp4"><track kind="captions" src="video/lecture17_intuition.vtt" srclang="en" label="English"></video>
-<p style="font-size:22px">Watch this short intuition video before (or after) the slides. Captions: CC button.</p>
+<video controls="" preload="metadata" style="width:880px;max-width:100%" src="video/lecture17_intuition.mp4"><track kind="captions" src="video/lecture17_intuition.vtt" srclang="en" label="English"><track kind="captions" src="video/lecture17_intuition.az.vtt" srclang="az" label="Azərbaycanca"></video>
+<p><a href="../16-pgf-and-tchebysheff/pgf_tchebysheff_lecture16.html" style="font-size:28px">⬅ Previous lecture: 16 · Probability-Generating Functions, Tchebysheff’s Theorem, and Chapter 3 in Review</a></p>
+<p><span style="font-size:28px">Watch this short intuition video before (or after) the slides. Captions (English / Azərbaycanca): CC button.</span></p>
 </div>
 </section>
 <section id="learning-objectives" class="slide level2">
@@ -243,6 +244,16 @@ Samir Orujov, PhD
 <li><p><strong>Find</strong> a quantile <span class="math inline">\(\phi_p\)</span>, such as the median settlement time of a payment</p></li>
 </ul>
 </div>
+</section>
+<section id="warm-up-from-last-time" class="slide level2 quiz-question">
+<h2>🔁 Warm-up from last time</h2>
+<p>Tchebysheff’s Theorem (3.14) says <span class="math inline">\(P(|Y - \mu| &lt; k\sigma) \ge 1 - 1/k^2\)</span>. What does it give for <span class="math inline">\(k = 4\)</span>?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Theorem 3.14: 1 − 1/k² = 1 − 1/16 = 0.9375. The bound uses only the mean and variance and holds for any distribution, discrete or continuous.">At least <span class="math inline">\(0.9375\)</span></span></li>
+<li>Exactly <span class="math inline">\(0.9375\)</span></li>
+<li>At least <span class="math inline">\(0.75\)</span></li>
+<li>At least <span class="math inline">\(0.99\)</span></li>
+</ul>
 </section>
 <section id="where-we-are" class="slide level2">
 <h2>🗺️ Where We Are</h2>
@@ -483,13 +494,13 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb5" data-startfrom="324" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 323;"><span id="cb5-324"><a href="" aria-label="324"></a>viewof b <span class="op">=</span> {</span>
-<span id="cb5-325"><a href="" aria-label="325"></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">4</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">3</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.05</span><span class="op">,</span></span>
-<span id="cb5-326"><a href="" aria-label="326"></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Settlement deadline b (hours):"</span>})<span class="op">;</span></span>
-<span id="cb5-327"><a href="" aria-label="327"></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
-<span id="cb5-328"><a href="" aria-label="328"></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
-<span id="cb5-329"><a href="" aria-label="329"></a>  <span class="cf">return</span> input<span class="op">;</span></span>
-<span id="cb5-330"><a href="" aria-label="330"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb5" data-startfrom="348" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 347;"><span id="cb5-348"><a href="" aria-label="348"></a>viewof b <span class="op">=</span> {</span>
+<span id="cb5-349"><a href="" aria-label="349"></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">4</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">3</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.05</span><span class="op">,</span></span>
+<span id="cb5-350"><a href="" aria-label="350"></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Settlement deadline b (hours):"</span>})<span class="op">;</span></span>
+<span id="cb5-351"><a href="" aria-label="351"></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
+<span id="cb5-352"><a href="" aria-label="352"></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
+<span id="cb5-353"><a href="" aria-label="353"></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb5-354"><a href="" aria-label="354"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-1" data-nodetype="declaration">
@@ -500,12 +511,12 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb6" data-startfrom="338" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 337;"><span id="cb6-338"><a href="" aria-label="338"></a>dens <span class="op">=</span> y <span class="kw">=&gt;</span> (<span class="dv">3</span> <span class="op">/</span> <span class="dv">32</span>) <span class="op">*</span> y <span class="op">*</span> (<span class="dv">4</span> <span class="op">-</span> y)</span>
-<span id="cb6-339"><a href="" aria-label="339"></a>cdf <span class="op">=</span> y <span class="kw">=&gt;</span> (<span class="dv">6</span> <span class="op">*</span> y <span class="op">*</span> y <span class="op">-</span> y <span class="op">*</span> y <span class="op">*</span> y) <span class="op">/</span> <span class="dv">32</span></span>
-<span id="cb6-340"><a href="" aria-label="340"></a>grid <span class="op">=</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({<span class="dt">length</span><span class="op">:</span> <span class="dv">161</span>}<span class="op">,</span> (_<span class="op">,</span> i) <span class="kw">=&gt;</span> ({<span class="dt">y</span><span class="op">:</span> i <span class="op">*</span> <span class="fl">0.025</span><span class="op">,</span> <span class="dt">f</span><span class="op">:</span> <span class="fu">dens</span>(i <span class="op">*</span> <span class="fl">0.025</span>)}))</span>
-<span id="cb6-341"><a href="" aria-label="341"></a>shaded <span class="op">=</span> grid<span class="op">.</span><span class="fu">filter</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">y</span> <span class="op">&lt;=</span> b <span class="op">+</span> <span class="fl">1e-9</span>)</span>
-<span id="cb6-342"><a href="" aria-label="342"></a></span>
-<span id="cb6-343"><a href="" aria-label="343"></a><span class="fu">md</span><span class="vs">`Shaded area = F(</span><span class="sc">${</span>b<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">) = P(Y ≤ </span><span class="sc">${</span>b<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">) = **</span><span class="sc">${</span><span class="fu">cdf</span>(b)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">4</span>)<span class="sc">}</span><span class="vs">**`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb6" data-startfrom="362" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 361;"><span id="cb6-362"><a href="" aria-label="362"></a>dens <span class="op">=</span> y <span class="kw">=&gt;</span> (<span class="dv">3</span> <span class="op">/</span> <span class="dv">32</span>) <span class="op">*</span> y <span class="op">*</span> (<span class="dv">4</span> <span class="op">-</span> y)</span>
+<span id="cb6-363"><a href="" aria-label="363"></a>cdf <span class="op">=</span> y <span class="kw">=&gt;</span> (<span class="dv">6</span> <span class="op">*</span> y <span class="op">*</span> y <span class="op">-</span> y <span class="op">*</span> y <span class="op">*</span> y) <span class="op">/</span> <span class="dv">32</span></span>
+<span id="cb6-364"><a href="" aria-label="364"></a>grid <span class="op">=</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({<span class="dt">length</span><span class="op">:</span> <span class="dv">161</span>}<span class="op">,</span> (_<span class="op">,</span> i) <span class="kw">=&gt;</span> ({<span class="dt">y</span><span class="op">:</span> i <span class="op">*</span> <span class="fl">0.025</span><span class="op">,</span> <span class="dt">f</span><span class="op">:</span> <span class="fu">dens</span>(i <span class="op">*</span> <span class="fl">0.025</span>)}))</span>
+<span id="cb6-365"><a href="" aria-label="365"></a>shaded <span class="op">=</span> grid<span class="op">.</span><span class="fu">filter</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">y</span> <span class="op">&lt;=</span> b <span class="op">+</span> <span class="fl">1e-9</span>)</span>
+<span id="cb6-366"><a href="" aria-label="366"></a></span>
+<span id="cb6-367"><a href="" aria-label="367"></a><span class="fu">md</span><span class="vs">`Shaded area = F(</span><span class="sc">${</span>b<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">) = P(Y ≤ </span><span class="sc">${</span>b<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">) = **</span><span class="sc">${</span><span class="fu">cdf</span>(b)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">4</span>)<span class="sc">}</span><span class="vs">**`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -544,21 +555,21 @@ Samir Orujov, PhD
 </div>
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb7" data-startfrom="345" data-source-offset="-291"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 344;"><span id="cb7-345"><a href="" aria-label="345"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
-<span id="cb7-346"><a href="" aria-label="346"></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">1150</span><span class="op">,</span></span>
-<span id="cb7-347"><a href="" aria-label="347"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">320</span><span class="op">,</span></span>
-<span id="cb7-348"><a href="" aria-label="348"></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">78</span><span class="op">,</span></span>
-<span id="cb7-349"><a href="" aria-label="349"></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">58</span><span class="op">,</span></span>
-<span id="cb7-350"><a href="" aria-label="350"></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontSize</span><span class="op">:</span> <span class="st">"18px"</span>}<span class="op">,</span></span>
-<span id="cb7-351"><a href="" aria-label="351"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Settlement time y (hours)"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">4</span>]<span class="op">,</span> <span class="dt">ticks</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="fl">1.5</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="fl">2.5</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="fl">3.5</span><span class="op">,</span> <span class="dv">4</span>]}<span class="op">,</span></span>
-<span id="cb7-352"><a href="" aria-label="352"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Density f(y)"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="fl">0.4</span>]<span class="op">,</span> <span class="dt">ticks</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="fl">0.1</span><span class="op">,</span> <span class="fl">0.2</span><span class="op">,</span> <span class="fl">0.3</span><span class="op">,</span> <span class="fl">0.4</span>]<span class="op">,</span> <span class="dt">tickFormat</span><span class="op">:</span> <span class="st">".1f"</span>}<span class="op">,</span></span>
-<span id="cb7-353"><a href="" aria-label="353"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
-<span id="cb7-354"><a href="" aria-label="354"></a>    Plot<span class="op">.</span><span class="fu">areaY</span>(shaded<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"f"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#8ba3c7"</span><span class="op">,</span> <span class="dt">fillOpacity</span><span class="op">:</span> <span class="fl">0.7</span>})<span class="op">,</span></span>
-<span id="cb7-355"><a href="" aria-label="355"></a>    Plot<span class="op">.</span><span class="fu">line</span>(grid<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"f"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#14130f"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="fl">2.5</span>})<span class="op">,</span></span>
-<span id="cb7-356"><a href="" aria-label="356"></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([b]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"#8b2635"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"5 4"</span>})<span class="op">,</span></span>
-<span id="cb7-357"><a href="" aria-label="357"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
-<span id="cb7-358"><a href="" aria-label="358"></a>  ]</span>
-<span id="cb7-359"><a href="" aria-label="359"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb7" data-startfrom="369" data-source-offset="-291"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 368;"><span id="cb7-369"><a href="" aria-label="369"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb7-370"><a href="" aria-label="370"></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">1150</span><span class="op">,</span></span>
+<span id="cb7-371"><a href="" aria-label="371"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">320</span><span class="op">,</span></span>
+<span id="cb7-372"><a href="" aria-label="372"></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">78</span><span class="op">,</span></span>
+<span id="cb7-373"><a href="" aria-label="373"></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">58</span><span class="op">,</span></span>
+<span id="cb7-374"><a href="" aria-label="374"></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontSize</span><span class="op">:</span> <span class="st">"18px"</span>}<span class="op">,</span></span>
+<span id="cb7-375"><a href="" aria-label="375"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Settlement time y (hours)"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">4</span>]<span class="op">,</span> <span class="dt">ticks</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="fl">1.5</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="fl">2.5</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="fl">3.5</span><span class="op">,</span> <span class="dv">4</span>]}<span class="op">,</span></span>
+<span id="cb7-376"><a href="" aria-label="376"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Density f(y)"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="fl">0.4</span>]<span class="op">,</span> <span class="dt">ticks</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="fl">0.1</span><span class="op">,</span> <span class="fl">0.2</span><span class="op">,</span> <span class="fl">0.3</span><span class="op">,</span> <span class="fl">0.4</span>]<span class="op">,</span> <span class="dt">tickFormat</span><span class="op">:</span> <span class="st">".1f"</span>}<span class="op">,</span></span>
+<span id="cb7-377"><a href="" aria-label="377"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb7-378"><a href="" aria-label="378"></a>    Plot<span class="op">.</span><span class="fu">areaY</span>(shaded<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"f"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#8ba3c7"</span><span class="op">,</span> <span class="dt">fillOpacity</span><span class="op">:</span> <span class="fl">0.7</span>})<span class="op">,</span></span>
+<span id="cb7-379"><a href="" aria-label="379"></a>    Plot<span class="op">.</span><span class="fu">line</span>(grid<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"f"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#14130f"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="fl">2.5</span>})<span class="op">,</span></span>
+<span id="cb7-380"><a href="" aria-label="380"></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([b]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"#8b2635"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"5 4"</span>})<span class="op">,</span></span>
+<span id="cb7-381"><a href="" aria-label="381"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
+<span id="cb7-382"><a href="" aria-label="382"></a>  ]</span>
+<span id="cb7-383"><a href="" aria-label="383"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -589,7 +600,7 @@ Samir Orujov, PhD
 <h2>🧠 Think-Pair-Share</h2>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_8ebdf593" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_4134ddd9" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
 </div>
 </div>
 <div style="font-size: 30px">
@@ -617,6 +628,79 @@ Samir Orujov, PhD
 <div class="fragment">
 <p>And <span class="math inline">\(P(Y = 0) = 0\)</span>. <strong><span class="math inline">\(f(0) = 1\)</span> is a height, not a probability</strong>; probability lives only in areas.</p>
 </div>
+</div>
+</section>
+<section id="case-study-the-ecdf-is-an-estimate-of-f" class="slide level2">
+<h2>💰 Case Study: The ECDF Is an Estimate of F</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📈 The question</strong></p>
+</div>
+<div class="callout-content">
+<p>Theorem 4.3 needs <span class="math inline">\(F\)</span>. For a real series we do not know <span class="math inline">\(F\)</span>, only data.</p>
+<ol type="1">
+<li>Can <span class="math inline">\(F\)</span> be estimated directly from data, without assuming a shape?</li>
+<li>Does <span class="math inline">\(P(a \le Y \le b) = F(b) - F(a)\)</span> still work with the estimate?</li>
+<li>Is the estimated <span class="math inline">\(F\)</span> a staircase or a smooth curve?</li>
+</ol>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 The data</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Series</strong>: S&amp;P 500 daily close (FRED <code>SP500</code>)</p>
+<p><strong>Period</strong>: Sep 2016 – Sep 2026, about 2,500 days</p>
+<p><strong>Variable</strong>: <span class="math inline">\(Y\)</span> = daily log return, <span class="math inline">\(\log(P_t/P_{t-1})\)</span></p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="case-study-building-hatf-in-r" class="slide level2">
+<h2>💰 Case Study: Building <span class="math inline">\(\hat{F}\)</span> in R</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>📦 Load the data and build the empirical distribution function</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="" aria-label="1"></a>sp <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/sp500.csv"</span>, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"close"</span>))</span>
+<span id="cb8-2"><a href="" aria-label="2"></a>sp<span class="sc">$</span>close <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(sp<span class="sc">$</span>close))   <span class="co"># FRED marks holidays "."</span></span>
+<span id="cb8-3"><a href="" aria-label="3"></a>sp <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(sp)</span>
+<span id="cb8-4"><a href="" aria-label="4"></a></span>
+<span id="cb8-5"><a href="" aria-label="5"></a>y <span class="ot">&lt;-</span> <span class="fu">diff</span>(<span class="fu">log</span>(sp<span class="sc">$</span>close))                              <span class="co"># daily log returns</span></span>
+<span id="cb8-6"><a href="" aria-label="6"></a>Fhat <span class="ot">&lt;-</span> <span class="fu">ecdf</span>(y)                                        <span class="co"># Definition 4.1, estimated</span></span>
+<span id="cb8-7"><a href="" aria-label="7"></a></span>
+<span id="cb8-8"><a href="" aria-label="8"></a>a <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.01</span>; b <span class="ot">&lt;-</span> <span class="fl">0.01</span></span>
+<span id="cb8-9"><a href="" aria-label="9"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(y), <span class="at">mean_y =</span> <span class="fu">mean</span>(y), <span class="at">sd_y =</span> <span class="fu">sd</span>(y),</span>
+<span id="cb8-10"><a href="" aria-label="10"></a>        <span class="at">F_hat_a =</span> <span class="fu">Fhat</span>(a), <span class="at">F_hat_b =</span> <span class="fu">Fhat</span>(b),</span>
+<span id="cb8-11"><a href="" aria-label="11"></a>        <span class="at">P_a_to_b =</span> <span class="fu">Fhat</span>(b) <span class="sc">-</span> <span class="fu">Fhat</span>(a)), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>        n    mean_y      sd_y   F_hat_a   F_hat_b  P_a_to_b 
+2513.0000    0.0005    0.0114    0.1098    0.8679    0.7581 </code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>The subtraction is exactly Theorem 4.3: about 76% of days move less than one percent either way.</p>
+</div>
+</section>
+<section id="case-study-hatf-and-hatf-beside-the-data" class="slide level2">
+<h2>💰 Case Study: <span class="math inline">\(\hat{F}\)</span> and <span class="math inline">\(\hat{f}\)</span> Beside the Data</h2>
+
+<img data-src="continuous_random_variables_lecture17_files/figure-revealjs/case-ecdf-fig-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1500"><div style="font-size: 28px">
+<p><strong>What the data say:</strong> the shaded area matches the subtraction on the previous slide. The peak is far taller and narrower than a smooth textbook curve, and the tails on either side are longer than they look, which is why one-day crashes are not as rare as a quick glance suggests.</p>
 </div>
 </section>
 <section id="quiz-1-height-or-probability" class="slide level2 quiz-question">
