@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Samir Orujov, PhD">
-  <meta name="dcterms.date" content="2026-09-24">
+  <meta name="dcterms.date" content="2026-09-27">
   <title>Mathematical Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -222,13 +222,14 @@ Samir Orujov, PhD
     </div>
 </div>
 
-  <p class="date">2026-09-24</p>
+  <p class="date">2026-09-27</p>
 </section>
-<section id="intuition-video" class="slide level2">
+<section id="the-idea-in-3-minutes" class="slide level2">
 <h2>🎬 The Idea in 3 Minutes</h2>
 <div style="text-align:center">
-<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture7_intuition.mp4"><track kind="captions" src="video/lecture7_intuition.vtt" srclang="en" label="English"></video>
-<p style="font-size:22px">Watch this short intuition video before (or after) the slides. Captions: CC button.</p>
+<video controls="" preload="metadata" style="width:880px;max-width:100%" src="video/lecture7_intuition.mp4"><track kind="captions" src="video/lecture7_intuition.vtt" srclang="en" label="English"><track kind="captions" src="video/lecture7_intuition.az.vtt" srclang="az" label="Azərbaycanca"></video>
+<p><a href="../06-two-laws-of-probability/two_laws_of_probability_lecture6.html" style="font-size:28px">⬅ Previous lecture: 6 · Two Laws of Probability</a></p>
+<p><span style="font-size:28px">Watch this short intuition video before (or after) the slides. Captions (English / Azərbaycanca): CC button.</span></p>
 </div>
 </section>
 <section id="learning-objectives" class="slide level2">
@@ -243,6 +244,16 @@ Samir Orujov, PhD
 <li><p><strong>Handle</strong> “at least one” and sequential draws without replacement by composition</p></li>
 </ul>
 </div>
+</section>
+<section id="warm-up-from-last-time" class="slide level2 quiz-question">
+<h2>🔁 Warm-up from last time</h2>
+<p>Three independent suppliers each deliver late with probability 0.2. What is the probability that at least one is late?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ 'At least one' fails only when none is late, and 'none' is an intersection of independent events: 1 − (0.8)³ by Theorem 2.7."><span class="math inline">\(1 - 0.8^3 = 0.488\)</span></span></li>
+<li><span class="math inline">\(3 \times 0.2 = 0.6\)</span></li>
+<li><span class="math inline">\(0.2^3 = 0.008\)</span></li>
+<li><span class="math inline">\(1 - 0.2^3 = 0.992\)</span></li>
+</ul>
 </section>
 <section id="where-we-are" class="slide level2">
 <h2>🗺️ Where We Are</h2>
@@ -448,13 +459,13 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb5" data-startfrom="276" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 275;"><span id="cb5-276"><a href="" aria-label="276"></a>viewof p_comp <span class="op">=</span> {</span>
-<span id="cb5-277"><a href="" aria-label="277"></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.50</span><span class="op">,</span> <span class="fl">0.99</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="fl">0.95</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span></span>
-<span id="cb5-278"><a href="" aria-label="278"></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Reliability of each component p:"</span>})<span class="op">;</span></span>
-<span id="cb5-279"><a href="" aria-label="279"></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
-<span id="cb5-280"><a href="" aria-label="280"></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
-<span id="cb5-281"><a href="" aria-label="281"></a>  <span class="cf">return</span> input<span class="op">;</span></span>
-<span id="cb5-282"><a href="" aria-label="282"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb5" data-startfrom="301" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 300;"><span id="cb5-301"><a href="" aria-label="301"></a>viewof p_comp <span class="op">=</span> {</span>
+<span id="cb5-302"><a href="" aria-label="302"></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.50</span><span class="op">,</span> <span class="fl">0.99</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="fl">0.95</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span></span>
+<span id="cb5-303"><a href="" aria-label="303"></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Reliability of each component p:"</span>})<span class="op">;</span></span>
+<span id="cb5-304"><a href="" aria-label="304"></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
+<span id="cb5-305"><a href="" aria-label="305"></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
+<span id="cb5-306"><a href="" aria-label="306"></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb5-307"><a href="" aria-label="307"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-1" data-nodetype="declaration">
@@ -465,13 +476,13 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb6" data-startfrom="290" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 289;"><span id="cb6-290"><a href="" aria-label="290"></a>rel <span class="op">=</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({<span class="dt">length</span><span class="op">:</span> <span class="dv">20</span>}<span class="op">,</span> (_<span class="op">,</span> i) <span class="kw">=&gt;</span> i <span class="op">+</span> <span class="dv">1</span>)<span class="op">.</span><span class="fu">flatMap</span>(n <span class="kw">=&gt;</span> [</span>
-<span id="cb6-291"><a href="" aria-label="291"></a>  {n<span class="op">,</span> <span class="dt">R</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(p_comp<span class="op">,</span> n)<span class="op">,</span> <span class="dt">system</span><span class="op">:</span> <span class="st">"series"</span>}<span class="op">,</span></span>
-<span id="cb6-292"><a href="" aria-label="292"></a>  {n<span class="op">,</span> <span class="dt">R</span><span class="op">:</span> <span class="dv">1</span> <span class="op">-</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(<span class="dv">1</span> <span class="op">-</span> p_comp<span class="op">,</span> n)<span class="op">,</span> <span class="dt">system</span><span class="op">:</span> <span class="st">"parallel"</span>}</span>
-<span id="cb6-293"><a href="" aria-label="293"></a>])</span>
-<span id="cb6-294"><a href="" aria-label="294"></a>halfN <span class="op">=</span> (rel<span class="op">.</span><span class="fu">find</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">system</span> <span class="op">===</span> <span class="st">"series"</span> <span class="op">&amp;&amp;</span> d<span class="op">.</span><span class="at">R</span> <span class="op">&lt;</span> <span class="fl">0.5</span>) <span class="op">||</span> {<span class="dt">n</span><span class="op">:</span> <span class="st">"more than 20"</span>})<span class="op">.</span><span class="at">n</span></span>
-<span id="cb6-295"><a href="" aria-label="295"></a></span>
-<span id="cb6-296"><a href="" aria-label="296"></a><span class="fu">md</span><span class="vs">`At **p = </span><span class="sc">${</span>p_comp<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">**, a series chain drops below 50% at **</span><span class="sc">${</span>halfN<span class="sc">}</span><span class="vs">** components.`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb6" data-startfrom="315" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 314;"><span id="cb6-315"><a href="" aria-label="315"></a>rel <span class="op">=</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({<span class="dt">length</span><span class="op">:</span> <span class="dv">20</span>}<span class="op">,</span> (_<span class="op">,</span> i) <span class="kw">=&gt;</span> i <span class="op">+</span> <span class="dv">1</span>)<span class="op">.</span><span class="fu">flatMap</span>(n <span class="kw">=&gt;</span> [</span>
+<span id="cb6-316"><a href="" aria-label="316"></a>  {n<span class="op">,</span> <span class="dt">R</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(p_comp<span class="op">,</span> n)<span class="op">,</span> <span class="dt">system</span><span class="op">:</span> <span class="st">"series"</span>}<span class="op">,</span></span>
+<span id="cb6-317"><a href="" aria-label="317"></a>  {n<span class="op">,</span> <span class="dt">R</span><span class="op">:</span> <span class="dv">1</span> <span class="op">-</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(<span class="dv">1</span> <span class="op">-</span> p_comp<span class="op">,</span> n)<span class="op">,</span> <span class="dt">system</span><span class="op">:</span> <span class="st">"parallel"</span>}</span>
+<span id="cb6-318"><a href="" aria-label="318"></a>])</span>
+<span id="cb6-319"><a href="" aria-label="319"></a>halfN <span class="op">=</span> (rel<span class="op">.</span><span class="fu">find</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">system</span> <span class="op">===</span> <span class="st">"series"</span> <span class="op">&amp;&amp;</span> d<span class="op">.</span><span class="at">R</span> <span class="op">&lt;</span> <span class="fl">0.5</span>) <span class="op">||</span> {<span class="dt">n</span><span class="op">:</span> <span class="st">"more than 20"</span>})<span class="op">.</span><span class="at">n</span></span>
+<span id="cb6-320"><a href="" aria-label="320"></a></span>
+<span id="cb6-321"><a href="" aria-label="321"></a><span class="fu">md</span><span class="vs">`At **p = </span><span class="sc">${</span>p_comp<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">**, a series chain drops below 50% at **</span><span class="sc">${</span>halfN<span class="sc">}</span><span class="vs">** components.`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -496,25 +507,25 @@ Samir Orujov, PhD
 </div>
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb7" data-startfrom="298" data-source-offset="-357"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 297;"><span id="cb7-298"><a href="" aria-label="298"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
-<span id="cb7-299"><a href="" aria-label="299"></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">1150</span><span class="op">,</span></span>
-<span id="cb7-300"><a href="" aria-label="300"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">300</span><span class="op">,</span></span>
-<span id="cb7-301"><a href="" aria-label="301"></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">78</span><span class="op">,</span></span>
-<span id="cb7-302"><a href="" aria-label="302"></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">58</span><span class="op">,</span></span>
-<span id="cb7-303"><a href="" aria-label="303"></a>  <span class="dt">marginRight</span><span class="op">:</span> <span class="dv">110</span><span class="op">,</span></span>
-<span id="cb7-304"><a href="" aria-label="304"></a>  <span class="dt">marginTop</span><span class="op">:</span> <span class="dv">40</span><span class="op">,</span></span>
-<span id="cb7-305"><a href="" aria-label="305"></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontSize</span><span class="op">:</span> <span class="st">"18px"</span>}<span class="op">,</span></span>
-<span id="cb7-306"><a href="" aria-label="306"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Number of components n"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">1</span><span class="op">,</span> <span class="dv">20</span>]<span class="op">,</span> <span class="dt">ticks</span><span class="op">:</span> [<span class="dv">1</span><span class="op">,</span> <span class="dv">5</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">15</span><span class="op">,</span> <span class="dv">20</span>]}<span class="op">,</span></span>
-<span id="cb7-307"><a href="" aria-label="307"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"P(system works)"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> <span class="dt">tickFormat</span><span class="op">:</span> <span class="st">".1f"</span>}<span class="op">,</span></span>
-<span id="cb7-308"><a href="" aria-label="308"></a>  <span class="dt">color</span><span class="op">:</span> {<span class="dt">domain</span><span class="op">:</span> [<span class="st">"series"</span><span class="op">,</span> <span class="st">"parallel"</span>]<span class="op">,</span> <span class="dt">range</span><span class="op">:</span> [<span class="st">"#8b2635"</span><span class="op">,</span> <span class="st">"#2f5d8a"</span>]}<span class="op">,</span></span>
-<span id="cb7-309"><a href="" aria-label="309"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
-<span id="cb7-310"><a href="" aria-label="310"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="fl">0.5</span>]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"#cbb8a9"</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"4 4"</span>})<span class="op">,</span></span>
-<span id="cb7-311"><a href="" aria-label="311"></a>    Plot<span class="op">.</span><span class="fu">line</span>(rel<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"n"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"R"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"system"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">3</span>})<span class="op">,</span></span>
-<span id="cb7-312"><a href="" aria-label="312"></a>    Plot<span class="op">.</span><span class="fu">text</span>(rel<span class="op">.</span><span class="fu">filter</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">n</span> <span class="op">===</span> <span class="dv">20</span>)<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"n"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"R"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> <span class="st">"system"</span><span class="op">,</span></span>
-<span id="cb7-313"><a href="" aria-label="313"></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"system"</span><span class="op">,</span> <span class="dt">dx</span><span class="op">:</span> <span class="dv">12</span><span class="op">,</span> <span class="dt">textAnchor</span><span class="op">:</span> <span class="st">"start"</span><span class="op">,</span> <span class="dt">fontSize</span><span class="op">:</span> <span class="dv">20</span>})<span class="op">,</span></span>
-<span id="cb7-314"><a href="" aria-label="314"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
-<span id="cb7-315"><a href="" aria-label="315"></a>  ]</span>
-<span id="cb7-316"><a href="" aria-label="316"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb7" data-startfrom="323" data-source-offset="-357"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 322;"><span id="cb7-323"><a href="" aria-label="323"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb7-324"><a href="" aria-label="324"></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">1150</span><span class="op">,</span></span>
+<span id="cb7-325"><a href="" aria-label="325"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">300</span><span class="op">,</span></span>
+<span id="cb7-326"><a href="" aria-label="326"></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">78</span><span class="op">,</span></span>
+<span id="cb7-327"><a href="" aria-label="327"></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">58</span><span class="op">,</span></span>
+<span id="cb7-328"><a href="" aria-label="328"></a>  <span class="dt">marginRight</span><span class="op">:</span> <span class="dv">110</span><span class="op">,</span></span>
+<span id="cb7-329"><a href="" aria-label="329"></a>  <span class="dt">marginTop</span><span class="op">:</span> <span class="dv">40</span><span class="op">,</span></span>
+<span id="cb7-330"><a href="" aria-label="330"></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontSize</span><span class="op">:</span> <span class="st">"18px"</span>}<span class="op">,</span></span>
+<span id="cb7-331"><a href="" aria-label="331"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Number of components n"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">1</span><span class="op">,</span> <span class="dv">20</span>]<span class="op">,</span> <span class="dt">ticks</span><span class="op">:</span> [<span class="dv">1</span><span class="op">,</span> <span class="dv">5</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">15</span><span class="op">,</span> <span class="dv">20</span>]}<span class="op">,</span></span>
+<span id="cb7-332"><a href="" aria-label="332"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"P(system works)"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> <span class="dt">tickFormat</span><span class="op">:</span> <span class="st">".1f"</span>}<span class="op">,</span></span>
+<span id="cb7-333"><a href="" aria-label="333"></a>  <span class="dt">color</span><span class="op">:</span> {<span class="dt">domain</span><span class="op">:</span> [<span class="st">"series"</span><span class="op">,</span> <span class="st">"parallel"</span>]<span class="op">,</span> <span class="dt">range</span><span class="op">:</span> [<span class="st">"#8b2635"</span><span class="op">,</span> <span class="st">"#2f5d8a"</span>]}<span class="op">,</span></span>
+<span id="cb7-334"><a href="" aria-label="334"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb7-335"><a href="" aria-label="335"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="fl">0.5</span>]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"#cbb8a9"</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"4 4"</span>})<span class="op">,</span></span>
+<span id="cb7-336"><a href="" aria-label="336"></a>    Plot<span class="op">.</span><span class="fu">line</span>(rel<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"n"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"R"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"system"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">3</span>})<span class="op">,</span></span>
+<span id="cb7-337"><a href="" aria-label="337"></a>    Plot<span class="op">.</span><span class="fu">text</span>(rel<span class="op">.</span><span class="fu">filter</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">n</span> <span class="op">===</span> <span class="dv">20</span>)<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"n"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"R"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> <span class="st">"system"</span><span class="op">,</span></span>
+<span id="cb7-338"><a href="" aria-label="338"></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"system"</span><span class="op">,</span> <span class="dt">dx</span><span class="op">:</span> <span class="dv">12</span><span class="op">,</span> <span class="dt">textAnchor</span><span class="op">:</span> <span class="st">"start"</span><span class="op">,</span> <span class="dt">fontSize</span><span class="op">:</span> <span class="dv">20</span>})<span class="op">,</span></span>
+<span id="cb7-339"><a href="" aria-label="339"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
+<span id="cb7-340"><a href="" aria-label="340"></a>  ]</span>
+<span id="cb7-341"><a href="" aria-label="341"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -593,7 +604,7 @@ Samir Orujov, PhD
 <h2>🧠 Think-Pair-Share</h2>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_4b1c592e" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_4519d5cc" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
 </div>
 </div>
 <div style="font-size: 30px">
@@ -619,6 +630,88 @@ Samir Orujov, PhD
 <div class="fragment">
 <p>Customs wins, narrowly. The parallel block is already at 94%; the weakest <strong>series</strong> link is where the reliability leaks. The composition tells you where to spend money.</p>
 </div>
+</div>
+</section>
+<section id="case-study-at-least-one-big-move" class="slide level2">
+<h2>💰 Case Study: At Least One Big Move</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📈 The question</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li>On a given day, what is the probability that at least one of the three markets moves more than 2%?</li>
+<li>If the three “big move” events were independent, what would the complement rule predict?</li>
+<li>Does treating them as independent over- or under-state the true probability?</li>
+</ol>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 The data</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Series</strong>: S&amp;P 500, EUR/USD, Brent crude, daily close (FRED <code>SP500</code>, <code>DEXUSEU</code>, <code>DCOILBRENTEU</code>)</p>
+<p><strong>Period</strong>: Sep 2016 – Sep 2026, matched trading days</p>
+<p><strong>Events</strong>: <span class="math inline">\(A, B, C = \{|\text{log return}| &gt; 0.02\}\)</span> for each series</p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="case-study-the-complement-rule-in-r" class="slide level2">
+<h2>💰 Case Study: The Complement Rule in R</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>📦 Load all three series and compare the composition to reality</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="" aria-label="1"></a>sp <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/sp500.csv"</span>, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"close"</span>)); sp<span class="sc">$</span>close <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(sp<span class="sc">$</span>close)); sp <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(sp)</span>
+<span id="cb12-2"><a href="" aria-label="2"></a>eu <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/eurusd.csv"</span>, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"close"</span>)); eu<span class="sc">$</span>close <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(eu<span class="sc">$</span>close)); eu <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(eu)</span>
+<span id="cb12-3"><a href="" aria-label="3"></a>br <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/brent.csv"</span>, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"close"</span>)); br<span class="sc">$</span>close <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(br<span class="sc">$</span>close)); br <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(br)</span>
+<span id="cb12-4"><a href="" aria-label="4"></a>sp<span class="sc">$</span>ret <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(<span class="fu">log</span>(sp<span class="sc">$</span>close))); eu<span class="sc">$</span>ret <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(<span class="fu">log</span>(eu<span class="sc">$</span>close))); br<span class="sc">$</span>ret <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(<span class="fu">log</span>(br<span class="sc">$</span>close)))</span>
+<span id="cb12-5"><a href="" aria-label="5"></a>m <span class="ot">&lt;-</span> <span class="fu">Reduce</span>(<span class="cf">function</span>(x, y) <span class="fu">merge</span>(x, y, <span class="at">by =</span> <span class="st">"date"</span>),</span>
+<span id="cb12-6"><a href="" aria-label="6"></a>            <span class="fu">list</span>(sp[, <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"ret"</span>)], eu[, <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"ret"</span>)], br[, <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"ret"</span>)]))</span>
+<span id="cb12-7"><a href="" aria-label="7"></a><span class="fu">names</span>(m) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"sp"</span>, <span class="st">"eu"</span>, <span class="st">"br"</span>)</span>
+<span id="cb12-8"><a href="" aria-label="8"></a>m <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(m)</span>
+<span id="cb12-9"><a href="" aria-label="9"></a></span>
+<span id="cb12-10"><a href="" aria-label="10"></a>A <span class="ot">&lt;-</span> <span class="fu">abs</span>(m<span class="sc">$</span>sp) <span class="sc">&gt;</span> <span class="fl">0.02</span>; B <span class="ot">&lt;-</span> <span class="fu">abs</span>(m<span class="sc">$</span>eu) <span class="sc">&gt;</span> <span class="fl">0.02</span>; C <span class="ot">&lt;-</span> <span class="fu">abs</span>(m<span class="sc">$</span>br) <span class="sc">&gt;</span> <span class="fl">0.02</span></span>
+<span id="cb12-11"><a href="" aria-label="11"></a>p_indep <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">mean</span>(A)) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">mean</span>(B)) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">mean</span>(C))     <span class="co"># complement rule, assuming independence</span></span>
+<span id="cb12-12"><a href="" aria-label="12"></a></span>
+<span id="cb12-13"><a href="" aria-label="13"></a><span class="fu">data.frame</span>(</span>
+<span id="cb12-14"><a href="" aria-label="14"></a>  <span class="at">quantity =</span> <span class="fu">c</span>(<span class="st">"P(A): S&amp;P &gt; 2%"</span>, <span class="st">"P(B): EUR/USD &gt; 2%"</span>, <span class="st">"P(C): Brent &gt; 2%"</span>,</span>
+<span id="cb12-15"><a href="" aria-label="15"></a>               <span class="st">"1 - P(not A)P(not B)P(not C)"</span>, <span class="st">"P(A ∪ B ∪ C), observed"</span>),</span>
+<span id="cb12-16"><a href="" aria-label="16"></a>  <span class="at">value =</span> <span class="fu">round</span>(<span class="fu">c</span>(<span class="fu">mean</span>(A), <span class="fu">mean</span>(B), <span class="fu">mean</span>(C), p_indep, <span class="fu">mean</span>(A <span class="sc">|</span> B <span class="sc">|</span> C)), <span class="dv">4</span>)</span>
+<span id="cb12-17"><a href="" aria-label="17"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                      quantity  value
+1               P(A): S&amp;P &gt; 2% 0.0593
+2           P(B): EUR/USD &gt; 2% 0.0008
+3             P(C): Brent &gt; 2% 0.3212
+4 1 - P(not A)P(not B)P(not C) 0.3620
+5       P(A ∪ B ∪ C), observed 0.3511</code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>The independence-based composition predicts <span class="math inline">\(0.362\)</span>; the observed frequency is <span class="math inline">\(0.351\)</span> — close, not exact.</p>
+</div>
+</section>
+<section id="case-study-where-independence-slightly-fails" class="slide level2">
+<h2>💰 Case Study: Where Independence Slightly Fails</h2>
+
+<img data-src="event_composition_lecture7_files/figure-revealjs/case-atleast-fig-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1500"><div style="font-size: 28px">
+<p><strong>What the data say:</strong> the complement-rule composition, built by assuming <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span>, <span class="math inline">\(C\)</span> independent, comes within a percentage point of the truth — a good working approximation. The small gap is the mild dependence between big moves in equities and oil (Case Study, last lecture) that a strictly independent model cannot see.</p>
 </div>
 </section>
 <section id="quiz-1-a-settlement-chain" class="slide level2 quiz-question">

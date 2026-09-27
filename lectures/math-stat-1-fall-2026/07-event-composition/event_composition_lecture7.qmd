@@ -55,14 +55,18 @@ knitr:
 #| label: setup
 #| include: false
 set.seed(2026)
+library(ggplot2)
 ```
 
 ## 🎬 The Idea in 3 Minutes
 
 ::: {style="text-align:center"}
-<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture7_intuition.mp4"><track kind="captions" src="video/lecture7_intuition.vtt" srclang="en" label="English"></video>
+```{=html}
+<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture7_intuition.mp4"><track kind="captions" src="video/lecture7_intuition.vtt" srclang="en" label="English"><track kind="captions" src="video/lecture7_intuition.az.vtt" srclang="az" label="Azərbaycanca"></video>
+```
+[⬅ Previous lecture: 6 · Two Laws of Probability](../06-two-laws-of-probability/two_laws_of_probability_lecture6.html){style="font-size:28px"}
 
-[Watch this short intuition video before (or after) the slides. Captions: CC button.]{style="font-size:22px"}
+[Watch this short intuition video before (or after) the slides. Captions (English / Azərbaycanca): CC button.]{style="font-size:28px"}
 :::
 
 ---
@@ -82,6 +86,17 @@ By the end of this lecture, you will be able to:
 
 - **Handle** "at least one" and sequential draws without replacement by composition
 :::
+
+---
+
+## 🔁 Warm-up from last time {.quiz-question}
+
+Three independent suppliers each deliver late with probability 0.2. What is the probability that at least one is late?
+
+- [$1 - 0.8^3 = 0.488$]{.correct data-explanation="✅ 'At least one' fails only when none is late, and 'none' is an intersection of independent events: 1 − (0.8)³ by Theorem 2.7."}
+- $3 \times 0.2 = 0.6$
+- $0.2^3 = 0.008$
+- $1 - 0.2^3 = 0.992$
 
 ---
 
@@ -445,6 +460,87 @@ $$P(\text{OnTime}) = 0.92 \times 0.9375 \times 0.96 = 0.828$$
 ::: {.fragment}
 Customs wins, narrowly. The parallel block is already at 94%; the weakest **series** link is where the reliability leaks. The composition tells you where to spend money.
 :::
+:::
+
+---
+
+## 💰 Case Study: At Least One Big Move
+
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
+
+1. On a given day, what is the probability that at least one of the three markets moves more than 2%?
+2. If the three "big move" events were independent, what would the complement rule predict?
+3. Does treating them as independent over- or under-state the true probability?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: S&P 500, EUR/USD, Brent crude, daily close (FRED `SP500`, `DEXUSEU`, `DCOILBRENTEU`)
+
+**Period**: Sep 2016 – Sep 2026, matched trading days
+
+**Events**: $A, B, C = \{|\text{log return}| > 0.02\}$ for each series
+:::
+:::
+::::
+
+---
+
+## 💰 Case Study: The Complement Rule in R
+
+```{r}
+#| label: case-atleast
+#| code-summary: "📦 Load all three series and compare the composition to reality"
+sp <- read.csv("data/sp500.csv", col.names = c("date", "close")); sp$close <- suppressWarnings(as.numeric(sp$close)); sp <- na.omit(sp)
+eu <- read.csv("data/eurusd.csv", col.names = c("date", "close")); eu$close <- suppressWarnings(as.numeric(eu$close)); eu <- na.omit(eu)
+br <- read.csv("data/brent.csv", col.names = c("date", "close")); br$close <- suppressWarnings(as.numeric(br$close)); br <- na.omit(br)
+sp$ret <- c(NA, diff(log(sp$close))); eu$ret <- c(NA, diff(log(eu$close))); br$ret <- c(NA, diff(log(br$close)))
+m <- Reduce(function(x, y) merge(x, y, by = "date"),
+            list(sp[, c("date", "ret")], eu[, c("date", "ret")], br[, c("date", "ret")]))
+names(m) <- c("date", "sp", "eu", "br")
+m <- na.omit(m)
+
+A <- abs(m$sp) > 0.02; B <- abs(m$eu) > 0.02; C <- abs(m$br) > 0.02
+p_indep <- 1 - (1 - mean(A)) * (1 - mean(B)) * (1 - mean(C))     # complement rule, assuming independence
+
+data.frame(
+  quantity = c("P(A): S&P > 2%", "P(B): EUR/USD > 2%", "P(C): Brent > 2%",
+               "1 - P(not A)P(not B)P(not C)", "P(A ∪ B ∪ C), observed"),
+  value = round(c(mean(A), mean(B), mean(C), p_indep, mean(A | B | C)), 4)
+)
+```
+
+::: {style="font-size: 28px"}
+The independence-based composition predicts $0.362$; the observed frequency is $0.351$ — close, not exact.
+:::
+
+---
+
+## 💰 Case Study: Where Independence Slightly Fails
+
+```{r}
+#| label: case-atleast-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.9
+cmp <- data.frame(
+  what = factor(c("Composition, assuming independence", "Observed, all three markets"),
+                levels = c("Composition, assuming independence", "Observed, all three markets")),
+  p = c(p_indep, mean(A | B | C)))
+ggplot(cmp, aes(what, p)) +
+  geom_col(fill = "#8b2635", width = 0.5) +
+  labs(x = NULL, y = "P(at least one moves > 2%)") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+**What the data say:** the complement-rule composition, built by assuming $A$, $B$, $C$ independent, comes within a percentage point of the truth — a good working approximation. The small gap is the mild dependence between big moves in equities and oil (Case Study, last lecture) that a strictly independent model cannot see.
 :::
 
 ---
