@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Samir Orujov, PhD">
-  <meta name="dcterms.date" content="2026-09-24">
+  <meta name="dcterms.date" content="2026-09-27">
   <title>Mathematical Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -220,13 +220,14 @@ Samir Orujov, PhD
     </div>
 </div>
 
-  <p class="date">2026-09-24</p>
+  <p class="date">2026-09-27</p>
 </section>
-<section id="intuition-video" class="slide level2">
+<section id="the-idea-in-2-minutes" class="slide level2">
 <h2>🎬 The Idea in 2 Minutes</h2>
 <div style="text-align:center">
-<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture16_intuition.mp4"><track kind="captions" src="video/lecture16_intuition.vtt" srclang="en" label="English"></video>
-<p style="font-size:22px">Watch this short intuition video before (or after) the slides. Captions: CC button.</p>
+<video controls="" preload="metadata" style="width:880px;max-width:100%" src="video/lecture16_intuition.mp4"><track kind="captions" src="video/lecture16_intuition.vtt" srclang="en" label="English"><track kind="captions" src="video/lecture16_intuition.az.vtt" srclang="az" label="Azərbaycanca"></video>
+<p><a href="../15-moment-generating-functions/moment_generating_functions_lecture15.html" style="font-size:28px">⬅ Previous lecture: 15 · Moments and Moment-Generating Functions</a></p>
+<p><span style="font-size:28px">Watch this short intuition video before (or after) the slides. Captions (English / Azərbaycanca): CC button.</span></p>
 </div>
 </section>
 <section id="learning-objectives" class="slide level2">
@@ -255,6 +256,16 @@ Samir Orujov, PhD
 </ol>
 </div>
 </div>
+</section>
+<section id="warm-up-from-last-time" class="slide level2 quiz-question">
+<h2>🔁 Warm-up from last time</h2>
+<p>A random variable’s MGF is <span class="math inline">\(m_Y(t) = (0.3 + 0.7e^t)^5\)</span>. What is the distribution of <span class="math inline">\(Y\)</span>?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Uniqueness: (q + pe^t)^n is the binomial MGF. Matching the form gives n = 5 and p = 0.7 — the exponent counts trials, the coefficient of e^t is the success probability.">Binomial, <span class="math inline">\(n = 5\)</span>, <span class="math inline">\(p = 0.7\)</span></span></li>
+<li>Binomial, <span class="math inline">\(n = 5\)</span>, <span class="math inline">\(p = 0.3\)</span></li>
+<li>Poisson, <span class="math inline">\(\lambda = 3.5\)</span></li>
+<li>Geometric, <span class="math inline">\(p = 0.3\)</span></li>
+</ul>
 </section>
 <section id="motivating-question" class="slide level2">
 <h2>❓ Motivating Question</h2>
@@ -482,7 +493,7 @@ Samir Orujov, PhD
 <h2>🧠 Think-Pair-Share</h2>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_efa940ef" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_7cd68177" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
 </div>
 </div>
 <div style="font-size: 30px">
@@ -579,6 +590,84 @@ Samir Orujov, PhD
 <li><p>Only five years of monthly means and standard deviations: <strong>Tchebysheff</strong></p></li>
 <li><p>The PGF and MGF sit behind every row: they deliver each <span class="math inline">\(E(Y)\)</span> and <span class="math inline">\(V(Y)\)</span></p></li>
 </ul>
+</div>
+</section>
+<section id="case-study-the-bound-across-three-assets" class="slide level2">
+<h2>💰 Case Study: The Bound Across Three Assets</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📈 The question</strong></p>
+</div>
+<div class="callout-content">
+<p>Take the daily log returns of three very different assets.</p>
+<ol type="1">
+<li>What share of days sit more than <span class="math inline">\(k\)</span> standard deviations from the mean, for <span class="math inline">\(k = 2, 3\)</span>?</li>
+<li>Does every asset stay under Tchebysheff’s <span class="math inline">\(1/k^2\)</span> bound?</li>
+<li>Is the bound close, or wasteful, for real financial data?</li>
+</ol>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 The data</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Series</strong>: S&amp;P 500 (<code>SP500</code>), USD/EUR (<code>DEXUSEU</code>), WTI crude (<code>DCOILWTICO</code>) — all FRED, daily</p>
+<p><strong>Period</strong>: Sep 2016 – Sep 2026, about 2,500 days each</p>
+<p><span class="math inline">\(Y\)</span> = daily log return; standardise each series by its own <span class="math inline">\(\mu\)</span>, <span class="math inline">\(\sigma\)</span></p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="case-study-checking-the-bound" class="slide level2">
+<h2>💰 Case Study: Checking the Bound</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>📦 Standardise three series and count the tail</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="" aria-label="1"></a>returns <span class="ot">&lt;-</span> <span class="cf">function</span>(file) {</span>
+<span id="cb7-2"><a href="" aria-label="2"></a>  d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(file, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"val"</span>))</span>
+<span id="cb7-3"><a href="" aria-label="3"></a>  d<span class="sc">$</span>val <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(d<span class="sc">$</span>val))       <span class="co"># FRED marks holidays "."</span></span>
+<span id="cb7-4"><a href="" aria-label="4"></a>  r <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">diff</span>(<span class="fu">log</span>(<span class="fu">na.omit</span>(d)<span class="sc">$</span>val)))</span>
+<span id="cb7-5"><a href="" aria-label="5"></a>  r[<span class="fu">is.finite</span>(r)]                                    <span class="co"># drops WTI's one negative-price day</span></span>
+<span id="cb7-6"><a href="" aria-label="6"></a>}</span>
+<span id="cb7-7"><a href="" aria-label="7"></a>assets <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">`</span><span class="at">S&amp;P 500</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">returns</span>(<span class="st">"data/sp500.csv"</span>),</span>
+<span id="cb7-8"><a href="" aria-label="8"></a>               <span class="st">`</span><span class="at">USD/EUR</span><span class="st">`</span>  <span class="ot">=</span> <span class="fu">returns</span>(<span class="st">"data/dexuseu.csv"</span>),</span>
+<span id="cb7-9"><a href="" aria-label="9"></a>               <span class="st">`</span><span class="at">WTI crude</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">returns</span>(<span class="st">"data/dcoilwtico.csv"</span>))</span>
+<span id="cb7-10"><a href="" aria-label="10"></a></span>
+<span id="cb7-11"><a href="" aria-label="11"></a>share_beyond <span class="ot">&lt;-</span> <span class="cf">function</span>(r, k) <span class="fu">mean</span>(<span class="fu">abs</span>((r <span class="sc">-</span> <span class="fu">mean</span>(r)) <span class="sc">/</span> <span class="fu">sd</span>(r)) <span class="sc">&gt;</span> k)</span>
+<span id="cb7-12"><a href="" aria-label="12"></a>tab <span class="ot">&lt;-</span> <span class="fu">sapply</span>(assets, <span class="cf">function</span>(r) <span class="fu">c</span>(<span class="at">k2 =</span> <span class="fu">share_beyond</span>(r, <span class="dv">2</span>), <span class="at">k3 =</span> <span class="fu">share_beyond</span>(r, <span class="dv">3</span>)))</span>
+<span id="cb7-13"><a href="" aria-label="13"></a><span class="fu">round</span>(<span class="fu">rbind</span>(tab, <span class="at">bound_k2 =</span> <span class="dv">1</span> <span class="sc">/</span> <span class="dv">4</span>, <span class="at">bound_k3 =</span> <span class="dv">1</span> <span class="sc">/</span> <span class="dv">9</span>), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>         S&amp;P 500 USD/EUR WTI crude
+k2        0.0446  0.0546    0.0329
+k3        0.0143  0.0112    0.0128
+bound_k2  0.2500  0.2500    0.2500
+bound_k3  0.1111  0.1111    0.1111</code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>Every asset’s actual share beyond 2 or 3 standard deviations is far under Tchebysheff’s <span class="math inline">\(1/k^2\)</span> bound (0.25 and 0.111) — the theorem holds, but it is not tight for these series.</p>
+</div>
+</section>
+<section id="case-study-how-loose-is-the-bound" class="slide level2">
+<h2>💰 Case Study: How Loose Is the Bound?</h2>
+
+<img data-src="pgf_tchebysheff_lecture16_files/figure-revealjs/case-tcheby-fig-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1500"><div style="font-size: 28px">
+<p><strong>What the data say:</strong> all three assets sit well under the dashed bound at every <span class="math inline">\(k\)</span>. The bound protects the risk desk even with no model at all, but a desk that assumed normal returns would under-price the tails: the actual curves are flatter than a normal’s, evidence of the fat tails these assets share.</p>
 </div>
 </section>
 <section id="quiz-1-reading-a-pgf" class="slide level2 quiz-question">

@@ -1,0 +1,3 @@
+`sp500.csv`: S&P 500 index, daily close (FRED series SP500, S&P Dow Jones Indices LLC), 26 Sep 2016 – 25 Sep 2026, downloaded 27 Sep 2026 from https://fred.stlouisfed.org/series/SP500.
+`dexuseu.csv`: U.S. Dollars to Euro spot exchange rate, daily (FRED series DEXUSEU, Board of Governors of the Federal Reserve System), 26 Sep 2016 – 18 Sep 2026, downloaded 27 Sep 2026 from https://fred.stlouisfed.org/series/DEXUSEU.
+`dcoilwtico.csv`: WTI crude oil spot price, Cushing OK, daily (FRED series DCOILWTICO, U.S. Energy Information Administration), 26 Sep 2016 – 22 Sep 2026, downloaded 27 Sep 2026 from https://fred.stlouisfed.org/series/DCOILWTICO.

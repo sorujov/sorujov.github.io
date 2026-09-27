@@ -62,9 +62,12 @@ theme_set(theme_minimal(base_size = 18))
 ## 🎬 The Idea in 2 Minutes
 
 ::: {style="text-align:center"}
-<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture16_intuition.mp4"><track kind="captions" src="video/lecture16_intuition.vtt" srclang="en" label="English"></video>
+```{=html}
+<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture16_intuition.mp4"><track kind="captions" src="video/lecture16_intuition.vtt" srclang="en" label="English"><track kind="captions" src="video/lecture16_intuition.az.vtt" srclang="az" label="Azərbaycanca"></video>
+```
+[⬅ Previous lecture: 15 · Moments and Moment-Generating Functions](../15-moment-generating-functions/moment_generating_functions_lecture15.html){style="font-size:28px"}
 
-[Watch this short intuition video before (or after) the slides. Captions: CC button.]{style="font-size:22px"}
+[Watch this short intuition video before (or after) the slides. Captions (English / Azərbaycanca): CC button.]{style="font-size:28px"}
 :::
 
 ---
@@ -101,6 +104,17 @@ Today, two more tools, and then the chapter closes:
 2. **Tchebysheff's theorem**, which needs no model at all: only $\mu$ and $\sigma$. This one is load-bearing.
 :::
 :::
+
+---
+
+## 🔁 Warm-up from last time {.quiz-question}
+
+A random variable's MGF is $m_Y(t) = (0.3 + 0.7e^t)^5$. What is the distribution of $Y$?
+
+- [Binomial, $n = 5$, $p = 0.7$]{.correct data-explanation="✅ Uniqueness: (q + pe^t)^n is the binomial MGF. Matching the form gives n = 5 and p = 0.7 — the exponent counts trials, the coefficient of e^t is the success probability."}
+- Binomial, $n = 5$, $p = 0.3$
+- Poisson, $\lambda = 3.5$
+- Geometric, $p = 0.3$
 
 ---
 
@@ -425,6 +439,92 @@ $$P(30 < Y < 50) \ge 1 - \tfrac{1}{4} = 0.75$$
 - Only five years of monthly means and standard deviations: **Tchebysheff**
 
 - The PGF and MGF sit behind every row: they deliver each $E(Y)$ and $V(Y)$
+:::
+
+---
+
+## 💰 Case Study: The Bound Across Three Assets
+
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
+
+Take the daily log returns of three very different assets.
+
+1. What share of days sit more than $k$ standard deviations from the mean, for $k = 2, 3$?
+2. Does every asset stay under Tchebysheff's $1/k^2$ bound?
+3. Is the bound close, or wasteful, for real financial data?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: S&P 500 (`SP500`), USD/EUR (`DEXUSEU`), WTI crude (`DCOILWTICO`) — all FRED, daily
+
+**Period**: Sep 2016 – Sep 2026, about 2,500 days each
+
+$Y$ = daily log return; standardise each series by its own $\mu$, $\sigma$
+:::
+:::
+::::
+
+---
+
+## 💰 Case Study: Checking the Bound
+
+```{r}
+#| label: case-tcheby
+#| code-summary: "📦 Standardise three series and count the tail"
+returns <- function(file) {
+  d <- read.csv(file, col.names = c("date", "val"))
+  d$val <- suppressWarnings(as.numeric(d$val))       # FRED marks holidays "."
+  r <- suppressWarnings(diff(log(na.omit(d)$val)))
+  r[is.finite(r)]                                    # drops WTI's one negative-price day
+}
+assets <- list(`S&P 500` = returns("data/sp500.csv"),
+               `USD/EUR`  = returns("data/dexuseu.csv"),
+               `WTI crude` = returns("data/dcoilwtico.csv"))
+
+share_beyond <- function(r, k) mean(abs((r - mean(r)) / sd(r)) > k)
+tab <- sapply(assets, function(r) c(k2 = share_beyond(r, 2), k3 = share_beyond(r, 3)))
+round(rbind(tab, bound_k2 = 1 / 4, bound_k3 = 1 / 9), 4)
+```
+
+::: {style="font-size: 28px"}
+Every asset's actual share beyond 2 or 3 standard deviations is far under Tchebysheff's $1/k^2$ bound (0.25 and 0.111) — the theorem holds, but it is not tight for these series.
+:::
+
+---
+
+## 💰 Case Study: How Loose Is the Bound?
+
+```{r}
+#| label: case-tcheby-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.9
+k <- seq(1.5, 4, by = 0.1)
+lvls <- c("S&P 500", "USD/EUR", "WTI crude", "Tchebysheff bound")
+curves <- do.call(rbind, lapply(names(assets), function(nm) {
+  r <- assets[[nm]]
+  data.frame(k = k, share = sapply(k, function(kk) share_beyond(r, kk)), asset = nm)
+}))
+bound <- data.frame(k = k, share = 1 / k^2, asset = "Tchebysheff bound")
+plotdf <- rbind(curves, bound)
+plotdf$asset <- factor(plotdf$asset, levels = lvls)
+ggplot(plotdf, aes(k, share, colour = asset, linetype = asset)) +
+  geom_line(linewidth = 1) +
+  scale_colour_manual(values = c("#8b2635", "#8ba3c7", "#c9a15a", "grey30"), name = NULL) +
+  scale_linetype_manual(values = c(1, 1, 1, 2), name = NULL) +
+  labs(x = "k (standard deviations)", y = "Share of days beyond k sd") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+**What the data say:** all three assets sit well under the dashed bound at every $k$. The bound protects the risk desk even with no model at all, but a desk that assumed normal returns would under-price the tails: the actual curves are flatter than a normal's, evidence of the fat tails these assets share.
 :::
 
 ---
