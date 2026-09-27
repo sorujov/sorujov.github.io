@@ -178,6 +178,80 @@ own page and deduplicated. Later the same day: `$ r $` with padding now
 renders, R comments inside code chunks no longer split slides (`qmd_passages`),
 and "example" questions anchor on the lecture whose title names the topic.
 
+## Plan: STAT-2311 deck upgrade (started 27 September 2026)
+
+Sam's brief: the Fall 2026 decks lack the real-data case studies his Math Stat II
+decks had; add them, update the `wackerly-slides` skill so every future deck
+gets one, add anything else that helps students understand, link each video to
+the previous lecture, and offer an Azerbaijani option. Claude works through
+this autonomously and ticks items off here.
+
+**Status on 27 September:** 29 decks exist (01–13, 15–30; there is no 14).
+Decks 01–19 have a "🎬 The Idea in N Minutes" video slide. Only 01 and 02 have
+a case study, and both use simulated data or a live Yahoo call.
+
+### 1. Real-data case study in every deck
+- The pattern follows `lectures/math_stat_2_spring_2026/chapter_5/multivariate_lecture1.qmd`.
+  It is 2–3 slides titled `## 💰 Case Study: …`, placed after the Think–Pair–Share
+  solution and before the quizzes:
+  1. **Context.** Two callouts side by side. Left (`callout-note`): the setting and
+     2–3 key questions. Right (`callout-tip`): the data source, the series, the
+     period and the transformation.
+  2. **Data and computation.** An executing `{r}` chunk with `code-fold: true` that
+     reads a vendored CSV and prints the numbers that answer the questions.
+  3. **Figure + "What the data say".** A figure, followed by 2–3 sentences that
+     tie the output back to the lecture's theorem. They must also name where the
+     model fits and where it fails.
+- **Data is real and vendored.** Each deck has a `data/` folder beside the `.qmd`
+  holding a CSV and a one-line `SOURCE.md`. Sources: FRED (S&P 500, VIX, EUR/USD,
+  WTI, Treasury yields, claims, CPI), World Bank, and any other public source.
+  **There are no network calls at render time.** A `{.r .display-only}` chunk may
+  show how to re-download the data.
+- Settings vary across the semester and stay finance and economics. Where a real
+  series fits the distribution, use it (daily up/down days as Bernoulli trials,
+  large-move counts as Poisson, returns vs the normal, and so on).
+- Decks 01–02 are switched from simulated or live data to the vendored FRED S&P 500.
+
+### 2. Continuity and retrieval
+- The video slide gets a line "⬅ Previous lecture: N−1 · title", linking to the
+  previous deck.
+- A **"🔁 Warm-up from last time"** quiz slide goes right after the objectives.
+  It asks 1–2 retrieval questions on the previous lecture. This uses the existing
+  quiz plugin and is evidence-based retrieval practice.
+
+### 3. Videos
+- Intuition videos are made for decks 20–30, using the same Manim + ElevenLabs
+  pipeline (`_videos/`). The budget is about 2.2k characters per video.
+- **Azerbaijani option.** Every video gets an Azerbaijani caption track (`.az.vtt`,
+  selectable from CC), translated by hand, not machine-translated. Next comes an
+  Azerbaijani narration: re-render with `eleven_v3` in Azerbaijani and add an
+  EN/AZ switch on the video slide. This is staged by the ElevenLabs monthly quota.
+- **YouTube** (optional mirror): it would add auto-translated captions and native
+  multi-audio. It needs Sam's channel sign-in, and the decks keep self-hosted
+  video so they don't depend on it.
+
+### 4. Skill
+- `.claude/skills/wackerly-slides/SKILL.md` gets the case-study pattern, the
+  data-vendoring rule, the warm-up slide, the video slide with the previous-lecture
+  link and the Azerbaijani captions. The account copy is updated via a skill
+  proposal.
+
+### How it is built
+- Decks are rendered in Claude's cloud container: Quarto 1.10.18 (pip `quarto-cli`),
+  R 4.3 with the packages the decks use, and the rendered pages are checked
+  slide by slide with `qa_slides.py`.
+- Pushes go from the sparse clone on ooklapc, as with the videos. Afterwards the
+  local copy at `Desktop\GITHUB\sorujov.github.io` is fast-forwarded.
+
+### Progress
+- [ ] Pilot the case study on deck 11 and fix the pattern
+- [ ] Update the skill (repo copy + account proposal)
+- [ ] Case studies for decks 03–30, and 01–02 switched to real data
+- [ ] Previous-lecture links + warm-up slides
+- [ ] Azerbaijani captions for every video
+- [ ] Videos for decks 20–30
+- [ ] Azerbaijani narration + EN/AZ switch
+
 ## Conventions
 
 - Prose on this site is written, not generated-sounding. Short sentences, no
