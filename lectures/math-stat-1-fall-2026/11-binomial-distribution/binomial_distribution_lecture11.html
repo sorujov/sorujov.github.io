@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Samir Orujov, PhD">
-  <meta name="dcterms.date" content="2026-09-24">
+  <meta name="dcterms.date" content="2026-09-27">
   <title>Mathematical Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -222,13 +222,14 @@ Samir Orujov, PhD
     </div>
 </div>
 
-  <p class="date">2026-09-24</p>
+  <p class="date">2026-09-27</p>
 </section>
-<section id="intuition-video" class="slide level2">
+<section id="the-idea-in-2-minutes" class="slide level2">
 <h2>🎬 The Idea in 2 Minutes</h2>
 <div style="text-align:center">
-<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture11_intuition.mp4"><track kind="captions" src="video/lecture11_intuition.vtt" srclang="en" label="English"></video>
-<p style="font-size:22px">Watch this short intuition video before (or after) the slides. Captions: CC button.</p>
+<video controls="" preload="metadata" style="width:880px;max-width:100%" src="video/lecture11_intuition.mp4"><track kind="captions" src="video/lecture11_intuition.vtt" srclang="en" label="English"></video>
+<p><a href="../10-discrete-random-variables/discrete_random_variables_lecture10.html" style="font-size:24px">⬅ Previous lecture: 10 · Discrete Random Variables and Expected Value</a></p>
+<p><span style="font-size:22px">Watch this short intuition video before (or after) the slides. Captions: CC button.</span></p>
 </div>
 </section>
 <section id="learning-objectives" class="slide level2">
@@ -243,6 +244,16 @@ Samir Orujov, PhD
 <li><p><strong>Read</strong> an unlikely count as evidence against an assumed <span class="math inline">\(p\)</span></p></li>
 </ul>
 </div>
+</section>
+<section id="warm-up-from-last-time" class="slide level2 quiz-question">
+<h2>🔁 Warm-up from last time</h2>
+<p>A random variable <span class="math inline">\(Y\)</span> takes the values <span class="math inline">\(0, 1, 2\)</span> with probabilities <span class="math inline">\(0.5, 0.3, 0.2\)</span>. What is <span class="math inline">\(E(Y)\)</span>?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Definition 3.4: E(Y) = Σ y p(y) = 0(0.5) + 1(0.3) + 2(0.2) = 0.7. The mean is a probability-weighted average of the values, not the middle value."><span class="math inline">\(0.7\)</span></span></li>
+<li><span class="math inline">\(1\)</span></li>
+<li><span class="math inline">\(1.1\)</span></li>
+<li><span class="math inline">\(0.33\)</span></li>
+</ul>
 </section>
 <section id="where-we-are" class="slide level2">
 <h2>🗺️ Where We Are</h2>
@@ -485,7 +496,7 @@ Samir Orujov, PhD
 <h2>🧠 Think-Pair-Share</h2>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_8a05c767" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_76aa8407" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
 </div>
 </div>
 <div style="font-size: 30px">
@@ -518,13 +529,13 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb7" data-startfrom="417" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 416;"><span id="cb7-417"><a href="" aria-label="417"></a>viewof p_hit <span class="op">=</span> {</span>
-<span id="cb7-418"><a href="" aria-label="418"></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.05</span><span class="op">,</span> <span class="fl">0.95</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="fl">0.35</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span></span>
-<span id="cb7-419"><a href="" aria-label="419"></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"p, each household hits 100 Mbps:"</span>})<span class="op">;</span></span>
-<span id="cb7-420"><a href="" aria-label="420"></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
-<span id="cb7-421"><a href="" aria-label="421"></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
-<span id="cb7-422"><a href="" aria-label="422"></a>  <span class="cf">return</span> input<span class="op">;</span></span>
-<span id="cb7-423"><a href="" aria-label="423"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb7" data-startfrom="441" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 440;"><span id="cb7-441"><a href="" aria-label="441"></a>viewof p_hit <span class="op">=</span> {</span>
+<span id="cb7-442"><a href="" aria-label="442"></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.05</span><span class="op">,</span> <span class="fl">0.95</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="fl">0.35</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span></span>
+<span id="cb7-443"><a href="" aria-label="443"></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"p, each household hits 100 Mbps:"</span>})<span class="op">;</span></span>
+<span id="cb7-444"><a href="" aria-label="444"></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
+<span id="cb7-445"><a href="" aria-label="445"></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
+<span id="cb7-446"><a href="" aria-label="446"></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb7-447"><a href="" aria-label="447"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-1" data-nodetype="declaration">
@@ -535,12 +546,12 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb8" data-startfrom="431" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 430;"><span id="cb8-431"><a href="" aria-label="431"></a>nTest <span class="op">=</span> <span class="dv">20</span></span>
-<span id="cb8-432"><a href="" aria-label="432"></a>choose <span class="op">=</span> (n<span class="op">,</span> k) <span class="kw">=&gt;</span> { <span class="kw">let</span> c <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> k<span class="op">;</span> i<span class="op">++</span>) c <span class="op">=</span> c <span class="op">*</span> (n <span class="op">-</span> k <span class="op">+</span> i) <span class="op">/</span> i<span class="op">;</span> <span class="cf">return</span> c<span class="op">;</span> }</span>
-<span id="cb8-433"><a href="" aria-label="433"></a>pmfB <span class="op">=</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({<span class="dt">length</span><span class="op">:</span> nTest <span class="op">+</span> <span class="dv">1</span>}<span class="op">,</span> (_<span class="op">,</span> y) <span class="kw">=&gt;</span></span>
-<span id="cb8-434"><a href="" aria-label="434"></a>  ({<span class="dt">y</span><span class="op">:</span> y<span class="op">,</span> <span class="dt">p</span><span class="op">:</span> <span class="fu">choose</span>(nTest<span class="op">,</span> y) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(p_hit<span class="op">,</span> y) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(<span class="dv">1</span> <span class="op">-</span> p_hit<span class="op">,</span> nTest <span class="op">-</span> y)}))</span>
-<span id="cb8-435"><a href="" aria-label="435"></a></span>
-<span id="cb8-436"><a href="" aria-label="436"></a><span class="fu">md</span><span class="vs">`n = 20 households · mean **np = </span><span class="sc">${</span>(nTest <span class="op">*</span> p_hit)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">** · variance **npq = </span><span class="sc">${</span>(nTest <span class="op">*</span> p_hit <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> p_hit))<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">**`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb8" data-startfrom="455" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 454;"><span id="cb8-455"><a href="" aria-label="455"></a>nTest <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb8-456"><a href="" aria-label="456"></a>choose <span class="op">=</span> (n<span class="op">,</span> k) <span class="kw">=&gt;</span> { <span class="kw">let</span> c <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> k<span class="op">;</span> i<span class="op">++</span>) c <span class="op">=</span> c <span class="op">*</span> (n <span class="op">-</span> k <span class="op">+</span> i) <span class="op">/</span> i<span class="op">;</span> <span class="cf">return</span> c<span class="op">;</span> }</span>
+<span id="cb8-457"><a href="" aria-label="457"></a>pmfB <span class="op">=</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({<span class="dt">length</span><span class="op">:</span> nTest <span class="op">+</span> <span class="dv">1</span>}<span class="op">,</span> (_<span class="op">,</span> y) <span class="kw">=&gt;</span></span>
+<span id="cb8-458"><a href="" aria-label="458"></a>  ({<span class="dt">y</span><span class="op">:</span> y<span class="op">,</span> <span class="dt">p</span><span class="op">:</span> <span class="fu">choose</span>(nTest<span class="op">,</span> y) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(p_hit<span class="op">,</span> y) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(<span class="dv">1</span> <span class="op">-</span> p_hit<span class="op">,</span> nTest <span class="op">-</span> y)}))</span>
+<span id="cb8-459"><a href="" aria-label="459"></a></span>
+<span id="cb8-460"><a href="" aria-label="460"></a><span class="fu">md</span><span class="vs">`n = 20 households · mean **np = </span><span class="sc">${</span>(nTest <span class="op">*</span> p_hit)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">** · variance **npq = </span><span class="sc">${</span>(nTest <span class="op">*</span> p_hit <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> p_hit))<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">**`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -572,21 +583,21 @@ Samir Orujov, PhD
 </div>
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb9" data-startfrom="438" data-source-offset="-381"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 437;"><span id="cb9-438"><a href="" aria-label="438"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
-<span id="cb9-439"><a href="" aria-label="439"></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">1150</span><span class="op">,</span></span>
-<span id="cb9-440"><a href="" aria-label="440"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">300</span><span class="op">,</span></span>
-<span id="cb9-441"><a href="" aria-label="441"></a>  <span class="dt">marginTop</span><span class="op">:</span> <span class="dv">40</span><span class="op">,</span></span>
-<span id="cb9-442"><a href="" aria-label="442"></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">78</span><span class="op">,</span></span>
-<span id="cb9-443"><a href="" aria-label="443"></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">58</span><span class="op">,</span></span>
-<span id="cb9-444"><a href="" aria-label="444"></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontSize</span><span class="op">:</span> <span class="st">"18px"</span>}<span class="op">,</span></span>
-<span id="cb9-445"><a href="" aria-label="445"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Households of 20 reaching 100 Mbps, y"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> d3<span class="op">.</span><span class="fu">range</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">21</span>)<span class="op">,</span> <span class="dt">padding</span><span class="op">:</span> <span class="fl">0.15</span>}<span class="op">,</span></span>
-<span id="cb9-446"><a href="" aria-label="446"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"p(y)"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="fl">0.4</span>]<span class="op">,</span> <span class="dt">ticks</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="fl">0.1</span><span class="op">,</span> <span class="fl">0.2</span><span class="op">,</span> <span class="fl">0.3</span><span class="op">,</span> <span class="fl">0.4</span>]<span class="op">,</span> <span class="dt">tickFormat</span><span class="op">:</span> <span class="st">".1f"</span><span class="op">,</span> <span class="dt">grid</span><span class="op">:</span> <span class="kw">true</span>}<span class="op">,</span></span>
-<span id="cb9-447"><a href="" aria-label="447"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
-<span id="cb9-448"><a href="" aria-label="448"></a>    Plot<span class="op">.</span><span class="fu">barY</span>(pmfB<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"p"</span><span class="op">,</span></span>
-<span id="cb9-449"><a href="" aria-label="449"></a>      <span class="dt">fill</span><span class="op">:</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">y</span> <span class="op">===</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">round</span>(nTest <span class="op">*</span> p_hit) <span class="op">?</span> <span class="st">"#8b2635"</span> <span class="op">:</span> <span class="st">"#8ba3c7"</span>})<span class="op">,</span></span>
-<span id="cb9-450"><a href="" aria-label="450"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
-<span id="cb9-451"><a href="" aria-label="451"></a>  ]</span>
-<span id="cb9-452"><a href="" aria-label="452"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb9" data-startfrom="462" data-source-offset="-381"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 461;"><span id="cb9-462"><a href="" aria-label="462"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb9-463"><a href="" aria-label="463"></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">1150</span><span class="op">,</span></span>
+<span id="cb9-464"><a href="" aria-label="464"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">300</span><span class="op">,</span></span>
+<span id="cb9-465"><a href="" aria-label="465"></a>  <span class="dt">marginTop</span><span class="op">:</span> <span class="dv">40</span><span class="op">,</span></span>
+<span id="cb9-466"><a href="" aria-label="466"></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">78</span><span class="op">,</span></span>
+<span id="cb9-467"><a href="" aria-label="467"></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">58</span><span class="op">,</span></span>
+<span id="cb9-468"><a href="" aria-label="468"></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontSize</span><span class="op">:</span> <span class="st">"18px"</span>}<span class="op">,</span></span>
+<span id="cb9-469"><a href="" aria-label="469"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Households of 20 reaching 100 Mbps, y"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> d3<span class="op">.</span><span class="fu">range</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">21</span>)<span class="op">,</span> <span class="dt">padding</span><span class="op">:</span> <span class="fl">0.15</span>}<span class="op">,</span></span>
+<span id="cb9-470"><a href="" aria-label="470"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"p(y)"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="fl">0.4</span>]<span class="op">,</span> <span class="dt">ticks</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="fl">0.1</span><span class="op">,</span> <span class="fl">0.2</span><span class="op">,</span> <span class="fl">0.3</span><span class="op">,</span> <span class="fl">0.4</span>]<span class="op">,</span> <span class="dt">tickFormat</span><span class="op">:</span> <span class="st">".1f"</span><span class="op">,</span> <span class="dt">grid</span><span class="op">:</span> <span class="kw">true</span>}<span class="op">,</span></span>
+<span id="cb9-471"><a href="" aria-label="471"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb9-472"><a href="" aria-label="472"></a>    Plot<span class="op">.</span><span class="fu">barY</span>(pmfB<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"p"</span><span class="op">,</span></span>
+<span id="cb9-473"><a href="" aria-label="473"></a>      <span class="dt">fill</span><span class="op">:</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">y</span> <span class="op">===</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">round</span>(nTest <span class="op">*</span> p_hit) <span class="op">?</span> <span class="st">"#8b2635"</span> <span class="op">:</span> <span class="st">"#8ba3c7"</span>})<span class="op">,</span></span>
+<span id="cb9-474"><a href="" aria-label="474"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
+<span id="cb9-475"><a href="" aria-label="475"></a>  ]</span>
+<span id="cb9-476"><a href="" aria-label="476"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -598,6 +609,82 @@ Samir Orujov, PhD
 </div>
 <div style="font-size: 28px">
 <p>The red bar is the one nearest <span class="math inline">\(np\)</span>. Near <span class="math inline">\(p = 0.05\)</span> or <span class="math inline">\(0.95\)</span> the mass piles against an end; at <span class="math inline">\(p = 0.5\)</span> it is symmetric and widest.</p>
+</div>
+</section>
+<section id="case-study-are-up-days-coin-flips" class="slide level2">
+<h2>💰 Case Study: Are Up Days Coin Flips?</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📈 The question</strong></p>
+</div>
+<div class="callout-content">
+<p>Call a trading day a <strong>success</strong> if the S&amp;P 500 closes higher than the day before.</p>
+<ol type="1">
+<li>Is the number of up days in a month binomial?</li>
+<li>Does <span class="math inline">\(E(Y)=np\)</span> and <span class="math inline">\(V(Y)=npq\)</span> hold in the data?</li>
+<li>Where would the model fail?</li>
+</ol>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 The data</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Series</strong>: S&amp;P 500 daily close (FRED <code>SP500</code>)</p>
+<p><strong>Period</strong>: Sep 2016 – Sep 2026, about 2,500 days</p>
+<p><strong>Trials</strong>: the first <span class="math inline">\(n = 20\)</span> trading days of each month</p>
+<p><span class="math inline">\(Y\)</span> = up days among those 20</p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="case-study-counting-up-days-in-r" class="slide level2">
+<h2>💰 Case Study: Counting Up Days in R</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>📦 Load the data and count up days</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="" aria-label="1"></a>sp <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/sp500.csv"</span>, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"close"</span>))</span>
+<span id="cb10-2"><a href="" aria-label="2"></a>sp<span class="sc">$</span>close <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(sp<span class="sc">$</span>close))   <span class="co"># FRED marks holidays "."</span></span>
+<span id="cb10-3"><a href="" aria-label="3"></a>sp <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(sp)</span>
+<span id="cb10-4"><a href="" aria-label="4"></a></span>
+<span id="cb10-5"><a href="" aria-label="5"></a>up    <span class="ot">&lt;-</span> <span class="fu">diff</span>(<span class="fu">log</span>(sp<span class="sc">$</span>close)) <span class="sc">&gt;</span> <span class="dv">0</span>                     <span class="co"># success = up day</span></span>
+<span id="cb10-6"><a href="" aria-label="6"></a>month <span class="ot">&lt;-</span> <span class="fu">substr</span>(sp<span class="sc">$</span>date[<span class="sc">-</span><span class="dv">1</span>], <span class="dv">1</span>, <span class="dv">7</span>)</span>
+<span id="cb10-7"><a href="" aria-label="7"></a>y <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="fu">split</span>(up, month), <span class="cf">function</span>(x)</span>
+<span id="cb10-8"><a href="" aria-label="8"></a>       <span class="cf">if</span> (<span class="fu">length</span>(x) <span class="sc">&gt;=</span> <span class="dv">20</span>) <span class="fu">sum</span>(x[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>])))           <span class="co"># up days in first 20</span></span>
+<span id="cb10-9"><a href="" aria-label="9"></a></span>
+<span id="cb10-10"><a href="" aria-label="10"></a>p_hat <span class="ot">&lt;-</span> <span class="fu">mean</span>(up)</span>
+<span id="cb10-11"><a href="" aria-label="11"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">p_hat =</span> p_hat, <span class="at">months =</span> <span class="fu">length</span>(y),</span>
+<span id="cb10-12"><a href="" aria-label="12"></a>        <span class="at">mean_Y =</span> <span class="fu">mean</span>(y), <span class="at">np =</span> <span class="dv">20</span> <span class="sc">*</span> p_hat,</span>
+<span id="cb10-13"><a href="" aria-label="13"></a>        <span class="at">var_Y =</span> <span class="fu">var</span>(y), <span class="at">npq =</span> <span class="dv">20</span> <span class="sc">*</span> p_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat)), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  p_hat  months  mean_Y      np   var_Y     npq 
+  0.547 103.000  11.058  10.943   5.114   4.956 </code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>The sample mean and variance of <span class="math inline">\(Y\)</span> sit within a few per cent of <span class="math inline">\(np\)</span> and <span class="math inline">\(npq\)</span>.</p>
+</div>
+</section>
+<section id="case-study-model-vs.-data" class="slide level2">
+<h2>💰 Case Study: Model vs.&nbsp;Data</h2>
+
+<img data-src="binomial_distribution_lecture11_files/figure-revealjs/case-updays-fig-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1500"><div style="font-size: 28px">
+<p><strong>What the data say:</strong> days behave almost like independent trials with <span class="math inline">\(p \approx 0.55\)</span>, a slight upward drift. The fit breaks in crises such as March 2020, when down days cluster and independence fails.</p>
 </div>
 </section>
 <section id="quiz-1-is-it-binomial" class="slide level2 quiz-question">
