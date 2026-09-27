@@ -1,0 +1,1 @@
+S&P 500 daily close (FRED `SP500`), WTI crude oil (FRED `DCOILWTICO`), and USD/EUR spot rate (FRED `DEXUSEU`), https://fred.stlouisfed.org/series/SP500, https://fred.stlouisfed.org/series/DCOILWTICO, https://fred.stlouisfed.org/series/DEXUSEU, 4 January 2021 – 18 September 2026, downloaded 27 Sep 2026.

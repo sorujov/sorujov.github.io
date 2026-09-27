@@ -77,6 +77,17 @@ By the end of this lecture, you will be able to:
 
 ---
 
+## 🔁 Warm-up from last time {.quiz-question}
+
+Last class's Theorem 5.14 gives $E(Y_1)$ as what?
+
+- [The average, over $Y_2$, of the conditional means $E(Y_1 \mid Y_2)$]{.correct data-explanation="✅ Theorem 5.14: E(Y1) = E[E(Y1 | Y2)]. Average the conditional means, weighted by how likely each Y2 is, to get the unconditional mean."}
+- The conditional mean evaluated at $Y_2 = E(Y_2)$
+- The product of $E(Y_1 \mid Y_2)$ and $P(Y_2)$, for one fixed value of $Y_2$
+- The largest of the conditional means, across all values of $Y_2$
+
+---
+
 ## 🗺️ Where We Are
 
 ::: {style="font-size: 30px"}
@@ -400,6 +411,91 @@ ggplot(pts, aes(y1, y2, colour = y1 < y2)) +
 - **Limits of integration.** On a triangular support such as $0 \le y_2 \le y_1 \le 1$, the inner limits depend on the outer variable.
 
 - **$\beta$ read as a rate.** In Wackerly, the exponential with parameter $\beta$ has **mean** $\beta$.
+:::
+
+---
+
+## 💰 Case Study: A Three-Asset Portfolio, Start to Finish
+
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
+
+A portfolio holds 50% S&P 500, 30% oil, 20% EUR/USD.
+
+1. What does the joint behaviour of the three returns look like (the covariance matrix)?
+2. What is the portfolio's variance, $w'\Sigma w$?
+3. Is it below the weighted average of the three assets' own risks?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: S&P 500 (FRED `SP500`), WTI crude oil (FRED `DCOILWTICO`), EUR/USD (FRED `DEXUSEU`)
+
+**Period**: Jan 2021 – Sep 2026, about 1,400 days
+
+$Y_1, Y_2, Y_3$ = daily simple returns; $w = (0.5, 0.3, 0.2)$
+:::
+:::
+::::
+
+---
+
+## 💰 Case Study: The Covariance Matrix and $w'\Sigma w$ in R
+
+```{r}
+#| label: case-synthesis
+#| code-summary: "📦 Build the covariance matrix and the portfolio variance"
+m <- read.csv("data/sp_oil_eur.csv")
+m$sp  <- suppressWarnings(as.numeric(m$sp))     # FRED marks holidays "."
+m$oil <- suppressWarnings(as.numeric(m$oil))
+m$eur <- suppressWarnings(as.numeric(m$eur))
+m <- na.omit(m)
+Y1 <- diff(m$sp)  / m$sp[-nrow(m)]
+Y2 <- diff(m$oil) / m$oil[-nrow(m)]
+Y3 <- diff(m$eur) / m$eur[-nrow(m)]
+Sigma <- cov(cbind(sp = Y1, oil = Y2, eur = Y3))
+
+w <- c(0.5, 0.3, 0.2)
+port_sd    <- sqrt(t(w) %*% Sigma %*% w)
+wavg_sd    <- sum(w * sqrt(diag(Sigma)))
+
+round(c(sd_sp_pct = sqrt(Sigma["sp","sp"]) * 100, sd_oil_pct = sqrt(Sigma["oil","oil"]) * 100,
+        sd_eur_pct = sqrt(Sigma["eur","eur"]) * 100, portfolio_sd_pct = port_sd * 100,
+        weighted_avg_sd_pct = wavg_sd * 100), 3)
+```
+
+::: {style="font-size: 28px"}
+$w'\Sigma w$ is smaller than the weighted average of the three individual risks — the payoff for holding assets that do not move together.
+:::
+
+---
+
+## 💰 Case Study: Three Assets, Marginal by Marginal
+
+```{r}
+#| label: case-synthesis-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.9
+df <- rbind(data.frame(ret = Y1 * 100, asset = "S&P 500"),
+            data.frame(ret = Y2 * 100, asset = "Oil"),
+            data.frame(ret = Y3 * 100, asset = "EUR/USD"))
+df$asset <- factor(df$asset, levels = c("S&P 500", "Oil", "EUR/USD"))
+ggplot(df, aes(ret, fill = asset)) +
+  geom_density(alpha = 0.55, color = NA) +
+  coord_cartesian(xlim = c(-3, 3)) +
+  scale_fill_manual(values = c("#8b2635", "#8ba3c7", "#c9a96e"), name = NULL) +
+  labs(x = "Daily return (%)", y = "Density") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+**What the data say:** each marginal is centred near zero but at a different spread — exactly the $\sigma_1, \sigma_2, \sigma_3$ that feed $\Sigma$. The joint and covariance step is where the model earns its keep: the portfolio's risk is not the average of these three curves, but something smaller, because the curves do not widen and narrow on the same days.
 :::
 
 ---
