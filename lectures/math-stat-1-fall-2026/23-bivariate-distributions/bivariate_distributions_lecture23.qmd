@@ -77,6 +77,17 @@ By the end of this lecture, you will be able to:
 
 ---
 
+## 🔁 Warm-up from last time {.quiz-question}
+
+By Theorem 4.13 (Tchebysheff), what upper bound does the theorem give for $P(|Y-\mu| \ge 5\sigma)$, for any distribution with finite mean and variance?
+
+- [$1/25 = 0.04$]{.correct data-explanation="✅ Theorem 4.13: P(|Y−μ|≥kσ) ≤ 1/k². At k=5, 1/25 = 0.04. It holds for every distribution, not just the normal."}
+- $1/5 = 0.2$
+- $0.0027$ (the normal's exact value)
+- It cannot be bounded without knowing the distribution
+
+---
+
 ## 🗺️ Where We Are
 
 ::: {style="font-size: 32px"}
@@ -246,6 +257,100 @@ Part 3 is $P(y_1 < Y_1 \le y_1^*,\ y_2 < Y_2 \le y_2^*)$: the rectangle rule. On
 $$P(-2 < Y_1 \le 4,\ -1 < Y_2 \le 3) = 1 - 0.18 - 0.20 + 0.10 = 0.72,$$
 which is the four cells $0.30 + 0.09 + 0.12 + 0.21$.
 :::
+:::
+
+---
+
+## 💰 Case Study: The Joint Table of Two Real Assets
+
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
+
+Classify each day as $Y_1$ = S&P 500 up/down and $Y_2$ = Brent crude up/down.
+
+1. Built from data, does the $2\times 2$ table satisfy Theorem 5.1?
+2. Is mass spread evenly across the four cells?
+3. Do the two assets move together more often than separately?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: S&P 500 close (`SP500`), Brent crude (`DCOILBRENTEU`)
+
+**Period**: Sep 2016 – Sep 2026, about 2,470 matched days
+
+**Variables**: $Y_1, Y_2 \in \{\text{down}, \text{up}\}$, daily log return sign
+:::
+:::
+::::
+
+---
+
+## 💰 Case Study: Building the Table in R
+
+```{r}
+#| label: case-joint
+#| code-summary: "📦 Load both series and build the joint table"
+sp <- read.csv("data/sp500.csv", col.names = c("date", "close"))
+sp$close <- suppressWarnings(as.numeric(sp$close))   # FRED marks holidays "."
+sp <- na.omit(sp)
+br <- read.csv("data/brent.csv", col.names = c("date", "close"))
+br$close <- suppressWarnings(as.numeric(br$close))
+br <- na.omit(br)
+
+sp_r <- data.frame(date = sp$date[-1], r1 = diff(log(sp$close)))
+br_r <- data.frame(date = br$date[-1], r2 = diff(log(br$close)))
+m <- merge(sp_r, br_r, by = "date")                  # keep only common trading days
+
+y1 <- ifelse(m$r1 > 0, "up", "down"); y2 <- ifelse(m$r2 > 0, "up", "down")
+joint <- prop.table(table(SP500 = y1, Brent = y2))
+
+data.frame(
+  cell  = c("SP500 down, Brent down", "SP500 down, Brent up",
+            "SP500 up, Brent down",   "SP500 up, Brent up",
+            "total", "corr(r1, r2)"),
+  value = round(c(as.vector(t(joint)), sum(joint), cor(m$r1, m$r2)), 3)
+)
+```
+
+::: {style="font-size: 28px"}
+The table sums to 1, as Theorem 5.1 requires, and the diagonal cells (both up, both down) carry the most mass.
+:::
+
+---
+
+## 💰 Case Study: The Returns, Day by Day
+
+```{r}
+#| label: case-joint-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.9
+sp <- read.csv("data/sp500.csv", col.names = c("date", "close"))
+sp$close <- suppressWarnings(as.numeric(sp$close))
+sp <- na.omit(sp)
+br <- read.csv("data/brent.csv", col.names = c("date", "close"))
+br$close <- suppressWarnings(as.numeric(br$close))
+br <- na.omit(br)
+sp_r <- data.frame(date = sp$date[-1], r1 = diff(log(sp$close)))
+br_r <- data.frame(date = br$date[-1], r2 = diff(log(br$close)))
+m <- merge(sp_r, br_r, by = "date")
+ggplot(m, aes(r1, r2)) +
+  geom_point(aes(colour = "Daily (S&P 500, Brent) pair"), alpha = 0.35, size = 1.2) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  scale_colour_manual(values = c("Daily (S&P 500, Brent) pair" = "#8ba3c7"), name = NULL) +
+  labs(x = "S&P 500 log return", y = "Brent log return") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+**What the data say:** points sit somewhat more in the bottom-left and top-right quadrants, matching the table's diagonal weight and a small positive correlation ($r \approx 0.19$). The fit is loose, not tight: many days still land in the mixed quadrants, so knowing $Y_1$'s sign narrows $Y_2$'s odds a little, not decides them.
 :::
 
 ---

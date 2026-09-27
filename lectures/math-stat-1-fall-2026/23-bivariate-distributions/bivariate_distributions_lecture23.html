@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Samir Orujov, PhD">
-  <meta name="dcterms.date" content="2026-09-24">
+  <meta name="dcterms.date" content="2026-09-27">
   <title>Mathematical Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -220,7 +220,7 @@ Samir Orujov, PhD
     </div>
 </div>
 
-  <p class="date">2026-09-24</p>
+  <p class="date">2026-09-27</p>
 </section>
 <section id="learning-objectives" class="slide level2">
 <h2>🎯 Learning Objectives</h2>
@@ -234,6 +234,16 @@ Samir Orujov, PhD
 <li><p><strong>Extend</strong> the definitions from two random variables to <span class="math inline">\(n\)</span></p></li>
 </ul>
 </div>
+</section>
+<section id="warm-up-from-last-time" class="slide level2 quiz-question">
+<h2>🔁 Warm-up from last time</h2>
+<p>By Theorem 4.13 (Tchebysheff), what upper bound does the theorem give for <span class="math inline">\(P(|Y-\mu| \ge 5\sigma)\)</span>, for any distribution with finite mean and variance?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Theorem 4.13: P(|Y−μ|≥kσ) ≤ 1/k². At k=5, 1/25 = 0.04. It holds for every distribution, not just the normal."><span class="math inline">\(1/25 = 0.04\)</span></span></li>
+<li><span class="math inline">\(1/5 = 0.2\)</span></li>
+<li><span class="math inline">\(0.0027\)</span> (the normal’s exact value)</li>
+<li>It cannot be bounded without knowing the distribution</li>
+</ul>
 </section>
 <section id="where-we-are" class="slide level2">
 <h2>🗺️ Where We Are</h2>
@@ -459,6 +469,93 @@ Samir Orujov, PhD
 </div>
 </div>
 </section>
+<section id="case-study-the-joint-table-of-two-real-assets" class="slide level2">
+<h2>💰 Case Study: The Joint Table of Two Real Assets</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📈 The question</strong></p>
+</div>
+<div class="callout-content">
+<p>Classify each day as <span class="math inline">\(Y_1\)</span> = S&amp;P 500 up/down and <span class="math inline">\(Y_2\)</span> = Brent crude up/down.</p>
+<ol type="1">
+<li>Built from data, does the <span class="math inline">\(2\times 2\)</span> table satisfy Theorem 5.1?</li>
+<li>Is mass spread evenly across the four cells?</li>
+<li>Do the two assets move together more often than separately?</li>
+</ol>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 The data</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Series</strong>: S&amp;P 500 close (<code>SP500</code>), Brent crude (<code>DCOILBRENTEU</code>)</p>
+<p><strong>Period</strong>: Sep 2016 – Sep 2026, about 2,470 matched days</p>
+<p><strong>Variables</strong>: <span class="math inline">\(Y_1, Y_2 \in \{\text{down}, \text{up}\}\)</span>, daily log return sign</p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="case-study-building-the-table-in-r" class="slide level2">
+<h2>💰 Case Study: Building the Table in R</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>📦 Load both series and build the joint table</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-label="1"></a>sp <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/sp500.csv"</span>, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"close"</span>))</span>
+<span id="cb3-2"><a href="" aria-label="2"></a>sp<span class="sc">$</span>close <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(sp<span class="sc">$</span>close))   <span class="co"># FRED marks holidays "."</span></span>
+<span id="cb3-3"><a href="" aria-label="3"></a>sp <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(sp)</span>
+<span id="cb3-4"><a href="" aria-label="4"></a>br <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/brent.csv"</span>, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"close"</span>))</span>
+<span id="cb3-5"><a href="" aria-label="5"></a>br<span class="sc">$</span>close <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(br<span class="sc">$</span>close))</span>
+<span id="cb3-6"><a href="" aria-label="6"></a>br <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(br)</span>
+<span id="cb3-7"><a href="" aria-label="7"></a></span>
+<span id="cb3-8"><a href="" aria-label="8"></a>sp_r <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">date =</span> sp<span class="sc">$</span>date[<span class="sc">-</span><span class="dv">1</span>], <span class="at">r1 =</span> <span class="fu">diff</span>(<span class="fu">log</span>(sp<span class="sc">$</span>close)))</span>
+<span id="cb3-9"><a href="" aria-label="9"></a>br_r <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">date =</span> br<span class="sc">$</span>date[<span class="sc">-</span><span class="dv">1</span>], <span class="at">r2 =</span> <span class="fu">diff</span>(<span class="fu">log</span>(br<span class="sc">$</span>close)))</span>
+<span id="cb3-10"><a href="" aria-label="10"></a>m <span class="ot">&lt;-</span> <span class="fu">merge</span>(sp_r, br_r, <span class="at">by =</span> <span class="st">"date"</span>)                  <span class="co"># keep only common trading days</span></span>
+<span id="cb3-11"><a href="" aria-label="11"></a></span>
+<span id="cb3-12"><a href="" aria-label="12"></a>y1 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(m<span class="sc">$</span>r1 <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">"up"</span>, <span class="st">"down"</span>); y2 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(m<span class="sc">$</span>r2 <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">"up"</span>, <span class="st">"down"</span>)</span>
+<span id="cb3-13"><a href="" aria-label="13"></a>joint <span class="ot">&lt;-</span> <span class="fu">prop.table</span>(<span class="fu">table</span>(<span class="at">SP500 =</span> y1, <span class="at">Brent =</span> y2))</span>
+<span id="cb3-14"><a href="" aria-label="14"></a></span>
+<span id="cb3-15"><a href="" aria-label="15"></a><span class="fu">data.frame</span>(</span>
+<span id="cb3-16"><a href="" aria-label="16"></a>  <span class="at">cell  =</span> <span class="fu">c</span>(<span class="st">"SP500 down, Brent down"</span>, <span class="st">"SP500 down, Brent up"</span>,</span>
+<span id="cb3-17"><a href="" aria-label="17"></a>            <span class="st">"SP500 up, Brent down"</span>,   <span class="st">"SP500 up, Brent up"</span>,</span>
+<span id="cb3-18"><a href="" aria-label="18"></a>            <span class="st">"total"</span>, <span class="st">"corr(r1, r2)"</span>),</span>
+<span id="cb3-19"><a href="" aria-label="19"></a>  <span class="at">value =</span> <span class="fu">round</span>(<span class="fu">c</span>(<span class="fu">as.vector</span>(<span class="fu">t</span>(joint)), <span class="fu">sum</span>(joint), <span class="fu">cor</span>(m<span class="sc">$</span>r1, m<span class="sc">$</span>r2)), <span class="dv">3</span>)</span>
+<span id="cb3-20"><a href="" aria-label="20"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                    cell value
+1 SP500 down, Brent down 0.228
+2   SP500 down, Brent up 0.223
+3   SP500 up, Brent down 0.247
+4     SP500 up, Brent up 0.301
+5                  total 1.000
+6           corr(r1, r2) 0.185</code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>The table sums to 1, as Theorem 5.1 requires, and the diagonal cells (both up, both down) carry the most mass.</p>
+</div>
+</section>
+<section id="case-study-the-returns-day-by-day" class="slide level2">
+<h2>💰 Case Study: The Returns, Day by Day</h2>
+
+<img data-src="bivariate_distributions_lecture23_files/figure-revealjs/case-joint-fig-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1500"><div style="font-size: 28px">
+<p><strong>What the data say:</strong> points sit somewhat more in the bottom-left and top-right quadrants, matching the table’s diagonal weight and a small positive correlation (<span class="math inline">\(r \approx 0.19\)</span>). The fit is loose, not tight: many days still land in the mixed quadrants, so knowing <span class="math inline">\(Y_1\)</span>’s sign narrows <span class="math inline">\(Y_2\)</span>’s odds a little, not decides them.</p>
+</div>
+</section>
 <section id="quiz-1-reading-f-from-a-table" class="slide level2 quiz-question">
 <h2>📝 Quiz #1: Reading <span class="math inline">\(F\)</span> From a Table</h2>
 <p>In the joint returns table, what is <span class="math inline">\(F(4, -1) = P(Y_1 \le 4, Y_2 \le -1)\)</span>?</p>
@@ -539,16 +636,16 @@ Samir Orujov, PhD
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-label="1"></a><span class="co"># Two independent exponential(1) legs; the earlier is Y1, the later Y2.</span></span>
-<span id="cb3-2"><a href="" aria-label="2"></a><span class="co"># This pair has exactly the joint density 2exp(-(y1 + y2)) on 0 &lt;= y1 &lt;= y2.</span></span>
-<span id="cb3-3"><a href="" aria-label="3"></a>n  <span class="ot">&lt;-</span> <span class="dv">100000</span></span>
-<span id="cb3-4"><a href="" aria-label="4"></a>a  <span class="ot">&lt;-</span> <span class="fu">rexp</span>(n); b <span class="ot">&lt;-</span> <span class="fu">rexp</span>(n)</span>
-<span id="cb3-5"><a href="" aria-label="5"></a>Y1 <span class="ot">&lt;-</span> <span class="fu">pmin</span>(a, b); Y2 <span class="ot">&lt;-</span> <span class="fu">pmax</span>(a, b)</span>
-<span id="cb3-6"><a href="" aria-label="6"></a><span class="fu">rbind</span>(<span class="at">simulated =</span> <span class="fu">c</span>(<span class="at">F_1_1 =</span> <span class="fu">mean</span>(Y1 <span class="sc">&lt;=</span> <span class="dv">1</span> <span class="sc">&amp;</span> Y2 <span class="sc">&lt;=</span> <span class="dv">1</span>),</span>
-<span id="cb3-7"><a href="" aria-label="7"></a>                    <span class="at">rect  =</span> <span class="fu">mean</span>(Y1 <span class="sc">&lt;=</span> <span class="fl">0.5</span> <span class="sc">&amp;</span> Y2 <span class="sc">&gt;</span> <span class="dv">1</span>),</span>
-<span id="cb3-8"><a href="" aria-label="8"></a>                    <span class="at">gap   =</span> <span class="fu">mean</span>(Y2 <span class="sc">-</span> Y1 <span class="sc">&gt;</span> <span class="dv">1</span>)),</span>
-<span id="cb3-9"><a href="" aria-label="9"></a>      <span class="at">exact     =</span> <span class="fu">c</span>((<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="dv">1</span>))<span class="sc">^</span><span class="dv">2</span>, <span class="dv">2</span> <span class="sc">*</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="dv">1</span>) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span>)), <span class="fu">exp</span>(<span class="sc">-</span><span class="dv">1</span>))) <span class="sc">|&gt;</span></span>
-<span id="cb3-10"><a href="" aria-label="10"></a>  <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="" aria-label="1"></a><span class="co"># Two independent exponential(1) legs; the earlier is Y1, the later Y2.</span></span>
+<span id="cb5-2"><a href="" aria-label="2"></a><span class="co"># This pair has exactly the joint density 2exp(-(y1 + y2)) on 0 &lt;= y1 &lt;= y2.</span></span>
+<span id="cb5-3"><a href="" aria-label="3"></a>n  <span class="ot">&lt;-</span> <span class="dv">100000</span></span>
+<span id="cb5-4"><a href="" aria-label="4"></a>a  <span class="ot">&lt;-</span> <span class="fu">rexp</span>(n); b <span class="ot">&lt;-</span> <span class="fu">rexp</span>(n)</span>
+<span id="cb5-5"><a href="" aria-label="5"></a>Y1 <span class="ot">&lt;-</span> <span class="fu">pmin</span>(a, b); Y2 <span class="ot">&lt;-</span> <span class="fu">pmax</span>(a, b)</span>
+<span id="cb5-6"><a href="" aria-label="6"></a><span class="fu">rbind</span>(<span class="at">simulated =</span> <span class="fu">c</span>(<span class="at">F_1_1 =</span> <span class="fu">mean</span>(Y1 <span class="sc">&lt;=</span> <span class="dv">1</span> <span class="sc">&amp;</span> Y2 <span class="sc">&lt;=</span> <span class="dv">1</span>),</span>
+<span id="cb5-7"><a href="" aria-label="7"></a>                    <span class="at">rect  =</span> <span class="fu">mean</span>(Y1 <span class="sc">&lt;=</span> <span class="fl">0.5</span> <span class="sc">&amp;</span> Y2 <span class="sc">&gt;</span> <span class="dv">1</span>),</span>
+<span id="cb5-8"><a href="" aria-label="8"></a>                    <span class="at">gap   =</span> <span class="fu">mean</span>(Y2 <span class="sc">-</span> Y1 <span class="sc">&gt;</span> <span class="dv">1</span>)),</span>
+<span id="cb5-9"><a href="" aria-label="9"></a>      <span class="at">exact     =</span> <span class="fu">c</span>((<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="dv">1</span>))<span class="sc">^</span><span class="dv">2</span>, <span class="dv">2</span> <span class="sc">*</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="dv">1</span>) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span>)), <span class="fu">exp</span>(<span class="sc">-</span><span class="dv">1</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb5-10"><a href="" aria-label="10"></a>  <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>           F_1_1   rect    gap
@@ -571,7 +668,7 @@ exact     0.3996 0.2895 0.3679</code></pre>
 <h2>🧠 Think-Pair-Share</h2>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_e643510c" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_ac60109a" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
 </div>
 </div>
 <div style="font-size: 29px">
