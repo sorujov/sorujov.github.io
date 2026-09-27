@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Samir Orujov, PhD">
-  <meta name="dcterms.date" content="2026-09-24">
+  <meta name="dcterms.date" content="2026-09-27">
   <title>Mathematical Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -220,7 +220,7 @@ Samir Orujov, PhD
     </div>
 </div>
 
-  <p class="date">2026-09-24</p>
+  <p class="date">2026-09-27</p>
 </section>
 <section id="learning-objectives" class="slide level2">
 <h2>🎯 Learning Objectives</h2>
@@ -234,6 +234,16 @@ Samir Orujov, PhD
 <li><p><strong>Read</strong> each piece of that split in economic terms</p></li>
 </ul>
 </div>
+</section>
+<section id="warm-up-from-last-time" class="slide level2 quiz-question">
+<h2>🔁 Warm-up from last time</h2>
+<p>Last class: why must the covariance between any two cell counts in a multinomial experiment always be negative?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Theorem 5.13: the cell counts sum to n, a fixed constant. That constraint alone forces every pairwise covariance to be negative, whatever the pj's are.">The counts must add up to the fixed total <span class="math inline">\(n\)</span>, so if one cell’s count rises, at least one other must fall</span></li>
+<li>The cell probabilities <span class="math inline">\(p_j\)</span> are themselves negatively correlated</li>
+<li>Because <span class="math inline">\(n\)</span> is always large in practice</li>
+<li>Because each individual trial is independent of the others</li>
+</ul>
 </section>
 <section id="where-we-are" class="slide level2">
 <h2>🗺️ Where We Are</h2>
@@ -496,7 +506,7 @@ Samir Orujov, PhD
 <h2>🧠 Think-Pair-Share</h2>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_78030eea" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_e5b1ead9" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
 </div>
 </div>
 <div style="font-size: 28px">
@@ -525,6 +535,78 @@ Samir Orujov, PhD
 <li>Within <span class="math inline">\(= 22{,}500\)</span>. Between <span class="math inline">\(= V(0.5\,Y_2) = 0.25 \times 400^2 = 40{,}000\)</span>. Sum <span class="math inline">\(= 62{,}500 = 250^2\)</span>. ✔</li>
 </ol>
 </div>
+</div>
+</section>
+<section id="case-study-what-the-vix-does-when-stocks-move" class="slide level2">
+<h2>💰 Case Study: What the VIX Does When Stocks Move</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📈 The question</strong></p>
+</div>
+<div class="callout-content">
+<p>Let <span class="math inline">\(Y_1\)</span> = today’s change in the VIX, <span class="math inline">\(Y_2\)</span> = today’s S&amp;P 500 return.</p>
+<ol type="1">
+<li>Is <span class="math inline">\(E(Y_1 \mid Y_2 = y_2)\)</span> close to a straight line, as bivariate-normal theory predicts?</li>
+<li>What is its slope, and what does the sign mean?</li>
+<li>Where does a straight conditional mean stop describing the data?</li>
+</ol>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 The data</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Series</strong>: S&amp;P 500 close (FRED <code>SP500</code>), VIX close (FRED <code>VIXCLS</code>)</p>
+<p><strong>Period</strong>: Sep 2016 – Sep 2026, about 2,500 days</p>
+<p><span class="math inline">\(Y_1\)</span> = daily change in VIX (points); <span class="math inline">\(Y_2\)</span> = daily S&amp;P log return</p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="case-study-fitting-ey_1-mid-y_2-in-r" class="slide level2">
+<h2>💰 Case Study: Fitting <span class="math inline">\(E(Y_1 \mid Y_2)\)</span> in R</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>📦 Fit the conditional-mean line of ΔVIX on the S&amp;P return</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-label="1"></a>m <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/sp_vix.csv"</span>)</span>
+<span id="cb3-2"><a href="" aria-label="2"></a>m<span class="sc">$</span>close <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(m<span class="sc">$</span>close))    <span class="co"># FRED marks holidays "."</span></span>
+<span id="cb3-3"><a href="" aria-label="3"></a>m<span class="sc">$</span>vix   <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(m<span class="sc">$</span>vix))</span>
+<span id="cb3-4"><a href="" aria-label="4"></a>m <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(m)</span>
+<span id="cb3-5"><a href="" aria-label="5"></a>y2 <span class="ot">&lt;-</span> <span class="fu">diff</span>(<span class="fu">log</span>(m<span class="sc">$</span>close))   <span class="co"># S&amp;P daily return</span></span>
+<span id="cb3-6"><a href="" aria-label="6"></a>y1 <span class="ot">&lt;-</span> <span class="fu">diff</span>(m<span class="sc">$</span>vix)          <span class="co"># change in VIX</span></span>
+<span id="cb3-7"><a href="" aria-label="7"></a></span>
+<span id="cb3-8"><a href="" aria-label="8"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y1 <span class="sc">~</span> y2)</span>
+<span id="cb3-9"><a href="" aria-label="9"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">intercept =</span> <span class="fu">unname</span>(<span class="fu">coef</span>(fit)[<span class="dv">1</span>]), <span class="at">slope =</span> <span class="fu">unname</span>(<span class="fu">coef</span>(fit)[<span class="dv">2</span>]),</span>
+<span id="cb3-10"><a href="" aria-label="10"></a>        <span class="at">rho =</span> <span class="fu">cor</span>(y1, y2), <span class="at">r_squared =</span> <span class="fu">summary</span>(fit)<span class="sc">$</span>r.squared), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>intercept     slope       rho r_squared 
+   0.0699 -136.5972   -0.7902    0.6244 </code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>The fitted slope is sharply negative: a good day for stocks is, on average, a calm day for the VIX.</p>
+</div>
+</section>
+<section id="case-study-a-line-except-in-the-tails" class="slide level2">
+<h2>💰 Case Study: A Line, Except in the Tails</h2>
+
+<img data-src="conditional_expectation_lecture29_files/figure-revealjs/case-condexp-fig-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1500"><div style="font-size: 28px">
+<p><strong>What the data say:</strong> the ten decile points sit close to the fitted line — over most of its range, <span class="math inline">\(E(Y_1 \mid Y_2)\)</span> really is close to linear, as the bivariate normal predicts. It bends away at the far-left decile, the worst market days, where the VIX jumps by more than a straight line would say: large drops carry a disproportionate fear premium the linear model cannot capture.</p>
 </div>
 </section>
 <section id="quiz-1-claims-per-policy" class="slide level2 quiz-question">

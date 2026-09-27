@@ -77,6 +77,17 @@ By the end of this lecture, you will be able to:
 
 ---
 
+## 🔁 Warm-up from last time {.quiz-question}
+
+Last class: why must the covariance between any two cell counts in a multinomial experiment always be negative?
+
+- [The counts must add up to the fixed total $n$, so if one cell's count rises, at least one other must fall]{.correct data-explanation="✅ Theorem 5.13: the cell counts sum to n, a fixed constant. That constraint alone forces every pairwise covariance to be negative, whatever the pj's are."}
+- The cell probabilities $p_j$ are themselves negatively correlated
+- Because $n$ is always large in practice
+- Because each individual trial is independent of the others
+
+---
+
 ## 🗺️ Where We Are
 
 ::: {style="font-size: 30px"}
@@ -414,6 +425,84 @@ $$E(Y_1 \mid Y_2 = 1800) = 1100 + 0.5(400) = 1300, \qquad E(Y_1 \mid Y_2 = 1000)
 ::: {.fragment}
 3. Within $= 22{,}500$. Between $= V(0.5\,Y_2) = 0.25 \times 400^2 = 40{,}000$. Sum $= 62{,}500 = 250^2$. ✔
 :::
+:::
+
+---
+
+## 💰 Case Study: What the VIX Does When Stocks Move
+
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
+
+Let $Y_1$ = today's change in the VIX, $Y_2$ = today's S&P 500 return.
+
+1. Is $E(Y_1 \mid Y_2 = y_2)$ close to a straight line, as bivariate-normal theory predicts?
+2. What is its slope, and what does the sign mean?
+3. Where does a straight conditional mean stop describing the data?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: S&P 500 close (FRED `SP500`), VIX close (FRED `VIXCLS`)
+
+**Period**: Sep 2016 – Sep 2026, about 2,500 days
+
+$Y_1$ = daily change in VIX (points); $Y_2$ = daily S&P log return
+:::
+:::
+::::
+
+---
+
+## 💰 Case Study: Fitting $E(Y_1 \mid Y_2)$ in R
+
+```{r}
+#| label: case-condexp
+#| code-summary: "📦 Fit the conditional-mean line of ΔVIX on the S&P return"
+m <- read.csv("data/sp_vix.csv")
+m$close <- suppressWarnings(as.numeric(m$close))    # FRED marks holidays "."
+m$vix   <- suppressWarnings(as.numeric(m$vix))
+m <- na.omit(m)
+y2 <- diff(log(m$close))   # S&P daily return
+y1 <- diff(m$vix)          # change in VIX
+
+fit <- lm(y1 ~ y2)
+round(c(intercept = unname(coef(fit)[1]), slope = unname(coef(fit)[2]),
+        rho = cor(y1, y2), r_squared = summary(fit)$r.squared), 4)
+```
+
+::: {style="font-size: 28px"}
+The fitted slope is sharply negative: a good day for stocks is, on average, a calm day for the VIX.
+:::
+
+---
+
+## 💰 Case Study: A Line, Except in the Tails
+
+```{r}
+#| label: case-condexp-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.9
+qs   <- quantile(y2, seq(0, 1, 0.1))
+bin  <- cut(y2, breaks = qs, include.lowest = TRUE)
+mids <- tapply(y2, bin, mean)
+avgs <- tapply(y1, bin, mean)
+df <- data.frame(y2 = mids, y1_mean = avgs)
+ggplot(df, aes(y2, y1_mean)) +
+  geom_point(size = 3, color = "#8b2635") +
+  geom_abline(intercept = coef(fit)[1], slope = coef(fit)[2], color = "#8ba3c7", linewidth = 1.1) +
+  labs(x = "S&P 500 daily return, y2 (decile mean)", y = "Mean ΔVIX in decile") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+**What the data say:** the ten decile points sit close to the fitted line — over most of its range, $E(Y_1 \mid Y_2)$ really is close to linear, as the bivariate normal predicts. It bends away at the far-left decile, the worst market days, where the VIX jumps by more than a straight line would say: large drops carry a disproportionate fear premium the linear model cannot capture.
 :::
 
 ---
