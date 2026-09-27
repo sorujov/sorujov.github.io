@@ -62,9 +62,12 @@ theme_set(theme_minimal(base_size = 18))
 ## 🎬 The Idea in 3 Minutes
 
 ::: {style="text-align:center"}
-<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture13_intuition.mp4"><track kind="captions" src="video/lecture13_intuition.vtt" srclang="en" label="English"></video>
+```{=html}
+<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture13_intuition.mp4"><track kind="captions" src="video/lecture13_intuition.vtt" srclang="en" label="English"><track kind="captions" src="video/lecture13_intuition.az.vtt" srclang="az" label="Azərbaycanca"></video>
+```
+[⬅ Previous lecture: 12 · The Geometric and Negative Binomial Distributions](../12-geometric-negative-binomial/geometric_negative_binomial_lecture12.html){style="font-size:28px"}
 
-[Watch this short intuition video before (or after) the slides. Captions: CC button.]{style="font-size:22px"}
+[Watch this short intuition video before (or after) the slides. Captions (English / Azərbaycanca): CC button.]{style="font-size:28px"}
 :::
 
 ---
@@ -84,6 +87,17 @@ By the end of this lecture, you will be able to:
 
 - **Choose** among the five discrete models of Chapter 3 for Midterm I
 :::
+
+---
+
+## 🔁 Warm-up from last time {.quiz-question}
+
+A machine's time to first failure is geometric with $p = 0.2$. It has not failed in the first 5 trials. What is $P(\text{no failure in the next 3 trials})$?
+
+- [$0.8^3 = 0.512$]{.correct data-explanation="✅ Memoryless: past survival gives no discount. The conditional probability equals the unconditional P(no failure in 3 trials) = q³ = 0.512, exactly as if starting fresh."}
+- $0.8^8 = 0.168$
+- $0.8^5 = 0.328$
+- $0.2$
 
 ---
 
@@ -398,6 +412,87 @@ A bank's risk desk has recorded operational-loss events as a Poisson process at 
 
 Not impossible, but a one-in-25 quarter under the old rate — worth an investigation into whether $\lambda$ has risen, which is the reasoning of Example 3.22.
 :::
+:::
+
+---
+
+## 💰 Case Study: Are Large Moves Poisson?
+
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
+
+Call a day a **large move** if $|Y| > 2\%$, where $Y$ is the daily log return.
+
+1. What is the monthly count of large moves?
+2. Does $E(\text{count}) = V(\text{count})$, as Theorem 3.11 requires?
+3. Where does the Poisson model fail?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: S&P 500 daily close (FRED `SP500`)
+
+**Period**: Sep 2016 – Sep 2026, 121 calendar months
+
+$X$ = number of large-move days per month
+:::
+:::
+::::
+
+---
+
+## 💰 Case Study: Mean vs. Variance
+
+```{r}
+#| label: case-poisson
+#| code-summary: "📦 Count large moves per month"
+sp <- read.csv("data/sp500.csv", col.names = c("date", "close"))
+sp$close <- suppressWarnings(as.numeric(sp$close))   # FRED marks holidays "."
+sp <- na.omit(sp)
+sp$date <- as.Date(sp$date)
+
+r      <- diff(log(sp$close))
+big    <- abs(r) > 0.02
+month  <- format(sp$date[-1], "%Y-%m")
+counts <- sapply(split(big, month), sum)             # large moves per month
+
+lambda <- mean(counts)
+round(c(months = length(counts), mean = lambda,
+        var = var(counts), ratio_var_over_mean = var(counts) / lambda), 3)
+```
+
+::: {style="font-size: 28px"}
+Theorem 3.11 says a true Poisson count has mean equal to variance, ratio 1. Here the variance is almost **five times** the mean.
+:::
+
+---
+
+## 💰 Case Study: Data vs. Poisson($\hat{\lambda}$)
+
+```{r}
+#| label: case-poisson-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.9
+obs <- c(sapply(0:5, function(k) mean(counts == k)), mean(counts >= 6))
+mod <- c(dpois(0:5, lambda), 1 - ppois(5, lambda))
+labs <- c("0", "1", "2", "3", "4", "5", "6+")
+cmp <- rbind(data.frame(x = factor(labs, labs), prop = obs, src = "Observed months"),
+             data.frame(x = factor(labs, labs), prop = mod, src = "Poisson(lambda-hat)"))
+ggplot(cmp, aes(x, prop, fill = src)) +
+  geom_col(position = position_dodge(0.8), width = 0.75) +
+  scale_fill_manual(values = c("#8b2635", "#8ba3c7"), name = NULL) +
+  labs(x = "Large-move days in a month", y = "Proportion of months") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+**What the data say:** quiet months (0 large moves) are far more common than Poisson predicts, and so are the busiest ones (6+). Large moves cluster in volatile spells — a violation of the constant-rate assumption behind Definition 3.11, called **overdispersion**.
 :::
 
 ---

@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Samir Orujov, PhD">
-  <meta name="dcterms.date" content="2026-09-24">
+  <meta name="dcterms.date" content="2026-09-27">
   <title>Mathematical Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -222,13 +222,14 @@ Samir Orujov, PhD
     </div>
 </div>
 
-  <p class="date">2026-09-24</p>
+  <p class="date">2026-09-27</p>
 </section>
-<section id="intuition-video" class="slide level2">
+<section id="the-idea-in-3-minutes" class="slide level2">
 <h2>🎬 The Idea in 3 Minutes</h2>
 <div style="text-align:center">
-<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture13_intuition.mp4"><track kind="captions" src="video/lecture13_intuition.vtt" srclang="en" label="English"></video>
-<p style="font-size:22px">Watch this short intuition video before (or after) the slides. Captions: CC button.</p>
+<video controls="" preload="metadata" style="width:880px;max-width:100%" src="video/lecture13_intuition.mp4"><track kind="captions" src="video/lecture13_intuition.vtt" srclang="en" label="English"><track kind="captions" src="video/lecture13_intuition.az.vtt" srclang="az" label="Azərbaycanca"></video>
+<p><a href="../12-geometric-negative-binomial/geometric_negative_binomial_lecture12.html" style="font-size:28px">⬅ Previous lecture: 12 · The Geometric and Negative Binomial Distributions</a></p>
+<p><span style="font-size:28px">Watch this short intuition video before (or after) the slides. Captions (English / Azərbaycanca): CC button.</span></p>
 </div>
 </section>
 <section id="learning-objectives" class="slide level2">
@@ -243,6 +244,16 @@ Samir Orujov, PhD
 <li><p><strong>Choose</strong> among the five discrete models of Chapter 3 for Midterm I</p></li>
 </ul>
 </div>
+</section>
+<section id="warm-up-from-last-time" class="slide level2 quiz-question">
+<h2>🔁 Warm-up from last time</h2>
+<p>A machine’s time to first failure is geometric with <span class="math inline">\(p = 0.2\)</span>. It has not failed in the first 5 trials. What is <span class="math inline">\(P(\text{no failure in the next 3 trials})\)</span>?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Memoryless: past survival gives no discount. The conditional probability equals the unconditional P(no failure in 3 trials) = q³ = 0.512, exactly as if starting fresh."><span class="math inline">\(0.8^3 = 0.512\)</span></span></li>
+<li><span class="math inline">\(0.8^8 = 0.168\)</span></li>
+<li><span class="math inline">\(0.8^5 = 0.328\)</span></li>
+<li><span class="math inline">\(0.2\)</span></li>
+</ul>
 </section>
 <section id="where-we-are" class="slide level2">
 <h2>🗺️ Where We Are</h2>
@@ -451,13 +462,13 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb5" data-startfrom="298" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 297;"><span id="cb5-298"><a href="" aria-label="298"></a>viewof n_sub <span class="op">=</span> {</span>
-<span id="cb5-299"><a href="" aria-label="299"></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">4</span><span class="op">,</span> <span class="dv">200</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">6</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb5-300"><a href="" aria-label="300"></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Number of trials n (λ = np = 2):"</span>})<span class="op">;</span></span>
-<span id="cb5-301"><a href="" aria-label="301"></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
-<span id="cb5-302"><a href="" aria-label="302"></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
-<span id="cb5-303"><a href="" aria-label="303"></a>  <span class="cf">return</span> input<span class="op">;</span></span>
-<span id="cb5-304"><a href="" aria-label="304"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb5" data-startfrom="322" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 321;"><span id="cb5-322"><a href="" aria-label="322"></a>viewof n_sub <span class="op">=</span> {</span>
+<span id="cb5-323"><a href="" aria-label="323"></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">4</span><span class="op">,</span> <span class="dv">200</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">6</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb5-324"><a href="" aria-label="324"></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Number of trials n (λ = np = 2):"</span>})<span class="op">;</span></span>
+<span id="cb5-325"><a href="" aria-label="325"></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
+<span id="cb5-326"><a href="" aria-label="326"></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
+<span id="cb5-327"><a href="" aria-label="327"></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb5-328"><a href="" aria-label="328"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-1" data-nodetype="declaration">
@@ -468,21 +479,21 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb6" data-startfrom="312" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 311;"><span id="cb6-312"><a href="" aria-label="312"></a>lam <span class="op">=</span> <span class="dv">2</span></span>
-<span id="cb6-313"><a href="" aria-label="313"></a>binomPmf <span class="op">=</span> (n<span class="op">,</span> p) <span class="kw">=&gt;</span> {</span>
-<span id="cb6-314"><a href="" aria-label="314"></a>  <span class="kw">const</span> out <span class="op">=</span> [<span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(<span class="dv">1</span> <span class="op">-</span> p<span class="op">,</span> n)]<span class="op">;</span></span>
-<span id="cb6-315"><a href="" aria-label="315"></a>  <span class="cf">for</span> (<span class="kw">let</span> k <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> k <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> k<span class="op">++</span>) out<span class="op">.</span><span class="fu">push</span>(k <span class="op">+</span> <span class="dv">1</span> <span class="op">&gt;</span> n <span class="op">?</span> <span class="dv">0</span> <span class="op">:</span> out[k] <span class="op">*</span> (n <span class="op">-</span> k) <span class="op">/</span> (k <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> p <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> p))<span class="op">;</span></span>
-<span id="cb6-316"><a href="" aria-label="316"></a>  <span class="cf">return</span> out<span class="op">;</span></span>
-<span id="cb6-317"><a href="" aria-label="317"></a>}</span>
-<span id="cb6-318"><a href="" aria-label="318"></a>poisPmf <span class="op">=</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({<span class="dt">length</span><span class="op">:</span> <span class="dv">11</span>}<span class="op">,</span> (_<span class="op">,</span> k) <span class="kw">=&gt;</span> {</span>
-<span id="cb6-319"><a href="" aria-label="319"></a>  <span class="kw">let</span> f <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">2</span><span class="op">;</span> i <span class="op">&lt;=</span> k<span class="op">;</span> i<span class="op">++</span>) f <span class="op">*=</span> i<span class="op">;</span></span>
-<span id="cb6-320"><a href="" aria-label="320"></a>  <span class="cf">return</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(<span class="op">-</span>lam) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(lam<span class="op">,</span> k) <span class="op">/</span> f<span class="op">;</span></span>
-<span id="cb6-321"><a href="" aria-label="321"></a>})</span>
-<span id="cb6-322"><a href="" aria-label="322"></a>bin <span class="op">=</span> <span class="fu">binomPmf</span>(n_sub<span class="op">,</span> lam <span class="op">/</span> n_sub)<span class="op">.</span><span class="fu">map</span>((p<span class="op">,</span> k) <span class="kw">=&gt;</span> ({<span class="dt">y</span><span class="op">:</span> k<span class="op">,</span> p}))</span>
-<span id="cb6-323"><a href="" aria-label="323"></a>pois <span class="op">=</span> poisPmf<span class="op">.</span><span class="fu">map</span>((p<span class="op">,</span> k) <span class="kw">=&gt;</span> ({<span class="dt">y</span><span class="op">:</span> k<span class="op">,</span> p}))</span>
-<span id="cb6-324"><a href="" aria-label="324"></a>gap <span class="op">=</span> d3<span class="op">.</span><span class="fu">max</span>(bin<span class="op">,</span> (d<span class="op">,</span> k) <span class="kw">=&gt;</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span>(d<span class="op">.</span><span class="at">p</span> <span class="op">-</span> pois[k]<span class="op">.</span><span class="at">p</span>))</span>
-<span id="cb6-325"><a href="" aria-label="325"></a></span>
-<span id="cb6-326"><a href="" aria-label="326"></a><span class="fu">md</span><span class="vs">`With **n = </span><span class="sc">${</span>n_sub<span class="sc">}</span><span class="vs">** and **p = </span><span class="sc">${</span>(lam <span class="op">/</span> n_sub)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">4</span>)<span class="sc">}</span><span class="vs">**, the largest gap between binomial bars and Poisson dots is **</span><span class="sc">${</span>gap<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">4</span>)<span class="sc">}</span><span class="vs">**.`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb6" data-startfrom="336" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 335;"><span id="cb6-336"><a href="" aria-label="336"></a>lam <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb6-337"><a href="" aria-label="337"></a>binomPmf <span class="op">=</span> (n<span class="op">,</span> p) <span class="kw">=&gt;</span> {</span>
+<span id="cb6-338"><a href="" aria-label="338"></a>  <span class="kw">const</span> out <span class="op">=</span> [<span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(<span class="dv">1</span> <span class="op">-</span> p<span class="op">,</span> n)]<span class="op">;</span></span>
+<span id="cb6-339"><a href="" aria-label="339"></a>  <span class="cf">for</span> (<span class="kw">let</span> k <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> k <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> k<span class="op">++</span>) out<span class="op">.</span><span class="fu">push</span>(k <span class="op">+</span> <span class="dv">1</span> <span class="op">&gt;</span> n <span class="op">?</span> <span class="dv">0</span> <span class="op">:</span> out[k] <span class="op">*</span> (n <span class="op">-</span> k) <span class="op">/</span> (k <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> p <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> p))<span class="op">;</span></span>
+<span id="cb6-340"><a href="" aria-label="340"></a>  <span class="cf">return</span> out<span class="op">;</span></span>
+<span id="cb6-341"><a href="" aria-label="341"></a>}</span>
+<span id="cb6-342"><a href="" aria-label="342"></a>poisPmf <span class="op">=</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({<span class="dt">length</span><span class="op">:</span> <span class="dv">11</span>}<span class="op">,</span> (_<span class="op">,</span> k) <span class="kw">=&gt;</span> {</span>
+<span id="cb6-343"><a href="" aria-label="343"></a>  <span class="kw">let</span> f <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">2</span><span class="op">;</span> i <span class="op">&lt;=</span> k<span class="op">;</span> i<span class="op">++</span>) f <span class="op">*=</span> i<span class="op">;</span></span>
+<span id="cb6-344"><a href="" aria-label="344"></a>  <span class="cf">return</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(<span class="op">-</span>lam) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(lam<span class="op">,</span> k) <span class="op">/</span> f<span class="op">;</span></span>
+<span id="cb6-345"><a href="" aria-label="345"></a>})</span>
+<span id="cb6-346"><a href="" aria-label="346"></a>bin <span class="op">=</span> <span class="fu">binomPmf</span>(n_sub<span class="op">,</span> lam <span class="op">/</span> n_sub)<span class="op">.</span><span class="fu">map</span>((p<span class="op">,</span> k) <span class="kw">=&gt;</span> ({<span class="dt">y</span><span class="op">:</span> k<span class="op">,</span> p}))</span>
+<span id="cb6-347"><a href="" aria-label="347"></a>pois <span class="op">=</span> poisPmf<span class="op">.</span><span class="fu">map</span>((p<span class="op">,</span> k) <span class="kw">=&gt;</span> ({<span class="dt">y</span><span class="op">:</span> k<span class="op">,</span> p}))</span>
+<span id="cb6-348"><a href="" aria-label="348"></a>gap <span class="op">=</span> d3<span class="op">.</span><span class="fu">max</span>(bin<span class="op">,</span> (d<span class="op">,</span> k) <span class="kw">=&gt;</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span>(d<span class="op">.</span><span class="at">p</span> <span class="op">-</span> pois[k]<span class="op">.</span><span class="at">p</span>))</span>
+<span id="cb6-349"><a href="" aria-label="349"></a></span>
+<span id="cb6-350"><a href="" aria-label="350"></a><span class="fu">md</span><span class="vs">`With **n = </span><span class="sc">${</span>n_sub<span class="sc">}</span><span class="vs">** and **p = </span><span class="sc">${</span>(lam <span class="op">/</span> n_sub)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">4</span>)<span class="sc">}</span><span class="vs">**, the largest gap between binomial bars and Poisson dots is **</span><span class="sc">${</span>gap<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">4</span>)<span class="sc">}</span><span class="vs">**.`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -535,20 +546,20 @@ Samir Orujov, PhD
 </div>
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb7" data-startfrom="328" data-source-offset="-640"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 327;"><span id="cb7-328"><a href="" aria-label="328"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
-<span id="cb7-329"><a href="" aria-label="329"></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">1150</span><span class="op">,</span></span>
-<span id="cb7-330"><a href="" aria-label="330"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">300</span><span class="op">,</span></span>
-<span id="cb7-331"><a href="" aria-label="331"></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">78</span><span class="op">,</span></span>
-<span id="cb7-332"><a href="" aria-label="332"></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">58</span><span class="op">,</span></span>
-<span id="cb7-333"><a href="" aria-label="333"></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontSize</span><span class="op">:</span> <span class="st">"18px"</span>}<span class="op">,</span></span>
-<span id="cb7-334"><a href="" aria-label="334"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> d3<span class="op">.</span><span class="fu">range</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">11</span>)<span class="op">,</span> <span class="dt">padding</span><span class="op">:</span> <span class="fl">0.25</span>}<span class="op">,</span></span>
-<span id="cb7-335"><a href="" aria-label="335"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"p(y)"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="fl">0.45</span>]<span class="op">,</span> <span class="dt">tickFormat</span><span class="op">:</span> <span class="st">".2f"</span>}<span class="op">,</span></span>
-<span id="cb7-336"><a href="" aria-label="336"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
-<span id="cb7-337"><a href="" aria-label="337"></a>    Plot<span class="op">.</span><span class="fu">barY</span>(bin<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"p"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#cbb8a9"</span>})<span class="op">,</span></span>
-<span id="cb7-338"><a href="" aria-label="338"></a>    Plot<span class="op">.</span><span class="fu">dot</span>(pois<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"p"</span><span class="op">,</span> <span class="dt">r</span><span class="op">:</span> <span class="dv">8</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#8b2635"</span>})<span class="op">,</span></span>
-<span id="cb7-339"><a href="" aria-label="339"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
-<span id="cb7-340"><a href="" aria-label="340"></a>  ]</span>
-<span id="cb7-341"><a href="" aria-label="341"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb7" data-startfrom="352" data-source-offset="-640"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 351;"><span id="cb7-352"><a href="" aria-label="352"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb7-353"><a href="" aria-label="353"></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">1150</span><span class="op">,</span></span>
+<span id="cb7-354"><a href="" aria-label="354"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">300</span><span class="op">,</span></span>
+<span id="cb7-355"><a href="" aria-label="355"></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">78</span><span class="op">,</span></span>
+<span id="cb7-356"><a href="" aria-label="356"></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">58</span><span class="op">,</span></span>
+<span id="cb7-357"><a href="" aria-label="357"></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontSize</span><span class="op">:</span> <span class="st">"18px"</span>}<span class="op">,</span></span>
+<span id="cb7-358"><a href="" aria-label="358"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> d3<span class="op">.</span><span class="fu">range</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">11</span>)<span class="op">,</span> <span class="dt">padding</span><span class="op">:</span> <span class="fl">0.25</span>}<span class="op">,</span></span>
+<span id="cb7-359"><a href="" aria-label="359"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"p(y)"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="fl">0.45</span>]<span class="op">,</span> <span class="dt">tickFormat</span><span class="op">:</span> <span class="st">".2f"</span>}<span class="op">,</span></span>
+<span id="cb7-360"><a href="" aria-label="360"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb7-361"><a href="" aria-label="361"></a>    Plot<span class="op">.</span><span class="fu">barY</span>(bin<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"p"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#cbb8a9"</span>})<span class="op">,</span></span>
+<span id="cb7-362"><a href="" aria-label="362"></a>    Plot<span class="op">.</span><span class="fu">dot</span>(pois<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"p"</span><span class="op">,</span> <span class="dt">r</span><span class="op">:</span> <span class="dv">8</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#8b2635"</span>})<span class="op">,</span></span>
+<span id="cb7-363"><a href="" aria-label="363"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
+<span id="cb7-364"><a href="" aria-label="364"></a>  ]</span>
+<span id="cb7-365"><a href="" aria-label="365"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -563,7 +574,7 @@ Samir Orujov, PhD
 <h2>🧠 Think-Pair-Share</h2>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_5dcc4b24" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_6f1dfaf7" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
 </div>
 </div>
 <div style="font-size: 30px">
@@ -589,6 +600,81 @@ Samir Orujov, PhD
 </ol>
 <p>Not impossible, but a one-in-25 quarter under the old rate — worth an investigation into whether <span class="math inline">\(\lambda\)</span> has risen, which is the reasoning of Example 3.22.</p>
 </div>
+</div>
+</section>
+<section id="case-study-are-large-moves-poisson" class="slide level2">
+<h2>💰 Case Study: Are Large Moves Poisson?</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📈 The question</strong></p>
+</div>
+<div class="callout-content">
+<p>Call a day a <strong>large move</strong> if <span class="math inline">\(|Y| &gt; 2\%\)</span>, where <span class="math inline">\(Y\)</span> is the daily log return.</p>
+<ol type="1">
+<li>What is the monthly count of large moves?</li>
+<li>Does <span class="math inline">\(E(\text{count}) = V(\text{count})\)</span>, as Theorem 3.11 requires?</li>
+<li>Where does the Poisson model fail?</li>
+</ol>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 The data</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Series</strong>: S&amp;P 500 daily close (FRED <code>SP500</code>)</p>
+<p><strong>Period</strong>: Sep 2016 – Sep 2026, 121 calendar months</p>
+<p><span class="math inline">\(X\)</span> = number of large-move days per month</p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="case-study-mean-vs.-variance" class="slide level2">
+<h2>💰 Case Study: Mean vs.&nbsp;Variance</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>📦 Count large moves per month</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="" aria-label="1"></a>sp <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/sp500.csv"</span>, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"close"</span>))</span>
+<span id="cb8-2"><a href="" aria-label="2"></a>sp<span class="sc">$</span>close <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(sp<span class="sc">$</span>close))   <span class="co"># FRED marks holidays "."</span></span>
+<span id="cb8-3"><a href="" aria-label="3"></a>sp <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(sp)</span>
+<span id="cb8-4"><a href="" aria-label="4"></a>sp<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(sp<span class="sc">$</span>date)</span>
+<span id="cb8-5"><a href="" aria-label="5"></a></span>
+<span id="cb8-6"><a href="" aria-label="6"></a>r      <span class="ot">&lt;-</span> <span class="fu">diff</span>(<span class="fu">log</span>(sp<span class="sc">$</span>close))</span>
+<span id="cb8-7"><a href="" aria-label="7"></a>big    <span class="ot">&lt;-</span> <span class="fu">abs</span>(r) <span class="sc">&gt;</span> <span class="fl">0.02</span></span>
+<span id="cb8-8"><a href="" aria-label="8"></a>month  <span class="ot">&lt;-</span> <span class="fu">format</span>(sp<span class="sc">$</span>date[<span class="sc">-</span><span class="dv">1</span>], <span class="st">"%Y-%m"</span>)</span>
+<span id="cb8-9"><a href="" aria-label="9"></a>counts <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">split</span>(big, month), sum)             <span class="co"># large moves per month</span></span>
+<span id="cb8-10"><a href="" aria-label="10"></a></span>
+<span id="cb8-11"><a href="" aria-label="11"></a>lambda <span class="ot">&lt;-</span> <span class="fu">mean</span>(counts)</span>
+<span id="cb8-12"><a href="" aria-label="12"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">months =</span> <span class="fu">length</span>(counts), <span class="at">mean =</span> lambda,</span>
+<span id="cb8-13"><a href="" aria-label="13"></a>        <span class="at">var =</span> <span class="fu">var</span>(counts), <span class="at">ratio_var_over_mean =</span> <span class="fu">var</span>(counts) <span class="sc">/</span> lambda), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>             months                mean                 var ratio_var_over_mean 
+            121.000               1.231               5.829               4.734 </code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>Theorem 3.11 says a true Poisson count has mean equal to variance, ratio 1. Here the variance is almost <strong>five times</strong> the mean.</p>
+</div>
+</section>
+<section id="case-study-data-vs.-poissonhatlambda" class="slide level2">
+<h2>💰 Case Study: Data vs.&nbsp;Poisson(<span class="math inline">\(\hat{\lambda}\)</span>)</h2>
+
+<img data-src="hypergeometric_poisson_lecture13_files/figure-revealjs/case-poisson-fig-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1500"><div style="font-size: 28px">
+<p><strong>What the data say:</strong> quiet months (0 large moves) are far more common than Poisson predicts, and so are the busiest ones (6+). Large moves cluster in volatile spells — a violation of the constant-rate assumption behind Definition 3.11, called <strong>overdispersion</strong>.</p>
 </div>
 </section>
 <section id="quiz-1-a-licence-lottery" class="slide level2 quiz-question">
