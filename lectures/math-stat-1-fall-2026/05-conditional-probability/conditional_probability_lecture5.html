@@ -6,11 +6,11 @@
 <script src="conditional_probability_lecture5_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="conditional_probability_lecture5_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="conditional_probability_lecture5_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="conditional_probability_lecture5_files/libs/quarto-html/quarto-syntax-highlighting-f79c7fb6db380d32be398468f2fb58cf.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.9.37">
+<link href="conditional_probability_lecture5_files/libs/quarto-html/quarto-syntax-highlighting-12757e4b7af482b2d9c5bd8860d2b707.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Samir Orujov, PhD">
-  <meta name="dcterms.date" content="2026-09-20">
+  <meta name="dcterms.date" content="2026-09-27">
   <title>Mathematical Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -21,10 +21,13 @@
     /* Default styles provided by pandoc.
     ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
     */
-    code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    div.columns{display: flex; gap: min(4vw, 1.5em);}
-    div.column{flex: auto; overflow-x: auto;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
     ul.task-list li input[type="checkbox"] {
@@ -195,9 +198,7 @@
   <script type="module" src="conditional_probability_lecture5_files/libs/quarto-ojs/quarto-ojs-runtime.js"></script>
   <link href="conditional_probability_lecture5_files/libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
   <link href="conditional_probability_lecture5_files/libs/countdown-0.6.0/countdown.css" rel="stylesheet">
-
   <script src="conditional_probability_lecture5_files/libs/countdown-0.6.0/countdown.js"></script>
-
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -210,7 +211,7 @@
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-Samir Orujov, PhD 
+Samir Orujov, PhD
 </div>
         <p class="quarto-title-affiliation">
             ADA University, School of Business
@@ -221,13 +222,14 @@ Samir Orujov, PhD
     </div>
 </div>
 
-  <p class="date">2026-09-20</p>
+  <p class="date">2026-09-27</p>
 </section>
-<section id="intuition-video" class="slide level2">
+<section id="the-idea-in-3-minutes" class="slide level2">
 <h2>🎬 The Idea in 3 Minutes</h2>
 <div style="text-align:center">
-<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture5_intuition.mp4"><track kind="captions" src="video/lecture5_intuition.vtt" srclang="en" label="English"></video>
-<p style="font-size:22px">Watch this short intuition video before (or after) the slides. Captions: CC button.</p>
+<video controls="" preload="metadata" style="width:880px;max-width:100%" src="video/lecture5_intuition.mp4"><track kind="captions" src="video/lecture5_intuition.vtt" srclang="en" label="English"><track kind="captions" src="video/lecture5_intuition.az.vtt" srclang="az" label="Azərbaycanca"></video>
+<p><a href="../04-counting-sample-points/counting_sample_points_lecture4.html" style="font-size:28px">⬅ Previous lecture: 4 · Tools for Counting Sample Points</a></p>
+<p><span style="font-size:28px">Watch this short intuition video before (or after) the slides. Captions (English / Azərbaycanca): CC button.</span></p>
 </div>
 </section>
 <section id="learning-objectives" class="slide level2">
@@ -242,6 +244,16 @@ Samir Orujov, PhD
 <li><p><strong>Argue</strong> why two mutually exclusive events of positive probability are necessarily <em>dependent</em></p></li>
 </ul>
 </div>
+</section>
+<section id="warm-up-from-last-time" class="slide level2 quiz-question">
+<h2>🔁 Warm-up from last time</h2>
+<p>A fund fills three named roles (Chief Analyst, Deputy, Trainee) from eight candidates. Why is <span class="math inline">\(P^8_3 = 336\)</span> the right count, rather than <span class="math inline">\(\binom{8}{3} = 56\)</span>?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Order matters whenever swapping two chosen objects gives a different outcome. Distinct roles mean permutations, not combinations.">The roles are distinguishable, so swapping two chosen people changes the outcome — an ordered selection</span></li>
+<li><span class="math inline">\(336\)</span> is always the right count for choosing 3 out of 8</li>
+<li><span class="math inline">\(56\)</span> double-counts each committee</li>
+<li>Combinations only apply when <span class="math inline">\(n\)</span> is even</li>
+</ul>
 </section>
 <section id="where-we-are" class="slide level2">
 <h2>🗺️ Where We Are</h2>
@@ -374,17 +386,17 @@ Samir Orujov, PhD
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>bonds <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">688</span>, <span class="dv">68</span>, <span class="dv">232</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb1-2"><a href=""></a>                <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"Investment"</span>, <span class="st">"Speculative"</span>),</span>
-<span id="cb1-3"><a href=""></a>                                <span class="fu">c</span>(<span class="st">"Default"</span>, <span class="st">"No default"</span>)))</span>
-<span id="cb1-4"><a href=""></a></span>
-<span id="cb1-5"><a href=""></a><span class="fu">data.frame</span>(</span>
-<span id="cb1-6"><a href=""></a>  <span class="at">quantity =</span> <span class="fu">c</span>(<span class="st">"P(D)"</span>, <span class="st">"P(D | S)"</span>, <span class="st">"P(D | I)"</span>, <span class="st">"P(S | D)"</span>),</span>
-<span id="cb1-7"><a href=""></a>  <span class="at">value    =</span> <span class="fu">round</span>(<span class="fu">c</span>(<span class="fu">sum</span>(bonds[, <span class="dv">1</span>]) <span class="sc">/</span> <span class="fu">sum</span>(bonds),</span>
-<span id="cb1-8"><a href=""></a>                     bonds[<span class="st">"Speculative"</span>, <span class="st">"Default"</span>] <span class="sc">/</span> <span class="fu">sum</span>(bonds[<span class="st">"Speculative"</span>, ]),</span>
-<span id="cb1-9"><a href=""></a>                     bonds[<span class="st">"Investment"</span>,  <span class="st">"Default"</span>] <span class="sc">/</span> <span class="fu">sum</span>(bonds[<span class="st">"Investment"</span>,  ]),</span>
-<span id="cb1-10"><a href=""></a>                     bonds[<span class="st">"Speculative"</span>, <span class="st">"Default"</span>] <span class="sc">/</span> <span class="fu">sum</span>(bonds[, <span class="st">"Default"</span>])), <span class="dv">4</span>)</span>
-<span id="cb1-11"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-label="1"></a>bonds <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">688</span>, <span class="dv">68</span>, <span class="dv">232</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb1-2"><a href="" aria-label="2"></a>                <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"Investment"</span>, <span class="st">"Speculative"</span>),</span>
+<span id="cb1-3"><a href="" aria-label="3"></a>                                <span class="fu">c</span>(<span class="st">"Default"</span>, <span class="st">"No default"</span>)))</span>
+<span id="cb1-4"><a href="" aria-label="4"></a></span>
+<span id="cb1-5"><a href="" aria-label="5"></a><span class="fu">data.frame</span>(</span>
+<span id="cb1-6"><a href="" aria-label="6"></a>  <span class="at">quantity =</span> <span class="fu">c</span>(<span class="st">"P(D)"</span>, <span class="st">"P(D | S)"</span>, <span class="st">"P(D | I)"</span>, <span class="st">"P(S | D)"</span>),</span>
+<span id="cb1-7"><a href="" aria-label="7"></a>  <span class="at">value    =</span> <span class="fu">round</span>(<span class="fu">c</span>(<span class="fu">sum</span>(bonds[, <span class="dv">1</span>]) <span class="sc">/</span> <span class="fu">sum</span>(bonds),</span>
+<span id="cb1-8"><a href="" aria-label="8"></a>                     bonds[<span class="st">"Speculative"</span>, <span class="st">"Default"</span>] <span class="sc">/</span> <span class="fu">sum</span>(bonds[<span class="st">"Speculative"</span>, ]),</span>
+<span id="cb1-9"><a href="" aria-label="9"></a>                     bonds[<span class="st">"Investment"</span>,  <span class="st">"Default"</span>] <span class="sc">/</span> <span class="fu">sum</span>(bonds[<span class="st">"Investment"</span>,  ]),</span>
+<span id="cb1-10"><a href="" aria-label="10"></a>                     bonds[<span class="st">"Speculative"</span>, <span class="st">"Default"</span>] <span class="sc">/</span> <span class="fu">sum</span>(bonds[, <span class="st">"Default"</span>])), <span class="dv">4</span>)</span>
+<span id="cb1-11"><a href="" aria-label="11"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>  quantity  value
@@ -496,13 +508,13 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb3" data-startfrom="329" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 328;"><span id="cb3-329"><a href=""></a>viewof spec_def <span class="op">=</span> {</span>
-<span id="cb3-330"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">6</span><span class="op">,</span> <span class="dv">140</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">68</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb3-331"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Speculative issues that defaulted:"</span>})<span class="op">;</span></span>
-<span id="cb3-332"><a href=""></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
-<span id="cb3-333"><a href=""></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
-<span id="cb3-334"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
-<span id="cb3-335"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb3" data-startfrom="354" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 353;"><span id="cb3-354"><a href="" aria-label="354"></a>viewof spec_def <span class="op">=</span> {</span>
+<span id="cb3-355"><a href="" aria-label="355"></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">6</span><span class="op">,</span> <span class="dv">140</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">68</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb3-356"><a href="" aria-label="356"></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Speculative issues that defaulted:"</span>})<span class="op">;</span></span>
+<span id="cb3-357"><a href="" aria-label="357"></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
+<span id="cb3-358"><a href="" aria-label="358"></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
+<span id="cb3-359"><a href="" aria-label="359"></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb3-360"><a href="" aria-label="360"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-1" data-nodetype="declaration">
@@ -513,23 +525,23 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb4" data-startfrom="343" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 342;"><span id="cb4-343"><a href=""></a>tot <span class="op">=</span> <span class="dv">1000</span></span>
-<span id="cb4-344"><a href=""></a>nS <span class="op">=</span> <span class="dv">300</span></span>
-<span id="cb4-345"><a href=""></a>nI <span class="op">=</span> <span class="dv">700</span></span>
-<span id="cb4-346"><a href=""></a>invDef <span class="op">=</span> (s) <span class="kw">=&gt;</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">150</span> <span class="op">-</span> s)</span>
-<span id="cb4-347"><a href=""></a>pD <span class="op">=</span> (s) <span class="kw">=&gt;</span> (s <span class="op">+</span> <span class="fu">invDef</span>(s)) <span class="op">/</span> tot</span>
-<span id="cb4-348"><a href=""></a>bars <span class="op">=</span> {</span>
-<span id="cb4-349"><a href=""></a>  <span class="kw">const</span> s <span class="op">=</span> spec_def<span class="op">;</span></span>
-<span id="cb4-350"><a href=""></a>  <span class="cf">return</span> [</span>
-<span id="cb4-351"><a href=""></a>    {<span class="dt">what</span><span class="op">:</span> <span class="st">"P(D | S)"</span><span class="op">,</span> <span class="dt">p</span><span class="op">:</span> s <span class="op">/</span> nS}<span class="op">,</span></span>
-<span id="cb4-352"><a href=""></a>    {<span class="dt">what</span><span class="op">:</span> <span class="st">"P(D | I)"</span><span class="op">,</span> <span class="dt">p</span><span class="op">:</span> <span class="fu">invDef</span>(s) <span class="op">/</span> nI}<span class="op">,</span></span>
-<span id="cb4-353"><a href=""></a>    {<span class="dt">what</span><span class="op">:</span> <span class="st">"P(D)"</span><span class="op">,</span> <span class="dt">p</span><span class="op">:</span> <span class="fu">pD</span>(s)}</span>
-<span id="cb4-354"><a href=""></a>  ]<span class="op">;</span></span>
-<span id="cb4-355"><a href=""></a>}</span>
-<span id="cb4-356"><a href=""></a></span>
-<span id="cb4-357"><a href=""></a><span class="fu">md</span><span class="vs">`With **</span><span class="sc">${</span>spec_def<span class="sc">}</span><span class="vs">** speculative defaults: P(D | S) = **</span><span class="sc">${</span>(spec_def<span class="op">/</span>nS)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">4</span>)<span class="sc">}</span><span class="vs">**,</span></span>
-<span id="cb4-358"><a href=""></a><span class="vs">P(D) = **</span><span class="sc">${</span><span class="fu">pD</span>(spec_def)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">4</span>)<span class="sc">}</span><span class="vs">**. The two agree exactly when the bars level out —</span></span>
-<span id="cb4-359"><a href=""></a><span class="vs">and that is independence.`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb4" data-startfrom="368" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 367;"><span id="cb4-368"><a href="" aria-label="368"></a>tot <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb4-369"><a href="" aria-label="369"></a>nS <span class="op">=</span> <span class="dv">300</span></span>
+<span id="cb4-370"><a href="" aria-label="370"></a>nI <span class="op">=</span> <span class="dv">700</span></span>
+<span id="cb4-371"><a href="" aria-label="371"></a>invDef <span class="op">=</span> (s) <span class="kw">=&gt;</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">150</span> <span class="op">-</span> s)</span>
+<span id="cb4-372"><a href="" aria-label="372"></a>pD <span class="op">=</span> (s) <span class="kw">=&gt;</span> (s <span class="op">+</span> <span class="fu">invDef</span>(s)) <span class="op">/</span> tot</span>
+<span id="cb4-373"><a href="" aria-label="373"></a>bars <span class="op">=</span> {</span>
+<span id="cb4-374"><a href="" aria-label="374"></a>  <span class="kw">const</span> s <span class="op">=</span> spec_def<span class="op">;</span></span>
+<span id="cb4-375"><a href="" aria-label="375"></a>  <span class="cf">return</span> [</span>
+<span id="cb4-376"><a href="" aria-label="376"></a>    {<span class="dt">what</span><span class="op">:</span> <span class="st">"P(D | S)"</span><span class="op">,</span> <span class="dt">p</span><span class="op">:</span> s <span class="op">/</span> nS}<span class="op">,</span></span>
+<span id="cb4-377"><a href="" aria-label="377"></a>    {<span class="dt">what</span><span class="op">:</span> <span class="st">"P(D | I)"</span><span class="op">,</span> <span class="dt">p</span><span class="op">:</span> <span class="fu">invDef</span>(s) <span class="op">/</span> nI}<span class="op">,</span></span>
+<span id="cb4-378"><a href="" aria-label="378"></a>    {<span class="dt">what</span><span class="op">:</span> <span class="st">"P(D)"</span><span class="op">,</span> <span class="dt">p</span><span class="op">:</span> <span class="fu">pD</span>(s)}</span>
+<span id="cb4-379"><a href="" aria-label="379"></a>  ]<span class="op">;</span></span>
+<span id="cb4-380"><a href="" aria-label="380"></a>}</span>
+<span id="cb4-381"><a href="" aria-label="381"></a></span>
+<span id="cb4-382"><a href="" aria-label="382"></a><span class="fu">md</span><span class="vs">`With **</span><span class="sc">${</span>spec_def<span class="sc">}</span><span class="vs">** speculative defaults: P(D | S) = **</span><span class="sc">${</span>(spec_def<span class="op">/</span>nS)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">4</span>)<span class="sc">}</span><span class="vs">**,</span></span>
+<span id="cb4-383"><a href="" aria-label="383"></a><span class="vs">P(D) = **</span><span class="sc">${</span><span class="fu">pD</span>(spec_def)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">4</span>)<span class="sc">}</span><span class="vs">**. The two agree exactly when the bars level out —</span></span>
+<span id="cb4-384"><a href="" aria-label="384"></a><span class="vs">and that is independence.`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -582,20 +594,20 @@ Samir Orujov, PhD
 </div>
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb5" data-startfrom="361" data-source-offset="-463"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 360;"><span id="cb5-361"><a href=""></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
-<span id="cb5-362"><a href=""></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">1150</span><span class="op">,</span></span>
-<span id="cb5-363"><a href=""></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">300</span><span class="op">,</span></span>
-<span id="cb5-364"><a href=""></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">120</span><span class="op">,</span></span>
-<span id="cb5-365"><a href=""></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">55</span><span class="op">,</span></span>
-<span id="cb5-366"><a href=""></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontSize</span><span class="op">:</span> <span class="st">"18px"</span>}<span class="op">,</span></span>
-<span id="cb5-367"><a href=""></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Probability"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="fl">0.5</span>]}<span class="op">,</span></span>
-<span id="cb5-368"><a href=""></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="kw">null</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="st">"P(D | S)"</span><span class="op">,</span> <span class="st">"P(D | I)"</span><span class="op">,</span> <span class="st">"P(D)"</span>]}<span class="op">,</span></span>
-<span id="cb5-369"><a href=""></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
-<span id="cb5-370"><a href=""></a>    Plot<span class="op">.</span><span class="fu">barX</span>(bars<span class="op">,</span> {<span class="dt">y</span><span class="op">:</span> <span class="st">"what"</span><span class="op">,</span> <span class="dt">x</span><span class="op">:</span> <span class="st">"p"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#8b2635"</span>})<span class="op">,</span></span>
-<span id="cb5-371"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([<span class="fu">pD</span>(spec_def)]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"#14130f"</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"4 4"</span>})<span class="op">,</span></span>
-<span id="cb5-372"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([<span class="dv">0</span>])</span>
-<span id="cb5-373"><a href=""></a>  ]</span>
-<span id="cb5-374"><a href=""></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb5" data-startfrom="386" data-source-offset="-463"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 385;"><span id="cb5-386"><a href="" aria-label="386"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb5-387"><a href="" aria-label="387"></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">1150</span><span class="op">,</span></span>
+<span id="cb5-388"><a href="" aria-label="388"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">300</span><span class="op">,</span></span>
+<span id="cb5-389"><a href="" aria-label="389"></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">120</span><span class="op">,</span></span>
+<span id="cb5-390"><a href="" aria-label="390"></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">55</span><span class="op">,</span></span>
+<span id="cb5-391"><a href="" aria-label="391"></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontSize</span><span class="op">:</span> <span class="st">"18px"</span>}<span class="op">,</span></span>
+<span id="cb5-392"><a href="" aria-label="392"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Probability"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="fl">0.5</span>]}<span class="op">,</span></span>
+<span id="cb5-393"><a href="" aria-label="393"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="kw">null</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="st">"P(D | S)"</span><span class="op">,</span> <span class="st">"P(D | I)"</span><span class="op">,</span> <span class="st">"P(D)"</span>]}<span class="op">,</span></span>
+<span id="cb5-394"><a href="" aria-label="394"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb5-395"><a href="" aria-label="395"></a>    Plot<span class="op">.</span><span class="fu">barX</span>(bars<span class="op">,</span> {<span class="dt">y</span><span class="op">:</span> <span class="st">"what"</span><span class="op">,</span> <span class="dt">x</span><span class="op">:</span> <span class="st">"p"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#8b2635"</span>})<span class="op">,</span></span>
+<span id="cb5-396"><a href="" aria-label="396"></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([<span class="fu">pD</span>(spec_def)]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"#14130f"</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"4 4"</span>})<span class="op">,</span></span>
+<span id="cb5-397"><a href="" aria-label="397"></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([<span class="dv">0</span>])</span>
+<span id="cb5-398"><a href="" aria-label="398"></a>  ]</span>
+<span id="cb5-399"><a href="" aria-label="399"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -610,7 +622,7 @@ Samir Orujov, PhD
 <h2>🧠 Think-Pair-Share</h2>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_0e0e59e7" minutes="3" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_122e851c" minutes="3" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
 </div>
 </div>
 <div style="font-size: 30px">
@@ -651,6 +663,81 @@ Samir Orujov, PhD
 <div class="fragment">
 <p>The two differ, so <span class="math inline">\(A_1\)</span> and <span class="math inline">\(A_2\)</span> are dependent. Sampling <strong>without</strong> replacement always produces dependence; sampling <strong>with</strong> replacement never does.</p>
 </div>
+</div>
+</section>
+<section id="case-study-does-yesterday-predict-today" class="slide level2">
+<h2>💰 Case Study: Does Yesterday Predict Today?</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📈 The question</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li>What is <span class="math inline">\(P(\text{down today})\)</span>, unconditionally?</li>
+<li>What is <span class="math inline">\(P(\text{down today} \mid \text{down yesterday})\)</span>?</li>
+<li>Are “down today” and “down yesterday” independent events?</li>
+</ol>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 The data</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Series</strong>: S&amp;P 500 daily close (FRED <code>SP500</code>)</p>
+<p><strong>Period</strong>: Sep 2016 – Sep 2026, about 2,500 trading days</p>
+<p><strong>Events</strong>: <span class="math inline">\(D_t = \{\text{log return}_t &lt; 0\}\)</span></p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="case-study-the-two-conditionals-in-r" class="slide level2">
+<h2>💰 Case Study: The Two Conditionals in R</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>📦 Load the S&amp;P 500 and compare P(down) with P(down | down yesterday)</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="" aria-label="1"></a>sp <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/sp500.csv"</span>, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"close"</span>))</span>
+<span id="cb6-2"><a href="" aria-label="2"></a>sp<span class="sc">$</span>close <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(sp<span class="sc">$</span>close))   <span class="co"># FRED marks holidays "."</span></span>
+<span id="cb6-3"><a href="" aria-label="3"></a>sp <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(sp)</span>
+<span id="cb6-4"><a href="" aria-label="4"></a>r <span class="ot">&lt;-</span> <span class="fu">diff</span>(<span class="fu">log</span>(sp<span class="sc">$</span>close))</span>
+<span id="cb6-5"><a href="" aria-label="5"></a>down <span class="ot">&lt;-</span> r <span class="sc">&lt;</span> <span class="dv">0</span></span>
+<span id="cb6-6"><a href="" aria-label="6"></a></span>
+<span id="cb6-7"><a href="" aria-label="7"></a>today <span class="ot">&lt;-</span> down[<span class="sc">-</span><span class="dv">1</span>]; yesterday <span class="ot">&lt;-</span> down[<span class="sc">-</span><span class="fu">length</span>(down)]</span>
+<span id="cb6-8"><a href="" aria-label="8"></a></span>
+<span id="cb6-9"><a href="" aria-label="9"></a><span class="fu">data.frame</span>(</span>
+<span id="cb6-10"><a href="" aria-label="10"></a>  <span class="at">quantity =</span> <span class="fu">c</span>(<span class="st">"P(down)"</span>, <span class="st">"P(down | down yesterday)"</span>, <span class="st">"P(down | up yesterday)"</span>),</span>
+<span id="cb6-11"><a href="" aria-label="11"></a>  <span class="at">value    =</span> <span class="fu">round</span>(<span class="fu">c</span>(<span class="fu">mean</span>(down), <span class="fu">mean</span>(today[yesterday]), <span class="fu">mean</span>(today[<span class="sc">!</span>yesterday])), <span class="dv">4</span>)</span>
+<span id="cb6-12"><a href="" aria-label="12"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                  quantity  value
+1                  P(down) 0.4524
+2 P(down | down yesterday) 0.4362
+3   P(down | up yesterday) 0.4662</code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p><span class="math inline">\(P(\text{down}) \approx 0.452\)</span>, next to <span class="math inline">\(P(\text{down} \mid \text{down yesterday}) \approx 0.436\)</span>: the two are close but not equal.</p>
+</div>
+</section>
+<section id="case-study-independent-or-nearly-so" class="slide level2">
+<h2>💰 Case Study: Independent, or Nearly So?</h2>
+
+<img data-src="conditional_probability_lecture5_files/figure-revealjs/case-conditional-fig-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1500"><div style="font-size: 28px">
+<p><strong>What the data say:</strong> the three bars sit close together — conditioning on yesterday barely moves the probability of a down day, so daily direction is close to independent draws. The small gap that remains (a slight tilt toward reversal, not momentum) is exactly the kind of dependence Definition 2.10’s exact equality would rule out.</p>
 </div>
 </section>
 <section id="quiz-1-reading-the-definition" class="slide level2 quiz-question">
@@ -1007,86 +1094,48 @@ Samir Orujov, PhD
     <script type="module">
     if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
     window._ojs.paths.runtimeToDoc = "../../..";
-    window._ojs.paths.runtimeToRoot = "../../../../../..";
-    window._ojs.paths.docToRoot = "../../..";
+    window._ojs.paths.runtimeToRoot = "../../..";
+    window._ojs.paths.docToRoot = "";
     window._ojs.selfContained = false;
     window._ojs.runtime.interpretFromScriptTags();
     </script>
     
-
     <script>
-
       // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-
       // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-
       // slide changes (different for each slide format).
-
       (function () {
-
         // dispatch for htmlwidgets
-
         function fireSlideEnter() {
-
           const event = window.document.createEvent("Event");
-
           event.initEvent("slideenter", true, true);
-
           window.document.dispatchEvent(event);
-
         }
-
-    
 
         function fireSlideChanged(previousSlide, currentSlide) {
-
           fireSlideEnter();
 
-    
-
           // dispatch for shiny
-
           if (window.jQuery) {
-
             if (previousSlide) {
-
               window.jQuery(previousSlide).trigger("hidden");
-
             }
-
             if (currentSlide) {
-
               window.jQuery(currentSlide).trigger("shown");
-
             }
-
           }
-
         }
-
-    
 
         // hookup for slidy
-
         if (window.w3c_slidy) {
-
           window.w3c_slidy.add_observer(function (slide_num) {
-
             // slide_num starts at position 1
-
             fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-
           });
-
         }
 
-    
-
       })();
-
     </script>
-
-    
 
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {

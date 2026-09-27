@@ -55,14 +55,18 @@ knitr:
 #| label: setup
 #| include: false
 set.seed(2026)
+library(ggplot2)
 ```
 
 ## 🎬 The Idea in 3 Minutes
 
 ::: {style="text-align:center"}
-<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture5_intuition.mp4"><track kind="captions" src="video/lecture5_intuition.vtt" srclang="en" label="English"></video>
+```{=html}
+<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture5_intuition.mp4"><track kind="captions" src="video/lecture5_intuition.vtt" srclang="en" label="English"><track kind="captions" src="video/lecture5_intuition.az.vtt" srclang="az" label="Azərbaycanca"></video>
+```
+[⬅ Previous lecture: 4 · Tools for Counting Sample Points](../04-counting-sample-points/counting_sample_points_lecture4.html){style="font-size:28px"}
 
-[Watch this short intuition video before (or after) the slides. Captions: CC button.]{style="font-size:22px"}
+[Watch this short intuition video before (or after) the slides. Captions (English / Azərbaycanca): CC button.]{style="font-size:28px"}
 :::
 
 ---
@@ -82,6 +86,17 @@ By the end of this lecture, you will be able to:
 
 - **Argue** why two mutually exclusive events of positive probability are necessarily *dependent*
 :::
+
+---
+
+## 🔁 Warm-up from last time {.quiz-question}
+
+A fund fills three named roles (Chief Analyst, Deputy, Trainee) from eight candidates. Why is $P^8_3 = 336$ the right count, rather than $\binom{8}{3} = 56$?
+
+- [The roles are distinguishable, so swapping two chosen people changes the outcome — an ordered selection]{.correct data-explanation="✅ Order matters whenever swapping two chosen objects gives a different outcome. Distinct roles mean permutations, not combinations."}
+- $336$ is always the right count for choosing 3 out of 8
+- $56$ double-counts each committee
+- Combinations only apply when $n$ is even
 
 ---
 
@@ -452,6 +467,84 @@ $$P(A_2 \mid A_1) = \frac{3}{11} = 0.2727, \qquad P(A_2 \mid \bar{A_1}) = \frac{
 ::: {.fragment}
 The two differ, so $A_1$ and $A_2$ are dependent. Sampling **without** replacement always produces dependence; sampling **with** replacement never does.
 :::
+:::
+
+---
+
+## 💰 Case Study: Does Yesterday Predict Today?
+
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
+
+1. What is $P(\text{down today})$, unconditionally?
+2. What is $P(\text{down today} \mid \text{down yesterday})$?
+3. Are "down today" and "down yesterday" independent events?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: S&P 500 daily close (FRED `SP500`)
+
+**Period**: Sep 2016 – Sep 2026, about 2,500 trading days
+
+**Events**: $D_t = \{\text{log return}_t < 0\}$
+:::
+:::
+::::
+
+---
+
+## 💰 Case Study: The Two Conditionals in R
+
+```{r}
+#| label: case-conditional
+#| code-summary: "📦 Load the S&P 500 and compare P(down) with P(down | down yesterday)"
+sp <- read.csv("data/sp500.csv", col.names = c("date", "close"))
+sp$close <- suppressWarnings(as.numeric(sp$close))   # FRED marks holidays "."
+sp <- na.omit(sp)
+r <- diff(log(sp$close))
+down <- r < 0
+
+today <- down[-1]; yesterday <- down[-length(down)]
+
+data.frame(
+  quantity = c("P(down)", "P(down | down yesterday)", "P(down | up yesterday)"),
+  value    = round(c(mean(down), mean(today[yesterday]), mean(today[!yesterday])), 4)
+)
+```
+
+::: {style="font-size: 28px"}
+$P(\text{down}) \approx 0.452$, next to $P(\text{down} \mid \text{down yesterday}) \approx 0.436$: the two are close but not equal.
+:::
+
+---
+
+## 💰 Case Study: Independent, or Nearly So?
+
+```{r}
+#| label: case-conditional-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.9
+cmp <- data.frame(
+  cond = factor(c("P(down)", "P(down | up yesterday)", "P(down | down yesterday)"),
+                levels = c("P(down)", "P(down | up yesterday)", "P(down | down yesterday)")),
+  p = c(mean(down), mean(today[!yesterday]), mean(today[yesterday])))
+ggplot(cmp, aes(cond, p)) +
+  geom_col(fill = "#8b2635", width = 0.6) +
+  geom_hline(aes(yintercept = mean(down), color = "P(down), unconditional"), linetype = "dashed") +
+  scale_color_manual(values = c("P(down), unconditional" = "#14130f"), name = NULL) +
+  labs(x = NULL, y = "Probability") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+**What the data say:** the three bars sit close together — conditioning on yesterday barely moves the probability of a down day, so daily direction is close to independent draws. The small gap that remains (a slight tilt toward reversal, not momentum) is exactly the kind of dependence Definition 2.10's exact equality would rule out.
 :::
 
 ---
