@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Samir Orujov, PhD">
-  <meta name="dcterms.date" content="2026-09-24">
+  <meta name="dcterms.date" content="2026-09-27">
   <title>Mathematical Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -220,13 +220,14 @@ Samir Orujov, PhD
     </div>
 </div>
 
-  <p class="date">2026-09-24</p>
+  <p class="date">2026-09-27</p>
 </section>
-<section id="intuition-video" class="slide level2">
+<section id="the-idea-in-3-minutes" class="slide level2">
 <h2>🎬 The Idea in 3 Minutes</h2>
 <div style="text-align:center">
-<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture12_intuition.mp4"><track kind="captions" src="video/lecture12_intuition.vtt" srclang="en" label="English"></video>
-<p style="font-size:22px">Watch this short intuition video before (or after) the slides. Captions: CC button.</p>
+<video controls="" preload="metadata" style="width:880px;max-width:100%" src="video/lecture12_intuition.mp4"><track kind="captions" src="video/lecture12_intuition.vtt" srclang="en" label="English"><track kind="captions" src="video/lecture12_intuition.az.vtt" srclang="az" label="Azərbaycanca"></video>
+<p><a href="../11-binomial-distribution/binomial_distribution_lecture11.html" style="font-size:28px">⬅ Previous lecture: 11 · The Binomial Probability Distribution</a></p>
+<p><span style="font-size:28px">Watch this short intuition video before (or after) the slides. Captions (English / Azərbaycanca): CC button.</span></p>
 </div>
 </section>
 <section id="learning-objectives" class="slide level2">
@@ -241,6 +242,16 @@ Samir Orujov, PhD
 <li><p><strong>Use</strong> <span class="math inline">\(E(Y) = r/p\)</span> and <span class="math inline">\(V(Y) = rq/p^2\)</span> to plan a cost or a time budget</p></li>
 </ul>
 </div>
+</section>
+<section id="warm-up-from-last-time" class="slide level2 quiz-question">
+<h2>🔁 Warm-up from last time</h2>
+<p>A binomial experiment has <span class="math inline">\(n = 25\)</span> trials, each with <span class="math inline">\(p = 0.4\)</span>. What is <span class="math inline">\(E(Y)\)</span>?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Theorem 3.7: E(Y) = np = 25 × 0.4 = 10. V(Y) = npq = 6 is a different quantity — do not confuse the mean with the variance."><span class="math inline">\(10\)</span></span></li>
+<li><span class="math inline">\(6\)</span></li>
+<li><span class="math inline">\(15\)</span></li>
+<li><span class="math inline">\(0.4\)</span></li>
+</ul>
 </section>
 <section id="where-we-are" class="slide level2">
 <h2>🗺️ Where We Are</h2>
@@ -405,7 +416,7 @@ Samir Orujov, PhD
 <h2>🧠 Think-Pair-Share</h2>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_b2d78db7" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_f8be8f8b" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
 </div>
 </div>
 <div style="font-size: 30px">
@@ -433,6 +444,82 @@ Samir Orujov, PhD
 <div class="fragment">
 <p><strong>The habit:</strong> first ask what is fixed. Fixed trials, count successes: binomial. Fixed successes, count trials: geometric or negative binomial.</p>
 </div>
+</div>
+</section>
+<section id="case-study-waiting-for-the-next-big-drop" class="slide level2">
+<h2>💰 Case Study: Waiting for the Next Big Drop</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📈 The question</strong></p>
+</div>
+<div class="callout-content">
+<p>Call a day a <strong>big drop</strong> if the S&amp;P 500 falls more than 2%.</p>
+<ol type="1">
+<li>How many trading days pass between big drops?</li>
+<li>Does that gap follow a geometric distribution?</li>
+<li>Where would the geometric model fail?</li>
+</ol>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 The data</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Series</strong>: S&amp;P 500 daily close (FRED <code>SP500</code>)</p>
+<p><strong>Period</strong>: Sep 2016 – Sep 2026, 2,513 trading days, 87 big-drop days</p>
+<p><span class="math inline">\(Y\)</span> = trading days from one big drop to the next</p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="case-study-the-gaps-between-big-drops" class="slide level2">
+<h2>💰 Case Study: The Gaps Between Big Drops</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>📦 Find big drops and the gaps between them</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="" aria-label="1"></a>sp <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/sp500.csv"</span>, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"close"</span>))</span>
+<span id="cb9-2"><a href="" aria-label="2"></a>sp<span class="sc">$</span>close <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(sp<span class="sc">$</span>close))   <span class="co"># FRED marks holidays "."</span></span>
+<span id="cb9-3"><a href="" aria-label="3"></a>sp <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(sp)</span>
+<span id="cb9-4"><a href="" aria-label="4"></a></span>
+<span id="cb9-5"><a href="" aria-label="5"></a>r        <span class="ot">&lt;-</span> <span class="fu">diff</span>(<span class="fu">log</span>(sp<span class="sc">$</span>close))</span>
+<span id="cb9-6"><a href="" aria-label="6"></a>big_drop <span class="ot">&lt;-</span> r <span class="sc">&lt;</span> <span class="sc">-</span><span class="fl">0.02</span></span>
+<span id="cb9-7"><a href="" aria-label="7"></a>gaps     <span class="ot">&lt;-</span> <span class="fu">diff</span>(<span class="fu">which</span>(big_drop))       <span class="co"># trading days between big drops</span></span>
+<span id="cb9-8"><a href="" aria-label="8"></a>p_hat    <span class="ot">&lt;-</span> <span class="fu">mean</span>(big_drop)              <span class="co"># daily rate of a big drop</span></span>
+<span id="cb9-9"><a href="" aria-label="9"></a></span>
+<span id="cb9-10"><a href="" aria-label="10"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">n_drops =</span> <span class="fu">sum</span>(big_drop), <span class="at">p_hat =</span> p_hat,</span>
+<span id="cb9-11"><a href="" aria-label="11"></a>        <span class="at">mean_gap =</span> <span class="fu">mean</span>(gaps), <span class="at">geometric_1_over_p =</span> <span class="dv">1</span> <span class="sc">/</span> p_hat,</span>
+<span id="cb9-12"><a href="" aria-label="12"></a>        <span class="at">var_gap =</span> <span class="fu">var</span>(gaps), <span class="at">geometric_var =</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat) <span class="sc">/</span> p_hat<span class="sc">^</span><span class="dv">2</span>), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>           n_drops              p_hat           mean_gap geometric_1_over_p 
+             87.00               0.03              24.36              28.89 
+           var_gap      geometric_var 
+           2231.46             805.46 </code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>The mean gap is close to <span class="math inline">\(1/\hat{p}\)</span>, Theorem 3.8’s prediction — but the variance of the gaps is nearly three times the geometric formula’s.</p>
+</div>
+</section>
+<section id="case-study-data-vs.-geometrichatp" class="slide level2">
+<h2>💰 Case Study: Data vs.&nbsp;Geometric(<span class="math inline">\(\hat{p}\)</span>)</h2>
+
+<img data-src="geometric_negative_binomial_lecture12_files/figure-revealjs/case-gaps-fig-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1500"><div style="font-size: 28px">
+<p><strong>What the data say:</strong> short gaps (1–5 days) are far more common than Geometric(<span class="math inline">\(\hat{p}\)</span>) predicts, and very long gaps (81+) are too. Big drops <strong>cluster</strong> in volatile spells and then go quiet for months — the memoryless property fails, because today’s drop raises tomorrow’s chance of another.</p>
 </div>
 </section>
 <section id="quiz-1-expected-wait" class="slide level2 quiz-question">

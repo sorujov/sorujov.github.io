@@ -61,9 +61,12 @@ library(ggplot2)
 ## 🎬 The Idea in 3 Minutes
 
 ::: {style="text-align:center"}
-<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture12_intuition.mp4"><track kind="captions" src="video/lecture12_intuition.vtt" srclang="en" label="English"></video>
+```{=html}
+<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture12_intuition.mp4"><track kind="captions" src="video/lecture12_intuition.vtt" srclang="en" label="English"><track kind="captions" src="video/lecture12_intuition.az.vtt" srclang="az" label="Azərbaycanca"></video>
+```
+[⬅ Previous lecture: 11 · The Binomial Probability Distribution](../11-binomial-distribution/binomial_distribution_lecture11.html){style="font-size:28px"}
 
-[Watch this short intuition video before (or after) the slides. Captions: CC button.]{style="font-size:22px"}
+[Watch this short intuition video before (or after) the slides. Captions (English / Azərbaycanca): CC button.]{style="font-size:28px"}
 :::
 
 ---
@@ -83,6 +86,17 @@ By the end of this lecture, you will be able to:
 
 - **Use** $E(Y) = r/p$ and $V(Y) = rq/p^2$ to plan a cost or a time budget
 :::
+
+---
+
+## 🔁 Warm-up from last time {.quiz-question}
+
+A binomial experiment has $n = 25$ trials, each with $p = 0.4$. What is $E(Y)$?
+
+- [$10$]{.correct data-explanation="✅ Theorem 3.7: E(Y) = np = 25 × 0.4 = 10. V(Y) = npq = 6 is a different quantity — do not confuse the mean with the variance."}
+- $6$
+- $15$
+- $0.4$
 
 ---
 
@@ -314,6 +328,89 @@ $$P(Y = 10) = \binom{9}{2}(0.1)^3(0.9)^7 = 36 \times 0.001 \times 0.4783 = 0.017
 ::: {.fragment}
 **The habit:** first ask what is fixed. Fixed trials, count successes: binomial. Fixed successes, count trials: geometric or negative binomial.
 :::
+:::
+
+---
+
+## 💰 Case Study: Waiting for the Next Big Drop
+
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
+
+Call a day a **big drop** if the S&P 500 falls more than 2%.
+
+1. How many trading days pass between big drops?
+2. Does that gap follow a geometric distribution?
+3. Where would the geometric model fail?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: S&P 500 daily close (FRED `SP500`)
+
+**Period**: Sep 2016 – Sep 2026, 2,513 trading days, 87 big-drop days
+
+$Y$ = trading days from one big drop to the next
+:::
+:::
+::::
+
+---
+
+## 💰 Case Study: The Gaps Between Big Drops
+
+```{r}
+#| label: case-gaps
+#| code-summary: "📦 Find big drops and the gaps between them"
+sp <- read.csv("data/sp500.csv", col.names = c("date", "close"))
+sp$close <- suppressWarnings(as.numeric(sp$close))   # FRED marks holidays "."
+sp <- na.omit(sp)
+
+r        <- diff(log(sp$close))
+big_drop <- r < -0.02
+gaps     <- diff(which(big_drop))       # trading days between big drops
+p_hat    <- mean(big_drop)              # daily rate of a big drop
+
+round(c(n_drops = sum(big_drop), p_hat = p_hat,
+        mean_gap = mean(gaps), geometric_1_over_p = 1 / p_hat,
+        var_gap = var(gaps), geometric_var = (1 - p_hat) / p_hat^2), 2)
+```
+
+::: {style="font-size: 28px"}
+The mean gap is close to $1/\hat{p}$, Theorem 3.8's prediction — but the variance of the gaps is nearly three times the geometric formula's.
+:::
+
+---
+
+## 💰 Case Study: Data vs. Geometric($\hat{p}$)
+
+```{r}
+#| label: case-gaps-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.9
+brks <- c(0, 5, 10, 20, 40, 80, 1000)
+labs <- c("1-5", "6-10", "11-20", "21-40", "41-80", "81+")
+obs  <- as.numeric(table(cut(gaps, brks, labels = labs))) / length(gaps)
+geom_bin <- function(lo, hi) sum(dgeom((lo - 1):(hi - 1), p_hat))
+mod  <- c(geom_bin(1, 5), geom_bin(6, 10), geom_bin(11, 20),
+          geom_bin(21, 40), geom_bin(41, 80), 1 - pgeom(79, p_hat))
+cmp <- rbind(data.frame(bin = factor(labs, labs), prop = obs, src = "Observed gaps"),
+             data.frame(bin = factor(labs, labs), prop = mod, src = "Geometric(p-hat)"))
+ggplot(cmp, aes(bin, prop, fill = src)) +
+  geom_col(position = position_dodge(0.8), width = 0.75) +
+  scale_fill_manual(values = c("#8b2635", "#8ba3c7"), name = NULL) +
+  labs(x = "Trading days until the next big drop", y = "Proportion of gaps") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+**What the data say:** short gaps (1–5 days) are far more common than Geometric($\hat{p}$) predicts, and very long gaps (81+) are too. Big drops **cluster** in volatile spells and then go quiet for months — the memoryless property fails, because today's drop raises tomorrow's chance of another.
 :::
 
 ---
