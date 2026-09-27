@@ -1,0 +1,1 @@
+`dexuseu.csv`: U.S. Dollars to Euro spot exchange rate, daily (FRED series DEXUSEU, Board of Governors of the Federal Reserve System), 26 Sep 2016 – 18 Sep 2026, downloaded 27 Sep 2026 from https://fred.stlouisfed.org/series/DEXUSEU.

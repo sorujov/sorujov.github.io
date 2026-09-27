@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Samir Orujov, PhD">
-  <meta name="dcterms.date" content="2026-09-24">
+  <meta name="dcterms.date" content="2026-09-27">
   <title>Mathematical Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -220,7 +220,7 @@ Samir Orujov, PhD
     </div>
 </div>
 
-  <p class="date">2026-09-24</p>
+  <p class="date">2026-09-27</p>
 </section>
 <section id="learning-objectives" class="slide level2">
 <h2>🎯 Learning Objectives</h2>
@@ -234,6 +234,16 @@ Samir Orujov, PhD
 <li><p><strong>Assemble</strong> Chapter 4 into one toolkit</p></li>
 </ul>
 </div>
+</section>
+<section id="warm-up-from-last-time" class="slide level2 quiz-question">
+<h2>🔁 Warm-up from last time</h2>
+<p><span class="math inline">\(Y \sim \text{Beta}(2, 3)\)</span>. By Theorem 4.11, what is <span class="math inline">\(E(Y)\)</span>?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Theorem 4.11: E(Y) = α/(α+β) = 2/(2+3) = 0.4."><span class="math inline">\(0.4\)</span></span></li>
+<li><span class="math inline">\(0.5\)</span></li>
+<li><span class="math inline">\(2/3\)</span></li>
+<li><span class="math inline">\(0.6\)</span></li>
+</ul>
 </section>
 <section id="where-we-are" class="slide level2">
 <h2>🗺️ Where We Are</h2>
@@ -386,7 +396,7 @@ Samir Orujov, PhD
 <h2>🧠 Think-Pair-Share</h2>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_6fa75cff" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_d5637764" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
 </div>
 </div>
 <div style="font-size: 30px">
@@ -530,6 +540,80 @@ Samir Orujov, PhD
 </tbody>
 </table>
 <p><strong>The method:</strong> pick the model by support and theory; any <span class="math inline">\(E[g(Y)]\)</span> by Theorem 4.4; moments from the MGF; Tchebysheff when only <span class="math inline">\(\mu\)</span>, <span class="math inline">\(\sigma\)</span> are trusted.</p>
+</div>
+</section>
+<section id="case-study-how-loose-is-the-bound-for-eurusd" class="slide level2">
+<h2>💰 Case Study: How Loose Is the Bound for EUR/USD?</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📈 The question</strong></p>
+</div>
+<div class="callout-content">
+<p>Let <span class="math inline">\(Y\)</span> be the daily log return on EUR/USD.</p>
+<ol type="1">
+<li>What does Tchebysheff (Theorem 4.13) give for <span class="math inline">\(P(|Y-\mu| \ge k\sigma)\)</span> at <span class="math inline">\(k=2,3,4\)</span>?</li>
+<li>How do the real exceedance rates compare?</li>
+<li>Is the bound closer to the data here than for equities?</li>
+</ol>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 The data</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Series</strong>: USD/EUR spot rate (FRED <code>DEXUSEU</code>)</p>
+<p><strong>Period</strong>: Sep 2016 – Sep 2026, about 2,500 days</p>
+<p><strong>Variable</strong>: <span class="math inline">\(Y\)</span> = daily log return</p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="case-study-the-bound-vs.-the-rate-in-r" class="slide level2">
+<h2>💰 Case Study: The Bound vs.&nbsp;the Rate, in R</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>📦 Load the data and compare the bound to the exceedance rate</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="" aria-label="1"></a>fx <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/dexuseu.csv"</span>, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"rate"</span>))</span>
+<span id="cb7-2"><a href="" aria-label="2"></a>fx<span class="sc">$</span>rate <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(fx<span class="sc">$</span>rate))   <span class="co"># FRED marks holidays "."</span></span>
+<span id="cb7-3"><a href="" aria-label="3"></a>fx <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(fx)</span>
+<span id="cb7-4"><a href="" aria-label="4"></a></span>
+<span id="cb7-5"><a href="" aria-label="5"></a>y  <span class="ot">&lt;-</span> <span class="fu">diff</span>(<span class="fu">log</span>(fx<span class="sc">$</span>rate))</span>
+<span id="cb7-6"><a href="" aria-label="6"></a>mu <span class="ot">&lt;-</span> <span class="fu">mean</span>(y); sig <span class="ot">&lt;-</span> <span class="fu">sd</span>(y)</span>
+<span id="cb7-7"><a href="" aria-label="7"></a>k  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>)</span>
+<span id="cb7-8"><a href="" aria-label="8"></a></span>
+<span id="cb7-9"><a href="" aria-label="9"></a><span class="fu">data.frame</span>(<span class="at">k =</span> k, <span class="at">tchebysheff_bound =</span> <span class="fu">round</span>(<span class="dv">1</span> <span class="sc">/</span> k<span class="sc">^</span><span class="dv">2</span>, <span class="dv">4</span>),</span>
+<span id="cb7-10"><a href="" aria-label="10"></a>           <span class="at">data_exceedance =</span> <span class="fu">round</span>(<span class="fu">sapply</span>(k, <span class="cf">function</span>(kk) <span class="fu">mean</span>(<span class="fu">abs</span>(y <span class="sc">-</span> mu) <span class="sc">&gt;=</span> kk <span class="sc">*</span> sig)), <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  k tchebysheff_bound data_exceedance
+1 2            0.2500          0.0542
+2 3            0.1111          0.0112
+3 4            0.0625          0.0012</code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>At every <span class="math inline">\(k\)</span> the true rate sits far under the bound: Tchebysheff is safe but not sharp for a currency pair either.</p>
+</div>
+</section>
+<section id="case-study-the-gap-between-bound-and-data" class="slide level2">
+<h2>💰 Case Study: The Gap Between Bound and Data</h2>
+
+<img data-src="continuous_mgf_tchebysheff_lecture22_files/figure-revealjs/case-cheb-fig-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1500"><div style="font-size: 28px">
+<p><strong>What the data say:</strong> the bound holds everywhere, as it must, but by a wide and widening margin. The gap between the lines is not free information: Tchebysheff assumes nothing about the shape, so a shape-specific model (the normal, or the fatter-tailed one from lecture 19) is needed for a bound worth pricing off.</p>
 </div>
 </section>
 <section id="quiz-1-reading-an-mgf" class="slide level2 quiz-question">

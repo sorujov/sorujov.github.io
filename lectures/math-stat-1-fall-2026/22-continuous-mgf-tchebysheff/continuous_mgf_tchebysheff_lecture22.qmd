@@ -77,6 +77,17 @@ By the end of this lecture, you will be able to:
 
 ---
 
+## 🔁 Warm-up from last time {.quiz-question}
+
+$Y \sim \text{Beta}(2, 3)$. By Theorem 4.11, what is $E(Y)$?
+
+- [$0.4$]{.correct data-explanation="✅ Theorem 4.11: E(Y) = α/(α+β) = 2/(2+3) = 0.4."}
+- $0.5$
+- $2/3$
+- $0.6$
+
+---
+
 ## 🗺️ Where We Are
 
 ::: {style="font-size: 30px"}
@@ -416,6 +427,92 @@ A **franchise** deductible pays the whole loss once it passes 500: $0.1 \times 2
 | Beta$(\alpha, \beta)$ | $[0, 1]$ | $\alpha/(\alpha+\beta)$ | $\dfrac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}$ | no simple form |
 
 **The method:** pick the model by support and theory; any $E[g(Y)]$ by Theorem 4.4; moments from the MGF; Tchebysheff when only $\mu$, $\sigma$ are trusted.
+:::
+
+---
+
+## 💰 Case Study: How Loose Is the Bound for EUR/USD?
+
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
+
+Let $Y$ be the daily log return on EUR/USD.
+
+1. What does Tchebysheff (Theorem 4.13) give for $P(|Y-\mu| \ge k\sigma)$ at $k=2,3,4$?
+2. How do the real exceedance rates compare?
+3. Is the bound closer to the data here than for equities?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: USD/EUR spot rate (FRED `DEXUSEU`)
+
+**Period**: Sep 2016 – Sep 2026, about 2,500 days
+
+**Variable**: $Y$ = daily log return
+:::
+:::
+::::
+
+---
+
+## 💰 Case Study: The Bound vs. the Rate, in R
+
+```{r}
+#| label: case-cheb
+#| code-summary: "📦 Load the data and compare the bound to the exceedance rate"
+fx <- read.csv("data/dexuseu.csv", col.names = c("date", "rate"))
+fx$rate <- suppressWarnings(as.numeric(fx$rate))   # FRED marks holidays "."
+fx <- na.omit(fx)
+
+y  <- diff(log(fx$rate))
+mu <- mean(y); sig <- sd(y)
+k  <- c(2, 3, 4)
+
+data.frame(k = k, tchebysheff_bound = round(1 / k^2, 4),
+           data_exceedance = round(sapply(k, function(kk) mean(abs(y - mu) >= kk * sig)), 4))
+```
+
+::: {style="font-size: 28px"}
+At every $k$ the true rate sits far under the bound: Tchebysheff is safe but not sharp for a currency pair either.
+:::
+
+---
+
+## 💰 Case Study: The Gap Between Bound and Data
+
+```{r}
+#| label: case-cheb-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.9
+fx <- read.csv("data/dexuseu.csv", col.names = c("date", "rate"))
+fx$rate <- suppressWarnings(as.numeric(fx$rate))
+fx <- na.omit(fx)
+y <- diff(log(fx$rate))
+mu <- mean(y); sig <- sd(y)
+kk <- seq(1, 5, by = 0.05)
+tails <- rbind(
+  data.frame(k = kk, p = sapply(kk, function(k) mean(abs(y - mu) >= k * sig)),
+             src = "EUR/USD data"),
+  data.frame(k = kk, p = 1 / kk^2, src = "Tchebysheff bound"))
+ggplot(tails, aes(k, p, colour = src)) +
+  geom_line(linewidth = 1.2) +
+  scale_y_log10() +
+  scale_colour_manual(values = c("EUR/USD data" = "#8ba3c7",
+                                 "Tchebysheff bound" = "#8b2635"), name = NULL) +
+  labs(x = "k (standard deviations from the mean)",
+       y = expression(P(abs(Y - mu) >= k * sigma))) +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+**What the data say:** the bound holds everywhere, as it must, but by a wide and widening margin. The gap between the lines is not free information: Tchebysheff assumes nothing about the shape, so a shape-specific model (the normal, or the fatter-tailed one from lecture 19) is needed for a bound worth pricing off.
 :::
 
 ---
