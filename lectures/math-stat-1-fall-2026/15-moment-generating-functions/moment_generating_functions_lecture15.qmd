@@ -64,9 +64,12 @@ theme_set(theme_minimal(base_size = 18))
 ## 🎬 The Idea in 2 Minutes
 
 ::: {style="text-align:center"}
-<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture15_intuition.mp4"><track kind="captions" src="video/lecture15_intuition.vtt" srclang="en" label="English"></video>
+```{=html}
+<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture15_intuition.mp4"><track kind="captions" src="video/lecture15_intuition.vtt" srclang="en" label="English"><track kind="captions" src="video/lecture15_intuition.az.vtt" srclang="az" label="Azərbaycanca"></video>
+```
+[⬅ Previous lecture: 13 · The Hypergeometric and Poisson Distributions](../13-hypergeometric-poisson/hypergeometric_poisson_lecture13.html){style="font-size:28px"}
 
-[Watch this short intuition video before (or after) the slides. Captions: CC button.]{style="font-size:22px"}
+[Watch this short intuition video before (or after) the slides. Captions (English / Azərbaycanca): CC button.]{style="font-size:28px"}
 :::
 
 ---
@@ -86,6 +89,17 @@ By the end of this lecture, you will be able to:
 
 - **Identify** a distribution from its MGF, using uniqueness
 :::
+
+---
+
+## 🔁 Warm-up from last time {.quiz-question}
+
+A Poisson process runs at rate $\lambda = 4$ events per hour. What is $V(\text{count in one hour})$?
+
+- [$4$]{.correct data-explanation="✅ Theorem 3.11: for a Poisson random variable, E(Y) = V(Y) = λ. Both the mean and the variance equal the single parameter λ = 4."}
+- $2$
+- $16$
+- $\sqrt{4} = 2$
 
 ---
 
@@ -418,6 +432,84 @@ $$m(t) = 0.5 + 0.3e^{t} + 0.2e^{2t}$$
 ::: {.fragment}
 3. Directly: $0(0.5) + 1(0.3) + 2(0.2) = 0.7$ and $0 + 0.3 + 4(0.2) = 1.1$. Same numbers — the MGF is just a disciplined way to do those sums.
 :::
+:::
+
+---
+
+## 💰 Case Study: Do Returns Have Normal Moments?
+
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
+
+Standardise daily returns, $Z = (Y - \mu)/\sigma$.
+
+1. What are the sample skewness $E(Z^3)$ and kurtosis $E(Z^4)$?
+2. A normal has skewness 0 and kurtosis 3 (Definition 3.13's moments). How far off is the data?
+3. What does that say about the chance of an extreme day?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: S&P 500 daily close (FRED `SP500`)
+
+**Period**: Sep 2016 – Sep 2026, 2,513 daily log returns
+
+$Z$ = the standardised return, $(Y - \bar{Y})/s$
+:::
+:::
+::::
+
+---
+
+## 💰 Case Study: The Third and Fourth Moments
+
+```{r}
+#| label: case-moments
+#| code-summary: "📦 Standardise returns and take moments"
+sp <- read.csv("data/sp500.csv", col.names = c("date", "close"))
+sp$close <- suppressWarnings(as.numeric(sp$close))   # FRED marks holidays "."
+sp <- na.omit(sp)
+
+r <- diff(log(sp$close))
+z <- (r - mean(r)) / sd(r)                           # standardised return
+
+round(c(skewness = mean(z^3), skew_normal = 0,
+        kurtosis = mean(z^4), kurtosis_normal = 3,
+        P_abs_Z_gt_3 = mean(abs(z) > 3), P_normal_gt_3 = 2 * (1 - pnorm(3))), 4)
+```
+
+::: {style="font-size: 28px"}
+The third moment is negative (a left tail) and the fourth moment is nearly **20**, not 3 — and a day beyond three standard deviations is over five times as likely as the normal predicts.
+:::
+
+---
+
+## 💰 Case Study: The Tails, Compared
+
+```{r}
+#| label: case-moments-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.9
+df <- data.frame(z = z)
+xs <- seq(-6, 6, length.out = 400)
+ggplot(df, aes(z)) +
+  geom_histogram(aes(y = after_stat(density)), bins = 60,
+                 fill = "#8ba3c7", colour = "white") +
+  geom_line(data = data.frame(z = xs, d = dnorm(xs)), aes(z, d),
+            colour = "#8b2635", linewidth = 1) +
+  coord_cartesian(ylim = c(0, 0.6)) +
+  labs(x = "Standardised daily return, Z", y = "Density") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+**What the data say:** the middle of the histogram sits above the normal curve (returns cluster near zero more than normal predicts) but so do the tails, barely visible here past $|Z| = 4$. The normal MGF cannot produce this shape — it under-states both quiet days and crashes.
 :::
 
 ---

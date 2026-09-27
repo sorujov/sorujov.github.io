@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Samir Orujov, PhD">
-  <meta name="dcterms.date" content="2026-09-24">
+  <meta name="dcterms.date" content="2026-09-27">
   <title>Mathematical Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -220,13 +220,14 @@ Samir Orujov, PhD
     </div>
 </div>
 
-  <p class="date">2026-09-24</p>
+  <p class="date">2026-09-27</p>
 </section>
-<section id="intuition-video" class="slide level2">
+<section id="the-idea-in-2-minutes" class="slide level2">
 <h2>🎬 The Idea in 2 Minutes</h2>
 <div style="text-align:center">
-<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture15_intuition.mp4"><track kind="captions" src="video/lecture15_intuition.vtt" srclang="en" label="English"></video>
-<p style="font-size:22px">Watch this short intuition video before (or after) the slides. Captions: CC button.</p>
+<video controls="" preload="metadata" style="width:880px;max-width:100%" src="video/lecture15_intuition.mp4"><track kind="captions" src="video/lecture15_intuition.vtt" srclang="en" label="English"><track kind="captions" src="video/lecture15_intuition.az.vtt" srclang="az" label="Azərbaycanca"></video>
+<p><a href="../13-hypergeometric-poisson/hypergeometric_poisson_lecture13.html" style="font-size:28px">⬅ Previous lecture: 13 · The Hypergeometric and Poisson Distributions</a></p>
+<p><span style="font-size:28px">Watch this short intuition video before (or after) the slides. Captions (English / Azərbaycanca): CC button.</span></p>
 </div>
 </section>
 <section id="learning-objectives" class="slide level2">
@@ -241,6 +242,16 @@ Samir Orujov, PhD
 <li><p><strong>Identify</strong> a distribution from its MGF, using uniqueness</p></li>
 </ul>
 </div>
+</section>
+<section id="warm-up-from-last-time" class="slide level2 quiz-question">
+<h2>🔁 Warm-up from last time</h2>
+<p>A Poisson process runs at rate <span class="math inline">\(\lambda = 4\)</span> events per hour. What is <span class="math inline">\(V(\text{count in one hour})\)</span>?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Theorem 3.11: for a Poisson random variable, E(Y) = V(Y) = λ. Both the mean and the variance equal the single parameter λ = 4."><span class="math inline">\(4\)</span></span></li>
+<li><span class="math inline">\(2\)</span></li>
+<li><span class="math inline">\(16\)</span></li>
+<li><span class="math inline">\(\sqrt{4} = 2\)</span></li>
+</ul>
 </section>
 <section id="where-we-are" class="slide level2">
 <h2>🗺️ Where We Are</h2>
@@ -562,7 +573,7 @@ pnl     8.0 21.6</code></pre>
 <h2>🧠 Think-Pair-Share</h2>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_d94c6d2a" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_c3f0df79" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
 </div>
 </div>
 <div style="font-size: 30px">
@@ -587,6 +598,80 @@ pnl     8.0 21.6</code></pre>
 <li>Directly: <span class="math inline">\(0(0.5) + 1(0.3) + 2(0.2) = 0.7\)</span> and <span class="math inline">\(0 + 0.3 + 4(0.2) = 1.1\)</span>. Same numbers — the MGF is just a disciplined way to do those sums.</li>
 </ol>
 </div>
+</div>
+</section>
+<section id="case-study-do-returns-have-normal-moments" class="slide level2">
+<h2>💰 Case Study: Do Returns Have Normal Moments?</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📈 The question</strong></p>
+</div>
+<div class="callout-content">
+<p>Standardise daily returns, <span class="math inline">\(Z = (Y - \mu)/\sigma\)</span>.</p>
+<ol type="1">
+<li>What are the sample skewness <span class="math inline">\(E(Z^3)\)</span> and kurtosis <span class="math inline">\(E(Z^4)\)</span>?</li>
+<li>A normal has skewness 0 and kurtosis 3 (Definition 3.13’s moments). How far off is the data?</li>
+<li>What does that say about the chance of an extreme day?</li>
+</ol>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 The data</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Series</strong>: S&amp;P 500 daily close (FRED <code>SP500</code>)</p>
+<p><strong>Period</strong>: Sep 2016 – Sep 2026, 2,513 daily log returns</p>
+<p><span class="math inline">\(Z\)</span> = the standardised return, <span class="math inline">\((Y - \bar{Y})/s\)</span></p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="case-study-the-third-and-fourth-moments" class="slide level2">
+<h2>💰 Case Study: The Third and Fourth Moments</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>📦 Standardise returns and take moments</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="" aria-label="1"></a>sp <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/sp500.csv"</span>, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"close"</span>))</span>
+<span id="cb5-2"><a href="" aria-label="2"></a>sp<span class="sc">$</span>close <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(sp<span class="sc">$</span>close))   <span class="co"># FRED marks holidays "."</span></span>
+<span id="cb5-3"><a href="" aria-label="3"></a>sp <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(sp)</span>
+<span id="cb5-4"><a href="" aria-label="4"></a></span>
+<span id="cb5-5"><a href="" aria-label="5"></a>r <span class="ot">&lt;-</span> <span class="fu">diff</span>(<span class="fu">log</span>(sp<span class="sc">$</span>close))</span>
+<span id="cb5-6"><a href="" aria-label="6"></a>z <span class="ot">&lt;-</span> (r <span class="sc">-</span> <span class="fu">mean</span>(r)) <span class="sc">/</span> <span class="fu">sd</span>(r)                           <span class="co"># standardised return</span></span>
+<span id="cb5-7"><a href="" aria-label="7"></a></span>
+<span id="cb5-8"><a href="" aria-label="8"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">skewness =</span> <span class="fu">mean</span>(z<span class="sc">^</span><span class="dv">3</span>), <span class="at">skew_normal =</span> <span class="dv">0</span>,</span>
+<span id="cb5-9"><a href="" aria-label="9"></a>        <span class="at">kurtosis =</span> <span class="fu">mean</span>(z<span class="sc">^</span><span class="dv">4</span>), <span class="at">kurtosis_normal =</span> <span class="dv">3</span>,</span>
+<span id="cb5-10"><a href="" aria-label="10"></a>        <span class="at">P_abs_Z_gt_3 =</span> <span class="fu">mean</span>(<span class="fu">abs</span>(z) <span class="sc">&gt;</span> <span class="dv">3</span>), <span class="at">P_normal_gt_3 =</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="dv">3</span>))), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>       skewness     skew_normal        kurtosis kurtosis_normal    P_abs_Z_gt_3 
+        -0.6770          0.0000         19.7412          3.0000          0.0143 
+  P_normal_gt_3 
+         0.0027 </code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>The third moment is negative (a left tail) and the fourth moment is nearly <strong>20</strong>, not 3 — and a day beyond three standard deviations is over five times as likely as the normal predicts.</p>
+</div>
+</section>
+<section id="case-study-the-tails-compared" class="slide level2">
+<h2>💰 Case Study: The Tails, Compared</h2>
+
+<img data-src="moment_generating_functions_lecture15_files/figure-revealjs/case-moments-fig-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1500"><div style="font-size: 28px">
+<p><strong>What the data say:</strong> the middle of the histogram sits above the normal curve (returns cluster near zero more than normal predicts) but so do the tails, barely visible here past <span class="math inline">\(|Z| = 4\)</span>. The normal MGF cannot produce this shape — it under-states both quiet days and crashes.</p>
 </div>
 </section>
 <section id="quiz-1-variance-from-an-mgf" class="slide level2 quiz-question">
