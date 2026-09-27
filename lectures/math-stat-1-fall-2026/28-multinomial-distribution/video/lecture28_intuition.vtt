@@ -1,0 +1,124 @@
+WEBVTT
+
+00:00.000 --> 00:04.513
+A mobile operator in Baku signs two hundred new subscribers. Each one
+
+00:04.613 --> 00:08.725
+picks a tariff: Basic at ten manat a month, Standard at twenty,
+
+00:08.825 --> 00:13.739
+or Premium at thirty-five. How uncertain is next month's revenue? To answer
+
+00:13.839 --> 00:17.349
+that, we need the counts in all three tariffs at once.
+
+00:19.433 --> 00:21.502
+That is the multinomial distribution: the
+
+00:21.602 --> 00:23.512
+binomial, with more than two outcomes.
+
+00:24.600 --> 00:28.981
+Picture each subscriber as a ball dropping into one of three
+
+00:29.081 --> 00:34.657
+bins, independently, with the same probabilities every time: one half, point
+
+00:34.757 --> 00:38.989
+three five, and point one five. Here are the first twenty.
+
+00:39.089 --> 00:42.201
+Y one, Y two and Y three count the balls in
+
+00:42.301 --> 00:45.711
+each bin, and together they always add up to n.
+
+00:45.800 --> 00:49.774
+The probability of a particular set of counts has two factors,
+
+00:49.874 --> 00:53.849
+just as in Chapter two. One ordered sequence with these counts
+
+00:53.949 --> 00:56.938
+has probability p one to the y one, times p two
+
+00:57.038 --> 00:59.765
+to the y two, times p three to the y three.
+
+00:59.865 --> 01:04.168
+And the coefficient counts how many orderings give the same counts.
+
+01:05.266 --> 01:11.250
+Now a shortcut. If you only care about Basic, merge the other two bins
+
+01:11.350 --> 01:17.420
+into one: not Basic. Every subscriber is now a success or a failure, so
+
+01:17.520 --> 01:22.113
+Y one on its own is just binomial. Its mean is n p one
+
+01:22.213 --> 01:27.501
+and its variance n p one q one. The same holds for every cell.
+
+01:28.600 --> 01:31.830
+With two hundred subscribers, we expect one hundred
+
+01:31.930 --> 01:35.030
+on Basic, seventy on Standard, thirty on Premium.
+
+01:36.116 --> 01:39.250
+Now simulate two hundred and fifty months, and plot
+
+01:39.350 --> 01:42.548
+the Basic count against the Premium count. The cloud
+
+01:42.648 --> 01:45.211
+tilts downward. That is not a coincidence.
+
+01:45.300 --> 01:49.525
+The bins share a fixed total. A subscriber who picks Premium is one
+
+01:49.625 --> 01:53.464
+who did not pick Basic. So when one count is high, the others
+
+01:53.564 --> 01:57.983
+tend to be low, and every pair of cells has negative covariance: minus
+
+01:58.083 --> 02:01.082
+n p s p t. For Basic and Premium, minus fifteen.
+
+02:03.166 --> 02:06.151
+Back to revenue. R is ten Y one plus twenty
+
+02:06.251 --> 02:09.811
+Y two plus thirty-five Y three. Its mean needs only
+
+02:09.911 --> 02:14.116
+the cell means: three thousand four hundred and fifty manat.
+
+02:14.200 --> 02:18.069
+The spread is different. Treat the three counts as unrelated, and
+
+02:18.169 --> 02:22.343
+the standard deviation comes out at about two hundred and thirty-three
+
+02:22.443 --> 02:26.373
+manat. Include the negative covariances, and it drops to about one
+
+02:26.473 --> 02:30.526
+hundred and twenty-three. The counts move against each other, so the
+
+02:30.626 --> 02:33.091
+revenue swings much less than you'd think.
+
+02:34.183 --> 02:38.835
+So: a multinomial experiment drops n independent trials into k cells, and
+
+02:38.935 --> 02:41.959
+the counts add up to n. Each count on its own is
+
+02:42.059 --> 02:46.515
+binomial. And because the total is fixed, any two counts have negative
+
+02:46.615 --> 02:49.965
+covariance, which you must keep when you add them up.
