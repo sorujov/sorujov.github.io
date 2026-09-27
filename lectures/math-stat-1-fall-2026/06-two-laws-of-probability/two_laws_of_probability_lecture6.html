@@ -6,11 +6,11 @@
 <script src="two_laws_of_probability_lecture6_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="two_laws_of_probability_lecture6_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="two_laws_of_probability_lecture6_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="two_laws_of_probability_lecture6_files/libs/quarto-html/quarto-syntax-highlighting-f79c7fb6db380d32be398468f2fb58cf.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.9.37">
+<link href="two_laws_of_probability_lecture6_files/libs/quarto-html/quarto-syntax-highlighting-12757e4b7af482b2d9c5bd8860d2b707.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Samir Orujov, PhD">
-  <meta name="dcterms.date" content="2026-09-20">
+  <meta name="dcterms.date" content="2026-09-27">
   <title>Mathematical Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -21,10 +21,13 @@
     /* Default styles provided by pandoc.
     ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
     */
-    code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    div.columns{display: flex; gap: min(4vw, 1.5em);}
-    div.column{flex: auto; overflow-x: auto;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
     ul.task-list li input[type="checkbox"] {
@@ -195,9 +198,7 @@
   <script type="module" src="two_laws_of_probability_lecture6_files/libs/quarto-ojs/quarto-ojs-runtime.js"></script>
   <link href="two_laws_of_probability_lecture6_files/libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
   <link href="two_laws_of_probability_lecture6_files/libs/countdown-0.6.0/countdown.css" rel="stylesheet">
-
   <script src="two_laws_of_probability_lecture6_files/libs/countdown-0.6.0/countdown.js"></script>
-
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -210,7 +211,7 @@
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-Samir Orujov, PhD 
+Samir Orujov, PhD
 </div>
         <p class="quarto-title-affiliation">
             ADA University, School of Business
@@ -221,13 +222,14 @@ Samir Orujov, PhD
     </div>
 </div>
 
-  <p class="date">2026-09-20</p>
+  <p class="date">2026-09-27</p>
 </section>
-<section id="intuition-video" class="slide level2">
+<section id="the-idea-in-3-minutes" class="slide level2">
 <h2>🎬 The Idea in 3 Minutes</h2>
 <div style="text-align:center">
-<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture6_intuition.mp4"><track kind="captions" src="video/lecture6_intuition.vtt" srclang="en" label="English"></video>
-<p style="font-size:22px">Watch this short intuition video before (or after) the slides. Captions: CC button.</p>
+<video controls="" preload="metadata" style="width:880px;max-width:100%" src="video/lecture6_intuition.mp4"><track kind="captions" src="video/lecture6_intuition.vtt" srclang="en" label="English"><track kind="captions" src="video/lecture6_intuition.az.vtt" srclang="az" label="Azərbaycanca"></video>
+<p><a href="../05-conditional-probability/conditional_probability_lecture5.html" style="font-size:28px">⬅ Previous lecture: 5 · Conditional Probability and the Independence of Events</a></p>
+<p><span style="font-size:28px">Watch this short intuition video before (or after) the slides. Captions (English / Azərbaycanca): CC button.</span></p>
 </div>
 </section>
 <section id="learning-objectives" class="slide level2">
@@ -242,6 +244,16 @@ Samir Orujov, PhD
 <li><p><strong>Choose</strong> between the two laws by reading whether the event is an intersection or a union</p></li>
 </ul>
 </div>
+</section>
+<section id="warm-up-from-last-time" class="slide level2 quiz-question">
+<h2>🔁 Warm-up from last time</h2>
+<p><span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are mutually exclusive, with <span class="math inline">\(P(A) = 0.3\)</span> and <span class="math inline">\(P(B) = 0.5\)</span>. Are they independent?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Mutually exclusive events of positive probability are always dependent: knowing B occurred rules A out entirely, which is the opposite of no information.">No — <span class="math inline">\(P(A \cap B) = 0\)</span> but <span class="math inline">\(P(A)P(B) = 0.15\)</span></span></li>
+<li>Yes — mutually exclusive events are always independent</li>
+<li>Yes, because <span class="math inline">\(P(A) + P(B) &lt; 1\)</span></li>
+<li>There is not enough information to say</li>
+</ul>
 </section>
 <section id="where-we-are" class="slide level2">
 <h2>🗺️ Where We Are</h2>
@@ -423,14 +435,14 @@ Samir Orujov, PhD
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>p_call <span class="ot">&lt;-</span> <span class="fl">0.06</span></span>
-<span id="cb1-2"><a href=""></a>n      <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">12</span>, <span class="dv">20</span>, <span class="dv">40</span>)</span>
-<span id="cb1-3"><a href=""></a></span>
-<span id="cb1-4"><a href=""></a><span class="fu">data.frame</span>(</span>
-<span id="cb1-5"><a href=""></a>  <span class="at">guarantees   =</span> n,</span>
-<span id="cb1-6"><a href=""></a>  <span class="at">none_called  =</span> <span class="fu">round</span>((<span class="dv">1</span> <span class="sc">-</span> p_call)<span class="sc">^</span>n, <span class="dv">4</span>),</span>
-<span id="cb1-7"><a href=""></a>  <span class="at">at_least_one =</span> <span class="fu">round</span>(<span class="dv">1</span> <span class="sc">-</span> (<span class="dv">1</span> <span class="sc">-</span> p_call)<span class="sc">^</span>n, <span class="dv">4</span>)</span>
-<span id="cb1-8"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-label="1"></a>p_call <span class="ot">&lt;-</span> <span class="fl">0.06</span></span>
+<span id="cb1-2"><a href="" aria-label="2"></a>n      <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">12</span>, <span class="dv">20</span>, <span class="dv">40</span>)</span>
+<span id="cb1-3"><a href="" aria-label="3"></a></span>
+<span id="cb1-4"><a href="" aria-label="4"></a><span class="fu">data.frame</span>(</span>
+<span id="cb1-5"><a href="" aria-label="5"></a>  <span class="at">guarantees   =</span> n,</span>
+<span id="cb1-6"><a href="" aria-label="6"></a>  <span class="at">none_called  =</span> <span class="fu">round</span>((<span class="dv">1</span> <span class="sc">-</span> p_call)<span class="sc">^</span>n, <span class="dv">4</span>),</span>
+<span id="cb1-7"><a href="" aria-label="7"></a>  <span class="at">at_least_one =</span> <span class="fu">round</span>(<span class="dv">1</span> <span class="sc">-</span> (<span class="dv">1</span> <span class="sc">-</span> p_call)<span class="sc">^</span>n, <span class="dv">4</span>)</span>
+<span id="cb1-8"><a href="" aria-label="8"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>  guarantees none_called at_least_one
@@ -451,13 +463,13 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb3" data-startfrom="296" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 295;"><span id="cb3-296"><a href=""></a>viewof p_each <span class="op">=</span> {</span>
-<span id="cb3-297"><a href=""></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.01</span><span class="op">,</span> <span class="fl">0.30</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="fl">0.06</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span></span>
-<span id="cb3-298"><a href=""></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Probability each guarantee is called:"</span>})<span class="op">;</span></span>
-<span id="cb3-299"><a href=""></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
-<span id="cb3-300"><a href=""></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
-<span id="cb3-301"><a href=""></a>  <span class="cf">return</span> input<span class="op">;</span></span>
-<span id="cb3-302"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb3" data-startfrom="321" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 320;"><span id="cb3-321"><a href="" aria-label="321"></a>viewof p_each <span class="op">=</span> {</span>
+<span id="cb3-322"><a href="" aria-label="322"></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.01</span><span class="op">,</span> <span class="fl">0.30</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="fl">0.06</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span></span>
+<span id="cb3-323"><a href="" aria-label="323"></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Probability each guarantee is called:"</span>})<span class="op">;</span></span>
+<span id="cb3-324"><a href="" aria-label="324"></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
+<span id="cb3-325"><a href="" aria-label="325"></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
+<span id="cb3-326"><a href="" aria-label="326"></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb3-327"><a href="" aria-label="327"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-1" data-nodetype="declaration">
@@ -468,12 +480,12 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb4" data-startfrom="310" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 309;"><span id="cb4-310"><a href=""></a>atLeastOne <span class="op">=</span> (n<span class="op">,</span> p) <span class="kw">=&gt;</span> <span class="dv">1</span> <span class="op">-</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(<span class="dv">1</span> <span class="op">-</span> p<span class="op">,</span> n)</span>
-<span id="cb4-311"><a href=""></a>curve <span class="op">=</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({<span class="dt">length</span><span class="op">:</span> <span class="dv">40</span>}<span class="op">,</span> (_<span class="op">,</span> i) <span class="kw">=&gt;</span> ({<span class="dt">n</span><span class="op">:</span> i <span class="op">+</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">p</span><span class="op">:</span> <span class="fu">atLeastOne</span>(i <span class="op">+</span> <span class="dv">1</span><span class="op">,</span> p_each)}))</span>
-<span id="cb4-312"><a href=""></a>half <span class="op">=</span> curve<span class="op">.</span><span class="fu">find</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">p</span> <span class="op">&gt;=</span> <span class="fl">0.5</span>)</span>
-<span id="cb4-313"><a href=""></a></span>
-<span id="cb4-314"><a href=""></a><span class="fu">md</span><span class="vs">`At **</span><span class="sc">${</span>(<span class="dv">100</span> <span class="op">*</span> p_each)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">0</span>)<span class="sc">}</span><span class="vs">%** each, the portfolio passes a 50-50 chance of at least</span></span>
-<span id="cb4-315"><a href=""></a><span class="vs">one call at **</span><span class="sc">${</span>half <span class="op">?</span> half<span class="op">.</span><span class="at">n</span> <span class="op">:</span> <span class="st">"more than 40"</span><span class="sc">}</span><span class="vs">** guarantees.`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb4" data-startfrom="335" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 334;"><span id="cb4-335"><a href="" aria-label="335"></a>atLeastOne <span class="op">=</span> (n<span class="op">,</span> p) <span class="kw">=&gt;</span> <span class="dv">1</span> <span class="op">-</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(<span class="dv">1</span> <span class="op">-</span> p<span class="op">,</span> n)</span>
+<span id="cb4-336"><a href="" aria-label="336"></a>curve <span class="op">=</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({<span class="dt">length</span><span class="op">:</span> <span class="dv">40</span>}<span class="op">,</span> (_<span class="op">,</span> i) <span class="kw">=&gt;</span> ({<span class="dt">n</span><span class="op">:</span> i <span class="op">+</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">p</span><span class="op">:</span> <span class="fu">atLeastOne</span>(i <span class="op">+</span> <span class="dv">1</span><span class="op">,</span> p_each)}))</span>
+<span id="cb4-337"><a href="" aria-label="337"></a>half <span class="op">=</span> curve<span class="op">.</span><span class="fu">find</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">p</span> <span class="op">&gt;=</span> <span class="fl">0.5</span>)</span>
+<span id="cb4-338"><a href="" aria-label="338"></a></span>
+<span id="cb4-339"><a href="" aria-label="339"></a><span class="fu">md</span><span class="vs">`At **</span><span class="sc">${</span>(<span class="dv">100</span> <span class="op">*</span> p_each)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">0</span>)<span class="sc">}</span><span class="vs">%** each, the portfolio passes a 50-50 chance of at least</span></span>
+<span id="cb4-340"><a href="" aria-label="340"></a><span class="vs">one call at **</span><span class="sc">${</span>half <span class="op">?</span> half<span class="op">.</span><span class="at">n</span> <span class="op">:</span> <span class="st">"more than 40"</span><span class="sc">}</span><span class="vs">** guarantees.`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -505,21 +517,21 @@ Samir Orujov, PhD
 </div>
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb5" data-startfrom="317" data-source-offset="-328"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 316;"><span id="cb5-317"><a href=""></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
-<span id="cb5-318"><a href=""></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">1150</span><span class="op">,</span></span>
-<span id="cb5-319"><a href=""></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">320</span><span class="op">,</span></span>
-<span id="cb5-320"><a href=""></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">78</span><span class="op">,</span></span>
-<span id="cb5-321"><a href=""></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">58</span><span class="op">,</span></span>
-<span id="cb5-322"><a href=""></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontSize</span><span class="op">:</span> <span class="st">"18px"</span>}<span class="op">,</span></span>
-<span id="cb5-323"><a href=""></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Number of guarantees"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">1</span><span class="op">,</span> <span class="dv">40</span>]}<span class="op">,</span></span>
-<span id="cb5-324"><a href=""></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"P(at least one called)"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> <span class="dt">tickFormat</span><span class="op">:</span> <span class="st">".1f"</span>}<span class="op">,</span></span>
-<span id="cb5-325"><a href=""></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
-<span id="cb5-326"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="fl">0.5</span>]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"#cbb8a9"</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"4 4"</span>})<span class="op">,</span></span>
-<span id="cb5-327"><a href=""></a>    Plot<span class="op">.</span><span class="fu">line</span>(curve<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"n"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"p"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#14130f"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span>})<span class="op">,</span></span>
-<span id="cb5-328"><a href=""></a>    Plot<span class="op">.</span><span class="fu">dot</span>(half <span class="op">?</span> [half] <span class="op">:</span> []<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"n"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"p"</span><span class="op">,</span> <span class="dt">r</span><span class="op">:</span> <span class="dv">8</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#8b2635"</span>})<span class="op">,</span></span>
-<span id="cb5-329"><a href=""></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
-<span id="cb5-330"><a href=""></a>  ]</span>
-<span id="cb5-331"><a href=""></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb5" data-startfrom="342" data-source-offset="-328"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 341;"><span id="cb5-342"><a href="" aria-label="342"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb5-343"><a href="" aria-label="343"></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">1150</span><span class="op">,</span></span>
+<span id="cb5-344"><a href="" aria-label="344"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">320</span><span class="op">,</span></span>
+<span id="cb5-345"><a href="" aria-label="345"></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">78</span><span class="op">,</span></span>
+<span id="cb5-346"><a href="" aria-label="346"></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">58</span><span class="op">,</span></span>
+<span id="cb5-347"><a href="" aria-label="347"></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontSize</span><span class="op">:</span> <span class="st">"18px"</span>}<span class="op">,</span></span>
+<span id="cb5-348"><a href="" aria-label="348"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Number of guarantees"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">1</span><span class="op">,</span> <span class="dv">40</span>]}<span class="op">,</span></span>
+<span id="cb5-349"><a href="" aria-label="349"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"P(at least one called)"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> <span class="dt">tickFormat</span><span class="op">:</span> <span class="st">".1f"</span>}<span class="op">,</span></span>
+<span id="cb5-350"><a href="" aria-label="350"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb5-351"><a href="" aria-label="351"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="fl">0.5</span>]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"#cbb8a9"</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"4 4"</span>})<span class="op">,</span></span>
+<span id="cb5-352"><a href="" aria-label="352"></a>    Plot<span class="op">.</span><span class="fu">line</span>(curve<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"n"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"p"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#14130f"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span>})<span class="op">,</span></span>
+<span id="cb5-353"><a href="" aria-label="353"></a>    Plot<span class="op">.</span><span class="fu">dot</span>(half <span class="op">?</span> [half] <span class="op">:</span> []<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"n"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"p"</span><span class="op">,</span> <span class="dt">r</span><span class="op">:</span> <span class="dv">8</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#8b2635"</span>})<span class="op">,</span></span>
+<span id="cb5-354"><a href="" aria-label="354"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
+<span id="cb5-355"><a href="" aria-label="355"></a>  ]</span>
+<span id="cb5-356"><a href="" aria-label="356"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -534,7 +546,7 @@ Samir Orujov, PhD
 <h2>🧠 Think-Pair-Share</h2>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_3c0d1201" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_8e76dcf9" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
 </div>
 </div>
 <div style="font-size: 30px">
@@ -621,6 +633,88 @@ Samir Orujov, PhD
 <div class="fragment">
 <p>The last row is worth remembering: those two pieces never overlap, so no subtraction is needed.</p>
 </div>
+</div>
+</section>
+<section id="case-study-oil-equities-and-the-union" class="slide level2">
+<h2>💰 Case Study: Oil, Equities and the Union</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📈 The question</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li>Does <span class="math inline">\(P(\text{index down} \cap \text{Brent down})\)</span> match the independent-case product <span class="math inline">\(P(A)P(B)\)</span>?</li>
+<li>What is <span class="math inline">\(P(\text{index down} \cup \text{Brent down})\)</span>, and does the additive law reproduce it?</li>
+<li>If the two markets were independent, would the union be smaller or larger?</li>
+</ol>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 The data</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Series</strong>: S&amp;P 500 and Brent crude, daily close (FRED <code>SP500</code>, <code>DCOILBRENTEU</code>)</p>
+<p><strong>Period</strong>: Sep 2016 – Sep 2026, matched trading days</p>
+<p><strong>Events</strong>: <span class="math inline">\(A = \{\text{index down}\}\)</span>, <span class="math inline">\(B = \{\text{Brent down}\}\)</span></p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="case-study-the-two-laws-in-r" class="slide level2">
+<h2>💰 Case Study: The Two Laws in R</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>📦 Load both series, match dates, and check both laws</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="" aria-label="1"></a>sp <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/sp500.csv"</span>, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"close"</span>))</span>
+<span id="cb6-2"><a href="" aria-label="2"></a>sp<span class="sc">$</span>close <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(sp<span class="sc">$</span>close)); sp <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(sp)</span>
+<span id="cb6-3"><a href="" aria-label="3"></a>br <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/brent.csv"</span>, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"close"</span>))</span>
+<span id="cb6-4"><a href="" aria-label="4"></a>br<span class="sc">$</span>close <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(br<span class="sc">$</span>close)); br <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(br)</span>
+<span id="cb6-5"><a href="" aria-label="5"></a></span>
+<span id="cb6-6"><a href="" aria-label="6"></a>sp<span class="sc">$</span>ret <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(<span class="fu">log</span>(sp<span class="sc">$</span>close)))</span>
+<span id="cb6-7"><a href="" aria-label="7"></a>br<span class="sc">$</span>ret <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(<span class="fu">log</span>(br<span class="sc">$</span>close)))</span>
+<span id="cb6-8"><a href="" aria-label="8"></a>m <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(<span class="fu">merge</span>(sp[, <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"ret"</span>)], br[, <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"ret"</span>)],</span>
+<span id="cb6-9"><a href="" aria-label="9"></a>                    <span class="at">by =</span> <span class="st">"date"</span>, <span class="at">suffixes =</span> <span class="fu">c</span>(<span class="st">"_sp"</span>, <span class="st">"_br"</span>)))</span>
+<span id="cb6-10"><a href="" aria-label="10"></a></span>
+<span id="cb6-11"><a href="" aria-label="11"></a>A <span class="ot">&lt;-</span> m<span class="sc">$</span>ret_sp <span class="sc">&lt;</span> <span class="dv">0</span>; B <span class="ot">&lt;-</span> m<span class="sc">$</span>ret_br <span class="sc">&lt;</span> <span class="dv">0</span>                 <span class="co"># down days</span></span>
+<span id="cb6-12"><a href="" aria-label="12"></a></span>
+<span id="cb6-13"><a href="" aria-label="13"></a><span class="fu">data.frame</span>(</span>
+<span id="cb6-14"><a href="" aria-label="14"></a>  <span class="at">quantity =</span> <span class="fu">c</span>(<span class="st">"P(A): S&amp;P down"</span>, <span class="st">"P(B): Brent down"</span>, <span class="st">"P(A ∩ B): both down"</span>,</span>
+<span id="cb6-15"><a href="" aria-label="15"></a>               <span class="st">"P(A)P(B), if independent"</span>, <span class="st">"P(A ∪ B): at least one down"</span>),</span>
+<span id="cb6-16"><a href="" aria-label="16"></a>  <span class="at">value =</span> <span class="fu">round</span>(<span class="fu">c</span>(<span class="fu">mean</span>(A), <span class="fu">mean</span>(B), <span class="fu">mean</span>(A <span class="sc">&amp;</span> B), <span class="fu">mean</span>(A) <span class="sc">*</span> <span class="fu">mean</span>(B), <span class="fu">mean</span>(A <span class="sc">|</span> B)), <span class="dv">4</span>)</span>
+<span id="cb6-17"><a href="" aria-label="17"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                     quantity  value
+1              P(A): S&amp;P down 0.4513
+2            P(B): Brent down 0.4674
+3         P(A ∩ B): both down 0.2256
+4    P(A)P(B), if independent 0.2109
+5 P(A ∪ B): at least one down 0.6931</code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>The additive law gives <span class="math inline">\(P(A) + P(B) - P(A \cap B) = 0.4513 + 0.4674 - 0.2256 = 0.6931\)</span>, matching the direct count exactly.</p>
+</div>
+</section>
+<section id="case-study-together-more-than-chance-predicts" class="slide level2">
+<h2>💰 Case Study: Together More Than Chance Predicts</h2>
+
+<img data-src="two_laws_of_probability_lecture6_files/figure-revealjs/case-two-laws-fig-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1500"><div style="font-size: 28px">
+<p><strong>What the data say:</strong> both markets fall together more often (22.6%) than the independent-case product predicts (21.1%) — a mild positive dependence, the same “shared bad days” pattern that shows up whenever a macro shock hits equities and commodities at once. The additive law does not need that independence assumption; it holds regardless, which is why <span class="math inline">\(P(A \cup B)\)</span> matches exactly.</p>
 </div>
 </section>
 <section id="quiz-1-which-law" class="slide level2 quiz-question">
@@ -976,86 +1070,48 @@ Samir Orujov, PhD
     <script type="module">
     if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
     window._ojs.paths.runtimeToDoc = "../../..";
-    window._ojs.paths.runtimeToRoot = "../../../../../..";
-    window._ojs.paths.docToRoot = "../../..";
+    window._ojs.paths.runtimeToRoot = "../../..";
+    window._ojs.paths.docToRoot = "";
     window._ojs.selfContained = false;
     window._ojs.runtime.interpretFromScriptTags();
     </script>
     
-
     <script>
-
       // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-
       // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-
       // slide changes (different for each slide format).
-
       (function () {
-
         // dispatch for htmlwidgets
-
         function fireSlideEnter() {
-
           const event = window.document.createEvent("Event");
-
           event.initEvent("slideenter", true, true);
-
           window.document.dispatchEvent(event);
-
         }
-
-    
 
         function fireSlideChanged(previousSlide, currentSlide) {
-
           fireSlideEnter();
 
-    
-
           // dispatch for shiny
-
           if (window.jQuery) {
-
             if (previousSlide) {
-
               window.jQuery(previousSlide).trigger("hidden");
-
             }
-
             if (currentSlide) {
-
               window.jQuery(currentSlide).trigger("shown");
-
             }
-
           }
-
         }
-
-    
 
         // hookup for slidy
-
         if (window.w3c_slidy) {
-
           window.w3c_slidy.add_observer(function (slide_num) {
-
             // slide_num starts at position 1
-
             fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-
           });
-
         }
 
-    
-
       })();
-
     </script>
-
-    
 
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {

@@ -55,14 +55,18 @@ knitr:
 #| label: setup
 #| include: false
 set.seed(2026)
+library(ggplot2)
 ```
 
 ## 🎬 The Idea in 3 Minutes
 
 ::: {style="text-align:center"}
-<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture6_intuition.mp4"><track kind="captions" src="video/lecture6_intuition.vtt" srclang="en" label="English"></video>
+```{=html}
+<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture6_intuition.mp4"><track kind="captions" src="video/lecture6_intuition.vtt" srclang="en" label="English"><track kind="captions" src="video/lecture6_intuition.az.vtt" srclang="az" label="Azərbaycanca"></video>
+```
+[⬅ Previous lecture: 5 · Conditional Probability and the Independence of Events](../05-conditional-probability/conditional_probability_lecture5.html){style="font-size:28px"}
 
-[Watch this short intuition video before (or after) the slides. Captions: CC button.]{style="font-size:22px"}
+[Watch this short intuition video before (or after) the slides. Captions (English / Azərbaycanca): CC button.]{style="font-size:28px"}
 :::
 
 ---
@@ -82,6 +86,17 @@ By the end of this lecture, you will be able to:
 
 - **Choose** between the two laws by reading whether the event is an intersection or a union
 :::
+
+---
+
+## 🔁 Warm-up from last time {.quiz-question}
+
+$A$ and $B$ are mutually exclusive, with $P(A) = 0.3$ and $P(B) = 0.5$. Are they independent?
+
+- [No — $P(A \cap B) = 0$ but $P(A)P(B) = 0.15$]{.correct data-explanation="✅ Mutually exclusive events of positive probability are always dependent: knowing B occurred rules A out entirely, which is the opposite of no information."}
+- Yes — mutually exclusive events are always independent
+- Yes, because $P(A) + P(B) < 1$
+- There is not enough information to say
 
 ---
 
@@ -424,6 +439,87 @@ It is the same discipline as Wednesday's *order matters or not* — the mathemat
 ::: {.fragment}
 The last row is worth remembering: those two pieces never overlap, so no subtraction is needed.
 :::
+:::
+
+---
+
+## 💰 Case Study: Oil, Equities and the Union
+
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
+
+1. Does $P(\text{index down} \cap \text{Brent down})$ match the independent-case product $P(A)P(B)$?
+2. What is $P(\text{index down} \cup \text{Brent down})$, and does the additive law reproduce it?
+3. If the two markets were independent, would the union be smaller or larger?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: S&P 500 and Brent crude, daily close (FRED `SP500`, `DCOILBRENTEU`)
+
+**Period**: Sep 2016 – Sep 2026, matched trading days
+
+**Events**: $A = \{\text{index down}\}$, $B = \{\text{Brent down}\}$
+:::
+:::
+::::
+
+---
+
+## 💰 Case Study: The Two Laws in R
+
+```{r}
+#| label: case-two-laws
+#| code-summary: "📦 Load both series, match dates, and check both laws"
+sp <- read.csv("data/sp500.csv", col.names = c("date", "close"))
+sp$close <- suppressWarnings(as.numeric(sp$close)); sp <- na.omit(sp)
+br <- read.csv("data/brent.csv", col.names = c("date", "close"))
+br$close <- suppressWarnings(as.numeric(br$close)); br <- na.omit(br)
+
+sp$ret <- c(NA, diff(log(sp$close)))
+br$ret <- c(NA, diff(log(br$close)))
+m <- na.omit(merge(sp[, c("date", "ret")], br[, c("date", "ret")],
+                    by = "date", suffixes = c("_sp", "_br")))
+
+A <- m$ret_sp < 0; B <- m$ret_br < 0                 # down days
+
+data.frame(
+  quantity = c("P(A): S&P down", "P(B): Brent down", "P(A ∩ B): both down",
+               "P(A)P(B), if independent", "P(A ∪ B): at least one down"),
+  value = round(c(mean(A), mean(B), mean(A & B), mean(A) * mean(B), mean(A | B)), 4)
+)
+```
+
+::: {style="font-size: 28px"}
+The additive law gives $P(A) + P(B) - P(A \cap B) = 0.4513 + 0.4674 - 0.2256 = 0.6931$, matching the direct count exactly.
+:::
+
+---
+
+## 💰 Case Study: Together More Than Chance Predicts
+
+```{r}
+#| label: case-two-laws-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.9
+cmp <- data.frame(
+  what = factor(c("P(A ∩ B), observed", "P(A)P(B), if independent"),
+                levels = c("P(A ∩ B), observed", "P(A)P(B), if independent")),
+  p = c(mean(A & B), mean(A) * mean(B)))
+ggplot(cmp, aes(what, p)) +
+  geom_col(fill = "#8b2635", width = 0.5) +
+  labs(x = NULL, y = "Probability") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+**What the data say:** both markets fall together more often (22.6%) than the independent-case product predicts (21.1%) — a mild positive dependence, the same "shared bad days" pattern that shows up whenever a macro shock hits equities and commodities at once. The additive law does not need that independence assumption; it holds regardless, which is why $P(A \cup B)$ matches exactly.
 :::
 
 ---
