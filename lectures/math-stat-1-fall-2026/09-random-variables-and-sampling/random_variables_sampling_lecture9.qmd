@@ -62,9 +62,12 @@ theme_set(theme_minimal(base_size = 18))
 ## 🎬 The Idea in 3 Minutes
 
 ::: {style="text-align:center"}
-<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture9_intuition.mp4"><track kind="captions" src="video/lecture9_intuition.vtt" srclang="en" label="English"></video>
+```{=html}
+<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture9_intuition.mp4"><track kind="captions" src="video/lecture9_intuition.vtt" srclang="en" label="English"><track kind="captions" src="video/lecture9_intuition.az.vtt" srclang="az" label="Azərbaycanca"></video>
+```
+[⬅ Previous lecture: 8 · The Law of Total Probability and Bayes' Rule](../08-total-probability-and-bayes/total_probability_bayes_lecture8.html){style="font-size:28px"}
 
-[Watch this short intuition video before (or after) the slides. Captions: CC button.]{style="font-size:22px"}
+[Watch this short intuition video before (or after) the slides. Captions (English / Azərbaycanca): CC button.]{style="font-size:28px"}
 :::
 
 ---
@@ -84,6 +87,17 @@ By the end of this lecture, you will be able to:
 
 The first two carry all of Chapter 3. Sampling and the summary we meet more briefly.
 :::
+
+---
+
+## 🔁 Warm-up from last time {.quiz-question}
+
+A screen has 95% sensitivity and a 3% false-alarm rate; the base rate of the event is 0.2%. A case is flagged. By Bayes' rule, roughly what is $P(\text{event} \mid \text{flagged})$?
+
+- [$6\%$]{.correct data-explanation="✅ Theorem 2.9: (0.95 × 0.002) / (0.95 × 0.002 + 0.03 × 0.998) ≈ 0.06. The huge non-event pool means the 3% false-alarm rate dominates the numerator's small hit rate."}
+- $95\%$
+- $3\%$
+- $0.2\%$
 
 ---
 
@@ -409,6 +423,84 @@ colnames(out) <- paste0("y=", y); out
 ```
 
 Prior 0.7, posterior 0.887 after three up-days — and 0.409 after none.
+:::
+
+---
+
+## 💰 Case Study: How Much Does a Sample Mean Vary?
+
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
+
+A random sample of 20 trading days gives a sample mean return, $\bar{Y}$.
+
+1. How much does $\bar{Y}$ vary from sample to sample?
+2. Does the spread match $\sigma / \sqrt{n}$?
+3. What does a *particular* 20-day sample tell you about the whole period?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: S&P 500 daily close (FRED `SP500`)
+
+**Period**: Sep 2016 – Sep 2026, 2,513 daily log returns
+
+**Design**: 2,000 simple random samples of $n = 20$ days, drawn without replacement, each averaged
+:::
+:::
+::::
+
+---
+
+## 💰 Case Study: Resampling the Index
+
+```{r}
+#| label: case-sampling
+#| code-summary: "📦 Draw 2,000 SRS-of-20 and average each"
+sp <- read.csv("data/sp500.csv", col.names = c("date", "close"))
+sp$close <- suppressWarnings(as.numeric(sp$close))  # FRED marks holidays "."
+sp <- na.omit(sp)
+r <- diff(log(sp$close))                            # daily log returns
+
+n <- 20
+means <- replicate(2000, mean(sample(r, n, replace = FALSE)))
+
+round(c(pop_mean = mean(r), pop_sd = sd(r),
+        mean_of_samplemeans = mean(means), sd_of_samplemeans = sd(means),
+        sd_over_sqrt_n = sd(r) / sqrt(n)), 5)
+```
+
+::: {style="font-size: 28px"}
+The empirical spread of $\bar{Y}$ across samples lands almost exactly on $\sigma/\sqrt{n}$ — a single sample of 20 says less about the true mean than it looks like it does.
+:::
+
+---
+
+## 💰 Case Study: The Spread of $\bar{Y}$
+
+```{r}
+#| label: case-sampling-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.9
+df <- data.frame(mean = means)
+ggplot(df, aes(mean)) +
+  geom_histogram(aes(y = after_stat(density)), bins = 30,
+                 fill = "#8ba3c7", colour = "white") +
+  geom_vline(xintercept = mean(r), colour = "#8b2635", linewidth = 1) +
+  stat_function(fun = dnorm, args = list(mean = mean(r), sd = sd(r) / sqrt(n)),
+                colour = "#14130f", linewidth = 1) +
+  labs(x = expression(bar(Y)~"over 20 days"), y = "Density") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+**What the data say:** the 2,000 sample means pile up tightly around the true mean, close to the $\sigma/\sqrt{n}$ curve. The fit is looser in the tails, since 20 days is short enough that a single volatile stretch (a crash week) can pull one sample's mean far from the rest.
 :::
 
 ---

@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Samir Orujov, PhD">
-  <meta name="dcterms.date" content="2026-09-24">
+  <meta name="dcterms.date" content="2026-09-27">
   <title>Mathematical Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -220,13 +220,14 @@ Samir Orujov, PhD
     </div>
 </div>
 
-  <p class="date">2026-09-24</p>
+  <p class="date">2026-09-27</p>
 </section>
-<section id="intuition-video" class="slide level2">
+<section id="the-idea-in-3-minutes" class="slide level2">
 <h2>🎬 The Idea in 3 Minutes</h2>
 <div style="text-align:center">
-<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture9_intuition.mp4"><track kind="captions" src="video/lecture9_intuition.vtt" srclang="en" label="English"></video>
-<p style="font-size:22px">Watch this short intuition video before (or after) the slides. Captions: CC button.</p>
+<video controls="" preload="metadata" style="width:880px;max-width:100%" src="video/lecture9_intuition.mp4"><track kind="captions" src="video/lecture9_intuition.vtt" srclang="en" label="English"><track kind="captions" src="video/lecture9_intuition.az.vtt" srclang="az" label="Azərbaycanca"></video>
+<p><a href="../08-total-probability-and-bayes/total_probability_bayes_lecture8.html" style="font-size:28px">⬅ Previous lecture: 8 · The Law of Total Probability and Bayes’ Rule</a></p>
+<p><span style="font-size:28px">Watch this short intuition video before (or after) the slides. Captions (English / Azərbaycanca): CC button.</span></p>
 </div>
 </section>
 <section id="learning-objectives" class="slide level2">
@@ -241,6 +242,16 @@ Samir Orujov, PhD
 </ul>
 <p>The first two carry all of Chapter 3. Sampling and the summary we meet more briefly.</p>
 </div>
+</section>
+<section id="warm-up-from-last-time" class="slide level2 quiz-question">
+<h2>🔁 Warm-up from last time</h2>
+<p>A screen has 95% sensitivity and a 3% false-alarm rate; the base rate of the event is 0.2%. A case is flagged. By Bayes’ rule, roughly what is <span class="math inline">\(P(\text{event} \mid \text{flagged})\)</span>?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Theorem 2.9: (0.95 × 0.002) / (0.95 × 0.002 + 0.03 × 0.998) ≈ 0.06. The huge non-event pool means the 3% false-alarm rate dominates the numerator's small hit rate."><span class="math inline">\(6\%\)</span></span></li>
+<li><span class="math inline">\(95\%\)</span></li>
+<li><span class="math inline">\(3\%\)</span></li>
+<li><span class="math inline">\(0.2\%\)</span></li>
+</ul>
 </section>
 <section id="where-we-are" class="slide level2">
 <h2>🗺️ Where We Are</h2>
@@ -483,7 +494,7 @@ Samir Orujov, PhD
 <h2>🧠 Think-Pair-Share</h2>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_0d02f23a" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_e454cf65" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
 </div>
 </div>
 <div style="font-size: 30px">
@@ -590,6 +601,81 @@ P_calm_given_Y 0.4090 0.6090 0.7780 0.8870</code></pre>
 </div>
 </div>
 <p>Prior 0.7, posterior 0.887 after three up-days — and 0.409 after none.</p>
+</div>
+</section>
+<section id="case-study-how-much-does-a-sample-mean-vary" class="slide level2">
+<h2>💰 Case Study: How Much Does a Sample Mean Vary?</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📈 The question</strong></p>
+</div>
+<div class="callout-content">
+<p>A random sample of 20 trading days gives a sample mean return, <span class="math inline">\(\bar{Y}\)</span>.</p>
+<ol type="1">
+<li>How much does <span class="math inline">\(\bar{Y}\)</span> vary from sample to sample?</li>
+<li>Does the spread match <span class="math inline">\(\sigma / \sqrt{n}\)</span>?</li>
+<li>What does a <em>particular</em> 20-day sample tell you about the whole period?</li>
+</ol>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 The data</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Series</strong>: S&amp;P 500 daily close (FRED <code>SP500</code>)</p>
+<p><strong>Period</strong>: Sep 2016 – Sep 2026, 2,513 daily log returns</p>
+<p><strong>Design</strong>: 2,000 simple random samples of <span class="math inline">\(n = 20\)</span> days, drawn without replacement, each averaged</p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="case-study-resampling-the-index" class="slide level2">
+<h2>💰 Case Study: Resampling the Index</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>📦 Draw 2,000 SRS-of-20 and average each</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="" aria-label="1"></a>sp <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/sp500.csv"</span>, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"close"</span>))</span>
+<span id="cb10-2"><a href="" aria-label="2"></a>sp<span class="sc">$</span>close <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(sp<span class="sc">$</span>close))  <span class="co"># FRED marks holidays "."</span></span>
+<span id="cb10-3"><a href="" aria-label="3"></a>sp <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(sp)</span>
+<span id="cb10-4"><a href="" aria-label="4"></a>r <span class="ot">&lt;-</span> <span class="fu">diff</span>(<span class="fu">log</span>(sp<span class="sc">$</span>close))                            <span class="co"># daily log returns</span></span>
+<span id="cb10-5"><a href="" aria-label="5"></a></span>
+<span id="cb10-6"><a href="" aria-label="6"></a>n <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb10-7"><a href="" aria-label="7"></a>means <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">2000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(r, n, <span class="at">replace =</span> <span class="cn">FALSE</span>)))</span>
+<span id="cb10-8"><a href="" aria-label="8"></a></span>
+<span id="cb10-9"><a href="" aria-label="9"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">pop_mean =</span> <span class="fu">mean</span>(r), <span class="at">pop_sd =</span> <span class="fu">sd</span>(r),</span>
+<span id="cb10-10"><a href="" aria-label="10"></a>        <span class="at">mean_of_samplemeans =</span> <span class="fu">mean</span>(means), <span class="at">sd_of_samplemeans =</span> <span class="fu">sd</span>(means),</span>
+<span id="cb10-11"><a href="" aria-label="11"></a>        <span class="at">sd_over_sqrt_n =</span> <span class="fu">sd</span>(r) <span class="sc">/</span> <span class="fu">sqrt</span>(n)), <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>           pop_mean              pop_sd mean_of_samplemeans   sd_of_samplemeans 
+            0.00051             0.01141             0.00041             0.00249 
+     sd_over_sqrt_n 
+            0.00255 </code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>The empirical spread of <span class="math inline">\(\bar{Y}\)</span> across samples lands almost exactly on <span class="math inline">\(\sigma/\sqrt{n}\)</span> — a single sample of 20 says less about the true mean than it looks like it does.</p>
+</div>
+</section>
+<section id="case-study-the-spread-of-bary" class="slide level2">
+<h2>💰 Case Study: The Spread of <span class="math inline">\(\bar{Y}\)</span></h2>
+
+<img data-src="random_variables_sampling_lecture9_files/figure-revealjs/case-sampling-fig-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1500"><div style="font-size: 28px">
+<p><strong>What the data say:</strong> the 2,000 sample means pile up tightly around the true mean, close to the <span class="math inline">\(\sigma/\sqrt{n}\)</span> curve. The fit is looser in the tails, since 20 days is short enough that a single volatile stretch (a crash week) can pull one sample’s mean far from the rest.</p>
 </div>
 </section>
 <section id="quiz-1-summing-sample-points" class="slide level2 quiz-question">
