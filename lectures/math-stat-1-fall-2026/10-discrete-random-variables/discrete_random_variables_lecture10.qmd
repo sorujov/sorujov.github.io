@@ -61,9 +61,12 @@ library(ggplot2)
 ## 🎬 The Idea in 3 Minutes
 
 ::: {style="text-align:center"}
-<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture10_intuition.mp4"><track kind="captions" src="video/lecture10_intuition.vtt" srclang="en" label="English"></video>
+```{=html}
+<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture10_intuition.mp4"><track kind="captions" src="video/lecture10_intuition.vtt" srclang="en" label="English"><track kind="captions" src="video/lecture10_intuition.az.vtt" srclang="az" label="Azərbaycanca"></video>
+```
+[⬅ Previous lecture: 9 · Random Variables, Random Sampling, and Chapter 2 in Review](../09-random-variables-and-sampling/random_variables_sampling_lecture9.html){style="font-size:28px"}
 
-[Watch this short intuition video before (or after) the slides. Captions: CC button.]{style="font-size:22px"}
+[Watch this short intuition video before (or after) the slides. Captions (English / Azərbaycanca): CC button.]{style="font-size:28px"}
 :::
 
 ---
@@ -83,6 +86,17 @@ By the end of this lecture, you will be able to:
 
 - **Price** a premium or compare two projects by their mean and their variance
 :::
+
+---
+
+## 🔁 Warm-up from last time {.quiz-question}
+
+$Y$ is a random variable on $S$. The event $\{Y = 2\}$ consists of three sample points with probabilities $0.05$, $0.10$ and $0.15$. What is $P(Y = 2)$?
+
+- [$0.30$]{.correct data-explanation="✅ P(Y = y) sums the probabilities of the sample points assigned that value: 0.05 + 0.10 + 0.15 = 0.30."}
+- $0.15$
+- $0.10$
+- $0.0075$
 
 ---
 
@@ -456,6 +470,90 @@ Plot.plot({
 
 ::: {style="font-size: 28px"}
 Moving 0.30 of mass four steps raises μ by $4(0.30) = 1.2$ — but nearly **doubles** σ².
+:::
+
+---
+
+## 💰 Case Study: How Many Down Days a Week?
+
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
+
+$Y$ = number of down days in a five-day trading week.
+
+1. What is the empirical distribution of $Y$?
+2. Do $E(Y)$ and $V(Y)$ from Definitions 3.4–3.5 match a simple independence model?
+3. Where would that model be too simple?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: S&P 500 daily close (FRED `SP500`)
+
+**Period**: Sep 2016 – Sep 2026, 425 complete five-day weeks
+
+**Model**: each day down independently with probability $\hat{p}$, so $E(Y) = 5\hat{p}$
+:::
+:::
+::::
+
+---
+
+## 💰 Case Study: The Empirical $p(y)$
+
+```{r}
+#| label: case-downdays
+#| code-summary: "📦 Build the weekly down-day distribution"
+sp <- read.csv("data/sp500.csv", col.names = c("date", "close"))
+sp$close <- suppressWarnings(as.numeric(sp$close))  # FRED marks holidays "."
+sp <- na.omit(sp)
+sp$date <- as.Date(sp$date)
+
+down  <- diff(log(sp$close)) < 0
+week  <- format(sp$date[-1], "%Y-%W")
+full  <- split(down, week)[sapply(split(down, week), length) == 5]
+y     <- sapply(full, sum)                          # down days, one per week
+
+p_hat <- mean(down)
+py    <- table(factor(y, levels = 0:5)) / length(y)
+mu    <- sum((0:5) * py)                            # Definition 3.4
+sigma2 <- sum(((0:5) - mu)^2 * py)                  # Definition 3.5
+
+round(c(weeks = length(y), p_hat = p_hat,
+        mu_data = mu, mu_model_5p = 5 * p_hat,
+        var_data = sigma2, var_model_5pq = 5 * p_hat * (1 - p_hat)), 3)
+```
+
+::: {style="font-size: 28px"}
+$E(Y)$ and $V(Y)$ computed directly from $p(y)$ (Definitions 3.4–3.5) sit within a few hundredths of the independence model's $5\hat{p}$ and $5\hat{p}(1-\hat{p})$.
+:::
+
+---
+
+## 💰 Case Study: Data vs. the Independence Model
+
+```{r}
+#| label: case-downdays-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.9
+cmp <- rbind(
+  data.frame(y = 0:5, prop = as.numeric(py), src = "Observed weeks"),
+  data.frame(y = 0:5, prop = dbinom(0:5, 5, p_hat), src = "Independent days, p-hat"))
+ggplot(cmp, aes(factor(y), prop, fill = src)) +
+  geom_col(position = position_dodge(0.8), width = 0.75) +
+  scale_fill_manual(values = c("#8b2635", "#8ba3c7"), name = NULL) +
+  labs(x = "Down days in a week, y", y = "Proportion of weeks") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+**What the data say:** the shapes are close, with a mode at 2–3 down days either way. Weeks of 4 or 5 down days are a touch rarer than independence predicts, and weeks of 2–3 a touch more common — a bad day makes the next one only slightly more likely to be bad, not enough to shift the picture much.
 :::
 
 ---

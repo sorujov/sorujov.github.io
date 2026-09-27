@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Samir Orujov, PhD">
-  <meta name="dcterms.date" content="2026-09-24">
+  <meta name="dcterms.date" content="2026-09-27">
   <title>Mathematical Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -222,13 +222,14 @@ Samir Orujov, PhD
     </div>
 </div>
 
-  <p class="date">2026-09-24</p>
+  <p class="date">2026-09-27</p>
 </section>
-<section id="intuition-video" class="slide level2">
+<section id="the-idea-in-3-minutes" class="slide level2">
 <h2>🎬 The Idea in 3 Minutes</h2>
 <div style="text-align:center">
-<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture10_intuition.mp4"><track kind="captions" src="video/lecture10_intuition.vtt" srclang="en" label="English"></video>
-<p style="font-size:22px">Watch this short intuition video before (or after) the slides. Captions: CC button.</p>
+<video controls="" preload="metadata" style="width:880px;max-width:100%" src="video/lecture10_intuition.mp4"><track kind="captions" src="video/lecture10_intuition.vtt" srclang="en" label="English"><track kind="captions" src="video/lecture10_intuition.az.vtt" srclang="az" label="Azərbaycanca"></video>
+<p><a href="../09-random-variables-and-sampling/random_variables_sampling_lecture9.html" style="font-size:28px">⬅ Previous lecture: 9 · Random Variables, Random Sampling, and Chapter 2 in Review</a></p>
+<p><span style="font-size:28px">Watch this short intuition video before (or after) the slides. Captions (English / Azərbaycanca): CC button.</span></p>
 </div>
 </section>
 <section id="learning-objectives" class="slide level2">
@@ -243,6 +244,16 @@ Samir Orujov, PhD
 <li><p><strong>Price</strong> a premium or compare two projects by their mean and their variance</p></li>
 </ul>
 </div>
+</section>
+<section id="warm-up-from-last-time" class="slide level2 quiz-question">
+<h2>🔁 Warm-up from last time</h2>
+<p><span class="math inline">\(Y\)</span> is a random variable on <span class="math inline">\(S\)</span>. The event <span class="math inline">\(\{Y = 2\}\)</span> consists of three sample points with probabilities <span class="math inline">\(0.05\)</span>, <span class="math inline">\(0.10\)</span> and <span class="math inline">\(0.15\)</span>. What is <span class="math inline">\(P(Y = 2)\)</span>?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ P(Y = y) sums the probabilities of the sample points assigned that value: 0.05 + 0.10 + 0.15 = 0.30."><span class="math inline">\(0.30\)</span></span></li>
+<li><span class="math inline">\(0.15\)</span></li>
+<li><span class="math inline">\(0.10\)</span></li>
+<li><span class="math inline">\(0.0075\)</span></li>
+</ul>
 </section>
 <section id="where-we-are" class="slide level2">
 <h2>🗺️ Where We Are</h2>
@@ -595,7 +606,7 @@ Samir Orujov, PhD
 <h2>🧠 Think-Pair-Share</h2>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_ad82f0bd" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_1f30e721" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
 </div>
 </div>
 <div style="font-size: 29px">
@@ -651,13 +662,13 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb5" data-startfrom="408" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 407;"><span id="cb5-408"><a href="" aria-label="408"></a>viewof shift <span class="op">=</span> {</span>
-<span id="cb5-409"><a href="" aria-label="409"></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="fl">0.30</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span></span>
-<span id="cb5-410"><a href="" aria-label="410"></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Mass moved from 1 to 5 complaints:"</span>})<span class="op">;</span></span>
-<span id="cb5-411"><a href="" aria-label="411"></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
-<span id="cb5-412"><a href="" aria-label="412"></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
-<span id="cb5-413"><a href="" aria-label="413"></a>  <span class="cf">return</span> input<span class="op">;</span></span>
-<span id="cb5-414"><a href="" aria-label="414"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb5" data-startfrom="432" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 431;"><span id="cb5-432"><a href="" aria-label="432"></a>viewof shift <span class="op">=</span> {</span>
+<span id="cb5-433"><a href="" aria-label="433"></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="fl">0.30</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span></span>
+<span id="cb5-434"><a href="" aria-label="434"></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Mass moved from 1 to 5 complaints:"</span>})<span class="op">;</span></span>
+<span id="cb5-435"><a href="" aria-label="435"></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
+<span id="cb5-436"><a href="" aria-label="436"></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
+<span id="cb5-437"><a href="" aria-label="437"></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb5-438"><a href="" aria-label="438"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-1" data-nodetype="declaration">
@@ -668,13 +679,13 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb6" data-startfrom="422" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 421;"><span id="cb6-422"><a href="" aria-label="422"></a>base <span class="op">=</span> [<span class="fl">0.15</span><span class="op">,</span> <span class="fl">0.35</span><span class="op">,</span> <span class="fl">0.25</span><span class="op">,</span> <span class="fl">0.15</span><span class="op">,</span> <span class="fl">0.05</span><span class="op">,</span> <span class="fl">0.05</span>]</span>
-<span id="cb6-423"><a href="" aria-label="423"></a>pmf <span class="op">=</span> base<span class="op">.</span><span class="fu">map</span>((b<span class="op">,</span> y) <span class="kw">=&gt;</span> ({<span class="dt">y</span><span class="op">:</span> y<span class="op">,</span> <span class="dt">p</span><span class="op">:</span> y <span class="op">===</span> <span class="dv">1</span> <span class="op">?</span> b <span class="op">-</span> shift <span class="op">:</span> y <span class="op">===</span> <span class="dv">5</span> <span class="op">?</span> b <span class="op">+</span> shift <span class="op">:</span> b}))</span>
-<span id="cb6-424"><a href="" aria-label="424"></a>mu <span class="op">=</span> d3<span class="op">.</span><span class="fu">sum</span>(pmf<span class="op">,</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">y</span> <span class="op">*</span> d<span class="op">.</span><span class="at">p</span>)</span>
-<span id="cb6-425"><a href="" aria-label="425"></a>ey2 <span class="op">=</span> d3<span class="op">.</span><span class="fu">sum</span>(pmf<span class="op">,</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">y</span> <span class="op">*</span> d<span class="op">.</span><span class="at">y</span> <span class="op">*</span> d<span class="op">.</span><span class="at">p</span>)</span>
-<span id="cb6-426"><a href="" aria-label="426"></a>v <span class="op">=</span> ey2 <span class="op">-</span> mu <span class="op">*</span> mu</span>
-<span id="cb6-427"><a href="" aria-label="427"></a></span>
-<span id="cb6-428"><a href="" aria-label="428"></a><span class="fu">md</span><span class="vs">`Total **</span><span class="sc">${</span>d3<span class="op">.</span><span class="fu">sum</span>(pmf<span class="op">,</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">p</span>)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">** · mean **μ = </span><span class="sc">${</span>mu<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">** · variance **σ² = </span><span class="sc">${</span>v<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="vs">** · σ = </span><span class="sc">${</span><span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(v)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="vs">`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb6" data-startfrom="446" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 445;"><span id="cb6-446"><a href="" aria-label="446"></a>base <span class="op">=</span> [<span class="fl">0.15</span><span class="op">,</span> <span class="fl">0.35</span><span class="op">,</span> <span class="fl">0.25</span><span class="op">,</span> <span class="fl">0.15</span><span class="op">,</span> <span class="fl">0.05</span><span class="op">,</span> <span class="fl">0.05</span>]</span>
+<span id="cb6-447"><a href="" aria-label="447"></a>pmf <span class="op">=</span> base<span class="op">.</span><span class="fu">map</span>((b<span class="op">,</span> y) <span class="kw">=&gt;</span> ({<span class="dt">y</span><span class="op">:</span> y<span class="op">,</span> <span class="dt">p</span><span class="op">:</span> y <span class="op">===</span> <span class="dv">1</span> <span class="op">?</span> b <span class="op">-</span> shift <span class="op">:</span> y <span class="op">===</span> <span class="dv">5</span> <span class="op">?</span> b <span class="op">+</span> shift <span class="op">:</span> b}))</span>
+<span id="cb6-448"><a href="" aria-label="448"></a>mu <span class="op">=</span> d3<span class="op">.</span><span class="fu">sum</span>(pmf<span class="op">,</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">y</span> <span class="op">*</span> d<span class="op">.</span><span class="at">p</span>)</span>
+<span id="cb6-449"><a href="" aria-label="449"></a>ey2 <span class="op">=</span> d3<span class="op">.</span><span class="fu">sum</span>(pmf<span class="op">,</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">y</span> <span class="op">*</span> d<span class="op">.</span><span class="at">y</span> <span class="op">*</span> d<span class="op">.</span><span class="at">p</span>)</span>
+<span id="cb6-450"><a href="" aria-label="450"></a>v <span class="op">=</span> ey2 <span class="op">-</span> mu <span class="op">*</span> mu</span>
+<span id="cb6-451"><a href="" aria-label="451"></a></span>
+<span id="cb6-452"><a href="" aria-label="452"></a><span class="fu">md</span><span class="vs">`Total **</span><span class="sc">${</span>d3<span class="op">.</span><span class="fu">sum</span>(pmf<span class="op">,</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">p</span>)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">** · mean **μ = </span><span class="sc">${</span>mu<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">** · variance **σ² = </span><span class="sc">${</span>v<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="vs">** · σ = </span><span class="sc">${</span><span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(v)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="vs">`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -720,21 +731,21 @@ Samir Orujov, PhD
 </div>
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb7" data-startfrom="430" data-source-offset="-374"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 429;"><span id="cb7-430"><a href="" aria-label="430"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
-<span id="cb7-431"><a href="" aria-label="431"></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">1150</span><span class="op">,</span></span>
-<span id="cb7-432"><a href="" aria-label="432"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">300</span><span class="op">,</span></span>
-<span id="cb7-433"><a href="" aria-label="433"></a>  <span class="dt">marginTop</span><span class="op">:</span> <span class="dv">40</span><span class="op">,</span></span>
-<span id="cb7-434"><a href="" aria-label="434"></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">78</span><span class="op">,</span></span>
-<span id="cb7-435"><a href="" aria-label="435"></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">58</span><span class="op">,</span></span>
-<span id="cb7-436"><a href="" aria-label="436"></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontSize</span><span class="op">:</span> <span class="st">"18px"</span>}<span class="op">,</span></span>
-<span id="cb7-437"><a href="" aria-label="437"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Complaints per hour, y"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">5</span>]<span class="op">,</span> <span class="dt">padding</span><span class="op">:</span> <span class="fl">0.15</span>}<span class="op">,</span></span>
-<span id="cb7-438"><a href="" aria-label="438"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"p(y)"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="fl">0.4</span>]<span class="op">,</span> <span class="dt">ticks</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="fl">0.1</span><span class="op">,</span> <span class="fl">0.2</span><span class="op">,</span> <span class="fl">0.3</span><span class="op">,</span> <span class="fl">0.4</span>]<span class="op">,</span> <span class="dt">tickFormat</span><span class="op">:</span> <span class="st">".1f"</span><span class="op">,</span> <span class="dt">grid</span><span class="op">:</span> <span class="kw">true</span>}<span class="op">,</span></span>
-<span id="cb7-439"><a href="" aria-label="439"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
-<span id="cb7-440"><a href="" aria-label="440"></a>    Plot<span class="op">.</span><span class="fu">barY</span>(pmf<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"p"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">y</span> <span class="op">===</span> <span class="dv">1</span> <span class="op">||</span> d<span class="op">.</span><span class="at">y</span> <span class="op">===</span> <span class="dv">5</span> <span class="op">?</span> <span class="st">"#8b2635"</span> <span class="op">:</span> <span class="st">"#8ba3c7"</span>})<span class="op">,</span></span>
-<span id="cb7-441"><a href="" aria-label="441"></a>    Plot<span class="op">.</span><span class="fu">text</span>(pmf<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"p"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">p</span><span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="op">,</span> <span class="dt">dy</span><span class="op">:</span> <span class="op">-</span><span class="dv">14</span><span class="op">,</span> <span class="dt">fontSize</span><span class="op">:</span> <span class="dv">18</span>})<span class="op">,</span></span>
-<span id="cb7-442"><a href="" aria-label="442"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
-<span id="cb7-443"><a href="" aria-label="443"></a>  ]</span>
-<span id="cb7-444"><a href="" aria-label="444"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb7" data-startfrom="454" data-source-offset="-374"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 453;"><span id="cb7-454"><a href="" aria-label="454"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb7-455"><a href="" aria-label="455"></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">1150</span><span class="op">,</span></span>
+<span id="cb7-456"><a href="" aria-label="456"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">300</span><span class="op">,</span></span>
+<span id="cb7-457"><a href="" aria-label="457"></a>  <span class="dt">marginTop</span><span class="op">:</span> <span class="dv">40</span><span class="op">,</span></span>
+<span id="cb7-458"><a href="" aria-label="458"></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">78</span><span class="op">,</span></span>
+<span id="cb7-459"><a href="" aria-label="459"></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">58</span><span class="op">,</span></span>
+<span id="cb7-460"><a href="" aria-label="460"></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontSize</span><span class="op">:</span> <span class="st">"18px"</span>}<span class="op">,</span></span>
+<span id="cb7-461"><a href="" aria-label="461"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Complaints per hour, y"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">5</span>]<span class="op">,</span> <span class="dt">padding</span><span class="op">:</span> <span class="fl">0.15</span>}<span class="op">,</span></span>
+<span id="cb7-462"><a href="" aria-label="462"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"p(y)"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="fl">0.4</span>]<span class="op">,</span> <span class="dt">ticks</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="fl">0.1</span><span class="op">,</span> <span class="fl">0.2</span><span class="op">,</span> <span class="fl">0.3</span><span class="op">,</span> <span class="fl">0.4</span>]<span class="op">,</span> <span class="dt">tickFormat</span><span class="op">:</span> <span class="st">".1f"</span><span class="op">,</span> <span class="dt">grid</span><span class="op">:</span> <span class="kw">true</span>}<span class="op">,</span></span>
+<span id="cb7-463"><a href="" aria-label="463"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb7-464"><a href="" aria-label="464"></a>    Plot<span class="op">.</span><span class="fu">barY</span>(pmf<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"p"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">y</span> <span class="op">===</span> <span class="dv">1</span> <span class="op">||</span> d<span class="op">.</span><span class="at">y</span> <span class="op">===</span> <span class="dv">5</span> <span class="op">?</span> <span class="st">"#8b2635"</span> <span class="op">:</span> <span class="st">"#8ba3c7"</span>})<span class="op">,</span></span>
+<span id="cb7-465"><a href="" aria-label="465"></a>    Plot<span class="op">.</span><span class="fu">text</span>(pmf<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"p"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">p</span><span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="op">,</span> <span class="dt">dy</span><span class="op">:</span> <span class="op">-</span><span class="dv">14</span><span class="op">,</span> <span class="dt">fontSize</span><span class="op">:</span> <span class="dv">18</span>})<span class="op">,</span></span>
+<span id="cb7-466"><a href="" aria-label="466"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
+<span id="cb7-467"><a href="" aria-label="467"></a>  ]</span>
+<span id="cb7-468"><a href="" aria-label="468"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -746,6 +757,88 @@ Samir Orujov, PhD
 </div>
 <div style="font-size: 28px">
 <p>Moving 0.30 of mass four steps raises μ by <span class="math inline">\(4(0.30) = 1.2\)</span> — but nearly <strong>doubles</strong> σ².</p>
+</div>
+</section>
+<section id="case-study-how-many-down-days-a-week" class="slide level2">
+<h2>💰 Case Study: How Many Down Days a Week?</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📈 The question</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math inline">\(Y\)</span> = number of down days in a five-day trading week.</p>
+<ol type="1">
+<li>What is the empirical distribution of <span class="math inline">\(Y\)</span>?</li>
+<li>Do <span class="math inline">\(E(Y)\)</span> and <span class="math inline">\(V(Y)\)</span> from Definitions 3.4–3.5 match a simple independence model?</li>
+<li>Where would that model be too simple?</li>
+</ol>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 The data</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Series</strong>: S&amp;P 500 daily close (FRED <code>SP500</code>)</p>
+<p><strong>Period</strong>: Sep 2016 – Sep 2026, 425 complete five-day weeks</p>
+<p><strong>Model</strong>: each day down independently with probability <span class="math inline">\(\hat{p}\)</span>, so <span class="math inline">\(E(Y) = 5\hat{p}\)</span></p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="case-study-the-empirical-py" class="slide level2">
+<h2>💰 Case Study: The Empirical <span class="math inline">\(p(y)\)</span></h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>📦 Build the weekly down-day distribution</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="" aria-label="1"></a>sp <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/sp500.csv"</span>, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"close"</span>))</span>
+<span id="cb8-2"><a href="" aria-label="2"></a>sp<span class="sc">$</span>close <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(sp<span class="sc">$</span>close))  <span class="co"># FRED marks holidays "."</span></span>
+<span id="cb8-3"><a href="" aria-label="3"></a>sp <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(sp)</span>
+<span id="cb8-4"><a href="" aria-label="4"></a>sp<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(sp<span class="sc">$</span>date)</span>
+<span id="cb8-5"><a href="" aria-label="5"></a></span>
+<span id="cb8-6"><a href="" aria-label="6"></a>down  <span class="ot">&lt;-</span> <span class="fu">diff</span>(<span class="fu">log</span>(sp<span class="sc">$</span>close)) <span class="sc">&lt;</span> <span class="dv">0</span></span>
+<span id="cb8-7"><a href="" aria-label="7"></a>week  <span class="ot">&lt;-</span> <span class="fu">format</span>(sp<span class="sc">$</span>date[<span class="sc">-</span><span class="dv">1</span>], <span class="st">"%Y-%W"</span>)</span>
+<span id="cb8-8"><a href="" aria-label="8"></a>full  <span class="ot">&lt;-</span> <span class="fu">split</span>(down, week)[<span class="fu">sapply</span>(<span class="fu">split</span>(down, week), length) <span class="sc">==</span> <span class="dv">5</span>]</span>
+<span id="cb8-9"><a href="" aria-label="9"></a>y     <span class="ot">&lt;-</span> <span class="fu">sapply</span>(full, sum)                          <span class="co"># down days, one per week</span></span>
+<span id="cb8-10"><a href="" aria-label="10"></a></span>
+<span id="cb8-11"><a href="" aria-label="11"></a>p_hat <span class="ot">&lt;-</span> <span class="fu">mean</span>(down)</span>
+<span id="cb8-12"><a href="" aria-label="12"></a>py    <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="fu">factor</span>(y, <span class="at">levels =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">5</span>)) <span class="sc">/</span> <span class="fu">length</span>(y)</span>
+<span id="cb8-13"><a href="" aria-label="13"></a>mu    <span class="ot">&lt;-</span> <span class="fu">sum</span>((<span class="dv">0</span><span class="sc">:</span><span class="dv">5</span>) <span class="sc">*</span> py)                            <span class="co"># Definition 3.4</span></span>
+<span id="cb8-14"><a href="" aria-label="14"></a>sigma2 <span class="ot">&lt;-</span> <span class="fu">sum</span>(((<span class="dv">0</span><span class="sc">:</span><span class="dv">5</span>) <span class="sc">-</span> mu)<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> py)                  <span class="co"># Definition 3.5</span></span>
+<span id="cb8-15"><a href="" aria-label="15"></a></span>
+<span id="cb8-16"><a href="" aria-label="16"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">weeks =</span> <span class="fu">length</span>(y), <span class="at">p_hat =</span> p_hat,</span>
+<span id="cb8-17"><a href="" aria-label="17"></a>        <span class="at">mu_data =</span> mu, <span class="at">mu_model_5p =</span> <span class="dv">5</span> <span class="sc">*</span> p_hat,</span>
+<span id="cb8-18"><a href="" aria-label="18"></a>        <span class="at">var_data =</span> sigma2, <span class="at">var_model_5pq =</span> <span class="dv">5</span> <span class="sc">*</span> p_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat)), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>        weeks         p_hat       mu_data   mu_model_5p      var_data 
+      425.000         0.452         2.256         2.262         1.193 
+var_model_5pq 
+        1.239 </code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p><span class="math inline">\(E(Y)\)</span> and <span class="math inline">\(V(Y)\)</span> computed directly from <span class="math inline">\(p(y)\)</span> (Definitions 3.4–3.5) sit within a few hundredths of the independence model’s <span class="math inline">\(5\hat{p}\)</span> and <span class="math inline">\(5\hat{p}(1-\hat{p})\)</span>.</p>
+</div>
+</section>
+<section id="case-study-data-vs.-the-independence-model" class="slide level2">
+<h2>💰 Case Study: Data vs.&nbsp;the Independence Model</h2>
+
+<img data-src="discrete_random_variables_lecture10_files/figure-revealjs/case-downdays-fig-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1500"><div style="font-size: 28px">
+<p><strong>What the data say:</strong> the shapes are close, with a mode at 2–3 down days either way. Weeks of 4 or 5 down days are a touch rarer than independence predicts, and weeks of 2–3 a touch more common — a bad day makes the next one only slightly more likely to be bad, not enough to shift the picture much.</p>
 </div>
 </section>
 <section id="quiz-1-is-it-a-distribution" class="slide level2 quiz-question">
