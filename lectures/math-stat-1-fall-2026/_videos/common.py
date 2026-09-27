@@ -72,6 +72,13 @@ class IntuitionScene(VoiceoverScene):
                 self.wait(0.3)
 
     def say(self, text):
+        # NARRATION_MAP=path.json ({md5(english): translated text}) narrates in another language.
+        m = os.environ.get("NARRATION_MAP")
+        if m:
+            if not hasattr(self, "_nmap"):
+                import json
+                self._nmap = json.load(open(m, encoding="utf-8"))
+            text = self._nmap.get(hashlib.md5(text.encode()).hexdigest(), text)
         return self.voiceover(text)
 
     def fill(self, tr, used):

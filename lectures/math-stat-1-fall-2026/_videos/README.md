@@ -23,3 +23,8 @@ Each deck shows its video on a "🎬 The Idea in N Minutes" slide just before th
 2. Run `texts.py`, generate the mp3s on ooklapc with `tools/pack.sh N`, and stage the tar.
 3. Render at low quality with `render.sh N l`, check the sheet, fix the layout, then render at high quality with `render.sh N h`.
 4. Run `prep.sh N`, then `tools/publish.sh <lecture-dir> lectureN_intuition <minutes> "<message>"`.
+
+## Azerbaijani option (27 Sep 2026)
+- Every video has an Azerbaijani caption track (`video/lectureN_intuition.az.vtt`), selectable from CC.
+- Azerbaijani narration is prepared but not yet published. Translated clip texts are keyed by the md5 of the English clip. `common.py` narrates from them when `NARRATION_MAP=az_lN.json` is set, so the same scene renders an Azerbaijani version timed to the Azerbaijani audio. The clips are generated on ooklapc with `tools/gen_az.py`/`tools/pack_az.sh`, using the Azerbaijani clone (`ELEVENLABS_VOICE_ID_AZ`).
+- `tools/add_video_slide.py NN MIN` writes the video slide (raw HTML block, EN/AZ tracks, previous-lecture link) into a deck's `.qmd`. `tools/pubvid.sh N` copies a rendered video into its deck, re-renders it and commits it.
