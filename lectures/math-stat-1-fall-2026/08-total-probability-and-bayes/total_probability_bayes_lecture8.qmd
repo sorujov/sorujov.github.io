@@ -61,9 +61,12 @@ library(ggplot2)
 ## 🎬 The Idea in 5 Minutes
 
 ::: {style="text-align:center"}
-<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture8_intuition.mp4"><track kind="captions" src="video/lecture8_intuition.vtt" srclang="en" label="English"></video>
+```{=html}
+<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture8_intuition.mp4"><track kind="captions" src="video/lecture8_intuition.vtt" srclang="en" label="English"><track kind="captions" src="video/lecture8_intuition.az.vtt" srclang="az" label="Azərbaycanca"></video>
+```
+[⬅ Previous lecture: 7 · The Event-Composition Method](../07-event-composition/event_composition_lecture7.html){style="font-size:28px"}
 
-[Watch this short intuition video before (or after) the slides. Captions: CC button.]{style="font-size:22px"}
+[Watch this short intuition video before (or after) the slides. Captions (English / Azərbaycanca): CC button.]{style="font-size:28px"}
 :::
 
 ---
@@ -83,6 +86,17 @@ By the end of this lecture, you will be able to:
 
 - **Update** a probability twice, using two conditionally independent signals in sequence
 :::
+
+---
+
+## 🔁 Warm-up from last time {.quiz-question}
+
+Three independent components each fail with probability 0.1. What is $P(\text{at least one fails})$?
+
+- [$1 - 0.9^3 = 0.271$]{.correct data-explanation="✅ Lecture 7: 'at least one' goes through the complement. P(none fail) = 0.9³ = 0.729, so P(at least one) = 1 − 0.729 = 0.271."}
+- $0.9^3 = 0.729$
+- $3 \times 0.1 = 0.3$
+- $0.1^3 = 0.001$
 
 ---
 
@@ -461,6 +475,103 @@ $$P(L) = 0.6(0.06) + 0.3(0.02) + 0.1(0.01) = 0.036 + 0.006 + 0.001 = 0.043$$
 $$P(\text{business} \mid \bar{L}) = \frac{0.1 \times 0.99}{0.957} = 0.103$$
 Staying tells you almost nothing — nearly everyone stays — so the posterior barely moves off the 10% prior.
 :::
+:::
+
+---
+
+## 💰 Case Study: Does an Inverted Yield Curve Predict Recession?
+
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
+
+Call a month **inverted** if the 10-year Treasury yield sits below the 2-year on average.
+
+1. How often has the curve been inverted?
+2. Does inversion raise the chance of a recession in the next year?
+3. How does that compare with the base rate?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: 10Y−2Y Treasury spread (FRED `T10Y2Y`); NBER recession months (FRED `USREC`)
+
+**Period**: Jun 1976 – Aug 2026, 603 months with a full 12-month look-ahead
+
+$B$ = month inverted (mean daily spread $< 0$); $A$ = a recession starts within the next 12 months
+:::
+:::
+::::
+
+---
+
+## 💰 Case Study: Base Rate vs. Inverted Curve
+
+```{r}
+#| label: case-yieldcurve
+#| code-summary: "📦 Load the data and build the partition"
+t10 <- read.csv("data/t10y2y.csv", col.names = c("date", "spread"))
+t10$spread <- suppressWarnings(as.numeric(t10$spread))  # FRED marks holidays "."
+t10 <- na.omit(t10)
+t10$month <- substr(t10$date, 1, 7)
+monthly <- aggregate(spread ~ month, t10, mean)
+monthly$inverted <- monthly$spread < 0
+
+rec <- read.csv("data/usrec.csv", col.names = c("date", "rec"))
+rec$month <- substr(rec$date, 1, 7)
+m <- merge(monthly, rec[, c("month", "rec")], by = "month")
+m <- m[order(m$month), ]
+
+n <- nrow(m)
+m$rec_next12 <- sapply(seq_len(n), function(i) {
+  j <- (i + 1):min(i + 12, n)
+  if (i + 12 > n) NA else any(m$rec[j] == 1)
+})
+m <- na.omit(m)
+
+p_rec   <- mean(m$rec_next12)                       # base rate, P(A)
+p_A_B   <- mean(m$rec_next12[m$inverted])            # P(A | inverted), direct
+p_B_A   <- mean(m$inverted[m$rec_next12])            # P(B | A), sensitivity
+p_B_nA  <- mean(m$inverted[!m$rec_next12])           # P(B | not A), false alarm
+bayes   <- p_B_A * p_rec / (p_B_A * p_rec + p_B_nA * (1 - p_rec))  # Theorem 2.9
+
+round(c(p_rec_base = p_rec, p_rec_given_inverted = p_A_B,
+        bayes_reconstruction = bayes, p_inverted_given_rec = p_B_A), 3)
+```
+
+::: {style="font-size: 28px"}
+Inversion lifts the recession chance from a 21% base rate to 51% — Theorem 2.9 rebuilds the same 51% from the sensitivity and false-alarm rates.
+:::
+
+---
+
+## 💰 Case Study: Model vs. Data
+
+```{r}
+#| label: case-yieldcurve-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.9
+cmp <- rbind(
+  data.frame(grp = "Curve inverted",     out = "Recession in 12mo", prop = p_A_B),
+  data.frame(grp = "Curve inverted",     out = "No recession",      prop = 1 - p_A_B),
+  data.frame(grp = "Curve not inverted", out = "Recession in 12mo", prop = mean(m$rec_next12[!m$inverted])),
+  data.frame(grp = "Curve not inverted", out = "No recession",      prop = 1 - mean(m$rec_next12[!m$inverted])))
+ggplot(cmp, aes(grp, prop, fill = out)) +
+  geom_col(width = 0.6) +
+  geom_hline(yintercept = p_rec, linetype = "dashed", colour = "grey30") +
+  annotate("text", x = 1.5, y = p_rec + 0.05, label = "base rate", size = 5) +
+  scale_fill_manual(values = c("#8b2635", "#8ba3c7"), name = NULL) +
+  labs(x = NULL, y = "Share of months") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+**What the data say:** an inverted curve roughly triples the recession share, from 15% to 51%. It still fails often: half of all inversions since 1976 were not followed by a recession within a year — a false alarm, not a certainty.
 :::
 
 ---

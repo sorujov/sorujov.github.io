@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Samir Orujov, PhD">
-  <meta name="dcterms.date" content="2026-09-24">
+  <meta name="dcterms.date" content="2026-09-27">
   <title>Mathematical Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -222,13 +222,14 @@ Samir Orujov, PhD
     </div>
 </div>
 
-  <p class="date">2026-09-24</p>
+  <p class="date">2026-09-27</p>
 </section>
-<section id="intuition-video" class="slide level2">
+<section id="the-idea-in-5-minutes" class="slide level2">
 <h2>🎬 The Idea in 5 Minutes</h2>
 <div style="text-align:center">
-<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture8_intuition.mp4"><track kind="captions" src="video/lecture8_intuition.vtt" srclang="en" label="English"></video>
-<p style="font-size:22px">Watch this short intuition video before (or after) the slides. Captions: CC button.</p>
+<video controls="" preload="metadata" style="width:880px;max-width:100%" src="video/lecture8_intuition.mp4"><track kind="captions" src="video/lecture8_intuition.vtt" srclang="en" label="English"><track kind="captions" src="video/lecture8_intuition.az.vtt" srclang="az" label="Azərbaycanca"></video>
+<p><a href="../07-event-composition/event_composition_lecture7.html" style="font-size:28px">⬅ Previous lecture: 7 · The Event-Composition Method</a></p>
+<p><span style="font-size:28px">Watch this short intuition video before (or after) the slides. Captions (English / Azərbaycanca): CC button.</span></p>
 </div>
 </section>
 <section id="learning-objectives" class="slide level2">
@@ -243,6 +244,16 @@ Samir Orujov, PhD
 <li><p><strong>Update</strong> a probability twice, using two conditionally independent signals in sequence</p></li>
 </ul>
 </div>
+</section>
+<section id="warm-up-from-last-time" class="slide level2 quiz-question">
+<h2>🔁 Warm-up from last time</h2>
+<p>Three independent components each fail with probability 0.1. What is <span class="math inline">\(P(\text{at least one fails})\)</span>?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Lecture 7: 'at least one' goes through the complement. P(none fail) = 0.9³ = 0.729, so P(at least one) = 1 − 0.729 = 0.271."><span class="math inline">\(1 - 0.9^3 = 0.271\)</span></span></li>
+<li><span class="math inline">\(0.9^3 = 0.729\)</span></li>
+<li><span class="math inline">\(3 \times 0.1 = 0.3\)</span></li>
+<li><span class="math inline">\(0.1^3 = 0.001\)</span></li>
+</ul>
 </section>
 <section id="where-we-are" class="slide level2">
 <h2>🗺️ Where We Are</h2>
@@ -450,13 +461,13 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="303" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 302;"><span id="cb1-303"><a href="" aria-label="303"></a>viewof base_pct <span class="op">=</span> {</span>
-<span id="cb1-304"><a href="" aria-label="304"></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.1</span><span class="op">,</span> <span class="dv">50</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="fl">0.2</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span></span>
-<span id="cb1-305"><a href="" aria-label="305"></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Base rate of fraud (%):"</span>})<span class="op">;</span></span>
-<span id="cb1-306"><a href="" aria-label="306"></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
-<span id="cb1-307"><a href="" aria-label="307"></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
-<span id="cb1-308"><a href="" aria-label="308"></a>  <span class="cf">return</span> input<span class="op">;</span></span>
-<span id="cb1-309"><a href="" aria-label="309"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="327" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 326;"><span id="cb1-327"><a href="" aria-label="327"></a>viewof base_pct <span class="op">=</span> {</span>
+<span id="cb1-328"><a href="" aria-label="328"></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.1</span><span class="op">,</span> <span class="dv">50</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="fl">0.2</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span></span>
+<span id="cb1-329"><a href="" aria-label="329"></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Base rate of fraud (%):"</span>})<span class="op">;</span></span>
+<span id="cb1-330"><a href="" aria-label="330"></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
+<span id="cb1-331"><a href="" aria-label="331"></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
+<span id="cb1-332"><a href="" aria-label="332"></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb1-333"><a href="" aria-label="333"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-1" data-nodetype="declaration">
@@ -467,16 +478,16 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="317" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 316;"><span id="cb2-317"><a href="" aria-label="317"></a>sens <span class="op">=</span> <span class="fl">0.95</span></span>
-<span id="cb2-318"><a href="" aria-label="318"></a>fpr <span class="op">=</span> <span class="fl">0.03</span></span>
-<span id="cb2-319"><a href="" aria-label="319"></a>posterior <span class="op">=</span> p <span class="kw">=&gt;</span> p <span class="op">*</span> sens <span class="op">/</span> (p <span class="op">*</span> sens <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> p) <span class="op">*</span> fpr)</span>
-<span id="cb2-320"><a href="" aria-label="320"></a>grid <span class="op">=</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({<span class="dt">length</span><span class="op">:</span> <span class="dv">121</span>}<span class="op">,</span> (_<span class="op">,</span> i) <span class="kw">=&gt;</span> {</span>
-<span id="cb2-321"><a href="" aria-label="321"></a>  <span class="kw">const</span> pct <span class="op">=</span> <span class="fl">0.1</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(<span class="dv">500</span><span class="op">,</span> i <span class="op">/</span> <span class="dv">120</span>)<span class="op">;</span></span>
-<span id="cb2-322"><a href="" aria-label="322"></a>  <span class="cf">return</span> {<span class="dt">pct</span><span class="op">:</span> pct<span class="op">,</span> <span class="dt">post</span><span class="op">:</span> <span class="fu">posterior</span>(pct <span class="op">/</span> <span class="dv">100</span>)}<span class="op">;</span></span>
-<span id="cb2-323"><a href="" aria-label="323"></a>})</span>
-<span id="cb2-324"><a href="" aria-label="324"></a>current <span class="op">=</span> [{<span class="dt">pct</span><span class="op">:</span> base_pct<span class="op">,</span> <span class="dt">post</span><span class="op">:</span> <span class="fu">posterior</span>(base_pct <span class="op">/</span> <span class="dv">100</span>)}]</span>
-<span id="cb2-325"><a href="" aria-label="325"></a></span>
-<span id="cb2-326"><a href="" aria-label="326"></a><span class="fu">md</span><span class="vs">`Screen fixed at 95% / 97%. At a base rate of **</span><span class="sc">${</span>base_pct<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">%**, a flag means fraud with probability **</span><span class="sc">${</span>(<span class="dv">100</span> <span class="op">*</span> current[<span class="dv">0</span>]<span class="op">.</span><span class="at">post</span>)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">%**.`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="341" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 340;"><span id="cb2-341"><a href="" aria-label="341"></a>sens <span class="op">=</span> <span class="fl">0.95</span></span>
+<span id="cb2-342"><a href="" aria-label="342"></a>fpr <span class="op">=</span> <span class="fl">0.03</span></span>
+<span id="cb2-343"><a href="" aria-label="343"></a>posterior <span class="op">=</span> p <span class="kw">=&gt;</span> p <span class="op">*</span> sens <span class="op">/</span> (p <span class="op">*</span> sens <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> p) <span class="op">*</span> fpr)</span>
+<span id="cb2-344"><a href="" aria-label="344"></a>grid <span class="op">=</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({<span class="dt">length</span><span class="op">:</span> <span class="dv">121</span>}<span class="op">,</span> (_<span class="op">,</span> i) <span class="kw">=&gt;</span> {</span>
+<span id="cb2-345"><a href="" aria-label="345"></a>  <span class="kw">const</span> pct <span class="op">=</span> <span class="fl">0.1</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(<span class="dv">500</span><span class="op">,</span> i <span class="op">/</span> <span class="dv">120</span>)<span class="op">;</span></span>
+<span id="cb2-346"><a href="" aria-label="346"></a>  <span class="cf">return</span> {<span class="dt">pct</span><span class="op">:</span> pct<span class="op">,</span> <span class="dt">post</span><span class="op">:</span> <span class="fu">posterior</span>(pct <span class="op">/</span> <span class="dv">100</span>)}<span class="op">;</span></span>
+<span id="cb2-347"><a href="" aria-label="347"></a>})</span>
+<span id="cb2-348"><a href="" aria-label="348"></a>current <span class="op">=</span> [{<span class="dt">pct</span><span class="op">:</span> base_pct<span class="op">,</span> <span class="dt">post</span><span class="op">:</span> <span class="fu">posterior</span>(base_pct <span class="op">/</span> <span class="dv">100</span>)}]</span>
+<span id="cb2-349"><a href="" aria-label="349"></a></span>
+<span id="cb2-350"><a href="" aria-label="350"></a><span class="fu">md</span><span class="vs">`Screen fixed at 95% / 97%. At a base rate of **</span><span class="sc">${</span>base_pct<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">%**, a flag means fraud with probability **</span><span class="sc">${</span>(<span class="dv">100</span> <span class="op">*</span> current[<span class="dv">0</span>]<span class="op">.</span><span class="at">post</span>)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">%**.`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -522,23 +533,23 @@ Samir Orujov, PhD
 </div>
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb3" data-startfrom="328" data-source-offset="-441"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 327;"><span id="cb3-328"><a href="" aria-label="328"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
-<span id="cb3-329"><a href="" aria-label="329"></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">1150</span><span class="op">,</span></span>
-<span id="cb3-330"><a href="" aria-label="330"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">310</span><span class="op">,</span></span>
-<span id="cb3-331"><a href="" aria-label="331"></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">78</span><span class="op">,</span></span>
-<span id="cb3-332"><a href="" aria-label="332"></a>  <span class="dt">marginTop</span><span class="op">:</span> <span class="dv">40</span><span class="op">,</span></span>
-<span id="cb3-333"><a href="" aria-label="333"></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">58</span><span class="op">,</span></span>
-<span id="cb3-334"><a href="" aria-label="334"></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontSize</span><span class="op">:</span> <span class="st">"18px"</span>}<span class="op">,</span></span>
-<span id="cb3-335"><a href="" aria-label="335"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">type</span><span class="op">:</span> <span class="st">"log"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="fl">0.1</span><span class="op">,</span> <span class="dv">50</span>]<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Base rate of fraud (%, log scale)"</span><span class="op">,</span></span>
-<span id="cb3-336"><a href="" aria-label="336"></a>      <span class="dt">ticks</span><span class="op">:</span> [<span class="fl">0.1</span><span class="op">,</span> <span class="fl">0.2</span><span class="op">,</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">5</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">50</span>]<span class="op">,</span> <span class="dt">tickFormat</span><span class="op">:</span> d <span class="kw">=&gt;</span> <span class="bu">String</span>(d)}<span class="op">,</span></span>
-<span id="cb3-337"><a href="" aria-label="337"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"P(fraud | flagged)"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> <span class="dt">tickFormat</span><span class="op">:</span> <span class="st">".1f"</span>}<span class="op">,</span></span>
-<span id="cb3-338"><a href="" aria-label="338"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
-<span id="cb3-339"><a href="" aria-label="339"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="fl">0.5</span>]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"#cbb8a9"</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"4 4"</span>})<span class="op">,</span></span>
-<span id="cb3-340"><a href="" aria-label="340"></a>    Plot<span class="op">.</span><span class="fu">line</span>(grid<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"pct"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"post"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#14130f"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span>})<span class="op">,</span></span>
-<span id="cb3-341"><a href="" aria-label="341"></a>    Plot<span class="op">.</span><span class="fu">dot</span>(current<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"pct"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"post"</span><span class="op">,</span> <span class="dt">r</span><span class="op">:</span> <span class="dv">9</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#8b2635"</span>})<span class="op">,</span></span>
-<span id="cb3-342"><a href="" aria-label="342"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
-<span id="cb3-343"><a href="" aria-label="343"></a>  ]</span>
-<span id="cb3-344"><a href="" aria-label="344"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb3" data-startfrom="352" data-source-offset="-441"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 351;"><span id="cb3-352"><a href="" aria-label="352"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb3-353"><a href="" aria-label="353"></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">1150</span><span class="op">,</span></span>
+<span id="cb3-354"><a href="" aria-label="354"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">310</span><span class="op">,</span></span>
+<span id="cb3-355"><a href="" aria-label="355"></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">78</span><span class="op">,</span></span>
+<span id="cb3-356"><a href="" aria-label="356"></a>  <span class="dt">marginTop</span><span class="op">:</span> <span class="dv">40</span><span class="op">,</span></span>
+<span id="cb3-357"><a href="" aria-label="357"></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">58</span><span class="op">,</span></span>
+<span id="cb3-358"><a href="" aria-label="358"></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontSize</span><span class="op">:</span> <span class="st">"18px"</span>}<span class="op">,</span></span>
+<span id="cb3-359"><a href="" aria-label="359"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">type</span><span class="op">:</span> <span class="st">"log"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="fl">0.1</span><span class="op">,</span> <span class="dv">50</span>]<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Base rate of fraud (%, log scale)"</span><span class="op">,</span></span>
+<span id="cb3-360"><a href="" aria-label="360"></a>      <span class="dt">ticks</span><span class="op">:</span> [<span class="fl">0.1</span><span class="op">,</span> <span class="fl">0.2</span><span class="op">,</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">5</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">50</span>]<span class="op">,</span> <span class="dt">tickFormat</span><span class="op">:</span> d <span class="kw">=&gt;</span> <span class="bu">String</span>(d)}<span class="op">,</span></span>
+<span id="cb3-361"><a href="" aria-label="361"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"P(fraud | flagged)"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> <span class="dt">tickFormat</span><span class="op">:</span> <span class="st">".1f"</span>}<span class="op">,</span></span>
+<span id="cb3-362"><a href="" aria-label="362"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb3-363"><a href="" aria-label="363"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="fl">0.5</span>]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"#cbb8a9"</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"4 4"</span>})<span class="op">,</span></span>
+<span id="cb3-364"><a href="" aria-label="364"></a>    Plot<span class="op">.</span><span class="fu">line</span>(grid<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"pct"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"post"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#14130f"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span>})<span class="op">,</span></span>
+<span id="cb3-365"><a href="" aria-label="365"></a>    Plot<span class="op">.</span><span class="fu">dot</span>(current<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"pct"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"post"</span><span class="op">,</span> <span class="dt">r</span><span class="op">:</span> <span class="dv">9</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#8b2635"</span>})<span class="op">,</span></span>
+<span id="cb3-366"><a href="" aria-label="366"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
+<span id="cb3-367"><a href="" aria-label="367"></a>  ]</span>
+<span id="cb3-368"><a href="" aria-label="368"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -616,7 +627,7 @@ Samir Orujov, PhD
 <h2>🧠 Think-Pair-Share</h2>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_190fc1c7" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_bd3f622e" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
 </div>
 </div>
 <div style="font-size: 30px">
@@ -641,6 +652,97 @@ Samir Orujov, PhD
 <li>The same partition, with <span class="math inline">\(\bar{L}\)</span> in place of <span class="math inline">\(L\)</span>. <span class="math inline">\(P(\bar{L}) = 1 - 0.043 = 0.957\)</span> and <span class="math display">\[P(\text{business} \mid \bar{L}) = \frac{0.1 \times 0.99}{0.957} = 0.103\]</span> Staying tells you almost nothing — nearly everyone stays — so the posterior barely moves off the 10% prior.</li>
 </ol>
 </div>
+</div>
+</section>
+<section id="case-study-does-an-inverted-yield-curve-predict-recession" class="slide level2">
+<h2>💰 Case Study: Does an Inverted Yield Curve Predict Recession?</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📈 The question</strong></p>
+</div>
+<div class="callout-content">
+<p>Call a month <strong>inverted</strong> if the 10-year Treasury yield sits below the 2-year on average.</p>
+<ol type="1">
+<li>How often has the curve been inverted?</li>
+<li>Does inversion raise the chance of a recession in the next year?</li>
+<li>How does that compare with the base rate?</li>
+</ol>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 The data</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Series</strong>: 10Y−2Y Treasury spread (FRED <code>T10Y2Y</code>); NBER recession months (FRED <code>USREC</code>)</p>
+<p><strong>Period</strong>: Jun 1976 – Aug 2026, 603 months with a full 12-month look-ahead</p>
+<p><span class="math inline">\(B\)</span> = month inverted (mean daily spread <span class="math inline">\(&lt; 0\)</span>); <span class="math inline">\(A\)</span> = a recession starts within the next 12 months</p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="case-study-base-rate-vs.-inverted-curve" class="slide level2">
+<h2>💰 Case Study: Base Rate vs.&nbsp;Inverted Curve</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>📦 Load the data and build the partition</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="" aria-label="1"></a>t10 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/t10y2y.csv"</span>, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"spread"</span>))</span>
+<span id="cb8-2"><a href="" aria-label="2"></a>t10<span class="sc">$</span>spread <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(t10<span class="sc">$</span>spread))  <span class="co"># FRED marks holidays "."</span></span>
+<span id="cb8-3"><a href="" aria-label="3"></a>t10 <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(t10)</span>
+<span id="cb8-4"><a href="" aria-label="4"></a>t10<span class="sc">$</span>month <span class="ot">&lt;-</span> <span class="fu">substr</span>(t10<span class="sc">$</span>date, <span class="dv">1</span>, <span class="dv">7</span>)</span>
+<span id="cb8-5"><a href="" aria-label="5"></a>monthly <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(spread <span class="sc">~</span> month, t10, mean)</span>
+<span id="cb8-6"><a href="" aria-label="6"></a>monthly<span class="sc">$</span>inverted <span class="ot">&lt;-</span> monthly<span class="sc">$</span>spread <span class="sc">&lt;</span> <span class="dv">0</span></span>
+<span id="cb8-7"><a href="" aria-label="7"></a></span>
+<span id="cb8-8"><a href="" aria-label="8"></a>rec <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/usrec.csv"</span>, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"rec"</span>))</span>
+<span id="cb8-9"><a href="" aria-label="9"></a>rec<span class="sc">$</span>month <span class="ot">&lt;-</span> <span class="fu">substr</span>(rec<span class="sc">$</span>date, <span class="dv">1</span>, <span class="dv">7</span>)</span>
+<span id="cb8-10"><a href="" aria-label="10"></a>m <span class="ot">&lt;-</span> <span class="fu">merge</span>(monthly, rec[, <span class="fu">c</span>(<span class="st">"month"</span>, <span class="st">"rec"</span>)], <span class="at">by =</span> <span class="st">"month"</span>)</span>
+<span id="cb8-11"><a href="" aria-label="11"></a>m <span class="ot">&lt;-</span> m[<span class="fu">order</span>(m<span class="sc">$</span>month), ]</span>
+<span id="cb8-12"><a href="" aria-label="12"></a></span>
+<span id="cb8-13"><a href="" aria-label="13"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(m)</span>
+<span id="cb8-14"><a href="" aria-label="14"></a>m<span class="sc">$</span>rec_next12 <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">seq_len</span>(n), <span class="cf">function</span>(i) {</span>
+<span id="cb8-15"><a href="" aria-label="15"></a>  j <span class="ot">&lt;-</span> (i <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">:</span><span class="fu">min</span>(i <span class="sc">+</span> <span class="dv">12</span>, n)</span>
+<span id="cb8-16"><a href="" aria-label="16"></a>  <span class="cf">if</span> (i <span class="sc">+</span> <span class="dv">12</span> <span class="sc">&gt;</span> n) <span class="cn">NA</span> <span class="cf">else</span> <span class="fu">any</span>(m<span class="sc">$</span>rec[j] <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb8-17"><a href="" aria-label="17"></a>})</span>
+<span id="cb8-18"><a href="" aria-label="18"></a>m <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(m)</span>
+<span id="cb8-19"><a href="" aria-label="19"></a></span>
+<span id="cb8-20"><a href="" aria-label="20"></a>p_rec   <span class="ot">&lt;-</span> <span class="fu">mean</span>(m<span class="sc">$</span>rec_next12)                       <span class="co"># base rate, P(A)</span></span>
+<span id="cb8-21"><a href="" aria-label="21"></a>p_A_B   <span class="ot">&lt;-</span> <span class="fu">mean</span>(m<span class="sc">$</span>rec_next12[m<span class="sc">$</span>inverted])            <span class="co"># P(A | inverted), direct</span></span>
+<span id="cb8-22"><a href="" aria-label="22"></a>p_B_A   <span class="ot">&lt;-</span> <span class="fu">mean</span>(m<span class="sc">$</span>inverted[m<span class="sc">$</span>rec_next12])            <span class="co"># P(B | A), sensitivity</span></span>
+<span id="cb8-23"><a href="" aria-label="23"></a>p_B_nA  <span class="ot">&lt;-</span> <span class="fu">mean</span>(m<span class="sc">$</span>inverted[<span class="sc">!</span>m<span class="sc">$</span>rec_next12])           <span class="co"># P(B | not A), false alarm</span></span>
+<span id="cb8-24"><a href="" aria-label="24"></a>bayes   <span class="ot">&lt;-</span> p_B_A <span class="sc">*</span> p_rec <span class="sc">/</span> (p_B_A <span class="sc">*</span> p_rec <span class="sc">+</span> p_B_nA <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_rec))  <span class="co"># Theorem 2.9</span></span>
+<span id="cb8-25"><a href="" aria-label="25"></a></span>
+<span id="cb8-26"><a href="" aria-label="26"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">p_rec_base =</span> p_rec, <span class="at">p_rec_given_inverted =</span> p_A_B,</span>
+<span id="cb8-27"><a href="" aria-label="27"></a>        <span class="at">bayes_reconstruction =</span> bayes, <span class="at">p_inverted_given_rec =</span> p_B_A), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>          p_rec_base p_rec_given_inverted bayes_reconstruction 
+               0.210                0.505                0.505 
+p_inverted_given_rec 
+               0.403 </code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>Inversion lifts the recession chance from a 21% base rate to 51% — Theorem 2.9 rebuilds the same 51% from the sensitivity and false-alarm rates.</p>
+</div>
+</section>
+<section id="case-study-model-vs.-data" class="slide level2">
+<h2>💰 Case Study: Model vs.&nbsp;Data</h2>
+
+<img data-src="total_probability_bayes_lecture8_files/figure-revealjs/case-yieldcurve-fig-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1500"><div style="font-size: 28px">
+<p><strong>What the data say:</strong> an inverted curve roughly triples the recession share, from 15% to 51%. It still fails often: half of all inversions since 1976 were not followed by a recession within a year — a false alarm, not a certainty.</p>
 </div>
 </section>
 <section id="quiz-1-total-probability" class="slide level2 quiz-question">
