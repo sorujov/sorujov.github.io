@@ -77,6 +77,17 @@ By the end of this lecture, you will be able to:
 
 ---
 
+## 🔁 Warm-up from last time {.quiz-question}
+
+Last class: what is enough to prove that two random variables in a joint table are **not** independent?
+
+- [Finding just one cell where $p(y_1, y_2) \neq p_1(y_1)p_2(y_2)$]{.correct data-explanation="✅ Theorem 5.4: independence requires the factorisation to hold at every cell, so one failing cell is a proof of dependence. Proving independence, by contrast, needs every cell checked."}
+- Checking that every cell matches the product of its marginals
+- Showing the correlation between them is exactly zero
+- Confirming the joint table sums to 1
+
+---
+
 ## 🗺️ Where We Are
 
 ::: {style="font-size: 30px"}
@@ -438,6 +449,80 @@ $$E(Y_1Y_2) = 1(.15) + 2(.10) + 2(.05) + 4(.08) = 0.77$$
 
 Note that $E(R) = 1509$ AZN did **not** need any of this: linearity ignores dependence.
 :::
+:::
+
+---
+
+## 💰 Case Study: Stocks and the 10-Year Yield
+
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
+
+$Y_1$ = daily S&P 500 log return, $Y_2$ = daily change in the 10-year Treasury yield.
+
+1. What sign is $\text{Cov}(Y_1, Y_2)$?
+2. What does $\rho$ say about the strength of the link, once units are removed?
+3. Is the link stable, or does it hide different regimes?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: S&P 500 close (FRED `SP500`), 10-year Treasury yield (FRED `DGS10`)
+
+**Period**: Sep 2016 – Sep 2026, about 2,500 days
+
+**Transformation**: $Y_1$ = daily log return, $Y_2$ = daily change in yield (percentage points)
+:::
+:::
+::::
+
+---
+
+## 💰 Case Study: Covariance and Correlation in R
+
+```{r}
+#| label: case-cov
+#| code-summary: "📦 Compute Cov(Y1, Y2) and rho"
+m <- read.csv("data/sp_dgs10.csv")
+m$sp  <- suppressWarnings(as.numeric(m$sp))     # FRED marks holidays "."
+m$y10 <- suppressWarnings(as.numeric(m$y10))
+m <- na.omit(m)
+sp_ret <- diff(log(m$sp))
+dy10   <- diff(m$y10)
+
+round(c(cov_Y1Y2 = cov(sp_ret, dy10),
+        sd_Y1 = sd(sp_ret), sd_Y2 = sd(dy10),
+        rho = cor(sp_ret, dy10)), 4)
+```
+
+::: {style="font-size: 28px"}
+Covariance alone is hard to read because the two series are in different units; $\rho$ says the same thing on a $[-1, 1]$ scale.
+:::
+
+---
+
+## 💰 Case Study: A Weak, Positive Link
+
+```{r}
+#| label: case-cov-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.9
+df <- data.frame(sp_ret = sp_ret, dy10 = dy10)
+ggplot(df, aes(sp_ret, dy10)) +
+  geom_point(alpha = 0.25, color = "#8b2635") +
+  geom_smooth(method = "lm", se = FALSE, color = "#8ba3c7", linewidth = 1.2) +
+  labs(x = "S&P 500 daily log return", y = "Δ 10Y yield (pp)") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+**What the data say:** the fitted line has the sign Theorem 5.10 predicts from the positive covariance — stocks and yields tend to rise together, a "risk-on" pattern. The fit is loose ($\rho \approx 0.11$): most days show no clear link, and the relationship reverses in some stress episodes, when both fall together instead.
 :::
 
 ---

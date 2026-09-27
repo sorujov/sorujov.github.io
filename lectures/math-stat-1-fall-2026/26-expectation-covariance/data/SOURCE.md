@@ -1,0 +1,1 @@
+S&P 500 daily close (FRED series `SP500`) and 10-year Treasury constant maturity yield (FRED series `DGS10`), https://fred.stlouisfed.org/series/SP500 and https://fred.stlouisfed.org/series/DGS10, 27 September 2016 – 24 September 2026, downloaded 27 Sep 2026.

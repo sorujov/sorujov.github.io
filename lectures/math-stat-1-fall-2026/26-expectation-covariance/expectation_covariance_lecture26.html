@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Samir Orujov, PhD">
-  <meta name="dcterms.date" content="2026-09-24">
+  <meta name="dcterms.date" content="2026-09-27">
   <title>Mathematical Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -220,7 +220,7 @@ Samir Orujov, PhD
     </div>
 </div>
 
-  <p class="date">2026-09-24</p>
+  <p class="date">2026-09-27</p>
 </section>
 <section id="learning-objectives" class="slide level2">
 <h2>🎯 Learning Objectives</h2>
@@ -234,6 +234,16 @@ Samir Orujov, PhD
 <li><p><strong>Explain</strong> why independence implies zero covariance, but zero covariance does not imply independence</p></li>
 </ul>
 </div>
+</section>
+<section id="warm-up-from-last-time" class="slide level2 quiz-question">
+<h2>🔁 Warm-up from last time</h2>
+<p>Last class: what is enough to prove that two random variables in a joint table are <strong>not</strong> independent?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Theorem 5.4: independence requires the factorisation to hold at every cell, so one failing cell is a proof of dependence. Proving independence, by contrast, needs every cell checked.">Finding just one cell where <span class="math inline">\(p(y_1, y_2) \neq p_1(y_1)p_2(y_2)\)</span></span></li>
+<li>Checking that every cell matches the product of its marginals</li>
+<li>Showing the correlation between them is exactly zero</li>
+<li>Confirming the joint table sums to 1</li>
+</ul>
 </section>
 <section id="where-we-are" class="slide level2">
 <h2>🗺️ Where We Are</h2>
@@ -603,7 +613,7 @@ Samir Orujov, PhD
 <h2>🧠 Think-Pair-Share</h2>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_93a7afc2" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_a28f47b9" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
 </div>
 </div>
 <div style="font-size: 30px">
@@ -663,6 +673,78 @@ Samir Orujov, PhD
 </ol>
 <p>Note that <span class="math inline">\(E(R) = 1509\)</span> AZN did <strong>not</strong> need any of this: linearity ignores dependence.</p>
 </div>
+</div>
+</section>
+<section id="case-study-stocks-and-the-10-year-yield" class="slide level2">
+<h2>💰 Case Study: Stocks and the 10-Year Yield</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📈 The question</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math inline">\(Y_1\)</span> = daily S&amp;P 500 log return, <span class="math inline">\(Y_2\)</span> = daily change in the 10-year Treasury yield.</p>
+<ol type="1">
+<li>What sign is <span class="math inline">\(\text{Cov}(Y_1, Y_2)\)</span>?</li>
+<li>What does <span class="math inline">\(\rho\)</span> say about the strength of the link, once units are removed?</li>
+<li>Is the link stable, or does it hide different regimes?</li>
+</ol>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 The data</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Series</strong>: S&amp;P 500 close (FRED <code>SP500</code>), 10-year Treasury yield (FRED <code>DGS10</code>)</p>
+<p><strong>Period</strong>: Sep 2016 – Sep 2026, about 2,500 days</p>
+<p><strong>Transformation</strong>: <span class="math inline">\(Y_1\)</span> = daily log return, <span class="math inline">\(Y_2\)</span> = daily change in yield (percentage points)</p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="case-study-covariance-and-correlation-in-r" class="slide level2">
+<h2>💰 Case Study: Covariance and Correlation in R</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>📦 Compute Cov(Y1, Y2) and rho</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="" aria-label="1"></a>m <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/sp_dgs10.csv"</span>)</span>
+<span id="cb5-2"><a href="" aria-label="2"></a>m<span class="sc">$</span>sp  <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(m<span class="sc">$</span>sp))     <span class="co"># FRED marks holidays "."</span></span>
+<span id="cb5-3"><a href="" aria-label="3"></a>m<span class="sc">$</span>y10 <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(m<span class="sc">$</span>y10))</span>
+<span id="cb5-4"><a href="" aria-label="4"></a>m <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(m)</span>
+<span id="cb5-5"><a href="" aria-label="5"></a>sp_ret <span class="ot">&lt;-</span> <span class="fu">diff</span>(<span class="fu">log</span>(m<span class="sc">$</span>sp))</span>
+<span id="cb5-6"><a href="" aria-label="6"></a>dy10   <span class="ot">&lt;-</span> <span class="fu">diff</span>(m<span class="sc">$</span>y10)</span>
+<span id="cb5-7"><a href="" aria-label="7"></a></span>
+<span id="cb5-8"><a href="" aria-label="8"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">cov_Y1Y2 =</span> <span class="fu">cov</span>(sp_ret, dy10),</span>
+<span id="cb5-9"><a href="" aria-label="9"></a>        <span class="at">sd_Y1 =</span> <span class="fu">sd</span>(sp_ret), <span class="at">sd_Y2 =</span> <span class="fu">sd</span>(dy10),</span>
+<span id="cb5-10"><a href="" aria-label="10"></a>        <span class="at">rho =</span> <span class="fu">cor</span>(sp_ret, dy10)), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>cov_Y1Y2    sd_Y1    sd_Y2      rho 
+  0.0001   0.0114   0.0535   0.1063 </code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>Covariance alone is hard to read because the two series are in different units; <span class="math inline">\(\rho\)</span> says the same thing on a <span class="math inline">\([-1, 1]\)</span> scale.</p>
+</div>
+</section>
+<section id="case-study-a-weak-positive-link" class="slide level2">
+<h2>💰 Case Study: A Weak, Positive Link</h2>
+
+<img data-src="expectation_covariance_lecture26_files/figure-revealjs/case-cov-fig-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1500"><div style="font-size: 28px">
+<p><strong>What the data say:</strong> the fitted line has the sign Theorem 5.10 predicts from the positive covariance — stocks and yields tend to rise together, a “risk-on” pattern. The fit is loose (<span class="math inline">\(\rho \approx 0.11\)</span>): most days show no clear link, and the relationship reverses in some stress episodes, when both fall together instead.</p>
 </div>
 </section>
 <section id="quiz-1-linearity" class="slide level2 quiz-question">
