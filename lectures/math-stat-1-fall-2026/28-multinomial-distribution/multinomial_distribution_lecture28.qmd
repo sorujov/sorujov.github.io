@@ -77,6 +77,17 @@ By the end of this lecture, you will be able to:
 
 ---
 
+## 🔁 Warm-up from last time {.quiz-question}
+
+Last class: for a two-asset portfolio with correlation $\rho < 1$, how does the portfolio's risk compare to the **weighted average** of the two assets' individual risks?
+
+- [It is strictly lower — diversification reduces risk whenever $\rho < 1$]{.correct data-explanation="✅ Theorem 5.12 gives V(portfolio) = w²σ₁² + (1-w)²σ₂² + 2w(1-w)ρσ₁σ₂, which is below the weighted average (w σ₁ + (1-w) σ₂)² whenever ρ < 1."}
+- It equals the weighted average, regardless of $\rho$
+- It is higher, since combining two risky assets adds risk
+- It depends only on the two variances, not on $\rho$
+
+---
+
 ## 🗺️ Where We Are
 
 ::: {style="font-size: 30px"}
@@ -283,6 +294,92 @@ $$V(D) = 20(0.45)(0.55) + 20(0.35)(0.65) - 2(-3.15) = 4.95 + 4.55 + 6.30 = 15.8$
 ::: {.fragment}
 3. $\text{Cov} = -20(0.45)(0.35) = -3.15$. Every up day is a day that was not down. The negative covariance **widens** the spread of a difference: $-2\,\text{Cov}$ adds to $V(D)$.
 :::
+:::
+
+---
+
+## 💰 Case Study: A Month of Trading Days as Multinomial Cells
+
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
+
+Sort each trading day into one of four cells by its S&P 500 return.
+
+1. Do monthly cell counts match a multinomial mean $np_j$?
+2. Does the variance match $np_j(1-p_j)$?
+3. Does the covariance between two cells stay negative, as Theorem 5.13 requires?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: S&P 500 daily close (FRED `SP500`)
+
+**Period**: Sep 2016 – Sep 2026, about 2,500 days, 120 full months
+
+**Cells**: big down ($< -1\%$), small down, small up, big up ($\geq 1\%$)
+:::
+:::
+::::
+
+---
+
+## 💰 Case Study: Means Match, Variances Don't
+
+```{r}
+#| label: case-multinomial
+#| code-summary: "📦 Cell counts per month vs. the multinomial prediction"
+sp <- read.csv("data/sp500.csv", col.names = c("date", "close"))
+sp$close <- suppressWarnings(as.numeric(sp$close))    # FRED marks holidays "."
+sp <- na.omit(sp)
+ret <- diff(log(sp$close))
+month <- substr(sp$date[-1], 1, 7)
+cell <- cut(ret, breaks = c(-Inf, -0.01, 0, 0.01, Inf),
+            labels = c("big_down", "small_down", "small_up", "big_up"))
+
+tab   <- table(month, cell)
+full  <- tab[rowSums(tab) >= 18, ]                    # full trading months only
+n_bar <- mean(rowSums(full))
+p_hat <- colSums(full) / sum(full)
+
+rbind(mean_count = round(colMeans(full), 2),
+      np         = round(n_bar * p_hat, 2),
+      var_count  = round(apply(full, 2, var), 2),
+      npq        = round(n_bar * p_hat * (1 - p_hat), 2))
+```
+
+::: {style="font-size: 28px"}
+The mean counts track $np_j$ closely; every cell's actual variance runs well above $np_j(1-p_j)$.
+:::
+
+---
+
+## 💰 Case Study: Cells Move Together, Not Apart
+
+```{r}
+#| label: case-multinomial-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.9
+cell_lvl <- c("big_down", "small_down", "small_up", "big_up")
+df <- rbind(
+  data.frame(cell = factor(cell_lvl, levels = cell_lvl),
+             count = colMeans(full), src = "Observed monthly mean"),
+  data.frame(cell = factor(cell_lvl, levels = cell_lvl),
+             count = n_bar * p_hat, src = "Multinomial np"))
+ggplot(df, aes(cell, count, fill = src)) +
+  geom_col(position = position_dodge(0.8), width = 0.75) +
+  scale_fill_manual(values = c("#8b2635", "#8ba3c7"), name = NULL) +
+  labs(x = NULL, y = "Trading days per month") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+**What the data say:** the bars line up, so the multinomial mean is a good model of an average month. It fails on the covariances: Theorem 5.13 says any two cell counts move oppositely, but big-down and big-up counts here *rise together* across months ($\text{Cov} > 0$) — calm months have few of both, volatile months have many, because trials are not independent across a month the way Definition 5.11 assumes.
 :::
 
 ---

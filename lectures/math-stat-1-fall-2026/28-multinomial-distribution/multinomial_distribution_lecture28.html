@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Samir Orujov, PhD">
-  <meta name="dcterms.date" content="2026-09-24">
+  <meta name="dcterms.date" content="2026-09-27">
   <title>Mathematical Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -220,7 +220,7 @@ Samir Orujov, PhD
     </div>
 </div>
 
-  <p class="date">2026-09-24</p>
+  <p class="date">2026-09-27</p>
 </section>
 <section id="learning-objectives" class="slide level2">
 <h2>🎯 Learning Objectives</h2>
@@ -234,6 +234,16 @@ Samir Orujov, PhD
 <li><p><strong>Combine</strong> Theorem 5.13 with Theorem 5.12 to find the mean and variance of a revenue total</p></li>
 </ul>
 </div>
+</section>
+<section id="warm-up-from-last-time" class="slide level2 quiz-question">
+<h2>🔁 Warm-up from last time</h2>
+<p>Last class: for a two-asset portfolio with correlation <span class="math inline">\(\rho &lt; 1\)</span>, how does the portfolio’s risk compare to the <strong>weighted average</strong> of the two assets’ individual risks?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Theorem 5.12 gives V(portfolio) = w²σ₁² + (1-w)²σ₂² + 2w(1-w)ρσ₁σ₂, which is below the weighted average (w σ₁ + (1-w) σ₂)² whenever ρ < 1.">It is strictly lower — diversification reduces risk whenever <span class="math inline">\(\rho &lt; 1\)</span></span></li>
+<li>It equals the weighted average, regardless of <span class="math inline">\(\rho\)</span></li>
+<li>It is higher, since combining two risky assets adds risk</li>
+<li>It depends only on the two variances, not on <span class="math inline">\(\rho\)</span></li>
+</ul>
 </section>
 <section id="where-we-are" class="slide level2">
 <h2>🗺️ Where We Are</h2>
@@ -403,7 +413,7 @@ Samir Orujov, PhD
 <h2>🧠 Think-Pair-Share</h2>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_58f060ad" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_815e8338" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
 </div>
 </div>
 <div style="font-size: 30px">
@@ -432,6 +442,88 @@ Samir Orujov, PhD
 <li><span class="math inline">\(\text{Cov} = -20(0.45)(0.35) = -3.15\)</span>. Every up day is a day that was not down. The negative covariance <strong>widens</strong> the spread of a difference: <span class="math inline">\(-2\,\text{Cov}\)</span> adds to <span class="math inline">\(V(D)\)</span>.</li>
 </ol>
 </div>
+</div>
+</section>
+<section id="case-study-a-month-of-trading-days-as-multinomial-cells" class="slide level2">
+<h2>💰 Case Study: A Month of Trading Days as Multinomial Cells</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📈 The question</strong></p>
+</div>
+<div class="callout-content">
+<p>Sort each trading day into one of four cells by its S&amp;P 500 return.</p>
+<ol type="1">
+<li>Do monthly cell counts match a multinomial mean <span class="math inline">\(np_j\)</span>?</li>
+<li>Does the variance match <span class="math inline">\(np_j(1-p_j)\)</span>?</li>
+<li>Does the covariance between two cells stay negative, as Theorem 5.13 requires?</li>
+</ol>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 The data</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Series</strong>: S&amp;P 500 daily close (FRED <code>SP500</code>)</p>
+<p><strong>Period</strong>: Sep 2016 – Sep 2026, about 2,500 days, 120 full months</p>
+<p><strong>Cells</strong>: big down (<span class="math inline">\(&lt; -1\%\)</span>), small down, small up, big up (<span class="math inline">\(\geq 1\%\)</span>)</p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="case-study-means-match-variances-dont" class="slide level2">
+<h2>💰 Case Study: Means Match, Variances Don’t</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>📦 Cell counts per month vs.&nbsp;the multinomial prediction</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-label="1"></a>sp <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/sp500.csv"</span>, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"close"</span>))</span>
+<span id="cb3-2"><a href="" aria-label="2"></a>sp<span class="sc">$</span>close <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(sp<span class="sc">$</span>close))    <span class="co"># FRED marks holidays "."</span></span>
+<span id="cb3-3"><a href="" aria-label="3"></a>sp <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(sp)</span>
+<span id="cb3-4"><a href="" aria-label="4"></a>ret <span class="ot">&lt;-</span> <span class="fu">diff</span>(<span class="fu">log</span>(sp<span class="sc">$</span>close))</span>
+<span id="cb3-5"><a href="" aria-label="5"></a>month <span class="ot">&lt;-</span> <span class="fu">substr</span>(sp<span class="sc">$</span>date[<span class="sc">-</span><span class="dv">1</span>], <span class="dv">1</span>, <span class="dv">7</span>)</span>
+<span id="cb3-6"><a href="" aria-label="6"></a>cell <span class="ot">&lt;-</span> <span class="fu">cut</span>(ret, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="cn">Inf</span>, <span class="sc">-</span><span class="fl">0.01</span>, <span class="dv">0</span>, <span class="fl">0.01</span>, <span class="cn">Inf</span>),</span>
+<span id="cb3-7"><a href="" aria-label="7"></a>            <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"big_down"</span>, <span class="st">"small_down"</span>, <span class="st">"small_up"</span>, <span class="st">"big_up"</span>))</span>
+<span id="cb3-8"><a href="" aria-label="8"></a></span>
+<span id="cb3-9"><a href="" aria-label="9"></a>tab   <span class="ot">&lt;-</span> <span class="fu">table</span>(month, cell)</span>
+<span id="cb3-10"><a href="" aria-label="10"></a>full  <span class="ot">&lt;-</span> tab[<span class="fu">rowSums</span>(tab) <span class="sc">&gt;=</span> <span class="dv">18</span>, ]                    <span class="co"># full trading months only</span></span>
+<span id="cb3-11"><a href="" aria-label="11"></a>n_bar <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">rowSums</span>(full))</span>
+<span id="cb3-12"><a href="" aria-label="12"></a>p_hat <span class="ot">&lt;-</span> <span class="fu">colSums</span>(full) <span class="sc">/</span> <span class="fu">sum</span>(full)</span>
+<span id="cb3-13"><a href="" aria-label="13"></a></span>
+<span id="cb3-14"><a href="" aria-label="14"></a><span class="fu">rbind</span>(<span class="at">mean_count =</span> <span class="fu">round</span>(<span class="fu">colMeans</span>(full), <span class="dv">2</span>),</span>
+<span id="cb3-15"><a href="" aria-label="15"></a>      <span class="at">np         =</span> <span class="fu">round</span>(n_bar <span class="sc">*</span> p_hat, <span class="dv">2</span>),</span>
+<span id="cb3-16"><a href="" aria-label="16"></a>      <span class="at">var_count  =</span> <span class="fu">round</span>(<span class="fu">apply</span>(full, <span class="dv">2</span>, var), <span class="dv">2</span>),</span>
+<span id="cb3-17"><a href="" aria-label="17"></a>      <span class="at">npq        =</span> <span class="fu">round</span>(n_bar <span class="sc">*</span> p_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat), <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>           big_down small_down small_up big_up
+mean_count     2.30       7.18     8.67   2.77
+np             2.30       7.18     8.67   2.77
+var_count      5.54       5.42    11.96   5.66
+npq            2.05       4.71     5.07   2.40</code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>The mean counts track <span class="math inline">\(np_j\)</span> closely; every cell’s actual variance runs well above <span class="math inline">\(np_j(1-p_j)\)</span>.</p>
+</div>
+</section>
+<section id="case-study-cells-move-together-not-apart" class="slide level2">
+<h2>💰 Case Study: Cells Move Together, Not Apart</h2>
+
+<img data-src="multinomial_distribution_lecture28_files/figure-revealjs/case-multinomial-fig-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1500"><div style="font-size: 28px">
+<p><strong>What the data say:</strong> the bars line up, so the multinomial mean is a good model of an average month. It fails on the covariances: Theorem 5.13 says any two cell counts move oppositely, but big-down and big-up counts here <em>rise together</em> across months (<span class="math inline">\(\text{Cov} &gt; 0\)</span>) — calm months have few of both, volatile months have many, because trials are not independent across a month the way Definition 5.11 assumes.</p>
 </div>
 </section>
 <section id="quiz-1-the-sign-of-the-covariance" class="slide level2 quiz-question">
