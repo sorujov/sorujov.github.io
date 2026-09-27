@@ -77,6 +77,17 @@ By the end of this lecture, you will be able to:
 
 ---
 
+## 🔁 Warm-up from last time {.quiz-question}
+
+For two jointly continuous random variables $Y_1, Y_2$, last class's central result was: $P(a < Y_1 < b,\ c < Y_2 < d)$ equals what?
+
+- [The double integral of $f(y_1, y_2)$ over the rectangle — the volume under the joint density]{.correct data-explanation="✅ Wednesday's result: for jointly continuous variables, a probability is a volume under $f(y_1,y_2)$ over the region, found by integrating twice."}
+- $P(a < Y_1 < b) + P(c < Y_2 < d)$, the sum of the two marginal probabilities
+- $f(a,c) \times (b-a) \times (d-c)$, the density at one corner times the rectangle's area
+- $F(b,d)$ alone, since the CDF already accumulates everything below and to the left
+
+---
+
 ## 🗺️ Where We Are
 
 ::: {style="font-size: 30px"}
@@ -431,6 +442,89 @@ $$p(1 \mid 0) = \tfrac{0.06}{0.60} = 0.10, \quad p(1 \mid 1) = \tfrac{0.08}{0.30
 ::: {.fragment}
 Part 2 is the engineer's number; part 3 is the marketing team's. **Name which variable is given before you divide.**
 :::
+:::
+
+---
+
+## 💰 Case Study: Returns Conditional on Fear
+
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
+
+Split S&P 500 daily returns by **yesterday's** VIX level.
+
+1. Does the conditional mean shift between calm and fearful days?
+2. Does the conditional spread shift?
+3. Which matches Definition 5.5 — a genuinely different distribution for each condition?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: S&P 500 close (FRED `SP500`), VIX close (FRED `VIXCLS`)
+
+**Period**: Sep 2016 – Sep 2026, about 2,600 days
+
+**Condition**: yesterday's VIX $\geq 25$ (fearful) vs. $< 25$ (calm)
+
+$Y$ = today's daily log return, conditioned on lagged VIX
+:::
+:::
+::::
+
+---
+
+## 💰 Case Study: Conditioning in R
+
+```{r}
+#| label: case-vix-cond
+#| code-summary: "📦 Condition returns on yesterday's VIX"
+m <- read.csv("data/sp_vix.csv")
+m$close <- suppressWarnings(as.numeric(m$close))    # FRED marks holidays "."
+m$vix   <- suppressWarnings(as.numeric(m$vix))
+m <- na.omit(m)
+m$ret     <- c(NA, diff(log(m$close)))
+m$vix_lag <- c(NA, m$vix[-nrow(m)])
+m <- na.omit(m)
+
+fearful <- m$ret[m$vix_lag >= 25]
+calm    <- m$ret[m$vix_lag <  25]
+
+round(c(n_calm = length(calm), n_fearful = length(fearful),
+        mean_calm_pct = mean(calm) * 100, mean_fearful_pct = mean(fearful) * 100,
+        sd_calm_pct = sd(calm) * 100, sd_fearful_pct = sd(fearful) * 100,
+        sd_unconditional_pct = sd(m$ret) * 100), 3)
+```
+
+::: {style="font-size: 28px"}
+The conditional mean barely moves; the conditional spread nearly triples once yesterday's VIX crosses 25.
+:::
+
+---
+
+## 💰 Case Study: Two Conditional Distributions
+
+```{r}
+#| label: case-vix-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.9
+m$group <- factor(ifelse(m$vix_lag >= 25, "Fearful (VIX ≥ 25)", "Calm (VIX < 25)"),
+                   levels = c("Calm (VIX < 25)", "Fearful (VIX ≥ 25)"))
+ggplot(m, aes(ret, fill = group)) +
+  geom_density(alpha = 0.55, color = NA) +
+  coord_cartesian(xlim = c(-0.05, 0.05)) +
+  scale_fill_manual(values = c("#8ba3c7", "#8b2635"), name = NULL) +
+  labs(x = "Daily log return", y = "Density") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+**What the data say:** conditioning on yesterday's VIX gives two visibly different distributions, exactly as Definition 5.5 describes — same variable, different condition, different spread. The model still misses the fat left tail of the fearful group: crashes such as March 2020 make that conditional distribution more extreme than its variance alone suggests.
 :::
 
 ---

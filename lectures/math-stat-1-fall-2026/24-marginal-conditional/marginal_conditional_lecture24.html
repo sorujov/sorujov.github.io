@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Samir Orujov, PhD">
-  <meta name="dcterms.date" content="2026-09-24">
+  <meta name="dcterms.date" content="2026-09-27">
   <title>Mathematical Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -222,7 +222,7 @@ Samir Orujov, PhD
     </div>
 </div>
 
-  <p class="date">2026-09-24</p>
+  <p class="date">2026-09-27</p>
 </section>
 <section id="learning-objectives" class="slide level2">
 <h2>🎯 Learning Objectives</h2>
@@ -236,6 +236,16 @@ Samir Orujov, PhD
 <li><p><strong>Condition</strong> a claim-size density on the event that the claim exceeds a deductible</p></li>
 </ul>
 </div>
+</section>
+<section id="warm-up-from-last-time" class="slide level2 quiz-question">
+<h2>🔁 Warm-up from last time</h2>
+<p>For two jointly continuous random variables <span class="math inline">\(Y_1, Y_2\)</span>, last class’s central result was: <span class="math inline">\(P(a &lt; Y_1 &lt; b,\ c &lt; Y_2 &lt; d)\)</span> equals what?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Wednesday's result: for jointly continuous variables, a probability is a volume under $f(y_1,y_2)$ over the region, found by integrating twice.">The double integral of <span class="math inline">\(f(y_1, y_2)\)</span> over the rectangle — the volume under the joint density</span></li>
+<li><span class="math inline">\(P(a &lt; Y_1 &lt; b) + P(c &lt; Y_2 &lt; d)\)</span>, the sum of the two marginal probabilities</li>
+<li><span class="math inline">\(f(a,c) \times (b-a) \times (d-c)\)</span>, the density at one corner times the rectangle’s area</li>
+<li><span class="math inline">\(F(b,d)\)</span> alone, since the CDF already accumulates everything below and to the left</li>
+</ul>
 </section>
 <section id="where-we-are" class="slide level2">
 <h2>🗺️ Where We Are</h2>
@@ -534,13 +544,13 @@ income   500   900  1500
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb7" data-startfrom="347" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 346;"><span id="cb7-347"><a href="" aria-label="347"></a>viewof d <span class="op">=</span> {</span>
-<span id="cb7-348"><a href="" aria-label="348"></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.05</span><span class="op">,</span></span>
-<span id="cb7-349"><a href="" aria-label="349"></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Deductible d (thousand AZN):"</span>})<span class="op">;</span></span>
-<span id="cb7-350"><a href="" aria-label="350"></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
-<span id="cb7-351"><a href="" aria-label="351"></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
-<span id="cb7-352"><a href="" aria-label="352"></a>  <span class="cf">return</span> input<span class="op">;</span></span>
-<span id="cb7-353"><a href="" aria-label="353"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb7" data-startfrom="358" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 357;"><span id="cb7-358"><a href="" aria-label="358"></a>viewof d <span class="op">=</span> {</span>
+<span id="cb7-359"><a href="" aria-label="359"></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">2</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.05</span><span class="op">,</span></span>
+<span id="cb7-360"><a href="" aria-label="360"></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Deductible d (thousand AZN):"</span>})<span class="op">;</span></span>
+<span id="cb7-361"><a href="" aria-label="361"></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
+<span id="cb7-362"><a href="" aria-label="362"></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
+<span id="cb7-363"><a href="" aria-label="363"></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb7-364"><a href="" aria-label="364"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-1" data-nodetype="declaration">
@@ -551,14 +561,14 @@ income   500   900  1500
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb8" data-startfrom="361" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 360;"><span id="cb8-361"><a href="" aria-label="361"></a>fy <span class="op">=</span> y <span class="kw">=&gt;</span> y <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(<span class="op">-</span>y <span class="op">/</span> <span class="fl">0.4</span>) <span class="op">/</span> <span class="fl">0.16</span>          <span class="co">// gamma(2, 0.4) density</span></span>
-<span id="cb8-362"><a href="" aria-label="362"></a>Sd <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(<span class="op">-</span>d <span class="op">/</span> <span class="fl">0.4</span>) <span class="op">*</span> (<span class="dv">1</span> <span class="op">+</span> d <span class="op">/</span> <span class="fl">0.4</span>)           <span class="co">// P(Y &gt; d)</span></span>
-<span id="cb8-363"><a href="" aria-label="363"></a>grid <span class="op">=</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({<span class="dt">length</span><span class="op">:</span> <span class="dv">400</span>}<span class="op">,</span> (_<span class="op">,</span> i) <span class="kw">=&gt;</span> {</span>
-<span id="cb8-364"><a href="" aria-label="364"></a>  <span class="kw">const</span> y <span class="op">=</span> (i <span class="op">+</span> <span class="dv">1</span>) <span class="op">/</span> <span class="dv">100</span><span class="op">;</span></span>
-<span id="cb8-365"><a href="" aria-label="365"></a>  <span class="cf">return</span> {y<span class="op">,</span> <span class="dt">f</span><span class="op">:</span> <span class="fu">fy</span>(y)<span class="op">,</span> <span class="dt">c</span><span class="op">:</span> y <span class="op">&gt;</span> d <span class="op">?</span> <span class="fu">fy</span>(y) <span class="op">/</span> Sd <span class="op">:</span> <span class="dv">0</span>}<span class="op">;</span></span>
-<span id="cb8-366"><a href="" aria-label="366"></a>})</span>
-<span id="cb8-367"><a href="" aria-label="367"></a></span>
-<span id="cb8-368"><a href="" aria-label="368"></a><span class="fu">md</span><span class="vs">`P(Y &gt; d) = **</span><span class="sc">${</span>Sd<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="vs">**, so every surviving density value is multiplied by **</span><span class="sc">${</span>(<span class="dv">1</span> <span class="op">/</span> Sd)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">**. Dashed: f(y). Shaded: f(y | Y &gt; d).`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb8" data-startfrom="372" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 371;"><span id="cb8-372"><a href="" aria-label="372"></a>fy <span class="op">=</span> y <span class="kw">=&gt;</span> y <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(<span class="op">-</span>y <span class="op">/</span> <span class="fl">0.4</span>) <span class="op">/</span> <span class="fl">0.16</span>          <span class="co">// gamma(2, 0.4) density</span></span>
+<span id="cb8-373"><a href="" aria-label="373"></a>Sd <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(<span class="op">-</span>d <span class="op">/</span> <span class="fl">0.4</span>) <span class="op">*</span> (<span class="dv">1</span> <span class="op">+</span> d <span class="op">/</span> <span class="fl">0.4</span>)           <span class="co">// P(Y &gt; d)</span></span>
+<span id="cb8-374"><a href="" aria-label="374"></a>grid <span class="op">=</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({<span class="dt">length</span><span class="op">:</span> <span class="dv">400</span>}<span class="op">,</span> (_<span class="op">,</span> i) <span class="kw">=&gt;</span> {</span>
+<span id="cb8-375"><a href="" aria-label="375"></a>  <span class="kw">const</span> y <span class="op">=</span> (i <span class="op">+</span> <span class="dv">1</span>) <span class="op">/</span> <span class="dv">100</span><span class="op">;</span></span>
+<span id="cb8-376"><a href="" aria-label="376"></a>  <span class="cf">return</span> {y<span class="op">,</span> <span class="dt">f</span><span class="op">:</span> <span class="fu">fy</span>(y)<span class="op">,</span> <span class="dt">c</span><span class="op">:</span> y <span class="op">&gt;</span> d <span class="op">?</span> <span class="fu">fy</span>(y) <span class="op">/</span> Sd <span class="op">:</span> <span class="dv">0</span>}<span class="op">;</span></span>
+<span id="cb8-377"><a href="" aria-label="377"></a>})</span>
+<span id="cb8-378"><a href="" aria-label="378"></a></span>
+<span id="cb8-379"><a href="" aria-label="379"></a><span class="fu">md</span><span class="vs">`P(Y &gt; d) = **</span><span class="sc">${</span>Sd<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="vs">**, so every surviving density value is multiplied by **</span><span class="sc">${</span>(<span class="dv">1</span> <span class="op">/</span> Sd)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">**. Dashed: f(y). Shaded: f(y | Y &gt; d).`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -590,19 +600,19 @@ income   500   900  1500
 </div>
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb9" data-startfrom="370" data-source-offset="-416"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 369;"><span id="cb9-370"><a href="" aria-label="370"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
-<span id="cb9-371"><a href="" aria-label="371"></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">1150</span><span class="op">,</span> <span class="dt">height</span><span class="op">:</span> <span class="dv">290</span><span class="op">,</span> <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">78</span><span class="op">,</span> <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">58</span><span class="op">,</span></span>
-<span id="cb9-372"><a href="" aria-label="372"></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontSize</span><span class="op">:</span> <span class="st">"18px"</span>}<span class="op">,</span></span>
-<span id="cb9-373"><a href="" aria-label="373"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Claim size y (thousand AZN)"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">4</span>]<span class="op">,</span> <span class="dt">ticks</span><span class="op">:</span> <span class="dv">8</span>}<span class="op">,</span></span>
-<span id="cb9-374"><a href="" aria-label="374"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Density"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="fl">2.6</span>]}<span class="op">,</span></span>
-<span id="cb9-375"><a href="" aria-label="375"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
-<span id="cb9-376"><a href="" aria-label="376"></a>    Plot<span class="op">.</span><span class="fu">areaY</span>(grid<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"c"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#8b2635"</span><span class="op">,</span> <span class="dt">fillOpacity</span><span class="op">:</span> <span class="fl">0.35</span>})<span class="op">,</span></span>
-<span id="cb9-377"><a href="" aria-label="377"></a>    Plot<span class="op">.</span><span class="fu">line</span>(grid<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"c"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#8b2635"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="fl">2.5</span>})<span class="op">,</span></span>
-<span id="cb9-378"><a href="" aria-label="378"></a>    Plot<span class="op">.</span><span class="fu">line</span>(grid<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"f"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#14130f"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"6 4"</span>})<span class="op">,</span></span>
-<span id="cb9-379"><a href="" aria-label="379"></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([d]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"#3d6e8f"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span>})<span class="op">,</span></span>
-<span id="cb9-380"><a href="" aria-label="380"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
-<span id="cb9-381"><a href="" aria-label="381"></a>  ]</span>
-<span id="cb9-382"><a href="" aria-label="382"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb9" data-startfrom="381" data-source-offset="-416"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 380;"><span id="cb9-381"><a href="" aria-label="381"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb9-382"><a href="" aria-label="382"></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">1150</span><span class="op">,</span> <span class="dt">height</span><span class="op">:</span> <span class="dv">290</span><span class="op">,</span> <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">78</span><span class="op">,</span> <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">58</span><span class="op">,</span></span>
+<span id="cb9-383"><a href="" aria-label="383"></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontSize</span><span class="op">:</span> <span class="st">"18px"</span>}<span class="op">,</span></span>
+<span id="cb9-384"><a href="" aria-label="384"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Claim size y (thousand AZN)"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">4</span>]<span class="op">,</span> <span class="dt">ticks</span><span class="op">:</span> <span class="dv">8</span>}<span class="op">,</span></span>
+<span id="cb9-385"><a href="" aria-label="385"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Density"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="fl">2.6</span>]}<span class="op">,</span></span>
+<span id="cb9-386"><a href="" aria-label="386"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb9-387"><a href="" aria-label="387"></a>    Plot<span class="op">.</span><span class="fu">areaY</span>(grid<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"c"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#8b2635"</span><span class="op">,</span> <span class="dt">fillOpacity</span><span class="op">:</span> <span class="fl">0.35</span>})<span class="op">,</span></span>
+<span id="cb9-388"><a href="" aria-label="388"></a>    Plot<span class="op">.</span><span class="fu">line</span>(grid<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"c"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#8b2635"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="fl">2.5</span>})<span class="op">,</span></span>
+<span id="cb9-389"><a href="" aria-label="389"></a>    Plot<span class="op">.</span><span class="fu">line</span>(grid<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"f"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#14130f"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"6 4"</span>})<span class="op">,</span></span>
+<span id="cb9-390"><a href="" aria-label="390"></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([d]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"#3d6e8f"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span>})<span class="op">,</span></span>
+<span id="cb9-391"><a href="" aria-label="391"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
+<span id="cb9-392"><a href="" aria-label="392"></a>  ]</span>
+<span id="cb9-393"><a href="" aria-label="393"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -617,7 +627,7 @@ income   500   900  1500
 <h2>🧠 Think-Pair-Share</h2>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_bbf9113a" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_6d778933" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
 </div>
 </div>
 <div style="font-size: 29px">
@@ -664,6 +674,88 @@ income   500   900  1500
 <div class="fragment">
 <p>Part 2 is the engineer’s number; part 3 is the marketing team’s. <strong>Name which variable is given before you divide.</strong></p>
 </div>
+</div>
+</section>
+<section id="case-study-returns-conditional-on-fear" class="slide level2">
+<h2>💰 Case Study: Returns Conditional on Fear</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📈 The question</strong></p>
+</div>
+<div class="callout-content">
+<p>Split S&amp;P 500 daily returns by <strong>yesterday’s</strong> VIX level.</p>
+<ol type="1">
+<li>Does the conditional mean shift between calm and fearful days?</li>
+<li>Does the conditional spread shift?</li>
+<li>Which matches Definition 5.5 — a genuinely different distribution for each condition?</li>
+</ol>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 The data</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Series</strong>: S&amp;P 500 close (FRED <code>SP500</code>), VIX close (FRED <code>VIXCLS</code>)</p>
+<p><strong>Period</strong>: Sep 2016 – Sep 2026, about 2,600 days</p>
+<p><strong>Condition</strong>: yesterday’s VIX <span class="math inline">\(\geq 25\)</span> (fearful) vs.&nbsp;<span class="math inline">\(&lt; 25\)</span> (calm)</p>
+<p><span class="math inline">\(Y\)</span> = today’s daily log return, conditioned on lagged VIX</p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="case-study-conditioning-in-r" class="slide level2">
+<h2>💰 Case Study: Conditioning in R</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>📦 Condition returns on yesterday’s VIX</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="" aria-label="1"></a>m <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/sp_vix.csv"</span>)</span>
+<span id="cb10-2"><a href="" aria-label="2"></a>m<span class="sc">$</span>close <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(m<span class="sc">$</span>close))    <span class="co"># FRED marks holidays "."</span></span>
+<span id="cb10-3"><a href="" aria-label="3"></a>m<span class="sc">$</span>vix   <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(m<span class="sc">$</span>vix))</span>
+<span id="cb10-4"><a href="" aria-label="4"></a>m <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(m)</span>
+<span id="cb10-5"><a href="" aria-label="5"></a>m<span class="sc">$</span>ret     <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(<span class="fu">log</span>(m<span class="sc">$</span>close)))</span>
+<span id="cb10-6"><a href="" aria-label="6"></a>m<span class="sc">$</span>vix_lag <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, m<span class="sc">$</span>vix[<span class="sc">-</span><span class="fu">nrow</span>(m)])</span>
+<span id="cb10-7"><a href="" aria-label="7"></a>m <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(m)</span>
+<span id="cb10-8"><a href="" aria-label="8"></a></span>
+<span id="cb10-9"><a href="" aria-label="9"></a>fearful <span class="ot">&lt;-</span> m<span class="sc">$</span>ret[m<span class="sc">$</span>vix_lag <span class="sc">&gt;=</span> <span class="dv">25</span>]</span>
+<span id="cb10-10"><a href="" aria-label="10"></a>calm    <span class="ot">&lt;-</span> m<span class="sc">$</span>ret[m<span class="sc">$</span>vix_lag <span class="sc">&lt;</span>  <span class="dv">25</span>]</span>
+<span id="cb10-11"><a href="" aria-label="11"></a></span>
+<span id="cb10-12"><a href="" aria-label="12"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">n_calm =</span> <span class="fu">length</span>(calm), <span class="at">n_fearful =</span> <span class="fu">length</span>(fearful),</span>
+<span id="cb10-13"><a href="" aria-label="13"></a>        <span class="at">mean_calm_pct =</span> <span class="fu">mean</span>(calm) <span class="sc">*</span> <span class="dv">100</span>, <span class="at">mean_fearful_pct =</span> <span class="fu">mean</span>(fearful) <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb10-14"><a href="" aria-label="14"></a>        <span class="at">sd_calm_pct =</span> <span class="fu">sd</span>(calm) <span class="sc">*</span> <span class="dv">100</span>, <span class="at">sd_fearful_pct =</span> <span class="fu">sd</span>(fearful) <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb10-15"><a href="" aria-label="15"></a>        <span class="at">sd_unconditional_pct =</span> <span class="fu">sd</span>(m<span class="sc">$</span>ret) <span class="sc">*</span> <span class="dv">100</span>), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>              n_calm            n_fearful        mean_calm_pct 
+            2145.000              365.000                0.043 
+    mean_fearful_pct          sd_calm_pct       sd_fearful_pct 
+               0.098                0.813                2.256 
+sd_unconditional_pct 
+               1.142 </code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>The conditional mean barely moves; the conditional spread nearly triples once yesterday’s VIX crosses 25.</p>
+</div>
+</section>
+<section id="case-study-two-conditional-distributions" class="slide level2">
+<h2>💰 Case Study: Two Conditional Distributions</h2>
+
+<img data-src="marginal_conditional_lecture24_files/figure-revealjs/case-vix-fig-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1500"><div style="font-size: 28px">
+<p><strong>What the data say:</strong> conditioning on yesterday’s VIX gives two visibly different distributions, exactly as Definition 5.5 describes — same variable, different condition, different spread. The model still misses the fat left tail of the fearful group: crashes such as March 2020 make that conditional distribution more extreme than its variance alone suggests.</p>
 </div>
 </section>
 <section id="quiz-1-condition-on-the-column" class="slide level2 quiz-question">

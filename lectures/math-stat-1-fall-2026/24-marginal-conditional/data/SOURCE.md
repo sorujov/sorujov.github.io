@@ -1,0 +1,1 @@
+S&P 500 daily close (FRED series `SP500`) and CBOE VIX daily close (FRED series `VIXCLS`), https://fred.stlouisfed.org/series/SP500 and https://fred.stlouisfed.org/series/VIXCLS, 26 September 2016 – 22 September 2026, downloaded 27 Sep 2026.
