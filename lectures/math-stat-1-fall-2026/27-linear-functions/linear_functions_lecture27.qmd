@@ -77,6 +77,17 @@ By the end of this lecture, you will be able to:
 
 ---
 
+## 🔁 Warm-up from last time {.quiz-question}
+
+Last class: if $\text{Cov}(Y_1, Y_2) = 0$, what can you conclude?
+
+- [$Y_1$ and $Y_2$ might still be dependent — zero covariance does not imply independence]{.correct data-explanation="✅ Independence forces zero covariance, but the reverse does not hold: zero covariance rules out only linear dependence, not every kind."}
+- $Y_1$ and $Y_2$ are independent
+- $Y_1$ and $Y_2$ have the same distribution
+- $E(Y_1 Y_2) = 0$
+
+---
+
 ## 🗺️ Where We Are
 
 ::: {style="font-size: 32px"}
@@ -431,6 +442,85 @@ $$\text{Cov}(U, W) = 0.5(625) - 0.5(112.5) + 0.5(112.5) - 0.5(225) = 200$$
 
 The long-short book looks "market neutral", yet its return still moves with client A's portfolio.
 :::
+:::
+
+---
+
+## 💰 Case Study: Stocks, Oil, and the Minimum-Variance Weight
+
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
+
+A portfolio holds weight $w$ in the S&P 500 and $1-w$ in crude oil.
+
+1. How does $V(\text{portfolio})$ change as $w$ moves from 0 to 1?
+2. What weight $w^*$ minimises it (Theorem 5.12)?
+3. Is the minimum-variance portfolio safer than holding stocks alone?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: S&P 500 close (FRED `SP500`), WTI crude oil (FRED `DCOILWTICO`)
+
+**Period**: Jan 2021 – Sep 2026, about 1,500 days
+
+$Y_1, Y_2$ = daily simple returns on the S&P 500 and on oil
+:::
+:::
+::::
+
+---
+
+## 💰 Case Study: The Minimum-Variance Weight in R
+
+```{r}
+#| label: case-portvar
+#| code-summary: "📦 Compute portfolio variance and the minimising weight"
+m <- read.csv("data/sp_oil.csv")
+m$sp  <- suppressWarnings(as.numeric(m$sp))     # FRED marks holidays "."
+m$oil <- suppressWarnings(as.numeric(m$oil))
+m <- na.omit(m)
+Y1 <- diff(m$sp)  / m$sp[-nrow(m)]     # S&P simple return
+Y2 <- diff(m$oil) / m$oil[-nrow(m)]    # oil simple return
+
+v1 <- var(Y1); v2 <- var(Y2); c12 <- cov(Y1, Y2)
+w_star <- (v2 - c12) / (v1 + v2 - 2 * c12)          # Theorem 5.12, minimised over w
+var_star <- w_star^2 * v1 + (1 - w_star)^2 * v2 + 2 * w_star * (1 - w_star) * c12
+
+round(c(sd_sp_pct = sqrt(v1) * 100, sd_oil_pct = sqrt(v2) * 100, rho = cor(Y1, Y2),
+        w_star = w_star, sd_min_var_pct = sqrt(var_star) * 100), 4)
+```
+
+::: {style="font-size: 28px"}
+The minimum-variance weight is not $w = 1$: adding a little oil, nearly uncorrelated with stocks, lowers risk below either asset alone.
+:::
+
+---
+
+## 💰 Case Study: Risk Across Every Weight
+
+```{r}
+#| label: case-portvar-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.9
+w  <- seq(0, 1, by = 0.02)
+sd_w <- sqrt(w^2 * v1 + (1 - w)^2 * v2 + 2 * w * (1 - w) * c12) * 100
+df <- data.frame(w = w, sd_pct = sd_w)
+ggplot(df, aes(w, sd_pct)) +
+  geom_line(color = "#8b2635", linewidth = 1.1) +
+  geom_vline(xintercept = w_star, linetype = "dashed", color = "#8ba3c7") +
+  labs(x = "Weight on S&P 500, w", y = "Portfolio SD (%/day)") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+**What the data say:** risk falls sharply as $w$ rises from 0 (all oil), bottoms out at $w^*$ (dashed line), then rises slightly on to $w = 1$ (all stocks) — but even all-stocks stays far below all-oil. The model assumes a fixed variance and covariance; both actually shift with the oil-price cycle, so $w^*$ drifts over time.
 :::
 
 ---

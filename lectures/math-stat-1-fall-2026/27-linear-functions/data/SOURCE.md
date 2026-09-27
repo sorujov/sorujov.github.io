@@ -1,0 +1,1 @@
+S&P 500 daily close (FRED series `SP500`) and WTI crude oil spot price (FRED series `DCOILWTICO`), https://fred.stlouisfed.org/series/SP500 and https://fred.stlouisfed.org/series/DCOILWTICO, 4 January 2021 – 22 September 2026 (post-dates the April 2020 negative-price anomaly), downloaded 27 Sep 2026.
