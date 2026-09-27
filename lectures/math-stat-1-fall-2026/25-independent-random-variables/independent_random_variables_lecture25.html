@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Samir Orujov, PhD">
-  <meta name="dcterms.date" content="2026-09-24">
+  <meta name="dcterms.date" content="2026-09-27">
   <title>Mathematical Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -220,7 +220,7 @@ Samir Orujov, PhD
     </div>
 </div>
 
-  <p class="date">2026-09-24</p>
+  <p class="date">2026-09-27</p>
 </section>
 <section id="learning-objectives" class="slide level2">
 <h2>🎯 Learning Objectives</h2>
@@ -234,6 +234,16 @@ Samir Orujov, PhD
 <li><p><strong>Explain</strong> why co-moving asset returns cannot be priced as independent</p></li>
 </ul>
 </div>
+</section>
+<section id="warm-up-from-last-time" class="slide level2 quiz-question">
+<h2>🔁 Warm-up from last time</h2>
+<p>Last class’s Definition 5.5: how do you compute the conditional probability function <span class="math inline">\(p(y_1 \mid y_2)\)</span>?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Definition 5.5: p(y1 | y2) = p(y1, y2) / p2(y2). You keep one slice of the joint table and divide by that slice's total.">Divide the joint <span class="math inline">\(p(y_1, y_2)\)</span> by the marginal <span class="math inline">\(p_2(y_2)\)</span>, the total of that column</span></li>
+<li>Multiply <span class="math inline">\(p(y_1, y_2)\)</span> by the marginal <span class="math inline">\(p_2(y_2)\)</span></li>
+<li>Divide the marginal <span class="math inline">\(p_1(y_1)\)</span> by the marginal <span class="math inline">\(p_2(y_2)\)</span></li>
+<li>Sum <span class="math inline">\(p(y_1, y_2)\)</span> over all values of <span class="math inline">\(y_2\)</span></li>
+</ul>
 </section>
 <section id="where-we-are" class="slide level2">
 <h2>🗺️ Where We Are</h2>
@@ -566,7 +576,7 @@ Samir Orujov, PhD
 <h2>🧠 Think-Pair-Share</h2>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_7cabbdeb" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_ca2fd1f2" minutes="4" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
 </div>
 </div>
 <div style="font-size: 28px">
@@ -612,6 +622,93 @@ Samir Orujov, PhD
 <li>The table still sums to 1, but <span class="math inline">\(p(1, 2) = 0\)</span> while <span class="math inline">\(p_1(1)\,p_2(2) = 0.30 \times 0.07 = 0.021\)</span>. <strong>Dependent.</strong> A zero cell under two positive marginals always is (compare Example 5.10).</li>
 </ol>
 </div>
+</div>
+</section>
+<section id="case-study-stocks-vs.-the-exchange-rate" class="slide level2">
+<h2>💰 Case Study: Stocks vs.&nbsp;the Exchange Rate</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📈 The question</strong></p>
+</div>
+<div class="callout-content">
+<p>Let <span class="math inline">\(Y_1 = 1\)</span> if the S&amp;P 500 rises today, <span class="math inline">\(Y_2 = 1\)</span> if EUR/USD rises today.</p>
+<ol type="1">
+<li>Is the joint table equal to the product of the marginals?</li>
+<li>Which cell, if any, breaks Theorem 5.4?</li>
+<li>Is any dependence found economically large?</li>
+</ol>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 The data</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Series</strong>: S&amp;P 500 close (FRED <code>SP500</code>), EUR/USD (FRED <code>DEXUSEU</code>)</p>
+<p><strong>Period</strong>: Sep 2016 – Sep 2026, about 2,500 days</p>
+<p><span class="math inline">\(Y_1, Y_2 = 1\)</span> if that day’s log return is positive, else <span class="math inline">\(0\)</span></p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="case-study-the-joint-table-in-r" class="slide level2">
+<h2>💰 Case Study: The Joint Table in R</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>📦 Build the joint table and the product of marginals</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="" aria-label="1"></a>m <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/sp_eur.csv"</span>)</span>
+<span id="cb7-2"><a href="" aria-label="2"></a>m<span class="sc">$</span>sp  <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(m<span class="sc">$</span>sp))    <span class="co"># FRED marks holidays "."</span></span>
+<span id="cb7-3"><a href="" aria-label="3"></a>m<span class="sc">$</span>eur <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(m<span class="sc">$</span>eur))</span>
+<span id="cb7-4"><a href="" aria-label="4"></a>m <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(m)</span>
+<span id="cb7-5"><a href="" aria-label="5"></a>sp_ret  <span class="ot">&lt;-</span> <span class="fu">diff</span>(<span class="fu">log</span>(m<span class="sc">$</span>sp))</span>
+<span id="cb7-6"><a href="" aria-label="6"></a>eur_ret <span class="ot">&lt;-</span> <span class="fu">diff</span>(<span class="fu">log</span>(m<span class="sc">$</span>eur))</span>
+<span id="cb7-7"><a href="" aria-label="7"></a></span>
+<span id="cb7-8"><a href="" aria-label="8"></a>sp_up  <span class="ot">&lt;-</span> sp_ret  <span class="sc">&gt;</span> <span class="dv">0</span></span>
+<span id="cb7-9"><a href="" aria-label="9"></a>eur_up <span class="ot">&lt;-</span> eur_ret <span class="sc">&gt;</span> <span class="dv">0</span></span>
+<span id="cb7-10"><a href="" aria-label="10"></a>joint  <span class="ot">&lt;-</span> <span class="fu">prop.table</span>(<span class="fu">table</span>(<span class="at">SP =</span> sp_up, <span class="at">EUR =</span> eur_up))</span>
+<span id="cb7-11"><a href="" aria-label="11"></a>p_sp   <span class="ot">&lt;-</span> <span class="fu">prop.table</span>(<span class="fu">table</span>(sp_up))</span>
+<span id="cb7-12"><a href="" aria-label="12"></a>p_eur  <span class="ot">&lt;-</span> <span class="fu">prop.table</span>(<span class="fu">table</span>(eur_up))</span>
+<span id="cb7-13"><a href="" aria-label="13"></a>product <span class="ot">&lt;-</span> <span class="fu">outer</span>(p_sp, p_eur)</span>
+<span id="cb7-14"><a href="" aria-label="14"></a></span>
+<span id="cb7-15"><a href="" aria-label="15"></a><span class="fu">list</span>(<span class="at">observed_joint_table =</span> <span class="fu">round</span>(joint, <span class="dv">3</span>),</span>
+<span id="cb7-16"><a href="" aria-label="16"></a>     <span class="at">product_of_marginals =</span> <span class="fu">round</span>(product, <span class="dv">3</span>))   <span class="co"># equal if independent</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>$observed_joint_table
+       EUR
+SP      FALSE  TRUE
+  FALSE 0.248 0.202
+  TRUE  0.266 0.283
+
+$product_of_marginals
+       eur_up
+sp_up   FALSE  TRUE
+  FALSE 0.232 0.219
+  TRUE  0.282 0.267</code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>Compare each cell of the two tables above: they sit within 0.02 of each other.</p>
+</div>
+</section>
+<section id="case-study-how-close-is-close-enough" class="slide level2">
+<h2>💰 Case Study: How Close Is Close Enough?</h2>
+
+<img data-src="independent_random_variables_lecture25_files/figure-revealjs/case-indep-fig-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1500"><div style="font-size: 28px">
+<p><strong>What the data say:</strong> the bars are close, so a trader pricing joint moves off the product of the marginals is not far wrong. The model fails at the (up, up) and (down, down) cells, which sit above the product — a small positive correlation (<span class="math inline">\(r \approx 0.11\)</span>) that a strictly independent model would miss entirely.</p>
 </div>
 </section>
 <section id="quiz-1-factorisation" class="slide level2 quiz-question">

@@ -1,0 +1,1 @@
+S&P 500 daily close (FRED series `SP500`) and USD/EUR spot rate (FRED series `DEXUSEU`), https://fred.stlouisfed.org/series/SP500 and https://fred.stlouisfed.org/series/DEXUSEU, 27 September 2016 – 18 September 2026, downloaded 27 Sep 2026.

@@ -77,6 +77,17 @@ By the end of this lecture, you will be able to:
 
 ---
 
+## 🔁 Warm-up from last time {.quiz-question}
+
+Last class's Definition 5.5: how do you compute the conditional probability function $p(y_1 \mid y_2)$?
+
+- [Divide the joint $p(y_1, y_2)$ by the marginal $p_2(y_2)$, the total of that column]{.correct data-explanation="✅ Definition 5.5: p(y1 | y2) = p(y1, y2) / p2(y2). You keep one slice of the joint table and divide by that slice's total."}
+- Multiply $p(y_1, y_2)$ by the marginal $p_2(y_2)$
+- Divide the marginal $p_1(y_1)$ by the marginal $p_2(y_2)$
+- Sum $p(y_1, y_2)$ over all values of $y_2$
+
+---
+
 ## 🗺️ Where We Are
 
 ::: {style="font-size: 32px"}
@@ -374,6 +385,90 @@ Check $p(1,0) = 0.3 \times 0.6 = 0.18$ ✓. Then $p(1,1) = 0.09$ and $p(1,2) = 0
 ::: {.fragment}
 2. The table still sums to 1, but $p(1, 2) = 0$ while $p_1(1)\,p_2(2) = 0.30 \times 0.07 = 0.021$. **Dependent.** A zero cell under two positive marginals always is (compare Example 5.10).
 :::
+:::
+
+---
+
+## 💰 Case Study: Stocks vs. the Exchange Rate
+
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
+
+Let $Y_1 = 1$ if the S&P 500 rises today, $Y_2 = 1$ if EUR/USD rises today.
+
+1. Is the joint table equal to the product of the marginals?
+2. Which cell, if any, breaks Theorem 5.4?
+3. Is any dependence found economically large?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: S&P 500 close (FRED `SP500`), EUR/USD (FRED `DEXUSEU`)
+
+**Period**: Sep 2016 – Sep 2026, about 2,500 days
+
+$Y_1, Y_2 = 1$ if that day's log return is positive, else $0$
+:::
+:::
+::::
+
+---
+
+## 💰 Case Study: The Joint Table in R
+
+```{r}
+#| label: case-indep
+#| code-summary: "📦 Build the joint table and the product of marginals"
+m <- read.csv("data/sp_eur.csv")
+m$sp  <- suppressWarnings(as.numeric(m$sp))    # FRED marks holidays "."
+m$eur <- suppressWarnings(as.numeric(m$eur))
+m <- na.omit(m)
+sp_ret  <- diff(log(m$sp))
+eur_ret <- diff(log(m$eur))
+
+sp_up  <- sp_ret  > 0
+eur_up <- eur_ret > 0
+joint  <- prop.table(table(SP = sp_up, EUR = eur_up))
+p_sp   <- prop.table(table(sp_up))
+p_eur  <- prop.table(table(eur_up))
+product <- outer(p_sp, p_eur)
+
+list(observed_joint_table = round(joint, 3),
+     product_of_marginals = round(product, 3))   # equal if independent
+```
+
+::: {style="font-size: 28px"}
+Compare each cell of the two tables above: they sit within 0.02 of each other.
+:::
+
+---
+
+## 💰 Case Study: How Close Is Close Enough?
+
+```{r}
+#| label: case-indep-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.9
+df <- data.frame(
+  cell = rep(c("(down, down)", "(down, up)", "(up, down)", "(up, up)"), 2),
+  prob = c(as.vector(t(joint)), as.vector(t(product))),
+  src  = rep(c("Observed joint table", "Product of marginals"), each = 4))
+df$cell <- factor(df$cell, levels = c("(down, down)", "(down, up)", "(up, down)", "(up, up)"))
+ggplot(df, aes(cell, prob, fill = src)) +
+  geom_col(position = position_dodge(0.8), width = 0.75) +
+  scale_fill_manual(values = c("#8b2635", "#8ba3c7"), name = NULL) +
+  labs(x = NULL, y = "Probability") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+**What the data say:** the bars are close, so a trader pricing joint moves off the product of the marginals is not far wrong. The model fails at the (up, up) and (down, down) cells, which sit above the product — a small positive correlation ($r \approx 0.11$) that a strictly independent model would miss entirely.
 :::
 
 ---
