@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Samir Orujov, PhD">
-  <meta name="dcterms.date" content="2026-09-12">
+  <meta name="dcterms.date" content="2026-09-27">
   <title>Mathematical Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -198,9 +198,7 @@
   <script type="module" src="probability_of_an_event_lecture3_files/libs/quarto-ojs/quarto-ojs-runtime.js"></script>
   <link href="probability_of_an_event_lecture3_files/libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
   <link href="probability_of_an_event_lecture3_files/libs/countdown-0.6.0/countdown.css" rel="stylesheet">
-
   <script src="probability_of_an_event_lecture3_files/libs/countdown-0.6.0/countdown.js"></script>
-
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -224,13 +222,14 @@ Samir Orujov, PhD
     </div>
 </div>
 
-  <p class="date">2026-09-12</p>
+  <p class="date">2026-09-27</p>
 </section>
-<section id="intuition-video" class="slide level2">
+<section id="the-idea-in-3-minutes" class="slide level2">
 <h2>🎬 The Idea in 3 Minutes</h2>
 <div style="text-align:center">
-<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture3_intuition.mp4"><track kind="captions" src="video/lecture3_intuition.vtt" srclang="en" label="English"></video>
-<p style="font-size:22px">Watch this short intuition video before (or after) the slides. Captions: CC button.</p>
+<video controls="" preload="metadata" style="width:880px;max-width:100%" src="video/lecture3_intuition.mp4"><track kind="captions" src="video/lecture3_intuition.vtt" srclang="en" label="English"><track kind="captions" src="video/lecture3_intuition.az.vtt" srclang="az" label="Azərbaycanca"></video>
+<p><a href="../02-descriptive-measures/descriptive_measures_lecture2.html" style="font-size:28px">⬅ Previous lecture: 2 · Numerical Descriptive Measures, Tchebysheff’s Theorem and the Empirical Rule</a></p>
+<p><span style="font-size:28px">Watch this short intuition video before (or after) the slides. Captions (English / Azərbaycanca): CC button.</span></p>
 </div>
 </section>
 <section id="learning-objectives" class="slide level2">
@@ -245,6 +244,16 @@ Samir Orujov, PhD
 <li><p><strong>Recognise</strong> that the axioms constrain an assignment of probabilities without ever choosing one</p></li>
 </ul>
 </div>
+</section>
+<section id="warm-up-from-last-time" class="slide level2 quiz-question">
+<h2>🔁 Warm-up from last time</h2>
+<p>A sample of daily returns is heavy-tailed. At <span class="math inline">\(k=3\)</span>, which statement is defensible?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Tchebysheff's theorem needs no assumption about shape, so it survives heavy tails: at k=3 it guarantees 1 − 1/9 ≈ 0.889.">At least 88.9% of days fall within <span class="math inline">\(\bar y \pm 3s\)</span></span></li>
+<li>About 99.7% of days fall within <span class="math inline">\(\bar y \pm 3s\)</span></li>
+<li>The empirical rule applies because the sample is large</li>
+<li>Neither rule says anything useful here</li>
+</ul>
 </section>
 <section id="where-we-are" class="slide level2">
 <h2>🗺️ Where We Are</h2>
@@ -609,13 +618,13 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb5" data-startfrom="452" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 451;"><span id="cb5-452"><a href="" aria-label="452"></a>viewof p_true <span class="op">=</span> {</span>
-<span id="cb5-453"><a href="" aria-label="453"></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.05</span><span class="op">,</span> <span class="fl">0.95</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="fl">0.375</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.005</span><span class="op">,</span></span>
-<span id="cb5-454"><a href="" aria-label="454"></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"True P(event):"</span>})<span class="op">;</span></span>
-<span id="cb5-455"><a href="" aria-label="455"></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
-<span id="cb5-456"><a href="" aria-label="456"></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
-<span id="cb5-457"><a href="" aria-label="457"></a>  <span class="cf">return</span> input<span class="op">;</span></span>
-<span id="cb5-458"><a href="" aria-label="458"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb5" data-startfrom="477" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 476;"><span id="cb5-477"><a href="" aria-label="477"></a>viewof p_true <span class="op">=</span> {</span>
+<span id="cb5-478"><a href="" aria-label="478"></a>  <span class="kw">const</span> input <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.05</span><span class="op">,</span> <span class="fl">0.95</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="fl">0.375</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.005</span><span class="op">,</span></span>
+<span id="cb5-479"><a href="" aria-label="479"></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"True P(event):"</span>})<span class="op">;</span></span>
+<span id="cb5-480"><a href="" aria-label="480"></a>  [<span class="st">'pointerdown'</span><span class="op">,</span><span class="st">'touchstart'</span><span class="op">,</span><span class="st">'mousedown'</span><span class="op">,</span><span class="st">'click'</span><span class="op">,</span><span class="st">'wheel'</span><span class="op">,</span><span class="st">'pointermove'</span><span class="op">,</span><span class="st">'touchmove'</span>]</span>
+<span id="cb5-481"><a href="" aria-label="481"></a>    <span class="op">.</span><span class="fu">forEach</span>(e <span class="kw">=&gt;</span> input<span class="op">.</span><span class="fu">addEventListener</span>(e<span class="op">,</span> ev <span class="kw">=&gt;</span> ev<span class="op">.</span><span class="fu">stopPropagation</span>()))<span class="op">;</span></span>
+<span id="cb5-482"><a href="" aria-label="482"></a>  <span class="cf">return</span> input<span class="op">;</span></span>
+<span id="cb5-483"><a href="" aria-label="483"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-1" data-nodetype="declaration">
@@ -626,23 +635,23 @@ Samir Orujov, PhD
 <div class="cell">
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb6" data-startfrom="466" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 465;"><span id="cb6-466"><a href="" aria-label="466"></a>rng3 <span class="op">=</span> {</span>
-<span id="cb6-467"><a href="" aria-label="467"></a>  <span class="kw">let</span> s <span class="op">=</span> <span class="dv">20260916</span><span class="op">;</span></span>
-<span id="cb6-468"><a href="" aria-label="468"></a>  <span class="cf">return</span> () <span class="kw">=&gt;</span> (s <span class="op">=</span> (s <span class="op">*</span> <span class="dv">1103515245</span> <span class="op">+</span> <span class="dv">12345</span>) <span class="op">%</span> <span class="dv">2147483648</span>) <span class="op">/</span> <span class="dv">2147483648</span><span class="op">;</span></span>
-<span id="cb6-469"><a href="" aria-label="469"></a>}</span>
-<span id="cb6-470"><a href="" aria-label="470"></a></span>
-<span id="cb6-471"><a href="" aria-label="471"></a><span class="co">// The running relative frequency after 1, 2, ..., 1500 repetitions.</span></span>
-<span id="cb6-472"><a href="" aria-label="472"></a>path <span class="op">=</span> {</span>
-<span id="cb6-473"><a href="" aria-label="473"></a>  <span class="kw">const</span> out <span class="op">=</span> []<span class="op">;</span></span>
-<span id="cb6-474"><a href="" aria-label="474"></a>  <span class="kw">let</span> hits <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb6-475"><a href="" aria-label="475"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> <span class="dv">1500</span><span class="op">;</span> i<span class="op">++</span>) {</span>
-<span id="cb6-476"><a href="" aria-label="476"></a>    <span class="cf">if</span> (<span class="fu">rng3</span>() <span class="op">&lt;</span> p_true) hits<span class="op">++;</span></span>
-<span id="cb6-477"><a href="" aria-label="477"></a>    out<span class="op">.</span><span class="fu">push</span>({<span class="dt">n</span><span class="op">:</span> i<span class="op">,</span> <span class="dt">freq</span><span class="op">:</span> hits <span class="op">/</span> i})<span class="op">;</span></span>
-<span id="cb6-478"><a href="" aria-label="478"></a>  }</span>
-<span id="cb6-479"><a href="" aria-label="479"></a>  <span class="cf">return</span> out<span class="op">;</span></span>
-<span id="cb6-480"><a href="" aria-label="480"></a>}</span>
-<span id="cb6-481"><a href="" aria-label="481"></a></span>
-<span id="cb6-482"><a href="" aria-label="482"></a><span class="fu">md</span><span class="vs">`After 1500 repetitions the relative frequency is **</span><span class="sc">${</span>path[<span class="dv">1499</span>]<span class="op">.</span><span class="at">freq</span><span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="vs">**, against a true probability of **</span><span class="sc">${</span>p_true<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="vs">**.`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb6" data-startfrom="491" data-source-offset="-1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 490;"><span id="cb6-491"><a href="" aria-label="491"></a>rng3 <span class="op">=</span> {</span>
+<span id="cb6-492"><a href="" aria-label="492"></a>  <span class="kw">let</span> s <span class="op">=</span> <span class="dv">20260916</span><span class="op">;</span></span>
+<span id="cb6-493"><a href="" aria-label="493"></a>  <span class="cf">return</span> () <span class="kw">=&gt;</span> (s <span class="op">=</span> (s <span class="op">*</span> <span class="dv">1103515245</span> <span class="op">+</span> <span class="dv">12345</span>) <span class="op">%</span> <span class="dv">2147483648</span>) <span class="op">/</span> <span class="dv">2147483648</span><span class="op">;</span></span>
+<span id="cb6-494"><a href="" aria-label="494"></a>}</span>
+<span id="cb6-495"><a href="" aria-label="495"></a></span>
+<span id="cb6-496"><a href="" aria-label="496"></a><span class="co">// The running relative frequency after 1, 2, ..., 1500 repetitions.</span></span>
+<span id="cb6-497"><a href="" aria-label="497"></a>path <span class="op">=</span> {</span>
+<span id="cb6-498"><a href="" aria-label="498"></a>  <span class="kw">const</span> out <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb6-499"><a href="" aria-label="499"></a>  <span class="kw">let</span> hits <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb6-500"><a href="" aria-label="500"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> <span class="dv">1500</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb6-501"><a href="" aria-label="501"></a>    <span class="cf">if</span> (<span class="fu">rng3</span>() <span class="op">&lt;</span> p_true) hits<span class="op">++;</span></span>
+<span id="cb6-502"><a href="" aria-label="502"></a>    out<span class="op">.</span><span class="fu">push</span>({<span class="dt">n</span><span class="op">:</span> i<span class="op">,</span> <span class="dt">freq</span><span class="op">:</span> hits <span class="op">/</span> i})<span class="op">;</span></span>
+<span id="cb6-503"><a href="" aria-label="503"></a>  }</span>
+<span id="cb6-504"><a href="" aria-label="504"></a>  <span class="cf">return</span> out<span class="op">;</span></span>
+<span id="cb6-505"><a href="" aria-label="505"></a>}</span>
+<span id="cb6-506"><a href="" aria-label="506"></a></span>
+<span id="cb6-507"><a href="" aria-label="507"></a><span class="fu">md</span><span class="vs">`After 1500 repetitions the relative frequency is **</span><span class="sc">${</span>path[<span class="dv">1499</span>]<span class="op">.</span><span class="at">freq</span><span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="vs">**, against a true probability of **</span><span class="sc">${</span>p_true<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="vs">**.`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -667,20 +676,20 @@ Samir Orujov, PhD
 </div>
 <details class="code-fold hidden">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb7" data-startfrom="484" data-source-offset="-491"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 483;"><span id="cb7-484"><a href="" aria-label="484"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
-<span id="cb7-485"><a href="" aria-label="485"></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">1150</span><span class="op">,</span></span>
-<span id="cb7-486"><a href="" aria-label="486"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">320</span><span class="op">,</span></span>
-<span id="cb7-487"><a href="" aria-label="487"></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">78</span><span class="op">,</span></span>
-<span id="cb7-488"><a href="" aria-label="488"></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">58</span><span class="op">,</span></span>
-<span id="cb7-489"><a href="" aria-label="489"></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontSize</span><span class="op">:</span> <span class="st">"18px"</span>}<span class="op">,</span></span>
-<span id="cb7-490"><a href="" aria-label="490"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Number of repetitions"</span><span class="op">,</span> <span class="dt">type</span><span class="op">:</span> <span class="st">"log"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">1</span><span class="op">,</span> <span class="dv">1500</span>]}<span class="op">,</span></span>
-<span id="cb7-491"><a href="" aria-label="491"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Relative frequency"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> <span class="dt">tickFormat</span><span class="op">:</span> <span class="st">".1f"</span>}<span class="op">,</span></span>
-<span id="cb7-492"><a href="" aria-label="492"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
-<span id="cb7-493"><a href="" aria-label="493"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([p_true]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"#8b2635"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="fl">2.5</span>})<span class="op">,</span></span>
-<span id="cb7-494"><a href="" aria-label="494"></a>    Plot<span class="op">.</span><span class="fu">line</span>(path<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"n"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"freq"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#14130f"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="fl">1.6</span>})<span class="op">,</span></span>
-<span id="cb7-495"><a href="" aria-label="495"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
-<span id="cb7-496"><a href="" aria-label="496"></a>  ]</span>
-<span id="cb7-497"><a href="" aria-label="497"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb7" data-startfrom="509" data-source-offset="-491"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 508;"><span id="cb7-509"><a href="" aria-label="509"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb7-510"><a href="" aria-label="510"></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">1150</span><span class="op">,</span></span>
+<span id="cb7-511"><a href="" aria-label="511"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">320</span><span class="op">,</span></span>
+<span id="cb7-512"><a href="" aria-label="512"></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">78</span><span class="op">,</span></span>
+<span id="cb7-513"><a href="" aria-label="513"></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">58</span><span class="op">,</span></span>
+<span id="cb7-514"><a href="" aria-label="514"></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontSize</span><span class="op">:</span> <span class="st">"18px"</span>}<span class="op">,</span></span>
+<span id="cb7-515"><a href="" aria-label="515"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Number of repetitions"</span><span class="op">,</span> <span class="dt">type</span><span class="op">:</span> <span class="st">"log"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">1</span><span class="op">,</span> <span class="dv">1500</span>]}<span class="op">,</span></span>
+<span id="cb7-516"><a href="" aria-label="516"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Relative frequency"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> <span class="dt">tickFormat</span><span class="op">:</span> <span class="st">".1f"</span>}<span class="op">,</span></span>
+<span id="cb7-517"><a href="" aria-label="517"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb7-518"><a href="" aria-label="518"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([p_true]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"#8b2635"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="fl">2.5</span>})<span class="op">,</span></span>
+<span id="cb7-519"><a href="" aria-label="519"></a>    Plot<span class="op">.</span><span class="fu">line</span>(path<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"n"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"freq"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#14130f"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="fl">1.6</span>})<span class="op">,</span></span>
+<span id="cb7-520"><a href="" aria-label="520"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
+<span id="cb7-521"><a href="" aria-label="521"></a>  ]</span>
+<span id="cb7-522"><a href="" aria-label="522"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -695,7 +704,7 @@ Samir Orujov, PhD
 <h2>🧠 Think-Pair-Share</h2>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_2217665c" minutes="3" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_1e073f78" minutes="3" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
 </div>
 </div>
 <div style="font-size: 30px">
@@ -733,6 +742,79 @@ Samir Orujov, PhD
 <div class="fragment">
 <p>The habit worth forming: <strong>before adding two probabilities, say out loud why the events cannot both occur.</strong> Next week’s §2.8 is what to do when they can.</p>
 </div>
+</div>
+</section>
+<section id="case-study-how-rare-is-a-vix-spike" class="slide level2">
+<h2>💰 Case Study: How Rare Is a VIX Spike?</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📈 The question</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li>What is <span class="math inline">\(P(\text{VIX} &gt; 30)\)</span>, the event of a sharp fear spike?</li>
+<li>How many days of history does it take for the running relative frequency to settle down?</li>
+<li>Is a single week of calm evidence that the true probability is near zero?</li>
+</ol>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 The data</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Series</strong>: CBOE Volatility Index, daily close (FRED <code>VIXCLS</code>)</p>
+<p><strong>Period</strong>: Jan 1990 – Sep 2026, about 9,300 trading days</p>
+<p><strong>Event</strong>: <span class="math inline">\(A = \{\text{VIX} &gt; 30\}\)</span></p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="case-study-the-relative-frequency-of-a" class="slide level2">
+<h2>💰 Case Study: The Relative Frequency of <span class="math inline">\(A\)</span></h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>📦 Load the VIX and track the running relative frequency</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="" aria-label="1"></a>vix <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/vixcls.csv"</span>, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"close"</span>))</span>
+<span id="cb8-2"><a href="" aria-label="2"></a>vix<span class="sc">$</span>close <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(vix<span class="sc">$</span>close))   <span class="co"># FRED marks holidays "."</span></span>
+<span id="cb8-3"><a href="" aria-label="3"></a>vix <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(vix)</span>
+<span id="cb8-4"><a href="" aria-label="4"></a></span>
+<span id="cb8-5"><a href="" aria-label="5"></a>hit     <span class="ot">&lt;-</span> vix<span class="sc">$</span>close <span class="sc">&gt;</span> <span class="dv">30</span></span>
+<span id="cb8-6"><a href="" aria-label="6"></a>running <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(hit) <span class="sc">/</span> <span class="fu">seq_along</span>(hit)</span>
+<span id="cb8-7"><a href="" aria-label="7"></a></span>
+<span id="cb8-8"><a href="" aria-label="8"></a><span class="fu">data.frame</span>(<span class="at">after_n_days =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">1000</span>, <span class="dv">5000</span>, <span class="fu">length</span>(hit)),</span>
+<span id="cb8-9"><a href="" aria-label="9"></a>           <span class="at">rel_freq =</span> <span class="fu">round</span>(running[<span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">1000</span>, <span class="dv">5000</span>, <span class="fu">length</span>(hit))], <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  after_n_days rel_freq
+1          100   0.0000
+2         1000   0.0310
+3         5000   0.0956
+4         9279   0.0792</code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>After the full 9,279 days, the relative frequency of <span class="math inline">\(A\)</span> is <span class="math inline">\(0.0792\)</span> — this is our estimate of <span class="math inline">\(P(A)\)</span>.</p>
+</div>
+</section>
+<section id="case-study-settling-down" class="slide level2">
+<h2>💰 Case Study: Settling Down</h2>
+
+<img data-src="probability_of_an_event_lecture3_files/figure-revealjs/case-vix-fig-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1500"><div style="font-size: 28px">
+<p><strong>What the data say:</strong> the running relative frequency is noisy for the first few hundred days, then settles near <span class="math inline">\(0.079\)</span> — exactly the behaviour Axiom 3 and the relative-frequency reading of probability predict. It never fully stops moving: 2008 and 2020 still nudge it upward decades in.</p>
 </div>
 </section>
 <section id="quiz-1-reading-set-notation" class="slide level2 quiz-question">
@@ -1050,80 +1132,42 @@ Samir Orujov, PhD
     window._ojs.runtime.interpretFromScriptTags();
     </script>
     
-
     <script>
-
       // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-
       // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-
       // slide changes (different for each slide format).
-
       (function () {
-
         // dispatch for htmlwidgets
-
         function fireSlideEnter() {
-
           const event = window.document.createEvent("Event");
-
           event.initEvent("slideenter", true, true);
-
           window.document.dispatchEvent(event);
-
         }
-
-    
 
         function fireSlideChanged(previousSlide, currentSlide) {
-
           fireSlideEnter();
 
-    
-
           // dispatch for shiny
-
           if (window.jQuery) {
-
             if (previousSlide) {
-
               window.jQuery(previousSlide).trigger("hidden");
-
             }
-
             if (currentSlide) {
-
               window.jQuery(currentSlide).trigger("shown");
-
             }
-
           }
-
         }
-
-    
 
         // hookup for slidy
-
         if (window.w3c_slidy) {
-
           window.w3c_slidy.add_observer(function (slide_num) {
-
             // slide_num starts at position 1
-
             fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-
           });
-
         }
 
-    
-
       })();
-
     </script>
-
-    
 
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {

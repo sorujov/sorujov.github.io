@@ -55,14 +55,18 @@ knitr:
 #| label: setup
 #| include: false
 set.seed(2026)
+library(ggplot2)
 ```
 
 ## 🎬 The Idea in 3 Minutes
 
 ::: {style="text-align:center"}
-<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture3_intuition.mp4"><track kind="captions" src="video/lecture3_intuition.vtt" srclang="en" label="English"></video>
+```{=html}
+<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture3_intuition.mp4"><track kind="captions" src="video/lecture3_intuition.vtt" srclang="en" label="English"><track kind="captions" src="video/lecture3_intuition.az.vtt" srclang="az" label="Azərbaycanca"></video>
+```
+[⬅ Previous lecture: 2 · Numerical Descriptive Measures, Tchebysheff's Theorem and the Empirical Rule](../02-descriptive-measures/descriptive_measures_lecture2.html){style="font-size:28px"}
 
-[Watch this short intuition video before (or after) the slides. Captions: CC button.]{style="font-size:22px"}
+[Watch this short intuition video before (or after) the slides. Captions (English / Azərbaycanca): CC button.]{style="font-size:28px"}
 :::
 
 ---
@@ -82,6 +86,17 @@ By the end of this lecture, you will be able to:
 
 - **Recognise** that the axioms constrain an assignment of probabilities without ever choosing one
 :::
+
+---
+
+## 🔁 Warm-up from last time {.quiz-question}
+
+A sample of daily returns is heavy-tailed. At $k=3$, which statement is defensible?
+
+- [At least 88.9% of days fall within $\bar y \pm 3s$]{.correct data-explanation="✅ Tchebysheff's theorem needs no assumption about shape, so it survives heavy tails: at k=3 it guarantees 1 − 1/9 ≈ 0.889."}
+- About 99.7% of days fall within $\bar y \pm 3s$
+- The empirical rule applies because the sample is large
+- Neither rule says anything useful here
 
 ---
 
@@ -561,6 +576,79 @@ Here they are: one loan, at one review date, cannot be both in arrears and writt
 ::: {.fragment}
 The habit worth forming: **before adding two probabilities, say out loud why the events cannot both occur.** Next week's §2.8 is what to do when they can.
 :::
+:::
+
+---
+
+## 💰 Case Study: How Rare Is a VIX Spike?
+
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
+
+1. What is $P(\text{VIX} > 30)$, the event of a sharp fear spike?
+2. How many days of history does it take for the running relative frequency to settle down?
+3. Is a single week of calm evidence that the true probability is near zero?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: CBOE Volatility Index, daily close (FRED `VIXCLS`)
+
+**Period**: Jan 1990 – Sep 2026, about 9,300 trading days
+
+**Event**: $A = \{\text{VIX} > 30\}$
+:::
+:::
+::::
+
+---
+
+## 💰 Case Study: The Relative Frequency of $A$
+
+```{r}
+#| label: case-vix
+#| code-summary: "📦 Load the VIX and track the running relative frequency"
+vix <- read.csv("data/vixcls.csv", col.names = c("date", "close"))
+vix$close <- suppressWarnings(as.numeric(vix$close))   # FRED marks holidays "."
+vix <- na.omit(vix)
+
+hit     <- vix$close > 30
+running <- cumsum(hit) / seq_along(hit)
+
+data.frame(after_n_days = c(100, 1000, 5000, length(hit)),
+           rel_freq = round(running[c(100, 1000, 5000, length(hit))], 4))
+```
+
+::: {style="font-size: 28px"}
+After the full 9,279 days, the relative frequency of $A$ is $0.0792$ — this is our estimate of $P(A)$.
+:::
+
+---
+
+## 💰 Case Study: Settling Down
+
+```{r}
+#| label: case-vix-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.9
+p_hat <- tail(running, 1)
+ggplot(data.frame(n = seq_along(running), freq = running), aes(n, freq)) +
+  geom_line(color = "#8b2635", linewidth = 0.8) +
+  geom_hline(aes(yintercept = p_hat, color = "Long-run estimate"), linetype = "dashed") +
+  scale_color_manual(values = c("Long-run estimate" = "#14130f"), name = NULL) +
+  scale_x_log10() +
+  labs(x = "Number of trading days (log scale)", y = "Running rel. freq. of VIX > 30") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+**What the data say:** the running relative frequency is noisy for the first few hundred days, then settles near $0.079$ — exactly the behaviour Axiom 3 and the relative-frequency reading of probability predict. It never fully stops moving: 2008 and 2020 still nudge it upward decades in.
 :::
 
 ---
