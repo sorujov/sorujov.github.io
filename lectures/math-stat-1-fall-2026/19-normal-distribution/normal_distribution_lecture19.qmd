@@ -64,9 +64,12 @@ theme_set(theme_minimal(base_size = 18) +
 ## 🎬 The Idea in 3 Minutes
 
 ::: {style="text-align:center"}
-<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture19_intuition.mp4"><track kind="captions" src="video/lecture19_intuition.vtt" srclang="en" label="English"></video>
+```{=html}
+<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture19_intuition.mp4"><track kind="captions" src="video/lecture19_intuition.vtt" srclang="en" label="English"><track kind="captions" src="video/lecture19_intuition.az.vtt" srclang="az" label="Azərbaycanca"></video>
+```
+[⬅ Previous lecture: 18 · Expected Values for Continuous Random Variables](../18-continuous-expectation-uniform/continuous_expectation_uniform_lecture18.html){style="font-size:28px"}
 
-[Watch this short intuition video before (or after) the slides. Captions: CC button.]{style="font-size:22px"}
+[Watch this short intuition video before (or after) the slides. Captions (English / Azərbaycanca): CC button.]{style="font-size:28px"}
 :::
 
 ---
@@ -86,6 +89,17 @@ By the end of this lecture, you will be able to:
 
 - **Explain** why real daily returns have heavier tails than the normal model allows
 :::
+
+---
+
+## 🔁 Warm-up from last time {.quiz-question}
+
+A settlement time is Uniform$(10, 30)$ minutes. By Theorem 4.6, what are $E(Y)$ and $V(Y)$?
+
+- [$E(Y)=20$, $V(Y) = 400/12 = 33.3$]{.correct data-explanation="✅ Theorem 4.6: μ = (θ₁+θ₂)/2 = (10+30)/2 = 20, and σ² = (θ₂−θ₁)²/12 = 20²/12 = 33.3."}
+- $E(Y)=20$, $V(Y) = 20/12 = 1.67$
+- $E(Y)=10$, $V(Y) = 400/12 = 33.3$
+- $E(Y)=20$, $V(Y) = 400/4 = 100$
 
 ---
 
@@ -451,6 +465,91 @@ A mobile operator models a subscriber's monthly data use as normal with $\mu = 1
 ::: {.fragment}
 3. $P(Y < 0) = P(Z < -3) = A(3.0) = .00135$. Small, but **impossible** usage has positive probability. Data use is bounded below by zero and skewed to the right; the normal is a working approximation near the centre, not a law of nature. Check the support before you trust the tails.
 :::
+:::
+
+---
+
+## 💰 Case Study: Do Returns Follow the 68-95-99.7 Rule?
+
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
+
+Standardise daily S&P 500 returns as $Z = (Y-\mu)/\sigma$.
+
+1. What share of days fall within 1, 2 and 3 standard deviations of the mean?
+2. Does that match the normal's 68.3%, 95.4%, 99.7%?
+3. How many days beyond $3\sigma$ does the model predict, and how many happened?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: S&P 500 daily close (FRED `SP500`)
+
+**Period**: Sep 2016 – Sep 2026, about 2,500 days
+
+**Variable**: $Y$ = daily log return, standardised to $Z$
+:::
+:::
+::::
+
+---
+
+## 💰 Case Study: The 68-95-99.7 Check in R
+
+```{r}
+#| label: case-normal
+#| code-summary: "📦 Standardise the returns and count exceedances"
+sp <- read.csv("data/sp500.csv", col.names = c("date", "close"))
+sp$close <- suppressWarnings(as.numeric(sp$close))   # FRED marks holidays "."
+sp <- na.omit(sp)
+
+y <- diff(log(sp$close))
+z <- (y - mean(y)) / sd(y)
+
+rbind(
+  data.frame(check = "within 1 sigma", data = round(mean(abs(z) < 1), 4), normal_rule = 0.6827),
+  data.frame(check = "within 2 sigma", data = round(mean(abs(z) < 2), 4), normal_rule = 0.9545),
+  data.frame(check = "within 3 sigma", data = round(mean(abs(z) < 3), 4), normal_rule = 0.9973),
+  data.frame(check = "beyond 3 sigma, count", data = sum(abs(z) > 3),
+             normal_rule = round(length(y) * 2 * pnorm(-3), 2))
+)
+```
+
+::: {style="font-size: 28px"}
+36 days sit beyond $3\sigma$; the normal model expects about 7 in a sample this size.
+:::
+
+---
+
+## 💰 Case Study: A QQ Plot Against the Normal
+
+```{r}
+#| label: case-normal-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.9
+sp <- read.csv("data/sp500.csv", col.names = c("date", "close"))
+sp$close <- suppressWarnings(as.numeric(sp$close))
+sp <- na.omit(sp)
+y <- diff(log(sp$close))
+z <- (y - mean(y)) / sd(y)
+qq <- as.data.frame(qqnorm(z, plot.it = FALSE))
+ggplot(qq, aes(x, y)) +
+  geom_point(aes(colour = "Standardised returns"), size = 1.1, alpha = 0.5) +
+  geom_abline(aes(intercept = 0, slope = 1, colour = "Normal (y = x)"), linewidth = 1) +
+  scale_colour_manual(values = c("Standardised returns" = "#8ba3c7",
+                                 "Normal (y = x)" = "#8b2635"), name = NULL) +
+  labs(x = "Normal theoretical quantiles", y = "Sample quantiles of Z") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+**What the data say:** the middle of the plot tracks the line, so the normal describes ordinary days well. Both tails bow away from the line, especially the left: crashes and rallies are more frequent and more extreme than $Z=(Y-\mu)/\sigma$ being normal would allow.
 :::
 
 ---
