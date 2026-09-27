@@ -54,9 +54,10 @@ knitr:
 ## 🎬 The Idea in 3 Minutes
 
 ::: {style="text-align:center"}
-<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture1_intuition.mp4"><track kind="captions" src="video/lecture1_intuition.vtt" srclang="en" label="English"></video>
-
-[Watch this short intuition video before (or after) the slides. Captions: CC button.]{style="font-size:22px"}
+```{=html}
+<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture1_intuition.mp4"><track kind="captions" src="video/lecture1_intuition.vtt" srclang="en" label="English"><track kind="captions" src="video/lecture1_intuition.az.vtt" srclang="az" label="Azərbaycanca"></video>
+```
+[Watch this short intuition video before (or after) the slides. Captions (English / Azərbaycanca): CC button.]{style="font-size:28px"}
 :::
 
 ---
@@ -460,19 +461,29 @@ The moral: a histogram is a *claim*, and the number of classes is part of the cl
 
 ## 💰 Case Study: Getting the Data
 
-::: {style="font-size: 28px"}
-On your own machine, this is how you would pull five years of real prices:
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
 
-```{.r .display-only}
-library(quantmod)
-getSymbols("^GSPC", src = "yahoo", from = "2021-01-01", auto.assign = TRUE)
-returns <- 100 * diff(log(as.numeric(Cl(GSPC))))   # daily log returns, %
-```
-
-We will not run it here: it needs a live connection, and the numbers would
-change between one lecture and the next. Instead we use a **simulated sample
-of 1,250 daily returns**, drawn to match the S&P 500's centre and spread.
+1. Is the shape of daily S&P 500 returns symmetric, or does it lean?
+2. How much mass sits beyond $\pm 2\%$ in a single day?
+3. Would a coarser or finer set of classes change the story?
 :::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: S&P 500 daily close (FRED `SP500`)
+
+**Period**: Sep 2016 – Sep 2026, about 2,500 trading days
+
+**Transformation**: daily log return, $100 \times \log(P_t / P_{t-1})$
+:::
+:::
+::::
 
 ---
 
@@ -480,12 +491,14 @@ of 1,250 daily returns**, drawn to match the S&P 500's centre and spread.
 
 ```{r}
 #| label: case-study-freq
-set.seed(2026)
-# Five years of daily returns, in per cent. The t distribution gives the
-# heavy tails that real returns have and a normal sample would not.
-returns <- 0.05 + 0.75 * rt(1250, df = 4)
+#| code-summary: "📦 Load the S&P 500 and build the classes"
+library(ggplot2)
+sp <- read.csv("data/sp500.csv", col.names = c("date", "close"))
+sp$close <- suppressWarnings(as.numeric(sp$close))   # FRED marks holidays "."
+sp <- na.omit(sp)
+returns <- 100 * diff(log(sp$close))                 # daily log return, %
 
-k        <- ceiling(sqrt(length(returns)))   # a defensible starting choice
+k        <- 20                                       # a defensible starting choice
 breaks   <- pretty(range(returns), n = k)
 counts   <- table(cut(returns, breaks))
 rel_freq <- counts / length(returns)
@@ -498,23 +511,31 @@ data.frame(class     = names(counts),
            rel_freq  = round(as.numeric(rel_freq), 3))[(centre - 3):(centre + 3), ]
 ```
 
+::: {style="font-size: 28px"}
+Mean return $\approx 0.05\%$, standard deviation $\approx 1.14\%$; about $5.9\%$ of days move more than $\pm 2\%$.
+:::
+
 ---
 
 ## 💰 The Relative Frequency Histogram
 
 ```{r}
 #| label: case-study-hist
-#| fig-height: 4
-#| fig-width: 9
 #| echo: false
-hist(returns, breaks = breaks, freq = FALSE,
-     main = NULL, xlab = "Daily return (%)", ylab = "Density",
-     col = "grey85", border = "white")
+#| fig-width: 10
+#| fig-height: 3.9
+ggplot(data.frame(returns), aes(returns)) +
+  geom_histogram(aes(y = after_stat(density)), breaks = breaks,
+                 fill = "#8b2635", color = "white", alpha = 0.85) +
+  stat_function(fun = dnorm, args = list(mean = mean(returns), sd = sd(returns)),
+                aes(color = "Normal, same mean & sd"), linewidth = 1) +
+  scale_color_manual(values = c("Normal, same mean & sd" = "#8ba3c7"), name = NULL) +
+  labs(x = "Daily return (%)", y = "Density") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
 ```
 
 ::: {style="font-size: 28px"}
-**Ask of the output:** where is the centre, how wide is the spread, and how
-much mass sits beyond ±3%?
+**What the data say:** the centre and shoulders look close to a normal curve of the same mean and spread. But real returns have a taller peak and more days far out in the tails than that curve predicts — the heavy tails that make March 2020 and similar crises more common than a normal model would say.
 :::
 
 ---
