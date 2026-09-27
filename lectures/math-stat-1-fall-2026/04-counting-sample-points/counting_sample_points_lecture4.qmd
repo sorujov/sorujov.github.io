@@ -55,14 +55,18 @@ knitr:
 #| label: setup
 #| include: false
 set.seed(2026)
+library(ggplot2)
 ```
 
 ## 🎬 The Idea in 2 Minutes
 
 ::: {style="text-align:center"}
-<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture4_intuition.mp4"><track kind="captions" src="video/lecture4_intuition.vtt" srclang="en" label="English"></video>
+```{=html}
+<video controls preload="metadata" style="width:880px;max-width:100%" src="video/lecture4_intuition.mp4"><track kind="captions" src="video/lecture4_intuition.vtt" srclang="en" label="English"><track kind="captions" src="video/lecture4_intuition.az.vtt" srclang="az" label="Azərbaycanca"></video>
+```
+[⬅ Previous lecture: 3 · The Probability of an Event](../03-probability-of-an-event/probability_of_an_event_lecture3.html){style="font-size:28px"}
 
-[Watch this short intuition video before (or after) the slides. Captions: CC button.]{style="font-size:22px"}
+[Watch this short intuition video before (or after) the slides. Captions (English / Azərbaycanca): CC button.]{style="font-size:28px"}
 :::
 
 ---
@@ -82,6 +86,17 @@ By the end of this lecture, you will be able to:
 
 - **Calculate** $P(A) = n_a / N$ for an equiprobable sample space without listing a single point
 :::
+
+---
+
+## 🔁 Warm-up from last time {.quiz-question}
+
+In the credit-file audit, five files hold two misclassified ones and the auditor draws two. The ten equally likely sample points give $P(\text{no misclassified file drawn}) = 0.3$. Which step of the sample-point method produced that $0.3$?
+
+- [Sum the probabilities of the sample points belonging to the event]{.correct data-explanation="✅ Step 5: with equally likely points at 1/10 each and 3 points in the event, Axiom 3 gives P(A) = 3(1/10) = 0.3."}
+- List the sample points and stop, since the count alone is the probability
+- Multiply the number of sample points by the number of files
+- Divide the number of misclassified files by five
 
 ---
 
@@ -510,6 +525,89 @@ The arithmetic is easy; choosing between $336$ and $56$ is the whole question, a
 ::: {.fragment}
 Swap the Deputy and the Trainee: a different appointment. Swap two committee members: the same committee.
 :::
+:::
+
+---
+
+## 💰 Case Study: Are the 32 Patterns Equally Frequent?
+
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
+
+1. The $mn$ rule gives $2^5 = 32$ possible up/down patterns for 5 consecutive trading days. If each day were an independent fair coin, all 32 would appear equally often — is that so?
+2. Which pattern is most common, and which is rarest?
+3. How far from uniform is the actual distribution?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: S&P 500 daily close (FRED `SP500`)
+
+**Period**: Sep 2016 – Sep 2026, cut into 502 non-overlapping blocks of 5 trading days
+
+**Transformation**: each day labelled U or D by the sign of its log return, concatenated into a 5-letter pattern
+:::
+:::
+::::
+
+---
+
+## 💰 Case Study: Counting the Patterns in R
+
+```{r}
+#| label: case-patterns
+#| code-summary: "📦 Load the S&P 500 and tally the 5-day patterns"
+sp <- read.csv("data/sp500.csv", col.names = c("date", "close"))
+sp$close <- suppressWarnings(as.numeric(sp$close))   # FRED marks holidays "."
+sp <- na.omit(sp)
+up <- diff(log(sp$close)) > 0                        # U = up day, D = down day
+
+n5 <- floor(length(up) / 5)
+m  <- matrix(up[1:(n5 * 5)], ncol = 5, byrow = TRUE)  # one row per 5-day block
+pattern <- apply(m, 1, function(x) paste(ifelse(x, "U", "D"), collapse = ""))
+
+all32 <- apply(expand.grid(rep(list(c("U", "D")), 5)), 1, paste, collapse = "")
+counts <- table(factor(pattern, levels = all32))
+
+data.frame(most_common  = names(sort(counts, decreasing = TRUE))[1],
+           count_most   = max(counts),
+           least_common = names(sort(counts))[1],
+           count_least  = min(counts),
+           expected_if_uniform = round(n5 / 32, 2))
+```
+
+::: {style="font-size: 28px"}
+With $N = 502$ blocks, a uniform model predicts $502/32 \approx 15.7$ of each pattern; the counts range from $8$ to $27$.
+:::
+
+---
+
+## 💰 Case Study: The Pattern Frequencies
+
+```{r}
+#| label: case-patterns-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.9
+df <- data.frame(pattern = names(counts), count = as.integer(counts))
+df <- df[order(-df$count), ]
+df$pattern <- factor(df$pattern, levels = df$pattern)
+ggplot(df, aes(pattern, count)) +
+  geom_col(fill = "#8b2635") +
+  geom_hline(aes(yintercept = n5 / 32, color = "Uniform (mn rule)"), linetype = "dashed", linewidth = 0.9) +
+  scale_color_manual(values = c("Uniform (mn rule)" = "#14130f"), name = NULL) +
+  labs(x = NULL, y = "Number of 5-day blocks") +
+  theme_minimal(base_size = 20) +
+  theme(legend.position = "top", axis.text.x = element_text(angle = 90, vjust = 0.5, size = 9))
+```
+
+::: {style="font-size: 28px"}
+**What the data say:** the counts scatter around the uniform line but do not sit on it. Patterns with more U's are systematically more common — the market's small upward drift, not a coin's symmetry. The 32-point sample space from the $mn$ rule is exactly right; equal probability on it is a separate, false assumption.
 :::
 
 ---
