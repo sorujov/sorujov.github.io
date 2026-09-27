@@ -77,6 +77,17 @@ By the end of this lecture, you will be able to:
 
 ---
 
+## 🔁 Warm-up from last time {.quiz-question}
+
+$Y$ is normal with $\mu = 50$ and $\sigma = 10$. What is $P(40 < Y < 60)$?
+
+- [$0.6827$]{.correct data-explanation="✅ Standardise: z₁ = (40−50)/10 = −1, z₂ = (60−50)/10 = 1, so P(−1<Z<1) = 0.6827 — the empirical rule's 68% within one sigma."}
+- $0.9545$
+- $0.5$
+- $0.3413$
+
+---
+
 ## 🗺️ Where We Are
 
 ::: {style="font-size: 32px"}
@@ -462,6 +473,92 @@ $$P(Y \le 50 \mid Y > 40) = P(Y \le 10) = 1 - e^{-0.4} = 0.3297$$
 ::: {.fragment}
 Compare with the normal model in the motivating question: this one never puts mass below zero, and its $\sigma$ equals its mean for a single gap, as the desk observed.
 :::
+:::
+
+---
+
+## 💰 Case Study: Are Gaps Between Big Moves Exponential?
+
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
+
+Call a day "big" if $|\log \text{return}| > 2\%$. Let $Y$ be the number of trading days between consecutive big days.
+
+1. What is the mean gap, and does it set $\beta$ for an exponential model?
+2. The exponential needs $\text{sd}(Y) = \text{mean}(Y)$ (Theorem 4.10). Does that hold?
+3. Where does the memoryless model fail?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: S&P 500 daily close (FRED `SP500`)
+
+**Period**: Sep 2016 – Sep 2026, about 2,500 days
+
+**Variable**: $Y$ = trading days between days with $|\log \text{return}| > 2\%$
+:::
+:::
+::::
+
+---
+
+## 💰 Case Study: The Gaps, in R
+
+```{r}
+#| label: case-exponential
+#| code-summary: "📦 Load the data and find the gaps between big moves"
+sp <- read.csv("data/sp500.csv", col.names = c("date", "close"))
+sp$close <- suppressWarnings(as.numeric(sp$close))   # FRED marks holidays "."
+sp <- na.omit(sp)
+
+r    <- diff(log(sp$close))
+big  <- which(abs(r) > 0.02)
+gaps <- diff(big)                                   # trading days between big moves
+beta_hat <- mean(gaps)
+
+round(c(n_big_days = length(big), mean_gap = beta_hat, sd_gap = sd(gaps),
+        P_gap_gt10_data = mean(gaps > 10), P_gap_gt10_exp = exp(-10 / beta_hat)), 3)
+```
+
+::: {style="font-size: 28px"}
+Fitting $\beta$ to the mean gets the mean right by construction; the question is whether the rest of the shape follows.
+:::
+
+---
+
+## 💰 Case Study: Model vs. Data
+
+```{r}
+#| label: case-exponential-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.9
+sp <- read.csv("data/sp500.csv", col.names = c("date", "close"))
+sp$close <- suppressWarnings(as.numeric(sp$close))
+sp <- na.omit(sp)
+r <- diff(log(sp$close))
+big <- which(abs(r) > 0.02)
+gaps <- diff(big)
+beta_hat <- mean(gaps)
+xx <- seq(0, max(gaps), length.out = 200)
+ggplot(data.frame(gaps = gaps), aes(gaps)) +
+  geom_histogram(aes(y = after_stat(density), fill = "Observed gaps"), bins = 20,
+                 colour = "white") +
+  geom_line(data = data.frame(x = xx, d = dexp(xx, rate = 1 / beta_hat)),
+            aes(x, d, colour = "Exponential(beta-hat)"), linewidth = 1.2) +
+  scale_fill_manual(values = c("Observed gaps" = "#8ba3c7"), name = NULL) +
+  scale_colour_manual(values = c("Exponential(beta-hat)" = "#8b2635"), name = NULL) +
+  labs(x = "Trading days between big moves", y = "Density") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+**What the data say:** the exponential curve fits the mass of short gaps reasonably well. It fails on spread: the standard deviation of the gaps is more than twice the mean, because big moves cluster in crises (2018, 2020, 2022) and are rare between them — the gaps are not memoryless draws from one constant rate.
 :::
 
 ---
