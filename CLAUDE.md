@@ -244,13 +244,30 @@ a case study, and both use simulated data or a live Yahoo call.
   local copy at `Desktop\GITHUB\sorujov.github.io` is fast-forwarded.
 
 ### Progress
-- [ ] Pilot the case study on deck 11 and fix the pattern
-- [ ] Update the skill (repo copy + account proposal)
-- [ ] Case studies for decks 03–30, and 01–02 switched to real data
-- [ ] Previous-lecture links + warm-up slides
-- [ ] Azerbaijani captions for every video
-- [ ] Videos for decks 20–30
-- [ ] Azerbaijani narration + EN/AZ switch
+- [x] Piloted the case study on deck 11 and settled the pattern (27 Sep)
+- [x] Skill updated: repo copy committed; account copy proposed to Sam (27 Sep)
+- [x] Case studies for decks 03–30; decks 01–02 moved to vendored FRED data (27 Sep)
+- [x] Previous-lecture links and warm-up slides in every deck (27 Sep)
+- [x] Azerbaijani captions for videos 01–19 (27 Sep)
+- [x] Videos for decks 20–30 (27 Sep)
+- [x] Azerbaijani captions for videos 20–30 (27 Sep)
+- [ ] Azerbaijani narration: waiting for Sam to choose a voice. The first clone
+  (made from his English-plus-poem sample) did not sound like him in
+  Azerbaijani. On 27 Sep he recorded about 3.5 min of Azerbaijani, and a
+  separate clone, `ELEVENLABS_VOICE_ID_AZ`, was trained on it; samples F (v3)
+  and G (multilingual v2) were sent to him.
+  - Sam judged Claude's Azerbaijani weak and corrected the lecture 11 text
+    with Gemini. Before generating any narration, have Sam or a native reader
+    correct the `az_lN.json` scripts.
+  - Scripts: one clip per animation block. `common.py` narrates from one when
+    `NARRATION_MAP` points at it.
+- [ ] Sam's local copy: fast-forward it to origin/master
+
+### Lessons
+- A bare `<video>…<track>…</video>` line in a `.qmd` swallows the rest of the
+  deck. Wrap it in a ```` ```{=html} ```` block.
+- Quarto leaves an orphaned `quarto-syntax-highlighting-*.css` behind on
+  re-render, as it does with the theme CSS. Sweep both.
 
 ## Conventions
 
