@@ -27,29 +27,53 @@ class Lecture6(IntuitionScene):
             self.play(LaggedStart(*[FadeIn(l, shift=DOWN * 0.2) for l in loans], lag_ratio=0.08))
             self.play(Indicate(VGroup(*loans[:3]), color=RED_))
             self.fill(tr, 2.5)
-        sq = Square(4.2, color=WHITE_).shift(DOWN * 1.2 + LEFT * 3)
-        col = Rectangle(width=4.2 * 0.3, height=4.2, stroke_width=0, fill_color=RED_, fill_opacity=0.35).align_to(sq, LEFT).align_to(sq, DOWN)
-        l1 = MathTex(r"P(A)=\tfrac{3}{10}", font_size=40, color=RED_).next_to(sq, RIGHT, buff=0.6).shift(UP * 1.2)
-        with self.say("Picture it as area: the first pick is bad in this thirty percent slice.") as tr:
-            self.play(Create(sq), FadeIn(col), Write(l1))
+        S = 4.0
+        sq = Square(S, color=WHITE_).shift(DOWN * 1.15 + LEFT * 3.3)
+        x0, y0 = sq.get_left()[0], sq.get_bottom()[1]
+        def box(x, y, w, h, color, op):
+            return Rectangle(width=S * w, height=S * h, stroke_width=1, stroke_color=BG, fill_color=color,
+                             fill_opacity=op).move_to([x0 + S * (x + w / 2), y0 + S * (y + h / 2), 0])
+        lab_all = T("all ways the two picks can go: area = 1", 22, GREY_).next_to(sq, UP, buff=0.15)
+        with self.say("Picture every possible outcome of the two picks as this square, with total area "
+                      "one. Its width stands for the first pick.") as tr:
+            self.play(Create(sq), FadeIn(lab_all))
             self.fill(tr, 1.5)
-        inner = Rectangle(width=4.2 * 0.3, height=4.2 * 2 / 9, stroke_width=0, fill_color=RED_, fill_opacity=0.9).align_to(col, LEFT).align_to(col, DOWN)
+        colA = box(0, 0, 0.3, 1, RED_, 0.25)
+        colG = box(0.3, 0, 0.7, 1, TEAL_, 0.12)
+        bx = T("1st bad: 0.3", 22, RED_).next_to(colA, DOWN, buff=0.2)
+        gx = T("1st good: 0.7", 22, TEAL_).next_to(colG, DOWN, buff=0.2)
+        l1 = MathTex(r"P(A)=\tfrac{3}{10}", font_size=40, color=RED_).move_to([-0.2, 0.9, 0], aligned_edge=LEFT)
+        with self.say("The left thirty percent of the width is where the first loan is bad; the rest is "
+                      "where it is good.") as tr:
+            self.play(FadeIn(colA), FadeIn(colG), FadeIn(bx), FadeIn(gx), Write(l1))
+            self.fill(tr, 1.5)
+        inner = box(0, 0, 0.3, 2 / 9, RED_, 0.95)
+        good2 = box(0.3, 0, 0.7, 3 / 9, TEAL_, 0.35)
+        by = MathTex(r"\tfrac{2}{9}", font_size=36, color=YELLOW_).next_to(inner, LEFT, buff=0.15)
+        ylab = T("height = 2nd pick", 22, GREY_).rotate(PI / 2).next_to(sq, LEFT, buff=0.55)
+        g2 = MathTex(r"\tfrac{3}{9}", font_size=38, color=WHITE_).move_to(good2)
         l2 = MathTex(r"P(B\mid A)=\tfrac{2}{9}", font_size=40, color=YELLOW_).next_to(l1, DOWN, buff=0.4).align_to(l1, LEFT)
-        with self.say("Now, given that the first was bad, two bad loans remain among nine. So inside that "
-                      "slice, only two ninths of it has a bad second pick as well.") as tr:
-            self.play(loans[0].animate.shift(DOWN * 0.4).set_opacity(0.15))
-            self.play(GrowFromEdge(inner, DOWN), Write(l2))
-            self.fill(tr, 2)
-        res = MathTex(r"P(A\cap B)=P(A)\,P(B\mid A)=\tfrac{3}{10}\cdot\tfrac{2}{9}=\tfrac{1}{15}", font_size=40
+        with self.say("Its height stands for the second pick, and inside each strip the pool is different. "
+                      "If the first loan was bad, two bad loans remain among nine, so only the bottom two "
+                      "ninths of the left strip has a bad second loan as well. On the right, after a good "
+                      "first loan, it would be three ninths.") as tr:
+            self.play(loans[0].animate.shift(DOWN * 0.4).set_opacity(0.15), FadeIn(ylab))
+            self.play(GrowFromEdge(inner, DOWN), FadeIn(by), Write(l2))
+            self.play(GrowFromEdge(good2, DOWN), FadeIn(g2))
+            self.fill(tr, 3.5)
+        res = MathTex(r"P(A\cap B)=\tfrac{3}{10}\cdot\tfrac{2}{9}=\tfrac{1}{15}", font_size=40
                       ).next_to(l2, DOWN, buff=0.6).align_to(l1, LEFT)
-        res2 = T("zoom in twice: a fraction of a fraction", 28, GREY_).next_to(res, DOWN, buff=0.3).align_to(res, LEFT)
-        with self.say("The chance of both is a fraction of a fraction: three tenths times two ninths, one "
-                      "in fifteen. That's the multiplicative law. The second factor is conditional, "
-                      "because the first pick changed the pool. If the events were independent, it would "
-                      "just be the ordinary probability.") as tr:
+        res2 = T("= area of the red corner (width x height)", 26, GREY_).next_to(res, DOWN, buff=0.3).align_to(res, LEFT)
+        arrow = Arrow(res.get_left() + LEFT * 0.2, inner.get_right() + RIGHT * 0.05, color=YELLOW_, buff=0.1, stroke_width=4)
+        with self.say("Both loans are bad only in the red corner: three tenths wide and two ninths tall. "
+                      "Its area, three tenths times two ninths, one in fifteen, is the chance of both. "
+                      "That's the multiplicative law: a fraction of a fraction. The second factor is "
+                      "conditional, because the first pick changed the pool. If the events were "
+                      "independent, it would just be the ordinary probability.") as tr:
+            self.play(Indicate(inner, color=YELLOW_, scale_factor=1.15), GrowArrow(arrow))
             self.play(Write(res), run_time=2)
             self.play(FadeIn(res2))
-            self.fill(tr, 3)
+            self.fill(tr, 4.5)
 
     def add_law(self):
         A = Circle(radius=2.0, color=BLUE_, fill_opacity=0.3).shift(LEFT * 4.3 + DOWN * 0.3)
