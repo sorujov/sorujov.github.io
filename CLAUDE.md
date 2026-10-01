@@ -226,9 +226,14 @@ a case study, and both use simulated data or a live Yahoo call.
   selectable from CC), translated by hand, not machine-translated. Next comes an
   Azerbaijani narration: re-render with `eleven_v3` in Azerbaijani and add an
   EN/AZ switch on the video slide. This is staged by the ElevenLabs monthly quota.
-- **YouTube** (optional mirror): it would add auto-translated captions and native
-  multi-audio. It needs Sam's channel sign-in, and the decks keep self-hosted
-  video so they don't depend on it.
+- **YouTube mirror** (done 1 October 2026): all 29 videos are public on Sam's
+  channel, each with English and Azerbaijani caption tracks, in the playlist
+  "Mathematical Statistics I (Fall 2026) - The Idea in a Few Minutes"
+  (https://www.youtube.com/playlist?list=PLYTbpoK_ee6Q), ordered 1→30. Each
+  deck's video slide keeps the self-hosted video and adds a "▶ Watch on
+  YouTube" link (edited in both the `.qmd` and the rendered `.html`). Video IDs
+  are in those links. Studio's per-language upload also takes an audio track,
+  which is where the Azerbaijani narration can go later.
 
 ### 4. Skill
 - `.claude/skills/wackerly-slides/SKILL.md` gets the case-study pattern, the
