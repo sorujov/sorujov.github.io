@@ -1,23 +1,25 @@
 ---
-title: "The Transformation of Broadband Demand: From Discretionary Service to Essential Infrastructure (2010-2024)"
+title: "The Transformation of Broadband Demand: From Discretionary Service to Essential Infrastructure (2010–2024)"
 collection: publications
-category: working-papers
-permalink: /publication/2025-01-01-the-transformation-of-broadband-demand-from-discretionary-service-to-essential-infrastructure-2010-2
-excerpt: 'The Transformation of Broadband Demand: From Discretionary Service to Essential Infrastructure (2010-2024)'
+category: manuscripts
+permalink: /publication/2025-01-01-the-transformation-of-broadband-demand-from-discretionary-service-to-essential-infrastructure-201020
+excerpt: 'The Transformation of Broadband Demand: From Discretionary Service to Essential Infrastructure (2010–2024)'
 date: 2025-01-01
-venue: ''
-orcid_putcode: '200245951'
-paperurl: 'http://dx.doi.org/10.2139/ssrn.5920805'
-doi: '10.2139/ssrn.5920805'
+venue: 'Arxiv'
+orcid_putcode: '209477410'
+paperurl: 'https://www.scopus.com/inward/record.url?eid=2-s2.0-105027476113&partnerID=MN8TOARS'
+doi: '10.48550/arXiv.2512.21356'
 github: 'https://github.com/sorujov/Broadband-Demand-Elasticity'
-citation: 'Citation information from ORCID (Work Type: preprint)'
-orcid_fingerprint: 'e6c3683ceed8a96e9b240ec26f4fcd2e'
-orcid_last_modified: '2025-12-19T11:30:19Z'
+citation: 'Citation information from ORCID (Work Type: other)'
+orcid_fingerprint: '6ad06e607250be60621184abb90fbf6a'
+orcid_last_modified: '2026-03-24T09:31:04Z'
 ---
 
-**Type**: Preprint
+**Type**: other
 
-**DOI**: [10.2139/ssrn.5920805](https://doi.org/10.2139/ssrn.5920805)
+**Published in**: Arxiv
+
+**DOI**: [10.48550/arXiv.2512.21356](https://doi.org/10.48550/arXiv.2512.21356)
 
 ## Abstract
 
