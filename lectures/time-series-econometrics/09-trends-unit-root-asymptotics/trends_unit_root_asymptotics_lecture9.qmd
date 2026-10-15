@@ -1,0 +1,680 @@
+---
+title: "Time Series Econometrics"
+subtitle: "Lecture 9: Trends, Unit Roots and Brownian Motion"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "Open lecture notes, after Stanislav Anatolyev's course (2016)"
+format:
+  revealjs:
+    theme: [default, ../slide-fit.scss]
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    footer: "Time Series Econometrics — Unit Roots and Brownian Motion"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+engine: knitr
+execute:
+  echo: true
+  warning: false
+  message: false
+  freeze: false
+knitr:
+  opts_chunk:
+    dev: png
+    dpi: 150
+    fig.align: center
+---
+
+```{r}
+#| label: setup
+#| include: false
+set.seed(2026)
+library(ggplot2)
+theme_set(theme_minimal(base_size = 18))
+```
+
+## 🎬 The Idea in 3 Minutes
+
+::: {style="text-align:center"}
+```{=html}
+<video controls preload="metadata" style="width:780px;max-width:100%;aspect-ratio:16/9;background:#111" poster="video/lecture9_intuition.jpg" src="video/lecture9_intuition.mp4"><track kind="captions" src="video/lecture9_intuition.vtt" srclang="en" label="English"></video>
+```
+[⬅ Previous lecture: 8 · ARMA Models: Identification, Estimation, Forecasting](../08-arma-estimation-forecasting/arma_estimation_forecasting_lecture8.html){style="font-size:28px"}
+
+[A short film with the intuition. Watch it before the slides, or after. Captions: CC button.]{style="font-size:28px"}
+:::
+
+---
+
+## 🎯 Learning Objectives
+
+::: {style="font-size: 32px"}
+By the end of this lecture, you will be able to:
+
+- **Distinguish** a deterministic trend from a stochastic trend, and say what each implies for shocks and forecasts
+- **Derive** the OLS rates $\sqrt T$, $T^{3/2}$ and $T$ for a constant, a linear trend and a unit root
+- **Show** by a telescoping sum that $T(\hat\rho - 1)$ has a non-normal limit, the Dickey–Fuller distribution
+- **State** the properties of Brownian motion and the functional central limit theorem
+- **Translate** sums of a random walk into stochastic integrals, using Itô's rule where ordinary calculus fails
+:::
+
+---
+
+## 🔁 Warm-up from last time {.quiz-question}
+
+For a stationary AR(1), $x_t = \mu + \rho(x_{t-1} - \mu) + \varepsilon_t$, what happens to the $h$-step forecast MSE as $h \to \infty$?
+
+- [It rises to the unconditional variance $\sigma^2/(1 - \rho^2)$]{.correct data-explanation="✅ Lecture 8: MSE(h) = σ²(1 − ρ^{2h})/(1 − ρ²), which increases to γ0 = σ²/(1 − ρ²). The forecast itself reverts to μ."}
+- It stays at $\sigma^2$ for every $h$
+- It grows without bound, linearly in $h$
+- It falls to zero, since the forecast converges to $\mu$
+
+---
+
+## 🗺️ Where We Are
+
+::: {style="font-size: 30px"}
+Lecture 8 ended with two comforting facts about a stationary ARMA: forecasts revert to the mean, and the forecast MSE is bounded by $\gamma_0$. Both rest on $|\rho| < 1$.
+
+::: {.fragment}
+At $\rho = 1$ both fail. The forecast of $y_{T+h}$ is $y_T$ for every $h$, and the MSE is $h\sigma^2$. The asymptotic theory fails as well: OLS is still consistent, but $\sqrt T$ is the wrong rate and the limit is not normal. Today we find the right rate and the right limit, and the tool that delivers them, Brownian motion.
+:::
+:::
+
+---
+
+## ❓ The Question
+
+::: {.callout-important}
+## Was the 2008 recession a permanent loss?
+US real GDP fell about 4% in 2008–09. If output fluctuates around a fixed trend line, it should have caught up with that line. If its trend is itself a random walk, the loss was permanent and the old line is irrelevant.
+:::
+
+::: {style="font-size: 30px"}
+The two views agree on the past and disagree about the future. Nelson and Plosser (1982) found most US macro series behave like the second. Telling them apart is the problem of unit-root econometrics, and its statistics are non-standard.
+:::
+
+[Not in the 2016 notes: framing added from Hamilton (1994), ch. 15.]{.gapnote}
+
+---
+
+## 📐 Two Kinds of Trend
+
+::: {style="font-size: 28px"}
+| | trend-stationary (TS) | difference-stationary (DS) |
+|---|---|---|
+| model | $y_t = \alpha + \delta t + u_t$ | $y_t = \delta + y_{t-1} + u_t$ |
+| solved | $u_t$ stationary around a line | $y_t = y_0 + \delta t + \sum_{s\le t}u_s$ |
+| a shock | dies out | stays forever |
+| forecast MSE | bounded | grows like $h$ |
+| made stationary by | detrending | differencing |
+
+::: {.fragment}
+The DS trend contains a random walk, $\sum_{s\le t}u_s$: $y_t$ has a **unit root**. Detrending does not make it stationary; differencing a TS series creates a non-invertible MA root.
+:::
+:::
+
+[Not in the 2016 notes: added from Hamilton (1994), ch. 15.]{.gapnote}
+
+---
+
+## 💻 Same Drift, Different Memory
+
+```{r}
+#| label: ts-ds-fig
+#| echo: false
+#| fig-width: 11
+#| fig-height: 4.2
+n <- 200; d <- 0.2
+paths <- do.call(rbind, lapply(1:4, function(k) {
+  e <- rnorm(n)
+  u <- as.numeric(stats::filter(e, 0.8, method = "recursive"))
+  rbind(data.frame(t = 1:n, y = d * (1:n) + u,        path = k, model = "TS: 0.2 t + AR(1), ρ = 0.8"),
+        data.frame(t = 1:n, y = d * (1:n) + cumsum(e), path = k, model = "DS: random walk, drift 0.2"))
+}))
+paths$model <- factor(paths$model, levels = unique(paths$model))
+ggplot(paths, aes(t, y, group = path, colour = factor(path))) +
+  geom_abline(slope = d, intercept = 0, linetype = "dashed", colour = "grey30") +
+  geom_line(linewidth = 0.8, show.legend = FALSE) +
+  scale_colour_manual(values = c("#2f4b7c", "#8b2635", "#8ba3c7", "#d4a017")) +
+  facet_wrap(~ model) + labs(x = "t", y = expression(y[t])) +
+  theme(strip.text = element_text(size = 17, face = "bold"))
+```
+
+::: {style="font-size: 28px"}
+Same shocks in both panels. Left: every path hugs the dashed line. Right: paths wander off and never come back; their spread grows like $\sqrt t$.
+:::
+
+[Not in the 2016 notes: added from Hamilton (1994), ch. 15.]{.gapnote}
+
+---
+
+## 📐 Three Regular Models
+
+::: {style="font-size: 28px"}
+$\varepsilon_t$ i.i.d. $(0, \sigma^2)$; each OLS estimator is truth plus error:
+
+| model | OLS error | numerator | denominator |
+|---|---|---|---|
+| $y_t = \mu + \varepsilon_t$ | $\hat\mu - \mu = \dfrac{\sum 1\cdot\varepsilon_t}{\sum 1^2}$ | stationary, zero-mean | $T$ |
+| $y_t = \rho y_{t-1} + \varepsilon_t$, $\lvert\rho\rvert < 1$ | $\hat\rho - \rho = \dfrac{\sum y_{t-1}\varepsilon_t}{\sum y_{t-1}^2}$ | stationary, zero-mean | stationary, mean $\gamma_0$ |
+| $y_t = \delta t + \varepsilon_t$ | $\hat\delta - \delta = \dfrac{\sum t\,\varepsilon_t}{\sum t^2}$ | trended, zero-mean | quadratic trend |
+
+::: {.fragment}
+**Rate of convergence:** the power of $T$ giving a non-degenerate limit. Rows 1–2 have stationary sums: rate $\sqrt T$, limits $N(0,\sigma^2)$ and $N(0,1-\rho^2)$.
+:::
+:::
+
+---
+
+## ✏️ Worked Example: The Linear Trend
+
+::: {style="font-size: 28px"}
+$y_t = \delta t + \varepsilon_t$. The denominator is $\sum_{t=1}^T t^2 = \frac{T(T+1)(2T+1)}{6}$, so $\frac{1}{T^3}\sum t^2 \to \frac13$: it grows like $T^3$.
+
+::: {.fragment}
+The numerator has mean 0 and $\operatorname{Var}\big(\sum t\,\varepsilon_t\big) = \sum t^2 E\varepsilon_t^2 = \sigma^2\sum t^2$, of order $T^3$: it grows like $T^{3/2}$. Hence
+$$T^{3/2}(\hat\delta - \delta) = \frac{T^{-3/2}\sum t\,\varepsilon_t}{T^{-3}\sum t^2}.$$
+:::
+
+::: {.fragment}
+The numerator is asymptotically normal with variance $\sigma^2 T^{-3}\sum t^2 \to \sigma^2/3$; the denominator tends to $1/3$. So
+$$T^{3/2}(\hat\delta - \delta) \xrightarrow{d} N\Big(0,\ \frac{\sigma^2/3}{(1/3)^2}\Big) = N(0,\ 3\sigma^2).$$
+The rate is fast, and the $t$-statistic is still asymptotically $N(0,1)$: with a deterministic trend, **inference is standard**.
+:::
+:::
+
+---
+
+## 📐 The Unit Root: What Changes
+
+::: {style="font-size: 30px"}
+$y_t = \rho y_{t-1} + \varepsilon_t$ with $\rho = 1$, and $y_0 = 0$, so $y_t = \varepsilon_1 + \dots + \varepsilon_t$:
+$$\hat\rho = 1 + \frac{\sum_{t=1}^T y_{t-1}\varepsilon_t}{\sum_{t=1}^T y_{t-1}^2}.$$
+
+- Numerator and denominator are both sums of **stochastically trended** terms
+- They grow at **different rates**, neither of them $T$
+- $\hat\rho \xrightarrow{p} 1$ still holds, but the speed of convergence is unknown
+
+We find each rate in turn, starting with the numerator.
+:::
+
+---
+
+## ✏️ The Numerator: A Telescoping Sum
+
+::: {style="font-size: 28px"}
+Square the recursion: $y_t^2 = (y_{t-1} + \varepsilon_t)^2 = y_{t-1}^2 + 2y_{t-1}\varepsilon_t + \varepsilon_t^2$. Sum over $t$ and solve for the cross term:
+$$\sum_{t=1}^T y_{t-1}\varepsilon_t = \frac12\Big\{\sum_{t=1}^T\big(y_t^2 - y_{t-1}^2\big) - \sum_{t=1}^T\varepsilon_t^2\Big\}.$$
+
+::: {.fragment}
+The first sum telescopes, $(y_T^2 - y_{T-1}^2) + (y_{T-1}^2 - y_{T-2}^2) + \dots = y_T^2 - y_0^2 = y_T^2$. Divide by $T$:
+$$\frac1T\sum_{t=1}^T y_{t-1}\varepsilon_t = \frac12\Big\{\Big(\frac{y_T}{\sqrt T}\Big)^2 - \frac1T\sum_{t=1}^T\varepsilon_t^2\Big\} \xrightarrow{d} \frac{\sigma^2}{2}\big\{\chi^2(1) - 1\big\}.$$
+:::
+
+::: {.fragment}
+Why: by the CLT $y_T/\sqrt T = T^{-1/2}\sum\varepsilon_t \xrightarrow{d} N(0, \sigma^2)$, so its square tends to $\sigma^2\chi^2(1)$; by the LLN $T^{-1}\sum\varepsilon_t^2 \xrightarrow{p} \sigma^2$.
+:::
+:::
+
+---
+
+## ✏️ The Denominator: Order $T^2$
+
+::: {style="font-size: 30px"}
+$y_{t-1}$ does not contain $\varepsilon_t$, and $\operatorname{Var}(y_{t-1}) = (t-1)\sigma^2$, so
+$$E\Big[\sum_{t=1}^T y_{t-1}^2\Big] = \sum_{t=1}^T(t-1)\sigma^2 = \sigma^2\,\frac{T(T-1)}{2}:$$
+the denominator is of order $T^2$. Divide top and bottom accordingly:
+$$T(\hat\rho - 1) = \frac{T^{-1}\sum y_{t-1}\varepsilon_t}{T^{-2}\sum y_{t-1}^2} \xrightarrow{d} \frac{\tfrac12\{\chi^2(1) - 1\}}{\text{a random limit}} \overset{d}{=} DF.$$
+
+::: {.fragment}
+The rate is $T$, not $\sqrt T$: $\hat\rho$ is **superconsistent**. The limit, the **Dickey–Fuller distribution**, is not normal, and numerator and denominator limits are dependent.
+:::
+:::
+
+---
+
+## 💻 Dickey–Fuller by Simulation
+
+```{r}
+#| label: df-sim
+#| fig-width: 11
+#| fig-height: 4.4
+Tn <- 500; R <- 10000
+e  <- matrix(rnorm(Tn * R), Tn)                 # one column per replication
+y  <- apply(e, 2, cumsum)                       # random walks, y_0 = 0
+df_stat <- Tn * colSums(y[-Tn, ] * e[-1, ]) / colSums(y[-Tn, ]^2)
+q <- quantile(df_stat, c(0.01, 0.05, 0.10))
+ggplot(data.frame(s = df_stat), aes(s)) +
+  geom_vline(xintercept = q, colour = "#8b2635", linetype = "dotted") +
+  geom_histogram(aes(y = after_stat(density)), binwidth = 0.5, fill = "#8ba3c7", colour = "white") +
+  geom_vline(xintercept = 0, linetype = "dashed") + coord_cartesian(xlim = c(-20, 6)) +
+  labs(x = expression(T(hat(rho) - 1)), y = "density",
+       subtitle = sprintf("Dotted: 1%%, 5%%, 10%% quantiles = %.1f, %.1f, %.1f.   Share below 0: %.2f",
+                          q[1], q[2], q[3], mean(df_stat < 0))) +
+  theme_minimal(base_size = 20)
+```
+
+---
+
+## 🔍 Reading the Simulation
+
+::: {style="font-size: 30px"}
+- The 1%, 5% and 10% quantiles match the tabulated asymptotic values for the regression without a constant, $-13.8$, $-8.1$, $-5.7$ (Fuller 1976)
+- About two thirds of the estimates fall **below** 1: $\hat\rho$ is biased downwards, and the density has a **long left tail**
+- A $t$-test of $\rho = 1$ with normal critical values would reject far too often
+- The limit does not depend on $\sigma^2$: one table serves every application. Next lecture builds the tests on it
+:::
+
+---
+
+## 💻 Three Rates in One Picture
+
+```{r}
+#| label: rates-sim
+#| echo: false
+#| fig-width: 11
+#| fig-height: 4.1
+Ts <- c(50, 100, 200, 400, 800, 1600); R <- 1000
+one <- function(Tn) {
+  e  <- matrix(rnorm(Tn * R), Tn); tt <- 1:Tn
+  ar <- apply(e, 2, function(v) as.numeric(stats::filter(v, 0.5, method = "recursive")))
+  rw <- apply(e, 2, cumsum)
+  c("constant mean: μ̂"         = sd(colMeans(e)),
+    "stationary AR(1), ρ = 0.5" = sd(colSums(ar[-Tn, ] * e[-1, ]) / colSums(ar[-Tn, ]^2)),
+    "unit root: ρ̂ − 1"          = sd(colSums(rw[-Tn, ] * e[-1, ]) / colSums(rw[-Tn, ]^2)),
+    "linear trend: δ̂"          = sd(colSums(tt * e) / sum(tt^2)))
+}
+res <- sapply(Ts, one)
+slopes <- apply(log(res), 1, function(s) unname(coef(lm(s ~ log(Ts)))[2]))
+rd <- data.frame(T = rep(Ts, each = 4), sd = as.vector(res),
+                 model = factor(rep(rownames(res), length(Ts)), levels = rownames(res)))
+levels(rd$model) <- sprintf("%s  (slope %.2f)", levels(rd$model), slopes)
+ggplot(rd, aes(T, sd, colour = model)) + geom_line(linewidth = 1.2) + geom_point(size = 2.5) +
+  scale_x_log10(breaks = Ts) + scale_y_log10() +
+  scale_colour_manual(values = c("#8ba3c7", "#2f4b7c", "#8b2635", "#d4a017"), name = NULL) +
+  labs(x = "sample size T (log scale)", y = "sd of estimation error (log)") +
+  guides(colour = guide_legend(ncol = 2)) +
+  theme_minimal(base_size = 18) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+On log–log axes a rate $T^{a}$ is a line of slope $-a$: $-\tfrac12$ for the constant and the stationary AR, $-1$ for the unit root, $-\tfrac32$ for the trend.
+:::
+
+---
+
+## 📐 Rescaling a Random Walk
+
+::: {style="font-size: 30px"}
+Let $\varepsilon_t$ be strong white noise and $S_t = \sum_{s=1}^t\varepsilon_s$. As $T$ grows, $S_T$ spreads out like $\sigma\sqrt T$. To see a limit we shrink both axes:
+
+- **height** by $\sigma\sqrt T$, so the end point has variance 1
+- **time** by $T$, so the walk lives on the fixed interval $[0, 1]$
+
+$$S_T(r) = \frac{1}{\sigma\sqrt T}\,S_{\lfloor Tr\rfloor}, \qquad r \in [0, 1],$$
+where $\lfloor\cdot\rfloor$ is the integer part. $S_T(r)$ is a random **function**, a step function with $T$ steps of height $\pm\varepsilon_t/(\sigma\sqrt T)$.
+:::
+
+---
+
+## 🎛️ Explore: Shrinking the Steps
+
+```{ojs}
+//| echo: false
+viewof logT = Inputs.range([1, 4], {step: 0.25, value: 1, label: "log₁₀ T"})
+```
+
+```{ojs}
+//| echo: false
+coin = {
+  let s = 777;                                         // fixed seed: one sequence of ±1 steps
+  return Array.from({length: 10000}, () => { s = (s * 16807) % 2147483647; return s / 2147483647 < 0.5 ? -1 : 1; });
+}
+```
+
+```{ojs}
+//| echo: false
+walk = {
+  const T = Math.round(Math.pow(10, logT)), out = [];
+  let S = 0;                                           // S_T(r) = S_floor(Tr) / sqrt(T): flat on [t/T, (t+1)/T)
+  for (let t = 0; t < T; t++) { out.push({r: t / T, S: S / Math.sqrt(T)}); out.push({r: (t + 1) / T, S: S / Math.sqrt(T)}); S += coin[t]; }
+  out.push({r: 1, S: S / Math.sqrt(T)});
+  return out;
+}
+```
+
+```{ojs}
+//| echo: false
+Plot.plot({
+  width: 1100, height: 320, marginLeft: 70, marginBottom: 55, marginTop: 30, style: {fontSize: "18px"},
+  x: {label: "r", domain: [0, 1]}, y: {label: "S_T(r)", domain: [-3, 3]}, clip: true,
+  marks: [
+    Plot.ruleY([0], {stroke: "#bbb"}),
+    Plot.line(d3.range(0, 1.001, 0.01), {x: r => r, y: r => 1.96 * Math.sqrt(r), stroke: "#8ba3c7", strokeDasharray: "6,4"}),
+    Plot.line(d3.range(0, 1.001, 0.01), {x: r => r, y: r => -1.96 * Math.sqrt(r), stroke: "#8ba3c7", strokeDasharray: "6,4"}),
+    Plot.line(walk, {x: "r", y: "S", stroke: "#8b2635", strokeWidth: 1.6})
+  ]
+})
+```
+
+::: {style="font-size: 28px"}
+Fair-coin steps of $\pm1$, rescaled. At $T = 10$ it is a staircase; at $T = 10^4$ it looks like Brownian motion. Dashes: $\pm1.96\sqrt r$, the 95% band of $N(0, r)$.
+:::
+
+---
+
+## 📐 Brownian Motion
+
+::: {style="font-size: 30px"}
+::: {.callout-note}
+## Definition (standard Brownian motion, or Wiener process, $B(r)$ on $[0,1]$)
+1. $B(0) = 0$.
+2. For $0 \le r_1 < r_2 < \dots < r_k \le 1$, the increments $B(r_1)$, $B(r_2) - B(r_1)$, …, $B(1) - B(r_k)$ are **independent**.
+3. For $0 \le r_1 \le r_2 \le 1$: $\ B(r_2) - B(r_1) \sim N(0,\ r_2 - r_1)$.
+:::
+
+It is the continuous-time random walk. Its paths are continuous everywhere and differentiable nowhere: $\{B(r + h) - B(r)\}/h$ has standard deviation $1/\sqrt h \to \infty$. And it is Gaussian, although the $\varepsilon_t$ need not be.
+:::
+
+---
+
+## 📐 The Functional CLT
+
+::: {style="font-size: 30px"}
+::: {.callout-important}
+## Theorem (FCLT, Donsker's invariance principle)
+If $\varepsilon_t$ is i.i.d. $(0, \sigma^2)$, then
+$$S_T(r) = \frac{1}{\sigma\sqrt T}\,S_{\lfloor Tr\rfloor} \xrightarrow{d} B(r)$$
+as random functions on $[0, 1]$.
+:::
+
+- At $r = 1$ it is the ordinary CLT: $S_T(1) = \frac{1}{\sigma\sqrt T}\sum\varepsilon_t \xrightarrow{d} N(0, 1)$
+- It says more: the **whole path** converges, so every continuous functional of the path converges too (continuous mapping theorem)
+- That is what turns sums of a random walk into integrals of $B$
+:::
+
+---
+
+## 🧠 Think-Pair-Share
+
+```{r}
+#| label: tps-timer
+#| echo: false
+countdown::countdown(minutes = 3, seconds = 0, top = 0, right = 0,
+                     font_size = "2em", warn_when = 30)
+```
+
+::: {style="font-size: 30px"}
+$y_t = y_{t-1} + \varepsilon_t$, $y_0 = 0$, $\varepsilon_t$ i.i.d. $(0, \sigma^2)$.
+
+1. By what power of $T$ must $\sum_{t=1}^T y_{t-1}$ be divided to converge? To what?
+2. Same question for $\sum_{t=1}^T t\,\varepsilon_t$.
+3. Use $\operatorname{Var}\int_0^1 r\,dB(r) = \int_0^1 r^2\,dr$ to find the variance of the limit in 2. Have you seen that number before?
+:::
+
+---
+
+## ✅ Think-Pair-Share: Solution
+
+::: {style="font-size: 28px"}
+1. $y_{t-1} \to \sigma\sqrt T\,B(r)$ and $1 \to T\,dr$: the sum carries $\sigma T^{3/2}$, so
+$$T^{-3/2}\sum y_{t-1} \xrightarrow{d} \sigma\int_0^1 B(r)\,dr \ \sim N(0, \sigma^2/3).$$
+
+::: {.fragment}
+2. $t \to T r$ and $\varepsilon_t \to \sigma\sqrt T\,dB(r)$: again $T^{3/2}$, and
+$$T^{-3/2}\sum t\,\varepsilon_t \xrightarrow{d} \sigma\int_0^1 r\,dB(r).$$
+:::
+
+::: {.fragment}
+3. Variance $\sigma^2\int_0^1 r^2dr = \sigma^2/3$: exactly the numerator variance of the linear-trend example, where we found $T^{3/2}(\hat\delta - \delta) \to N(0, 3\sigma^2)$. The mnemonics reproduce it.
+:::
+:::
+
+---
+
+## 📐 Corollaries of the FCLT
+
+::: {style="font-size: 28px"}
+$$\begin{aligned}
+T^{-1/2}\textstyle\sum\varepsilon_t &\xrightarrow{d} \sigma\int_0^1 dB(r) = \sigma B(1) \sim N(0, \sigma^2)\\
+T^{-1}\textstyle\sum y_{t-1}\varepsilon_t &\xrightarrow{d} \sigma^2\int_0^1 B(r)\,dB(r)\\
+T^{-2}\textstyle\sum y_{t-1}^2 &\xrightarrow{d} \sigma^2\int_0^1 B(r)^2\,dr\\
+T^{-2}\textstyle\sum t\,y_{t-1}\varepsilon_t &\xrightarrow{d} \sigma^2\int_0^1 r\,B(r)\,dB(r)
+\end{aligned}$$
+
+**Mnemonics:** $\ \sum_{t=1}^T \to \int_0^1$; $\ \varepsilon_t \to dB(r)$ and $y_{t-1} \to B(r)$, factor $\sigma\sqrt T$ each; $\ 1 \to dr$ and $t \to r$, factor $T$ each. The product of the factors is the normalisation: $T \cdot \sigma\sqrt T \cdot \sigma\sqrt T = \sigma^2T^2$ in the last line.
+:::
+
+---
+
+## ⚠️ The Trap: $\int B\,dB$
+
+::: {style="font-size: 30px"}
+Ordinary calculus would say $\int_0^1 B\,dB = \tfrac12\int_0^1 d(B^2) = \tfrac12 B(1)^2$. **This is wrong** for Brownian motion.
+
+::: {.fragment}
+Increments of $B$ are of size $\sqrt{dr}$, so $(dB)^2$ is of order $dr$, not negligible. Itô's rule keeps it:
+$$d(B^2) = 2B\,dB + dr \quad\Longrightarrow\quad \int_0^1 B(r)\,dB(r) = \tfrac12\big\{B(1)^2 - 1\big\}.$$
+:::
+
+::: {.fragment}
+This agrees with the telescoping sum: $T^{-1}\sum y_{t-1}\varepsilon_t \to \tfrac{\sigma^2}{2}\{B(1)^2 - 1\} \overset{d}{=} \tfrac{\sigma^2}{2}\{\chi^2(1) - 1\}$. The "$-1$" is the $T^{-1}\sum\varepsilon_t^2$ term, which is exactly what $(dB)^2 = dr$ accounts for.
+:::
+:::
+
+---
+
+## 💻 Itô's Correction, Numerically
+
+```{r}
+#| label: ito-check
+n <- 1000; R <- 2000                          # grid of n steps on [0, 1]
+dB <- matrix(rnorm(n * R, sd = sqrt(1 / n)), n)
+B  <- apply(dB, 2, cumsum); Bprev <- rbind(0, B[-n, ])
+ito  <- colSums(Bprev * dB)                   # left-point sum: sum B(r_{i-1}) dB_i
+B1   <- B[n, ]
+qv   <- colSums(dB^2)                         # quadratic variation
+round(c(mean_ito = mean(ito), mean_naive = mean(B1^2 / 2), mean_ito_formula = mean((B1^2 - 1) / 2),
+        mean_quadratic_variation = mean(qv), max_gap_to_formula = max(abs(ito - (B1^2 - 1) / 2))), 3)
+```
+
+::: {style="font-size: 28px"}
+The sum has mean 0, as $\tfrac12\{B(1)^2 - 1\}$ does; the naive $\tfrac12B(1)^2$ has mean $\tfrac12$. The gap is the quadratic variation $\sum(\Delta B)^2 \approx 1$.
+:::
+
+---
+
+## 📐 The Dickey–Fuller Limit
+
+::: {style="font-size: 30px"}
+Combine the second and third corollaries. The $\sigma^2$ cancels:
+$$T(\hat\rho - 1) = \frac{T^{-1}\sum y_{t-1}\varepsilon_t}{T^{-2}\sum y_{t-1}^2} \xrightarrow{d} \frac{\int_0^1 B(r)\,dB(r)}{\int_0^1 B(r)^2\,dr} = \frac{\tfrac12\{B(1)^2 - 1\}}{\int_0^1 B(r)^2\,dr}.$$
+
+- The "random limit" of the denominator is $\int_0^1 B(r)^2\,dr$
+- Numerator and denominator are functionals of the **same** path, hence dependent
+- The law is free of nuisance parameters but non-standard: its quantiles come from simulation, as on our earlier slide
+:::
+
+---
+
+## 💰 Case Study: US Output After 2008
+
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
+
+1. Fitted as TS, how persistent are the deviations from trend?
+2. From the 2009Q2 trough, what do the TS and DS models forecast for 2026?
+3. Which forecast was closer?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: real GDP, FRED `GDPC1`, quarterly
+
+**Estimation**: 1947Q1 – 2007Q4; **forecast**: 2009Q3 – 2026Q2
+
+**Transformation**: $y_t = 100\log\text{GDP}_t$
+:::
+
+```{.r .display-only}
+read.csv("https://fred.stlouisfed.org/
+  graph/fredgraph.csv?id=GDPC1")
+```
+:::
+::::
+
+---
+
+## 💰 Case Study: TS vs DS
+
+```{r}
+#| label: case-gdp
+#| code-summary: "📦 Fit on 1947–2007, forecast from 2009Q2"
+g  <- read.csv("data/GDPC1.csv"); g$date <- as.Date(g$observation_date)
+y  <- 100 * log(g$GDPC1); tt <- seq_along(y)
+est <- g$date <= as.Date("2007-10-01"); n <- sum(est)
+ts_fit <- lm(y[est] ~ tt[est]); u <- resid(ts_fit)          # TS: line + AR(1) deviation
+rho_u  <- unname(coef(lm(u[-1] ~ u[-n] - 1)))
+g_hat  <- mean(diff(y[est]))                                 # DS: mean quarterly growth
+o <- which(g$date == as.Date("2009-04-01")); h <- 1:(length(y) - o)
+u_o <- y[o] - sum(coef(ts_fit) * c(1, o))
+ts_fc <- sum(coef(ts_fit) * c(1, 0)) + coef(ts_fit)[2] * (o + h) + rho_u^h * u_o
+ds_fc <- y[o] + g_hat * h; last <- length(h)
+round(c(trend_growth = unname(coef(ts_fit)[2]), rho_deviation = rho_u, T_rho_minus_1 = n * (rho_u - 1),
+        gap_to_trend_2009Q2 = u_o, error_TS_2026Q2 = y[o + last] - unname(ts_fc[last]),
+        error_DS_2026Q2 = y[o + last] - ds_fc[last]), 2)
+```
+
+::: {style="font-size: 28px"}
+Growth is in log points per quarter; errors are actual minus forecast, in log points (≈ %).
+:::
+
+---
+
+## 💰 Case Study: The Lost Trend
+
+```{r}
+#| label: case-gdp-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.9
+win <- g$date >= as.Date("1995-01-01")
+fd <- data.frame(date = g$date[o + h], TS = as.numeric(ts_fc), DS = ds_fc)
+ggplot() +
+  geom_line(data = data.frame(date = g$date[win], y = y[win]), aes(date, y, colour = "actual"), linewidth = 1.1) +
+  geom_line(data = fd, aes(date, TS, colour = "TS forecast"), linewidth = 1.1, linetype = "dashed") +
+  geom_line(data = fd, aes(date, DS, colour = "DS forecast"), linewidth = 1.1, linetype = "dashed") +
+  scale_colour_manual(values = c("actual" = "grey15", "TS forecast" = "#8b2635", "DS forecast" = "#2f4b7c"),
+                      name = NULL) +
+  labs(x = NULL, y = "100 × log real GDP") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+**What the data say:** GDP never returned to its old trend line: the TS forecast (back to the 1947–2007 line) misses by about 29%, the DS forecast (drift from the trough) by 17%. Deviations from trend have AR coefficient 0.97, and $T(\hat\rho - 1) \approx -6.8$ is far from the detrended 5% Dickey–Fuller value, about $-21.8$ (next lecture). DS overpredicts too: growth after 2009 fell below the old drift.
+:::
+
+---
+
+## 📝 Quiz #1: Rates {.quiz-question}
+
+In $y_t = \delta t + \varepsilon_t$ with i.i.d. errors, which normalisation gives $\hat\delta$ a non-degenerate normal limit?
+
+- [$T^{3/2}(\hat\delta - \delta)$]{.correct data-explanation="✅ The denominator Σt² grows like T³/3 and the numerator Σtε_t like T^{3/2}; the limit is N(0, 3σ²)."}
+- $\sqrt T(\hat\delta - \delta)$
+- $T(\hat\delta - \delta)$
+- $T^2(\hat\delta - \delta)$
+
+---
+
+## 📝 Quiz #2: Itô {.quiz-question}
+
+Which is $\int_0^1 B(r)\,dB(r)$ for standard Brownian motion?
+
+- [$\tfrac12\{B(1)^2 - 1\}$]{.correct data-explanation="✅ Itô's rule d(B²) = 2B dB + dr. The −1 matches the −T⁻¹Σε_t² term of the telescoping sum; its mean is 0."}
+- $\tfrac12B(1)^2$
+- $B(1)$
+- $\int_0^1 B(r)^2dr$
+
+---
+
+## 📝 Quiz #3: Brownian Increments {.quiz-question}
+
+What is the distribution of $B(0.7) - B(0.2)$, and how does it relate to $B(0.2)$?
+
+- [$N(0, 0.5)$, independent of $B(0.2)$]{.correct data-explanation="✅ Increments over non-overlapping intervals are independent, and B(r2) − B(r1) ~ N(0, r2 − r1)."}
+- $N(0, 0.5)$, positively correlated with $B(0.2)$
+- $N(0, 0.7)$, independent of $B(0.2)$
+- $N(0, 0.25)$, independent of $B(0.2)$
+
+---
+
+## 📋 Key Formulas
+
+::: {style="font-size: 28px"}
+| | |
+|---|---|
+| Constant mean | $\sqrt T(\hat\mu - \mu) \to N(0, \sigma^2)$ |
+| Stationary AR(1) | $\sqrt T(\hat\rho - \rho) \to N(0, 1 - \rho^2)$ |
+| Linear trend | $T^{3/2}(\hat\delta - \delta) \to N(0, 3\sigma^2)$ |
+| Telescoping | $\sum y_{t-1}\varepsilon_t = \tfrac12\{y_T^2 - \sum\varepsilon_t^2\}$ |
+| Unit root | $T(\hat\rho - 1) \to \dfrac{\tfrac12\{B(1)^2 - 1\}}{\int_0^1 B^2dr}$ |
+| Brownian motion | $B(0) = 0$, independent increments, $B(r_2) - B(r_1) \sim N(0, r_2 - r_1)$ |
+| FCLT | $\frac{1}{\sigma\sqrt T}S_{\lfloor Tr\rfloor} \to B(r)$ |
+| Itô | $\int_0^1 B\,dB = \tfrac12\{B(1)^2 - 1\}$ |
+:::
+
+---
+
+## 📋 Summary
+
+::: {style="font-size: 30px"}
+- A deterministic trend changes the rate ($T^{3/2}$) but not the normality of OLS: $t$-tests remain valid
+- A stochastic trend changes both: $T(\hat\rho - 1)$ has the Dickey–Fuller limit, biased left and skewed left
+- The FCLT turns a rescaled random walk into Brownian motion; sums become integrals by the mnemonics
+- $\int B\,dB = \tfrac12\{B(1)^2 - 1\}$, not $\tfrac12B(1)^2$
+- US GDP after 2008 behaved like a DS series: the lost output was not recovered
+:::
+
+---
+
+## 📚 Further Reading
+
+::: {style="font-size: 28px"}
+- Hamilton, J. D. (1994). *Time Series Analysis*. Princeton. Ch. 15 (trends), ch. 16 (deterministic trends), ch. 17 (unit roots, FCLT)
+- Tsay, R. S. (2010). *Analysis of Financial Time Series*, 3rd ed. Wiley. §2.7
+- Nelson, C. R. and Plosser, C. I. (1982). Trends and random walks in macroeconomic time series. *Journal of Monetary Economics* 10, 139–162
+- Phillips, P. C. B. (1987). Time series regression with a unit root. *Econometrica* 55, 277–301
+- Fuller, W. A. (1976). *Introduction to Statistical Time Series*. Wiley
+
+**Next lecture:** Dickey–Fuller, Phillips–Perron and ADF Tests.
+:::

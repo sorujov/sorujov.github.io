@@ -1,0 +1,1 @@
+Real Gross Domestic Product (GDPC1, billions of chained 2017 dollars, quarterly, SAAR), FRED, Federal Reserve Bank of St. Louis, https://fred.stlouisfed.org/series/GDPC1, 1947Q1–2026Q2, downloaded 15 Oct 2026.
