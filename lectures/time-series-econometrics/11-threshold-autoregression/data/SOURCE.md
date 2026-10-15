@@ -1,0 +1,1 @@
+- UNRATE (civilian unemployment rate, monthly, %, seasonally adjusted), FRED, https://fred.stlouisfed.org/series/UNRATE, Jan 1948–Dec 2019, downloaded 15 Oct 2026.

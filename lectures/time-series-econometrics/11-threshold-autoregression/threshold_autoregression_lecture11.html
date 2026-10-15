@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="threshold_autoregression_lecture11_files/libs/clipboard/clipboard.min.js"></script>
+<script src="threshold_autoregression_lecture11_files/libs/quarto-html/tabby.min.js"></script>
+<script src="threshold_autoregression_lecture11_files/libs/quarto-html/popper.min.js"></script>
+<script src="threshold_autoregression_lecture11_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="threshold_autoregression_lecture11_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="threshold_autoregression_lecture11_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="threshold_autoregression_lecture11_files/libs/quarto-html/quarto-syntax-highlighting-11098932bb39e8ccbcedcb139d3d0c2d.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.10.19">
+
+  <meta name="author" content="Samir Orujov, PhD">
+  <title>Time Series Econometrics</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="threshold_autoregression_lecture11_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="threshold_autoregression_lecture11_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {  background-color: #f8f8f8; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ef2929; } /* Alert */
+    code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #204a87; } /* Attribute */
+    code span.bn { color: #0000cf; } /* BaseN */
+    code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4e9a06; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #8f5902; font-style: italic; } /* Comment */
+    code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+    code span.dt { color: #204a87; } /* DataType */
+    code span.dv { color: #0000cf; } /* DecVal */
+    code span.er { color: #a40000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #0000cf; } /* Float */
+    code span.fu { color: #204a87; font-weight: bold; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+    code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+    code span.ot { color: #8f5902; } /* Other */
+    code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+    code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+    code span.ss { color: #4e9a06; } /* SpecialString */
+    code span.st { color: #4e9a06; } /* String */
+    code span.va { color: #000000; } /* Variable */
+    code span.vs { color: #4e9a06; } /* VerbatimString */
+    code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="threshold_autoregression_lecture11_files/libs/revealjs/dist/theme/quarto-9ca4c0fc8b289f175b62c89f22fa8355.css">
+  <link href="threshold_autoregression_lecture11_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="threshold_autoregression_lecture11_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="threshold_autoregression_lecture11_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="threshold_autoregression_lecture11_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="threshold_autoregression_lecture11_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="threshold_autoregression_lecture11_files/libs/revealjs/plugin/reveal-quiz/quiz.css" rel="stylesheet">
+  <link href="threshold_autoregression_lecture11_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <link href="threshold_autoregression_lecture11_files/libs/countdown-0.6.0/countdown.css" rel="stylesheet">
+  <script src="threshold_autoregression_lecture11_files/libs/countdown-0.6.0/countdown.js"></script>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Time Series Econometrics</h1>
+  <p class="subtitle">Lecture 11: Nonlinear Models and Threshold Autoregression</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Samir Orujov, PhD
+</div>
+        <p class="quarto-title-affiliation">
+            Open lecture notes, after Stanislav Anatolyev’s course (2016)
+          </p>
+    </div>
+</div>
+
+</section>
+<section id="the-idea-in-3-minutes" class="slide level2">
+<h2>🎬 The Idea in 3 Minutes</h2>
+<div style="text-align:center">
+<video controls="" preload="metadata" style="width:780px;max-width:100%;aspect-ratio:16/9;background:#111" poster="video/lecture11_intuition.jpg" src="video/lecture11_intuition.mp4"><track kind="captions" src="video/lecture11_intuition.vtt" srclang="en" label="English"></video>
+<p><a href="../10-dickey-fuller-tests/dickey_fuller_tests_lecture10.html" style="font-size:28px">⬅ Previous lecture: 10 · Dickey–Fuller, Phillips–Perron and ADF Tests</a></p>
+<p><span style="font-size:28px">A short film with the intuition. Watch it before the slides, or after. Captions: CC button.</span></p>
+</div>
+</section>
+<section id="learning-objectives" class="slide level2">
+<h2>🎯 Learning Objectives</h2>
+<div style="font-size: 32px">
+<p>By the end of this lecture, you will be able to:</p>
+<ul>
+<li><p><strong>Explain</strong> two reasons to leave linear models: persistence without a unit root, and predictable white noise</p></li>
+<li><p><strong>Write down</strong> a threshold autoregression and choose its threshold variable for a given series</p></li>
+<li><p><strong>Judge</strong> stationarity of a TAR, including one with an explosive regime</p></li>
+<li><p><strong>Estimate</strong> a SETAR by concentrated least squares over a trimmed grid</p></li>
+<li><p><strong>State</strong> the asymptotic behaviour of <span class="math inline">\(\hat\gamma\)</span> and of the slope estimates</p></li>
+</ul>
+</div>
+</section>
+<section id="warm-up-from-last-time" class="slide level2 quiz-question">
+<h2>🔁 Warm-up from last time</h2>
+<p>Lecture 10: <span class="math inline">\(T=300\)</span> observations from <span class="math inline">\(x_t=0.999\,x_{t-1}+\varepsilon_t\)</span>. How often does a 5% DF test (with a constant) reject the unit root?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ The simulation in Lecture 10 gave 5.3% at ρ = 0.999 against 5.2% at ρ = 1: power equals size. A unit root and ρ = 0.999 cannot be told apart in a sample of this length; they differ only in long-run forecasts.">About 5% of the time</span></li>
+<li>About 95% of the time</li>
+<li>About 50% of the time</li>
+<li>Never, since the series is stationary</li>
+</ul>
+</section>
+<section id="where-we-are" class="slide level2">
+<h2>🗺️ Where We Are</h2>
+<div style="font-size: 32px">
+<p>Lecture 10 ended on a limitation: in a sample, a unit root and a root of <span class="math inline">\(0.999\)</span> look the same. A unit-root test measures <strong>persistence</strong>, nothing more.</p>
+<div class="fragment">
+<p>Some series are persistent, yet economic theory says they must revert: the real exchange rate under purchasing power parity is the standard case. A linear AR can only make such a series <em>uniformly</em> persistent. Today the dynamics are allowed to <strong>depend on the state</strong> of the series.</p>
+</div>
+</div>
+</section>
+<section id="the-question" class="slide level2">
+<h2>❓ The Question</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Does unemployment rise faster than it falls?</strong></p>
+</div>
+<div class="callout-content">
+<p>In US recessions the unemployment rate jumps by several points within a year. In expansions it drifts down by a tenth of a point a month for years.</p>
+</div>
+</div>
+</div>
+<div style="font-size: 30px">
+<p>A linear AR for <span class="math inline">\(\Delta u_t\)</span> has one set of coefficients, so a rise and a fall of the same size must be followed by mirror-image paths. If the dynamics differ between “unemployment rising” and “unemployment falling”, a linear model averages two different economies into one that exists in neither.</p>
+</div>
+</section>
+<section id="persistence-without-a-unit-root" class="slide level2">
+<h2>💡 Persistence Without a Unit Root</h2>
+<div style="font-size: 30px">
+<p>Nonlinear modelling can build a bridge between empirical properties and economic theory.</p>
+<ul>
+<li><strong>Empirically</strong>, real exchange rates are very persistent; unit-root tests often fail to reject.</li>
+<li><strong>In theory</strong>, PPP says the real exchange rate fluctuates around zero (its log deviation from parity).</li>
+<li><strong>A nonlinear model</strong> reconciles the two: little or no reversion near parity, strong reversion far from it.</li>
+</ul>
+<div class="fragment">
+<p>The series is persistent, but it has <strong>no unit root</strong>. We return to this example with numbers below.</p>
+</div>
+</div>
+</section>
+<section id="predictable-white-noise" class="slide level2">
+<h2>💡 Predictable White Noise</h2>
+<div style="font-size: 28px">
+<p>Let <span class="math inline">\(\varepsilon_t\)</span> be strong white noise (i.i.d., mean 0, variance 1) and <span class="math display">\[y_t=\varepsilon_t+\theta\,\varepsilon_{t-1}\varepsilon_{t-2}.\]</span></p>
+<div class="fragment">
+<p>For <span class="math inline">\(j\neq0\)</span>, every term of <span class="math inline">\(E(y_ty_{t-j})\)</span> contains a factor <span class="math inline">\(\varepsilon_s\)</span> that appears exactly once, so it vanishes: <span class="math inline">\(\operatorname{cov}(y_t,y_{t-j})=0\)</span>. Thus <span class="math inline">\(y_t\)</span> is <strong>white noise</strong>, though not independent.</p>
+</div>
+<div class="fragment">
+<p>The best <strong>linear</strong> forecast is therefore <span class="math inline">\(\hat y^{\,\text{lin}}_{t+1}=0\)</span>. The <strong>conditional mean</strong> is not: <span class="math display">\[\hat y^{\,\text{nonlin}}_{t+1}=E(y_{t+1}\mid\mathcal F_t)=\theta\,\varepsilon_t\varepsilon_{t-1}.\]</span> A nonlinear model can reveal information that no linear model can detect.</p>
+</div>
+</div>
+</section>
+<section id="white-noise-you-can-forecast" class="slide level2">
+<h2>💻 White Noise You Can Forecast</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>📦 Simulate y_t = e_t + 0.8 e_{t-1} e_{t-2}</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-label="1"></a>n <span class="ot">&lt;-</span> <span class="dv">5000</span>; theta <span class="ot">&lt;-</span> <span class="fl">0.8</span>; e <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n <span class="sc">+</span> <span class="dv">2</span>)</span>
+<span id="cb1-2"><a href="" aria-label="2"></a>y  <span class="ot">&lt;-</span> e[<span class="dv">3</span><span class="sc">:</span>(n <span class="sc">+</span> <span class="dv">2</span>)] <span class="sc">+</span> theta <span class="sc">*</span> e[<span class="dv">2</span><span class="sc">:</span>(n <span class="sc">+</span> <span class="dv">1</span>)] <span class="sc">*</span> e[<span class="dv">1</span><span class="sc">:</span>n]</span>
+<span id="cb1-3"><a href="" aria-label="3"></a><span class="fu">round</span>(<span class="fu">acf</span>(y, <span class="at">lag.max =</span> <span class="dv">5</span>, <span class="at">plot =</span> <span class="cn">FALSE</span>)<span class="sc">$</span>acf[<span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>], <span class="dv">3</span>)     <span class="co"># autocorrelations, lags 1-5</span></span>
+<span id="cb1-4"><a href="" aria-label="4"></a>f_nonlin <span class="ot">&lt;-</span> theta <span class="sc">*</span> e[<span class="dv">2</span><span class="sc">:</span>(n <span class="sc">+</span> <span class="dv">1</span>)] <span class="sc">*</span> e[<span class="dv">1</span><span class="sc">:</span>n]                <span class="co"># E(y_t | past)</span></span>
+<span id="cb1-5"><a href="" aria-label="5"></a><span class="fu">c</span>(<span class="at">R2_linear    =</span> <span class="dv">0</span>,</span>
+<span id="cb1-6"><a href="" aria-label="6"></a>  <span class="at">R2_nonlinear =</span> <span class="fu">round</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">mean</span>((y <span class="sc">-</span> f_nonlin)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> <span class="fu">var</span>(y), <span class="dv">3</span>),</span>
+<span id="cb1-7"><a href="" aria-label="7"></a>  <span class="at">theory       =</span> <span class="fu">round</span>(theta<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> theta<span class="sc">^</span><span class="dv">2</span>), <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.011 -0.008 -0.001 -0.018 -0.012
+   R2_linear R2_nonlinear       theory 
+       0.000        0.372        0.390 </code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>Every autocorrelation is within <span class="math inline">\(\pm0.02\)</span> of zero, yet the conditional mean explains over a third of the variance. A close relative is the <strong>bilinear</strong> model: an ARMA plus cross terms <span class="math inline">\(\sum_{i,j}\psi_{ij}x_{t-i}\varepsilon_{t-j}\)</span>.</p>
+</div>
+</section>
+<section id="threshold-autoregression-tar" class="slide level2">
+<h2>📐 Threshold Autoregression (TAR)</h2>
+<div style="font-size: 28px">
+<p>Models with <strong>regimes</strong> are the nonlinear family most used in economics. In a TAR there are most often two regimes, with linear AR dynamics in each: <span class="math display">\[x_t=\begin{cases}\mu_1+\rho_1x_{t-1} &amp; \text{if } q_{t-1}\le\gamma\\[2pt] \mu_2+\rho_2x_{t-1} &amp; \text{if } q_{t-1}&gt;\gamma\end{cases}\;+\;\varepsilon_t,
+\qquad E_{t-1}\varepsilon_t=0,\ \operatorname{var}_{t-1}\varepsilon_t=\sigma^2.\]</span></p>
+<ul>
+<li>The switch is driven by an event: the <strong>threshold variable</strong> <span class="math inline">\(q_{t-1}\)</span> exceeds the <strong>threshold</strong> <span class="math inline">\(\gamma\)</span>.</li>
+<li><span class="math inline">\(q_{t-1}\)</span> must be realised in the previous period, so the regime is known before <span class="math inline">\(x_t\)</span> is drawn.</li>
+<li>The switches are <strong>endogenous</strong> when <span class="math inline">\(q_{t-1}\)</span> depends on the series itself.</li>
+</ul>
+</div>
+</section>
+<section id="setar-and-choosing-q_t-1" class="slide level2">
+<h2>📐 SETAR, and Choosing <span class="math inline">\(q_{t-1}\)</span></h2>
+<div style="font-size: 28px">
+<p>If <span class="math inline">\(q_{t-1}=x_{t-d}\)</span> for a known or unknown delay <span class="math inline">\(d\)</span>, the model is a <strong>self-exciting</strong> TAR (SETAR). The choice of <span class="math inline">\(q_{t-1}\)</span> depends on the frequency and nature of the data:</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Series</th>
+<th>Threshold variable</th>
+<th>Regimes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>GNP growth, quarterly</td>
+<td><span class="math inline">\(q_{t-1}=y_{t-2}\)</span></td>
+<td>contraction / expansion</td>
+</tr>
+<tr class="even">
+<td>unemployment, monthly</td>
+<td><span class="math inline">\(q_{t-1}=\Delta x_{t-d}\)</span> or <span class="math inline">\(x_{t-1}-x_{t-d}\)</span></td>
+<td>rising / falling</td>
+</tr>
+<tr class="odd">
+<td>nominal exchange rate, weekly returns</td>
+<td><span class="math inline">\(q_{t-1}=\frac15\sum_{j=1}^{5}\lvert x_{t-j}\rvert\)</span></td>
+<td>high / low volatility</td>
+</tr>
+<tr class="even">
+<td>real exchange rate, quarterly</td>
+<td><span class="math inline">\(q_{t-1}=\lvert x_{t-1}\rvert\)</span></td>
+<td>near / far from PPP</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="the-real-exchange-rate-band" class="slide level2">
+<h2>📐 The Real Exchange Rate Band</h2>
+<div style="font-size: 28px">
+<p>Let <span class="math inline">\(x_t\)</span> be the log deviation of the real exchange rate from PPP, and <span class="math inline">\(q_{t-1}=|x_{t-1}|\)</span>:</p>
+<ul>
+<li><strong>inner regime</strong>, <span class="math inline">\(|x_{t-1}|\le\gamma\)</span>: estimates give <span class="math inline">\(\rho_1=1.06\)</span>, locally <strong>explosive</strong>;</li>
+<li><strong>outer regime</strong>, <span class="math inline">\(|x_{t-1}|&gt;\gamma\)</span>: <span class="math inline">\(\rho_2\approx0.92\)</span>, <strong>mean-reverting</strong>.</li>
+</ul>
+<div class="fragment">
+<p>Inside the band, transaction costs make arbitrage unprofitable, and the rate drifts away from parity. Outside it, arbitrage pulls it back. A unit-root test will typically find <span class="math inline">\(I(1)\)</span>, yet the outer regime forces the process back towards the band: it is <strong>globally stationary</strong>.</p>
+</div>
+</div>
+</section>
+<section id="simulating-the-band" class="slide level2">
+<h2>💻 Simulating the Band</h2>
+
+<img data-src="threshold_autoregression_lecture11_files/figure-revealjs/band-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1650"><div style="font-size: 28px">
+<p>Explosive inside the shaded band, <span class="math inline">\(\rho_1=1.06\)</span>; mean-reverting outside it, <span class="math inline">\(\rho_2=0.92\)</span>; <span class="math inline">\(\gamma=0.10\)</span>, <span class="math inline">\(\sigma=0.03\)</span>.</p>
+</div>
+</section>
+<section id="the-band-fools-the-df-test" class="slide level2">
+<h2>💻 The Band Fools the DF Test</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>📦 DF τ test (constant) on 2,000 band paths of 160 quarters</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-label="1"></a>dft <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { y <span class="ot">&lt;-</span> x[<span class="sc">-</span><span class="dv">1</span>]; X <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="dv">1</span>, x[<span class="sc">-</span><span class="fu">length</span>(x)]); f <span class="ot">&lt;-</span> <span class="fu">lm.fit</span>(X, y)</span>
+<span id="cb3-2"><a href="" aria-label="2"></a>  s2 <span class="ot">&lt;-</span> <span class="fu">sum</span>(f<span class="sc">$</span>residuals<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (<span class="fu">length</span>(y) <span class="sc">-</span> <span class="dv">2</span>)</span>
+<span id="cb3-3"><a href="" aria-label="3"></a>  (f<span class="sc">$</span>coefficients[<span class="dv">2</span>] <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(s2 <span class="sc">*</span> <span class="fu">solve</span>(<span class="fu">crossprod</span>(X))[<span class="dv">2</span>, <span class="dv">2</span>]) }</span>
+<span id="cb3-4"><a href="" aria-label="4"></a><span class="fu">c</span>(<span class="at">rejection_rate_5pct =</span> <span class="fu">mean</span>(<span class="fu">replicate</span>(<span class="dv">2000</span>, <span class="fu">dft</span>(<span class="fu">sim_band</span>(<span class="dv">160</span>)) <span class="sc">&lt;</span> <span class="sc">-</span><span class="fl">2.86</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>rejection_rate_5pct 
+             0.2065 </code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>The process is globally stationary, yet in forty years of quarterly data the DF test fails to reject the unit root about four times in five.</p>
+</div>
+</section>
+<section id="stationarity-of-a-tar" class="slide level2">
+<h2>📐 Stationarity of a TAR</h2>
+<div style="font-size: 28px">
+<p><span class="math inline">\(|\rho_1|&lt;1\)</span> and <span class="math inline">\(|\rho_2|&lt;1\)</span> is <strong>sufficient but not necessary</strong>.</p>
+<ul>
+<li>One regime may have a unit root, or even <span class="math inline">\(\rho&gt;1\)</span>, and the process can still be globally stationary.</li>
+<li>What makes this possible is an <strong>endogenous switch</strong>: the threshold variable depends on <span class="math inline">\(x\)</span> itself, so an explosive regime pushes the process out of that regime.</li>
+</ul>
+<div class="fragment">
+<p>For SETAR(1) with <span class="math inline">\(q_{t-1}=x_{t-1}\)</span> and zero intercepts, the process is ergodic if and only if <span class="math display">\[\rho_1&lt;1,\qquad \rho_2&lt;1,\qquad \rho_1\rho_2&lt;1\]</span> (Petrucelli and Woolford, 1984). So <span class="math inline">\(\rho_1=-3\)</span>, <span class="math inline">\(\rho_2=0.2\)</span> is stationary: <span class="math inline">\(|\rho_1|&gt;1\)</span> but <span class="math inline">\(\rho_1\rho_2=-0.6&lt;1\)</span>.</p>
+</div>
+</div>
+</section>
+<section id="extensions-lags-and-regimes" class="slide level2">
+<h2>🔧 Extensions: Lags and Regimes</h2>
+<div style="font-size: 28px">
+<p><strong>Different lag orders.</strong> Regime <span class="math inline">\(j\)</span> has its own AR(<span class="math inline">\(p_j\)</span>): <span class="math display">\[x_t=\mu_j+\rho_{j,1}x_{t-1}+\dots+\rho_{j,p_j}x_{t-p_j}+\varepsilon_t\quad\text{in regime } j .\]</span> Choose <span class="math inline">\((p_1,p_2)\)</span> by minimising <span class="math inline">\(IC_1+IC_2\)</span>, for example <span class="math display">\[BIC_j=T_j\log\hat\sigma_j^2+p_j\log T_j,\]</span> where <span class="math inline">\(T_j\)</span> is the number of observations in regime <span class="math inline">\(j\)</span>.</p>
+<div class="fragment">
+<p><strong>Multiple regimes, same threshold variable</strong>, with <span class="math inline">\(\gamma_0&lt;\gamma_1&lt;\dots&lt;\gamma_m\)</span>: <span class="math display">\[x_t=\mu_j+\rho_jx_{t-1}+\varepsilon_t\quad\text{if }\gamma_{j-1}\le q_{t-1}&lt;\gamma_j,\qquad j=1,\dots,m.\]</span></p>
+</div>
+</div>
+</section>
+<section id="extensions-two-thresholds" class="slide level2">
+<h2>🔧 Extensions: Two Thresholds</h2>
+<div style="font-size: 28px">
+<p>Four regimes, governed by <span class="math inline">\(x_{t-1}\)</span> and <span class="math inline">\(x_{t-2}\)</span> with thresholds <span class="math inline">\(\gamma_1,\gamma_2\)</span>: <span class="math display">\[x_t=\begin{cases}\mu_1+\rho_1x_{t-1} &amp; \text{if }x_{t-2}\le\gamma_2,\ x_{t-1}\le\gamma_1\\ \mu_2+\rho_2x_{t-1} &amp; \text{if }x_{t-2}\le\gamma_2,\ x_{t-1}&gt;\gamma_1\\ \mu_3+\rho_3x_{t-1} &amp; \text{if }x_{t-2}&gt;\gamma_2,\ x_{t-1}\le\gamma_1\\ \mu_4+\rho_4x_{t-1} &amp; \text{if }x_{t-2}&gt;\gamma_2,\ x_{t-1}&gt;\gamma_1\end{cases}\;+\;\varepsilon_t .\]</span></p>
+<div class="fragment">
+<p>Each added threshold multiplies the number of regimes, and divides the observations available to each.</p>
+</div>
+</div>
+</section>
+<section id="extensions-rules-and-variances" class="slide level2">
+<h2>🔧 Extensions: Rules and Variances</h2>
+<div style="font-size: 28px">
+<p><strong>A general switching rule.</strong> Replace <span class="math inline">\(q_{t-1}\lessgtr\gamma\)</span> by a condition on <span class="math display">\[f(x_{t-1},\dots,x_{t-d},\vartheta),\]</span> where the form of <span class="math inline">\(f\)</span> is known a priori, the delay <span class="math inline">\(d\)</span> may be unknown, and <span class="math inline">\(\vartheta\)</span> is an unknown finite-dimensional parameter.</p>
+<div class="fragment">
+<p><strong>Regime-wise heteroskedasticity:</strong> <span class="math display">\[\operatorname{var}_{t-1}\varepsilon_t=\begin{cases}\sigma_1^2 &amp; \text{if }q_{t-1}\le\gamma\\ \sigma_2^2 &amp; \text{if }q_{t-1}&gt;\gamma\end{cases}\]</span></p>
+<p><strong>Conditional heteroskedasticity:</strong> <span class="math inline">\(\operatorname{var}_{t-1}\varepsilon_t\)</span> not constant, for example GARCH-type errors (Lecture 15).</p>
+</div>
+</div>
+</section>
+<section id="estimation-the-problem" class="slide level2">
+<h2>📐 Estimation: The Problem</h2>
+<div style="font-size: 28px">
+<p>Back to the basic model, written with indicators: <span class="math display">\[x_t=(\mu_1+\rho_1x_{t-1})\,\mathbb 1\{q_{t-1}\le\gamma\}+(\mu_2+\rho_2x_{t-1})\,\mathbb 1\{q_{t-1}&gt;\gamma\}+\varepsilon_t .\]</span> Parameters: <span class="math inline">\(\theta=(\mu_1,\rho_1,\mu_2,\rho_2,\gamma,d)\)</span>, with <span class="math inline">\(d\)</span> possibly, and <span class="math inline">\(\sigma^2\)</span>. Because <span class="math inline">\(\gamma\)</span> is unknown, the model is <strong>nonlinear</strong>.</p>
+<div class="fragment">
+<p>Gaussian QML is equivalent to NLLS: <span class="math display">\[\min_\theta\sum_t\Big(x_t-(\mu_1+\rho_1x_{t-1})\mathbb 1\{q_{t-1}\le\gamma\}-(\mu_2+\rho_2x_{t-1})\mathbb 1\{q_{t-1}&gt;\gamma\}\Big)^2 .\]</span> With respect to <span class="math inline">\(\gamma\)</span> the objective is not only non-differentiable but <strong>not even continuous</strong>. Gradient methods are useless.</p>
+</div>
+</div>
+</section>
+<section id="the-concentration-method" class="slide level2">
+<h2>🔧 The Concentration Method</h2>
+<div style="font-size: 28px">
+<p>Split the parameters into <span class="math inline">\(\gamma\)</span> and the rest. For fixed <span class="math inline">\(\gamma\)</span> the model is <strong>linear</strong>.</p>
+<ol type="1">
+<li><strong>Grid.</strong> Make a grid <span class="math inline">\(\Gamma\)</span> for <span class="math inline">\(\gamma\)</span>. If <span class="math inline">\(q\)</span> is a lag of <span class="math inline">\(x\)</span>, put the grid points at the observed values of <span class="math inline">\(q_{t-1}\)</span>. <strong>Trim</strong> the lowest and highest 10–15%: too few observations in a regime do not allow its parameters to be estimated.</li>
+<li><strong>OLS for each <span class="math inline">\(\gamma\in\Gamma\)</span>.</strong> Regress <span class="math inline">\(x_t\)</span> on the regime-split regressors and record <span class="math inline">\(\hat\sigma^2(\gamma)\)</span>.</li>
+<li><strong>Minimise.</strong> <span class="math inline">\(\hat\gamma=\arg\min_{\gamma\in\Gamma}\hat\sigma^2(\gamma)\)</span>, and <span class="math inline">\(\hat\theta=\hat\theta(\hat\gamma)\)</span>, the OLS estimates at <span class="math inline">\(\hat\gamma\)</span>.</li>
+</ol>
+<p>If <span class="math inline">\(d\)</span> is unknown, minimise over the pairs <span class="math inline">\((d,\gamma)\)</span>.</p>
+</div>
+</section>
+<section id="worked-example-the-data" class="slide level2">
+<h2>✍️ Worked Example: The Data</h2>
+<div style="font-size: 28px">
+<p>Six observations, and a TAR with regime means only: <span class="math inline">\(x_t=\mu_1\mathbb 1\{q_{t-1}\le\gamma\}+\mu_2\mathbb 1\{q_{t-1}&gt;\gamma\}+\varepsilon_t\)</span>.</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(q_{t-1}\)</span></th>
+<th>−1.0</th>
+<th>−0.6</th>
+<th>−0.2</th>
+<th>0.1</th>
+<th>0.4</th>
+<th>0.9</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(x_t\)</span></td>
+<td>−0.5</td>
+<td>−0.7</td>
+<td>−0.3</td>
+<td>0.6</td>
+<td>0.4</td>
+<td>0.8</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p><strong>Grid.</strong> Put candidate thresholds at the observed <span class="math inline">\(q\)</span>. Require at least two observations in each regime: this trims <span class="math inline">\(\gamma=-1.0\)</span>, <span class="math inline">\(0.4\)</span> and <span class="math inline">\(0.9\)</span>, leaving <span class="math display">\[\Gamma=\{-0.6,\ -0.2,\ 0.1\}.\]</span> For each <span class="math inline">\(\gamma\)</span> the OLS estimates are the two regime means, and <span class="math inline">\(SSR(\gamma)\)</span> is the sum of squared deviations within regimes.</p>
+</div>
+</div>
+</section>
+<section id="worked-example-the-grid" class="slide level2">
+<h2>✍️ Worked Example: The Grid</h2>
+<div style="font-size: 28px">
+<table class="caption-top">
+<colgroup>
+<col style="width: 4%">
+<col style="width: 25%">
+<col style="width: 9%">
+<col style="width: 26%">
+<col style="width: 8%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="math inline">\(\gamma\)</span></th>
+<th>regime 1</th>
+<th><span class="math inline">\(\hat\mu_1\)</span></th>
+<th>regime 2</th>
+<th><span class="math inline">\(\hat\mu_2\)</span></th>
+<th><span class="math inline">\(SSR(\gamma)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>−0.6</td>
+<td>−0.5, −0.7</td>
+<td>−0.600</td>
+<td>−0.3, 0.6, 0.4, 0.8</td>
+<td>0.375</td>
+<td>0.020 + 0.688 = 0.708</td>
+</tr>
+<tr class="even">
+<td>−0.2</td>
+<td>−0.5, −0.7, −0.3</td>
+<td>−0.500</td>
+<td>0.6, 0.4, 0.8</td>
+<td>0.600</td>
+<td>0.080 + 0.080 = <strong>0.160</strong></td>
+</tr>
+<tr class="odd">
+<td>0.1</td>
+<td>−0.5, −0.7, −0.3, 0.6</td>
+<td>−0.225</td>
+<td>0.4, 0.8</td>
+<td>0.600</td>
+<td>0.988 + 0.080 = 1.068</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p>So <span class="math inline">\(\hat\gamma=-0.2\)</span>, <span class="math inline">\(\hat\mu_1=-0.5\)</span>, <span class="math inline">\(\hat\mu_2=0.6\)</span>, <span class="math inline">\(\hat\sigma^2=0.160/6=0.027\)</span>.</p>
+<p>Any <span class="math inline">\(\gamma\in[-0.2,\,0.1)\)</span> splits the sample identically, so <span class="math inline">\(\hat\sigma^2(\gamma)\)</span> is flat there: the objective is a <strong>step function</strong>, and only its values at the observed <span class="math inline">\(q\)</span> matter.</p>
+</div>
+</div>
+</section>
+<section id="setar-by-hand" class="slide level2">
+<h2>💻 SETAR by Hand</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>📦 Simulate a SETAR(1), then estimate it by concentration</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="" aria-label="1"></a><span class="fu">set.seed</span>(<span class="dv">2028</span>); n <span class="ot">&lt;-</span> <span class="dv">300</span>; x <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb5-2"><a href="" aria-label="2"></a><span class="cf">for</span> (t <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>(n <span class="sc">+</span> <span class="dv">1</span>)) x[t] <span class="ot">&lt;-</span> <span class="cf">if</span> (x[t <span class="sc">-</span> <span class="dv">1</span>] <span class="sc">&lt;=</span> <span class="dv">0</span>) <span class="fl">0.4</span> <span class="sc">+</span> <span class="fl">0.6</span> <span class="sc">*</span> x[t <span class="sc">-</span> <span class="dv">1</span>] <span class="sc">+</span> <span class="fl">0.5</span> <span class="sc">*</span> <span class="fu">rnorm</span>(<span class="dv">1</span>) <span class="cf">else</span></span>
+<span id="cb5-3"><a href="" aria-label="3"></a>                                               <span class="sc">-</span><span class="fl">0.2</span> <span class="sc">+</span> <span class="fl">0.3</span> <span class="sc">*</span> x[t <span class="sc">-</span> <span class="dv">1</span>] <span class="sc">+</span> <span class="fl">0.5</span> <span class="sc">*</span> <span class="fu">rnorm</span>(<span class="dv">1</span>)</span>
+<span id="cb5-4"><a href="" aria-label="4"></a>y <span class="ot">&lt;-</span> x[<span class="sc">-</span><span class="dv">1</span>]; q <span class="ot">&lt;-</span> x[<span class="sc">-</span>(n <span class="sc">+</span> <span class="dv">1</span>)]                          <span class="co"># q_{t-1} = x_{t-1}: self-exciting</span></span>
+<span id="cb5-5"><a href="" aria-label="5"></a>setar_s2 <span class="ot">&lt;-</span> <span class="cf">function</span>(g) { I <span class="ot">&lt;-</span> q <span class="sc">&lt;=</span> g; J <span class="ot">&lt;-</span> <span class="sc">!</span>I              <span class="co"># regime indicators</span></span>
+<span id="cb5-6"><a href="" aria-label="6"></a>  <span class="fu">mean</span>(<span class="fu">lm.fit</span>(<span class="fu">cbind</span>(I, I <span class="sc">*</span> q, J, J <span class="sc">*</span> q), y)<span class="sc">$</span>residuals<span class="sc">^</span><span class="dv">2</span>) }</span>
+<span id="cb5-7"><a href="" aria-label="7"></a>grid <span class="ot">&lt;-</span> <span class="fu">sort</span>(q); grid <span class="ot">&lt;-</span> grid[grid <span class="sc">&gt;=</span> <span class="fu">quantile</span>(q, <span class="fl">0.15</span>) <span class="sc">&amp;</span> grid <span class="sc">&lt;=</span> <span class="fu">quantile</span>(q, <span class="fl">0.85</span>)]</span>
+<span id="cb5-8"><a href="" aria-label="8"></a>s2   <span class="ot">&lt;-</span> <span class="fu">sapply</span>(grid, setar_s2)</span>
+<span id="cb5-9"><a href="" aria-label="9"></a>g_hat <span class="ot">&lt;-</span> grid[<span class="fu">which.min</span>(s2)]; I <span class="ot">&lt;-</span> q <span class="sc">&lt;=</span> g_hat; J <span class="ot">&lt;-</span> <span class="sc">!</span>I</span>
+<span id="cb5-10"><a href="" aria-label="10"></a>b <span class="ot">&lt;-</span> <span class="fu">lm.fit</span>(<span class="fu">cbind</span>(I, I <span class="sc">*</span> q, J, J <span class="sc">*</span> q), y)<span class="sc">$</span>coefficients</span>
+<span id="cb5-11"><a href="" aria-label="11"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">gamma_hat =</span> g_hat, <span class="at">mu1 =</span> b[[<span class="dv">1</span>]], <span class="at">rho1 =</span> b[[<span class="dv">2</span>]], <span class="at">mu2 =</span> b[[<span class="dv">3</span>]], <span class="at">rho2 =</span> b[[<span class="dv">4</span>]],</span>
+<span id="cb5-12"><a href="" aria-label="12"></a>        <span class="at">grid_points =</span> <span class="fu">length</span>(grid)), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  gamma_hat         mu1        rho1         mu2        rho2 grid_points 
+      0.000       0.311       0.485      -0.122       0.296     210.000 </code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>True values: <span class="math inline">\(\gamma_0=0\)</span>, <span class="math inline">\((\mu_1,\rho_1)=(0.4,0.6)\)</span>, <span class="math inline">\((\mu_2,\rho_2)=(-0.2,0.3)\)</span>. The threshold is found almost exactly; the slopes carry ordinary sampling error of about <span class="math inline">\(\pm0.1\)</span>.</p>
+</div>
+</section>
+<section id="the-objective-is-a-step-function" class="slide level2">
+<h2>📊 The Objective Is a Step Function</h2>
+
+<img data-src="threshold_autoregression_lecture11_files/figure-revealjs/s2-step-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1650"><div style="font-size: 28px">
+<p>Flat between neighbouring observations, jumping at each one; rough overall, with a sharp dip whose lowest step (red) is <span class="math inline">\(\hat\gamma\)</span>.</p>
+</div>
+</section>
+<section id="asymptotic-theory" class="slide level2">
+<h2>📐 Asymptotic Theory</h2>
+<div style="font-size: 28px">
+<p>Because of the discontinuity, the usual asymptotic theory does not apply. Yet the outcome is good news.</p>
+<ul>
+<li><span class="math inline">\(\hat\mu_1,\hat\rho_1,\hat\mu_2,\hat\rho_2,\hat\sigma^2\)</span> are standard: consistent, <span class="math inline">\(\sqrt T\)</span>-rate, asymptotically normal, with the <strong>same</strong> limit as if <span class="math inline">\(\gamma\)</span> were known.</li>
+<li><span class="math inline">\(\hat\gamma\)</span> is <span class="math inline">\(T\)</span>-consistent: <span class="math inline">\(\hat\gamma-\gamma=O_p(T^{-1})\)</span>. Because it converges so fast, we may act as if <span class="math inline">\(\hat\gamma\)</span> were the true value when doing inference on the slopes.</li>
+<li>The discontinuity looks like a curse; it is in fact a <strong>blessing</strong>.</li>
+</ul>
+<div class="fragment">
+<p>The catch: the limit of <span class="math inline">\(T(\hat\gamma-\gamma)\)</span> is <strong>non-pivotal</strong>. It depends on unknown parameters and is very hard to standardise. How, then, do we build a confidence interval for <span class="math inline">\(\gamma\)</span>? That question opens the next lecture.</p>
+</div>
+</div>
+</section>
+<section id="thinkpairshare" class="slide level2">
+<h2>🧠 Think–Pair–Share</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<countdown-timer class="countdown" id="timer_4eba603b" minutes="3" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
+</div>
+</div>
+<div style="font-size: 30px">
+<ol type="1">
+<li>In the step plot, why is <span class="math inline">\(\hat\sigma^2(\gamma)\)</span> constant between two neighbouring observed values of <span class="math inline">\(q_{t-1}\)</span>?</li>
+<li>What goes wrong if we search <span class="math inline">\(\gamma\)</span> all the way to the smallest observed <span class="math inline">\(q_{t-1}\)</span>?</li>
+<li>A colleague estimates <span class="math inline">\(\gamma\)</span> with a Newton–Raphson routine started at the median of <span class="math inline">\(q_{t-1}\)</span>. What will happen?</li>
+</ol>
+</div>
+</section>
+<section id="thinkpairshare-solution" class="slide level2">
+<h2>✅ Think–Pair–Share: Solution</h2>
+<div style="font-size: 28px">
+<ol type="1">
+<li><span class="math inline">\(\hat\sigma^2(\gamma)\)</span> depends on <span class="math inline">\(\gamma\)</span> only through the split <span class="math inline">\(\{t: q_{t-1}\le\gamma\}\)</span>. Between two neighbouring observations the split does not change, so neither does the OLS fit.</li>
+</ol>
+<div class="fragment">
+<ol start="2" type="1">
+<li>Regime 1 would hold one or two observations: its two parameters are barely or not at all estimable, and <span class="math inline">\(\hat\sigma^2(\gamma)\)</span> can be driven down by fitting a handful of points exactly. Trimming 10–15% at each end prevents this.</li>
+</ol>
+</div>
+<div class="fragment">
+<ol start="3" type="1">
+<li>The derivative of a step function is zero wherever it exists. Newton–Raphson sees a flat objective and stops where it started. Grid search over observed values is exact, and cheap: one OLS per grid point.</li>
+</ol>
+</div>
+</div>
+</section>
+<section id="case-study-unemployment-regimes" class="slide level2">
+<h2>💰 Case Study: Unemployment Regimes</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📈 The question</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li>Do the dynamics of <span class="math inline">\(\Delta u_t\)</span> change when unemployment is above its level a year earlier?</li>
+<li>Where is the threshold?</li>
+<li>How different are the two regimes?</li>
+</ol>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 The data</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Series</strong>: US unemployment rate, FRED <code>UNRATE</code>, monthly, Jan 1948 – Dec 2019</p>
+<p><span class="math inline">\(x_t=\Delta u_t\)</span>, two lags in each regime; <span class="math inline">\(q_{t-1}=u_{t-1}-u_{t-13}\)</span>, the change over the past year; grid trimmed 15%</p>
+<p>2020 is left out: one month’s jump of 10 points would dominate least squares</p>
+</div>
+</div>
+</div>
+</div></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource r display-only number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="" aria-label="1"></a><span class="fu">download.file</span>(<span class="st">"https://fred.stlouisfed.org/graph/fredgraph.csv?id=UNRATE"</span>,</span>
+<span id="cb7-2"><a href="" aria-label="2"></a>              <span class="st">"data/UNRATE.csv"</span>)   <span class="co"># then keep Jan 1948 - Dec 2019</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="case-study-the-estimates" class="slide level2">
+<h2>💰 Case Study: The Estimates</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>📦 SETAR(2) for monthly unemployment changes, by hand</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="" aria-label="1"></a>un <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/UNRATE.csv"</span>); u <span class="ot">&lt;-</span> un<span class="sc">$</span>UNRATE; N <span class="ot">&lt;-</span> <span class="fu">length</span>(u)</span>
+<span id="cb8-2"><a href="" aria-label="2"></a>du <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(u)); tt <span class="ot">&lt;-</span> <span class="dv">14</span><span class="sc">:</span>N                    <span class="co"># d = 12 needs u_{t-13}</span></span>
+<span id="cb8-3"><a href="" aria-label="3"></a>yy <span class="ot">&lt;-</span> du[tt]; Z <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="dv">1</span>, du[tt <span class="sc">-</span> <span class="dv">1</span>], du[tt <span class="sc">-</span> <span class="dv">2</span>])</span>
+<span id="cb8-4"><a href="" aria-label="4"></a>qq <span class="ot">&lt;-</span> <span class="fu">round</span>(u[tt <span class="sc">-</span> <span class="dv">1</span>] <span class="sc">-</span> u[tt <span class="sc">-</span> <span class="dv">13</span>], <span class="dv">1</span>)              <span class="co"># one-decimal data: avoid float noise</span></span>
+<span id="cb8-5"><a href="" aria-label="5"></a>G  <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">unique</span>(qq)); G <span class="ot">&lt;-</span> G[G <span class="sc">&gt;=</span> <span class="fu">quantile</span>(qq, <span class="fl">0.15</span>) <span class="sc">&amp;</span> G <span class="sc">&lt;=</span> <span class="fu">quantile</span>(qq, <span class="fl">0.85</span>)]</span>
+<span id="cb8-6"><a href="" aria-label="6"></a>s2_u <span class="ot">&lt;-</span> <span class="fu">sapply</span>(G, <span class="cf">function</span>(g) { I <span class="ot">&lt;-</span> qq <span class="sc">&lt;=</span> g</span>
+<span id="cb8-7"><a href="" aria-label="7"></a>  <span class="fu">mean</span>(<span class="fu">lm.fit</span>(<span class="fu">cbind</span>(Z <span class="sc">*</span> I, Z <span class="sc">*</span> <span class="sc">!</span>I), yy)<span class="sc">$</span>residuals<span class="sc">^</span><span class="dv">2</span>) })</span>
+<span id="cb8-8"><a href="" aria-label="8"></a>gh <span class="ot">&lt;-</span> G[<span class="fu">which.min</span>(s2_u)]; I <span class="ot">&lt;-</span> qq <span class="sc">&lt;=</span> gh</span>
+<span id="cb8-9"><a href="" aria-label="9"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(yy <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> <span class="fu">cbind</span>(Z <span class="sc">*</span> I, Z <span class="sc">*</span> <span class="sc">!</span>I)); b <span class="ot">&lt;-</span> <span class="fu">coef</span>(fit); se <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(<span class="fu">vcov</span>(fit)))</span>
+<span id="cb8-10"><a href="" aria-label="10"></a><span class="fu">print</span>(<span class="fu">c</span>(<span class="at">T =</span> <span class="fu">length</span>(yy), <span class="at">grid_from =</span> <span class="fu">min</span>(G), <span class="at">grid_to =</span> <span class="fu">max</span>(G), <span class="at">gamma_hat =</span> gh,</span>
+<span id="cb8-11"><a href="" aria-label="11"></a>        <span class="at">share_falling =</span> <span class="fu">round</span>(<span class="fu">mean</span>(I), <span class="dv">2</span>)))</span>
+<span id="cb8-12"><a href="" aria-label="12"></a><span class="fu">round</span>(<span class="fu">cbind</span>(<span class="at">falling =</span> b[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], <span class="at">se =</span> se[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], <span class="at">rising =</span> b[<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>], <span class="at">se =</span> se[<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>]), <span class="dv">3</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-13"><a href="" aria-label="13"></a>  <span class="st">`</span><span class="at">rownames&lt;-</span><span class="st">`</span>(<span class="fu">c</span>(<span class="st">"const"</span>, <span class="st">"du(t-1)"</span>, <span class="st">"du(t-2)"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>            T     grid_from       grid_to     gamma_hat share_falling 
+       851.00         -0.90          1.20          0.00          0.67 
+        falling    se rising    se
+const    -0.041 0.009  0.018 0.013
+du(t-1)  -0.149 0.052  0.138 0.045
+du(t-2)   0.035 0.051  0.367 0.046</code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>Read the columns side by side: a steady fall with no momentum against a rise that feeds on itself.</p>
+</div>
+</section>
+<section id="case-study-what-the-data-say" class="slide level2">
+<h2>💰 Case Study: What the Data Say</h2>
+
+<img data-src="threshold_autoregression_lecture11_files/figure-revealjs/case-fig-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1500"><div style="font-size: 28px">
+<p><strong>What the data say:</strong> <span class="math inline">\(\hat\gamma=0\)</span>. When unemployment is no higher than a year ago it drifts down by about 0.04 points a month; when it is higher, it rises with momentum (coefficient 0.37 on <span class="math inline">\(\Delta u_{t-2}\)</span>). The model is silent on whether the gain over the linear AR(2) is more than chance: next lecture.</p>
+</div>
+</section>
+<section id="quiz-1-the-threshold-variable" class="slide level2 quiz-question">
+<h2>📝 Quiz #1: The Threshold Variable</h2>
+<p>Which threshold variable separates high- and low-volatility regimes for weekly exchange-rate returns <span class="math inline">\(x_t\)</span>?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ The average absolute return over the past five weeks measures recent volatility, and it is known at t − 1. The sign of x_{t−1} carries no information about volatility."><span class="math inline">\(q_{t-1}=\frac15\sum_{j=1}^5|x_{t-j}|\)</span></span></li>
+<li><span class="math inline">\(q_{t-1}=x_{t-1}\)</span></li>
+<li><span class="math inline">\(q_{t-1}=x_t\)</span></li>
+<li><span class="math inline">\(q_{t-1}=\frac15\sum_{j=1}^5x_{t-j}\)</span></li>
+</ul>
+</section>
+<section id="quiz-2-stationarity" class="slide level2 quiz-question">
+<h2>📝 Quiz #2: Stationarity</h2>
+<p>A SETAR(1) with <span class="math inline">\(q_{t-1}=x_{t-1}\)</span> and zero intercepts has <span class="math inline">\(\rho_1=1.2\)</span> in the lower regime and <span class="math inline">\(\rho_2=0.5\)</span> in the upper. Is it stationary?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ The conditions are ρ1 < 1, ρ2 < 1, ρ1ρ2 < 1. With ρ1 = 1.2 > 0 and zero intercept, a negative x stays negative and grows, never reaching the upper regime. Contrast ρ1 = −3: it flips the sign and sends x into the stable regime.">No: the condition <span class="math inline">\(\rho_1&lt;1\)</span> fails</span></li>
+<li>Yes: <span class="math inline">\(\rho_1\rho_2=0.6&lt;1\)</span></li>
+<li>Yes: the upper regime pulls it back</li>
+<li>Only if <span class="math inline">\(\sigma^2\)</span> is small</li>
+</ul>
+</section>
+<section id="quiz-3-superconsistency" class="slide level2 quiz-question">
+<h2>📝 Quiz #3: Superconsistency</h2>
+<p><span class="math inline">\(\hat\gamma\)</span> is <span class="math inline">\(T\)</span>-consistent. What does this buy us?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Because γ̂ − γ = O_p(1/T), faster than the √T rate of the slopes, the slope estimates have the same normal limit as with known γ, and the usual OLS standard errors at γ̂ apply.">Inference on <span class="math inline">\(\mu_j,\rho_j\)</span> can proceed as if <span class="math inline">\(\gamma\)</span> were known</span></li>
+<li>A normal confidence interval <span class="math inline">\(\hat\gamma\pm1.96\,SE(\hat\gamma)\)</span></li>
+<li>The objective becomes differentiable in large samples</li>
+<li>No trimming is needed</li>
+</ul>
+</section>
+<section id="key-formulas" class="slide level2">
+<h2>📋 Key Formulas</h2>
+<div style="font-size: 28px">
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>predictable white noise</td>
+<td><span class="math inline">\(y_t=\varepsilon_t+\theta\varepsilon_{t-1}\varepsilon_{t-2}\)</span>, <span class="math inline">\(E(y_{t+1}\mid\mathcal F_t)=\theta\varepsilon_t\varepsilon_{t-1}\)</span></td>
+</tr>
+<tr class="even">
+<td>TAR</td>
+<td><span class="math inline">\(x_t=(\mu_1+\rho_1x_{t-1})\mathbb 1\{q_{t-1}\le\gamma\}+(\mu_2+\rho_2x_{t-1})\mathbb 1\{q_{t-1}&gt;\gamma\}+\varepsilon_t\)</span></td>
+</tr>
+<tr class="odd">
+<td>SETAR</td>
+<td><span class="math inline">\(q_{t-1}=x_{t-d}\)</span></td>
+</tr>
+<tr class="even">
+<td>SETAR(1) ergodic</td>
+<td><span class="math inline">\(\rho_1&lt;1,\ \rho_2&lt;1,\ \rho_1\rho_2&lt;1\)</span></td>
+</tr>
+<tr class="odd">
+<td>lag orders</td>
+<td><span class="math inline">\(\min_{p_1,p_2}(IC_1+IC_2)\)</span>, <span class="math inline">\(BIC_j=T_j\log\hat\sigma_j^2+p_j\log T_j\)</span></td>
+</tr>
+<tr class="even">
+<td>concentration</td>
+<td><span class="math inline">\(\hat\gamma=\arg\min_{\gamma\in\Gamma}\hat\sigma^2(\gamma)\)</span>, <span class="math inline">\(\hat\theta=\hat\theta(\hat\gamma)\)</span></td>
+</tr>
+<tr class="odd">
+<td>rates</td>
+<td><span class="math inline">\(\hat\gamma-\gamma=O_p(T^{-1})\)</span>; slopes <span class="math inline">\(\sqrt T\)</span>-normal</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="summary" class="slide level2">
+<h2>📋 Summary</h2>
+<div style="font-size: 30px">
+<ul>
+<li>Nonlinear models give persistence without a unit root, and forecasts where linear ones see white noise</li>
+<li>A TAR switches between linear regimes when an observed <span class="math inline">\(q_{t-1}\)</span> crosses <span class="math inline">\(\gamma\)</span></li>
+<li>An endogenous switch can make a TAR stationary despite an explosive regime</li>
+<li>Estimation: OLS for each <span class="math inline">\(\gamma\)</span> on a trimmed grid of observed values; take the minimum</li>
+<li>Slopes are <span class="math inline">\(\sqrt T\)</span>-normal as if <span class="math inline">\(\gamma\)</span> were known; <span class="math inline">\(\hat\gamma\)</span> is <span class="math inline">\(T\)</span>-consistent with a non-pivotal limit</li>
+</ul>
+</div>
+</section>
+<section id="further-reading" class="slide level2">
+<h2>📚 Further Reading</h2>
+<div style="font-size: 28px">
+<ul>
+<li>Franses, P. H. and van Dijk, D. (2000), <em>Non-linear Time Series Models in Empirical Finance</em>, ch.&nbsp;3</li>
+<li>Tsay, R. S. (2010), <em>Analysis of Financial Time Series</em>, ch.&nbsp;4</li>
+<li>Tong, H. (1990), <em>Non-linear Time Series: A Dynamical System Approach</em></li>
+<li>Granger, C. W. J. and Andersen, A. P. (1978), <em>An Introduction to Bilinear Time Series Models</em></li>
+<li>Chan, K. S. (1993), <em>Annals of Statistics</em> (consistency of <span class="math inline">\(\hat\gamma\)</span>)</li>
+<li>Petrucelli, J. and Woolford, S. (1984), <em>J. Applied Probability</em>; Hansen, B. E. (1997), <em>Studies in Nonlinear Dynamics and Econometrics</em></li>
+</ul>
+<p><strong>Next lecture: Threshold Inference and Smooth Transition.</strong> A confidence set for <span class="math inline">\(\gamma\)</span>, a test of linearity, and regimes that blend.</p>
+<p><a href="../10-dickey-fuller-tests/dickey_fuller_tests_lecture10.html">⬅ Previous lecture: 10 · Dickey–Fuller, Phillips–Perron and ADF Tests</a></p>
+</div>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+<p>Time Series Econometrics — Threshold Autoregression</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="threshold_autoregression_lecture11_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="threshold_autoregression_lecture11_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="threshold_autoregression_lecture11_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="threshold_autoregression_lecture11_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="threshold_autoregression_lecture11_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="threshold_autoregression_lecture11_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="threshold_autoregression_lecture11_files/libs/revealjs/plugin/reveal-quiz/quiz.js"></script>
+  <script src="threshold_autoregression_lecture11_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="threshold_autoregression_lecture11_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="threshold_autoregression_lecture11_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="threshold_autoregression_lecture11_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="threshold_autoregression_lecture11_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'quiz': {"checkKey":"c","resetKey":"r","shuffleKey":"s","allowNumberKeys":true,"disableOnCheck":false,"shuffleOptions":true,"defaultCorrect":"✅ Correct! Well done.","defaultIncorrect":"❌ Not quite. Try again or check the explanation.","includeScore":true,"disableReset":false},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 720,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, RevealQuiz, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
