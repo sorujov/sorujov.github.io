@@ -1,0 +1,1 @@
+CPIAUCSL (US CPI, all urban consumers, monthly, SA), UNRATE (US unemployment rate, monthly, SA) and FEDFUNDS (effective federal funds rate, monthly), FRED, Federal Reserve Bank of St. Louis, https://fred.stlouisfed.org/series/CPIAUCSL, https://fred.stlouisfed.org/series/UNRATE, https://fred.stlouisfed.org/series/FEDFUNDS, Oct 1959–Dec 2007, downloaded 15 Oct 2026.

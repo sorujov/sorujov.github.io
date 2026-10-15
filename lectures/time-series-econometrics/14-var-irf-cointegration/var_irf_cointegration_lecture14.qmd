@@ -1,0 +1,698 @@
+---
+title: "Time Series Econometrics"
+subtitle: "Lecture 14: Vector Autoregressions, Impulse Responses and Cointegration"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "Open lecture notes, after Stanislav Anatolyev's course (2016)"
+format:
+  revealjs:
+    theme: [default, ../slide-fit.scss]
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    footer: "Time Series Econometrics — VAR, IRF and Cointegration"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+engine: knitr
+execute:
+  echo: true
+  warning: false
+  message: false
+  freeze: false
+knitr:
+  opts_chunk:
+    dev: png
+    dpi: 150
+    fig.align: center
+---
+
+```{r}
+#| label: setup
+#| include: false
+set.seed(2026)
+library(ggplot2)
+theme_set(theme_minimal(base_size = 18))
+```
+
+## 🎬 The Idea in 3 Minutes
+
+::: {style="text-align:center"}
+```{=html}
+<video controls preload="metadata" style="width:780px;max-width:100%;aspect-ratio:16/9;background:#111" poster="video/lecture14_intuition.jpg" src="video/lecture14_intuition.mp4"><track kind="captions" src="video/lecture14_intuition.vtt" srclang="en" label="English"></video>
+```
+[⬅ Previous lecture: 13 · Markov Switching and State-Space Models](../13-markov-switching/markov_switching_lecture13.html){style="font-size:28px"}
+
+[A short film with the intuition. Watch it before the slides, or after. Captions: CC button.]{style="font-size:28px"}
+:::
+
+---
+
+## 🎯 Learning Objectives
+
+::: {style="font-size: 32px"}
+By the end of this lecture, you will be able to:
+
+- **Set up** a VAR($p$), check its stationarity, estimate it by OLS and choose its order
+- **Compute** orthogonalised impulse responses and a forecast error variance decomposition
+- **Test** Granger causality with an $F$ test, and say what it does and does not mean
+- **Recognise** a spurious regression between two $I(1)$ series
+- **Distinguish** it from a cointegrating regression, with economic examples
+:::
+
+---
+
+## 🔁 Warm-up from last time {.quiz-question}
+
+In the Hamilton filter for a Markov switching AR, what is the denominator of the update step, $\sum_i f(x_t\mid s_t=i,I_{t-1})\Pr(s_t=i\mid I_{t-1})$?
+
+- [The conditional density $f(x_t\mid I_{t-1})$, the observation's likelihood contribution]{.correct data-explanation="✅ By total probability it is f(x_t | I_{t-1}). Summing its logarithm over t gives the log-likelihood, so one pass of the filter evaluates the likelihood for MLE."}
+- The ergodic probability of state 1
+- The transition probability $p$
+- The filtered probability $\Pr(s_t=1\mid I_t)$
+
+---
+
+## 🗺️ Where We Are
+
+::: {style="font-size: 30px"}
+Lecture 13 ended with state-space models: one observed series, latent states behind it.
+
+In Lecture 7 the Wold decomposition gave a univariate impulse response: the MA($\infty$) weights of $x_t$.
+
+::: {.fragment}
+Today we model **several** series jointly. The questions become:
+
+- how does a shock to one variable move the others, and for how long?
+- which shocks explain most of each variable's forecast errors?
+- what happens when the series are not stationary but $I(1)$?
+:::
+:::
+
+---
+
+## ❓ The Question
+
+::: {.callout-important}
+## What does a monetary tightening do?
+The central bank raises the policy rate by surprise. Inflation, unemployment and the rate itself all move, and each feeds back into the others.
+:::
+
+::: {style="font-size: 30px"}
+A single equation cannot answer "what happens next quarter, and the quarter after?" because every variable is both cause and effect. We need a system in which each variable depends on the past of all of them.
+:::
+
+---
+
+## 📐 The VAR($p$) Model
+
+::: {style="font-size: 29px"}
+For an $m\times1$ vector $x_t$,
+$$x_t=a_0+A_1x_{t-1}+\dots+A_px_{t-p}+\varepsilon_t,\qquad E(\varepsilon_t\mid I_{t-1})=0,\quad \operatorname{var}(\varepsilon_t\mid I_{t-1})=\Sigma .$$
+Each $A_j$ is $m\times m$. Row $k$ of the system is a regression of $x_{k,t}$ on $p$ lags of **every** variable.
+
+::: {.fragment}
+The errors $\varepsilon_t$ are the one-step forecast errors (innovations). They are serially uncorrelated but **correlated with each other**: $\Sigma$ is not diagonal.
+
+Bivariate example: $x_t=(\Delta m_t,\Delta p_t)'$, money growth and inflation.
+:::
+
+[Not in the 2016 notes: added from Hamilton (1994), ch. 11, and Lütkepohl (2005), ch. 2.]{.gapnote}
+:::
+
+---
+
+## 📐 Stationarity of a VAR
+
+::: {style="font-size: 28px"}
+Stack $\xi_t=(x_t',x_{t-1}',\dots,x_{t-p+1}')'$. Then $\xi_t=c+F\xi_{t-1}+(\varepsilon_t',0,\dots,0)'$ with the **companion matrix**
+$$F=\begin{pmatrix}A_1&A_2&\cdots&A_{p-1}&A_p\\ I_m&0&\cdots&0&0\\ \vdots&&\ddots&&\vdots\\ 0&0&\cdots&I_m&0\end{pmatrix}.$$
+
+::: {.fragment}
+The VAR is (covariance) stationary if every eigenvalue of $F$ lies **inside the unit circle**; equivalently, all roots of
+$$\det\big(I_m-A_1z-\dots-A_pz^p\big)=0$$
+lie outside it. This is the vector version of the AR($p$) root condition.
+:::
+
+[Not in the 2016 notes: added from Hamilton (1994), ch. 10.]{.gapnote}
+:::
+
+---
+
+## 📐 Estimation by OLS
+
+::: {style="font-size: 28px"}
+Every equation has the same regressors $z_t=(1,x_{t-1}',\dots,x_{t-p}')'$. Write $x_t=Bz_t+\varepsilon_t$; then
+$$\hat B'=\Big(\sum_t z_tz_t'\Big)^{-1}\sum_t z_tx_t',\qquad \hat\Sigma=\frac1T\sum_t\hat\varepsilon_t\hat\varepsilon_t' .$$
+
+::: {.fragment}
+- With identical regressors, OLS on each equation separately **equals** GLS on the system and the Gaussian MLE, despite the correlated errors (Zellner's SUR result).
+- Under stationarity, $\hat B$ is consistent and asymptotically normal; the usual OLS $t$, $F$ and Wald tests apply equation by equation.
+:::
+
+[Not in the 2016 notes: added from Hamilton (1994), ch. 11.]{.gapnote}
+:::
+
+---
+
+## 📐 Choosing the Lag Order
+
+::: {style="font-size: 28px"}
+Fit VAR($p$) for $p=1,\dots,p_{\max}$ on a common sample and minimise
+$$\text{AIC}(p)=\log\det\hat\Sigma_p+\frac{2pm^2}{T},\qquad \text{BIC}(p)=\log\det\hat\Sigma_p+\frac{pm^2\log T}{T},$$
+$$\text{HQ}(p)=\log\det\hat\Sigma_p+\frac{2pm^2\log\log T}{T}.$$
+
+::: {.fragment}
+The trade-off of Lecture 4 in matrix form: $\log\det\hat\Sigma_p$ falls with $p$, the penalty grows with the $pm^2$ coefficients. BIC and HQ choose the true order with probability tending to one; AIC tends to overfit but often forecasts well.
+:::
+
+[Not in the 2016 notes: added from Lütkepohl (2005), ch. 4.]{.gapnote}
+:::
+
+---
+
+## 📐 Orthogonal Shocks
+
+::: {style="font-size: 28px"}
+A stable VAR has the MA($\infty$) form $x_t=\mu+\sum_{s\ge0}\Phi_s\varepsilon_{t-s}$, with $\Phi_0=I_m$ and $\Phi_s=\sum_{j=1}^{\min(s,p)}A_j\Phi_{s-j}$.
+
+Because $\Sigma$ is not diagonal, "a shock to $\varepsilon_1$ with $\varepsilon_2$ fixed" never happens. Factor
+$$\Sigma=LDL',\qquad L \text{ lower triangular with unit diagonal},\quad D=\operatorname{diag}(\sigma_1^2,\dots,\sigma_m^2),$$
+and define $v_t=L^{-1}\varepsilon_t$: **orthogonal shocks** with $\operatorname{var}(v_t)=D$. Then
+$$x_t=\mu+\sum_{s\ge0}\Psi_sv_{t-s},\qquad \Psi_s=\Phi_sL .$$
+
+::: {.fragment}
+This is the Cholesky (recursive) identification: the variable ordered first does not respond on impact to the shocks ordered after it.
+:::
+
+[Not in the 2016 notes: the factorisation is added from Hamilton (1994), ch. 11.]{.gapnote}
+:::
+
+---
+
+## 📈 Impulse Response Functions
+
+::: {style="font-size: 29px"}
+$$\underset{m\times m}{\mathrm{IRF}(h)}=\frac{\partial x_{t+h}}{\partial v_t'}=\Psi_h .$$
+Element $(j,i)$ is the response of variable $j$, $h$ periods later, to a unit orthogonal shock $v_i$ at time $t$.
+
+::: {.fragment}
+For $x_t=(\Delta m_t,\Delta p_t)'$ with $\Delta m$ ordered first:
+
+- own responses start at 1; money growth dies out with a damped oscillation, inflation monotonically
+- $\Delta m$ does not react to the price shock $v_p$ on impact; it rises to a hump later
+- in a stable VAR every response decays to zero
+:::
+:::
+
+---
+
+## 🎛️ Explore: Feedback and IRF Shape
+
+```{ojs}
+//| echo: false
+viewof a12 = Inputs.range([-0.8, 0.5], {step: 0.01, value: 0, label: "feedback a₁₂"})
+```
+
+```{ojs}
+//| echo: false
+irf = {
+  const A = [[0.5, a12], [0.6, 0.5]];
+  let M = [[1, 0], [0, 1]]; const out = [];
+  for (let h = 0; h <= 20; h++) {
+    out.push({h, resp: M[0][0], v: "x₁ (own response)"}, {h, resp: M[1][0], v: "x₂ (cross response)"});
+    M = [[A[0][0]*M[0][0] + A[0][1]*M[1][0], A[0][0]*M[0][1] + A[0][1]*M[1][1]],
+         [A[1][0]*M[0][0] + A[1][1]*M[1][0], A[1][0]*M[0][1] + A[1][1]*M[1][1]]];
+  }
+  return out;
+}
+disc = 0.6 * a12
+modulus = disc >= 0 ? 0.5 + Math.sqrt(disc) : Math.sqrt(0.25 - disc)
+```
+
+```{ojs}
+//| echo: false
+Plot.plot({
+  width: 1100, height: 280, marginLeft: 78, marginBottom: 50,
+  style: {fontSize: "18px"},
+  x: {label: "horizon h"}, y: {label: "response to v₁", domain: [-0.8, 1.6], grid: true},
+  color: {range: ["#8b2635", "#2f4b7c"]},
+  marks: [Plot.ruleY([0]), Plot.lineY(irf, {x: "h", y: "resp", stroke: "v", strokeWidth: 3}),
+          Plot.dot(irf, {x: "h", y: "resp", fill: "v", r: 3})]
+})
+```
+
+```{ojs}
+//| echo: false
+html`<div style="font-size:28px"><b style='color:#8b2635'>x₁ own</b> and <b style='color:#2f4b7c'>x₂ cross</b> response · A = [0.5, a₁₂; 0.6, 0.5], Σ = I · largest |eigenvalue| <b>${modulus.toFixed(3)}</b> · roots are <b>${disc < 0 ? "complex: oscillation" : "real: monotone decay"}</b>${modulus >= 1 ? " · <b style='color:#8b2635'>not stable</b>" : ""}</div>`
+```
+
+---
+
+## ✍️ Worked Example: IRF by Hand
+
+::: {style="font-size: 28px"}
+VAR(1) for $(\Delta m_t,\Delta p_t)'$: $A=\begin{pmatrix}0.5&0.2\\0.3&0.4\end{pmatrix}$, $\Sigma=\begin{pmatrix}1&0.5\\0.5&2\end{pmatrix}$.
+
+::: {.fragment}
+**Factor.** $L=\begin{pmatrix}1&0\\0.5&1\end{pmatrix}$, $D=\operatorname{diag}(1,\ 2-0.5^2)=\operatorname{diag}(1,1.75)$. Check: $LDL'=\Sigma$.
+:::
+
+::: {.fragment}
+**Responses.** $\Psi_0=L$; $\ \Psi_1=AL=\begin{pmatrix}0.5+0.1&0.2\\0.3+0.2&0.4\end{pmatrix}=\begin{pmatrix}0.6&0.2\\0.5&0.4\end{pmatrix}$.
+
+A money shock raises inflation by 0.5 on impact and 0.5 a quarter later; a price shock leaves $\Delta m$ unchanged on impact and raises it by 0.2 after one quarter.
+:::
+
+::: {.fragment}
+**Granger.** The (1,2) element of $A$ is $0.2\neq0$, so $\Delta p$ Granger-causes $\Delta m$; and $0.3\neq0$, so $\Delta m$ Granger-causes $\Delta p$.
+:::
+:::
+
+---
+
+## 📊 Variance Decomposition (FEVD)
+
+::: {style="font-size: 28px"}
+The $h$-step forecast error is $x_{t+h}-E_tx_{t+h}=\sum_{s=0}^{h-1}\Psi_sv_{t+h-s}$. With orthogonal shocks,
+$$\operatorname{var}_t(x_{j,t+h})=\sum_{i=1}^m f_{ij}(h)\,\sigma_i^2,\qquad f_{ij}(h)=\sum_{s=0}^{h-1}(\Psi_s)_{ji}^2 .$$
+These are the diagonal elements of $\operatorname{var}_t x_{t+h}$. The **share of shock $i$** in variable $j$:
+$$\omega_{ij}(h)=\frac{f_{ij}(h)\,\sigma_i^2}{\sum_{k=1}^m f_{kj}(h)\,\sigma_k^2}\times100\%,\qquad \sum_i\omega_{ij}(h)=100\% .$$
+
+::: {.fragment}
+**Example above, $h=2$, $j=\Delta m$:** $f_{11}=1^2+0.6^2=1.36$, $f_{21}=0^2+0.2^2=0.04$. Share of the money shock $=\dfrac{1.36}{1.36+0.04\times1.75}=\dfrac{1.36}{1.43}=95.1\%$.
+:::
+:::
+
+---
+
+## 💻 The Example in R
+
+```{r}
+#| label: worked-var
+A <- matrix(c(0.5, 0.2,
+              0.3, 0.4), 2, byrow = TRUE)
+Sigma <- matrix(c(1, 0.5, 0.5, 2), 2)
+C <- t(chol(Sigma))                       # Sigma = C C', C lower triangular
+L <- C %*% diag(1 / diag(C))              # unit diagonal
+D <- diag(diag(C)^2)                      # Sigma = L D L'
+Psi <- list(L, A %*% L)                   # Psi_0, Psi_1
+f   <- Reduce(`+`, lapply(Psi, function(P) P^2))   # f_ij(2), rows = variable j
+share <- 100 * (f %*% D) / rowSums(f %*% D)
+dimnames(share) <- list(c("dm", "dp"), c("v_m", "v_p"))
+Psi_01 <- cbind(Psi[[1]], Psi[[2]]); colnames(Psi_01) <- c("Psi0_m", "Psi0_p", "Psi1_m", "Psi1_p")
+list(D = diag(D), Psi_0_and_Psi_1 = Psi_01, FEVD_h2_percent = round(share, 1))
+```
+
+---
+
+## 🔎 Granger Causality
+
+::: {style="font-size: 29px"}
+::: {.callout-note}
+## Definition
+$\Delta m$ does **not** Granger-cause $\Delta p$ ($\Delta m\overset{GC}{\not\to}\Delta p$) if
+$$E(\Delta p_{t+1}\mid \Delta p_t,\Delta p_{t-1},\dots,\Delta m_t,\Delta m_{t-1},\dots)=E(\Delta p_{t+1}\mid \Delta p_t,\Delta p_{t-1},\dots).$$
+:::
+
+In a VAR: all $p$ coefficients on lagged $\Delta m$ in the $\Delta p$ equation are zero. Test this with an $F$ (or Wald) statistic, $F\sim F(p,\,T-mp-1)$ approximately.
+
+::: {.fragment}
+It is a **statistical** notion, not an economic one. Stock prices Granger-cause dividends, because prices are forward-looking; economically, it is expected dividends that determine prices.
+:::
+:::
+
+---
+
+## 🧠 Think-Pair-Share
+
+```{r}
+#| label: tps-timer
+#| echo: false
+countdown::countdown(minutes = 3, seconds = 0, top = 0, right = 0,
+                     font_size = "2em", warn_when = 30)
+```
+
+::: {style="font-size: 30px"}
+A VAR(1) has $A=\begin{pmatrix}0.7&0\\0.5&0.2\end{pmatrix}$ and $\Sigma=\begin{pmatrix}1&0.3\\0.3&1\end{pmatrix}$, with $x_1$ ordered first.
+
+1. Is the VAR stationary?
+2. Which variable Granger-causes which?
+3. Compute $\Psi_0$ and $\Psi_1$.
+4. What share of the $h$-step forecast error variance of $x_1$ comes from $v_2$, for any $h$?
+:::
+
+---
+
+## ✅ Think-Pair-Share: Solution
+
+::: {style="font-size: 28px"}
+1. $A$ is triangular: eigenvalues $0.7$ and $0.2$, both inside the unit circle. **Stationary.**
+2. $a_{21}=0.5\neq0$: $x_1$ Granger-causes $x_2$. $a_{12}=0$: $x_2$ does **not** Granger-cause $x_1$.
+3. $L=\begin{pmatrix}1&0\\0.3&1\end{pmatrix}$, $D=\operatorname{diag}(1,0.91)$. $\Psi_0=L$, $\Psi_1=AL=\begin{pmatrix}0.7&0\\0.56&0.2\end{pmatrix}$.
+
+::: {.fragment}
+4. **Zero.** $x_1$ does not respond to $v_2$ on impact (it is ordered first) and $A$ never feeds $x_2$ back into $x_1$, so $(\Psi_s)_{12}=0$ for all $s$. Its forecast errors are entirely its own shock.
+:::
+:::
+
+---
+
+## ⚠️ Spurious Regression
+
+::: {style="font-size: 29px"}
+Let $x_t,y_t\sim I(1)$ and run $y_t=\beta x_t+\varepsilon_t$. There are two possibilities.
+
+1. $\varepsilon_t\sim I(1)$ **for whatever $\beta$**: a **spurious regression**. OLS reports a large $R^2$ and a "significant" $t$, though there is no relation at all. Granger and Newbold's example: rabbits in Australia against US GNP.
+2. $\varepsilon_t\sim I(0)$ **for a certain $\beta$**: a **cointegrating regression**.
+
+::: {.fragment}
+In case 1 the $t$-statistic does not converge to $N(0,1)$; it diverges at rate $\sqrt T$, and $R^2$ converges to a random variable instead of to zero (Phillips, 1986). More data makes the illusion **stronger**.
+:::
+:::
+
+---
+
+## 💻 Two Independent Random Walks
+
+```{r}
+#| label: spurious-sim
+spurious <- function(n, reps = 1000) {
+  out <- replicate(reps, {
+    x <- cumsum(rnorm(n)); y <- cumsum(rnorm(n))        # independent I(1)
+    s_lev <- summary(lm(y ~ x)); s_dif <- summary(lm(diff(y) ~ diff(x)))
+    c(t_lev = s_lev$coefficients[2, 3], R2_lev = s_lev$r.squared,
+      t_dif = s_dif$coefficients[2, 3])
+  })
+  c(T = n, reject_levels = mean(abs(out["t_lev", ]) > 1.96),
+    median_R2 = median(out["R2_lev", ]), median_abs_t = median(abs(out["t_lev", ])),
+    reject_differences = mean(abs(out["t_dif", ]) > 1.96))
+}
+sims <- t(sapply(c(50, 100, 200, 400, 800), spurious))
+round(sims, 3)
+```
+
+::: {style="font-size: 28px"}
+A nominal 5% test rejects two times in three at $T=50$ and nine times in ten at $T=800$; the median $|t|$ grows like $\sqrt T$. In first differences it rejects about 5% of the time, as it should.
+:::
+
+---
+
+## 📈 The $t$-Statistic Explodes
+
+```{r}
+#| label: spurious-fig
+#| echo: false
+#| fig-width: 11
+#| fig-height: 4.2
+tstats <- do.call(rbind, lapply(c(100, 800), function(n) data.frame(
+  T = paste("T =", n),
+  t = replicate(1000, { x <- cumsum(rnorm(n)); y <- cumsum(rnorm(n))
+                        summary(lm(y ~ x))$coefficients[2, 3] }))))
+tstats$T <- factor(tstats$T, levels = c("T = 100", "T = 800"))
+ggplot(tstats, aes(t)) +
+  geom_histogram(aes(y = after_stat(density)), bins = 60, fill = "#8ba3c7") +
+  stat_function(fun = dnorm, n = 1001, colour = "#8b2635", linewidth = 1.2) +
+  geom_vline(xintercept = c(-1.96, 1.96), linetype = "dashed") +
+  facet_wrap(~ T) + coord_cartesian(xlim = c(-60, 60)) +
+  labs(x = "t-statistic on x in the levels regression", y = "density") +
+  theme(strip.text = element_text(size = 20, face = "bold"))
+```
+
+::: {style="font-size: 28px"}
+The red curve is the $N(0,1)$ the textbook test assumes, squeezed inside the dashed lines. The actual spread is many times wider, and grows by about $\sqrt8\approx2.8$ from $T=100$ to $T=800$.
+:::
+
+---
+
+## 🐕 The Drunk and Her Dog
+
+```{r}
+#| label: drunk-dog
+#| echo: false
+#| fig-width: 11
+#| fig-height: 3.8
+set.seed(7)
+n <- 300; drunk <- cumsum(rnorm(n))
+gap <- as.numeric(arima.sim(list(ar = 0.7), n, sd = 0.8))
+dog <- drunk + gap
+walk <- data.frame(t = rep(1:n, 3),
+                   value = c(drunk, dog, gap - 12),
+                   who = rep(c("drunk  x_t", "dog  y_t", "leash  y_t - x_t (shifted down)"), each = n))
+ggplot(walk, aes(t, value, colour = who)) + geom_line(linewidth = 0.9) +
+  scale_colour_manual(values = c("#2f4b7c", "#c0392b", "grey40"), name = NULL) +
+  labs(x = "t", y = NULL) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+Each wanders like a random walk, but the leash keeps the distance $y_t-x_t$ stationary: $x_t,y_t\sim I(1)$ while $y_t-\beta x_t\sim I(0)$ with $\beta=1$. That is **cointegration**.
+:::
+
+---
+
+## 🌍 Cointegration in Economics
+
+::: {style="font-size: 29px"}
+**Known $\beta$**, implied by theory:
+
+- a constant consumption–income ratio: $\log c_t-\log y_t\sim I(0)$, so the regression of $\log c$ on $\log y$ should be cointegrating
+- purchasing power parity: the real exchange rate $e_t+p_t^*-p_t\sim I(0)$
+- long and short interest rates: $R_t-r_t\sim I(0)$
+- spot and futures exchange rates
+
+::: {.fragment}
+**Unknown $\beta$**, to be estimated. Money demand:
+$$m_t-p_t=\alpha_1+\alpha_2y_t+\alpha_3r_t+I(0).$$
+:::
+:::
+
+---
+
+## 💰 Case Study: A Monetary Policy VAR
+
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
+
+A VAR in inflation, unemployment and the federal funds rate, in the spirit of Stock and Watson (2001).
+
+1. Which lag order do the criteria choose?
+2. Does the policy rate Granger-cause inflation, and inflation the rate?
+3. How do the three variables respond to a policy-rate shock?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: CPI (`CPIAUCSL`), unemployment rate (`UNRATE`), effective fed funds rate (`FEDFUNDS`), FRED
+
+**Period**: 1960Q1–2007Q4, quarterly averages; ends before the zero lower bound
+
+$\pi_t=400\,\Delta\log\text{CPI}_t$; ordering $(\pi_t,u_t,R_t)$
+:::
+:::
+::::
+
+```{.r .display-only}
+base <- "https://fred.stlouisfed.org/graph/fredgraph.csv?id="
+raw  <- lapply(c("CPIAUCSL", "UNRATE", "FEDFUNDS"),
+               function(i) read.csv(paste0(base, i)))
+```
+
+---
+
+## 💰 Case Study: Estimation in R
+
+```{r}
+#| label: case-var
+#| code-summary: "📦 Data, lag order, OLS, Granger tests"
+qavg <- function(id) { z <- read.csv(paste0("data/", id, ".csv")); d <- as.Date(z$observation_date)
+  tapply(z[[id]], paste(format(d, "%Y"), (as.numeric(format(d, "%m")) - 1) %/% 3 + 1), mean) }
+cpi <- qavg("CPIAUCSL"); un <- qavg("UNRATE"); ff <- qavg("FEDFUNDS")
+Y <- cbind(infl = 400 * diff(log(cpi)), u = un[-1], R = ff[-1])     # 1960Q1-2007Q4
+m <- ncol(Y)
+var_ols <- function(Y, p) {                       # OLS equation by equation
+  n <- nrow(Y); Z <- cbind(1, do.call(cbind, lapply(1:p, function(j) Y[(p + 1 - j):(n - j), ])))
+  X <- Y[(p + 1):n, ]; B <- solve(crossprod(Z), crossprod(Z, X)); E <- X - Z %*% B
+  list(B = B, E = E, Z = Z, X = X, Sigma = crossprod(E) / nrow(E), p = p) }
+crit <- sapply(1:6, function(p) { f <- var_ols(Y[(7 - p):nrow(Y), ], p); Tn <- nrow(f$E)
+  ld <- log(det(f$Sigma)); c(AIC = ld + 2 * p * m^2 / Tn, BIC = ld + log(Tn) * p * m^2 / Tn,
+                             HQ = ld + 2 * log(log(Tn)) * p * m^2 / Tn) })
+p <- which.min(crit["BIC", ]); fit <- var_ols(Y, p)
+granger <- function(fit, cause, eq) {             # F test: lags of `cause` out of `eq`
+  drop <- 1 + (0:(fit$p - 1)) * m + cause; y <- fit$X[, eq]
+  rss <- function(Z) sum(lm.fit(Z, y)$residuals^2); df2 <- nrow(fit$Z) - ncol(fit$Z)
+  F <- ((rss(fit$Z[, -drop]) - rss(fit$Z)) / fit$p) / (rss(fit$Z) / df2)
+  pf(F, fit$p, df2, lower.tail = FALSE) }
+list(order_chosen = c(AIC = which.min(crit["AIC", ]), BIC = p, HQ = which.min(crit["HQ", ])),
+     granger_p_values = c(R_to_infl = granger(fit, 3, 1), infl_to_R = granger(fit, 1, 3),
+                          u_to_R = granger(fit, 2, 3)) |> signif(2))
+```
+
+::: {style="font-size: 28px"}
+BIC and HQ choose $p=3$; the VAR(3) is used below. Small $p$-values reject Granger non-causality in all three directions.
+:::
+
+---
+
+## 💰 Case Study: A Rate Shock
+
+```{r}
+#| label: case-irf
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.9
+irf_var <- function(B, Sigma, p, H = 20) {
+  A <- lapply(1:p, function(j) t(B[1 + (j - 1) * m + 1:m, ]))
+  Phi <- list(diag(m))
+  for (h in 1:H) Phi[[h + 1]] <- Reduce(`+`, lapply(1:min(h, p), function(j) A[[j]] %*% Phi[[h + 1 - j]]))
+  P <- t(chol(Sigma)); lapply(Phi, function(F) F %*% P)          # one-s.d. orthogonal shocks
+}
+point <- sapply(irf_var(fit$B, fit$Sigma, p), function(M) M[, 3])  # responses to shock in R
+boot <- replicate(300, {                                            # residual bootstrap
+  Yb <- Y; E <- fit$E[sample(nrow(fit$E), replace = TRUE), ]
+  for (t in (p + 1):nrow(Y)) Yb[t, ] <- c(1, as.vector(t(Yb[(t - 1):(t - p), ]))) %*% fit$B + E[t - p, ]
+  fb <- var_ols(Yb, p); sapply(irf_var(fb$B, fb$Sigma, p), function(M) M[, 3]) })
+lab <- c("inflation (pp)", "unemployment (pp)", "fed funds rate (pp)"); lab2 <- c("inflation", "unemployment", "fed funds rate")
+df <- do.call(rbind, lapply(1:3, function(k) data.frame(h = 0:20, var = lab[k], irf = point[k, ],
+  lo = apply(boot[k, , ], 1, quantile, 0.05), hi = apply(boot[k, , ], 1, quantile, 0.95))))
+df$var <- factor(df$var, levels = lab)
+ggplot(df, aes(h, irf)) + geom_hline(yintercept = 0, colour = "grey50") +
+  geom_ribbon(aes(ymin = lo, ymax = hi, fill = "90% bootstrap band"), alpha = 0.5) +
+  geom_line(aes(colour = "Cholesky IRF"), linewidth = 1.2) +
+  facet_wrap(~ var, scales = "free_y") +
+  scale_fill_manual(values = "#8ba3c7", name = NULL) + scale_colour_manual(values = "#8b2635", name = NULL) +
+  labs(x = "quarters after the shock", y = NULL) +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+**What the data say:** after a one-s.d. rate shock the rate decays over about two years and unemployment rises, peaking after two years, as theory predicts. Inflation **rises** at first and turns negative only after six quarters: the "price puzzle". A three-variable Cholesky VAR omits information the Fed reacted to (commodity prices, expectations), so part of the "shock" anticipates inflation.
+:::
+
+---
+
+## 💰 Case Study: Variance Decomposition
+
+```{r}
+#| label: case-fevd
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.6
+Psi <- irf_var(fit$B, fit$Sigma, p, H = 24)
+fevd <- function(h) { f <- Reduce(`+`, lapply(Psi[1:h], function(M) M^2)); 100 * f / rowSums(f) }
+fd <- do.call(rbind, lapply(1:24, function(h) { s <- fevd(h)
+  data.frame(h = h, var = rep(lab2, 3), shock = rep(c("inflation shock", "unemployment shock", "rate shock"), each = 3),
+             share = as.vector(s)) }))
+fd$var <- factor(fd$var, levels = lab2)
+fd$shock <- factor(fd$shock, levels = c("inflation shock", "unemployment shock", "rate shock"))
+ggplot(fd, aes(h, share, fill = shock)) + geom_area() + facet_wrap(~ var) +
+  scale_x_continuous(breaks = c(1, 8, 16, 24)) +
+  scale_fill_manual(values = c("#8b2635", "#d9a441", "#2f4b7c"), name = NULL) +
+  labs(x = "horizon h (quarters)", y = "share of FEV (%)") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top", panel.spacing = unit(2, "lines"))
+```
+
+::: {style="font-size: 28px"}
+Each panel stacks $\omega_{ij}(h)$ over the three shocks to 100%. Inflation is driven mostly by its own shock; beyond a year, **unemployment** shocks carry the largest share of the rate's forecast errors: the systematic reaction of policy to the real economy.
+:::
+
+---
+
+## 📝 Quiz #1: Granger Causality {.quiz-question}
+
+In a bivariate VAR(2) for $(y_t,z_t)$, which restriction says $z$ does **not** Granger-cause $y$?
+
+- [The coefficients on $z_{t-1}$ and $z_{t-2}$ in the $y$ equation are both zero]{.correct data-explanation="✅ z does not Granger-cause y when past z adds nothing to the forecast of y given past y: both lag coefficients of z in the y equation are zero. Test with F(2, T − 5)."}
+- The coefficients on $y_{t-1}$ and $y_{t-2}$ in the $z$ equation are both zero
+- The correlation between the two innovations is zero
+- The impact response of $y$ to the $z$ shock is zero
+
+---
+
+## 📝 Quiz #2: Variance Decomposition {.quiz-question}
+
+For variable $j$ at horizon $h$, $f_{1j}(h)\sigma_1^2=3$ and $f_{2j}(h)\sigma_2^2=1$. What is the share of shock 2 in its forecast error variance?
+
+- [$25\%$]{.correct data-explanation="✅ ω_2j(h) = 1 / (3 + 1) = 25%. The shares over the shocks sum to 100%."}
+- $33\%$
+- $75\%$
+- $1\%$
+
+---
+
+## 📝 Quiz #3: Spurious or Not? {.quiz-question}
+
+$x_t$ and $y_t$ are independent random walks, $T=1000$. You regress $y_t$ on $x_t$ in levels. What do you expect?
+
+- [A large $|t|$-statistic and a sizeable $R^2$, although there is no relation]{.correct data-explanation="✅ This is the spurious regression: the error is I(1) for every β, the t-statistic diverges at rate √T and R² has a non-degenerate limit. Regress first differences, or test for cointegration, instead."}
+- A $t$-statistic close to $N(0,1)$, rejecting about 5% of the time
+- $R^2$ close to zero, since the series are independent
+- A cointegrating regression with $\beta=0$
+
+---
+
+## 📋 Key Formulas
+
+::: {style="font-size: 28px"}
+| | |
+|---|---|
+| VAR($p$) | $x_t=a_0+\sum_{j=1}^pA_jx_{t-j}+\varepsilon_t$, $\operatorname{var}\varepsilon_t=\Sigma$ |
+| Stationarity | $\det(I_m-A_1z-\dots-A_pz^p)\neq0$ for $\lvert z\rvert\le1$ |
+| Lag choice | $\text{BIC}(p)=\log\det\hat\Sigma_p+pm^2\log T/T$ |
+| Orthogonal shocks | $\Sigma=LDL'$, $v_t=L^{-1}\varepsilon_t$, $\Psi_s=\Phi_sL$ |
+| IRF | $\mathrm{IRF}(h)=\partial x_{t+h}/\partial v_t'=\Psi_h$ |
+| FEVD | $\omega_{ij}(h)=f_{ij}(h)\sigma_i^2/\sum_kf_{kj}(h)\sigma_k^2$, $f_{ij}(h)=\sum_{s<h}(\Psi_s)_{ji}^2$ |
+| Cointegration | $x_t,y_t\sim I(1)$, $y_t-\beta x_t\sim I(0)$ |
+:::
+
+---
+
+## 📋 Summary
+
+::: {style="font-size: 30px"}
+- A VAR regresses every variable on lags of all of them; OLS equation by equation is efficient
+- Correlated innovations must be orthogonalised before shocks can be traced; Cholesky ordering is an identifying assumption
+- IRFs show how a shock propagates; the FEVD says which shocks matter at each horizon
+- Granger causality is predictive content, not economic causation
+- Two unrelated $I(1)$ series regress spuriously; cointegrated series share a stationary combination
+:::
+
+---
+
+## 📚 Further Reading
+
+::: {style="font-size: 28px"}
+- Hamilton, J. D. (1994). *Time Series Analysis*, ch. 10–11 and 18–19; Lütkepohl, H. (2005). *New Introduction to Multiple Time Series Analysis*, ch. 2–4.
+- Sims, C. A. (1980). Macroeconomics and reality. *Econometrica* 48, 1–48.
+- Granger, C. W. J. (1969). Investigating causal relations by econometric models and cross-spectral methods. *Econometrica* 37, 424–438.
+- Granger, C. W. J. and Newbold, P. (1974). Spurious regressions in econometrics. *Journal of Econometrics* 2, 111–120.
+- Engle, R. F. and Granger, C. W. J. (1987). Co-integration and error correction. *Econometrica* 55, 251–276.
+- Stock, J. H. and Watson, M. W. (2001). Vector autoregressions. *Journal of Economic Perspectives* 15(4), 101–115.
+
+**Next lecture:** Volatility: ARCH and GARCH.
+:::
