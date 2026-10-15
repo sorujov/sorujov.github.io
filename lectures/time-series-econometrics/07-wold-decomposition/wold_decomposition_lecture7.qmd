@@ -1,0 +1,597 @@
+---
+title: "Time Series Econometrics"
+subtitle: "Lecture 7: Linear Projection, Innovations and the Wold Decomposition"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "Open lecture notes, after Stanislav Anatolyev's course (2016)"
+format:
+  revealjs:
+    theme: [default, ../slide-fit.scss]
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    footer: "Time Series Econometrics — Wold Decomposition"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+engine: knitr
+execute:
+  echo: true
+  warning: false
+  message: false
+  freeze: false
+knitr:
+  opts_chunk:
+    dev: png
+    dpi: 150
+    fig.align: center
+---
+
+```{r}
+#| label: setup
+#| include: false
+set.seed(2026)
+library(ggplot2)
+theme_set(theme_minimal(base_size = 18))
+```
+
+## 🎬 The Idea in 3 Minutes
+
+::: {style="text-align:center"}
+```{=html}
+<video controls preload="metadata" style="width:780px;max-width:100%;aspect-ratio:16/9;background:#111" poster="video/lecture7_intuition.jpg" src="video/lecture7_intuition.mp4"><track kind="captions" src="video/lecture7_intuition.vtt" srclang="en" label="English"></video>
+```
+[⬅ Previous lecture: 6 · Data Snooping, Superior Predictive Ability, Model Confidence Sets](../06-superior-predictive-ability/superior_predictive_ability_lecture6.html){style="font-size:28px"}
+
+[A short film with the intuition. Watch it before the slides, or after. Captions: CC button.]{style="font-size:28px"}
+:::
+
+---
+
+## 🎯 Learning Objectives
+
+::: {style="font-size: 32px"}
+By the end of this lecture, you will be able to:
+
+- **Distinguish** the population linear projection from its sample analogue, OLS
+- **Define** the least-squares innovation of a stationary series and **state** what it is, and is not, orthogonal to
+- **State** the Wold decomposition and **read** its coefficients as impulse responses
+- **Derive** the Wold representation of an AR(1) and of an MA(1), invertible or not
+- **Estimate** the impulse response of US real GDP growth from an autoregression
+:::
+
+---
+
+## 🔁 Warm-up from last time {.quiz-question}
+
+In the model confidence set procedure of Hansen, Lunde and Nason (2011), what happens when the equivalence hypothesis $H_{0,\mathcal M}$ (all models in the current set $\mathcal M$ have equal expected loss) is rejected?
+
+- [The worst model in $\mathcal M$ is eliminated and the test is repeated on the smaller set]{.correct data-explanation="✅ The MCS eliminates models one at a time. It stops at the first non-rejection; the survivors contain the best models with asymptotic probability at least 1 − α, and each model receives an MCS p-value as a by-product."}
+- The benchmark model is declared superior and the procedure stops
+- All models with above-average loss are removed at once
+- A Diebold–Mariano test is run between the two best models
+
+---
+
+## 🗺️ Where We Are
+
+::: {style="font-size: 30px"}
+Lectures 4–6 compared models by what they predict: information criteria, out-of-sample loss, Diebold–Mariano, and finally the model confidence set for many models at once.
+
+::: {.fragment}
+Every one of those forecasts was an estimate of the same object, the **conditional mean**
+$$\mu_t = E_{t-1}x_t = E[x_t \mid x_{t-1}, x_{t-2}, \dots].$$
+Today we start modelling it. Linear models approximate $\mu_t$ by the best *linear* predictor, and one theorem, Wold's, says how far that approximation can be pushed for any stationary series.
+:::
+:::
+
+---
+
+## ❓ The Question
+
+::: {.callout-important}
+## How long does a surprise in output last?
+US real GDP grew 2% faster than expected this quarter. How much of that surprise is still in the growth rate a year from now? Does it fade, or does it echo?
+:::
+
+::: {style="font-size: 30px"}
+To answer, we need to write growth as a sum of **past surprises** with weights: $x_t = \mu + \varepsilon_t + \psi_1\varepsilon_{t-1} + \psi_2\varepsilon_{t-2} + \dots$. The weight $\psi_j$ is the answer for horizon $j$. Two questions remain: what exactly is a "surprise", and does every stationary series admit such a sum?
+:::
+
+---
+
+## 📐 Population vs Sample Least Squares
+
+::: {style="font-size: 30px"}
+For $y = x'\beta + e$:
+
+| | criterion | solution |
+|---|---|---|
+| **Population** (no data) | $\min_b E[(y - x'b)^2]$ | $\beta = (E[xx'])^{-1}E[xy]$ |
+| **Sample** (OLS) | $\min_b \sum_t (y_t - x_t'b)^2$ | $\hat\beta = (X'X)^{-1}X'Y$ |
+
+::: {.fragment}
+The population $\beta$ is a property of the joint distribution. It satisfies $E[xe] = 0$ **by construction**, whatever the true relation between $y$ and $x$. Under stationarity and ergodicity the sample moments converge to the population ones, so $\hat\beta \xrightarrow{p} \beta$. For the same reason we may treat $E[x_t]$ as known: the sample mean estimates it consistently.
+:::
+:::
+
+---
+
+## 📐 Projection on the Infinite Past
+
+::: {style="font-size: 30px"}
+::: {.callout-note}
+## Least-squares (linear) projection
+Let $\Omega_{t-1} = \{x_{t-1}, x_{t-2}, \dots\}$. The projection of $x_t$ on $\Omega_{t-1}$ is
+$$\operatorname{Proj}(x_t \mid \Omega_{t-1}) = \alpha_0 + \sum_{i=1}^{\infty}\alpha_i x_{t-i},$$
+where $(\alpha_0, \alpha_1, \dots)$ minimise $E\big[(x_t - \alpha_0 - \sum_{i\ge1}\alpha_i x_{t-i})^2\big]$ subject to $\sum_{i\ge1}\alpha_i^2 < \infty$.
+:::
+
+It is the population regression of $x_t$ on its entire past. The square-summability constraint keeps the infinite sum well defined; it will decide the non-invertible case below.
+:::
+
+---
+
+## 📐 The Linear Innovation
+
+::: {style="font-size: 30px"}
+::: {.callout-note}
+## Definition
+The **least-squares (linear) innovation** is $\ \varepsilon_t = x_t - \operatorname{Proj}(x_t \mid \Omega_{t-1}).$
+:::
+
+- By the normal equations, $\varepsilon_t$ is uncorrelated with every $x_{t-i}$, $i \ge 1$
+- Each $\varepsilon_{t-k}$ is a linear function of $x_{t-k}, x_{t-k-1}, \dots$, so $\varepsilon_t$ is uncorrelated with its own past: it is **white noise**
+- It need **not** be a martingale difference. Take $x_t = \eta_t + \eta_{t-1}\eta_{t-2}$ with $\eta_t$ i.i.d. $N(0,1)$: $x_t$ is white noise, so $\operatorname{Proj} = 0$ and $\varepsilon_t = x_t$, yet the product $\eta_{t-1}\eta_{t-2}$ is predictable
+:::
+
+---
+
+## 📐 The Wold Decomposition
+
+::: {style="font-size: 30px"}
+::: {.callout-important}
+## Theorem (Wold, 1938)
+Let $x_t$ be stationary and ergodic with $\operatorname{var}(x_t) < \infty$, and purely nondeterministic. Then
+$$x_t = E[x_t] + \sum_{j=0}^{\infty}\psi_j\,\varepsilon_{t-j}, \qquad \psi_0 = 1, \qquad \sum_{j=0}^{\infty}\psi_j^2 < \infty,$$
+where $\varepsilon_t = x_t - \operatorname{Proj}(x_t \mid \Omega_{t-1})$ are the least-squares innovations.
+:::
+
+"Purely nondeterministic" excludes a component, such as $a\cos(wt)$ with random $a$, that the infinite past predicts perfectly. In general such a component is simply added.
+:::
+
+---
+
+## 🔍 Reading the Theorem
+
+::: {style="font-size: 30px"}
+- $\psi_j = \dfrac{\partial x_{t+j}}{\partial \varepsilon_t}$: the effect on $x_{t+j}$ of a unit innovation at $t$. The sequence $j \mapsto \psi_j$ is the **impulse response function**, $IRF(j) = \psi_j$
+- It is a **representation**, not a model. Every covariance-stationary series has one, linear or not
+- It has infinitely many parameters. AR, MA and ARMA models are ways to describe the $\psi_j$ with a few numbers
+- Square summability gives $\operatorname{var}(x_t) = \sigma^2\sum_j\psi_j^2 < \infty$ and $\gamma_k = \sigma^2\sum_j\psi_j\psi_{j+k}$
+:::
+
+---
+
+## ✏️ Example 1: AR(1)
+
+::: {style="font-size: 30px"}
+$x_t = \rho x_{t-1} + \varepsilon_t$, $|\rho| < 1$, $\varepsilon_t$ i.i.d. white noise.
+
+::: {.fragment}
+**Projection.** Back-substitution gives $x_{t-1} = \sum_{j\ge0}\rho^j\varepsilon_{t-1-j}$, a function of past $\varepsilon$ only. So $\varepsilon_t$ is uncorrelated with all of $\Omega_{t-1}$, and $\rho x_{t-1}$ satisfies the normal equations:
+$$\operatorname{Proj}(x_t \mid \Omega_{t-1}) = \rho x_{t-1}, \qquad x_t - \operatorname{Proj}(x_t \mid \Omega_{t-1}) = \varepsilon_t.$$
+:::
+
+::: {.fragment}
+**Wold.** The model's $\varepsilon_t$ *is* the LS innovation, and
+$$x_t = \sum_{j=0}^{\infty}\rho^j\varepsilon_{t-j}, \qquad IRF(j) = \rho^j.$$
+A shock decays geometrically; for $\rho < 0$ it also alternates in sign.
+:::
+:::
+
+---
+
+## 🎛️ Explore: AR(1) Path and IRF
+
+```{ojs}
+//| echo: false
+viewof rho = Inputs.range([-0.9, 0.98], {step: 0.01, value: 0.6, label: "ρ"})
+```
+
+```{ojs}
+//| echo: false
+shocks = {
+  let s = 20261;                                   // fixed seed: only ρ changes the picture
+  const u = () => { s = (s * 16807) % 2147483647; return (s - 0.5) / 2147483647; };
+  return Array.from({length: 300}, () => Math.sqrt(-2 * Math.log(u())) * Math.cos(2 * Math.PI * u()));
+}
+```
+
+```{ojs}
+//| echo: false
+ar1 = {
+  const x = []; let prev = 0;
+  for (let t = 0; t < shocks.length; t++) { prev = rho * prev + shocks[t]; x.push({t: t + 1, x: prev}); }
+  const xs = x.map(d => d.x), m = d3.mean(xs), n = xs.length;
+  const g0 = d3.sum(xs, v => (v - m) ** 2) / n;
+  const acf = Array.from({length: 16}, (_, j) => ({
+    j, irf: rho ** j,
+    sample: d3.sum(d3.range(n - j), i => (xs[i] - m) * (xs[i + j] - m)) / n / g0}));
+  return {x, acf};
+}
+```
+
+```{ojs}
+//| echo: false
+html`<div style="display:flex; gap:20px; justify-content:center">${
+  Plot.plot({width: 600, height: 310, marginLeft: 60, marginBottom: 50, marginTop: 34, clip: true, style: {fontSize: "18px"},
+    x: {label: "t"}, y: {label: "xₜ", domain: [-15, 15]},
+    marks: [Plot.ruleY([0], {stroke: "#bbb"}), Plot.line(ar1.x, {x: "t", y: "x", stroke: "#2f4b7c"})]})
+}${
+  Plot.plot({width: 500, height: 310, marginLeft: 60, marginBottom: 50, marginTop: 34, style: {fontSize: "18px"},
+    x: {label: "lag j"}, y: {label: "ψⱼ = ρʲ", domain: [-1, 1]},
+    marks: [Plot.ruleY([0]), Plot.barY(ar1.acf, {x: "j", y: "irf", fill: "#8ba3c7"}),
+            Plot.dot(ar1.acf, {x: "j", y: "sample", fill: "#8b2635", r: 5})]})
+}</div>`
+```
+
+::: {style="font-size: 28px"}
+Bars: $IRF(j) = \rho^j$, which for an AR(1) is also the autocorrelation. Red dots: sample ACF of the path. Push $\rho$ to 0.98 and watch the long swings.
+:::
+
+---
+
+## ✏️ Example 2: Invertible MA(1)
+
+::: {style="font-size: 28px"}
+$x_t = \varepsilon_t + \tfrac12\varepsilon_{t-1}$, $\operatorname{var}\varepsilon_t = \sigma^2$. Substitute $x_{t-i} = \varepsilon_{t-i} + \tfrac12\varepsilon_{t-i-1}$:
+$$E\Big[\Big(x_t - \sum_{i\ge1}\alpha_i x_{t-i}\Big)^2\Big] = E\Big[\Big(\varepsilon_t + \big(\tfrac12 - \alpha_1\big)\varepsilon_{t-1} - \big(\alpha_2 + \tfrac12\alpha_1\big)\varepsilon_{t-2} - \dots\Big)^2\Big]$$
+$$= \sigma^2\Big[1 + \big(\tfrac12 - \alpha_1\big)^2 + \sum_{j\ge2}\big(\alpha_j + \tfrac12\alpha_{j-1}\big)^2\Big].$$
+
+::: {.fragment}
+Each bracket can be set to zero: $\alpha_1 = \tfrac12$, $\alpha_j = -\tfrac12\alpha_{j-1}$, so
+$$\alpha_j = -\big(-\tfrac12\big)^j: \quad \alpha_1 = \tfrac12,\ \alpha_2 = -\tfrac14,\ \alpha_3 = \tfrac18, \dots$$
+These are square summable, the minimum is $\sigma^2$, and the prediction error is exactly $\varepsilon_t$.
+:::
+:::
+
+---
+
+## 🔁 The Lag-Operator View
+
+::: {style="font-size: 30px"}
+$$x_t = \big(1 + \tfrac12 L\big)\varepsilon_t \ \Longrightarrow\ \varepsilon_t = \big(1 + \tfrac12 L\big)^{-1}x_t = \Big(1 - \frac L2 + \frac{L^2}{4} - \frac{L^3}{8} + \dots\Big)x_t$$
+$$\varepsilon_t = x_t - \tfrac12 x_{t-1} + \tfrac14 x_{t-2} - \dots, \qquad \operatorname{Proj}(x_t \mid \Omega_{t-1}) = -\sum_{i=1}^{\infty}\big(-\tfrac12\big)^i x_{t-i}.$$
+
+::: {.fragment}
+So $\varepsilon_t$ is recoverable from the past and present of $x$: it is the LS innovation, and the MA(1) **is its own Wold decomposition**. In $x_t = \varepsilon_t + \tfrac12\varepsilon_{t-1}$, the term $\varepsilon_t$ is the unpredictable part and $\tfrac12\varepsilon_{t-1}$ is the part predictable from $\Omega_{t-1}$.
+:::
+:::
+
+---
+
+## ✏️ Example 3: Non-invertible MA(1)
+
+::: {style="font-size: 28px"}
+$x_t = \varepsilon_t + 2\varepsilon_{t-1}$. The same recursion now gives $\alpha_1 = 2$, $\alpha_j = -2\alpha_{j-1}$, so $\alpha_j = -(-2)^j$ and $\sum\alpha_j^2 = \infty$. This is not an admissible projection: $\varepsilon_t$ **cannot** be recovered from the past of $x$, and it is not the LS innovation.
+
+::: {.fragment}
+Match second moments instead. With $\operatorname{var}\varepsilon_t = \sigma^2$:
+$$\gamma_0 = (1 + 4)\sigma^2 = 5\sigma^2, \qquad \gamma_1 = 2\sigma^2, \qquad \gamma_j = 0,\ j \ge 2.$$
+An MA(1) with $\theta = \tfrac12$ and variance $4\sigma^2$ has $\gamma_0 = \tfrac54\cdot4\sigma^2 = 5\sigma^2$ and $\gamma_1 = \tfrac12\cdot4\sigma^2 = 2\sigma^2$. Hence the Wold decomposition is
+$$x_t = \tilde\varepsilon_t + \tfrac12\tilde\varepsilon_{t-1}, \qquad \tilde\varepsilon_t = \frac{1 + 2L}{1 + \tfrac12 L}\,\varepsilon_t, \qquad \operatorname{var}\tilde\varepsilon_t = 4\sigma^2.$$
+:::
+:::
+
+---
+
+## 📐 Invertibility
+
+::: {style="font-size: 30px"}
+::: {.callout-note}
+## Rule
+An MA(1) with $|\theta| > 1$ and innovation variance $\sigma^2$ has the same autocovariances as the MA(1) with parameter $1/\theta$ and variance $\theta^2\sigma^2$. The Wold decomposition always picks the **invertible** one, $|\theta| < 1$.
+:::
+
+- $\tilde\varepsilon_t$ is white noise but depends on the **whole history** of the $\varepsilon$'s; it is generally not independent over time
+- From second moments alone the two models are indistinguishable. If an economic shock enters as $\varepsilon_t + 2\varepsilon_{t-1}$, no regression on past data will recover it
+- $|\theta| = 1$ is the boundary: $\alpha_j = \pm1$ is not square summable either
+:::
+
+---
+
+## 💻 Two Models, One ACF
+
+```{r}
+#| label: ma-twins
+n  <- 20000
+e  <- rnorm(n + 1, sd = 1)                 # structural shocks, sigma = 1
+x2 <- e[-1] + 2 * e[-(n + 1)]              # theta = 2: non-invertible
+u  <- rnorm(n + 1, sd = 2)                 # sigma = 2
+xh <- u[-1] + 0.5 * u[-(n + 1)]            # theta = 1/2: invertible
+acfs <- rbind(theta_2    = acf(x2, 3, plot = FALSE)$acf[2:4],
+              theta_half = acf(xh, 3, plot = FALSE)$acf[2:4])
+colnames(acfs) <- paste0("lag", 1:3); round(acfs, 3)
+# Wold innovation of x2: apply (1 + L/2)^{-1}
+et <- stats::filter(x2, -0.5, method = "recursive")
+c(var_tilde = var(et), acf1_tilde = acf(et, 1, plot = FALSE)$acf[2],
+  cor_with_true_shock = cor(et, e[-1])) |> round(3)
+```
+
+::: {style="font-size: 28px"}
+Both rows match $\rho_1 = 2/5 = 0.4$. The Wold innovation has variance $\approx 4$, is white, and correlates only $\approx 0.5$ with the true shock.
+:::
+
+---
+
+## 📉 Why θ = 2 Cannot Be Inverted
+
+```{r}
+#| label: invert-fig
+#| echo: false
+#| fig-width: 11
+#| fig-height: 4.2
+invert <- function(x, theta) {            # eps_t = x_t - theta * eps_{t-1}, started at 0
+  out <- numeric(length(x)); prev <- 0
+  for (t in seq_along(x)) { prev <- x[t] - theta * prev; out[t] <- prev }
+  out
+}
+h <- 30
+err <- data.frame(
+  t = rep(1:h, 2),
+  err = c(abs(invert(x2[1:h], 2)   - e[2:(h + 1)]),
+          abs(invert(xh[1:h], 0.5) - u[2:(h + 1)])),
+  model = rep(c("θ = 2: error doubles each step", "θ = 1/2: error halves each step"), each = h))
+ggplot(err, aes(t, err, colour = model)) +
+  geom_line(linewidth = 1.2) + geom_point(size = 2) +
+  scale_y_log10() +
+  scale_colour_manual(values = c("#8ba3c7", "#8b2635"), name = NULL) +
+  labs(x = "t", y = "|error|, log scale") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+Recovering $\varepsilon_t = x_t - \theta\varepsilon_{t-1}$ from an unknown start: the starting error is multiplied by $-\theta$ every period. For $\theta = 2$ it explodes, so the past of $x$ never pins the shock down.
+:::
+
+---
+
+## 🧠 Think-Pair-Share
+
+```{r}
+#| label: tps-timer
+#| echo: false
+countdown::countdown(minutes = 3, seconds = 0, top = 0, right = 0,
+                     font_size = "2em", warn_when = 30)
+```
+
+::: {style="font-size: 30px"}
+1. $x_t = \varepsilon_t - 0.8\,\varepsilon_{t-1}$, $\varepsilon_t$ i.i.d. $(0, 1)$. Find $\alpha_1, \alpha_2, \alpha_3$ in $\operatorname{Proj}(x_t \mid \Omega_{t-1}) = \sum_i \alpha_i x_{t-i}$.
+
+2. $z_t = \eta_t - 1.25\,\eta_{t-1}$, $\eta_t$ i.i.d. $(0, 1)$. Write its Wold decomposition: the MA parameter and the innovation variance.
+
+3. What are $IRF(1)$ and $IRF(2)$ of $z_t$ with respect to its LS innovation?
+:::
+
+---
+
+## ✅ Think-Pair-Share: Solution
+
+::: {style="font-size: 28px"}
+1. $\theta = -0.8$ is invertible: $\varepsilon_t = (1 - 0.8L)^{-1}x_t = x_t + 0.8x_{t-1} + 0.64x_{t-2} + \dots$. Hence $\alpha_j = -(-\theta)^j = -0.8^j$:
+$\alpha_1 = -0.8$, $\alpha_2 = -0.64$, $\alpha_3 = -0.512$.
+
+::: {.fragment}
+2. $|\theta| = 1.25 > 1$. Flip it: $\tilde\theta = 1/(-1.25) = -0.8$, $\tilde\sigma^2 = 1.25^2 = 1.5625$. Check: $\gamma_0 = 1 + 1.5625 = 2.5625 = (1 + 0.64)\cdot1.5625$ and $\gamma_1 = -1.25 = -0.8\cdot1.5625$. So $z_t = \tilde\eta_t - 0.8\,\tilde\eta_{t-1}$.
+:::
+
+::: {.fragment}
+3. $IRF(1) = -0.8$, $IRF(2) = 0$. With respect to the structural $\eta_t$ the response would be $-1.25$; the Wold IRF is the invertible one.
+:::
+:::
+
+---
+
+## 🔗 Wold Weights and the Long-Run Variance
+
+::: {style="font-size: 30px"}
+Lecture 2's long-run variance has a compact form in Wold weights. With $\psi(1) = \sum_j\psi_j$,
+$$V_x = \sum_{j=-\infty}^{\infty}\gamma_j = \sigma^2\,\psi(1)^2, \qquad \sqrt T(\bar x_T - E x_t) \xrightarrow{d} N\big(0,\ \sigma^2\psi(1)^2\big).$$
+
+| process | $\psi(1)$ | $V_x$ |
+|---|---|---|
+| AR(1), $\lvert\rho\rvert < 1$ | $1/(1 - \rho)$ | $\sigma^2/(1 - \rho)^2$ |
+| MA(1) | $1 + \theta$ | $(1 + \theta)^2\sigma^2$ |
+
+$\psi(1)$ is also the **cumulative** impulse response: the total effect of one innovation summed over all future dates.
+:::
+
+---
+
+## 💰 Case Study: US GDP Growth
+
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
+
+How long does a growth surprise echo?
+
+1. Which AR order do the data choose, and what are its $\psi_j$?
+2. How much of an innovation is left after 1, 2, 4 quarters?
+3. Does a model-free estimate of $\psi_j$ agree?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: real GDP, FRED `GDPC1`, quarterly
+
+**Period**: 1947Q2 – 2019Q4, 291 quarters (pandemic quarters left out)
+
+**Transformation**: $x_t = 400\,\Delta\log \text{GDP}_t$, annualised % growth
+:::
+
+```{.r .display-only}
+read.csv("https://fred.stlouisfed.org/
+  graph/fredgraph.csv?id=GDPC1")
+```
+:::
+::::
+
+---
+
+## 💰 Case Study: AR Fit and Wold Weights
+
+```{r}
+#| label: case-gdp
+#| code-summary: "📦 Choose p by BIC, estimate by OLS, compute ψ_j"
+gdp <- read.csv("data/GDPC1.csv")
+x   <- 400 * diff(log(gdp$GDPC1))                 # annualised % growth
+X   <- embed(x, 9); n <- nrow(X)                  # x_t and 8 lags, common sample
+ols <- function(p) if (p == 0) lm(X[, 1] ~ 1) else lm(X[, 1] ~ X[, 2:(p + 1), drop = FALSE])
+bic <- sapply(0:8, function(p) log(mean(resid(ols(p))^2)) + (p + 1) * log(n) / n)
+psi_ar <- function(phi, J) {                      # psi_j = sum_k phi_k psi_{j-k}
+  psi <- c(1, numeric(J))
+  for (j in 1:J) for (k in seq_along(phi)) if (j >= k) psi[j + 1] <- psi[j + 1] + phi[k] * psi[j - k + 1]
+  psi }
+phi1 <- coef(ols(1))[-1]; phi2 <- coef(ols(2))[-1]
+eps  <- resid(ols(2)); xs <- X[, 1] - mean(X[, 1])
+direct <- sapply(0:12, function(j) sum(xs[(1 + j):n] * eps[1:(n - j)]) / sum(eps^2))
+tab <- rbind(AR1 = psi_ar(phi1, 4), AR2 = psi_ar(phi2, 4), direct = direct[1:5])
+colnames(tab) <- paste0("j=", 0:4)
+list(p_by_BIC = which.min(bic) - 1, BIC_AR2_minus_AR1 = round(bic[3] - bic[2], 4),
+     psi = round(tab, 3))
+```
+
+::: {style="font-size: 28px"}
+Read the columns $j = 0, \dots, 4$. "direct" is $\widehat{\operatorname{cov}}(x_{t+j}, \hat\varepsilon_t)/\widehat{\operatorname{var}}(\hat\varepsilon_t)$, which estimates $\psi_j$ without an AR model.
+:::
+
+---
+
+## 💰 Case Study: Model Against Data
+
+```{r}
+#| label: case-gdp-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.9
+J <- 12
+irf <- data.frame(j = rep(0:J, 3),
+                  psi = c(psi_ar(phi1, J), psi_ar(phi2, J), direct),
+                  src = rep(c("AR(1), chosen by BIC", "AR(2)", "direct estimate"), each = J + 1))
+ggplot(irf, aes(j, psi, colour = src, shape = src)) +
+  geom_hline(yintercept = 0, colour = "grey60") +
+  geom_line(data = subset(irf, src != "direct estimate"), linewidth = 1.1) +
+  geom_point(size = 3) +
+  scale_colour_manual(values = c("#8ba3c7", "#2f4b7c", "#8b2635"), name = NULL) +
+  scale_shape_manual(values = c(16, 17, 15), name = NULL) +
+  scale_x_continuous(breaks = 0:J) +
+  labs(x = "quarters after the innovation, j", y = expression(psi[j])) +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+**What the data say:** a third of a growth innovation survives one quarter and almost none survives a year. BIC's AR(1) understates the second-quarter echo ($0.125$ against $0.27$ directly); AR(2) repairs most of it, and beyond a year the direct estimates are noise.
+:::
+
+---
+
+## 📝 Quiz #1: The Innovation {.quiz-question}
+
+$x_t$ is stationary and $\varepsilon_t = x_t - \operatorname{Proj}(x_t \mid x_{t-1}, x_{t-2}, \dots)$. Which statement is true in general?
+
+- [$\varepsilon_t$ is uncorrelated with every $x_{t-i}$, $i \ge 1$, but $E[\varepsilon_t \mid x_{t-1}, x_{t-2}, \dots]$ need not be zero]{.correct data-explanation="✅ The normal equations give orthogonality to all past x, hence white noise. Zero conditional mean (an MDS) needs the conditional mean to be linear, which a nonlinear process such as η_t + η_{t-1}η_{t-2} violates."}
+- $\varepsilon_t$ is independent of the past of $x$
+- $\varepsilon_t$ is a martingale difference sequence
+- $\varepsilon_t$ equals the shock in any MA model that generates $x_t$
+
+---
+
+## 📝 Quiz #2: Flipping an MA(1) {.quiz-question}
+
+$x_t = \varepsilon_t + 3\varepsilon_{t-1}$ with $\operatorname{var}\varepsilon_t = 1$. Its Wold decomposition is $x_t = \tilde\varepsilon_t + \tilde\theta\,\tilde\varepsilon_{t-1}$ with
+
+- [$\tilde\theta = 1/3$ and $\operatorname{var}\tilde\varepsilon_t = 9$]{.correct data-explanation="✅ Replace θ by 1/θ and σ² by θ²σ². Check: γ0 = (1 + 1/9)·9 = 10 = 1 + 9, and γ1 = (1/3)·9 = 3."}
+- $\tilde\theta = 3$ and $\operatorname{var}\tilde\varepsilon_t = 1$
+- $\tilde\theta = 1/3$ and $\operatorname{var}\tilde\varepsilon_t = 1/9$
+- $\tilde\theta = -1/3$ and $\operatorname{var}\tilde\varepsilon_t = 9$
+
+---
+
+## 📝 Quiz #3: Reading an IRF {.quiz-question}
+
+For the AR(1) $x_t = 0.5\,x_{t-1} + \varepsilon_t$, what is the effect on $x_{t+3}$ of a unit innovation at $t$, and what is the cumulative effect $\psi(1)$?
+
+- [$0.125$ and $2$]{.correct data-explanation="✅ IRF(j) = ρ^j, so IRF(3) = 0.5³ = 0.125; ψ(1) = Σρ^j = 1/(1 − 0.5) = 2."}
+- $1.5$ and $2$
+- $0.125$ and $1$
+- $0.5$ and $\infty$
+
+---
+
+## 📋 Key Formulas
+
+::: {style="font-size: 28px"}
+| | |
+|---|---|
+| Population projection | $\beta = (E[xx'])^{-1}E[xy]$, $\ E[xe] = 0$ |
+| Projection on the past | $\operatorname{Proj}(x_t \mid \Omega_{t-1}) = \alpha_0 + \sum_{i\ge1}\alpha_i x_{t-i}$, $\sum\alpha_i^2 < \infty$ |
+| LS innovation | $\varepsilon_t = x_t - \operatorname{Proj}(x_t \mid \Omega_{t-1})$ |
+| Wold | $x_t = E x_t + \sum_{j\ge0}\psi_j\varepsilon_{t-j}$, $\psi_0 = 1$, $\sum\psi_j^2 < \infty$ |
+| AR(1) | $\psi_j = \rho^j$ |
+| Invertible MA(1) | $\alpha_j = -(-\theta)^j$, $\lvert\theta\rvert < 1$ |
+| Non-invertible MA(1) | $(\theta, \sigma^2) \to (1/\theta,\ \theta^2\sigma^2)$ |
+| Long-run variance | $V_x = \sigma^2\psi(1)^2$ |
+:::
+
+---
+
+## 📋 Summary
+
+::: {style="font-size: 30px"}
+- The linear projection is a population object; OLS is its sample analogue and is consistent under ergodicity
+- The LS innovation is orthogonal to the whole past of $x$: white noise, but not necessarily a martingale difference
+- Wold: every purely nondeterministic stationary series is an MA($\infty$) in its LS innovations; $\psi_j$ is the impulse response
+- AR(1) and invertible MA(1) are their own Wold decompositions; a non-invertible MA(1) is not, and its Wold form uses $1/\theta$
+- US GDP growth: a growth innovation fades within about a year
+:::
+
+---
+
+## 📚 Further Reading
+
+::: {style="font-size: 28px"}
+- Hamilton, J. D. (1994). *Time Series Analysis*. Princeton. Ch. 3 (MA invertibility, §3.7) and ch. 4 (linear projection, §4.1; Wold, §4.8)
+- Brockwell, P. J. and Davis, R. A. (1991). *Time Series: Theory and Methods*. Springer. §5.7, the Wold decomposition
+- Tsay, R. S. (2010). *Analysis of Financial Time Series*, 3rd ed. Wiley. Ch. 2
+- Wold, H. (1938). *A Study in the Analysis of Stationary Time Series*. Almqvist & Wiksell
+- Hansen, P. R., Lunde, A. and Nason, J. M. (2011). The model confidence set. *Econometrica* 79, 453–497
+
+**Next lecture:** ARMA Models: Identification, Estimation, Forecasting.
+:::
