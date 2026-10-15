@@ -1,0 +1,164 @@
+1
+00:00:00,000 --> 00:00:04,210
+Forty observations of pure noise. Nothing in them can be predicted.
+
+2
+00:00:04,300 --> 00:00:09,082
+Yet a polynomial in time, of degree zero, one, two, up to six,
+
+3
+00:00:09,182 --> 00:00:14,831
+fits them better and better. The in-sample error falls with every degree.
+
+4
+00:00:15,900 --> 00:00:20,208
+Then come five new observations: the exam the model did not see.
+
+5
+00:00:20,308 --> 00:00:24,823
+The polynomial leaves the data behind and shoots off the chart. The
+
+6
+00:00:24,923 --> 00:00:28,887
+best forecast of noise was the flat line at zero all along.
+
+7
+00:00:31,666 --> 00:00:34,450
+Today: how to grade forecasts fairly, and how
+
+8
+00:00:34,550 --> 00:00:37,783
+to tell whether one forecaster really beats another.
+
+9
+00:00:38,866 --> 00:00:42,915
+Repeat this on a thousand samples and the pattern becomes a law.
+
+10
+00:00:43,015 --> 00:00:47,388
+Each extra degree lowers the in-sample error a little, and raises the
+
+11
+00:00:47,488 --> 00:00:51,148
+forecast error a lot, until it breaks through the ceiling.
+
+12
+00:00:51,233 --> 00:00:56,801
+Even one redundant parameter, a constant fitted to noise, costs sigma squared
+
+13
+00:00:56,901 --> 00:01:01,513
+over T. In-sample fit measures how well a model explains what it
+
+14
+00:01:01,613 --> 00:01:05,709
+has seen. Only data it has not seen can grade a forecast.
+
+15
+00:01:07,300 --> 00:01:11,278
+Split the sample: the first R observations to estimate, the
+
+16
+00:01:11,378 --> 00:01:14,595
+remaining P to forecast, one step at a time. How
+
+17
+00:01:14,695 --> 00:01:18,328
+the estimation window moves is the choice of a camera.
+
+18
+00:01:18,400 --> 00:01:21,134
+The fixed camera never moves. The rolling camera
+
+19
+00:01:21,234 --> 00:01:23,909
+keeps its width and slides along. The recursive
+
+20
+00:01:24,009 --> 00:01:26,685
+camera stays anchored at the start, and widens.
+
+21
+00:01:26,766 --> 00:01:29,763
+Now let the world change in the middle of the exam,
+
+22
+00:01:29,863 --> 00:01:33,833
+and draw each camera's forecast. The rolling window forgets the old
+
+23
+00:01:33,933 --> 00:01:38,023
+regime and catches up. The recursive window averages across the break
+
+24
+00:01:38,123 --> 00:01:41,060
+and lags behind. The fixed window never finds out.
+
+25
+00:01:41,133 --> 00:01:44,615
+Neither moving camera wins everywhere. Rolling buys
+
+26
+00:01:44,715 --> 00:01:48,479
+robustness to breaks with fewer observations; recursive
+
+27
+00:01:48,579 --> 00:01:51,430
+buys precision, if the world stands still.
+
+28
+00:01:52,500 --> 00:01:55,830
+Two forecasters, A and B, sit the same exam. After each
+
+29
+00:01:55,930 --> 00:01:59,759
+question we record the difference of their squared errors, d t.
+
+30
+00:01:59,859 --> 00:02:02,378
+Below the line, A did better; above it, B.
+
+31
+00:02:02,466 --> 00:02:06,492
+The Diebold Mariano statistic is a running tally: the average
+
+32
+00:02:06,592 --> 00:02:11,159
+difference, times root P, divided by its long-run standard deviation.
+
+33
+00:02:11,259 --> 00:02:15,082
+Forecast errors echo one another, so omega is the long-run
+
+34
+00:02:15,182 --> 00:02:18,667
+variance of lecture two, estimated by Newey and West.
+
+35
+00:02:18,766 --> 00:02:22,835
+Early on, the tally wanders inside the band of plus or minus
+
+36
+00:02:22,935 --> 00:02:26,587
+one point nine six: the exam is too short to tell them
+
+37
+00:02:26,687 --> 00:02:31,798
+apart. As questions accumulate, A's small edge stops looking like luck, and
+
+38
+00:02:31,898 --> 00:02:35,411
+the tally crosses minus one point nine six for good.
+
+39
+00:02:36,500 --> 00:02:39,775
+So: grade a forecaster only on the exam it did not see.
+
+40
+00:02:39,875 --> 00:02:43,213
+And crown a winner only when the gap in scores is larger
+
+41
+00:02:43,313 --> 00:02:47,632
+than luck, measured with the long-run variance of the loss differential.
+
