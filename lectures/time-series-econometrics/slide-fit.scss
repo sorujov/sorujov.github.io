@@ -1,0 +1,148 @@
+/*-- scss:defaults --*/
+
+// Quarto's revealjs default is 40px on the 1280x720 canvas. These decks are
+// written sparse -- a heading plus a callout, or six short bullets -- so at the
+// default size a typical slide used only the top third of the canvas. Raising
+// the root scales every relative size with it (headings, callouts, lists) and
+// keeps the deck above the 30pt floor set out in SLIDE_OPTIMIZATION_SKILL.md.
+//
+// Raise this further only after re-checking the dense slides for overflow; see
+// the note at the bottom of this file for how.
+$presentation-font-size-root: 46px;
+
+/*-- scss:rules --*/
+
+// Vertical fit.
+//
+// Quarto ships `center: false` and pairs it with `.reveal .slide:not(.center)
+// { height: 100% }`. Every slide therefore already fills the canvas, which
+// makes reveal's own `center: true` option a no-op -- it computes a top offset
+// of (canvasHeight - slideHeight) / 2 = 0 and content stays pinned to the top
+// with the whole surplus collected at the bottom.
+//
+// Centring has to happen *inside* the full-height section instead. Flex column
+// + justify-content leaves the horizontal axis alone, so columns, r-stretch
+// figures and OJS panels lay out exactly as before.
+// `!important` is load-bearing: reveal.js drives slide visibility by setting
+// `display: block` on the section it is showing, so a plain declaration here
+// loses and the slide silently falls back to top-aligned block layout.
+.reveal .slides > section.slide:not(#title-slide) {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+}
+
+// A slide long enough to overflow must scroll from its own top rather than
+// stay centred, otherwise the first line is clipped above the canvas edge.
+.reveal .slides > section.slide.scrollable {
+  justify-content: flex-start;
+}
+
+// Slides carrying live controls, a fixed-height plot or a quiz option list have
+// no slack to give. They were already over the canvas at the old 40px root
+// (lecture 1 slide 16 by 31px, slide 20 by 26px), and a larger root only widens
+// that gap -- a Plot.plot height is a fixed pixel count and does not shrink with
+// the type around it. Hold these back near the old size and let the prose
+// slides, the ones that were actually empty, absorb the increase.
+// 0.61em of the 46px root lands at ~28px, which is what Quarto's own `.smaller`
+// produced against the old 40px root. These slides therefore end up the size
+// they always were, while the plot trim below buys back the overflow they had
+// even then. Overriding `.smaller` rather than leaving it alone is deliberate:
+// left to itself it would compute against the larger root and grow by ~21%.
+.reveal .slides > section.slide.smaller,
+.reveal .slides > section.slide.quiz-question {
+  font-size: 0.61em;
+}
+
+// To audit for overflow after changing the root size, open a deck and run:
+//   [...document.querySelectorAll('.reveal .slides > section.slide')]
+//     .filter(s => s.scrollHeight > s.clientHeight + 1)
+//     .map(s => s.querySelector('h2')?.textContent)
+// Anything listed needs splitting into two slides, per the skill's Step 0 --
+// shrinking the text back down is the wrong lever.
+
+// Observable Inputs controls.
+//
+// Inputs.range renders a form whose label column is a fixed 120px and whose
+// text inherits the root font. Against the 46px root above, "Sample size n:"
+// no longer fits that column and wraps to three lines, which shoves the plot
+// down off the canvas. The controls are chrome, not content, so they get
+// their own smaller scale and a label column wide enough for a short phrase.
+//
+// The form is built by Observable at runtime, so it cannot be targeted by a
+// class from the .qmd -- these selectors match the wrapper Quarto emits and
+// the `oi-` prefix Observable generates.
+.reveal .cell-output-display form,
+.reveal [id^="ojs-cell"] form,
+.reveal form[class^="oi-"] {
+  font-size: 22px;
+  --label-width: 15em;
+}
+
+// The number box beside each slider inherits the same oversized type.
+.reveal .cell-output-display form input[type="number"],
+.reveal [id^="ojs-cell"] form input[type="number"] {
+  font-size: 22px;
+}
+
+// Code blocks.
+//
+// reveal sizes `pre` at 0.55em, which is relative to whatever the slide is
+// running at, and then sets `pre code { font-size: inherit }`. On a slide that
+// already sets 28px for its prose that lands at 15px -- fine on a laptop,
+// invisible from the back of a lecture theatre. Pin it to an absolute size
+// instead, so a code block is legible no matter what the slide around it does.
+//
+// Both selectors carry `.reveal .slides section` deliberately: a plain
+// `.reveal pre` ties the existing rules on specificity and then loses on
+// source order, which is exactly what happened the first time this was tried.
+.reveal .slides section pre,
+.reveal .slides section pre code {
+  font-size: 22px;
+  line-height: 1.35;
+}
+
+// Callouts.
+//
+// In these decks a callout is not an aside -- it is where the definition or
+// the theorem is stated, so it is the most important text on its slide.
+// Quarto sizes callout type from its own fixed scale rather than from the
+// slide, so against the 46px root the definition of *statistics* rendered at
+// 24px and the population/sample pair at 22px, both under the 28px floor,
+// while the ordinary prose beside them sat at 46px. Measured by
+// scripts/qa_slides.py on lecture 1 slides 5, 6 and 13.
+// The title text is a <p> inside `.callout-title`, and Quarto sizes that <p>
+// directly -- styling the container alone leaves the title where it was.
+.reveal .slides section .callout .callout-content,
+.reveal .slides section .callout .callout-content p,
+.reveal .slides section .callout .callout-title,
+.reveal .slides section .callout .callout-title p {
+  font-size: 30px;
+  line-height: 1.35;
+}
+
+// The quiz extension, corrected.
+//
+// Both of these were measured on lecture 1 by scripts/qa_slides.py; neither is
+// visible to anything that reads the source.
+//
+// 1. `.option-button` is `width: 100%` with `padding: 10px` and no
+//    `box-sizing`, so every option was drawn 20px wider than the slide and ran
+//    off the right edge.
+// 2. `.score` is `position: absolute; bottom: 10px`, which is exactly where
+//    Quarto puts the deck footer -- the running score printed on top of it.
+//    Returning it to the flow drops it above the footer, and the flex centring
+//    above re-balances the slide around it.
+.reveal .quiz-question .option-button {
+  box-sizing: border-box;
+}
+
+.reveal .slides > section.slide.quiz-question .score {
+  position: static;
+  transform: none;
+  text-align: center;
+  margin-top: 0.15em;
+}
+
+/* Material not present in the 2016 handwritten notes, added from the standard texts */
+.reveal .slides section .gapnote { font-size: 22px; color: #7a7a7a; font-style: italic; }
