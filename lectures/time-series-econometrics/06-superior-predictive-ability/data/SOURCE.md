@@ -1,0 +1,1 @@
+Industrial Production: Total Index, seasonally adjusted, 2017=100 (INDPRO), FRED, Federal Reserve Bank of St. Louis, https://fred.stlouisfed.org/series/INDPRO, monthly Dec 1969 – Dec 2019, downloaded 15 Oct 2026.
