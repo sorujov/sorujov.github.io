@@ -1,0 +1,1 @@
+US Consumer Price Index for All Urban Consumers, seasonally adjusted (CPIAUCSL), FRED, Federal Reserve Bank of St. Louis, https://fred.stlouisfed.org/series/CPIAUCSL, Dec 1959 – Sep 2025 (October 2025 was not published), downloaded 15 Oct 2026.
