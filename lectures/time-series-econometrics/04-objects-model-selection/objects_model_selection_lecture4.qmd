@@ -1,0 +1,685 @@
+---
+title: "Time Series Econometrics"
+subtitle: "Lecture 4: What to Model, and How to Choose a Model"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "Open lecture notes, after Stanislav Anatolyev's course (2016)"
+format:
+  revealjs:
+    theme: [default, ../slide-fit.scss]
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    footer: "Time Series Econometrics — Objects and Model Selection"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+engine: knitr
+execute:
+  echo: true
+  warning: false
+  message: false
+  freeze: false
+knitr:
+  opts_chunk:
+    dev: png
+    dpi: 150
+    fig.align: center
+---
+
+```{r}
+#| label: setup
+#| include: false
+set.seed(2026)
+library(ggplot2)
+theme_set(theme_minimal(base_size = 18))
+```
+
+## 🎬 The Idea in 3 Minutes
+
+::: {style="text-align:center"}
+```{=html}
+<video controls preload="metadata" style="width:780px;max-width:100%;aspect-ratio:16/9;background:#111" poster="video/lecture4_intuition.jpg" src="video/lecture4_intuition.mp4"><track kind="captions" src="video/lecture4_intuition.vtt" srclang="en" label="English"></video>
+```
+[⬅ Previous lecture: 3 · Time-Series Regression and HAC Inference](../03-time-series-regression-hac/time_series_regression_hac_lecture3.html){style="font-size:28px"}
+
+[A short film with the intuition. Watch it before the slides, or after. Captions: CC button.]{style="font-size:28px"}
+:::
+
+---
+
+## 🎯 Learning Objectives
+
+::: {style="font-size: 34px"}
+By the end of this lecture, you will be able to:
+
+- **Name** the objects of non-structural modelling: conditional mean, variance, median, quantile, higher moments, probability and density
+- **Prove** that the conditional mean is the minimum-MSPE predictor
+- **Describe** the three tools of model selection: diagnostic testing, sequential testing and information criteria
+- **Compute** AIC, BIC and HQ for a family of autoregressions and pick an order
+- **Explain** why BIC is consistent and AIC is not
+:::
+
+---
+
+## 🔁 Warm-up from last time {.quiz-question}
+
+Mishkin's three-month regression on monthly data, $\pi_{t+3} = \alpha + \beta i_{t,3} + e_{t+3}$. Why does it need HAC standard errors when the one-month regression does not?
+
+- [The three-month forecast errors overlap, so $e_{t+3}$ is MA(2) and $x_t e_{t+3}$ is serially correlated]{.correct data-explanation="✅ Consecutive three-month windows share two months of news, so e(t+3) is MA(2). OLS stays consistent, but the long-run variance of x_t e_t includes autocovariances up to lag 2: use HAC with truncation lag at least 2."}
+- Because OLS is inconsistent at the three-month horizon
+- Because inflation is not stationary at the three-month horizon
+- Because the interest rate $i_{t,3}$ is measured with error
+
+---
+
+## 🗺️ Where We Are
+
+::: {style="font-size: 32px"}
+Lecture 3 ended by separating two kinds of time-series work.
+
+- **Structural**: theory with optimising agents, deep parameters with economic meaning (an Euler equation estimated by GMM).
+- **Non-structural**: models built to describe the data and to forecast it (AR-ARCH-M).
+
+::: {.fragment}
+Today we take the non-structural side seriously and ask two questions. **What** feature of the series do we model? And among the many models that could describe it, **how do we choose one**?
+:::
+:::
+
+---
+
+## ❓ The Question
+
+::: {.callout-important}
+## Three people, one series
+A central-bank economist, a risk manager and a bond trader all watch the monthly change in the US unemployment rate.
+:::
+
+::: {style="font-size: 30px"}
+- The economist wants the **expected** change next month.
+- The risk manager wants to know how large a jump is **possible**: a high quantile.
+- The trader wants the **probability** that the rate rises at all.
+
+Same data, three different targets. Each is a feature of one object: the distribution of $x_{T+1}$ given the past.
+:::
+
+---
+
+## 📐 The Setting
+
+::: {style="font-size: 30px"}
+We observe $\{x_t\}_{t=1}^{T}$, assumed **strictly stationary and ergodic**. Non-structural modelling has two aims:
+
+1. describe the **stylised facts** of the data;
+2. **predict**: the one-step forecast $\hat x_{T+1|T}$ and perhaps multi-step forecasts $\hat x_{T+h|T}$, $h > 1$.
+
+Both require the dynamics of $x_t$ as a function of its past,
+$$I_{t-1} = \{x_{t-1}, x_{t-2}, \dots\}, \qquad E_{t-1}[\cdot] = E[\,\cdot \mid I_{t-1}].$$
+
+The feature of the conditional distribution we choose to describe is the **object** of modelling.
+:::
+
+---
+
+## 📐 Object 1: The Conditional Mean
+
+::: {style="font-size: 30px"}
+$$\mu_t = E_{t-1}[x_t] = E[x_t \mid x_{t-1}, x_{t-2}, \dots]$$
+
+::: {.callout-note}
+## Why the mean
+Among all predictors $g$ built from $I_{t-1}$, $\mu_t$ minimises the **mean squared prediction error** (MSPE), $E[(x_t - g)^2]$.
+:::
+
+The natural object for GNP, unemployment, the real exchange rate: series where the level of the next value is what matters.
+:::
+
+---
+
+## ✏️ Proof: the Mean Minimises MSPE
+
+::: {style="font-size: 30px"}
+Take any $g \in I_{t-1}$ and add and subtract $\mu_t$:
+$$E[(x_t - g)^2] = E[(x_t - \mu_t)^2] + 2E[(x_t - \mu_t)(\mu_t - g)] + E[(\mu_t - g)^2].$$
+
+::: {.fragment}
+The cross term vanishes by the law of iterated expectations, because $\mu_t - g$ is known at $t-1$:
+$$E[(x_t - \mu_t)(\mu_t - g)] = E\big[(\mu_t - g)\,E_{t-1}[x_t - \mu_t]\big] = E[(\mu_t - g)\cdot 0] = 0.$$
+:::
+
+::: {.fragment}
+So $E[(x_t - g)^2] = E[(x_t - \mu_t)^2] + E[(\mu_t - g)^2] \ge E[(x_t - \mu_t)^2]$, with equality only when $g = \mu_t$. $\blacksquare$
+:::
+:::
+
+---
+
+## 📐 Variance, Median, Quantile
+
+::: {style="font-size: 29px"}
+- **Conditional variance** $\sigma_t^2 = \operatorname{Var}_{t-1}[x_t] = E_{t-1}[(x_t - \mu_t)^2]$: volatility, the object for asset returns.
+- **Conditional median**: optimal under **absolute** loss (minimum mean absolute prediction error). It is robust to outliers, and it exists even when thick tails leave the mean undefined.
+- **Conditional quantile** $q_t^{\alpha}$, defined by $\Pr_{t-1}\{x_t \le q_t^{\alpha}\} = \alpha$. A low quantile of returns is the **Value-at-Risk**; $\alpha = 0.5$ gives the median.
+
+Each is the optimal predictor under its own loss function.
+:::
+
+---
+
+## ✏️ Why the Median, Why the Quantile
+
+::: {style="font-size: 30px"}
+**Absolute loss.** For a continuous $x$ with distribution function $F$,
+$$\frac{d}{dm}E|x - m| = \Pr(x < m) - \Pr(x > m) = 2F(m) - 1,$$
+which is zero at $F(m) = \tfrac12$: the median.
+
+::: {.fragment}
+**Check loss.** Replace $|u|$ by $\rho_\alpha(u) = u\,(\alpha - \mathbf 1\{u < 0\})$, which charges $\alpha$ per unit of under-prediction and $1-\alpha$ per unit of over-prediction. Then
+$$\frac{d}{dm}E\,\rho_\alpha(x - m) = F(m) - \alpha = 0 \;\Rightarrow\; m = q^\alpha.$$
+Conditioning on $I_{t-1}$ throughout gives $q_t^\alpha$.
+:::
+
+[The check-loss argument is not in the 2016 notes: added from Koenker (2005), *Quantile Regression*, ch. 1.]{.gapnote}
+:::
+
+---
+
+## 📐 Moments, Probability, Density
+
+::: {style="font-size: 29px"}
+- **Higher moments**: $S_t = E_{t-1}[(x_t - \mu_t)^3]$ measures asymmetry and $K_t = E_{t-1}[(x_t - \mu_t)^4]$ tail thickness. Skewness and kurtosis proper are $S_t/\sigma_t^3$ and $K_t/\sigma_t^4$.
+- **Conditional probability** $p_t = \Pr_{t-1}\{x_t > c\}$: will the rate rise, will the firm default.
+- **Conditional density** $f_{t-1}(x_t)$: contains every object above, and is the hardest to specify and identify.
+
+::: {.fragment}
+**Direct** modelling specifies a model for the object of interest itself (a quantile regression for $q_t^\alpha$). **Indirect** modelling specifies something richer, typically the whole conditional density, and derives the object from it.
+:::
+:::
+
+---
+
+## 💻 Same Mean, Moving Quantiles
+
+```{r}
+#| label: objects-sim
+#| fig-width: 11
+#| fig-height: 3.6
+#| code-summary: "AR(1)-ARCH(1): the mean barely moves, the 5% quantile does"
+n <- 400; r <- e <- s2 <- numeric(n); s2[1] <- 1
+for (t in 2:n) {
+  s2[t] <- 0.2 + 0.7 * e[t - 1]^2            # conditional variance
+  e[t]  <- sqrt(s2[t]) * rnorm(1)
+  r[t]  <- 0.1 * r[t - 1] + e[t]             # conditional mean 0.1 r_{t-1}
+}
+d <- data.frame(t = 1:n, r = r, mu = c(0, 0.1 * r[-n]), s = sqrt(s2))
+ggplot(d, aes(t)) + geom_line(aes(y = r), colour = "grey55") +
+  geom_line(aes(y = mu), colour = "#2f4b7c", linewidth = 1) +
+  geom_line(aes(y = mu - 1.645 * s), colour = "#8b2635", linewidth = 0.8) +
+  labs(x = "t", y = expression(x[t]))
+```
+
+::: {style="font-size: 28px"}
+Blue: $\mu_t$. Red: the conditional 5% quantile $\mu_t - 1.645\,\sigma_t$. A mean model would call this series nearly unpredictable; a quantile model would not.
+:::
+
+---
+
+## 🧭 Model Selection: the Principle
+
+::: {style="font-size: 30px"}
+Selection runs **object → class of models → specific model**.
+
+| Object | Class | Specific models |
+|---|---|---|
+| $\mu_t$ | AR | AR(1), AR(2), … |
+| $\mu_t$ | TAR (threshold AR) | TAR(1,1,1), … |
+| $\mu_t$ | MSW (Markov switching) | two-regime AR, … |
+
+::: {.fragment}
+Workflow: (1) specify the object, (2) collect the data, (3) choose the model, (4) select within and across classes. Step 4 is the hard one. The model is an **approximation** to the data-generating process (DGP), not the DGP itself.
+:::
+:::
+
+---
+
+## 🔧 Tool 1: Diagnostic Testing
+
+::: {style="font-size: 30px"}
+Does the estimated model conform to its own assumptions? Test, on the residuals:
+
+- no serial correlation (Ljung–Box, Breusch–Godfrey);
+- no conditional heteroskedasticity;
+- normality, if it was assumed (Jarque–Bera);
+- parameter stability (Andrews' sup-type test);
+- a correct distributional assumption: the probability integral transforms $u_t = F_{t-1}(x_t)$ should be i.i.d. $U(0,1)$.
+
+A failed diagnostic says the model is wrong; a passed one does not say it is right.
+:::
+
+---
+
+## 🔧 Tool 2: Sequential Testing
+
+::: {style="font-size: 30px"}
+Shape the model by testing parameter restrictions.
+
+**(A) General-to-specific (GETS).** Start from a large $AR(\bar p)$ and test $H_0: \phi_{\bar p} = 0$.
+
+- $H_0$ rejected → keep $AR(\bar p)$ and stop.
+- $H_0$ not rejected → move to $AR(\bar p - 1)$ and test $\phi_{\bar p - 1} = 0$.
+
+Only restrictions the data accept are imposed.
+
+::: {.fragment}
+**(B) Specific-to-general.** Start small and relax restrictions that are rejected. It fails, in general: every test is run inside a model that is still misspecified, so its size and power are not what the tables say.
+:::
+:::
+
+---
+
+## 🔧 Tool 3: Information Criteria
+
+::: {style="font-size: 30px"}
+Choose the model that minimises
+$$IC(k) = \underbrace{-2\log\hat{\mathcal L}_k}_{\text{quality of fit}} + \underbrace{f(k)}_{\text{complexity}},$$
+with $k$ the number of parameters and $f$ increasing.
+
+| Criterion | Penalty $f(k)$ |
+|---|---|
+| Akaike (AIC) | $2k$ |
+| Schwarz / Bayesian (SIC, BIC) | $k \log T$ |
+| Hannan–Quinn (HQ) | $2k \log\log T$ |
+
+For $T \ge 8$, $\log T > 2$: BIC punishes each parameter harder than AIC, and HQ lies between them for $T > 16$.
+:::
+
+---
+
+## ✏️ Information Criteria for an AR(p)
+
+::: {style="font-size: 29px"}
+With Gaussian errors, the maximised log-likelihood of an AR($p$) on $T$ observations is
+$$\log\hat{\mathcal L} = -\tfrac T2\log(2\pi) - \tfrac T2\log\hat\sigma_p^2 - \tfrac T2, \qquad \hat\sigma_p^2 = \tfrac1T\textstyle\sum_t \hat\varepsilon_t^2.$$
+
+::: {.fragment}
+Dropping the constants, every criterion becomes
+$$IC(p) = T\log\hat\sigma_p^2 + f(p+1),$$
+where $k = p+1$ counts the slopes and the intercept. Dividing by $T$ gives the per-observation form $\log\hat\sigma^2_p + 2k/T$ for AIC.
+:::
+
+::: {.fragment}
+Adding a lag never raises $\hat\sigma_p^2$. The penalty is the only thing that stops the search at a finite $p$. Compare all orders on the **same** sample: lose the first $\bar p$ observations for every $p$.
+:::
+:::
+
+---
+
+## 🧮 Worked Example: Pick an Order
+
+::: {style="font-size: 28px"}
+$T = 100$ observations; residual variances from AR($p$), $p = 0, \dots, 3$. Penalty per parameter: AIC $2$, BIC $\log 100 = 4.61$.
+
+| $p$ | $\hat\sigma_p^2$ | $100\log\hat\sigma_p^2$ | AIC | BIC |
+|---|---|---|---|---|
+| 0 | 1.500 | 40.55 | 42.55 | 45.15 |
+| 1 | 1.200 | 18.23 | 22.23 | 27.44 |
+| 2 | 1.150 | 13.98 | **19.98** | **27.79** |
+| 3 | 1.130 | 12.22 | 20.22 | 30.64 |
+
+::: {.fragment}
+AIC chooses $p = 2$ (19.98). BIC chooses $p = 1$ (27.44 < 27.79): the second lag lowers $T\log\hat\sigma^2$ by 4.25, more than AIC's price of 2 but less than BIC's 4.61.
+:::
+:::
+
+---
+
+## ✏️ Why AIC Overfits
+
+::: {style="font-size: 30px"}
+Let the true order be $p_0$, and let it be in the candidate set. Compare $p_0$ with $p_0 + 1$.
+
+The gain in fit from the redundant lag is the likelihood-ratio statistic,
+$$T\log\big(\hat\sigma^2_{p_0}/\hat\sigma^2_{p_0+1}\big) \xrightarrow{d} \chi^2_1 .$$
+The criterion adds the lag when that gain exceeds the extra penalty $c_T = f(k+1) - f(k)$:
+
+- AIC: $c_T = 2$, so $\Pr(\chi^2_1 > 2) = 0.157$ for **every** $T$;
+- BIC: $c_T = \log T \to \infty$, so the probability tends to $0$.
+:::
+
+---
+
+## ✏️ Why BIC Is Consistent
+
+::: {style="font-size: 30px"}
+**Underfitting.** Drop a true lag and $\hat\sigma^2$ converges to a strictly larger number, so $T\log\hat\sigma^2$ rises by an amount of order $T$. Any penalty with $c_T/T \to 0$ is outweighed, and the short model loses.
+
+::: {.callout-note}
+## Consistency
+A criterion selects $p_0$ with probability tending to one if its per-parameter penalty satisfies $c_T \to \infty$ and $c_T/T \to 0$, and the true model is among finitely many candidates.
+:::
+
+BIC ($\log T$) and HQ ($2\log\log T$) satisfy both; HQ's is the slowest-growing penalty that still does. AIC fails the first.
+:::
+
+---
+
+## 💻 AIC vs BIC as $T$ Grows
+
+```{r}
+#| label: ic-sim
+#| echo: false
+#| fig-width: 11
+#| fig-height: 4.1
+sel <- function(x, pmax = 8) {
+  X <- embed(x, pmax + 1); y <- X[, 1]; n <- length(y)
+  s2 <- sapply(0:pmax, function(p)
+    mean(lm.fit(cbind(1, X[, -1][, seq_len(p), drop = FALSE]), y)$residuals^2))
+  k <- 1:(pmax + 1)
+  c(AIC = which.min(n * log(s2) + 2 * k),
+    BIC = which.min(n * log(s2) + k * log(n)),
+    HQ  = which.min(n * log(s2) + 2 * k * log(log(n)))) - 1
+}
+Ts <- c(50, 100, 200, 500, 1000, 2000)
+sim <- do.call(rbind, lapply(Ts, function(T) {
+  r <- replicate(300, sel(arima.sim(list(ar = c(0.5, -0.3)), n = T)))
+  rbind(data.frame(T = T, crit = rownames(r), what = "chooses p = 2 (true)", share = rowMeans(r == 2)),
+        data.frame(T = T, crit = rownames(r), what = "chooses p > 2 (overfit)", share = rowMeans(r > 2)))
+}))
+ggplot(sim, aes(T, share, colour = crit)) + geom_line(linewidth = 1.2) + geom_point(size = 2.5) +
+  facet_wrap(~ what) + scale_x_log10(breaks = Ts) +
+  scale_colour_manual(values = c(AIC = "#8b2635", BIC = "#2f4b7c", HQ = "#d39c2f"), name = NULL) +
+  labs(x = "sample size T (log scale)", y = "share of 300 samples") +
+  theme_minimal(base_size = 18) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+DGP: AR(2) with $\phi = (0.5, -0.3)$; candidates $p = 0, \dots, 8$. BIC's hit rate climbs to 1; AIC's overfit share stays near 0.27 for every $T$.
+:::
+
+---
+
+## 🎛️ Explore: the IC Curves
+
+```{ojs}
+//| echo: false
+viewof T = Inputs.range([30, 2000], {step: 10, value: 100, label: "Sample size T"})
+viewof seed = Inputs.range([1, 30], {step: 1, value: 1, label: "Sample number"})
+```
+
+```{ojs}
+//| echo: false
+icdata = {
+  // AR(2) sample from a seeded generator, then Durbin-Levinson for sigma^2_p
+  let s = seed * 9301 + 49297;
+  const u = () => { s = (s * 16807) % 2147483647; return s / 2147483647; };
+  const z = () => Math.sqrt(-2 * Math.log(u())) * Math.cos(2 * Math.PI * u());
+  const N = T + 200, x = new Array(N).fill(0);
+  for (let t = 2; t < N; t++) x[t] = 0.5 * x[t-1] - 0.3 * x[t-2] + z();
+  const y = x.slice(200), m = d3.mean(y), P = 10;
+  const g = d3.range(P + 1).map(k => d3.sum(d3.range(T - k), t => (y[t]-m)*(y[t+k]-m)) / T);
+  let phi = [], s2 = [g[0]];
+  for (let k = 1; k <= P; k++) {
+    const a = (g[k] - d3.sum(d3.range(k - 1), j => phi[j] * g[k-1-j])) / s2[k-1];
+    phi = phi.map((p, j) => p - a * phi[k-2-j]).concat([a]);
+    s2.push(s2[k-1] * (1 - a * a));
+  }
+  const pen = {AIC: 2, BIC: Math.log(T), HQ: 2 * Math.log(Math.log(T))};
+  const out = [];
+  for (const c of ["AIC", "BIC", "HQ"]) {
+    const v = s2.map((v2, p) => T * Math.log(v2) + pen[c] * (p + 1));
+    const mn = d3.min(v);
+    v.forEach((vv, p) => out.push({p, crit: c, ic: Math.min(vv - mn, 30), best: vv === mn}));
+  }
+  return out;
+}
+```
+
+```{ojs}
+//| echo: false
+Plot.plot({
+  width: 1100, height: 300, marginLeft: 78, marginBottom: 58, style: {fontSize: "18px"},
+  x: {label: "AR order p", domain: [0, 10], ticks: 11},
+  y: {label: "IC(p) − min IC (capped at 30)", domain: [0, 30]},
+  marginTop: 40, marginRight: 70,
+  color: {domain: ["AIC", "BIC", "HQ"], range: ["#8b2635", "#2f4b7c", "#d39c2f"]},
+  marks: [
+    Plot.line(icdata, {x: "p", y: "ic", stroke: "crit", strokeWidth: 3}),
+    Plot.dot(icdata.filter(d => d.best), {x: "p", y: "ic", fill: "crit", r: 9}),
+    Plot.text(icdata.filter(d => d.p === 10), {x: "p", y: "ic", text: "crit", fill: "crit", dx: 34, fontSize: 20, fontWeight: "bold"}),
+    Plot.ruleY([0])
+  ]
+})
+```
+
+---
+
+## 🎛️ What the Curves Show
+
+::: {style="font-size: 30px"}
+The true order is $p_0 = 2$. Large dots mark each criterion's choice.
+
+- To the **left** of $p_0$ all three curves are steep, and the steepness grows with $T$: underfitting costs order $T$.
+- To the **right** of $p_0$ AIC's curve is nearly flat. A lucky lag can tip it, at any $T$.
+- BIC's right-hand side climbs by about $\log T$ per lag, so at $T = 2000$ it rises by 7.6 per lag and noise cannot overturn that.
+- At $T = 30$, try a few samples: BIC often stops at $p = 1$. Consistency is a large-sample property.
+:::
+
+---
+
+## 🧠 Think-Pair-Share
+
+```{r}
+#| label: tps-timer
+#| echo: false
+countdown::countdown(minutes = 3, seconds = 0, top = 0, right = 0,
+                     font_size = "2em", warn_when = 30)
+```
+
+::: {style="font-size: 28px"}
+An analyst fits AR($p$), $p = 0, \dots, 4$, to $T = 200$ monthly observations and reports $200\log\hat\sigma_p^2$:
+
+| $p$ | 0 | 1 | 2 | 3 | 4 |
+|---|---|---|---|---|---|
+| $200\log\hat\sigma^2_p$ | 60.0 | 31.0 | 24.0 | 20.0 | 18.5 |
+
+1. Which order does AIC choose? Which does BIC ($\log 200 = 5.30$)?
+2. Starting from $\bar p = 4$, a GETS search finds $|t| = 1.1$ for $\hat\phi_4$ and $|t| = 2.4$ for $\hat\phi_3$. Where does it stop?
+:::
+
+---
+
+## ✅ Think-Pair-Share: Solution
+
+::: {style="font-size: 28px"}
+1. Add $2(p+1)$ for AIC and $5.30(p+1)$ for BIC:
+
+| $p$ | 0 | 1 | 2 | 3 | 4 |
+|---|---|---|---|---|---|
+| AIC | 62.0 | 35.0 | 30.0 | **28.0** | 28.5 |
+| BIC | 65.3 | 41.6 | **39.9** | 41.2 | 45.0 |
+
+AIC picks $p = 3$; BIC picks $p = 2$. The third lag gains 4.0 in fit: above 2, below 5.30.
+
+::: {.fragment}
+2. $\phi_4 = 0$ is not rejected ($1.1 < 1.96$), so drop to AR(3). $\phi_3 = 0$ is rejected ($2.4 > 1.96$), so GETS stops at **AR(3)**, as AIC did. At the 5% level, GETS behaves like a criterion with a per-lag price of $1.96^2 \approx 3.84$.
+:::
+:::
+
+---
+
+## 💰 Case Study: Unemployment Lags
+
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
+
+How many lags of its own past does the monthly change in US unemployment need?
+
+1. Which orders do AIC, BIC and HQ choose?
+2. Where does GETS from $\bar p = 12$ stop?
+3. Are the chosen model's residuals white noise?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: civilian unemployment rate (FRED `UNRATE`), seasonally adjusted
+
+**Period**: Jan 1960 – Dec 2019, 720 months (the 2020 pandemic jump left out)
+
+$x_t = U_t - U_{t-1}$, percentage points
+:::
+:::
+::::
+
+```{.r .display-only}
+u <- read.csv("https://fred.stlouisfed.org/graph/fredgraph.csv?id=UNRATE")
+```
+
+---
+
+## 💰 Case Study: Three Criteria and GETS
+
+```{r}
+#| label: case-ic
+#| code-summary: "📦 AR(0)–AR(12): criteria, GETS, Ljung–Box"
+u <- read.csv("data/UNRATE.csv"); x <- diff(u$UNRATE)
+pmax <- 12; X <- embed(x, pmax + 1); y <- X[, 1]; n <- length(y)
+fits <- lapply(0:pmax, function(p) if (p == 0) lm(y ~ 1) else lm(y ~ X[, 1 + seq_len(p)]))
+s2 <- sapply(fits, function(f) mean(resid(f)^2)); k <- 1:(pmax + 1)
+ic <- data.frame(p = 0:pmax, AIC = n*log(s2) + 2*k, BIC = n*log(s2) + k*log(n),
+                 HQ = n*log(s2) + 2*k*log(log(n)))
+p_ic <- sapply(ic[, -1], which.min) - 1
+p <- pmax                                 # GETS: drop the last lag while |t| < 1.96
+while (p > 0 && abs(coef(summary(fits[[p + 1]]))[p + 1, 3]) < 1.96) p <- p - 1
+lb <- sapply(c(p_ic, GETS = p), function(q) Box.test(resid(fits[[q + 1]]), lag = 24,
+                                                       type = "Ljung", fitdf = q)$p.value)
+data.frame(rule = names(lb), order = c(p_ic, p), LjungBox24_pval = signif(lb, 2), row.names = NULL)
+```
+
+::: {style="font-size: 28px"}
+The criteria disagree by eight lags; every residual series fails the Ljung–Box test at lag 24.
+:::
+
+---
+
+## 💰 Case Study: What the Data Say
+
+```{r}
+#| label: case-ic-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.9
+icl <- rbind(data.frame(p = ic$p, crit = "AIC", v = ic$AIC - min(ic$AIC)),
+             data.frame(p = ic$p, crit = "BIC", v = ic$BIC - min(ic$BIC)),
+             data.frame(p = ic$p, crit = "HQ",  v = ic$HQ  - min(ic$HQ)))
+ggplot(icl, aes(p, pmin(v, 60), colour = crit)) + geom_line(linewidth = 1.2) +
+  geom_point(data = subset(icl, v == 0), size = 5) +
+  scale_colour_manual(values = c(AIC = "#8b2635", BIC = "#2f4b7c", HQ = "#d39c2f"), name = NULL) +
+  scale_x_continuous(breaks = 0:12) +
+  labs(x = "AR order p", y = "IC(p) − min IC (capped at 60)") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+**What the data say:** BIC stops at 4 lags, HQ at 5; AIC and GETS run to the boundary at 12. Even AR(12) fails Ljung–Box: its residuals keep a correlation of −0.18 at lag 24, a trace of seasonal adjustment. And unemployment rises fast and falls slowly, an asymmetry no linear AR captures (Lecture 11).
+:::
+
+---
+
+## 📝 Quiz #1: The Right Object {.quiz-question}
+
+A bank must hold capital against the loss it will exceed on only 1% of days. Which object of the daily return distribution should it model?
+
+- [The conditional 1% quantile $q_t^{0.01}$]{.correct data-explanation="✅ The loss exceeded with probability 1% is the conditional 1% quantile of returns: the Value-at-Risk. It can be modelled directly (quantile regression) or derived from a model of the conditional density."}
+- The conditional mean $\mu_t$
+- The conditional skewness $S_t/\sigma_t^3$
+- The unconditional variance of returns
+
+---
+
+## 📝 Quiz #2: Overfitting Rate {.quiz-question}
+
+The true model is AR(1) and the candidates are AR(1) and AR(2) only. As $T \to \infty$, how often does AIC choose AR(2)?
+
+- [About 15.7% of the time, for every large $T$]{.correct data-explanation="✅ The fit gain from the redundant lag is asymptotically χ²(1); AIC adds it when that exceeds 2, and P(χ²(1) > 2) = 0.157. The probability does not shrink with T, so AIC is not consistent."}
+- With probability tending to zero
+- About 5% of the time
+- Never, because the second coefficient is zero
+
+---
+
+## 📝 Quiz #3: GETS {.quiz-question}
+
+In a general-to-specific search, the test of $H_0: \phi_{\bar p} = 0$ in $AR(\bar p)$ is **not rejected**. What is the next step?
+
+- [Move to $AR(\bar p - 1)$ and test its last coefficient]{.correct data-explanation="✅ GETS imposes only restrictions the data accept. Not rejecting φ_p̄ = 0 means the restriction is accepted, so the model shrinks by one lag and the procedure tests again."}
+- Keep $AR(\bar p)$ and stop
+- Move to $AR(\bar p + 1)$
+- Switch to an information criterion
+
+---
+
+## 📋 Key Formulas
+
+::: {style="font-size: 28px"}
+| | |
+|---|---|
+| Conditional mean | $\mu_t = E_{t-1}[x_t]$, minimises $E[(x_t - g)^2]$ over $g \in I_{t-1}$ |
+| Conditional variance | $\sigma_t^2 = E_{t-1}[(x_t - \mu_t)^2]$ |
+| Conditional quantile | $\Pr_{t-1}\{x_t \le q_t^\alpha\} = \alpha$; median at $\alpha = 0.5$ |
+| Information criterion | $IC(k) = -2\log\hat{\mathcal L}_k + f(k)$ → min |
+| AR($p$), Gaussian | $IC(p) = T\log\hat\sigma_p^2 + f(p+1)$ |
+| Penalties | AIC $2k$; BIC $k\log T$; HQ $2k\log\log T$ |
+| Consistency | penalty per parameter $c_T \to \infty$, $c_T/T \to 0$ |
+:::
+
+---
+
+## 📋 Summary
+
+::: {style="font-size: 30px"}
+- Non-structural modelling begins by choosing an **object**: a feature of the distribution of $x_t$ given its past.
+- The conditional mean is optimal under squared loss, the median under absolute loss, a quantile under check loss.
+- Selection runs object → class → model; diagnostics, GETS and information criteria are the tools.
+- BIC and HQ are consistent; AIC overfits with positive probability at every $T$, which is not always a defect when the goal is prediction.
+- All of these criteria judge **in-sample** fit.
+:::
+
+---
+
+## 📚 Further Reading and Next Lecture
+
+::: {style="font-size: 29px"}
+- Hamilton (1994), *Time Series Analysis*, ch. 4–5.
+- Tsay (2010), *Analysis of Financial Time Series*, ch. 2.4–2.5 (order selection).
+- Franses and van Dijk (2000), *Non-Linear Time Series Models in Empirical Finance*, ch. 2.
+- Akaike (1974); Schwarz (1978); Hannan and Quinn (1979), the three criteria.
+- Hendry (1995), *Dynamic Econometrics*, on general-to-specific modelling.
+
+**Next lecture: In-Sample Fit, Out-of-Sample Forecasts, Diebold–Mariano.** A model that fits well in sample often forecasts badly. Why, and how do we test it?
+:::

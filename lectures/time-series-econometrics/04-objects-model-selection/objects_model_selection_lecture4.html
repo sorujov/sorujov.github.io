@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="objects_model_selection_lecture4_files/libs/clipboard/clipboard.min.js"></script>
+<script src="objects_model_selection_lecture4_files/libs/quarto-html/tabby.min.js"></script>
+<script src="objects_model_selection_lecture4_files/libs/quarto-html/popper.min.js"></script>
+<script src="objects_model_selection_lecture4_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="objects_model_selection_lecture4_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="objects_model_selection_lecture4_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="objects_model_selection_lecture4_files/libs/quarto-html/quarto-syntax-highlighting-11098932bb39e8ccbcedcb139d3d0c2d.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.10.19">
+
+  <meta name="author" content="Samir Orujov, PhD">
+  <title>Time Series Econometrics</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="objects_model_selection_lecture4_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="objects_model_selection_lecture4_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {  background-color: #f8f8f8; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ef2929; } /* Alert */
+    code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #204a87; } /* Attribute */
+    code span.bn { color: #0000cf; } /* BaseN */
+    code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4e9a06; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #8f5902; font-style: italic; } /* Comment */
+    code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+    code span.dt { color: #204a87; } /* DataType */
+    code span.dv { color: #0000cf; } /* DecVal */
+    code span.er { color: #a40000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #0000cf; } /* Float */
+    code span.fu { color: #204a87; font-weight: bold; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+    code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+    code span.ot { color: #8f5902; } /* Other */
+    code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+    code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+    code span.ss { color: #4e9a06; } /* SpecialString */
+    code span.st { color: #4e9a06; } /* String */
+    code span.va { color: #000000; } /* Variable */
+    code span.vs { color: #4e9a06; } /* VerbatimString */
+    code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="objects_model_selection_lecture4_files/libs/revealjs/dist/theme/quarto-9ca4c0fc8b289f175b62c89f22fa8355.css">
+  <link href="objects_model_selection_lecture4_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="objects_model_selection_lecture4_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="objects_model_selection_lecture4_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="objects_model_selection_lecture4_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="objects_model_selection_lecture4_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="objects_model_selection_lecture4_files/libs/revealjs/plugin/reveal-quiz/quiz.css" rel="stylesheet">
+  <link href="objects_model_selection_lecture4_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script type="module" src="objects_model_selection_lecture4_files/libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+  <link href="objects_model_selection_lecture4_files/libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+  <link href="objects_model_selection_lecture4_files/libs/countdown-0.6.0/countdown.css" rel="stylesheet">
+  <script src="objects_model_selection_lecture4_files/libs/countdown-0.6.0/countdown.js"></script>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Time Series Econometrics</h1>
+  <p class="subtitle">Lecture 4: What to Model, and How to Choose a Model</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Samir Orujov, PhD
+</div>
+        <p class="quarto-title-affiliation">
+            Open lecture notes, after Stanislav Anatolyev’s course (2016)
+          </p>
+    </div>
+</div>
+
+</section>
+<section id="the-idea-in-3-minutes" class="slide level2">
+<h2>🎬 The Idea in 3 Minutes</h2>
+<div style="text-align:center">
+<video controls="" preload="metadata" style="width:780px;max-width:100%;aspect-ratio:16/9;background:#111" poster="video/lecture4_intuition.jpg" src="video/lecture4_intuition.mp4"><track kind="captions" src="video/lecture4_intuition.vtt" srclang="en" label="English"></video>
+<p><a href="../03-time-series-regression-hac/time_series_regression_hac_lecture3.html" style="font-size:28px">⬅ Previous lecture: 3 · Time-Series Regression and HAC Inference</a></p>
+<p><span style="font-size:28px">A short film with the intuition. Watch it before the slides, or after. Captions: CC button.</span></p>
+</div>
+</section>
+<section id="learning-objectives" class="slide level2">
+<h2>🎯 Learning Objectives</h2>
+<div style="font-size: 34px">
+<p>By the end of this lecture, you will be able to:</p>
+<ul>
+<li><strong>Name</strong> the objects of non-structural modelling: conditional mean, variance, median, quantile, higher moments, probability and density</li>
+<li><strong>Prove</strong> that the conditional mean is the minimum-MSPE predictor</li>
+<li><strong>Describe</strong> the three tools of model selection: diagnostic testing, sequential testing and information criteria</li>
+<li><strong>Compute</strong> AIC, BIC and HQ for a family of autoregressions and pick an order</li>
+<li><strong>Explain</strong> why BIC is consistent and AIC is not</li>
+</ul>
+</div>
+</section>
+<section id="warm-up-from-last-time" class="slide level2 quiz-question">
+<h2>🔁 Warm-up from last time</h2>
+<p>Mishkin’s three-month regression on monthly data, <span class="math inline">\(\pi_{t+3} = \alpha + \beta i_{t,3} + e_{t+3}\)</span>. Why does it need HAC standard errors when the one-month regression does not?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Consecutive three-month windows share two months of news, so e(t+3) is MA(2). OLS stays consistent, but the long-run variance of x_t e_t includes autocovariances up to lag 2: use HAC with truncation lag at least 2.">The three-month forecast errors overlap, so <span class="math inline">\(e_{t+3}\)</span> is MA(2) and <span class="math inline">\(x_t e_{t+3}\)</span> is serially correlated</span></li>
+<li>Because OLS is inconsistent at the three-month horizon</li>
+<li>Because inflation is not stationary at the three-month horizon</li>
+<li>Because the interest rate <span class="math inline">\(i_{t,3}\)</span> is measured with error</li>
+</ul>
+</section>
+<section id="where-we-are" class="slide level2">
+<h2>🗺️ Where We Are</h2>
+<div style="font-size: 32px">
+<p>Lecture 3 ended by separating two kinds of time-series work.</p>
+<ul>
+<li><strong>Structural</strong>: theory with optimising agents, deep parameters with economic meaning (an Euler equation estimated by GMM).</li>
+<li><strong>Non-structural</strong>: models built to describe the data and to forecast it (AR-ARCH-M).</li>
+</ul>
+<div class="fragment">
+<p>Today we take the non-structural side seriously and ask two questions. <strong>What</strong> feature of the series do we model? And among the many models that could describe it, <strong>how do we choose one</strong>?</p>
+</div>
+</div>
+</section>
+<section id="the-question" class="slide level2">
+<h2>❓ The Question</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Three people, one series</strong></p>
+</div>
+<div class="callout-content">
+<p>A central-bank economist, a risk manager and a bond trader all watch the monthly change in the US unemployment rate.</p>
+</div>
+</div>
+</div>
+<div style="font-size: 30px">
+<ul>
+<li>The economist wants the <strong>expected</strong> change next month.</li>
+<li>The risk manager wants to know how large a jump is <strong>possible</strong>: a high quantile.</li>
+<li>The trader wants the <strong>probability</strong> that the rate rises at all.</li>
+</ul>
+<p>Same data, three different targets. Each is a feature of one object: the distribution of <span class="math inline">\(x_{T+1}\)</span> given the past.</p>
+</div>
+</section>
+<section id="the-setting" class="slide level2">
+<h2>📐 The Setting</h2>
+<div style="font-size: 30px">
+<p>We observe <span class="math inline">\(\{x_t\}_{t=1}^{T}\)</span>, assumed <strong>strictly stationary and ergodic</strong>. Non-structural modelling has two aims:</p>
+<ol type="1">
+<li>describe the <strong>stylised facts</strong> of the data;</li>
+<li><strong>predict</strong>: the one-step forecast <span class="math inline">\(\hat x_{T+1|T}\)</span> and perhaps multi-step forecasts <span class="math inline">\(\hat x_{T+h|T}\)</span>, <span class="math inline">\(h &gt; 1\)</span>.</li>
+</ol>
+<p>Both require the dynamics of <span class="math inline">\(x_t\)</span> as a function of its past, <span class="math display">\[I_{t-1} = \{x_{t-1}, x_{t-2}, \dots\}, \qquad E_{t-1}[\cdot] = E[\,\cdot \mid I_{t-1}].\]</span></p>
+<p>The feature of the conditional distribution we choose to describe is the <strong>object</strong> of modelling.</p>
+</div>
+</section>
+<section id="object-1-the-conditional-mean" class="slide level2">
+<h2>📐 Object 1: The Conditional Mean</h2>
+<div style="font-size: 30px">
+<p><span class="math display">\[\mu_t = E_{t-1}[x_t] = E[x_t \mid x_{t-1}, x_{t-2}, \dots]\]</span></p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Why the mean</strong></p>
+</div>
+<div class="callout-content">
+<p>Among all predictors <span class="math inline">\(g\)</span> built from <span class="math inline">\(I_{t-1}\)</span>, <span class="math inline">\(\mu_t\)</span> minimises the <strong>mean squared prediction error</strong> (MSPE), <span class="math inline">\(E[(x_t - g)^2]\)</span>.</p>
+</div>
+</div>
+</div>
+<p>The natural object for GNP, unemployment, the real exchange rate: series where the level of the next value is what matters.</p>
+</div>
+</section>
+<section id="proof-the-mean-minimises-mspe" class="slide level2">
+<h2>✏️ Proof: the Mean Minimises MSPE</h2>
+<div style="font-size: 30px">
+<p>Take any <span class="math inline">\(g \in I_{t-1}\)</span> and add and subtract <span class="math inline">\(\mu_t\)</span>: <span class="math display">\[E[(x_t - g)^2] = E[(x_t - \mu_t)^2] + 2E[(x_t - \mu_t)(\mu_t - g)] + E[(\mu_t - g)^2].\]</span></p>
+<div class="fragment">
+<p>The cross term vanishes by the law of iterated expectations, because <span class="math inline">\(\mu_t - g\)</span> is known at <span class="math inline">\(t-1\)</span>: <span class="math display">\[E[(x_t - \mu_t)(\mu_t - g)] = E\big[(\mu_t - g)\,E_{t-1}[x_t - \mu_t]\big] = E[(\mu_t - g)\cdot 0] = 0.\]</span></p>
+</div>
+<div class="fragment">
+<p>So <span class="math inline">\(E[(x_t - g)^2] = E[(x_t - \mu_t)^2] + E[(\mu_t - g)^2] \ge E[(x_t - \mu_t)^2]\)</span>, with equality only when <span class="math inline">\(g = \mu_t\)</span>. <span class="math inline">\(\blacksquare\)</span></p>
+</div>
+</div>
+</section>
+<section id="variance-median-quantile" class="slide level2">
+<h2>📐 Variance, Median, Quantile</h2>
+<div style="font-size: 29px">
+<ul>
+<li><strong>Conditional variance</strong> <span class="math inline">\(\sigma_t^2 = \operatorname{Var}_{t-1}[x_t] = E_{t-1}[(x_t - \mu_t)^2]\)</span>: volatility, the object for asset returns.</li>
+<li><strong>Conditional median</strong>: optimal under <strong>absolute</strong> loss (minimum mean absolute prediction error). It is robust to outliers, and it exists even when thick tails leave the mean undefined.</li>
+<li><strong>Conditional quantile</strong> <span class="math inline">\(q_t^{\alpha}\)</span>, defined by <span class="math inline">\(\Pr_{t-1}\{x_t \le q_t^{\alpha}\} = \alpha\)</span>. A low quantile of returns is the <strong>Value-at-Risk</strong>; <span class="math inline">\(\alpha = 0.5\)</span> gives the median.</li>
+</ul>
+<p>Each is the optimal predictor under its own loss function.</p>
+</div>
+</section>
+<section id="why-the-median-why-the-quantile" class="slide level2">
+<h2>✏️ Why the Median, Why the Quantile</h2>
+<div style="font-size: 30px">
+<p><strong>Absolute loss.</strong> For a continuous <span class="math inline">\(x\)</span> with distribution function <span class="math inline">\(F\)</span>, <span class="math display">\[\frac{d}{dm}E|x - m| = \Pr(x &lt; m) - \Pr(x &gt; m) = 2F(m) - 1,\]</span> which is zero at <span class="math inline">\(F(m) = \tfrac12\)</span>: the median.</p>
+<div class="fragment">
+<p><strong>Check loss.</strong> Replace <span class="math inline">\(|u|\)</span> by <span class="math inline">\(\rho_\alpha(u) = u\,(\alpha - \mathbf 1\{u &lt; 0\})\)</span>, which charges <span class="math inline">\(\alpha\)</span> per unit of under-prediction and <span class="math inline">\(1-\alpha\)</span> per unit of over-prediction. Then <span class="math display">\[\frac{d}{dm}E\,\rho_\alpha(x - m) = F(m) - \alpha = 0 \;\Rightarrow\; m = q^\alpha.\]</span> Conditioning on <span class="math inline">\(I_{t-1}\)</span> throughout gives <span class="math inline">\(q_t^\alpha\)</span>.</p>
+</div>
+<p><span class="gapnote">The check-loss argument is not in the 2016 notes: added from Koenker (2005), <em>Quantile Regression</em>, ch.&nbsp;1.</span></p>
+</div>
+</section>
+<section id="moments-probability-density" class="slide level2">
+<h2>📐 Moments, Probability, Density</h2>
+<div style="font-size: 29px">
+<ul>
+<li><strong>Higher moments</strong>: <span class="math inline">\(S_t = E_{t-1}[(x_t - \mu_t)^3]\)</span> measures asymmetry and <span class="math inline">\(K_t = E_{t-1}[(x_t - \mu_t)^4]\)</span> tail thickness. Skewness and kurtosis proper are <span class="math inline">\(S_t/\sigma_t^3\)</span> and <span class="math inline">\(K_t/\sigma_t^4\)</span>.</li>
+<li><strong>Conditional probability</strong> <span class="math inline">\(p_t = \Pr_{t-1}\{x_t &gt; c\}\)</span>: will the rate rise, will the firm default.</li>
+<li><strong>Conditional density</strong> <span class="math inline">\(f_{t-1}(x_t)\)</span>: contains every object above, and is the hardest to specify and identify.</li>
+</ul>
+<div class="fragment">
+<p><strong>Direct</strong> modelling specifies a model for the object of interest itself (a quantile regression for <span class="math inline">\(q_t^\alpha\)</span>). <strong>Indirect</strong> modelling specifies something richer, typically the whole conditional density, and derives the object from it.</p>
+</div>
+</div>
+</section>
+<section id="same-mean-moving-quantiles" class="slide level2">
+<h2>💻 Same Mean, Moving Quantiles</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>AR(1)-ARCH(1): the mean barely moves, the 5% quantile does</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-label="1"></a>n <span class="ot">&lt;-</span> <span class="dv">400</span>; r <span class="ot">&lt;-</span> e <span class="ot">&lt;-</span> s2 <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n); s2[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb1-2"><a href="" aria-label="2"></a><span class="cf">for</span> (t <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>n) {</span>
+<span id="cb1-3"><a href="" aria-label="3"></a>  s2[t] <span class="ot">&lt;-</span> <span class="fl">0.2</span> <span class="sc">+</span> <span class="fl">0.7</span> <span class="sc">*</span> e[t <span class="sc">-</span> <span class="dv">1</span>]<span class="sc">^</span><span class="dv">2</span>            <span class="co"># conditional variance</span></span>
+<span id="cb1-4"><a href="" aria-label="4"></a>  e[t]  <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(s2[t]) <span class="sc">*</span> <span class="fu">rnorm</span>(<span class="dv">1</span>)</span>
+<span id="cb1-5"><a href="" aria-label="5"></a>  r[t]  <span class="ot">&lt;-</span> <span class="fl">0.1</span> <span class="sc">*</span> r[t <span class="sc">-</span> <span class="dv">1</span>] <span class="sc">+</span> e[t]             <span class="co"># conditional mean 0.1 r_{t-1}</span></span>
+<span id="cb1-6"><a href="" aria-label="6"></a>}</span>
+<span id="cb1-7"><a href="" aria-label="7"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">t =</span> <span class="dv">1</span><span class="sc">:</span>n, <span class="at">r =</span> r, <span class="at">mu =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.1</span> <span class="sc">*</span> r[<span class="sc">-</span>n]), <span class="at">s =</span> <span class="fu">sqrt</span>(s2))</span>
+<span id="cb1-8"><a href="" aria-label="8"></a><span class="fu">ggplot</span>(d, <span class="fu">aes</span>(t)) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> r), <span class="at">colour =</span> <span class="st">"grey55"</span>) <span class="sc">+</span></span>
+<span id="cb1-9"><a href="" aria-label="9"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> mu), <span class="at">colour =</span> <span class="st">"#2f4b7c"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb1-10"><a href="" aria-label="10"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> mu <span class="sc">-</span> <span class="fl">1.645</span> <span class="sc">*</span> s), <span class="at">colour =</span> <span class="st">"#8b2635"</span>, <span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb1-11"><a href="" aria-label="11"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"t"</span>, <span class="at">y =</span> <span class="fu">expression</span>(x[t]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+
+</div>
+<img data-src="objects_model_selection_lecture4_files/figure-revealjs/objects-sim-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1650"><div style="font-size: 28px">
+<p>Blue: <span class="math inline">\(\mu_t\)</span>. Red: the conditional 5% quantile <span class="math inline">\(\mu_t - 1.645\,\sigma_t\)</span>. A mean model would call this series nearly unpredictable; a quantile model would not.</p>
+</div>
+</section>
+<section id="model-selection-the-principle" class="slide level2">
+<h2>🧭 Model Selection: the Principle</h2>
+<div style="font-size: 30px">
+<p>Selection runs <strong>object → class of models → specific model</strong>.</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Object</th>
+<th>Class</th>
+<th>Specific models</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\mu_t\)</span></td>
+<td>AR</td>
+<td>AR(1), AR(2), …</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\mu_t\)</span></td>
+<td>TAR (threshold AR)</td>
+<td>TAR(1,1,1), …</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\mu_t\)</span></td>
+<td>MSW (Markov switching)</td>
+<td>two-regime AR, …</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p>Workflow: (1) specify the object, (2) collect the data, (3) choose the model, (4) select within and across classes. Step 4 is the hard one. The model is an <strong>approximation</strong> to the data-generating process (DGP), not the DGP itself.</p>
+</div>
+</div>
+</section>
+<section id="tool-1-diagnostic-testing" class="slide level2">
+<h2>🔧 Tool 1: Diagnostic Testing</h2>
+<div style="font-size: 30px">
+<p>Does the estimated model conform to its own assumptions? Test, on the residuals:</p>
+<ul>
+<li>no serial correlation (Ljung–Box, Breusch–Godfrey);</li>
+<li>no conditional heteroskedasticity;</li>
+<li>normality, if it was assumed (Jarque–Bera);</li>
+<li>parameter stability (Andrews’ sup-type test);</li>
+<li>a correct distributional assumption: the probability integral transforms <span class="math inline">\(u_t = F_{t-1}(x_t)\)</span> should be i.i.d. <span class="math inline">\(U(0,1)\)</span>.</li>
+</ul>
+<p>A failed diagnostic says the model is wrong; a passed one does not say it is right.</p>
+</div>
+</section>
+<section id="tool-2-sequential-testing" class="slide level2">
+<h2>🔧 Tool 2: Sequential Testing</h2>
+<div style="font-size: 30px">
+<p>Shape the model by testing parameter restrictions.</p>
+<p><strong>(A) General-to-specific (GETS).</strong> Start from a large <span class="math inline">\(AR(\bar p)\)</span> and test <span class="math inline">\(H_0: \phi_{\bar p} = 0\)</span>.</p>
+<ul>
+<li><span class="math inline">\(H_0\)</span> rejected → keep <span class="math inline">\(AR(\bar p)\)</span> and stop.</li>
+<li><span class="math inline">\(H_0\)</span> not rejected → move to <span class="math inline">\(AR(\bar p - 1)\)</span> and test <span class="math inline">\(\phi_{\bar p - 1} = 0\)</span>.</li>
+</ul>
+<p>Only restrictions the data accept are imposed.</p>
+<div class="fragment">
+<p><strong>(B) Specific-to-general.</strong> Start small and relax restrictions that are rejected. It fails, in general: every test is run inside a model that is still misspecified, so its size and power are not what the tables say.</p>
+</div>
+</div>
+</section>
+<section id="tool-3-information-criteria" class="slide level2">
+<h2>🔧 Tool 3: Information Criteria</h2>
+<div style="font-size: 30px">
+<p>Choose the model that minimises <span class="math display">\[IC(k) = \underbrace{-2\log\hat{\mathcal L}_k}_{\text{quality of fit}} + \underbrace{f(k)}_{\text{complexity}},\]</span> with <span class="math inline">\(k\)</span> the number of parameters and <span class="math inline">\(f\)</span> increasing.</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Criterion</th>
+<th>Penalty <span class="math inline">\(f(k)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Akaike (AIC)</td>
+<td><span class="math inline">\(2k\)</span></td>
+</tr>
+<tr class="even">
+<td>Schwarz / Bayesian (SIC, BIC)</td>
+<td><span class="math inline">\(k \log T\)</span></td>
+</tr>
+<tr class="odd">
+<td>Hannan–Quinn (HQ)</td>
+<td><span class="math inline">\(2k \log\log T\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>For <span class="math inline">\(T \ge 8\)</span>, <span class="math inline">\(\log T &gt; 2\)</span>: BIC punishes each parameter harder than AIC, and HQ lies between them for <span class="math inline">\(T &gt; 16\)</span>.</p>
+</div>
+</section>
+<section id="information-criteria-for-an-arp" class="slide level2">
+<h2>✏️ Information Criteria for an AR(p)</h2>
+<div style="font-size: 29px">
+<p>With Gaussian errors, the maximised log-likelihood of an AR(<span class="math inline">\(p\)</span>) on <span class="math inline">\(T\)</span> observations is <span class="math display">\[\log\hat{\mathcal L} = -\tfrac T2\log(2\pi) - \tfrac T2\log\hat\sigma_p^2 - \tfrac T2, \qquad \hat\sigma_p^2 = \tfrac1T\textstyle\sum_t \hat\varepsilon_t^2.\]</span></p>
+<div class="fragment">
+<p>Dropping the constants, every criterion becomes <span class="math display">\[IC(p) = T\log\hat\sigma_p^2 + f(p+1),\]</span> where <span class="math inline">\(k = p+1\)</span> counts the slopes and the intercept. Dividing by <span class="math inline">\(T\)</span> gives the per-observation form <span class="math inline">\(\log\hat\sigma^2_p + 2k/T\)</span> for AIC.</p>
+</div>
+<div class="fragment">
+<p>Adding a lag never raises <span class="math inline">\(\hat\sigma_p^2\)</span>. The penalty is the only thing that stops the search at a finite <span class="math inline">\(p\)</span>. Compare all orders on the <strong>same</strong> sample: lose the first <span class="math inline">\(\bar p\)</span> observations for every <span class="math inline">\(p\)</span>.</p>
+</div>
+</div>
+</section>
+<section id="worked-example-pick-an-order" class="slide level2">
+<h2>🧮 Worked Example: Pick an Order</h2>
+<div style="font-size: 28px">
+<p><span class="math inline">\(T = 100\)</span> observations; residual variances from AR(<span class="math inline">\(p\)</span>), <span class="math inline">\(p = 0, \dots, 3\)</span>. Penalty per parameter: AIC <span class="math inline">\(2\)</span>, BIC <span class="math inline">\(\log 100 = 4.61\)</span>.</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(p\)</span></th>
+<th><span class="math inline">\(\hat\sigma_p^2\)</span></th>
+<th><span class="math inline">\(100\log\hat\sigma_p^2\)</span></th>
+<th>AIC</th>
+<th>BIC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>1.500</td>
+<td>40.55</td>
+<td>42.55</td>
+<td>45.15</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>1.200</td>
+<td>18.23</td>
+<td>22.23</td>
+<td>27.44</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>1.150</td>
+<td>13.98</td>
+<td><strong>19.98</strong></td>
+<td><strong>27.79</strong></td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>1.130</td>
+<td>12.22</td>
+<td>20.22</td>
+<td>30.64</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p>AIC chooses <span class="math inline">\(p = 2\)</span> (19.98). BIC chooses <span class="math inline">\(p = 1\)</span> (27.44 &lt; 27.79): the second lag lowers <span class="math inline">\(T\log\hat\sigma^2\)</span> by 4.25, more than AIC’s price of 2 but less than BIC’s 4.61.</p>
+</div>
+</div>
+</section>
+<section id="why-aic-overfits" class="slide level2">
+<h2>✏️ Why AIC Overfits</h2>
+<div style="font-size: 30px">
+<p>Let the true order be <span class="math inline">\(p_0\)</span>, and let it be in the candidate set. Compare <span class="math inline">\(p_0\)</span> with <span class="math inline">\(p_0 + 1\)</span>.</p>
+<p>The gain in fit from the redundant lag is the likelihood-ratio statistic, <span class="math display">\[T\log\big(\hat\sigma^2_{p_0}/\hat\sigma^2_{p_0+1}\big) \xrightarrow{d} \chi^2_1 .\]</span> The criterion adds the lag when that gain exceeds the extra penalty <span class="math inline">\(c_T = f(k+1) - f(k)\)</span>:</p>
+<ul>
+<li>AIC: <span class="math inline">\(c_T = 2\)</span>, so <span class="math inline">\(\Pr(\chi^2_1 &gt; 2) = 0.157\)</span> for <strong>every</strong> <span class="math inline">\(T\)</span>;</li>
+<li>BIC: <span class="math inline">\(c_T = \log T \to \infty\)</span>, so the probability tends to <span class="math inline">\(0\)</span>.</li>
+</ul>
+</div>
+</section>
+<section id="why-bic-is-consistent" class="slide level2">
+<h2>✏️ Why BIC Is Consistent</h2>
+<div style="font-size: 30px">
+<p><strong>Underfitting.</strong> Drop a true lag and <span class="math inline">\(\hat\sigma^2\)</span> converges to a strictly larger number, so <span class="math inline">\(T\log\hat\sigma^2\)</span> rises by an amount of order <span class="math inline">\(T\)</span>. Any penalty with <span class="math inline">\(c_T/T \to 0\)</span> is outweighed, and the short model loses.</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Consistency</strong></p>
+</div>
+<div class="callout-content">
+<p>A criterion selects <span class="math inline">\(p_0\)</span> with probability tending to one if its per-parameter penalty satisfies <span class="math inline">\(c_T \to \infty\)</span> and <span class="math inline">\(c_T/T \to 0\)</span>, and the true model is among finitely many candidates.</p>
+</div>
+</div>
+</div>
+<p>BIC (<span class="math inline">\(\log T\)</span>) and HQ (<span class="math inline">\(2\log\log T\)</span>) satisfy both; HQ’s is the slowest-growing penalty that still does. AIC fails the first.</p>
+</div>
+</section>
+<section id="aic-vs-bic-as-t-grows" class="slide level2">
+<h2>💻 AIC vs BIC as <span class="math inline">\(T\)</span> Grows</h2>
+
+<img data-src="objects_model_selection_lecture4_files/figure-revealjs/ic-sim-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1650"><div style="font-size: 28px">
+<p>DGP: AR(2) with <span class="math inline">\(\phi = (0.5, -0.3)\)</span>; candidates <span class="math inline">\(p = 0, \dots, 8\)</span>. BIC’s hit rate climbs to 1; AIC’s overfit share stays near 0.27 for every <span class="math inline">\(T\)</span>.</p>
+</div>
+</section>
+<section id="explore-the-ic-curves" class="slide level2">
+<h2>🎛️ Explore: the IC Curves</h2>
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="426" data-source-offset="-0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 425;"><span id="cb2-426"><a href="" aria-label="426"></a>viewof T <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">30</span><span class="op">,</span> <span class="dv">2000</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="dv">10</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="dv">100</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Sample size T"</span>})</span>
+<span id="cb2-427"><a href="" aria-label="427"></a>viewof seed <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">1</span><span class="op">,</span> <span class="dv">30</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Sample number"</span>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb3" data-startfrom="431" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 430;"><span id="cb3-431"><a href="" aria-label="431"></a>icdata <span class="op">=</span> {</span>
+<span id="cb3-432"><a href="" aria-label="432"></a>  <span class="co">// AR(2) sample from a seeded generator, then Durbin-Levinson for sigma^2_p</span></span>
+<span id="cb3-433"><a href="" aria-label="433"></a>  <span class="kw">let</span> s <span class="op">=</span> seed <span class="op">*</span> <span class="dv">9301</span> <span class="op">+</span> <span class="dv">49297</span><span class="op">;</span></span>
+<span id="cb3-434"><a href="" aria-label="434"></a>  <span class="kw">const</span> u <span class="op">=</span> () <span class="kw">=&gt;</span> { s <span class="op">=</span> (s <span class="op">*</span> <span class="dv">16807</span>) <span class="op">%</span> <span class="dv">2147483647</span><span class="op">;</span> <span class="cf">return</span> s <span class="op">/</span> <span class="dv">2147483647</span><span class="op">;</span> }<span class="op">;</span></span>
+<span id="cb3-435"><a href="" aria-label="435"></a>  <span class="kw">const</span> z <span class="op">=</span> () <span class="kw">=&gt;</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(<span class="op">-</span><span class="dv">2</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(<span class="fu">u</span>())) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">cos</span>(<span class="dv">2</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">*</span> <span class="fu">u</span>())<span class="op">;</span></span>
+<span id="cb3-436"><a href="" aria-label="436"></a>  <span class="kw">const</span> N <span class="op">=</span> T <span class="op">+</span> <span class="dv">200</span><span class="op">,</span> x <span class="op">=</span> <span class="kw">new</span> <span class="bu">Array</span>(N)<span class="op">.</span><span class="fu">fill</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb3-437"><a href="" aria-label="437"></a>  <span class="cf">for</span> (<span class="kw">let</span> t <span class="op">=</span> <span class="dv">2</span><span class="op">;</span> t <span class="op">&lt;</span> N<span class="op">;</span> t<span class="op">++</span>) x[t] <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> x[t<span class="op">-</span><span class="dv">1</span>] <span class="op">-</span> <span class="fl">0.3</span> <span class="op">*</span> x[t<span class="op">-</span><span class="dv">2</span>] <span class="op">+</span> <span class="fu">z</span>()<span class="op">;</span></span>
+<span id="cb3-438"><a href="" aria-label="438"></a>  <span class="kw">const</span> y <span class="op">=</span> x<span class="op">.</span><span class="fu">slice</span>(<span class="dv">200</span>)<span class="op">,</span> m <span class="op">=</span> d3<span class="op">.</span><span class="fu">mean</span>(y)<span class="op">,</span> P <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb3-439"><a href="" aria-label="439"></a>  <span class="kw">const</span> g <span class="op">=</span> d3<span class="op">.</span><span class="fu">range</span>(P <span class="op">+</span> <span class="dv">1</span>)<span class="op">.</span><span class="fu">map</span>(k <span class="kw">=&gt;</span> d3<span class="op">.</span><span class="fu">sum</span>(d3<span class="op">.</span><span class="fu">range</span>(T <span class="op">-</span> k)<span class="op">,</span> t <span class="kw">=&gt;</span> (y[t]<span class="op">-</span>m)<span class="op">*</span>(y[t<span class="op">+</span>k]<span class="op">-</span>m)) <span class="op">/</span> T)<span class="op">;</span></span>
+<span id="cb3-440"><a href="" aria-label="440"></a>  <span class="kw">let</span> phi <span class="op">=</span> []<span class="op">,</span> s2 <span class="op">=</span> [g[<span class="dv">0</span>]]<span class="op">;</span></span>
+<span id="cb3-441"><a href="" aria-label="441"></a>  <span class="cf">for</span> (<span class="kw">let</span> k <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> k <span class="op">&lt;=</span> P<span class="op">;</span> k<span class="op">++</span>) {</span>
+<span id="cb3-442"><a href="" aria-label="442"></a>    <span class="kw">const</span> a <span class="op">=</span> (g[k] <span class="op">-</span> d3<span class="op">.</span><span class="fu">sum</span>(d3<span class="op">.</span><span class="fu">range</span>(k <span class="op">-</span> <span class="dv">1</span>)<span class="op">,</span> j <span class="kw">=&gt;</span> phi[j] <span class="op">*</span> g[k<span class="op">-</span><span class="dv">1</span><span class="op">-</span>j])) <span class="op">/</span> s2[k<span class="op">-</span><span class="dv">1</span>]<span class="op">;</span></span>
+<span id="cb3-443"><a href="" aria-label="443"></a>    phi <span class="op">=</span> phi<span class="op">.</span><span class="fu">map</span>((p<span class="op">,</span> j) <span class="kw">=&gt;</span> p <span class="op">-</span> a <span class="op">*</span> phi[k<span class="op">-</span><span class="dv">2</span><span class="op">-</span>j])<span class="op">.</span><span class="fu">concat</span>([a])<span class="op">;</span></span>
+<span id="cb3-444"><a href="" aria-label="444"></a>    s2<span class="op">.</span><span class="fu">push</span>(s2[k<span class="op">-</span><span class="dv">1</span>] <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> a <span class="op">*</span> a))<span class="op">;</span></span>
+<span id="cb3-445"><a href="" aria-label="445"></a>  }</span>
+<span id="cb3-446"><a href="" aria-label="446"></a>  <span class="kw">const</span> pen <span class="op">=</span> {<span class="dt">AIC</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span> <span class="dt">BIC</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(T)<span class="op">,</span> <span class="dt">HQ</span><span class="op">:</span> <span class="dv">2</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(T))}<span class="op">;</span></span>
+<span id="cb3-447"><a href="" aria-label="447"></a>  <span class="kw">const</span> out <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb3-448"><a href="" aria-label="448"></a>  <span class="cf">for</span> (<span class="kw">const</span> c <span class="kw">of</span> [<span class="st">"AIC"</span><span class="op">,</span> <span class="st">"BIC"</span><span class="op">,</span> <span class="st">"HQ"</span>]) {</span>
+<span id="cb3-449"><a href="" aria-label="449"></a>    <span class="kw">const</span> v <span class="op">=</span> s2<span class="op">.</span><span class="fu">map</span>((v2<span class="op">,</span> p) <span class="kw">=&gt;</span> T <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(v2) <span class="op">+</span> pen[c] <span class="op">*</span> (p <span class="op">+</span> <span class="dv">1</span>))<span class="op">;</span></span>
+<span id="cb3-450"><a href="" aria-label="450"></a>    <span class="kw">const</span> mn <span class="op">=</span> d3<span class="op">.</span><span class="fu">min</span>(v)<span class="op">;</span></span>
+<span id="cb3-451"><a href="" aria-label="451"></a>    v<span class="op">.</span><span class="fu">forEach</span>((vv<span class="op">,</span> p) <span class="kw">=&gt;</span> out<span class="op">.</span><span class="fu">push</span>({p<span class="op">,</span> <span class="dt">crit</span><span class="op">:</span> c<span class="op">,</span> <span class="dt">ic</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(vv <span class="op">-</span> mn<span class="op">,</span> <span class="dv">30</span>)<span class="op">,</span> <span class="dt">best</span><span class="op">:</span> vv <span class="op">===</span> mn}))<span class="op">;</span></span>
+<span id="cb3-452"><a href="" aria-label="452"></a>  }</span>
+<span id="cb3-453"><a href="" aria-label="453"></a>  <span class="cf">return</span> out<span class="op">;</span></span>
+<span id="cb3-454"><a href="" aria-label="454"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb4" data-startfrom="459" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 458;"><span id="cb4-459"><a href="" aria-label="459"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb4-460"><a href="" aria-label="460"></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">1100</span><span class="op">,</span> <span class="dt">height</span><span class="op">:</span> <span class="dv">300</span><span class="op">,</span> <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">78</span><span class="op">,</span> <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">58</span><span class="op">,</span> <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontSize</span><span class="op">:</span> <span class="st">"18px"</span>}<span class="op">,</span></span>
+<span id="cb4-461"><a href="" aria-label="461"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"AR order p"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">10</span>]<span class="op">,</span> <span class="dt">ticks</span><span class="op">:</span> <span class="dv">11</span>}<span class="op">,</span></span>
+<span id="cb4-462"><a href="" aria-label="462"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"IC(p) − min IC (capped at 30)"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">30</span>]}<span class="op">,</span></span>
+<span id="cb4-463"><a href="" aria-label="463"></a>  <span class="dt">marginTop</span><span class="op">:</span> <span class="dv">40</span><span class="op">,</span> <span class="dt">marginRight</span><span class="op">:</span> <span class="dv">70</span><span class="op">,</span></span>
+<span id="cb4-464"><a href="" aria-label="464"></a>  <span class="dt">color</span><span class="op">:</span> {<span class="dt">domain</span><span class="op">:</span> [<span class="st">"AIC"</span><span class="op">,</span> <span class="st">"BIC"</span><span class="op">,</span> <span class="st">"HQ"</span>]<span class="op">,</span> <span class="dt">range</span><span class="op">:</span> [<span class="st">"#8b2635"</span><span class="op">,</span> <span class="st">"#2f4b7c"</span><span class="op">,</span> <span class="st">"#d39c2f"</span>]}<span class="op">,</span></span>
+<span id="cb4-465"><a href="" aria-label="465"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb4-466"><a href="" aria-label="466"></a>    Plot<span class="op">.</span><span class="fu">line</span>(icdata<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"p"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"ic"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"crit"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">3</span>})<span class="op">,</span></span>
+<span id="cb4-467"><a href="" aria-label="467"></a>    Plot<span class="op">.</span><span class="fu">dot</span>(icdata<span class="op">.</span><span class="fu">filter</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">best</span>)<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"p"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"ic"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"crit"</span><span class="op">,</span> <span class="dt">r</span><span class="op">:</span> <span class="dv">9</span>})<span class="op">,</span></span>
+<span id="cb4-468"><a href="" aria-label="468"></a>    Plot<span class="op">.</span><span class="fu">text</span>(icdata<span class="op">.</span><span class="fu">filter</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">p</span> <span class="op">===</span> <span class="dv">10</span>)<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"p"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"ic"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> <span class="st">"crit"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"crit"</span><span class="op">,</span> <span class="dt">dx</span><span class="op">:</span> <span class="dv">34</span><span class="op">,</span> <span class="dt">fontSize</span><span class="op">:</span> <span class="dv">20</span><span class="op">,</span> <span class="dt">fontWeight</span><span class="op">:</span> <span class="st">"bold"</span>})<span class="op">,</span></span>
+<span id="cb4-469"><a href="" aria-label="469"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
+<span id="cb4-470"><a href="" aria-label="470"></a>  ]</span>
+<span id="cb4-471"><a href="" aria-label="471"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-3" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</section>
+<section id="what-the-curves-show" class="slide level2">
+<h2>🎛️ What the Curves Show</h2>
+<div style="font-size: 30px">
+<p>The true order is <span class="math inline">\(p_0 = 2\)</span>. Large dots mark each criterion’s choice.</p>
+<ul>
+<li>To the <strong>left</strong> of <span class="math inline">\(p_0\)</span> all three curves are steep, and the steepness grows with <span class="math inline">\(T\)</span>: underfitting costs order <span class="math inline">\(T\)</span>.</li>
+<li>To the <strong>right</strong> of <span class="math inline">\(p_0\)</span> AIC’s curve is nearly flat. A lucky lag can tip it, at any <span class="math inline">\(T\)</span>.</li>
+<li>BIC’s right-hand side climbs by about <span class="math inline">\(\log T\)</span> per lag, so at <span class="math inline">\(T = 2000\)</span> it rises by 7.6 per lag and noise cannot overturn that.</li>
+<li>At <span class="math inline">\(T = 30\)</span>, try a few samples: BIC often stops at <span class="math inline">\(p = 1\)</span>. Consistency is a large-sample property.</li>
+</ul>
+</div>
+</section>
+<section id="think-pair-share" class="slide level2">
+<h2>🧠 Think-Pair-Share</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<countdown-timer class="countdown" id="timer_2442a0e3" minutes="3" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>An analyst fits AR(<span class="math inline">\(p\)</span>), <span class="math inline">\(p = 0, \dots, 4\)</span>, to <span class="math inline">\(T = 200\)</span> monthly observations and reports <span class="math inline">\(200\log\hat\sigma_p^2\)</span>:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(p\)</span></th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(200\log\hat\sigma^2_p\)</span></td>
+<td>60.0</td>
+<td>31.0</td>
+<td>24.0</td>
+<td>20.0</td>
+<td>18.5</td>
+</tr>
+</tbody>
+</table>
+<ol type="1">
+<li>Which order does AIC choose? Which does BIC (<span class="math inline">\(\log 200 = 5.30\)</span>)?</li>
+<li>Starting from <span class="math inline">\(\bar p = 4\)</span>, a GETS search finds <span class="math inline">\(|t| = 1.1\)</span> for <span class="math inline">\(\hat\phi_4\)</span> and <span class="math inline">\(|t| = 2.4\)</span> for <span class="math inline">\(\hat\phi_3\)</span>. Where does it stop?</li>
+</ol>
+</div>
+</section>
+<section id="think-pair-share-solution" class="slide level2">
+<h2>✅ Think-Pair-Share: Solution</h2>
+<div style="font-size: 28px">
+<ol type="1">
+<li>Add <span class="math inline">\(2(p+1)\)</span> for AIC and <span class="math inline">\(5.30(p+1)\)</span> for BIC:</li>
+</ol>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(p\)</span></th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>AIC</td>
+<td>62.0</td>
+<td>35.0</td>
+<td>30.0</td>
+<td><strong>28.0</strong></td>
+<td>28.5</td>
+</tr>
+<tr class="even">
+<td>BIC</td>
+<td>65.3</td>
+<td>41.6</td>
+<td><strong>39.9</strong></td>
+<td>41.2</td>
+<td>45.0</td>
+</tr>
+</tbody>
+</table>
+<p>AIC picks <span class="math inline">\(p = 3\)</span>; BIC picks <span class="math inline">\(p = 2\)</span>. The third lag gains 4.0 in fit: above 2, below 5.30.</p>
+<div class="fragment">
+<ol start="2" type="1">
+<li><span class="math inline">\(\phi_4 = 0\)</span> is not rejected (<span class="math inline">\(1.1 &lt; 1.96\)</span>), so drop to AR(3). <span class="math inline">\(\phi_3 = 0\)</span> is rejected (<span class="math inline">\(2.4 &gt; 1.96\)</span>), so GETS stops at <strong>AR(3)</strong>, as AIC did. At the 5% level, GETS behaves like a criterion with a per-lag price of <span class="math inline">\(1.96^2 \approx 3.84\)</span>.</li>
+</ol>
+</div>
+</div>
+</section>
+<section id="case-study-unemployment-lags" class="slide level2">
+<h2>💰 Case Study: Unemployment Lags</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📈 The question</strong></p>
+</div>
+<div class="callout-content">
+<p>How many lags of its own past does the monthly change in US unemployment need?</p>
+<ol type="1">
+<li>Which orders do AIC, BIC and HQ choose?</li>
+<li>Where does GETS from <span class="math inline">\(\bar p = 12\)</span> stop?</li>
+<li>Are the chosen model’s residuals white noise?</li>
+</ol>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 The data</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Series</strong>: civilian unemployment rate (FRED <code>UNRATE</code>), seasonally adjusted</p>
+<p><strong>Period</strong>: Jan 1960 – Dec 2019, 720 months (the 2020 pandemic jump left out)</p>
+<p><span class="math inline">\(x_t = U_t - U_{t-1}\)</span>, percentage points</p>
+</div>
+</div>
+</div>
+</div></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource r display-only number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="" aria-label="1"></a>u <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"https://fred.stlouisfed.org/graph/fredgraph.csv?id=UNRATE"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="case-study-three-criteria-and-gets" class="slide level2">
+<h2>💰 Case Study: Three Criteria and GETS</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>📦 AR(0)–AR(12): criteria, GETS, Ljung–Box</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="" aria-label="1"></a>u <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/UNRATE.csv"</span>); x <span class="ot">&lt;-</span> <span class="fu">diff</span>(u<span class="sc">$</span>UNRATE)</span>
+<span id="cb6-2"><a href="" aria-label="2"></a>pmax <span class="ot">&lt;-</span> <span class="dv">12</span>; X <span class="ot">&lt;-</span> <span class="fu">embed</span>(x, pmax <span class="sc">+</span> <span class="dv">1</span>); y <span class="ot">&lt;-</span> X[, <span class="dv">1</span>]; n <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
+<span id="cb6-3"><a href="" aria-label="3"></a>fits <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="dv">0</span><span class="sc">:</span>pmax, <span class="cf">function</span>(p) <span class="cf">if</span> (p <span class="sc">==</span> <span class="dv">0</span>) <span class="fu">lm</span>(y <span class="sc">~</span> <span class="dv">1</span>) <span class="cf">else</span> <span class="fu">lm</span>(y <span class="sc">~</span> X[, <span class="dv">1</span> <span class="sc">+</span> <span class="fu">seq_len</span>(p)]))</span>
+<span id="cb6-4"><a href="" aria-label="4"></a>s2 <span class="ot">&lt;-</span> <span class="fu">sapply</span>(fits, <span class="cf">function</span>(f) <span class="fu">mean</span>(<span class="fu">resid</span>(f)<span class="sc">^</span><span class="dv">2</span>)); k <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>(pmax <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb6-5"><a href="" aria-label="5"></a>ic <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">p =</span> <span class="dv">0</span><span class="sc">:</span>pmax, <span class="at">AIC =</span> n<span class="sc">*</span><span class="fu">log</span>(s2) <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>k, <span class="at">BIC =</span> n<span class="sc">*</span><span class="fu">log</span>(s2) <span class="sc">+</span> k<span class="sc">*</span><span class="fu">log</span>(n),</span>
+<span id="cb6-6"><a href="" aria-label="6"></a>                 <span class="at">HQ =</span> n<span class="sc">*</span><span class="fu">log</span>(s2) <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>k<span class="sc">*</span><span class="fu">log</span>(<span class="fu">log</span>(n)))</span>
+<span id="cb6-7"><a href="" aria-label="7"></a>p_ic <span class="ot">&lt;-</span> <span class="fu">sapply</span>(ic[, <span class="sc">-</span><span class="dv">1</span>], which.min) <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb6-8"><a href="" aria-label="8"></a>p <span class="ot">&lt;-</span> pmax                                 <span class="co"># GETS: drop the last lag while |t| &lt; 1.96</span></span>
+<span id="cb6-9"><a href="" aria-label="9"></a><span class="cf">while</span> (p <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;&amp;</span> <span class="fu">abs</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(fits[[p <span class="sc">+</span> <span class="dv">1</span>]]))[p <span class="sc">+</span> <span class="dv">1</span>, <span class="dv">3</span>]) <span class="sc">&lt;</span> <span class="fl">1.96</span>) p <span class="ot">&lt;-</span> p <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb6-10"><a href="" aria-label="10"></a>lb <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">c</span>(p_ic, <span class="at">GETS =</span> p), <span class="cf">function</span>(q) <span class="fu">Box.test</span>(<span class="fu">resid</span>(fits[[q <span class="sc">+</span> <span class="dv">1</span>]]), <span class="at">lag =</span> <span class="dv">24</span>,</span>
+<span id="cb6-11"><a href="" aria-label="11"></a>                                                       <span class="at">type =</span> <span class="st">"Ljung"</span>, <span class="at">fitdf =</span> q)<span class="sc">$</span>p.value)</span>
+<span id="cb6-12"><a href="" aria-label="12"></a><span class="fu">data.frame</span>(<span class="at">rule =</span> <span class="fu">names</span>(lb), <span class="at">order =</span> <span class="fu">c</span>(p_ic, p), <span class="at">LjungBox24_pval =</span> <span class="fu">signif</span>(lb, <span class="dv">2</span>), <span class="at">row.names =</span> <span class="cn">NULL</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  rule order LjungBox24_pval
+1  AIC    12         0.00036
+2  BIC     4         0.00014
+3   HQ     5         0.00027
+4 GETS    12         0.00036</code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>The criteria disagree by eight lags; every residual series fails the Ljung–Box test at lag 24.</p>
+</div>
+</section>
+<section id="case-study-what-the-data-say" class="slide level2">
+<h2>💰 Case Study: What the Data Say</h2>
+
+<img data-src="objects_model_selection_lecture4_files/figure-revealjs/case-ic-fig-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1500"><div style="font-size: 28px">
+<p><strong>What the data say:</strong> BIC stops at 4 lags, HQ at 5; AIC and GETS run to the boundary at 12. Even AR(12) fails Ljung–Box: its residuals keep a correlation of −0.18 at lag 24, a trace of seasonal adjustment. And unemployment rises fast and falls slowly, an asymmetry no linear AR captures (Lecture 11).</p>
+</div>
+</section>
+<section id="quiz-1-the-right-object" class="slide level2 quiz-question">
+<h2>📝 Quiz #1: The Right Object</h2>
+<p>A bank must hold capital against the loss it will exceed on only 1% of days. Which object of the daily return distribution should it model?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ The loss exceeded with probability 1% is the conditional 1% quantile of returns: the Value-at-Risk. It can be modelled directly (quantile regression) or derived from a model of the conditional density.">The conditional 1% quantile <span class="math inline">\(q_t^{0.01}\)</span></span></li>
+<li>The conditional mean <span class="math inline">\(\mu_t\)</span></li>
+<li>The conditional skewness <span class="math inline">\(S_t/\sigma_t^3\)</span></li>
+<li>The unconditional variance of returns</li>
+</ul>
+</section>
+<section id="quiz-2-overfitting-rate" class="slide level2 quiz-question">
+<h2>📝 Quiz #2: Overfitting Rate</h2>
+<p>The true model is AR(1) and the candidates are AR(1) and AR(2) only. As <span class="math inline">\(T \to \infty\)</span>, how often does AIC choose AR(2)?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ The fit gain from the redundant lag is asymptotically χ²(1); AIC adds it when that exceeds 2, and P(χ²(1) > 2) = 0.157. The probability does not shrink with T, so AIC is not consistent.">About 15.7% of the time, for every large <span class="math inline">\(T\)</span></span></li>
+<li>With probability tending to zero</li>
+<li>About 5% of the time</li>
+<li>Never, because the second coefficient is zero</li>
+</ul>
+</section>
+<section id="quiz-3-gets" class="slide level2 quiz-question">
+<h2>📝 Quiz #3: GETS</h2>
+<p>In a general-to-specific search, the test of <span class="math inline">\(H_0: \phi_{\bar p} = 0\)</span> in <span class="math inline">\(AR(\bar p)\)</span> is <strong>not rejected</strong>. What is the next step?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ GETS imposes only restrictions the data accept. Not rejecting φ_p̄ = 0 means the restriction is accepted, so the model shrinks by one lag and the procedure tests again.">Move to <span class="math inline">\(AR(\bar p - 1)\)</span> and test its last coefficient</span></li>
+<li>Keep <span class="math inline">\(AR(\bar p)\)</span> and stop</li>
+<li>Move to <span class="math inline">\(AR(\bar p + 1)\)</span></li>
+<li>Switch to an information criterion</li>
+</ul>
+</section>
+<section id="key-formulas" class="slide level2">
+<h2>📋 Key Formulas</h2>
+<div style="font-size: 28px">
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>Conditional mean</td>
+<td><span class="math inline">\(\mu_t = E_{t-1}[x_t]\)</span>, minimises <span class="math inline">\(E[(x_t - g)^2]\)</span> over <span class="math inline">\(g \in I_{t-1}\)</span></td>
+</tr>
+<tr class="even">
+<td>Conditional variance</td>
+<td><span class="math inline">\(\sigma_t^2 = E_{t-1}[(x_t - \mu_t)^2]\)</span></td>
+</tr>
+<tr class="odd">
+<td>Conditional quantile</td>
+<td><span class="math inline">\(\Pr_{t-1}\{x_t \le q_t^\alpha\} = \alpha\)</span>; median at <span class="math inline">\(\alpha = 0.5\)</span></td>
+</tr>
+<tr class="even">
+<td>Information criterion</td>
+<td><span class="math inline">\(IC(k) = -2\log\hat{\mathcal L}_k + f(k)\)</span> → min</td>
+</tr>
+<tr class="odd">
+<td>AR(<span class="math inline">\(p\)</span>), Gaussian</td>
+<td><span class="math inline">\(IC(p) = T\log\hat\sigma_p^2 + f(p+1)\)</span></td>
+</tr>
+<tr class="even">
+<td>Penalties</td>
+<td>AIC <span class="math inline">\(2k\)</span>; BIC <span class="math inline">\(k\log T\)</span>; HQ <span class="math inline">\(2k\log\log T\)</span></td>
+</tr>
+<tr class="odd">
+<td>Consistency</td>
+<td>penalty per parameter <span class="math inline">\(c_T \to \infty\)</span>, <span class="math inline">\(c_T/T \to 0\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="summary" class="slide level2">
+<h2>📋 Summary</h2>
+<div style="font-size: 30px">
+<ul>
+<li>Non-structural modelling begins by choosing an <strong>object</strong>: a feature of the distribution of <span class="math inline">\(x_t\)</span> given its past.</li>
+<li>The conditional mean is optimal under squared loss, the median under absolute loss, a quantile under check loss.</li>
+<li>Selection runs object → class → model; diagnostics, GETS and information criteria are the tools.</li>
+<li>BIC and HQ are consistent; AIC overfits with positive probability at every <span class="math inline">\(T\)</span>, which is not always a defect when the goal is prediction.</li>
+<li>All of these criteria judge <strong>in-sample</strong> fit.</li>
+</ul>
+</div>
+</section>
+<section id="further-reading-and-next-lecture" class="slide level2">
+<h2>📚 Further Reading and Next Lecture</h2>
+<div style="font-size: 29px">
+<ul>
+<li>Hamilton (1994), <em>Time Series Analysis</em>, ch.&nbsp;4–5.</li>
+<li>Tsay (2010), <em>Analysis of Financial Time Series</em>, ch.&nbsp;2.4–2.5 (order selection).</li>
+<li>Franses and van Dijk (2000), <em>Non-Linear Time Series Models in Empirical Finance</em>, ch.&nbsp;2.</li>
+<li>Akaike (1974); Schwarz (1978); Hannan and Quinn (1979), the three criteria.</li>
+<li>Hendry (1995), <em>Dynamic Econometrics</em>, on general-to-specific modelling.</li>
+</ul>
+<p><strong>Next lecture: In-Sample Fit, Out-of-Sample Forecasts, Diebold–Mariano.</strong> A model that fits well in sample often forecasts badly. Why, and how do we test it?</p>
+</div>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+<p>Time Series Econometrics — Objects and Model Selection</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="objects_model_selection_lecture4_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="objects_model_selection_lecture4_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="objects_model_selection_lecture4_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="objects_model_selection_lecture4_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="objects_model_selection_lecture4_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="objects_model_selection_lecture4_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="objects_model_selection_lecture4_files/libs/revealjs/plugin/reveal-quiz/quiz.js"></script>
+  <script src="objects_model_selection_lecture4_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="objects_model_selection_lecture4_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="objects_model_selection_lecture4_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="objects_model_selection_lecture4_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="objects_model_selection_lecture4_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'quiz': {"checkKey":"c","resetKey":"r","shuffleKey":"s","allowNumberKeys":true,"disableOnCheck":false,"shuffleOptions":true,"defaultCorrect":"✅ Correct! Well done.","defaultIncorrect":"❌ Not quite. Try again or check the explanation.","includeScore":true,"disableReset":false},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 720,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, RevealQuiz, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script type="ojs-module-contents">
+    eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6InZpZXdvZiBUID0gSW5wdXRzLnJhbmdlKFszMCwgMjAwMF0sIHtzdGVwOiAxMCwgdmFsdWU6IDEwMCwgbGFiZWw6IFwiU2FtcGxlIHNpemUgVFwifSlcbnZpZXdvZiBzZWVkID0gSW5wdXRzLnJhbmdlKFsxLCAzMF0sIHtzdGVwOiAxLCB2YWx1ZTogMSwgbGFiZWw6IFwiU2FtcGxlIG51bWJlclwifSlcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMiIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6ImljZGF0YSA9IHtcbiAgLy8gQVIoMikgc2FtcGxlIGZyb20gYSBzZWVkZWQgZ2VuZXJhdG9yLCB0aGVuIER1cmJpbi1MZXZpbnNvbiBmb3Igc2lnbWFeMl9wXG4gIGxldCBzID0gc2VlZCAqIDkzMDEgKyA0OTI5NztcbiAgY29uc3QgdSA9ICgpID0+IHsgcyA9IChzICogMTY4MDcpICUgMjE0NzQ4MzY0NzsgcmV0dXJuIHMgLyAyMTQ3NDgzNjQ3OyB9O1xuICBjb25zdCB6ID0gKCkgPT4gTWF0aC5zcXJ0KC0yICogTWF0aC5sb2codSgpKSkgKiBNYXRoLmNvcygyICogTWF0aC5QSSAqIHUoKSk7XG4gIGNvbnN0IE4gPSBUICsgMjAwLCB4ID0gbmV3IEFycmF5KE4pLmZpbGwoMCk7XG4gIGZvciAobGV0IHQgPSAyOyB0IDwgTjsgdCsrKSB4W3RdID0gMC41ICogeFt0LTFdIC0gMC4zICogeFt0LTJdICsgeigpO1xuICBjb25zdCB5ID0geC5zbGljZSgyMDApLCBtID0gZDMubWVhbih5KSwgUCA9IDEwO1xuICBjb25zdCBnID0gZDMucmFuZ2UoUCArIDEpLm1hcChrID0+IGQzLnN1bShkMy5yYW5nZShUIC0gayksIHQgPT4gKHlbdF0tbSkqKHlbdCtrXS1tKSkgLyBUKTtcbiAgbGV0IHBoaSA9IFtdLCBzMiA9IFtnWzBdXTtcbiAgZm9yIChsZXQgayA9IDE7IGsgPD0gUDsgaysrKSB7XG4gICAgY29uc3QgYSA9IChnW2tdIC0gZDMuc3VtKGQzLnJhbmdlKGsgLSAxKSwgaiA9PiBwaGlbal0gKiBnW2stMS1qXSkpIC8gczJbay0xXTtcbiAgICBwaGkgPSBwaGkubWFwKChwLCBqKSA9PiBwIC0gYSAqIHBoaVtrLTItal0pLmNvbmNhdChbYV0pO1xuICAgIHMyLnB1c2goczJbay0xXSAqICgxIC0gYSAqIGEpKTtcbiAgfVxuICBjb25zdCBwZW4gPSB7QUlDOiAyLCBCSUM6IE1hdGgubG9nKFQpLCBIUTogMiAqIE1hdGgubG9nKE1hdGgubG9nKFQpKX07XG4gIGNvbnN0IG91dCA9IFtdO1xuICBmb3IgKGNvbnN0IGMgb2YgW1wiQUlDXCIsIFwiQklDXCIsIFwiSFFcIl0pIHtcbiAgICBjb25zdCB2ID0gczIubWFwKCh2MiwgcCkgPT4gVCAqIE1hdGgubG9nKHYyKSArIHBlbltjXSAqIChwICsgMSkpO1xuICAgIGNvbnN0IG1uID0gZDMubWluKHYpO1xuICAgIHYuZm9yRWFjaCgodnYsIHApID0+IG91dC5wdXNoKHtwLCBjcml0OiBjLCBpYzogTWF0aC5taW4odnYgLSBtbiwgMzApLCBiZXN0OiB2diA9PT0gbW59KSk7XG4gIH1cbiAgcmV0dXJuIG91dDtcbn1cbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMyIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6IlBsb3QucGxvdCh7XG4gIHdpZHRoOiAxMTAwLCBoZWlnaHQ6IDMwMCwgbWFyZ2luTGVmdDogNzgsIG1hcmdpbkJvdHRvbTogNTgsIHN0eWxlOiB7Zm9udFNpemU6IFwiMThweFwifSxcbiAgeDoge2xhYmVsOiBcIkFSIG9yZGVyIHBcIiwgZG9tYWluOiBbMCwgMTBdLCB0aWNrczogMTF9LFxuICB5OiB7bGFiZWw6IFwiSUMocCkg4oiSIG1pbiBJQyAoY2FwcGVkIGF0IDMwKVwiLCBkb21haW46IFswLCAzMF19LFxuICBtYXJnaW5Ub3A6IDQwLCBtYXJnaW5SaWdodDogNzAsXG4gIGNvbG9yOiB7ZG9tYWluOiBbXCJBSUNcIiwgXCJCSUNcIiwgXCJIUVwiXSwgcmFuZ2U6IFtcIiM4YjI2MzVcIiwgXCIjMmY0YjdjXCIsIFwiI2QzOWMyZlwiXX0sXG4gIG1hcmtzOiBbXG4gICAgUGxvdC5saW5lKGljZGF0YSwge3g6IFwicFwiLCB5OiBcImljXCIsIHN0cm9rZTogXCJjcml0XCIsIHN0cm9rZVdpZHRoOiAzfSksXG4gICAgUGxvdC5kb3QoaWNkYXRhLmZpbHRlcihkID0+IGQuYmVzdCksIHt4OiBcInBcIiwgeTogXCJpY1wiLCBmaWxsOiBcImNyaXRcIiwgcjogOX0pLFxuICAgIFBsb3QudGV4dChpY2RhdGEuZmlsdGVyKGQgPT4gZC5wID09PSAxMCksIHt4OiBcInBcIiwgeTogXCJpY1wiLCB0ZXh0OiBcImNyaXRcIiwgZmlsbDogXCJjcml0XCIsIGR4OiAzNCwgZm9udFNpemU6IDIwLCBmb250V2VpZ2h0OiBcImJvbGRcIn0pLFxuICAgIFBsb3QucnVsZVkoWzBdKVxuICBdXG59KVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCdUJykifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ3NlZWQnKSJ9XX0=
+    </script>
+    <script type="module">
+    if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+    window._ojs.paths.runtimeToDoc = "../../..";
+    window._ojs.paths.runtimeToRoot = "../../..";
+    window._ojs.paths.docToRoot = "";
+    window._ojs.selfContained = false;
+    window._ojs.runtime.interpretFromScriptTags();
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
