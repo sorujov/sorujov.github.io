@@ -1,0 +1,678 @@
+---
+title: "Time Series Econometrics"
+subtitle: "Lecture 17: Realized Volatility, Durations, Direction and Value-at-Risk"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "Open lecture notes, after Stanislav Anatolyev's course (2016)"
+format:
+  revealjs:
+    theme: [default, ../slide-fit.scss]
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    footer: "Time Series Econometrics — Realized Volatility and VaR"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+engine: knitr
+execute:
+  echo: true
+  warning: false
+  message: false
+  freeze: false
+knitr:
+  opts_chunk:
+    dev: png
+    dpi: 150
+    fig.align: center
+---
+
+```{r}
+#| label: setup
+#| include: false
+set.seed(2026)
+library(ggplot2)
+theme_set(theme_minimal(base_size = 18))
+sp <- read.csv("data/sp500.csv")
+sp$SP500 <- suppressWarnings(as.numeric(sp$SP500))   # FRED marks holidays "."
+sp <- na.omit(sp)
+r_all <- 100 * diff(log(sp$SP500))                   # daily log returns, %
+d_all <- as.Date(sp$observation_date[-1])
+ojs_define(ret = round(r_all, 4))
+```
+
+## 🎬 The Idea in 3 Minutes
+
+::: {style="text-align:center"}
+```{=html}
+<video controls preload="metadata" style="width:780px;max-width:100%;aspect-ratio:16/9;background:#111" poster="video/lecture17_intuition.jpg" src="video/lecture17_intuition.mp4"><track kind="captions" src="video/lecture17_intuition.vtt" srclang="en" label="English"></video>
+```
+[⬅ Previous lecture: 16 · Structural Breaks and Parameter Stability](../16-structural-breaks/structural_breaks_lecture16.html){style="font-size:28px"}
+
+[A short film with the intuition. Watch it before the slides, or after. Captions: CC button.]{style="font-size:28px"}
+:::
+
+---
+
+## 🎯 Learning Objectives
+
+::: {style="font-size: 34px"}
+By the end of this lecture, you will be able to:
+
+- **Distinguish** observable, model-free volatility measures from model-based ones, and **show** that RiskMetrics is an IGARCH
+- **Explain** why realized volatility converges to integrated volatility, and what microstructure noise does to it
+- **Write** a multiplicative error model and the ACD model for durations
+- **Model** the direction of change (autologit) and conditional quantiles (VaR, CAViaR)
+- **Backtest** a VaR forecast with Kupiec's test on real data
+:::
+
+---
+
+## 🔁 Warm-up from last time {.quiz-question}
+
+You search over the middle 70% of the sample for one break in a mean and find $\sup W = 7.9$. At 5%, what do you conclude?
+
+- [No evidence of a break: 7.9 is below Andrews' critical value 8.68]{.correct data-explanation="✅ The date was searched for, so sup W must be compared with the critical value of sup Q(r) over [0.15, 0.85], which is 8.68 for one coefficient, not with the χ²₁ value 3.84."}
+- A break: 7.9 exceeds the $\chi^2_1$ critical value 3.84
+- A break, since the CUSUM test is never needed after sup-W
+- Nothing can be said until the number of breaks is fixed
+
+---
+
+## 🗺️ Where We Are
+
+::: {style="font-size: 32px"}
+Lecture 15 modelled the conditional variance $\sigma_t^2$ with GARCH. Lecture 16 asked whether such parameters are stable.
+
+$\sigma_t^2$ is never observed: it exists only inside a model, and is only as good as the model's mean and variance equations.
+
+::: {.fragment}
+This last lecture asks three questions.
+
+- Can volatility be **measured** rather than modelled?
+- How do we model other positive quantities, such as the time between trades?
+- How do we forecast what risk managers actually report: a **quantile** of tomorrow's return?
+:::
+:::
+
+---
+
+## ❓ The Question
+
+::: {.callout-important}
+## The number the regulator sees
+Every day a bank reports its 1-day 99% Value-at-Risk: a loss it expects to exceed on only 1 day in 100. Every quarter the regulator counts the days on which the loss was larger.
+:::
+
+::: {style="font-size: 30px"}
+Too many such days and the bank holds more capital. To get the count right the bank needs a good volatility measure, a good model of the tails, and a way to **test** its own quantile forecasts.
+:::
+
+---
+
+## 📐 Measures of Daily Volatility
+
+::: {style="font-size: 30px"}
+**Observable, model-free:**
+
+- $|r_t|$ and $r_t^2$: the earliest measures. $E_{t-1}r_t^2 = \sigma_t^2$ when $\mu_t = 0$, but a single squared return is very noisy
+- JPMorgan's **RiskMetrics**, an exponentially weighted average of past squared returns:
+$$RM_t = (1 - 0.94)\sum_{i=0}^{\infty} 0.94^{\,i}\, r_{t-i}^2$$
+
+**Not observable, model-based:**
+
+- $\hat\sigma_t^2$ from an ARCH-type model. It is only as good as the model's conditional mean and variance equations
+:::
+
+---
+
+## 📐 RiskMetrics Is an IGARCH
+
+::: {style="font-size: 30px"}
+Split off the first term of the sum. With $\lambda = 0.94$,
+$$\sigma_{t+1 \mid t}^2 = (1-\lambda)\sum_{i \ge 0}\lambda^i r_{t-i}^2 = (1-\lambda)\, r_t^2 + \lambda\,\sigma_{t \mid t-1}^2 .$$
+
+This is GARCH(1,1) without a constant:
+$$\omega = 0, \qquad \alpha = 1 - \lambda = 0.06, \qquad \beta = \lambda = 0.94, \qquad \alpha + \beta = 1 .$$
+
+- Integrated GARCH: shocks to the variance never die out, and there is no long-run level to revert to
+- Nothing is estimated: $\lambda = 0.94$ is fixed for all daily series
+- Weights halve every $\ln 0.5 / \ln 0.94 = 11.2$ days
+:::
+
+---
+
+## 📐 Realized Volatility
+
+::: {style="font-size: 29px"}
+The daily return $r_t = \log p_{\text{close}} - \log p_{\text{open}}$ sees only two prices. Very different intraday paths give the same $r_t$.
+
+Split day $t$ into $m$ intervals with intraday returns $r_{t,i}$, $i = 1, \dots, m$, and define
+$$RV_t = \sum_{i=1}^m r_{t,i}^2 \qquad \text{(Andersen, Bollerslev, Diebold and co-authors, 2000s).}$$
+
+Like $|r_t|$ and $r_t^2$, it is **observable** and **model-free**. Unlike them, it is far less noisy, as the next two slides show.
+:::
+
+---
+
+## 📈 Same Return, Different Days
+
+```{r}
+#| label: two-paths
+#| echo: false
+#| fig-width: 10.5
+#| fig-height: 3.8
+set.seed(2026)
+m <- 390; s <- (0:m) / m
+bridge <- function(sd) { b <- c(0, cumsum(rnorm(m, 0, sd / sqrt(m)))); b - s * b[m + 1] }
+calm  <- 0.5 * s + bridge(0.4)                         # log price in %, close - open = 0.5
+storm <- 0.5 * s + bridge(2.0)
+rv <- function(x) sum(diff(x)^2)
+df <- rbind(data.frame(s = s, p = calm,  day = sprintf("calm day:  RV = %.2f", rv(calm))),
+            data.frame(s = s, p = storm, day = sprintf("stormy day: RV = %.2f", rv(storm))))
+ggplot(df, aes(s, p, colour = day)) + geom_line(linewidth = 0.9) +
+  scale_colour_manual(values = c("#8ba3c7", "#8b2635"), name = NULL) +
+  labs(x = "time of day (open = 0, close = 1)", y = "log price − log open (%)") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+Both days open at 0 and close at $+0.5\%$, so $r_t = 0.5$ and $r_t^2 = 0.25$ on each. The one-minute returns tell them apart: realized variance differs by a factor of about 25.
+:::
+
+---
+
+## 📐 Why Realized Volatility Works
+
+::: {style="font-size: 30px"}
+Suppose the log price within the day follows
+$$d\log p_{t+s} = \mu_{t+s}\,ds + \sigma_{t+s}\,dW_{t+s}, \qquad s \in [0, 1],$$
+with $\sigma^2_{t+s}$ the **instantaneous volatility**. Then as $m \to \infty$
+$$RV_t \xrightarrow{p} IV_t = \int_0^1 \sigma_{t+s}^2\,ds \qquad \text{(integrated volatility)},$$
+with a mixed-normal CLT at rate $\sqrt m$.
+
+- The drift $\mu_{t+s}$ contributes only $O(m^{-1})$ and can be neglected
+- A GARCH, by contrast, must get the conditional mean right before its $\hat\sigma_t^2$ means anything
+:::
+
+---
+
+## 📐 Covariance, Noise, and the Choice of $m$
+
+::: {style="font-size: 30px"}
+**Multivariate analogue.** For a vector of intraday returns, the realized covariance matrix
+$$RC_t = \sum_{i=1}^m r_{t,i}\, r_{t,i}' .$$
+
+**But $m$ is finite**, and one would like it large. At very high frequencies prices bounce between bid and ask, and ticks are discrete. This **market microstructure noise** adds a term to every $r_{t,i}^2$, and the bias grows with $m$.
+
+In practice the sampling interval is about **5 to 15 minutes**: fine enough for $RV_t$ to be precise, coarse enough for the noise to be small.
+:::
+
+---
+
+## 💻 Noise and the Sampling Frequency
+
+```{r}
+#| label: signature
+#| code-summary: "📦 200 simulated days, second by second"
+set.seed(2026)
+n_sec <- 23400; days <- 200; s <- (1:n_sec) / n_sec
+sig <- 0.01 * sqrt(0.6 + 3.2 * (s - 0.5)^2)                    # U-shaped intraday vol
+IV <- mean(sig^2)                                              # integrated variance per day
+grid <- c(13, 26, 78, 390, 1170, 4680, 23400)                  # 30 min ... 1 second
+res <- replicate(days, {
+  lp <- cumsum(sig * rnorm(n_sec) / sqrt(n_sec))               # efficient log price
+  obs <- lp + rnorm(n_sec, 0, 0.0001)                          # + noise, 1 basis point
+  sapply(grid, function(m) { k <- seq(n_sec / m, n_sec, by = n_sec / m)
+    c(clean = sum(diff(c(0, lp[k]))^2), noisy = sum(diff(c(0, obs[k]))^2)) })
+})
+round(cbind(m = grid, clean = rowMeans(res[1, , ]) / IV, noisy = rowMeans(res[2, , ]) / IV), 2)
+```
+
+::: {style="font-size: 28px"}
+Average $RV_t / IV_t$ over 200 simulated days. Without noise it is 1 at every $m$. With a one-basis-point noise, it is fine at 5 minutes ($m = 78$) and more than six times too large at one second.
+:::
+
+---
+
+## 📐 Multiplicative Error Models
+
+::: {style="font-size: 30px"}
+Many quantities in finance are **positive**: $RV_t$, the daily range, $|r_t|$, and the **durations** $d_t = t_i - t_{i-1}$ between transactions. Durations cluster: busy periods have short gaps.
+
+::: {.callout-note}
+## MEM (Engle, 2002)
+$$x_t = \psi_t\,\varepsilon_t, \qquad \psi_t = E_{t-1}x_t, \qquad \varepsilon_t \sim \text{iid } \mathcal D(1),\ \ \varepsilon_t > 0,\ E\varepsilon_t = 1 .$$
+:::
+
+It is the positive analogue of $r_t = \sigma_t\eta_t$, $\eta_t \sim (0, 1)$: there the shock scales a **standard deviation**, here it scales a **mean**.
+:::
+
+---
+
+## 📐 The ACD Model
+
+::: {style="font-size: 30px"}
+For durations, Engle & Russell (1998): **A**utoregressive **C**onditional **D**uration,
+$$d_t = \psi_t\varepsilon_t, \qquad \text{ACD}(1,1):\ \ \psi_t = \omega + \alpha\, d_{t-1} + \beta\,\psi_{t-1}, \qquad \omega > 0,\ \alpha, \beta \ge 0,$$
+with $\alpha + \beta < 1$ for a finite unconditional mean duration $\omega/(1-\alpha-\beta)$.
+
+| Choice of $\mathcal D$ | Method | Analogue in GARCH |
+|---|---|---|
+| Standard exponential | QMLE, $\ell_t = -\log\psi_t - d_t/\psi_t$ | Gaussian QMLE |
+| Weibull$(\lambda)$, Burr$(\lambda, \mu)$ | MLE | Student-$t$ MLE |
+
+The exponential QMLE is consistent whenever $\psi_t$ is correctly specified, whatever the true $\mathcal D$.
+:::
+
+---
+
+## 📐 Beyond Mean and Variance
+
+::: {style="font-size: 30px"}
+So far dynamic models have targeted
+
+- ✓ the conditional **mean** (ARMA, VAR, TAR)
+- ✓ the conditional **variance** (GARCH, SV, RV)
+- ✓ the conditional **density**: conditional skewness and kurtosis (ARCD)
+
+::: {.fragment}
+Two more objects are often what a user actually needs:
+
+- the **direction** of tomorrow's move, $\mathbb 1\{r_t > 0\}$
+- a **quantile** of tomorrow's return: Value-at-Risk
+:::
+:::
+
+---
+
+## 📐 Direction of Change: Autologit
+
+::: {style="font-size: 30px"}
+The sign indicator has conditional mean equal to a conditional probability:
+$$E_{t-1}\,\mathbb 1\{r_t > 0\} = \Pr_{t-1}\{r_t > 0\}.$$
+
+**Autologit(1,1):**
+$$\Pr_{t-1}\{r_t > 0\} = \frac{1}{1 + \exp\{-w_t\}}, \qquad w_t = \varphi + \alpha\,\mathbb 1\{r_{t-1} > 0\} + \gamma\, r_{t-1} + \beta\, w_{t-1} .$$
+
+- $w_t$ plays the role of $\sigma_t^2$ in GARCH: a recursion driven by yesterday's data and its own lag
+- Estimated by maximum likelihood with the Bernoulli likelihood $\sum_t \big[\mathbb 1\{r_t>0\}\log P_t + \mathbb 1\{r_t \le 0\}\log(1 - P_t)\big]$
+:::
+
+---
+
+## 📐 Conditional Quantiles: Value-at-Risk
+
+::: {style="font-size: 30px"}
+::: {.callout-note}
+## Value-at-Risk
+The $(1-p)\cdot 100\%$ VaR is the conditional $p$-quantile of the return:
+$$\Pr_{t-1}\big\{r_t \le \mathrm{VaR}_t\big\} = p .$$
+:::
+
+**Indirect modelling.** If $(r_t - \mu_t)/\sigma_t = \eta_t \sim \text{iid } \mathcal D(0, 1, \vartheta)$, estimate $\hat\mu_t$, $\hat\sigma_t$ and the density $\hat f_{\mathcal D}$, then
+$$\widehat{\mathrm{VaR}}_t = \hat\mu_t + \hat\sigma_t\, q_p\big(\hat f_{\mathcal D}\big),$$
+with $q_p$ the $p$-quantile of the fitted standardised distribution. Normal: $q_{0.01} = -2.326$, $q_{0.05} = -1.645$.
+:::
+
+---
+
+## 📐 Direct Modelling: CAViaR
+
+::: {style="font-size: 30px"}
+Model the quantile itself, with no distribution (Engle & Manganelli, 2004):
+$$r_t = q_t^p + e_t, \qquad \text{Quantile}_p\big(e_t \mid I_{t-1}\big) = 0,$$
+$$q_t^p = \omega + \beta\, q_{t-1}^p + \alpha\, g(r_{t-1}), \qquad \text{e.g. } g(r) = |r| .$$
+
+Estimate by **quantile regression**: minimise
+$$\sum_t \rho_p\big(r_t - q_t^p\big), \qquad \rho_p(u) = u\,\big(p - \mathbb 1\{u < 0\}\big).$$
+
+The check function $\rho_p$ penalises a return below the quantile with weight $1-p$ and one above it with weight $p$; its minimiser is the $p$-quantile.
+:::
+
+---
+
+## 🧪 Backtesting a VaR
+
+::: {style="font-size: 29px"}
+Define the **hit** $I_t = \mathbb 1\{r_t < \widehat{\mathrm{VaR}}_t\}$. If the VaR is correct, the hits are iid Bernoulli($p$). With $x$ hits in $n$ days and $\hat\pi = x/n$, Kupiec's unconditional-coverage test is
+$$LR_{uc} = -2\log\big[(1-p)^{n-x}p^{x}\big] + 2\log\big[(1-\hat\pi)^{n-x}\hat\pi^{x}\big] \xrightarrow[H_0]{d} \chi^2_1 .$$
+
+- Reject at 5% if $LR_{uc} > 3.84$: too many hits **or** too few
+- Christoffersen (1998) adds a test that the hits are **independent**: clustered hits mean the VaR reacts too slowly
+
+[Not in the 2016 notes: added from Kupiec (1995) and Christoffersen (1998).]{.gapnote}
+:::
+
+---
+
+## ✏️ Worked Example: RiskMetrics VaR
+
+::: {style="font-size: 28px"}
+Yesterday $\sigma_{t \mid t-1}^2 = 1.20$ ($\%^2$) and the index fell $r_t = -2.5\%$. A fund holds 10 million USD.
+
+::: {.fragment}
+**1. Update.** $\sigma_{t+1 \mid t}^2 = 0.06 \times 6.25 + 0.94 \times 1.20 = 0.375 + 1.128 = 1.503$, so $\sigma_{t+1 \mid t} = 1.226\%$.
+:::
+
+::: {.fragment}
+**2. VaR at 99%.** $\mathrm{VaR}_{t+1} = -2.326 \times 1.226 = -2.85\%$: a loss above 285,000 USD on 1 day in 100.
+:::
+
+:::
+
+---
+
+## ✏️ Worked Example: Backtesting It
+
+::: {style="font-size: 28px"}
+Over $n = 1000$ days the same VaR is exceeded $x = 18$ times, against $10$ expected. So $\hat\pi = 0.018$ and
+
+::: {.fragment}
+$$\begin{aligned} LR_{uc} &= -2\,[982 \ln 0.99 + 18 \ln 0.01] + 2\,[982 \ln 0.982 + 18 \ln 0.018] \\ &= 185.53 - 180.30 = 5.23 > 3.84 . \end{aligned}$$
+Reject: the VaR is exceeded too often. With 6 hits instead, $LR_{uc} = 1.89$: fewer hits than expected, but not significantly so.
+:::
+:::
+
+---
+
+## 🧠 Think-Pair-Share
+
+```{r}
+#| label: tps-timer
+#| echo: false
+countdown::countdown(minutes = 3, seconds = 0, top = 0, right = 0,
+                     font_size = "2em", warn_when = 30)
+```
+
+::: {style="font-size: 30px"}
+1. A colleague writes RiskMetrics as $\sigma_t^2 = \omega + \alpha r_{t-1}^2 + \beta\sigma_{t-1}^2$ with $\alpha = 0.94$. What should $\omega$, $\alpha$, $\beta$ be? Is the model covariance stationary?
+
+2. A bank's 99% VaR was exceeded on 4 of the last 250 days. Does Kupiec's test reject?
+
+3. Why is it hopeless to backtest a 99% VaR on one month of data?
+:::
+
+---
+
+## ✅ Think-Pair-Share: Solution
+
+::: {style="font-size: 29px"}
+1. $\omega = 0$, $\alpha = 1 - \lambda = 0.06$, $\beta = \lambda = 0.94$. Since $\alpha + \beta = 1$ it is an IGARCH: **not** covariance stationary, and there is no unconditional variance.
+
+2. $\hat\pi = 0.016$ and
+$$\begin{aligned} LR_{uc} &= -2[246\ln 0.99 + 4\ln 0.01] + 2[246\ln 0.984 + 4\ln 0.016] \\ &= 41.79 - 41.02 = 0.77 < 3.84 . \end{aligned}$$
+No rejection: 4 hits against 2.5 expected is within sampling error.
+
+3. In 21 days the expected number of hits is $0.21$. Zero hits has probability 0.81 if the VaR is right, and remains likely if it is badly wrong, so the test has almost no power.
+:::
+
+---
+
+## 🎛️ Explore: The RiskMetrics Decay $\lambda$
+
+```{ojs}
+//| echo: false
+viewof lam = {
+  const input = Inputs.range([0.80, 0.995], {value: 0.94, step: 0.005, label: "λ (decay)"});
+  ['pointerdown','touchstart','mousedown','click','wheel','pointermove','touchmove']
+    .forEach(e => input.addEventListener(e, ev => ev.stopPropagation()));
+  return input;
+}
+```
+
+```{ojs}
+//| echo: false
+ewma = {
+  const r = ret, n = r.length, out = [];
+  let s2 = r.slice(0, 60).reduce((a, b) => a + b * b, 0) / 60, hits = 0, cnt = 0;
+  for (let t = 1; t < n; t++) {
+    s2 = lam * s2 + (1 - lam) * r[t - 1] ** 2;
+    const v = -2.326 * Math.sqrt(s2);
+    const hit = t >= 250 && r[t] < v;
+    if (t >= 250) { cnt++; if (hit) hits++; }
+    out.push({t, r: r[t], v, hit});
+  }
+  const p = 0.01, ph = hits / cnt;
+  const LR = -2 * ((cnt - hits) * Math.log(1 - p) + hits * Math.log(p))
+             + 2 * ((cnt - hits) * Math.log(1 - ph) + hits * Math.log(ph));
+  return {out, hits, cnt, LR};
+}
+```
+
+```{ojs}
+//| echo: false
+Plot.plot({
+  width: 1100, height: 300, marginLeft: 70, marginBottom: 50, marginTop: 30,
+  style: {fontSize: "18px"},
+  x: {label: "trading day since Oct 2016"}, y: {label: "return (%)", domain: [-13, 10], grid: true},
+  marks: [
+    Plot.lineY(ewma.out, {x: "t", y: "r", stroke: "#c9d4e6", strokeWidth: 1}),
+    Plot.lineY(ewma.out, {x: "t", y: "v", stroke: "#2f4b7c", strokeWidth: 2}),
+    Plot.dot(ewma.out.filter(d => d.hit), {x: "t", y: "r", r: 4, fill: "#8b2635"})
+  ]
+})
+```
+
+```{ojs}
+//| echo: false
+html`<div style="font-size:28px">Blue: normal 99% VaR. Red: hits. ${ewma.hits} hits in ${ewma.cnt} days (${(100 * ewma.hits / ewma.cnt).toFixed(2)}%, expected 1%) · Kupiec LR = ${ewma.LR.toFixed(1)} ${ewma.LR > 3.84 ? "· reject" : "· do not reject"}</div>`
+```
+
+---
+
+## 💰 Case Study: Backtesting S&P 500 VaR
+
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
+
+Three ways to forecast tomorrow's 1% and 5% quantile of the S&P 500 return.
+
+1. Does RiskMetrics with normal quantiles pass Kupiec's test?
+2. Does model-free historical simulation do better?
+3. Does replacing the normal quantile by the empirical one (indirect modelling with $\hat f_{\mathcal D}$) fix the tails?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: S&P 500 close, FRED `SP500`
+
+**Period**: Oct 2016 – Oct 2026; VaR evaluated on the last 2,261 days
+
+**Transformation**: $r_t = 100\,\Delta\log P_t$; $\mu_t = 0$; first 250 days used only to start the forecasts
+:::
+:::
+::::
+
+```{.r .display-only}
+sp <- read.csv("https://fred.stlouisfed.org/graph/fredgraph.csv?id=SP500")
+```
+
+---
+
+## 💰 Case Study: Hit Rates and Kupiec
+
+```{r}
+#| label: case-var
+#| code-summary: "📦 RiskMetrics, historical simulation, filtered HS; Kupiec LR"
+r <- r_all; n <- length(r); ev <- 251:n
+s2 <- numeric(n); s2[1] <- mean(r[1:60]^2)
+for (t in 2:n) s2[t] <- 0.94 * s2[t - 1] + 0.06 * r[t - 1]^2      # sigma^2_{t|t-1}
+z <- r / sqrt(s2)                                                  # standardised returns
+kupiec <- function(hit, p) { x <- sum(hit); m <- length(hit); ph <- x / m
+  LR <- -2 * ((m - x) * log(1 - p) + x * log(p)) + 2 * ((m - x) * log(1 - ph) + x * log(ph))
+  c(hit_rate = 100 * ph, LR = LR, p_value = pchisq(LR, 1, lower.tail = FALSE)) }
+var_fc <- function(p) list(
+  RiskMetrics_normal = qnorm(p) * sqrt(s2[ev]),
+  historical_250d    = sapply(ev, function(t) quantile(r[(t - 250):(t - 1)], p)),
+  filtered_HS        = sapply(ev, function(t) sqrt(s2[t]) * quantile(z[1:(t - 1)], p)))
+V1 <- var_fc(0.01); V5 <- var_fc(0.05)
+round(rbind(t(sapply(V1, function(v) kupiec(r[ev] < v, 0.01))),
+            t(sapply(V5, function(v) kupiec(r[ev] < v, 0.05)))), 3) |>
+  `rownames<-`(paste(rep(c("1%:", "5%:"), each = 3), names(V1)))
+```
+
+::: {style="font-size: 28px"}
+Hit rates in %, against 1 and 5. Read the 1% rows first.
+:::
+
+---
+
+## 💰 Case Study: The Normal Tail Fails
+
+```{r}
+#| label: case-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.9
+dd <- d_all[ev]; v <- V1$RiskMetrics_normal; vf <- V1$filtered_HS
+lab_n <- "99% VaR, RiskMetrics normal"; lab_f <- "99% VaR, filtered HS"
+lines <- rbind(data.frame(d = dd, v = v, what = lab_n), data.frame(d = dd, v = vf, what = lab_f))
+hits <- data.frame(d = dd, r = r[ev])[r[ev] < v, ]
+ggplot() +
+  geom_line(data = data.frame(d = dd, r = r[ev]), aes(d, r), colour = "#d5dde9", linewidth = 0.3) +
+  geom_line(data = lines, aes(d, v, colour = what), linewidth = 0.7) +
+  geom_point(data = hits, aes(d, r), colour = "#8b2635", size = 2) +
+  scale_colour_manual(values = setNames(c("#2f4b7c", "#e08a2c"), c(lab_n, lab_f)), name = NULL) +
+  coord_cartesian(ylim = c(-8, 6)) +
+  labs(x = NULL, y = "Daily return (%)") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+**What the data say:** at 5% all three forecasts pass. At 1% the normal RiskMetrics VaR is exceeded on 2.3% of days (red dots), and Kupiec rejects decisively; historical simulation, which reacts slowly, is also rejected. Keeping RiskMetrics for $\sigma_t$ but taking the quantile from the standardised returns passes. The failure is the normal tail, not the volatility model.
+:::
+
+---
+
+## 📈 VIX: Volatility Looking Forward
+
+```{r}
+#| label: vix
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.5
+vix <- read.csv("data/vix.csv"); vix$VIXCLS <- suppressWarnings(as.numeric(vix$VIXCLS))
+mm <- merge(data.frame(date = d_all, r = r_all, rm = sqrt(252 * s2)),
+            data.frame(date = as.Date(vix$observation_date), vix = vix$VIXCLS))
+mm <- na.omit(mm); N <- nrow(mm)
+mm$rv_fwd <- c(sapply(1:(N - 21), function(i) sqrt(252 / 21 * sum(mm$r[(i + 1):(i + 21)]^2))),
+               rep(NA, 21))                                    # next 21 days, annualised
+ok <- !is.na(mm$rv_fwd)
+st <- c(mean(mm$vix[ok]), mean(mm$rv_fwd[ok]), cor(mm$vix[ok], mm$rv_fwd[ok]),
+        cor(mm$rm[ok], mm$rv_fwd[ok]), mean(mm$vix[ok] > mm$rv_fwd[ok]))
+long <- rbind(data.frame(date = mm$date, v = mm$vix, what = "VIX (implied, next 30 days)"),
+              data.frame(date = mm$date, v = mm$rv_fwd, what = "realized vol, next 21 trading days"))
+ggplot(long, aes(date, v, colour = what)) + geom_line(linewidth = 0.6) +
+  scale_colour_manual(values = c("#8ba3c7", "#8b2635"), name = NULL) +
+  coord_cartesian(ylim = c(0, 90)) + labs(x = NULL, y = "Annualised vol (%)") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+The VIX is the volatility priced into one-month S&P 500 options, a risk-neutral expectation: forward-looking, but not a forecast under the real-world measure. It averages `r sprintf("%.1f", st[1])`% against `r sprintf("%.1f", st[2])`% realized, and exceeds realized vol on `r round(100 * st[5])`% of days: investors pay a **variance risk premium**. Its correlation with future realized vol is `r sprintf("%.2f", st[3])`, against `r sprintf("%.2f", st[4])` for the backward-looking RiskMetrics.
+:::
+
+---
+
+## 📝 Quiz #1: RiskMetrics {.quiz-question}
+
+RiskMetrics with $\lambda = 0.94$ is a GARCH(1,1) with
+
+- [$\omega = 0$, $\alpha = 0.06$, $\beta = 0.94$]{.correct data-explanation="✅ σ²(t+1|t) = (1 − λ) r²(t) + λ σ²(t|t−1): no constant, weight 1 − λ = 0.06 on news and λ = 0.94 on the previous variance. α + β = 1, an IGARCH."}
+- $\omega = 0$, $\alpha = 0.94$, $\beta = 0.06$
+- $\omega = 0.06$, $\alpha = 0.94$, $\beta = 0$
+- $\omega > 0$ estimated from the data, $\alpha + \beta = 0.94$
+
+---
+
+## 📝 Quiz #2: Realized Volatility {.quiz-question}
+
+Why do practitioners compute $RV_t$ from 5-minute returns rather than from every tick?
+
+- [Microstructure noise inflates RV at very high frequencies]{.correct data-explanation="✅ RV converges to integrated volatility as m grows only for the efficient price. Bid–ask bounce and discrete ticks add noise to every intraday return, and its contribution to RV grows with m."}
+- Because $RV_t$ diverges as $m \to \infty$ even without noise
+- Because the drift term dominates at high frequency
+- Because tick data are not observable
+
+---
+
+## 📝 Quiz #3: Backtesting {.quiz-question}
+
+A 95% VaR is exceeded on 0 of 500 days. Kupiec's test:
+
+- [Rejects: 0 hits is far fewer than the 25 expected, so the VaR is too conservative]{.correct data-explanation="✅ With x = 0, LR = −2·500·ln 0.95 = 51.3 > 3.84. Kupiec's test is two-sided: too few hits means the bank holds a VaR far beyond the 5% quantile."}
+- Does not reject: no hits is the best possible outcome
+- Cannot be computed, because $\log \hat\pi$ is undefined
+- Rejects only if the hits are clustered
+
+---
+
+## 📋 Key Formulas
+
+::: {style="font-size: 28px"}
+| | |
+|---|---|
+| RiskMetrics | $\sigma^2_{t+1\mid t} = 0.06\,r_t^2 + 0.94\,\sigma^2_{t\mid t-1}$, an IGARCH |
+| Realized volatility | $RV_t = \sum_{i=1}^m r_{t,i}^2 \to IV_t = \int_0^1\sigma^2_{t+s}\,ds$ |
+| MEM / ACD(1,1) | $x_t = \psi_t\varepsilon_t$, $E\varepsilon_t = 1$; $\ \psi_t = \omega + \alpha d_{t-1} + \beta\psi_{t-1}$ |
+| Autologit(1,1) | $P_t = 1/(1+e^{-w_t})$, $\ w_t = \varphi + \alpha\mathbb 1\{r_{t-1}>0\} + \gamma r_{t-1} + \beta w_{t-1}$ |
+| VaR, indirect | $\widehat{\mathrm{VaR}}_t = \hat\mu_t + \hat\sigma_t q_p(\hat f_{\mathcal D})$ |
+| CAViaR | $q_t^p = \omega + \beta q_{t-1}^p + \alpha|r_{t-1}|$, $\ \min\sum_t\rho_p(r_t - q_t^p)$ |
+| Kupiec | $LR_{uc} = -2\log[(1-p)^{n-x}p^x] + 2\log[(1-\hat\pi)^{n-x}\hat\pi^x] \to \chi^2_1$ |
+
+: {tbl-colwidths="[24,76]"}
+:::
+
+---
+
+## 📋 Summary
+
+::: {style="font-size: 30px"}
+- $|r_t|$, $r_t^2$ and RiskMetrics are observable and model-free; GARCH $\hat\sigma_t^2$ is model-based
+- RiskMetrics is an IGARCH with $\omega = 0$, $\alpha = 0.06$, $\beta = 0.94$
+- Realized volatility converges to integrated volatility; noise sets the sampling interval at 5–15 minutes
+- MEM and ACD model positive series as a conditional mean times a unit-mean shock
+- Direction (autologit) and quantiles (VaR, CAViaR) are dynamic models in their own right
+- On the S&P 500 the 99% normal VaR fails Kupiec's test; the tail, not the volatility, is the problem
+:::
+
+---
+
+## 📚 Further Reading
+
+::: {style="font-size: 28px"}
+- J.P. Morgan/Reuters (1996), *RiskMetrics — Technical Document*
+- Andersen, Bollerslev, Diebold & Labys (2003), *Econometrica*; Barndorff-Nielsen & Shephard (2002), *JRSS B*
+- Engle & Russell (1998), *Econometrica*: ACD; Engle (2002), *J. Applied Econometrics*: MEM
+- Engle & Manganelli (2004), *JBES*: CAViaR; Kupiec (1995), *J. Derivatives*; Christoffersen (1998), *IER*
+- Tsay (2010), ch. 3, 5 and 7
+
+This is the last lecture of the course.
+:::
