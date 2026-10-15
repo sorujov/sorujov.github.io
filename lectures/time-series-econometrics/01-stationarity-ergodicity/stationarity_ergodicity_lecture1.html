@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="stationarity_ergodicity_lecture1_files/libs/clipboard/clipboard.min.js"></script>
+<script src="stationarity_ergodicity_lecture1_files/libs/quarto-html/tabby.min.js"></script>
+<script src="stationarity_ergodicity_lecture1_files/libs/quarto-html/popper.min.js"></script>
+<script src="stationarity_ergodicity_lecture1_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="stationarity_ergodicity_lecture1_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="stationarity_ergodicity_lecture1_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="stationarity_ergodicity_lecture1_files/libs/quarto-html/quarto-syntax-highlighting-11098932bb39e8ccbcedcb139d3d0c2d.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.10.19">
+
+  <meta name="author" content="Samir Orujov, PhD">
+  <title>Time Series Econometrics</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="stationarity_ergodicity_lecture1_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="stationarity_ergodicity_lecture1_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {  background-color: #f8f8f8; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ef2929; } /* Alert */
+    code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #204a87; } /* Attribute */
+    code span.bn { color: #0000cf; } /* BaseN */
+    code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4e9a06; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #8f5902; font-style: italic; } /* Comment */
+    code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+    code span.dt { color: #204a87; } /* DataType */
+    code span.dv { color: #0000cf; } /* DecVal */
+    code span.er { color: #a40000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #0000cf; } /* Float */
+    code span.fu { color: #204a87; font-weight: bold; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+    code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+    code span.ot { color: #8f5902; } /* Other */
+    code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+    code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+    code span.ss { color: #4e9a06; } /* SpecialString */
+    code span.st { color: #4e9a06; } /* String */
+    code span.va { color: #000000; } /* Variable */
+    code span.vs { color: #4e9a06; } /* VerbatimString */
+    code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="stationarity_ergodicity_lecture1_files/libs/revealjs/dist/theme/quarto-9ca4c0fc8b289f175b62c89f22fa8355.css">
+  <link href="stationarity_ergodicity_lecture1_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="stationarity_ergodicity_lecture1_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="stationarity_ergodicity_lecture1_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="stationarity_ergodicity_lecture1_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="stationarity_ergodicity_lecture1_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="stationarity_ergodicity_lecture1_files/libs/revealjs/plugin/reveal-quiz/quiz.css" rel="stylesheet">
+  <link href="stationarity_ergodicity_lecture1_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script type="module" src="stationarity_ergodicity_lecture1_files/libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+  <link href="stationarity_ergodicity_lecture1_files/libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+  <link href="stationarity_ergodicity_lecture1_files/libs/countdown-0.6.0/countdown.css" rel="stylesheet">
+  <script src="stationarity_ergodicity_lecture1_files/libs/countdown-0.6.0/countdown.js"></script>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Time Series Econometrics</h1>
+  <p class="subtitle">Lecture 1: Stationarity, Ergodicity and White Noise</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Samir Orujov, PhD
+</div>
+        <p class="quarto-title-affiliation">
+            Open lecture notes, after Stanislav Anatolyev’s course (2016)
+          </p>
+    </div>
+</div>
+
+</section>
+<section id="the-idea-in-3-minutes" class="slide level2">
+<h2>🎬 The Idea in 3 Minutes</h2>
+<div style="text-align:center">
+<video controls="" preload="metadata" style="width:780px;max-width:100%;aspect-ratio:16/9;background:#111" poster="video/lecture1_intuition.jpg" src="video/lecture1_intuition.mp4"><track kind="captions" src="video/lecture1_intuition.vtt" srclang="en" label="English"></video>
+<p><span style="font-size:28px">A short film with the intuition. Watch it before the slides, or after. Captions: CC button.</span></p>
+</div>
+</section>
+<section id="learning-objectives" class="slide level2">
+<h2>🎯 Learning Objectives</h2>
+<div style="font-size: 32px">
+<p>By the end of this lecture, you will be able to:</p>
+<ul>
+<li><strong>Explain</strong> why a time series is one trajectory of a process, and what that costs us</li>
+<li><strong>Define</strong> strict stationarity and the strong, semi-strong and weak versions of white noise</li>
+<li><strong>Derive</strong> the moments of MA(1), AR(1) and the random walk, and decide which are stationary</li>
+<li><strong>Distinguish</strong> stationarity from ergodicity, with a process that has one but not the other</li>
+<li><strong>Choose</strong> a transformation (log, difference, log return) that makes an economic series plausibly stationary</li>
+</ul>
+</div>
+</section>
+<section id="where-we-are" class="slide level2">
+<h2>🗺️ Where We Are</h2>
+<div style="font-size: 30px">
+<p>This is the first lecture. The course asks one question over and over: <strong>what can we learn about a random process from a single stretch of its history?</strong></p>
+<ul>
+<li>Lectures 1–3: the foundations — stationarity, ergodicity, the law of large numbers and the CLT for dependent data, and regression with time-series data</li>
+<li>Lectures 4–8: what to model, how to choose and evaluate models, and the linear (ARMA) workhorse</li>
+<li>Lectures 9–17: unit roots, nonlinear and regime models, VARs, volatility, breaks and risk</li>
+</ul>
+<div class="fragment">
+<p>Today supplies the two assumptions everything else leans on.</p>
+</div>
+</div>
+</section>
+<section id="the-question" class="slide level2">
+<h2>❓ The Question</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>One history, one market</strong></p>
+</div>
+<div class="callout-content">
+<p>The S&amp;P 500 has exactly one past. We cannot rerun 2016–2026 a thousand times to see how else it might have gone.</p>
+</div>
+</div>
+</div>
+<div style="font-size: 30px">
+<p>Yet we want to say “the expected daily return is about 0.05%” and attach a standard error to it. That means treating an <strong>average over time</strong> as if it were an <strong>average over possible histories</strong>.</p>
+<p>When is that legitimate? The answer has two parts: <strong>stationarity</strong> and <strong>ergodicity</strong>.</p>
+</div>
+</section>
+<section id="two-kinds-of-economist" class="slide level2">
+<h2>👥 Two Kinds of Economist</h2>
+<div style="font-size: 28px">
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>n-economist</strong> (cross-section)</th>
+<th><strong>t-economist</strong> (time series)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Data</td>
+<td><span class="math inline">\(\{x_i\}_{i=1}^{n}\)</span></td>
+<td><span class="math inline">\(\{x_t\}_{t=1}^{T}\)</span></td>
+</tr>
+<tr class="even">
+<td>What it is</td>
+<td><span class="math inline">\(n\)</span> observations of one random variable</td>
+<td><strong>one</strong> segment of <strong>one</strong> realisation of <span class="math inline">\(\{x_t\}_{t=-\infty}^{+\infty}\)</span></td>
+</tr>
+<tr class="odd">
+<td>Dependence</td>
+<td>independent draws (i.i.d.)</td>
+<td>not i.i.d.; we expect <strong>strong</strong> dependence</td>
+</tr>
+<tr class="even">
+<td>Asymptotics</td>
+<td><span class="math inline">\(n \to \infty\)</span>: more independent draws</td>
+<td><span class="math inline">\(T \to \infty\)</span>: a longer stretch of the same path</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p>To apply large-sample theory to time series we must <strong>impose structure</strong> on the process <span class="math inline">\(\{x_t\}_{t=-\infty}^{+\infty}\)</span>. Without it, a single path says nothing about the space of paths it was drawn from.</p>
+</div>
+</div>
+</section>
+<section id="the-space-of-trajectories" class="slide level2">
+<h2>🌌 The Space of Trajectories</h2>
+
+<img data-src="stationarity_ergodicity_lecture1_files/figure-revealjs/trajectories-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1650"><div style="font-size: 28px">
+<p>Grey: 25 possible histories. Red: the one we observe. <span class="math inline">\(E(x_t)\)</span> is an average <strong>down the dashed line</strong>; the sample mean <span class="math inline">\(\bar x_T\)</span> is an average <strong>along the red path</strong>.</p>
+</div>
+</section>
+<section id="strict-stationarity" class="slide level2">
+<h2>📐 Strict Stationarity</h2>
+<div style="font-size: 30px">
+<p>Stationarity means that the statistical properties of the process are <strong>stable in time</strong>.</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Definition (strict stationarity)</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math inline">\(\{x_t\}\)</span> is <strong>strictly stationary</strong> if, for every <span class="math inline">\(k \ge 0\)</span>, the joint distribution of <span class="math display">\[(x_t,\ x_{t+1},\ \dots,\ x_{t+k})\]</span> does not depend on <span class="math inline">\(t\)</span>.</p>
+</div>
+</div>
+</div>
+<p>So the distribution of <span class="math inline">\(x_t\)</span> is the same for every <span class="math inline">\(t\)</span>; so is the joint distribution of every pair <span class="math inline">\((x_t, x_{t+j})\)</span>, every triple, and so on. In particular, if moments exist, <span class="math inline">\(E x_t = \mu\)</span> and <span class="math inline">\(\operatorname{Cov}(x_t, x_{t+j}) = \Gamma_j\)</span> depend on <span class="math inline">\(j\)</span> only.</p>
+</div>
+</section>
+<section id="white-noise-three-strengths" class="slide level2">
+<h2>📐 White Noise: Three Strengths</h2>
+<div style="font-size: 28px">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Definitions</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li><strong>Strong WN:</strong> <span class="math inline">\(\varepsilon_t \sim \text{iid}(0, \sigma^2)\)</span> — the point where we are closest to the n-economist.</li>
+<li><strong>Semi-strong WN:</strong> <span class="math inline">\(E(\varepsilon_t \mid \varepsilon_{t-1}, \varepsilon_{t-2}, \dots) = 0\)</span> — the past does not help to <strong>predict</strong> <span class="math inline">\(\varepsilon_t\)</span>.</li>
+<li><strong>Weak WN:</strong> <span class="math inline">\(E\varepsilon_t = 0\)</span>, <span class="math inline">\(\operatorname{Var}\varepsilon_t = \sigma^2\)</span>, <span class="math inline">\(\operatorname{Cov}(\varepsilon_t, \varepsilon_{t-k}) = 0\)</span> for all <span class="math inline">\(k \ne 0\)</span>.</li>
+</ul>
+</div>
+</div>
+</div>
+<p><span class="math display">\[\text{strong} \;\Longrightarrow\; \text{semi-strong (if } \sigma^2&lt;\infty) \;\Longrightarrow\; \text{weak}\]</span></p>
+<div class="fragment">
+<p>Strong WN is strictly stationary. Weak WN need not be: only its first two moments are fixed in time. For instance, <span class="math inline">\(\varepsilon_t \sim N(0,1)\)</span> for even <span class="math inline">\(t\)</span> and <span class="math inline">\(\varepsilon_t \sim \pm 1\)</span> with probability ½ each for odd <span class="math inline">\(t\)</span> is weak WN, but its distribution changes from one period to the next.</p>
+</div>
+</div>
+</section>
+<section id="why-semi-strong-matters-regression" class="slide level2">
+<h2>📐 Why Semi-Strong Matters: Regression</h2>
+<div style="font-size: 30px">
+<p>The middle version is the one regression with time-series data needs: <span class="math display">\[y_t = x_t'\beta + e_t, \qquad E\left(e_t \mid x_t, x_{t-1}, \dots,\ e_{t-1}, e_{t-2}, \dots\right) = 0.\]</span></p>
+<ul>
+<li>The error is unpredictable from <strong>current and past regressors</strong> and <strong>past errors</strong>.</li>
+<li>That is weaker than i.i.d. errors: the conditional <strong>variance</strong> of <span class="math inline">\(e_t\)</span> may still move with the past.</li>
+<li>Lecture 3 shows that this condition is what makes OLS standard errors simple; when it fails, we need HAC standard errors.</li>
+</ul>
+</div>
+</section>
+<section id="example-ma1" class="slide level2">
+<h2>🧮 Example: MA(1)</h2>
+<div style="font-size: 28px">
+<p><span class="math inline">\(x_t = \varepsilon_t + \theta\varepsilon_{t-1}\)</span>, with <span class="math inline">\(\{\varepsilon_t\}\)</span> white noise, variance <span class="math inline">\(\sigma^2\)</span>.</p>
+<div class="fragment">
+<p><strong>Mean.</strong> <span class="math inline">\(E x_t = E\varepsilon_t + \theta E\varepsilon_{t-1} = 0\)</span>.</p>
+</div>
+<div class="fragment">
+<p><strong>Variance.</strong> The two shocks are uncorrelated, so <span class="math inline">\(\Gamma_0 = \operatorname{Var}x_t = (1 + \theta^2)\sigma^2\)</span>.</p>
+</div>
+<div class="fragment">
+<p><strong>Lag 1.</strong> Only <span class="math inline">\(\varepsilon_t\)</span> is shared by <span class="math inline">\(x_{t+1}\)</span> and <span class="math inline">\(x_t\)</span>: <span class="math display">\[\Gamma_1 = \operatorname{Cov}(\varepsilon_{t+1} + \theta\varepsilon_t,\ \varepsilon_t + \theta\varepsilon_{t-1}) = \theta\sigma^2.\]</span></p>
+</div>
+<div class="fragment">
+<p><strong>Lag <span class="math inline">\(k \ge 2\)</span>.</strong> No shock in common, so <span class="math inline">\(\Gamma_k = 0\)</span>. None of these depends on <span class="math inline">\(t\)</span>: the MA(1) is stationary <strong>for every</strong> <span class="math inline">\(\theta\)</span>, and its memory ends after one period.</p>
+</div>
+</div>
+</section>
+<section id="example-ar1-is-a-recursion" class="slide level2">
+<h2>🧮 Example: AR(1) Is a Recursion</h2>
+<div style="font-size: 28px">
+<p><span class="math inline">\(x_t = \rho x_{t-1} + \varepsilon_t\)</span>, <span class="math inline">\(\ |\rho| &lt; 1\)</span>. Substitute the recursion into itself <span class="math inline">\(k\)</span> times: <span class="math display">\[x_t = \varepsilon_t + \rho\varepsilon_{t-1} + \dots + \rho^{k-1}\varepsilon_{t-k+1} + \rho^{k}x_{t-k}.\]</span></p>
+<div class="fragment">
+<p>As <span class="math inline">\(k \to \infty\)</span>, <span class="math inline">\(\rho^k x_{t-k} \to 0\)</span> for any path with bounded variance, which leaves the <strong>stationary solution</strong> <span class="math display">\[x_t = \sum_{j=0}^{\infty}\rho^j\varepsilon_{t-j}, \qquad \Gamma_0 = \frac{\sigma^2}{1-\rho^2}, \qquad \Gamma_k = \rho^{|k|}\,\Gamma_0.\]</span></p>
+</div>
+<div class="fragment">
+<p>The recursion has <strong>other</strong> solutions. If <span class="math inline">\(x_t\)</span> solves it, so does <span class="math inline">\(y_t = x_t + \rho^t\)</span>, since <span class="math inline">\(\rho^t = \rho\cdot\rho^{t-1}\)</span>. But <span class="math inline">\(E y_t = \rho^t\)</span> changes with <span class="math inline">\(t\)</span>: <span class="math inline">\(y_t\)</span> is <strong>not</strong> stationary. Only one solution is.</p>
+</div>
+</div>
+</section>
+<section id="many-solutions-one-stationary" class="slide level2">
+<h2>💻 Many Solutions, One Stationary</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-label="1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb1-2"><a href="" aria-label="2"></a>rho <span class="ot">&lt;-</span> <span class="fl">0.85</span>; T_len <span class="ot">&lt;-</span> <span class="dv">60</span>; e <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(T_len)</span>
+<span id="cb1-3"><a href="" aria-label="3"></a>solve_ar <span class="ot">&lt;-</span> <span class="cf">function</span>(x0) { x <span class="ot">&lt;-</span> <span class="fu">numeric</span>(T_len); prev <span class="ot">&lt;-</span> x0</span>
+<span id="cb1-4"><a href="" aria-label="4"></a>  <span class="cf">for</span> (t <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>T_len) { x[t] <span class="ot">&lt;-</span> rho <span class="sc">*</span> prev <span class="sc">+</span> e[t]; prev <span class="ot">&lt;-</span> x[t] }; x }</span>
+<span id="cb1-5"><a href="" aria-label="5"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">t =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>T_len, <span class="dv">3</span>),</span>
+<span id="cb1-6"><a href="" aria-label="6"></a>  <span class="at">x =</span> <span class="fu">c</span>(<span class="fu">solve_ar</span>(<span class="dv">10</span>), <span class="fu">solve_ar</span>(<span class="dv">0</span>), <span class="fu">solve_ar</span>(<span class="sc">-</span><span class="dv">10</span>)),</span>
+<span id="cb1-7"><a href="" aria-label="7"></a>  <span class="at">start =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"x0 = 10"</span>, <span class="st">"x0 = 0"</span>, <span class="st">"x0 = -10"</span>), <span class="at">each =</span> T_len))</span>
+<span id="cb1-8"><a href="" aria-label="8"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(t, x, <span class="at">colour =</span> start)) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb1-9"><a href="" aria-label="9"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#8b2635"</span>, <span class="st">"#2f4b7c"</span>, <span class="st">"#e09f3e"</span>), <span class="at">name =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb1-10"><a href="" aria-label="10"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"t"</span>, <span class="at">y =</span> <span class="fu">expression</span>(x[t])) <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"top"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+
+</div>
+<img data-src="stationarity_ergodicity_lecture1_files/figure-revealjs/ar1-solutions-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1650"><div style="font-size: 28px">
+<p>Same shocks, three starting values. The gaps are <span class="math inline">\(\pm 10\rho^t\)</span>: they die out, and every solution merges into the stationary one.</p>
+</div>
+</section>
+<section id="example-the-random-walk" class="slide level2">
+<h2>🧮 Example: The Random Walk</h2>
+<div style="font-size: 28px">
+<p>Set <span class="math inline">\(\rho = 1\)</span>: <span class="math inline">\(\ x_t = x_{t-1} + \varepsilon_t\)</span>, started at <span class="math inline">\(x_0 = 0\)</span>. Then <span class="math inline">\(x_t = \varepsilon_1 + \varepsilon_2 + \dots + \varepsilon_t\)</span>.</p>
+<div class="fragment">
+<p><span class="math display">\[E x_t = 0, \qquad \operatorname{Var}(x_t) = t\sigma^2, \qquad \operatorname{Cov}(x_t, x_{t+k}) = t\sigma^2.\]</span></p>
+</div>
+<div class="fragment">
+<ul>
+<li>The <strong>variance is not stable</strong>: it grows linearly with <span class="math inline">\(t\)</span>. The random walk is not stationary.</li>
+<li>The correlation <span class="math inline">\(\sqrt{t/(t+k)}\)</span> between <span class="math inline">\(x_t\)</span> and <span class="math inline">\(x_{t+k}\)</span> tends to 1 as <span class="math inline">\(t\)</span> grows: a shock is never forgotten. It is not ergodic either.</li>
+<li>Back-substitution fails for <span class="math inline">\(\rho = 1\)</span>: <span class="math inline">\(\rho^k x_{t-k} = x_{t-k}\)</span> does not vanish, so there is no stationary solution to fall back on.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="what-breaks-stationarity" class="slide level2">
+<h2>🌦️ What Breaks Stationarity?</h2>
+
+<img data-src="stationarity_ergodicity_lecture1_files/figure-revealjs/seasonal-arch-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1650"><div style="font-size: 28px">
+<p><strong>Left:</strong> monthly data whose winter and summer means differ, so the distribution of <span class="math inline">\(x_t\)</span> depends on the season of <span class="math inline">\(t\)</span> — not stationary. <strong>Right:</strong> <span class="math inline">\(\sigma_t^2 = 0.2 + 0.8\,\varepsilon_{t-1}^2\)</span> moves with the past, but the <strong>unconditional</strong> variance <span class="math inline">\(0.2/(1-0.8) = 1\)</span> is constant — stationary.</p>
+</div>
+</section>
+<section id="explore-persistence" class="slide level2">
+<h2>🎛️ Explore: Persistence</h2>
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="328" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 327;"><span id="cb2-328"><a href="" aria-label="328"></a>viewof rho <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="op">-</span><span class="fl">0.9</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"AR coefficient ρ"</span>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb3" data-startfrom="333" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 332;"><span id="cb3-333"><a href="" aria-label="333"></a>ar_data <span class="op">=</span> {</span>
+<span id="cb3-334"><a href="" aria-label="334"></a>  <span class="kw">const</span> T <span class="op">=</span> <span class="dv">500</span><span class="op">,</span> rng <span class="op">=</span> d3<span class="op">.</span><span class="at">randomNormal</span><span class="op">.</span><span class="fu">source</span>(d3<span class="op">.</span><span class="fu">randomLcg</span>(<span class="fl">0.2026</span>))(<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb3-335"><a href="" aria-label="335"></a>  <span class="kw">const</span> out <span class="op">=</span> []<span class="op">;</span> <span class="kw">let</span> x <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> s <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb3-336"><a href="" aria-label="336"></a>  <span class="cf">for</span> (<span class="kw">let</span> t <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> t <span class="op">&lt;=</span> T<span class="op">;</span> t<span class="op">++</span>) {</span>
+<span id="cb3-337"><a href="" aria-label="337"></a>    x <span class="op">=</span> rho <span class="op">*</span> x <span class="op">+</span> <span class="fu">rng</span>()<span class="op">;</span> s <span class="op">+=</span> x<span class="op">;</span></span>
+<span id="cb3-338"><a href="" aria-label="338"></a>    out<span class="op">.</span><span class="fu">push</span>({t<span class="op">,</span> <span class="dt">value</span><span class="op">:</span> x<span class="op">,</span> <span class="dt">series</span><span class="op">:</span> <span class="st">"path x_t"</span>})<span class="op">;</span></span>
+<span id="cb3-339"><a href="" aria-label="339"></a>    out<span class="op">.</span><span class="fu">push</span>({t<span class="op">,</span> <span class="dt">value</span><span class="op">:</span> s <span class="op">/</span> t<span class="op">,</span> <span class="dt">series</span><span class="op">:</span> <span class="st">"running mean"</span>})<span class="op">;</span></span>
+<span id="cb3-340"><a href="" aria-label="340"></a>  }</span>
+<span id="cb3-341"><a href="" aria-label="341"></a>  <span class="cf">return</span> out<span class="op">;</span></span>
+<span id="cb3-342"><a href="" aria-label="342"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb4" data-startfrom="347" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 346;"><span id="cb4-347"><a href="" aria-label="347"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb4-348"><a href="" aria-label="348"></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">1100</span><span class="op">,</span> <span class="dt">height</span><span class="op">:</span> <span class="dv">300</span><span class="op">,</span> <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">78</span><span class="op">,</span> <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
+<span id="cb4-349"><a href="" aria-label="349"></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontSize</span><span class="op">:</span> <span class="st">"18px"</span>}<span class="op">,</span></span>
+<span id="cb4-350"><a href="" aria-label="350"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"t"</span>}<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="kw">null</span><span class="op">,</span> <span class="dt">grid</span><span class="op">:</span> <span class="kw">true</span>}<span class="op">,</span></span>
+<span id="cb4-351"><a href="" aria-label="351"></a>  <span class="dt">color</span><span class="op">:</span> {<span class="dt">domain</span><span class="op">:</span> [<span class="st">"path x_t"</span><span class="op">,</span> <span class="st">"running mean"</span>]<span class="op">,</span> <span class="dt">range</span><span class="op">:</span> [<span class="st">"#8ba3c7"</span><span class="op">,</span> <span class="st">"#8b2635"</span>]}<span class="op">,</span></span>
+<span id="cb4-352"><a href="" aria-label="352"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb4-353"><a href="" aria-label="353"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])<span class="op">,</span></span>
+<span id="cb4-354"><a href="" aria-label="354"></a>    Plot<span class="op">.</span><span class="fu">line</span>(ar_data<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"t"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"value"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"series"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">series</span> <span class="op">===</span> <span class="st">"running mean"</span> <span class="op">?</span> <span class="dv">3</span> <span class="op">:</span> <span class="fl">1.2</span>})</span>
+<span id="cb4-355"><a href="" aria-label="355"></a>  ]</span>
+<span id="cb4-356"><a href="" aria-label="356"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-3" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>Blue: the path <span class="math inline">\(x_t\)</span>; red: its running mean <span class="math inline">\(\bar x_t\)</span>. Same shocks for every <span class="math inline">\(\rho\)</span>. Near 0 the running mean settles at <span class="math inline">\(E x_t = 0\)</span> quickly; near 1 it wanders for a long time; at <span class="math inline">\(\rho = 1\)</span> it never settles.</p>
+</div>
+</section>
+<section id="ergodicity-loss-of-memory" class="slide level2">
+<h2>📐 Ergodicity: Loss of Memory</h2>
+<div style="font-size: 30px">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Definition (heuristic)</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math inline">\(\{x_t\}\)</span> is <strong>ergodic</strong> if <span class="math inline">\(x_t\)</span> and <span class="math inline">\(x_{t+k}\)</span> become independent as <span class="math inline">\(k \to \infty\)</span>: the process <strong>loses its memory</strong>.</p>
+</div>
+</div>
+</div>
+<ul>
+<li>Strictly, asymptotic independence is a <em>mixing</em> condition. It is sufficient for ergodicity, and it is the version to keep in mind.</li>
+<li>For asymptotic theory we require <strong>both</strong> stationarity and ergodicity (S&amp;E).</li>
+<li>The random walk is neither stationary nor ergodic.</li>
+<li>Stationarity alone is <strong>not</strong> enough: the next slide has a stationary process with a perfect memory.</li>
+</ul>
+</div>
+</section>
+<section id="stationary-but-not-ergodic" class="slide level2">
+<h2>🧊 Stationary but Not Ergodic</h2>
+<div style="font-size: 28px">
+<p>Draw <span class="math inline">\(z \sim N(0,1)\)</span> <strong>once</strong>, and set <span class="math inline">\(x_t = z\)</span> for every <span class="math inline">\(t\)</span>.</p>
+<div class="fragment">
+<ul>
+<li><strong>Stationary:</strong> every vector <span class="math inline">\((x_t, \dots, x_{t+k}) = (z, \dots, z)\)</span> has the same distribution for every <span class="math inline">\(t\)</span>.</li>
+<li><strong>Not ergodic:</strong> <span class="math inline">\(\operatorname{Cov}(x_t, x_{t-k}) = \operatorname{Var}(z) = 1\)</span> for every <span class="math inline">\(k\)</span>. The dependence never dies out.</li>
+</ul>
+</div>
+<div class="fragment">
+<p>The sample mean is <span class="math inline">\(\bar x_T = z\)</span> for <strong>every</strong> <span class="math inline">\(T\)</span>. It does not converge to <span class="math inline">\(E x_t = 0\)</span>. One path shows one value of <span class="math inline">\(z\)</span>, and no amount of waiting reveals the others.</p>
+<p>A slightly richer version, <span class="math inline">\(x_t = \varepsilon_t + z\)</span> with <span class="math inline">\(\varepsilon_t\)</span> white noise, looks like noise on every path, yet each path hovers around its own level <span class="math inline">\(z\)</span>.</p>
+</div>
+</div>
+</section>
+<section id="the-law-of-large-numbers" class="slide level2">
+<h2>📐 The Law of Large Numbers</h2>
+<div style="font-size: 30px">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Law of large numbers for S&amp;E series</strong></p>
+</div>
+<div class="callout-content">
+<p>If <span class="math inline">\(\{x_t\}\)</span> is strictly stationary and ergodic and <span class="math inline">\(E|x_t| &lt; \infty\)</span>, then <span class="math display">\[\operatorname*{plim}_{T\to\infty}\ \frac1T\sum_{t=1}^{T}x_t = E(x_t).\]</span></p>
+</div>
+</div>
+</div>
+<p>This is the licence to replace an average over histories (the dashed line) by an average over time (the red path).</p>
+<ul>
+<li>For <strong>non-ergodic</strong> series the LLN does not hold.</li>
+<li>For <strong>non-stationary</strong> series <span class="math inline">\(E(x_t)\)</span> is not even a single number to converge to.</li>
+</ul>
+</div>
+</section>
+<section id="the-lln-working-and-failing" class="slide level2">
+<h2>💻 The LLN Working, and Failing</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="" aria-label="1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb5-2"><a href="" aria-label="2"></a>T_len <span class="ot">&lt;-</span> <span class="dv">2000</span>; n_path <span class="ot">&lt;-</span> <span class="dv">15</span>; rho <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
+<span id="cb5-3"><a href="" aria-label="3"></a>run_mean <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">cumsum</span>(x) <span class="sc">/</span> <span class="fu">seq_along</span>(x)</span>
+<span id="cb5-4"><a href="" aria-label="4"></a>erg <span class="ot">&lt;-</span> <span class="fu">replicate</span>(n_path, <span class="fu">run_mean</span>(<span class="fu">as.numeric</span>(<span class="fu">filter</span>(<span class="fu">rnorm</span>(T_len), rho, <span class="st">"recursive"</span>))))</span>
+<span id="cb5-5"><a href="" aria-label="5"></a>non <span class="ot">&lt;-</span> <span class="fu">replicate</span>(n_path, <span class="fu">run_mean</span>(<span class="fu">rnorm</span>(T_len) <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">1</span>)))   <span class="co"># x_t = eps_t + z</span></span>
+<span id="cb5-6"><a href="" aria-label="6"></a>df <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb5-7"><a href="" aria-label="7"></a>  <span class="fu">data.frame</span>(<span class="at">t =</span> <span class="dv">1</span><span class="sc">:</span>T_len, <span class="at">m =</span> <span class="fu">as.vector</span>(erg), <span class="at">p =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>n_path, <span class="at">each =</span> T_len), <span class="at">panel =</span> <span class="st">"AR(1), rho = 0.5: S&amp;E"</span>),</span>
+<span id="cb5-8"><a href="" aria-label="8"></a>  <span class="fu">data.frame</span>(<span class="at">t =</span> <span class="dv">1</span><span class="sc">:</span>T_len, <span class="at">m =</span> <span class="fu">as.vector</span>(non), <span class="at">p =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>n_path, <span class="at">each =</span> T_len), <span class="at">panel =</span> <span class="st">"eps_t + z: stationary, not ergodic"</span>))</span>
+<span id="cb5-9"><a href="" aria-label="9"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(t, m, <span class="at">group =</span> p)) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">colour =</span> <span class="st">"#2f4b7c"</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb5-10"><a href="" aria-label="10"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">"#8b2635"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span> panel) <span class="sc">+</span></span>
+<span id="cb5-11"><a href="" aria-label="11"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"T (log scale)"</span>, <span class="at">y =</span> <span class="st">"running mean"</span>) <span class="sc">+</span></span>
+<span id="cb5-12"><a href="" aria-label="12"></a>  <span class="fu">theme</span>(<span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">17</span>, <span class="at">face =</span> <span class="st">"bold"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+
+</div>
+<img data-src="stationarity_ergodicity_lecture1_files/figure-revealjs/lln-sim-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1650"><div style="font-size: 28px">
+<p>Left: fifteen paths, one limit, <span class="math inline">\(E x_t = 0\)</span>. Right: fifteen paths, fifteen limits — each converges to its own <span class="math inline">\(z\)</span>, not to <span class="math inline">\(E x_t = 0\)</span>.</p>
+</div>
+</section>
+<section id="functions-of-se-series" class="slide level2">
+<h2>📐 Functions of S&amp;E Series</h2>
+<div style="font-size: 28px">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Proposition</strong></p>
+</div>
+<div class="callout-content">
+<p>If <span class="math inline">\(\{x_t\}\)</span> is S&amp;E and <span class="math inline">\(f\)</span> is a measurable function that does <strong>not</strong> depend on <span class="math inline">\(t\)</span>, then <span class="math display">\[y_t = f(x_t, x_{t-1}, \dots, x_{t-n})\]</span> is S&amp;E. The same holds with infinitely many lags, provided the function is well defined.</p>
+</div>
+</div>
+</div>
+<ul>
+<li>So <span class="math inline">\(x_t^2\)</span>, <span class="math inline">\(x_t x_{t-1}\)</span>, <span class="math inline">\(\log|x_t|\)</span> and <span class="math inline">\(\mathbf 1\{x_t &gt; 0\}\)</span> inherit S&amp;E from <span class="math inline">\(x_t\)</span>.</li>
+<li><strong>MA(<span class="math inline">\(\infty\)</span>).</strong> If <span class="math inline">\(\varepsilon_t\)</span> is i.i.d. and <span class="math inline">\(\sum_j|\psi_j| &lt; \infty\)</span>, then <span class="math inline">\(x_t = \sum_{j\ge0}\psi_j\varepsilon_{t-j}\)</span> is S&amp;E. With <span class="math inline">\(\psi_j = 0.9^j\)</span> the sum converges: S&amp;E.</li>
+<li>With <span class="math inline">\(\psi_j = 1\)</span> for all <span class="math inline">\(j\)</span> the sum does not converge, so <span class="math inline">\(f\)</span> is not well defined; the partial sums form a random walk, neither S nor E.</li>
+</ul>
+</div>
+</section>
+<section id="making-a-series-stationary" class="slide level2">
+<h2>🔧 Making a Series Stationary</h2>
+<div style="font-size: 28px">
+<p>Most economic levels are not stationary. We <strong>transform</strong> them first.</p>
+<ul>
+<li><strong>Prices</strong> wander: use <strong>log returns</strong> <span class="math inline">\(r_t = \log P_t - \log P_{t-1}\)</span>.</li>
+<li><strong>Output</strong> (GNP) grows exponentially, so its mean is growing. Take logs: <span class="math inline">\(\log \text{GNP}_t\)</span> grows roughly linearly. Then difference: <span class="math display">\[\Delta\log\text{GNP}_t = \log\frac{\text{GNP}_t}{\text{GNP}_{t-1}} \approx \frac{\Delta\text{GNP}_t}{\text{GNP}_{t-1}},\]</span> the <strong>growth rate</strong>, which fluctuates around a constant mean.</li>
+<li>The trend in <span class="math inline">\(\log\text{GNP}\)</span> may be <strong>deterministic</strong> or <strong>stochastic</strong>; telling them apart is the subject of Lectures 9–10.</li>
+<li><strong>Seasonality</strong> and <strong>structural breaks</strong> also violate stationarity, and must be modelled rather than ignored.</li>
+</ul>
+</div>
+</section>
+<section id="thinkpairshare" class="slide level2">
+<h2>🧠 Think–Pair–Share</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<countdown-timer class="countdown" id="timer_01167e8c" minutes="3" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
+</div>
+</div>
+<div style="font-size: 28px">
+<p><span class="math inline">\(\varepsilon_t\)</span> is i.i.d. <span class="math inline">\(N(0,1)\)</span>; <span class="math inline">\(z \sim N(0,1)\)</span> is drawn once, independent of <span class="math inline">\(\{\varepsilon_t\}\)</span>. For each process: is it strictly stationary? Is it ergodic?</p>
+<ol type="1">
+<li><span class="math inline">\(x_t = \varepsilon_t + 3\varepsilon_{t-1}\)</span></li>
+<li><span class="math inline">\(x_t = z\,\varepsilon_t\)</span></li>
+<li><span class="math inline">\(x_t = \mu_{q(t)} + \varepsilon_t\)</span>, where <span class="math inline">\(q(t)\)</span> is the quarter of month <span class="math inline">\(t\)</span> and <span class="math inline">\(\mu_1, \dots, \mu_4\)</span> are not all equal</li>
+</ol>
+<p><em>Hint for 2:</em> does <span class="math inline">\(\bar x_T\)</span> converge to <span class="math inline">\(E x_t\)</span>? Does the sample mean of <span class="math inline">\(x_t^2\)</span>?</p>
+</div>
+</section>
+<section id="thinkpairshare-solution" class="slide level2">
+<h2>✅ Think–Pair–Share: Solution</h2>
+<div style="font-size: 28px">
+<ol type="1">
+<li><strong>S&amp;E.</strong> An MA(1) is stationary for every <span class="math inline">\(\theta\)</span>, including <span class="math inline">\(\theta = 3\)</span>, and <span class="math inline">\(x_t\)</span>, <span class="math inline">\(x_{t+k}\)</span> are independent once <span class="math inline">\(k \ge 2\)</span>.</li>
+</ol>
+<div class="fragment">
+<ol start="2" type="1">
+<li><strong>Stationary, not ergodic.</strong> <span class="math inline">\((x_t, \dots, x_{t+k}) = z\,(\varepsilon_t, \dots, \varepsilon_{t+k})\)</span>, whose law does not depend on <span class="math inline">\(t\)</span>. The mean is fine: <span class="math inline">\(\bar x_T = z\,\bar\varepsilon_T \to 0 = E x_t\)</span>. But <span class="math display">\[\frac1T\sum_t x_t^2 = z^2\,\frac1T\sum_t\varepsilon_t^2 \xrightarrow{p} z^2 \ne E x_t^2 = 1.\]</span> <span class="math inline">\(|x_t|\)</span> and <span class="math inline">\(|x_{t+k}|\)</span> share <span class="math inline">\(|z|\)</span> for every <span class="math inline">\(k\)</span>: the memory is in the <strong>scale</strong>.</li>
+</ol>
+</div>
+<div class="fragment">
+<ol start="3" type="1">
+<li><strong>Not stationary.</strong> <span class="math inline">\(E x_t = \mu_{q(t)}\)</span> depends on <span class="math inline">\(t\)</span>. Removing the quarterly means (seasonal adjustment) gives back <span class="math inline">\(\varepsilon_t\)</span>, which is S&amp;E.</li>
+</ol>
+</div>
+</div>
+</section>
+<section id="case-study-levels-or-returns" class="slide level2">
+<h2>💰 Case Study: Levels or Returns?</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📈 The question</strong></p>
+</div>
+<div class="callout-content">
+<p>Is the S&amp;P 500 a stationary series? If not, are its daily log returns?</p>
+<ol type="1">
+<li>Do the mean and standard deviation of the <strong>level</strong> stay put from one half of the sample to the other?</li>
+<li>Do those of the <strong>returns</strong>?</li>
+<li>What is left over that stationarity does not rule out?</li>
+</ol>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 The data</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Series</strong>: S&amp;P 500 index, daily close (FRED <code>SP500</code>)</p>
+<p><strong>Period</strong>: 17 Oct 2016 – 14 Oct 2026, about 2,500 trading days</p>
+<p><strong>Transformation</strong>: <span class="math inline">\(r_t = 100\,(\log P_t - \log P_{t-1})\)</span>, in percent</p>
+</div>
+</div>
+</div>
+</div></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource r display-only number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="" aria-label="1"></a><span class="co"># How the vendored file was obtained (not run here)</span></span>
+<span id="cb6-2"><a href="" aria-label="2"></a><span class="fu">download.file</span>(<span class="st">"https://fred.stlouisfed.org/graph/fredgraph.csv?id=SP500"</span>, <span class="st">"data/SP500.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="case-study-two-halves-in-r" class="slide level2">
+<h2>💰 Case Study: Two Halves in R</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>📦 Compare the two halves of the sample, level and returns</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="" aria-label="1"></a>sp <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/SP500.csv"</span>)</span>
+<span id="cb7-2"><a href="" aria-label="2"></a>sp<span class="sc">$</span>P <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(sp<span class="sc">$</span>SP500))   <span class="co"># FRED marks holidays "."</span></span>
+<span id="cb7-3"><a href="" aria-label="3"></a>sp <span class="ot">&lt;-</span> sp[<span class="sc">!</span><span class="fu">is.na</span>(sp<span class="sc">$</span>P), ]</span>
+<span id="cb7-4"><a href="" aria-label="4"></a>sp<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(sp<span class="sc">$</span>observation_date)</span>
+<span id="cb7-5"><a href="" aria-label="5"></a>r <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">diff</span>(<span class="fu">log</span>(sp<span class="sc">$</span>P))                       <span class="co"># daily log returns, %</span></span>
+<span id="cb7-6"><a href="" aria-label="6"></a>half <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"first half"</span>, <span class="st">"second half"</span>), <span class="at">each =</span> <span class="fu">ceiling</span>(<span class="fu">length</span>(r) <span class="sc">/</span> <span class="dv">2</span>))[<span class="fu">seq_along</span>(r)]</span>
+<span id="cb7-7"><a href="" aria-label="7"></a>lvl <span class="ot">&lt;-</span> sp<span class="sc">$</span>P[<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb7-8"><a href="" aria-label="8"></a>acf1 <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">acf</span>(x, <span class="at">plot =</span> <span class="cn">FALSE</span>)<span class="sc">$</span>acf[<span class="dv">2</span>]   <span class="co"># lag-1 autocorrelation</span></span>
+<span id="cb7-9"><a href="" aria-label="9"></a><span class="fu">round</span>(<span class="fu">rbind</span>(<span class="at">level_mean =</span> <span class="fu">tapply</span>(lvl, half, mean), <span class="at">level_sd =</span> <span class="fu">tapply</span>(lvl, half, sd),</span>
+<span id="cb7-10"><a href="" aria-label="10"></a>            <span class="at">return_mean =</span> <span class="fu">tapply</span>(r, half, mean),  <span class="at">return_sd =</span> <span class="fu">tapply</span>(r, half, sd),</span>
+<span id="cb7-11"><a href="" aria-label="11"></a>            <span class="at">acf1_return =</span> <span class="fu">tapply</span>(r, half, acf1),  <span class="at">acf1_return_sq =</span> <span class="fu">tapply</span>(r<span class="sc">^</span><span class="dv">2</span>, half, acf1)), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>               first half second half
+level_mean       3015.867    5345.921
+level_sd          603.835    1188.593
+return_mean         0.057       0.045
+return_sd           1.210       1.069
+acf1_return        -0.242      -0.016
+acf1_return_sq      0.510       0.176</code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>The level’s mean nearly doubles between halves; the return’s mean and sd barely move. Note the last row: <span class="math inline">\(r_t^2\)</span> is clearly autocorrelated in both halves.</p>
+</div>
+</section>
+<section id="case-study-rolling-windows" class="slide level2">
+<h2>💰 Case Study: Rolling Windows</h2>
+
+<img data-src="stationarity_ergodicity_lecture1_files/figure-revealjs/case-sp-fig-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1500"><div style="font-size: 28px">
+<p><strong>What the data say:</strong> the level trends upward, so its rolling mean has no fixed value to estimate; the returns fluctuate around a stable mean near zero, which is why we model returns. Stationarity is not the whole story: the rolling sd jumps in 2020 and stays high through 2022, and <span class="math inline">\(r_t^2\)</span> is autocorrelated — volatility clustering, which a stationary but conditionally heteroskedastic model (Lecture 15) can capture.</p>
+</div>
+</section>
+<section id="quiz-1-which-white-noise" class="slide level2 quiz-question">
+<h2>📝 Quiz #1: Which White Noise?</h2>
+<p><span class="math inline">\(\varepsilon_t = \sigma_t\eta_t\)</span> with <span class="math inline">\(\eta_t\)</span> i.i.d. <span class="math inline">\(N(0,1)\)</span> and <span class="math inline">\(\sigma_t^2 = 0.2 + 0.5\,\varepsilon_{t-1}^2\)</span>. Which is the strongest version of white noise that <span class="math inline">\(\varepsilon_t\)</span> satisfies?</p>
+<ul>
+<li>Strong: <span class="math inline">\(\varepsilon_t\)</span> is i.i.d.</li>
+<li><span class="correct" data-explanation="✅ Given the past, σ_t is known and E(η_t)=0, so the conditional mean is zero. But the conditional variance depends on ε²_{t−1}, so the ε_t are dependent and not i.i.d.">Semi-strong: <span class="math inline">\(E(\varepsilon_t \mid \varepsilon_{t-1}, \dots) = 0\)</span>, but not i.i.d.</span></li>
+<li>Only weak: uncorrelated, but predictable in mean</li>
+<li>None: the variance changes over time</li>
+</ul>
+</section>
+<section id="quiz-2-the-random-walk" class="slide level2 quiz-question">
+<h2>📝 Quiz #2: The Random Walk</h2>
+<p><span class="math inline">\(x_t = x_{t-1} + \varepsilon_t\)</span>, <span class="math inline">\(x_0 = 0\)</span>, <span class="math inline">\(\operatorname{Var}\varepsilon_t = 4\)</span>. What is <span class="math inline">\(\operatorname{Var}(x_{25})\)</span>?</p>
+<ul>
+<li><span class="math inline">\(4\)</span></li>
+<li><span class="math inline">\(\infty\)</span></li>
+<li><span class="correct" data-explanation="✅ x_25 is the sum of 25 uncorrelated shocks, so Var(x_25) = 25 × 4 = 100. The variance grows like tσ², which is why the random walk is not stationary."><span class="math inline">\(100\)</span></span></li>
+<li><span class="math inline">\(4/(1-1^2)\)</span>, which is undefined</li>
+</ul>
+</section>
+<section id="quiz-3-stationary-not-ergodic" class="slide level2 quiz-question">
+<h2>📝 Quiz #3: Stationary, Not Ergodic</h2>
+<p><span class="math inline">\(x_t = \varepsilon_t + z\)</span>, with <span class="math inline">\(\varepsilon_t\)</span> white noise and <span class="math inline">\(z \sim N(0,1)\)</span> drawn once. As <span class="math inline">\(T \to \infty\)</span>, the sample mean <span class="math inline">\(\bar x_T\)</span> converges in probability to …</p>
+<ul>
+<li><span class="math inline">\(0 = E x_t\)</span></li>
+<li><span class="correct" data-explanation="✅ x̄_T = ε̄_T + z, and ε̄_T → 0. The limit is z, not E x_t = 0: the process is stationary but not ergodic, so the LLN fails."><span class="math inline">\(z\)</span>, a random variable that differs from path to path</span></li>
+<li>Nothing: <span class="math inline">\(\bar x_T\)</span> diverges</li>
+<li><span class="math inline">\(1 = \operatorname{Var}(z)\)</span></li>
+</ul>
+</section>
+<section id="key-formulas" class="slide level2">
+<h2>📋 Key Formulas</h2>
+<div style="font-size: 28px">
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>Strict stationarity</td>
+<td>law of <span class="math inline">\((x_t, \dots, x_{t+k})\)</span> free of <span class="math inline">\(t\)</span>, every <span class="math inline">\(k\)</span></td>
+</tr>
+<tr class="even">
+<td>Strong / semi-strong / weak WN</td>
+<td>iid<span class="math inline">\((0,\sigma^2)\)</span> / <span class="math inline">\(E(\varepsilon_t\mid\text{past})=0\)</span> / uncorrelated</td>
+</tr>
+<tr class="odd">
+<td>MA(1)</td>
+<td><span class="math inline">\(\Gamma_0 = (1+\theta^2)\sigma^2\)</span>, <span class="math inline">\(\Gamma_1 = \theta\sigma^2\)</span>, <span class="math inline">\(\Gamma_k = 0\)</span> for <span class="math inline">\(k\ge2\)</span></td>
+</tr>
+<tr class="even">
+<td>AR(1), <span class="math inline">\(\lvert\rho\rvert&lt;1\)</span></td>
+<td><span class="math inline">\(x_t = \sum_{j\ge0}\rho^j\varepsilon_{t-j}\)</span>, <span class="math inline">\(\Gamma_k = \rho^{\lvert k\rvert}\sigma^2/(1-\rho^2)\)</span></td>
+</tr>
+<tr class="odd">
+<td>Random walk, <span class="math inline">\(x_0 = 0\)</span></td>
+<td><span class="math inline">\(\operatorname{Var}x_t = t\sigma^2\)</span></td>
+</tr>
+<tr class="even">
+<td>LLN for S&amp;E, <span class="math inline">\(E\lvert x_t\rvert&lt;\infty\)</span></td>
+<td><span class="math inline">\(\frac1T\sum_{t=1}^T x_t \xrightarrow{p} E x_t\)</span></td>
+</tr>
+<tr class="odd">
+<td>Log return / growth rate</td>
+<td><span class="math inline">\(\log P_t - \log P_{t-1} \approx \Delta P_t / P_{t-1}\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="summary" class="slide level2">
+<h2>📋 Summary</h2>
+<div style="font-size: 28px">
+<ul>
+<li>A time series is one segment of one trajectory; to learn from it we <strong>impose</strong> stationarity and ergodicity</li>
+<li>Strict stationarity: every finite-dimensional distribution is invariant to shifts in time</li>
+<li>White noise comes in three strengths; the semi-strong (MDS) version is what time-series regression needs</li>
+<li>MA(1) is always stationary; AR(1) has a unique stationary solution when <span class="math inline">\(|\rho|&lt;1\)</span>; the random walk has none</li>
+<li>Ergodicity is loss of memory; <span class="math inline">\(x_t = z\)</span> is stationary with a perfect memory, and its sample mean never learns <span class="math inline">\(E x_t\)</span></li>
+<li>Under S&amp;E the time average converges to the expectation; we transform levels (logs, differences, returns) to get there</li>
+</ul>
+</div>
+</section>
+<section id="further-reading" class="slide level2">
+<h2>📚 Further Reading</h2>
+<div style="font-size: 28px">
+<ul>
+<li>Hamilton, J. D. (1994). <em>Time Series Analysis</em>. Princeton UP, ch.&nbsp;3.1–3.2 (stationarity, ergodicity, white noise) and ch.&nbsp;7.2 (the LLN for dependent data).</li>
+<li>Tsay, R. S. (2010). <em>Analysis of Financial Time Series</em>, 3rd ed.&nbsp;Wiley, ch.&nbsp;1 and 2.1–2.4 (returns, stationarity, AR and MA basics).</li>
+<li>Franses, P. H. and van Dijk, D. (2000). <em>Non-Linear Time Series Models in Empirical Finance</em>. Cambridge UP, ch.&nbsp;2 (stylised facts of returns).</li>
+<li>Hayashi, F. (2000). <em>Econometrics</em>. Princeton UP, §2.2 (ergodic stationarity, MDS).</li>
+</ul>
+<p><strong>Next lecture:</strong> Ergodic Theorem, CLT and the Long-Run Variance — how fast <span class="math inline">\(\bar x_T\)</span> converges, and how to put a standard error on it when the data have memory.</p>
+</div>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+<p>Time Series Econometrics — Stationarity and Ergodicity</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="stationarity_ergodicity_lecture1_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="stationarity_ergodicity_lecture1_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="stationarity_ergodicity_lecture1_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="stationarity_ergodicity_lecture1_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="stationarity_ergodicity_lecture1_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="stationarity_ergodicity_lecture1_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="stationarity_ergodicity_lecture1_files/libs/revealjs/plugin/reveal-quiz/quiz.js"></script>
+  <script src="stationarity_ergodicity_lecture1_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="stationarity_ergodicity_lecture1_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="stationarity_ergodicity_lecture1_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="stationarity_ergodicity_lecture1_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="stationarity_ergodicity_lecture1_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'quiz': {"checkKey":"c","resetKey":"r","shuffleKey":"s","allowNumberKeys":true,"disableOnCheck":false,"shuffleOptions":true,"defaultCorrect":"✅ Correct! Well done.","defaultIncorrect":"❌ Not quite. Try again or check the explanation.","includeScore":true,"disableReset":false},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 720,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, RevealQuiz, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script type="ojs-module-contents">
+    eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6InZpZXdvZiByaG8gPSBJbnB1dHMucmFuZ2UoWy0wLjksIDFdLCB7c3RlcDogMC4wMSwgdmFsdWU6IDAuNSwgbGFiZWw6IFwiQVIgY29lZmZpY2llbnQgz4FcIn0pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTIiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJhcl9kYXRhID0ge1xuICBjb25zdCBUID0gNTAwLCBybmcgPSBkMy5yYW5kb21Ob3JtYWwuc291cmNlKGQzLnJhbmRvbUxjZygwLjIwMjYpKSgwLCAxKTtcbiAgY29uc3Qgb3V0ID0gW107IGxldCB4ID0gMCwgcyA9IDA7XG4gIGZvciAobGV0IHQgPSAxOyB0IDw9IFQ7IHQrKykge1xuICAgIHggPSByaG8gKiB4ICsgcm5nKCk7IHMgKz0geDtcbiAgICBvdXQucHVzaCh7dCwgdmFsdWU6IHgsIHNlcmllczogXCJwYXRoIHhfdFwifSk7XG4gICAgb3V0LnB1c2goe3QsIHZhbHVlOiBzIC8gdCwgc2VyaWVzOiBcInJ1bm5pbmcgbWVhblwifSk7XG4gIH1cbiAgcmV0dXJuIG91dDtcbn1cbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMyIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6IlBsb3QucGxvdCh7XG4gIHdpZHRoOiAxMTAwLCBoZWlnaHQ6IDMwMCwgbWFyZ2luTGVmdDogNzgsIG1hcmdpbkJvdHRvbTogNTAsXG4gIHN0eWxlOiB7Zm9udFNpemU6IFwiMThweFwifSxcbiAgeDoge2xhYmVsOiBcInRcIn0sIHk6IHtsYWJlbDogbnVsbCwgZ3JpZDogdHJ1ZX0sXG4gIGNvbG9yOiB7ZG9tYWluOiBbXCJwYXRoIHhfdFwiLCBcInJ1bm5pbmcgbWVhblwiXSwgcmFuZ2U6IFtcIiM4YmEzYzdcIiwgXCIjOGIyNjM1XCJdfSxcbiAgbWFya3M6IFtcbiAgICBQbG90LnJ1bGVZKFswXSksXG4gICAgUGxvdC5saW5lKGFyX2RhdGEsIHt4OiBcInRcIiwgeTogXCJ2YWx1ZVwiLCBzdHJva2U6IFwic2VyaWVzXCIsIHN0cm9rZVdpZHRoOiBkID0+IGQuc2VyaWVzID09PSBcInJ1bm5pbmcgbWVhblwiID8gMyA6IDEuMn0pXG4gIF1cbn0pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ3JobycpIn1dfQ==
+    </script>
+    <script type="module">
+    if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+    window._ojs.paths.runtimeToDoc = "../../..";
+    window._ojs.paths.runtimeToRoot = "../../..";
+    window._ojs.paths.docToRoot = "";
+    window._ojs.selfContained = false;
+    window._ojs.runtime.interpretFromScriptTags();
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
