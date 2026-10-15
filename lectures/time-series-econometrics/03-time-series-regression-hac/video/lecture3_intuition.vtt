@@ -1,0 +1,112 @@
+WEBVTT
+
+00:00.000 --> 00:03.569
+Every month a forecaster predicts inflation over the next
+
+00:03.669 --> 00:06.917
+three months. Each forecast is a tile covering three
+
+00:07.017 --> 00:09.878
+months, and the tiles overlap like roof tiles.
+
+00:09.966 --> 00:12.758
+Now one surprise lands in a single month: an oil
+
+00:12.858 --> 00:16.011
+shock. Every tile that covers that month is wrong, and
+
+00:16.111 --> 00:19.505
+wrong in the same direction. One surprise, three mistakes.
+
+00:20.800 --> 00:23.442
+That shared mistake is what this lecture is about:
+
+00:23.542 --> 00:27.282
+regression with time-series errors, and standard errors that remember.
+
+00:28.366 --> 00:32.932
+Mishkin asked whether the Treasury bill rate knows future inflation.
+
+00:33.032 --> 00:37.529
+Regress inflation over the next three months on today's three-month
+
+00:37.629 --> 00:41.234
+rate. If the market forecasts well, beta is one. Since
+
+00:41.334 --> 00:45.350
+nineteen sixty, ordinary least squares gives point five two.
+
+00:46.433 --> 00:49.441
+But how precise is that number? Here the overlap returns.
+
+00:50.533 --> 00:54.194
+The forecast error over three months is the sum of three monthly
+
+00:54.294 --> 00:57.956
+surprises, eta. Next month's error is the sum of the next three.
+
+00:58.266 --> 01:02.291
+The two errors share two surprises, so they are correlated. Count
+
+01:02.391 --> 01:06.225
+the shared months: three with itself, two one month apart, one
+
+01:06.325 --> 01:10.540
+two months apart, none after that. That count is the autocovariance.
+
+01:10.640 --> 01:13.396
+The errors are a moving average of order two.
+
+01:16.566 --> 01:21.071
+Last lecture's tower tells us the variance that matters:
+
+01:21.171 --> 01:25.017
+gamma zero plus twice gamma one plus twice gamma
+
+01:25.117 --> 01:28.553
+two. That is three plus four plus two, nine
+
+01:28.653 --> 01:33.733
+sigma squared, three times what ordinary least squares assumes.
+
+01:33.833 --> 01:38.015
+Notice that every surprise has the same variance: nothing here is
+
+01:38.115 --> 01:42.956
+heteroskedastic. The correction comes from the overlap alone. So the honest
+
+01:43.056 --> 01:47.172
+standard error is root three, about one point seven three, times
+
+01:47.272 --> 01:50.268
+larger, and the interval must stretch to match.
+
+01:51.366 --> 01:54.758
+On the real data the residuals echo for longer than
+
+01:54.858 --> 01:58.591
+the overlap alone predicts: the blue bars stay high long
+
+01:58.691 --> 02:01.193
+after the red MA two pattern has died.
+
+02:01.266 --> 02:06.246
+So the standard error grows: point zero three for least squares, twice
+
+02:06.346 --> 02:10.164
+that with Newey and West at two lags, three and a half
+
+02:10.264 --> 02:14.953
+times with twelve. Even so, one stays outside: the bill rate knows
+
+02:15.053 --> 02:19.452
+something about inflation, but it is not an unbiased forecast.
+
+02:21.133 --> 02:24.144
+So: when forecast windows overlap, the mistakes are
+
+02:24.244 --> 02:27.073
+shared. The errors echo, and the standard errors
+
+02:27.173 --> 02:29.941
+must count those echoes, with the HAC sandwich.
