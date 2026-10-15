@@ -1,0 +1,3 @@
+- GDPC1 (real GDP, quarterly, billions of chained 2017 dollars), FRED, https://fred.stlouisfed.org/series/GDPC1, 1947Q1–2026Q2, downloaded 15 Oct 2026.
+- UNRATE (civilian unemployment rate, monthly, %), FRED, https://fred.stlouisfed.org/series/UNRATE, Jan 1948–Dec 2019, downloaded 15 Oct 2026.
+- DEXUSEU (US dollars per euro, daily noon buying rate), FRED, https://fred.stlouisfed.org/series/DEXUSEU, 4 Jan 1999–9 Oct 2026, downloaded 15 Oct 2026.
