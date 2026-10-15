@@ -1,0 +1,112 @@
+WEBVTT
+
+00:00.000 --> 00:03.609
+A pendulum, struck once, swings, and the swing slowly dies away.
+
+00:06.200 --> 00:09.020
+Now put it out in the wind, with a gust every
+
+00:09.120 --> 00:13.045
+period. It never settles, and it never runs away. Its position
+
+00:13.145 --> 00:17.004
+is a stationary time series, and its memory is the pendulum's
+
+00:17.104 --> 00:20.963
+own: each gust is remembered for a while, and then forgotten.
+
+00:22.033 --> 00:24.655
+That memory, how to read it from data, and how
+
+00:24.755 --> 00:27.732
+to forecast with it, is the subject of this lecture.
+
+00:28.800 --> 00:32.766
+Why should such a series need two lags? Because a pendulum
+
+00:32.866 --> 00:36.132
+needs two facts: where it is, and how fast it is
+
+00:36.232 --> 00:41.461
+moving. Tomorrow's position is today's plus today's velocity, minus a spring
+
+00:41.561 --> 00:46.019
+pulling it back, minus friction eating the velocity, plus a gust.
+
+00:46.100 --> 00:50.499
+Collect the terms, and the laws of motion become an autoregression of
+
+00:50.599 --> 00:54.542
+order two. Friction and the spring decide phi one and phi two.
+
+00:55.633 --> 00:59.286
+The memory is written in the roots of the polynomial phi of
+
+00:59.386 --> 01:03.231
+z. Complex roots make the response to a single gust swing, and
+
+01:03.331 --> 01:07.366
+their distance from the unit circle sets how fast the swing dies.
+
+01:07.466 --> 01:11.393
+More friction pushes the roots out and the memory shortens. Let
+
+01:11.493 --> 01:15.675
+them cross into the circle, and the pendulum stops forgetting: each
+
+01:15.775 --> 01:19.382
+gust is amplified, and the series is no longer stationary.
+
+01:20.466 --> 01:24.412
+Given only data, how do we tell which machine produced it?
+
+01:24.512 --> 01:29.364
+We read two fingerprints. The autocorrelations of a moving average stop
+
+01:29.464 --> 01:33.271
+dead after q lags; those of an autoregression fade away.
+
+01:33.766 --> 01:38.007
+The partial autocorrelations do the opposite: for an autoregression
+
+01:38.107 --> 01:40.534
+of order p they stop dead after p lags.
+
+01:40.634 --> 01:43.514
+The swinging pendulum leaves exactly two bars.
+
+01:44.600 --> 01:48.502
+Now forecast. Stand at the last observation, and let the pendulum
+
+01:48.602 --> 01:52.258
+run into the future thirty times, each time with fresh gusts.
+
+01:52.333 --> 01:55.979
+At first the copies swing together: they still remember where
+
+01:56.079 --> 01:58.927
+the pendulum was and how it was moving. Then the
+
+01:59.027 --> 02:02.980
+gusts pull them apart. Their average, the optimal forecast, swings
+
+02:03.080 --> 02:05.007
+back to the mean and stops there.
+
+02:05.100 --> 02:08.595
+The band around it adds up the squared echoes of the gusts
+
+02:08.695 --> 02:12.686
+still to come. It widens, and then it freezes at the unconditional
+
+02:12.786 --> 02:16.467
+band. Far enough ahead, the future has forgotten the present.
+
+02:17.566 --> 02:21.492
+So: an ARMA model is a short recipe for the echoes, a
+
+02:21.592 --> 02:26.962
+ratio of two small polynomials. Its fingerprints tell us the orders, and
+
+02:27.062 --> 02:31.520
+its forecasts forget the present at the speed of its echoes.

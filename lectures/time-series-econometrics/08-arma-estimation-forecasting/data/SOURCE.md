@@ -1,0 +1,1 @@
+Term spread, 10-year Treasury constant maturity minus 3-month Treasury constant maturity (T10Y3M, percentage points, daily), FRED, Federal Reserve Bank of St. Louis, https://fred.stlouisfed.org/series/T10Y3M, 4 Jan 1982 – 30 Sep 2026 (averaged to months in the deck), downloaded 15 Oct 2026.

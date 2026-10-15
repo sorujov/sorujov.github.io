@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="arma_estimation_forecasting_lecture8_files/libs/clipboard/clipboard.min.js"></script>
+<script src="arma_estimation_forecasting_lecture8_files/libs/quarto-html/tabby.min.js"></script>
+<script src="arma_estimation_forecasting_lecture8_files/libs/quarto-html/popper.min.js"></script>
+<script src="arma_estimation_forecasting_lecture8_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="arma_estimation_forecasting_lecture8_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="arma_estimation_forecasting_lecture8_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="arma_estimation_forecasting_lecture8_files/libs/quarto-html/quarto-syntax-highlighting-11098932bb39e8ccbcedcb139d3d0c2d.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.10.19">
+
+  <meta name="author" content="Samir Orujov, PhD">
+  <title>Time Series Econometrics</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="arma_estimation_forecasting_lecture8_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="arma_estimation_forecasting_lecture8_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {  background-color: #f8f8f8; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ef2929; } /* Alert */
+    code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #204a87; } /* Attribute */
+    code span.bn { color: #0000cf; } /* BaseN */
+    code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4e9a06; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #8f5902; font-style: italic; } /* Comment */
+    code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+    code span.dt { color: #204a87; } /* DataType */
+    code span.dv { color: #0000cf; } /* DecVal */
+    code span.er { color: #a40000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #0000cf; } /* Float */
+    code span.fu { color: #204a87; font-weight: bold; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+    code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+    code span.ot { color: #8f5902; } /* Other */
+    code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+    code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+    code span.ss { color: #4e9a06; } /* SpecialString */
+    code span.st { color: #4e9a06; } /* String */
+    code span.va { color: #000000; } /* Variable */
+    code span.vs { color: #4e9a06; } /* VerbatimString */
+    code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="arma_estimation_forecasting_lecture8_files/libs/revealjs/dist/theme/quarto-9ca4c0fc8b289f175b62c89f22fa8355.css">
+  <link href="arma_estimation_forecasting_lecture8_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="arma_estimation_forecasting_lecture8_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="arma_estimation_forecasting_lecture8_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="arma_estimation_forecasting_lecture8_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="arma_estimation_forecasting_lecture8_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="arma_estimation_forecasting_lecture8_files/libs/revealjs/plugin/reveal-quiz/quiz.css" rel="stylesheet">
+  <link href="arma_estimation_forecasting_lecture8_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script type="module" src="arma_estimation_forecasting_lecture8_files/libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+  <link href="arma_estimation_forecasting_lecture8_files/libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+  <link href="arma_estimation_forecasting_lecture8_files/libs/countdown-0.6.0/countdown.css" rel="stylesheet">
+  <script src="arma_estimation_forecasting_lecture8_files/libs/countdown-0.6.0/countdown.js"></script>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Time Series Econometrics</h1>
+  <p class="subtitle">Lecture 8: ARMA Models: Identification, Estimation, Forecasting</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Samir Orujov, PhD
+</div>
+        <p class="quarto-title-affiliation">
+            Open lecture notes, after Stanislav Anatolyev’s course (2016)
+          </p>
+    </div>
+</div>
+
+</section>
+<section id="the-idea-in-3-minutes" class="slide level2">
+<h2>🎬 The Idea in 3 Minutes</h2>
+<div style="text-align:center">
+<video controls="" preload="metadata" style="width:780px;max-width:100%;aspect-ratio:16/9;background:#111" poster="video/lecture8_intuition.jpg" src="video/lecture8_intuition.mp4"><track kind="captions" src="video/lecture8_intuition.vtt" srclang="en" label="English"></video>
+<p><a href="../07-wold-decomposition/wold_decomposition_lecture7.html" style="font-size:28px">⬅ Previous lecture: 7 · Linear Projection, Innovations and the Wold Decomposition</a></p>
+<p><span style="font-size:28px">A short film with the intuition. Watch it before the slides, or after. Captions: CC button.</span></p>
+</div>
+</section>
+<section id="learning-objectives" class="slide level2">
+<h2>🎯 Learning Objectives</h2>
+<div style="font-size: 32px">
+<p>By the end of this lecture, you will be able to:</p>
+<ul>
+<li><strong>Check</strong> stationarity and invertibility of an ARMA(<span class="math inline">\(p,q\)</span>) from the roots of its lag polynomials</li>
+<li><strong>Identify</strong> a tentative order from the sample ACF and PACF</li>
+<li><strong>Estimate</strong> an AR by OLS or Yule–Walker and an ARMA by conditional least squares or Gaussian (Q)MLE</li>
+<li><strong>Diagnose</strong> a fitted model with the Ljung–Box test</li>
+<li><strong>Forecast</strong> <span class="math inline">\(h\)</span> steps ahead and <strong>compute</strong> the forecast MSE and interval</li>
+</ul>
+</div>
+<p><span class="gapnote">This lecture is not in the 2016 notes. It is written from Hamilton (1994), ch.&nbsp;3–5, and Tsay (2010), ch.&nbsp;2, in the notation of lectures 7 and 9.</span></p>
+</section>
+<section id="warm-up-from-last-time" class="slide level2 quiz-question">
+<h2>🔁 Warm-up from last time</h2>
+<p><span class="math inline">\(x_t = \varepsilon_t + 4\varepsilon_{t-1}\)</span> with <span class="math inline">\(\operatorname{var}\varepsilon_t = 1\)</span>. What is its Wold decomposition?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ Lecture 7: an MA(1) with |θ| > 1 has the same autocovariances as the MA(1) with 1/θ and variance θ²σ². Check: γ0 = 17 = (1 + 1/16)·16, γ1 = 4 = (1/4)·16. Wold picks the invertible one."><span class="math inline">\(x_t = \tilde\varepsilon_t + \tfrac14\tilde\varepsilon_{t-1}\)</span> with <span class="math inline">\(\operatorname{var}\tilde\varepsilon_t = 16\)</span></span></li>
+<li><span class="math inline">\(x_t = \varepsilon_t + 4\varepsilon_{t-1}\)</span> itself, since <span class="math inline">\(\psi_0 = 1\)</span></li>
+<li><span class="math inline">\(x_t = \tilde\varepsilon_t + \tfrac14\tilde\varepsilon_{t-1}\)</span> with <span class="math inline">\(\operatorname{var}\tilde\varepsilon_t = 1/16\)</span></li>
+<li>It has none: the process is not stationary</li>
+</ul>
+</section>
+<section id="where-we-are" class="slide level2">
+<h2>🗺️ Where We Are</h2>
+<div style="font-size: 30px">
+<p>Lecture 7: every purely nondeterministic stationary series is an MA(<span class="math inline">\(\infty\)</span>) in its least-squares innovations, <span class="math display">\[x_t = \mu + \sum_{j\ge0}\psi_j\varepsilon_{t-j}.\]</span></p>
+<div class="fragment">
+<p>From <span class="math inline">\(T\)</span> observations we cannot estimate infinitely many <span class="math inline">\(\psi_j\)</span>. The ARMA model replaces the sequence <span class="math inline">\(\psi_j\)</span> by a <strong>ratio of two short polynomials</strong>, <span class="math inline">\(\psi(L) = \theta(L)/\phi(L)\)</span>. Three questions follow, and they are the whole lecture: which orders <span class="math inline">\((p, q)\)</span>? how to estimate the coefficients? how to forecast with them?</p>
+</div>
+</div>
+<p><span class="gapnote">Not in the 2016 notes: added from Hamilton (1994), ch.&nbsp;3.</span></p>
+</section>
+<section id="the-question" class="slide level2">
+<h2>❓ The Question</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Where will the yield curve be in a year?</strong></p>
+</div>
+<div class="callout-content">
+<p>The term spread, 10-year minus 3-month Treasury yield, is one of the best recession predictors in macroeconomics. In September 2026 it stood near 0.9 percentage points. What is the best forecast for September 2027, and how wide must an honest 95% interval be?</p>
+</div>
+</div>
+</div>
+<div style="font-size: 30px">
+<p>A forecast without an interval is half an answer. ARMA models give both, and they give them from the series’ own past alone.</p>
+</div>
+<p><span class="gapnote">Not in the 2016 notes: added from Tsay (2010), ch.&nbsp;2.</span></p>
+</section>
+<section id="the-armapq-model" class="slide level2">
+<h2>📐 The ARMA(<span class="math inline">\(p,q\)</span>) Model</h2>
+<div style="font-size: 28px">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Definition</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math inline">\(x_t\)</span> is ARMA(<span class="math inline">\(p,q\)</span>) if <span class="math inline">\(\ \phi(L)(x_t - \mu) = \theta(L)\varepsilon_t\)</span>, where <span class="math display">\[\phi(L) = 1 - \phi_1L - \dots - \phi_pL^p, \qquad \theta(L) = 1 + \theta_1L + \dots + \theta_qL^q,\]</span> with <span class="math inline">\(\varepsilon_t\)</span> white noise <span class="math inline">\((0, \sigma^2)\)</span> and no common roots of <span class="math inline">\(\phi\)</span> and <span class="math inline">\(\theta\)</span>.</p>
+</div>
+</div>
+</div>
+<ul>
+<li><strong>Stationary</strong> (causal) iff all roots of <span class="math inline">\(\phi(z) = 0\)</span> lie outside the unit circle. Then <span class="math inline">\(\psi(L) = \theta(L)/\phi(L)\)</span> and <span class="math inline">\(\sum|\psi_j| &lt; \infty\)</span></li>
+<li><strong>Invertible</strong> iff all roots of <span class="math inline">\(\theta(z) = 0\)</span> lie outside the unit circle. Then <span class="math inline">\(\varepsilon_t\)</span> is the LS innovation (lecture 7)</li>
+<li>AR(1): root <span class="math inline">\(1/\rho\)</span>, so <span class="math inline">\(|\rho| &lt; 1\)</span>. MA(1): root <span class="math inline">\(-1/\theta\)</span>, so <span class="math inline">\(|\theta| &lt; 1\)</span></li>
+</ul>
+</div>
+<p><span class="gapnote">Not in the 2016 notes: added from Hamilton (1994), ch.&nbsp;3.</span></p>
+</section>
+<section id="second-moments" class="slide level2">
+<h2>📐 Second Moments</h2>
+<div style="font-size: 28px">
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>model</th>
+<th><span class="math inline">\(\gamma_0\)</span></th>
+<th>autocorrelation <span class="math inline">\(\rho_j\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>AR(1)</td>
+<td><span class="math inline">\(\sigma^2/(1 - \rho^2)\)</span></td>
+<td><span class="math inline">\(\rho^j\)</span></td>
+</tr>
+<tr class="even">
+<td>MA(1)</td>
+<td><span class="math inline">\((1 + \theta^2)\sigma^2\)</span></td>
+<td><span class="math inline">\(\rho_1 = \theta/(1 + \theta^2)\)</span>, <span class="math inline">\(\ \rho_j = 0\)</span> for <span class="math inline">\(j \ge 2\)</span></td>
+</tr>
+<tr class="odd">
+<td>AR(<span class="math inline">\(p\)</span>)</td>
+<td>from Yule–Walker</td>
+<td><span class="math inline">\(\rho_j = \phi_1\rho_{j-1} + \dots + \phi_p\rho_{j-p}\)</span>, <span class="math inline">\(j \ge 1\)</span></td>
+</tr>
+<tr class="even">
+<td>ARMA(1,1)</td>
+<td><span class="math inline">\(\dfrac{1 + 2\phi\theta + \theta^2}{1 - \phi^2}\sigma^2\)</span></td>
+<td><span class="math inline">\(\rho_1 = \dfrac{(1 + \phi\theta)(\phi + \theta)}{1 + 2\phi\theta + \theta^2}\)</span>, <span class="math inline">\(\ \rho_j = \phi\rho_{j-1}\)</span>, <span class="math inline">\(j \ge 2\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>The AR part fixes how the ACF <strong>decays</strong>; the MA part fixes only the first <span class="math inline">\(q\)</span> values.</p>
+</div>
+<p><span class="gapnote">Not in the 2016 notes: added from Hamilton (1994), ch.&nbsp;3.</span></p>
+</section>
+<section id="the-partial-autocorrelation-function" class="slide level2">
+<h2>📐 The Partial Autocorrelation Function</h2>
+<div style="font-size: 28px">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Definition</strong></p>
+</div>
+<div class="callout-content">
+<p>The PACF at lag <span class="math inline">\(k\)</span>, <span class="math inline">\(\alpha_{kk}\)</span>, is the last coefficient of the linear projection <span class="math display">\[\operatorname{Proj}(x_t \mid 1, x_{t-1}, \dots, x_{t-k}) = \alpha_{k0} + \alpha_{k1}x_{t-1} + \dots + \alpha_{kk}x_{t-k}.\]</span></p>
+</div>
+</div>
+</div>
+<p>It is the correlation of <span class="math inline">\(x_t\)</span> and <span class="math inline">\(x_{t-k}\)</span> net of the lags in between. For an AR(<span class="math inline">\(p\)</span>) and <span class="math inline">\(k &gt; p\)</span>, the projection is the model itself, so <span class="math inline">\(\alpha_{kk} = 0\)</span>.</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>ACF</th>
+<th>PACF</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>AR(<span class="math inline">\(p\)</span>)</td>
+<td>decays</td>
+<td><strong>cuts off</strong> after <span class="math inline">\(p\)</span></td>
+</tr>
+<tr class="even">
+<td>MA(<span class="math inline">\(q\)</span>)</td>
+<td><strong>cuts off</strong> after <span class="math inline">\(q\)</span></td>
+<td>decays</td>
+</tr>
+<tr class="odd">
+<td>ARMA(<span class="math inline">\(p,q\)</span>)</td>
+<td>decays after lag <span class="math inline">\(q\)</span></td>
+<td>decays after lag <span class="math inline">\(p\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><span class="gapnote">Not in the 2016 notes: added from Hamilton (1994), ch.&nbsp;4.</span></p>
+</section>
+<section id="what-the-patterns-look-like" class="slide level2">
+<h2>💻 What the Patterns Look Like</h2>
+
+<img data-src="arma_estimation_forecasting_lecture8_files/figure-revealjs/acf-pacf-fig-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1650"><div style="font-size: 28px">
+<p>Bars: population values. Dots: one sample of <span class="math inline">\(T = 300\)</span>. Dashes: <span class="math inline">\(\pm1.96/\sqrt T\)</span>. Sampling noise blurs the cut-offs.</p>
+</div>
+</section>
+<section id="yulewalker-for-an-ar2" class="slide level2">
+<h2>✏️ Yule–Walker for an AR(2)</h2>
+<div style="font-size: 30px">
+<p>Multiply <span class="math inline">\(x_t - \mu = \phi_1(x_{t-1} - \mu) + \phi_2(x_{t-2} - \mu) + \varepsilon_t\)</span> by <span class="math inline">\(x_{t-j} - \mu\)</span>, <span class="math inline">\(j = 1, 2\)</span>, take expectations and divide by <span class="math inline">\(\gamma_0\)</span>: <span class="math display">\[\rho_1 = \phi_1 + \phi_2\rho_1, \qquad \rho_2 = \phi_1\rho_1 + \phi_2.\]</span> Suppose the sample gives <span class="math inline">\(\hat\rho_1 = 0.8\)</span> and <span class="math inline">\(\hat\rho_2 = 0.5\)</span>.</p>
+<div class="fragment">
+<p><strong>Solve</strong> the two linear equations: <span class="math display">\[\hat\phi_1 = \frac{\rho_1(1 - \rho_2)}{1 - \rho_1^2} = \frac{0.8 \cdot 0.5}{0.36} = 1.111, \qquad \hat\phi_2 = \frac{\rho_2 - \rho_1^2}{1 - \rho_1^2} = \frac{0.5 - 0.64}{0.36} = -0.389.\]</span></p>
+</div>
+</div>
+<p><span class="gapnote">Not in the 2016 notes: added from Hamilton (1994), ch.&nbsp;3.</span></p>
+</section>
+<section id="the-ar2-fit-roots-and-weights" class="slide level2">
+<h2>✏️ The AR(2) Fit: Roots and Weights</h2>
+<div style="font-size: 30px">
+<p><strong>Stationary?</strong> The AR(2) triangle: <span class="math inline">\(\phi_1 + \phi_2 = 0.722 &lt; 1\)</span>, <span class="math inline">\(\ \phi_2 - \phi_1 = -1.5 &lt; 1\)</span>, <span class="math inline">\(\ |\phi_2| &lt; 1\)</span>. Yes.</p>
+<div class="fragment">
+<p><strong>Shape.</strong> <span class="math inline">\(\phi_1^2 + 4\phi_2 = -0.321 &lt; 0\)</span>, so the roots of <span class="math inline">\(\phi(z)\)</span> are complex with <span class="math inline">\(|z| = 1/\sqrt{-\phi_2} = 1.604 &gt; 1\)</span>: a <strong>damped cycle</strong>.</p>
+</div>
+<div class="fragment">
+<p><strong>Wold weights</strong> from <span class="math inline">\(\psi_j = \phi_1\psi_{j-1} + \phi_2\psi_{j-2}\)</span>: <span class="math inline">\(\ \psi_1 = 1.111\)</span>, <span class="math inline">\(\psi_2 = 0.846\)</span>, <span class="math inline">\(\psi_3 = 0.508\)</span>.</p>
+<p><strong>Innovation variance:</strong> <span class="math inline">\(\sigma^2 = \gamma_0(1 - \phi_1\rho_1 - \phi_2\rho_2) = 0.306\,\gamma_0\)</span>.</p>
+</div>
+</div>
+<p><span class="gapnote">Not in the 2016 notes: added from Hamilton (1994), ch.&nbsp;3.</span></p>
+</section>
+<section id="checking-the-example-in-r" class="slide level2">
+<h2>💻 Checking the Example in R</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-label="1"></a>r1 <span class="ot">&lt;-</span> <span class="fl">0.8</span>; r2 <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
+<span id="cb1-2"><a href="" aria-label="2"></a>phi <span class="ot">&lt;-</span> <span class="fu">solve</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, r1, r1, <span class="dv">1</span>), <span class="dv">2</span>), <span class="fu">c</span>(r1, r2))     <span class="co"># Yule-Walker system</span></span>
+<span id="cb1-3"><a href="" aria-label="3"></a>roots <span class="ot">&lt;-</span> <span class="fu">polyroot</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="sc">-</span>phi))                            <span class="co"># roots of phi(z) = 1 - phi1 z - phi2 z^2</span></span>
+<span id="cb1-4"><a href="" aria-label="4"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">phi =</span> phi, <span class="at">root_modulus =</span> <span class="fu">Mod</span>(roots[<span class="dv">1</span>]),</span>
+<span id="cb1-5"><a href="" aria-label="5"></a>        <span class="at">cycle_length =</span> <span class="dv">2</span> <span class="sc">*</span> pi <span class="sc">/</span> <span class="fu">abs</span>(<span class="fu">Arg</span>(roots[<span class="dv">1</span>])),</span>
+<span id="cb1-6"><a href="" aria-label="6"></a>        <span class="at">psi =</span> <span class="fu">ARMAtoMA</span>(<span class="at">ar =</span> phi, <span class="at">lag.max =</span> <span class="dv">4</span>),</span>
+<span id="cb1-7"><a href="" aria-label="7"></a>        <span class="at">sigma2_over_gamma0 =</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>(phi <span class="sc">*</span> <span class="fu">c</span>(r1, r2))), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>              phi1               phi2       root_modulus       cycle_length 
+             1.111             -0.389              1.604             13.325 
+              psi1               psi2               psi3               psi4 
+             1.111              0.846              0.508              0.235 
+sigma2_over_gamma0 
+             0.306 </code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>Roots of modulus 1.6 and a cycle of about 13 periods: a shock first overshoots, then oscillates back to the mean.</p>
+</div>
+</section>
+<section id="estimating-an-ar" class="slide level2">
+<h2>📐 Estimating an AR</h2>
+<div style="font-size: 30px">
+<ul>
+<li><strong>OLS</strong> of <span class="math inline">\(x_t\)</span> on <span class="math inline">\(1, x_{t-1}, \dots, x_{t-p}\)</span>, conditioning on the first <span class="math inline">\(p\)</span> observations. It is the sample analogue of the projection of lecture 7, so it is consistent under ergodicity, and asymptotically normal: for AR(1), <span class="math display">\[\sqrt T(\hat\rho - \rho) \xrightarrow{d} N(0,\ 1 - \rho^2).\]</span></li>
+<li><strong>Yule–Walker</strong> solves <span class="math inline">\(\rho_j = \sum_i\phi_i\rho_{j-i}\)</span> with sample autocorrelations. Same limit as OLS, and the fit is always stationary</li>
+<li>With Gaussian errors, OLS is the conditional MLE</li>
+</ul>
+</div>
+<p><span class="gapnote">Not in the 2016 notes: added from Hamilton (1994), ch.&nbsp;5, and Tsay (2010), ch.&nbsp;2.</span></p>
+</section>
+<section id="estimating-ma-and-arma" class="slide level2">
+<h2>📐 Estimating MA and ARMA</h2>
+<div style="font-size: 30px">
+<p>The regressors <span class="math inline">\(\varepsilon_{t-j}\)</span> are not observed, so OLS is out. <strong>Conditional sum of squares:</strong> set <span class="math inline">\(\varepsilon_0 = \dots = 0\)</span>, build residuals recursively, <span class="math display">\[\varepsilon_t(\beta) = (x_t - \mu) - \sum_{i=1}^p\phi_i(x_{t-i} - \mu) - \sum_{j=1}^q\theta_j\varepsilon_{t-j}(\beta),\]</span> and minimise <span class="math inline">\(\sum_t\varepsilon_t(\beta)^2\)</span> numerically. The start-up error dies out only if <span class="math inline">\(\theta(L)\)</span> is invertible: lecture 7’s picture again.</p>
+<p><strong>Gaussian MLE</strong> adds the density of the first observations (Kalman filter, Hamilton ch.&nbsp;5). Under i.i.d. non-Gaussian errors it is a <strong>QMLE</strong>, still consistent and asymptotically normal.</p>
+</div>
+<p><span class="gapnote">Not in the 2016 notes: added from Hamilton (1994), ch.&nbsp;5.</span></p>
+</section>
+<section id="conditional-least-squares-by-hand" class="slide level2">
+<h2>💻 Conditional Least Squares by Hand</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-label="1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> <span class="fu">arima.sim</span>(<span class="fu">list</span>(<span class="at">ar =</span> <span class="fl">0.8</span>, <span class="at">ma =</span> <span class="fl">0.4</span>), <span class="at">n =</span> <span class="dv">500</span>)   <span class="co"># ARMA(1,1), mu = 1</span></span>
+<span id="cb3-2"><a href="" aria-label="2"></a>css <span class="ot">&lt;-</span> <span class="cf">function</span>(b, x) {                                  <span class="co"># b = (mu, phi, theta)</span></span>
+<span id="cb3-3"><a href="" aria-label="3"></a>  e <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="fu">length</span>(x))</span>
+<span id="cb3-4"><a href="" aria-label="4"></a>  <span class="cf">for</span> (t <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(x)) e[t] <span class="ot">&lt;-</span> (x[t] <span class="sc">-</span> b[<span class="dv">1</span>]) <span class="sc">-</span> b[<span class="dv">2</span>] <span class="sc">*</span> (x[t <span class="sc">-</span> <span class="dv">1</span>] <span class="sc">-</span> b[<span class="dv">1</span>]) <span class="sc">-</span> b[<span class="dv">3</span>] <span class="sc">*</span> e[t <span class="sc">-</span> <span class="dv">1</span>]</span>
+<span id="cb3-5"><a href="" aria-label="5"></a>  <span class="fu">sum</span>(e[<span class="sc">-</span><span class="dv">1</span>]<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb3-6"><a href="" aria-label="6"></a>}</span>
+<span id="cb3-7"><a href="" aria-label="7"></a>fit <span class="ot">&lt;-</span> <span class="fu">optim</span>(<span class="fu">c</span>(<span class="fu">mean</span>(x), <span class="dv">0</span>, <span class="dv">0</span>), css, <span class="at">x =</span> x, <span class="at">method =</span> <span class="st">"BFGS"</span>)</span>
+<span id="cb3-8"><a href="" aria-label="8"></a>ref <span class="ot">&lt;-</span> <span class="fu">arima</span>(x, <span class="at">order =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="at">method =</span> <span class="st">"CSS"</span>)</span>
+<span id="cb3-9"><a href="" aria-label="9"></a><span class="fu">rbind</span>(<span class="at">truth =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.8</span>, <span class="fl">0.4</span>), <span class="at">by_hand =</span> fit<span class="sc">$</span>par,</span>
+<span id="cb3-10"><a href="" aria-label="10"></a>      <span class="at">stats_arima =</span> <span class="fu">coef</span>(ref)[<span class="fu">c</span>(<span class="st">"intercept"</span>, <span class="st">"ar1"</span>, <span class="st">"ma1"</span>)]) <span class="sc">|&gt;</span></span>
+<span id="cb3-11"><a href="" aria-label="11"></a>  <span class="st">`</span><span class="at">colnames&lt;-</span><span class="st">`</span>(<span class="fu">c</span>(<span class="st">"mu"</span>, <span class="st">"phi"</span>, <span class="st">"theta"</span>)) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>               mu   phi theta
+truth       1.000 0.800 0.400
+by_hand     0.715 0.785 0.441
+stats_arima 0.715 0.785 0.441</code></pre>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>A few lines of R reproduce the library’s estimator. The library’s <code>method = "ML"</code> adds the exact first-observation term.</p>
+</div>
+<p><span class="gapnote">Not in the 2016 notes: added from Hamilton (1994), ch.&nbsp;5.</span></p>
+</section>
+<section id="the-boxjenkins-cycle" class="slide level2">
+<h2>🔁 The Box–Jenkins Cycle</h2>
+<div style="font-size: 28px">
+<ol type="1">
+<li><strong>Identify.</strong> Transform to stationarity; read tentative <span class="math inline">\((p, q)\)</span> from the ACF and PACF; shortlist with AIC/BIC (lecture 4)</li>
+<li><strong>Estimate</strong> by OLS, CSS or (Q)MLE</li>
+<li><strong>Check</strong> that residuals look like white noise. The <strong>Ljung–Box</strong> statistic <span class="math display">\[Q(m) = T(T + 2)\sum_{k=1}^m\frac{\hat\rho_k^2(\hat\varepsilon)}{T - k} \xrightarrow{d} \chi^2(m - p - q)\]</span> under correct specification. If it rejects, return to step 1</li>
+<li><strong>Forecast</strong>, and evaluate out of sample (lecture 5)</li>
+</ol>
+<p>Parsimony is the rule: an ARMA(1,1) often does what an AR(5) does, with three parameters fewer.</p>
+</div>
+<p><span class="gapnote">Not in the 2016 notes: added from Box and Jenkins (1970) and Tsay (2010), ch.&nbsp;2.</span></p>
+</section>
+<section id="optimal-forecasts" class="slide level2">
+<h2>📐 Optimal Forecasts</h2>
+<div style="font-size: 28px">
+<p>Under squared loss the best forecast is the conditional mean; for a linear model with LS innovations it is the projection. From the Wold form, the future splits into known and unknown innovations: <span class="math display">\[x_{T+h} = \mu + \underbrace{\sum_{j\ge h}\psi_j\varepsilon_{T+h-j}}_{\text{known at } T} + \underbrace{\sum_{j=0}^{h-1}\psi_j\varepsilon_{T+h-j}}_{\text{future}}\]</span></p>
+<div class="fragment">
+<p><span class="math display">\[\hat x_{T+h|T} = \mu + \sum_{j\ge h}\psi_j\varepsilon_{T+h-j}, \qquad MSE(h) = \sigma^2\sum_{j=0}^{h-1}\psi_j^2 \ \xrightarrow[h\to\infty]{}\ \gamma_0.\]</span> Forecasts revert to <span class="math inline">\(\mu\)</span>; the MSE rises to the unconditional variance. A 95% interval is <span class="math inline">\(\hat x_{T+h|T} \pm 1.96\sqrt{MSE(h)}\)</span> under Gaussian errors, ignoring estimation error.</p>
+</div>
+</div>
+<p><span class="gapnote">Not in the 2016 notes: added from Hamilton (1994), ch.&nbsp;4.</span></p>
+</section>
+<section id="ar1-forecast-of-the-spread" class="slide level2">
+<h2>✏️ AR(1) Forecast of the Spread</h2>
+<div style="font-size: 28px">
+<p>Monthly spread: <span class="math inline">\(\mu = 1.5\)</span>, <span class="math inline">\(\rho = 0.95\)</span>, <span class="math inline">\(\sigma = 0.3\)</span>, and an inverted curve today, <span class="math inline">\(x_T = -0.5\)</span>.</p>
+<p><span class="math display">\[\hat x_{T+h|T} = \mu + \rho^h(x_T - \mu), \qquad MSE(h) = \sigma^2\,\frac{1 - \rho^{2h}}{1 - \rho^2}.\]</span></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(h\)</span></th>
+<th><span class="math inline">\(\hat x_{T+h\mid T}\)</span></th>
+<th><span class="math inline">\(\sqrt{MSE(h)}\)</span></th>
+<th>95% interval</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><span class="math inline">\(-0.40\)</span></td>
+<td><span class="math inline">\(0.30\)</span></td>
+<td><span class="math inline">\([-0.99,0.19]\)</span></td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td><span class="math inline">\(0.03\)</span></td>
+<td><span class="math inline">\(0.65\)</span></td>
+<td><span class="math inline">\([-1.25,1.31]\)</span></td>
+</tr>
+<tr class="odd">
+<td>12</td>
+<td><span class="math inline">\(0.42\)</span></td>
+<td><span class="math inline">\(0.81\)</span></td>
+<td><span class="math inline">\([-1.16,2.00]\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\infty\)</span></td>
+<td><span class="math inline">\(1.50\)</span></td>
+<td><span class="math inline">\(0.96\)</span></td>
+<td><span class="math inline">\([-0.38,3.38]\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>After a year less than half the gap to <span class="math inline">\(\mu\)</span> is closed; the interval is at 84% of its final width.</p>
+</div>
+<p><span class="gapnote">Not in the 2016 notes: added from Hamilton (1994), ch.&nbsp;4.</span></p>
+</section>
+<section id="a-fan-converging-to-the-mean" class="slide level2">
+<h2>💻 A Fan Converging to the Mean</h2>
+
+<img data-src="arma_estimation_forecasting_lecture8_files/figure-revealjs/fan-sim-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1650"><div style="font-size: 28px">
+<p>The AR(2) of the worked example. The point forecast (red) oscillates back to <span class="math inline">\(\mu\)</span>; the 80% and 95% bands widen to the unconditional band (dashes), <span class="math inline">\(\mu \pm 1.96\sqrt{\gamma_0}\)</span>.</p>
+</div>
+</section>
+<section id="explore-persistence-and-the-fan" class="slide level2">
+<h2>🎛️ Explore: Persistence and the Fan</h2>
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb5" data-startfrom="417" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 416;"><span id="cb5-417"><a href="" aria-label="417"></a>viewof rhoF <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="fl">0.99</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="fl">0.95</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"ρ"</span>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb6" data-startfrom="422" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 421;"><span id="cb6-422"><a href="" aria-label="422"></a>fanData <span class="op">=</span> {</span>
+<span id="cb6-423"><a href="" aria-label="423"></a>  <span class="kw">const</span> mu <span class="op">=</span> <span class="fl">1.5</span><span class="op">,</span> s <span class="op">=</span> <span class="fl">0.3</span><span class="op">,</span> xT <span class="op">=</span> <span class="op">-</span><span class="fl">0.5</span><span class="op">,</span> out <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb6-424"><a href="" aria-label="424"></a>  <span class="cf">for</span> (<span class="kw">let</span> h <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> h <span class="op">&lt;=</span> <span class="dv">36</span><span class="op">;</span> h<span class="op">++</span>) {</span>
+<span id="cb6-425"><a href="" aria-label="425"></a>    <span class="kw">const</span> m <span class="op">=</span> mu <span class="op">+</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(rhoF<span class="op">,</span> h) <span class="op">*</span> (xT <span class="op">-</span> mu)<span class="op">;</span></span>
+<span id="cb6-426"><a href="" aria-label="426"></a>    <span class="kw">const</span> se <span class="op">=</span> h <span class="op">===</span> <span class="dv">0</span> <span class="op">?</span> <span class="dv">0</span> <span class="op">:</span> s <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>((<span class="dv">1</span> <span class="op">-</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(rhoF<span class="op">,</span> <span class="dv">2</span> <span class="op">*</span> h)) <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> rhoF <span class="op">*</span> rhoF))<span class="op">;</span></span>
+<span id="cb6-427"><a href="" aria-label="427"></a>    out<span class="op">.</span><span class="fu">push</span>({h<span class="op">,</span> m<span class="op">,</span> <span class="dt">lo</span><span class="op">:</span> m <span class="op">-</span> <span class="fl">1.96</span> <span class="op">*</span> se<span class="op">,</span> <span class="dt">hi</span><span class="op">:</span> m <span class="op">+</span> <span class="fl">1.96</span> <span class="op">*</span> se})<span class="op">;</span></span>
+<span id="cb6-428"><a href="" aria-label="428"></a>  }</span>
+<span id="cb6-429"><a href="" aria-label="429"></a>  <span class="cf">return</span> out<span class="op">;</span></span>
+<span id="cb6-430"><a href="" aria-label="430"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold hidden">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb7" data-startfrom="435" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 434;"><span id="cb7-435"><a href="" aria-label="435"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb7-436"><a href="" aria-label="436"></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">1100</span><span class="op">,</span> <span class="dt">height</span><span class="op">:</span> <span class="dv">330</span><span class="op">,</span> <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">70</span><span class="op">,</span> <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">55</span><span class="op">,</span> <span class="dt">marginTop</span><span class="op">:</span> <span class="dv">30</span><span class="op">,</span></span>
+<span id="cb7-437"><a href="" aria-label="437"></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontSize</span><span class="op">:</span> <span class="st">"18px"</span>}<span class="op">,</span></span>
+<span id="cb7-438"><a href="" aria-label="438"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"months ahead, h"</span>}<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"spread, pp"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="op">-</span><span class="fl">2.5</span><span class="op">,</span> <span class="fl">5.5</span>]}<span class="op">,</span></span>
+<span id="cb7-439"><a href="" aria-label="439"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb7-440"><a href="" aria-label="440"></a>    Plot<span class="op">.</span><span class="fu">areaY</span>(fanData<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"h"</span><span class="op">,</span> <span class="dt">y1</span><span class="op">:</span> <span class="st">"lo"</span><span class="op">,</span> <span class="dt">y2</span><span class="op">:</span> <span class="st">"hi"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#8ba3c7"</span><span class="op">,</span> <span class="dt">fillOpacity</span><span class="op">:</span> <span class="fl">0.5</span>})<span class="op">,</span></span>
+<span id="cb7-441"><a href="" aria-label="441"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="fl">1.5</span>]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"#888"</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"6,4"</span>})<span class="op">,</span></span>
+<span id="cb7-442"><a href="" aria-label="442"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="fl">1.5</span> <span class="op">-</span> <span class="fl">1.96</span> <span class="op">*</span> <span class="fl">0.3</span> <span class="op">/</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(<span class="dv">1</span> <span class="op">-</span> rhoF <span class="op">*</span> rhoF)<span class="op">,</span> <span class="fl">1.5</span> <span class="op">+</span> <span class="fl">1.96</span> <span class="op">*</span> <span class="fl">0.3</span> <span class="op">/</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(<span class="dv">1</span> <span class="op">-</span> rhoF <span class="op">*</span> rhoF)]<span class="op">,</span></span>
+<span id="cb7-443"><a href="" aria-label="443"></a>               {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"#aaa"</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"2,4"</span>})<span class="op">,</span></span>
+<span id="cb7-444"><a href="" aria-label="444"></a>    Plot<span class="op">.</span><span class="fu">line</span>(fanData<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"h"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"m"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#8b2635"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">3</span>})</span>
+<span id="cb7-445"><a href="" aria-label="445"></a>  ]</span>
+<span id="cb7-446"><a href="" aria-label="446"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-3" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+<div style="font-size: 28px">
+<p>AR(1) from <span class="math inline">\(x_T = -0.5\)</span>, <span class="math inline">\(\mu = 1.5\)</span>, <span class="math inline">\(\sigma = 0.3\)</span>. Small <span class="math inline">\(\rho\)</span>: the forecast snaps to the mean and the band is narrow at once. As <span class="math inline">\(\rho \to 1\)</span> both the reversion and the widening slow down, and the long-run band explodes.</p>
+</div>
+</section>
+<section id="think-pair-share" class="slide level2">
+<h2>🧠 Think-Pair-Share</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<countdown-timer class="countdown" id="timer_27abc923" minutes="3" seconds="0" warn-when="30" update-every="1" tabindex="0" style="top:0;right:0;--countdown-font-size:2em;"></countdown-timer>
+</div>
+</div>
+<div style="font-size: 30px">
+<p><span class="math inline">\(x_t = 2 + \varepsilon_t + 0.6\,\varepsilon_{t-1}\)</span>, <span class="math inline">\(\ \sigma^2 = 1\)</span>, and the last innovation was <span class="math inline">\(\hat\varepsilon_T = 0.5\)</span>.</p>
+<ol type="1">
+<li>Compute <span class="math inline">\(\hat x_{T+1|T}\)</span>, <span class="math inline">\(\hat x_{T+2|T}\)</span> and their MSEs.</li>
+<li>Why is the two-step forecast no better than the unconditional mean?</li>
+<li>A series has PACF <span class="math inline">\(0.90, -0.40, 0.02, 0.01\)</span> and a slowly decaying, oscillating ACF. Which model would you try first?</li>
+</ol>
+</div>
+</section>
+<section id="think-pair-share-solution" class="slide level2">
+<h2>✅ Think-Pair-Share: Solution</h2>
+<div style="font-size: 28px">
+<ol type="1">
+<li><span class="math inline">\(\hat x_{T+1|T} = 2 + 0.6 \cdot 0.5 = 2.3\)</span>, <span class="math inline">\(\ MSE(1) = \sigma^2 = 1\)</span>. <span class="math inline">\(\ \hat x_{T+2|T} = 2\)</span>, <span class="math inline">\(\ MSE(2) = (1 + 0.6^2)\sigma^2 = 1.36\)</span>.</li>
+</ol>
+<div class="fragment">
+<ol start="2" type="1">
+<li><span class="math inline">\(\psi_j = 0\)</span> for <span class="math inline">\(j \ge 2\)</span>: nothing known at <span class="math inline">\(T\)</span> affects <span class="math inline">\(x_{T+2}\)</span>. The MSE has already reached <span class="math inline">\(\gamma_0 = 1.36\)</span>. An MA(<span class="math inline">\(q\)</span>) has memory of exactly <span class="math inline">\(q\)</span> periods.</li>
+</ol>
+</div>
+<div class="fragment">
+<ol start="3" type="1">
+<li>PACF cuts off after lag 2 and the ACF decays: an <strong>AR(2)</strong>. The negative <span class="math inline">\(\alpha_{22}\)</span> with an oscillating ACF points to complex roots, as in the worked example.</li>
+</ol>
+</div>
+</div>
+<p><span class="gapnote">Not in the 2016 notes: added from Hamilton (1994), ch.&nbsp;4.</span></p>
+</section>
+<section id="case-study-the-term-spread" class="slide level2">
+<h2>💰 Case Study: The Term Spread</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📈 The question</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li>Which ARMA order do the ACF, PACF and BIC point to?</li>
+<li>Are its residuals white noise (Ljung–Box)?</li>
+<li>What is the 12-month forecast, and how wide is its 95% interval?</li>
+</ol>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>📊 The data</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Series</strong>: 10-year minus 3-month Treasury yield, FRED <code>T10Y3M</code></p>
+<p><strong>Period</strong>: Jan 1982 – Sep 2026, 537 months</p>
+<p><strong>Transformation</strong>: monthly average of daily values, percentage points</p>
+</div>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource r display-only number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="" aria-label="1"></a><span class="fu">read.csv</span>(<span class="st">"https://fred.stlouisfed.org/</span></span>
+<span id="cb8-2"><a href="" aria-label="2"></a><span class="st">  graph/fredgraph.csv?id=T10Y3M"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
+</section>
+<section id="case-study-identify-estimate-check" class="slide level2">
+<h2>💰 Case Study: Identify, Estimate, Check</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>📦 ACF/PACF, five ARMA fits, Ljung–Box, forecast</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="" aria-label="1"></a>d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/T10Y3M.csv"</span>)</span>
+<span id="cb9-2"><a href="" aria-label="2"></a>d<span class="sc">$</span>T10Y3M <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(d<span class="sc">$</span>T10Y3M))       <span class="co"># FRED marks holidays with "."</span></span>
+<span id="cb9-3"><a href="" aria-label="3"></a>d <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(d); d<span class="sc">$</span>month <span class="ot">&lt;-</span> <span class="fu">substr</span>(d<span class="sc">$</span>observation_date, <span class="dv">1</span>, <span class="dv">7</span>)</span>
+<span id="cb9-4"><a href="" aria-label="4"></a>m <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(T10Y3M <span class="sc">~</span> month, <span class="at">data =</span> d, <span class="at">FUN =</span> mean); x <span class="ot">&lt;-</span> m<span class="sc">$</span>T10Y3M</span>
+<span id="cb9-5"><a href="" aria-label="5"></a>cands <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">"AR(1)"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="st">"AR(2)"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="st">"AR(3)"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
+<span id="cb9-6"><a href="" aria-label="6"></a>              <span class="st">"ARMA(1,1)"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="st">"ARMA(2,1)"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb9-7"><a href="" aria-label="7"></a>fits <span class="ot">&lt;-</span> <span class="fu">lapply</span>(cands, <span class="cf">function</span>(o) <span class="fu">arima</span>(x, <span class="at">order =</span> o, <span class="at">method =</span> <span class="st">"ML"</span>))</span>
+<span id="cb9-8"><a href="" aria-label="8"></a>tab  <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">sapply</span>(<span class="fu">names</span>(fits), <span class="cf">function</span>(k) <span class="fu">c</span>(<span class="at">BIC =</span> <span class="fu">BIC</span>(fits[[k]]),</span>
+<span id="cb9-9"><a href="" aria-label="9"></a>          <span class="at">LjungBox_p =</span> <span class="fu">Box.test</span>(<span class="fu">resid</span>(fits[[k]]), <span class="at">lag =</span> <span class="dv">24</span>, <span class="at">type =</span> <span class="st">"Ljung-Box"</span>,</span>
+<span id="cb9-10"><a href="" aria-label="10"></a>                                <span class="at">fitdf =</span> <span class="fu">sum</span>(cands[[k]]))<span class="sc">$</span>p.value)))</span>
+<span id="cb9-11"><a href="" aria-label="11"></a>best <span class="ot">&lt;-</span> fits[[<span class="fu">which.min</span>(tab[, <span class="st">"BIC"</span>])]]; fc <span class="ot">&lt;-</span> <span class="fu">predict</span>(best, <span class="at">n.ahead =</span> <span class="dv">24</span>)</span>
+<span id="cb9-12"><a href="" aria-label="12"></a>f2 <span class="ot">&lt;-</span> <span class="cf">function</span>(v) <span class="fu">paste</span>(<span class="fu">sprintf</span>(<span class="st">"%5.2f"</span>, v), <span class="at">collapse =</span> <span class="st">" "</span>)</span>
+<span id="cb9-13"><a href="" aria-label="13"></a><span class="fu">cat</span>(<span class="st">"ACF,  lags 1-4:"</span>, <span class="fu">f2</span>(<span class="fu">acf</span>(x, <span class="dv">4</span>, <span class="at">plot =</span> <span class="cn">FALSE</span>)<span class="sc">$</span>acf[<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>]),</span>
+<span id="cb9-14"><a href="" aria-label="14"></a>    <span class="st">"</span><span class="sc">\n</span><span class="st">PACF, lags 1-4:"</span>, <span class="fu">f2</span>(<span class="fu">pacf</span>(x, <span class="dv">4</span>, <span class="at">plot =</span> <span class="cn">FALSE</span>)<span class="sc">$</span>acf[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]), <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>,</span>
+<span id="cb9-15"><a href="" aria-label="15"></a>    <span class="fu">paste</span>(<span class="fu">capture.output</span>(<span class="fu">print</span>(<span class="fu">round</span>(tab, <span class="dv">3</span>))), <span class="at">collapse =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>),</span>
+<span id="cb9-16"><a href="" aria-label="16"></a>    <span class="st">"</span><span class="sc">\n\n</span><span class="st">best:"</span>, <span class="fu">names</span>(fits)[<span class="fu">which.min</span>(tab[, <span class="st">"BIC"</span>])], <span class="st">" coef:"</span>, <span class="fu">f2</span>(<span class="fu">coef</span>(best)),</span>
+<span id="cb9-17"><a href="" aria-label="17"></a>    <span class="st">"</span><span class="sc">\n</span><span class="st">h = 12: forecast"</span>, <span class="fu">f2</span>(fc<span class="sc">$</span>pred[<span class="dv">12</span>]), <span class="st">" 95% interval"</span>,</span>
+<span id="cb9-18"><a href="" aria-label="18"></a>    <span class="fu">f2</span>(fc<span class="sc">$</span>pred[<span class="dv">12</span>] <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">1.96</span>, <span class="fl">1.96</span>) <span class="sc">*</span> fc<span class="sc">$</span>se[<span class="dv">12</span>]), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>ACF,  lags 1-4:  0.98  0.94  0.90  0.86 
+PACF, lags 1-4:  0.98 -0.32  0.13 -0.06 
+
+               BIC LjungBox_p
+AR(1)     139.979      0.000
+AR(2)      81.693      0.006
+AR(3)      73.451      0.234
+ARMA(1,1)  63.802      0.390
+ARMA(2,1)  69.846      0.360 
+
+best: ARMA(1,1)  coef:  0.96  0.45  1.53 
+h = 12: forecast  1.18  95% interval -0.74  3.10 </code></pre>
+</div>
+</div>
+</section>
+<section id="case-study-the-forecast-fan" class="slide level2">
+<h2>💰 Case Study: The Forecast Fan</h2>
+
+<img data-src="arma_estimation_forecasting_lecture8_files/figure-revealjs/case-spread-fig-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1500"><div style="font-size: 28px">
+<p><strong>What the data say:</strong> the PACF suggests AR(2), but AR(2) fails Ljung–Box; ARMA(1,1) has the lowest BIC and white residuals. Its forecast creeps towards the 1.53 pp mean, with a 12-month interval almost four points wide. The weak point is one constant mean for 1982–2026: the 2022–24 inversion was the longest in the sample.</p>
+</div>
+</section>
+<section id="quiz-1-roots" class="slide level2 quiz-question">
+<h2>📝 Quiz #1: Roots</h2>
+<p>Which ARMA model is stationary <strong>and</strong> invertible?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ φ(z) = 1 − 0.5z has root 2 and θ(z) = 1 + 0.8z has root −1.25: both outside the unit circle."><span class="math inline">\((1 - 0.5L)x_t = (1 + 0.8L)\varepsilon_t\)</span></span></li>
+<li><span class="math inline">\((1 - 1.2L)x_t = (1 + 0.3L)\varepsilon_t\)</span></li>
+<li><span class="math inline">\((1 - 0.5L)x_t = (1 + 1.5L)\varepsilon_t\)</span></li>
+<li><span class="math inline">\((1 - L)x_t = \varepsilon_t\)</span></li>
+</ul>
+</section>
+<section id="quiz-2-identification" class="slide level2 quiz-question">
+<h2>📝 Quiz #2: Identification</h2>
+<p>The sample ACF is significant at lags 1 and 2 and insignificant beyond; the PACF decays gradually. A first guess?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ An MA(q) has ρ_j = 0 for j > q, so its ACF cuts off after q; its PACF decays because the MA is an AR(∞) once inverted.">MA(2)</span></li>
+<li>AR(2)</li>
+<li>ARMA(2,2)</li>
+<li>White noise</li>
+</ul>
+</section>
+<section id="quiz-3-forecast-mse" class="slide level2 quiz-question">
+<h2>📝 Quiz #3: Forecast MSE</h2>
+<p>For a stationary AR(1) with <span class="math inline">\(\rho = 0.5\)</span> and <span class="math inline">\(\sigma^2 = 1\)</span>, what is <span class="math inline">\(MSE(2)\)</span>, and its limit as <span class="math inline">\(h \to \infty\)</span>?</p>
+<ul>
+<li><span class="correct" data-explanation="✅ MSE(h) = σ²(1 + ρ² + … + ρ^{2(h−1)}): MSE(2) = 1 + 0.25 = 1.25, and the limit is γ0 = σ²/(1 − ρ²) = 4/3."><span class="math inline">\(1.25\)</span> and <span class="math inline">\(4/3\)</span></span></li>
+<li><span class="math inline">\(1.5\)</span> and <span class="math inline">\(2\)</span></li>
+<li><span class="math inline">\(1.25\)</span> and <span class="math inline">\(\infty\)</span></li>
+<li><span class="math inline">\(1\)</span> and <span class="math inline">\(1\)</span></li>
+</ul>
+</section>
+<section id="key-formulas" class="slide level2">
+<h2>📋 Key Formulas</h2>
+<div style="font-size: 28px">
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>ARMA(<span class="math inline">\(p,q\)</span>)</td>
+<td><span class="math inline">\(\phi(L)(x_t - \mu) = \theta(L)\varepsilon_t\)</span>, <span class="math inline">\(\ \psi(L) = \theta(L)/\phi(L)\)</span></td>
+</tr>
+<tr class="even">
+<td>Stationary / invertible</td>
+<td>roots of <span class="math inline">\(\phi(z)\)</span> / <span class="math inline">\(\theta(z)\)</span> outside the unit circle</td>
+</tr>
+<tr class="odd">
+<td>Yule–Walker, AR(<span class="math inline">\(p\)</span>)</td>
+<td><span class="math inline">\(\rho_j = \sum_{i=1}^p\phi_i\rho_{j-i}\)</span>, <span class="math inline">\(\ \sigma^2 = \gamma_0(1 - \sum_i\phi_i\rho_i)\)</span></td>
+</tr>
+<tr class="even">
+<td>PACF</td>
+<td><span class="math inline">\(\alpha_{kk}\)</span> = last coefficient of the projection on <span class="math inline">\(k\)</span> lags</td>
+</tr>
+<tr class="odd">
+<td>Ljung–Box</td>
+<td><span class="math inline">\(Q(m) = T(T + 2)\sum_{k\le m}\hat\rho_k^2/(T - k) \sim \chi^2(m - p - q)\)</span></td>
+</tr>
+<tr class="even">
+<td>Forecast</td>
+<td><span class="math inline">\(\hat x_{T+h\mid T} = \mu + \sum_{j\ge h}\psi_j\varepsilon_{T+h-j}\)</span></td>
+</tr>
+<tr class="odd">
+<td>Forecast MSE</td>
+<td><span class="math inline">\(\sigma^2\sum_{j&lt;h}\psi_j^2 \to \gamma_0\)</span></td>
+</tr>
+<tr class="even">
+<td>AR(1)</td>
+<td><span class="math inline">\(\mu + \rho^h(x_T - \mu)\)</span>, <span class="math inline">\(\ \sigma^2(1 - \rho^{2h})/(1 - \rho^2)\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="summary" class="slide level2">
+<h2>📋 Summary</h2>
+<div style="font-size: 30px">
+<ul>
+<li>ARMA describes the Wold weights with two short polynomials; roots outside the unit circle give stationarity and invertibility</li>
+<li>ACF cut-off → MA order; PACF cut-off → AR order; mixed decay → ARMA, shortlisted by BIC</li>
+<li>AR by OLS or Yule–Walker; MA and ARMA by conditional least squares or (Q)MLE</li>
+<li>Ljung–Box on residuals is the specification check</li>
+<li>Forecasts revert to the mean at the speed of the <span class="math inline">\(\psi_j\)</span>; the MSE rises to <span class="math inline">\(\gamma_0\)</span></li>
+<li>The term spread: ARMA(1,1), slow reversion, a 12-month interval about four points wide</li>
+</ul>
+</div>
+</section>
+<section id="further-reading" class="slide level2">
+<h2>📚 Further Reading</h2>
+<div style="font-size: 28px">
+<ul>
+<li>Hamilton, J. D. (1994). <em>Time Series Analysis</em>. Princeton. Ch. 3 (ARMA processes), ch.&nbsp;4 (forecasting), ch.&nbsp;5 (maximum likelihood)</li>
+<li>Tsay, R. S. (2010). <em>Analysis of Financial Time Series</em>, 3rd ed.&nbsp;Wiley. Ch. 2</li>
+<li>Box, G. E. P. and Jenkins, G. M. (1970). <em>Time Series Analysis: Forecasting and Control</em>. Holden-Day</li>
+<li>Ljung, G. M. and Box, G. E. P. (1978). On a measure of lack of fit in time series models. <em>Biometrika</em> 65, 297–303</li>
+<li>Estrella, A. and Mishkin, F. S. (1998). Predicting U.S. recessions: financial variables as leading indicators. <em>Review of Economics and Statistics</em> 80, 45–61</li>
+</ul>
+<p><strong>Next lecture:</strong> Trends, Unit Roots and Brownian Motion.</p>
+</div>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+<p>Time Series Econometrics — ARMA Models</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="arma_estimation_forecasting_lecture8_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="arma_estimation_forecasting_lecture8_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="arma_estimation_forecasting_lecture8_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="arma_estimation_forecasting_lecture8_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="arma_estimation_forecasting_lecture8_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="arma_estimation_forecasting_lecture8_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="arma_estimation_forecasting_lecture8_files/libs/revealjs/plugin/reveal-quiz/quiz.js"></script>
+  <script src="arma_estimation_forecasting_lecture8_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="arma_estimation_forecasting_lecture8_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="arma_estimation_forecasting_lecture8_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="arma_estimation_forecasting_lecture8_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="arma_estimation_forecasting_lecture8_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'quiz': {"checkKey":"c","resetKey":"r","shuffleKey":"s","allowNumberKeys":true,"disableOnCheck":false,"shuffleOptions":true,"defaultCorrect":"✅ Correct! Well done.","defaultIncorrect":"❌ Not quite. Try again or check the explanation.","includeScore":true,"disableReset":false},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 720,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, RevealQuiz, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script type="ojs-module-contents">
+    eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6InZpZXdvZiByaG9GID0gSW5wdXRzLnJhbmdlKFswLCAwLjk5XSwge3N0ZXA6IDAuMDEsIHZhbHVlOiAwLjk1LCBsYWJlbDogXCLPgVwifSlcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMiIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6ImZhbkRhdGEgPSB7XG4gIGNvbnN0IG11ID0gMS41LCBzID0gMC4zLCB4VCA9IC0wLjUsIG91dCA9IFtdO1xuICBmb3IgKGxldCBoID0gMDsgaCA8PSAzNjsgaCsrKSB7XG4gICAgY29uc3QgbSA9IG11ICsgTWF0aC5wb3cocmhvRiwgaCkgKiAoeFQgLSBtdSk7XG4gICAgY29uc3Qgc2UgPSBoID09PSAwID8gMCA6IHMgKiBNYXRoLnNxcnQoKDEgLSBNYXRoLnBvdyhyaG9GLCAyICogaCkpIC8gKDEgLSByaG9GICogcmhvRikpO1xuICAgIG91dC5wdXNoKHtoLCBtLCBsbzogbSAtIDEuOTYgKiBzZSwgaGk6IG0gKyAxLjk2ICogc2V9KTtcbiAgfVxuICByZXR1cm4gb3V0O1xufVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC0zIiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoiUGxvdC5wbG90KHtcbiAgd2lkdGg6IDExMDAsIGhlaWdodDogMzMwLCBtYXJnaW5MZWZ0OiA3MCwgbWFyZ2luQm90dG9tOiA1NSwgbWFyZ2luVG9wOiAzMCxcbiAgc3R5bGU6IHtmb250U2l6ZTogXCIxOHB4XCJ9LFxuICB4OiB7bGFiZWw6IFwibW9udGhzIGFoZWFkLCBoXCJ9LCB5OiB7bGFiZWw6IFwic3ByZWFkLCBwcFwiLCBkb21haW46IFstMi41LCA1LjVdfSxcbiAgbWFya3M6IFtcbiAgICBQbG90LmFyZWFZKGZhbkRhdGEsIHt4OiBcImhcIiwgeTE6IFwibG9cIiwgeTI6IFwiaGlcIiwgZmlsbDogXCIjOGJhM2M3XCIsIGZpbGxPcGFjaXR5OiAwLjV9KSxcbiAgICBQbG90LnJ1bGVZKFsxLjVdLCB7c3Ryb2tlOiBcIiM4ODhcIiwgc3Ryb2tlRGFzaGFycmF5OiBcIjYsNFwifSksXG4gICAgUGxvdC5ydWxlWShbMS41IC0gMS45NiAqIDAuMyAvIE1hdGguc3FydCgxIC0gcmhvRiAqIHJob0YpLCAxLjUgKyAxLjk2ICogMC4zIC8gTWF0aC5zcXJ0KDEgLSByaG9GICogcmhvRildLFxuICAgICAgICAgICAgICAge3N0cm9rZTogXCIjYWFhXCIsIHN0cm9rZURhc2hhcnJheTogXCIyLDRcIn0pLFxuICAgIFBsb3QubGluZShmYW5EYXRhLCB7eDogXCJoXCIsIHk6IFwibVwiLCBzdHJva2U6IFwiIzhiMjYzNVwiLCBzdHJva2VXaWR0aDogM30pXG4gIF1cbn0pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ3Job0YnKSJ9XX0=
+    </script>
+    <script type="module">
+    if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+    window._ojs.paths.runtimeToDoc = "../../..";
+    window._ojs.paths.runtimeToRoot = "../../..";
+    window._ojs.paths.docToRoot = "";
+    window._ojs.selfContained = false;
+    window._ojs.runtime.interpretFromScriptTags();
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

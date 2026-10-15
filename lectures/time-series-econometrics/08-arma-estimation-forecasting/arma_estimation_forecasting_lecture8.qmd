@@ -1,0 +1,657 @@
+---
+title: "Time Series Econometrics"
+subtitle: "Lecture 8: ARMA Models: Identification, Estimation, Forecasting"
+author:
+  - name: "Samir Orujov, PhD"
+    affiliations:
+      - name: "Open lecture notes, after Stanislav Anatolyev's course (2016)"
+format:
+  revealjs:
+    theme: [default, ../slide-fit.scss]
+    transition: slide
+    slide-number: c/t
+    chalkboard: true
+    controls: true
+    navigation-mode: linear
+    width: 1280
+    height: 720
+    footer: "Time Series Econometrics — ARMA Models"
+    incremental: false
+    highlight-style: tango
+    code-fold: true
+    menu: true
+    progress: true
+    history: true
+    quiz:
+      checkKey: 'c'
+      resetKey: 'r'
+      shuffleKey: 's'
+      allowNumberKeys: true
+      disableOnCheck: false
+      disableReset: false
+      shuffleOptions: true
+      defaultCorrect: "✅ Correct! Well done."
+      defaultIncorrect: "❌ Not quite. Try again or check the explanation."
+      includeScore: true
+revealjs-plugins:
+  - quiz
+engine: knitr
+execute:
+  echo: true
+  warning: false
+  message: false
+  freeze: false
+knitr:
+  opts_chunk:
+    dev: png
+    dpi: 150
+    fig.align: center
+---
+
+```{r}
+#| label: setup
+#| include: false
+set.seed(2026)
+library(ggplot2)
+theme_set(theme_minimal(base_size = 18))
+```
+
+## 🎬 The Idea in 3 Minutes
+
+::: {style="text-align:center"}
+```{=html}
+<video controls preload="metadata" style="width:780px;max-width:100%;aspect-ratio:16/9;background:#111" poster="video/lecture8_intuition.jpg" src="video/lecture8_intuition.mp4"><track kind="captions" src="video/lecture8_intuition.vtt" srclang="en" label="English"></video>
+```
+[⬅ Previous lecture: 7 · Linear Projection, Innovations and the Wold Decomposition](../07-wold-decomposition/wold_decomposition_lecture7.html){style="font-size:28px"}
+
+[A short film with the intuition. Watch it before the slides, or after. Captions: CC button.]{style="font-size:28px"}
+:::
+
+---
+
+## 🎯 Learning Objectives
+
+::: {style="font-size: 32px"}
+By the end of this lecture, you will be able to:
+
+- **Check** stationarity and invertibility of an ARMA($p,q$) from the roots of its lag polynomials
+- **Identify** a tentative order from the sample ACF and PACF
+- **Estimate** an AR by OLS or Yule–Walker and an ARMA by conditional least squares or Gaussian (Q)MLE
+- **Diagnose** a fitted model with the Ljung–Box test
+- **Forecast** $h$ steps ahead and **compute** the forecast MSE and interval
+:::
+
+[This lecture is not in the 2016 notes. It is written from Hamilton (1994), ch. 3–5, and Tsay (2010), ch. 2, in the notation of lectures 7 and 9.]{.gapnote}
+
+---
+
+## 🔁 Warm-up from last time {.quiz-question}
+
+$x_t = \varepsilon_t + 4\varepsilon_{t-1}$ with $\operatorname{var}\varepsilon_t = 1$. What is its Wold decomposition?
+
+- [$x_t = \tilde\varepsilon_t + \tfrac14\tilde\varepsilon_{t-1}$ with $\operatorname{var}\tilde\varepsilon_t = 16$]{.correct data-explanation="✅ Lecture 7: an MA(1) with |θ| > 1 has the same autocovariances as the MA(1) with 1/θ and variance θ²σ². Check: γ0 = 17 = (1 + 1/16)·16, γ1 = 4 = (1/4)·16. Wold picks the invertible one."}
+- $x_t = \varepsilon_t + 4\varepsilon_{t-1}$ itself, since $\psi_0 = 1$
+- $x_t = \tilde\varepsilon_t + \tfrac14\tilde\varepsilon_{t-1}$ with $\operatorname{var}\tilde\varepsilon_t = 1/16$
+- It has none: the process is not stationary
+
+---
+
+## 🗺️ Where We Are
+
+::: {style="font-size: 30px"}
+Lecture 7: every purely nondeterministic stationary series is an MA($\infty$) in its least-squares innovations,
+$$x_t = \mu + \sum_{j\ge0}\psi_j\varepsilon_{t-j}.$$
+
+::: {.fragment}
+From $T$ observations we cannot estimate infinitely many $\psi_j$. The ARMA model replaces the sequence $\psi_j$ by a **ratio of two short polynomials**, $\psi(L) = \theta(L)/\phi(L)$. Three questions follow, and they are the whole lecture: which orders $(p, q)$? how to estimate the coefficients? how to forecast with them?
+:::
+:::
+
+[Not in the 2016 notes: added from Hamilton (1994), ch. 3.]{.gapnote}
+
+---
+
+## ❓ The Question
+
+::: {.callout-important}
+## Where will the yield curve be in a year?
+The term spread, 10-year minus 3-month Treasury yield, is one of the best recession predictors in macroeconomics. In September 2026 it stood near 0.9 percentage points. What is the best forecast for September 2027, and how wide must an honest 95% interval be?
+:::
+
+::: {style="font-size: 30px"}
+A forecast without an interval is half an answer. ARMA models give both, and they give them from the series' own past alone.
+:::
+
+[Not in the 2016 notes: added from Tsay (2010), ch. 2.]{.gapnote}
+
+---
+
+## 📐 The ARMA($p,q$) Model
+
+::: {style="font-size: 28px"}
+::: {.callout-note}
+## Definition
+$x_t$ is ARMA($p,q$) if $\ \phi(L)(x_t - \mu) = \theta(L)\varepsilon_t$, where
+$$\phi(L) = 1 - \phi_1L - \dots - \phi_pL^p, \qquad \theta(L) = 1 + \theta_1L + \dots + \theta_qL^q,$$
+with $\varepsilon_t$ white noise $(0, \sigma^2)$ and no common roots of $\phi$ and $\theta$.
+:::
+
+- **Stationary** (causal) iff all roots of $\phi(z) = 0$ lie outside the unit circle. Then $\psi(L) = \theta(L)/\phi(L)$ and $\sum|\psi_j| < \infty$
+- **Invertible** iff all roots of $\theta(z) = 0$ lie outside the unit circle. Then $\varepsilon_t$ is the LS innovation (lecture 7)
+- AR(1): root $1/\rho$, so $|\rho| < 1$. MA(1): root $-1/\theta$, so $|\theta| < 1$
+:::
+
+[Not in the 2016 notes: added from Hamilton (1994), ch. 3.]{.gapnote}
+
+---
+
+## 📐 Second Moments
+
+::: {style="font-size: 28px"}
+| model | $\gamma_0$ | autocorrelation $\rho_j$ |
+|---|---|---|
+| AR(1) | $\sigma^2/(1 - \rho^2)$ | $\rho^j$ |
+| MA(1) | $(1 + \theta^2)\sigma^2$ | $\rho_1 = \theta/(1 + \theta^2)$, $\ \rho_j = 0$ for $j \ge 2$ |
+| AR($p$) | from Yule–Walker | $\rho_j = \phi_1\rho_{j-1} + \dots + \phi_p\rho_{j-p}$, $j \ge 1$ |
+| ARMA(1,1) | $\dfrac{1 + 2\phi\theta + \theta^2}{1 - \phi^2}\sigma^2$ | $\rho_1 = \dfrac{(1 + \phi\theta)(\phi + \theta)}{1 + 2\phi\theta + \theta^2}$, $\ \rho_j = \phi\rho_{j-1}$, $j \ge 2$ |
+
+The AR part fixes how the ACF **decays**; the MA part fixes only the first $q$ values.
+:::
+
+[Not in the 2016 notes: added from Hamilton (1994), ch. 3.]{.gapnote}
+
+---
+
+## 📐 The Partial Autocorrelation Function
+
+::: {style="font-size: 28px"}
+::: {.callout-note}
+## Definition
+The PACF at lag $k$, $\alpha_{kk}$, is the last coefficient of the linear projection
+$$\operatorname{Proj}(x_t \mid 1, x_{t-1}, \dots, x_{t-k}) = \alpha_{k0} + \alpha_{k1}x_{t-1} + \dots + \alpha_{kk}x_{t-k}.$$
+:::
+
+It is the correlation of $x_t$ and $x_{t-k}$ net of the lags in between. For an AR($p$) and $k > p$, the projection is the model itself, so $\alpha_{kk} = 0$.
+
+| | ACF | PACF |
+|---|---|---|
+| AR($p$) | decays | **cuts off** after $p$ |
+| MA($q$) | **cuts off** after $q$ | decays |
+| ARMA($p,q$) | decays after lag $q$ | decays after lag $p$ |
+:::
+
+[Not in the 2016 notes: added from Hamilton (1994), ch. 4.]{.gapnote}
+
+---
+
+## 💻 What the Patterns Look Like
+
+```{r}
+#| label: acf-pacf-fig
+#| echo: false
+#| fig-width: 11
+#| fig-height: 4.6
+mods <- list("AR(2): φ = (1.11, −0.39)" = list(ar = c(1.11, -0.39), ma = numeric(0)),
+             "MA(1): θ = 0.6"           = list(ar = numeric(0), ma = 0.6),
+             "ARMA(1,1): φ = 0.9, θ = 0.5" = list(ar = 0.9, ma = 0.5))
+K <- 10; Tn <- 300
+rows <- do.call(rbind, lapply(names(mods), function(nm) {
+  m <- mods[[nm]]
+  sim <- arima.sim(list(ar = m$ar, ma = m$ma), n = Tn)
+  rbind(data.frame(model = nm, fn = "ACF",  k = 1:K, theory = ARMAacf(m$ar, m$ma, K)[-1],
+                   sample = acf(sim, K, plot = FALSE)$acf[-1]),
+        data.frame(model = nm, fn = "PACF", k = 1:K, theory = ARMAacf(m$ar, m$ma, K, pacf = TRUE),
+                   sample = pacf(sim, K, plot = FALSE)$acf[, 1, 1]))
+}))
+rows$model <- factor(rows$model, levels = names(mods))
+ggplot(rows, aes(k, theory)) +
+  geom_hline(yintercept = c(-1, 1) * 1.96 / sqrt(Tn), linetype = "dashed", colour = "grey55") +
+  geom_col(fill = "#8ba3c7", width = 0.7) +
+  geom_point(aes(y = sample), colour = "#8b2635", size = 2.2) +
+  facet_grid(fn ~ model) + scale_x_continuous(breaks = c(1, 5, 10)) +
+  labs(x = "lag k", y = NULL) +
+  theme_minimal(base_size = 18) + theme(strip.text = element_text(size = 17, face = "bold"))
+```
+
+::: {style="font-size: 28px"}
+Bars: population values. Dots: one sample of $T = 300$. Dashes: $\pm1.96/\sqrt T$. Sampling noise blurs the cut-offs.
+:::
+
+---
+
+## ✏️ Yule–Walker for an AR(2)
+
+::: {style="font-size: 30px"}
+Multiply $x_t - \mu = \phi_1(x_{t-1} - \mu) + \phi_2(x_{t-2} - \mu) + \varepsilon_t$ by $x_{t-j} - \mu$, $j = 1, 2$, take expectations and divide by $\gamma_0$:
+$$\rho_1 = \phi_1 + \phi_2\rho_1, \qquad \rho_2 = \phi_1\rho_1 + \phi_2.$$
+Suppose the sample gives $\hat\rho_1 = 0.8$ and $\hat\rho_2 = 0.5$.
+
+::: {.fragment}
+**Solve** the two linear equations:
+$$\hat\phi_1 = \frac{\rho_1(1 - \rho_2)}{1 - \rho_1^2} = \frac{0.8 \cdot 0.5}{0.36} = 1.111, \qquad \hat\phi_2 = \frac{\rho_2 - \rho_1^2}{1 - \rho_1^2} = \frac{0.5 - 0.64}{0.36} = -0.389.$$
+:::
+:::
+
+[Not in the 2016 notes: added from Hamilton (1994), ch. 3.]{.gapnote}
+
+---
+
+## ✏️ The AR(2) Fit: Roots and Weights
+
+::: {style="font-size: 30px"}
+**Stationary?** The AR(2) triangle: $\phi_1 + \phi_2 = 0.722 < 1$, $\ \phi_2 - \phi_1 = -1.5 < 1$, $\ |\phi_2| < 1$. Yes.
+
+::: {.fragment}
+**Shape.** $\phi_1^2 + 4\phi_2 = -0.321 < 0$, so the roots of $\phi(z)$ are complex with $|z| = 1/\sqrt{-\phi_2} = 1.604 > 1$: a **damped cycle**.
+:::
+
+::: {.fragment}
+**Wold weights** from $\psi_j = \phi_1\psi_{j-1} + \phi_2\psi_{j-2}$: $\ \psi_1 = 1.111$, $\psi_2 = 0.846$, $\psi_3 = 0.508$.
+
+**Innovation variance:** $\sigma^2 = \gamma_0(1 - \phi_1\rho_1 - \phi_2\rho_2) = 0.306\,\gamma_0$.
+:::
+:::
+
+[Not in the 2016 notes: added from Hamilton (1994), ch. 3.]{.gapnote}
+
+---
+
+## 💻 Checking the Example in R
+
+```{r}
+#| label: yw-check
+r1 <- 0.8; r2 <- 0.5
+phi <- solve(matrix(c(1, r1, r1, 1), 2), c(r1, r2))     # Yule-Walker system
+roots <- polyroot(c(1, -phi))                            # roots of phi(z) = 1 - phi1 z - phi2 z^2
+round(c(phi = phi, root_modulus = Mod(roots[1]),
+        cycle_length = 2 * pi / abs(Arg(roots[1])),
+        psi = ARMAtoMA(ar = phi, lag.max = 4),
+        sigma2_over_gamma0 = 1 - sum(phi * c(r1, r2))), 3)
+```
+
+::: {style="font-size: 28px"}
+Roots of modulus 1.6 and a cycle of about 13 periods: a shock first overshoots, then oscillates back to the mean.
+:::
+
+---
+
+## 📐 Estimating an AR
+
+::: {style="font-size: 30px"}
+- **OLS** of $x_t$ on $1, x_{t-1}, \dots, x_{t-p}$, conditioning on the first $p$ observations. It is the sample analogue of the projection of lecture 7, so it is consistent under ergodicity, and asymptotically normal: for AR(1),
+$$\sqrt T(\hat\rho - \rho) \xrightarrow{d} N(0,\ 1 - \rho^2).$$
+- **Yule–Walker** solves $\rho_j = \sum_i\phi_i\rho_{j-i}$ with sample autocorrelations. Same limit as OLS, and the fit is always stationary
+- With Gaussian errors, OLS is the conditional MLE
+:::
+
+[Not in the 2016 notes: added from Hamilton (1994), ch. 5, and Tsay (2010), ch. 2.]{.gapnote}
+
+---
+
+## 📐 Estimating MA and ARMA
+
+::: {style="font-size: 30px"}
+The regressors $\varepsilon_{t-j}$ are not observed, so OLS is out. **Conditional sum of squares:** set $\varepsilon_0 = \dots = 0$, build residuals recursively,
+$$\varepsilon_t(\beta) = (x_t - \mu) - \sum_{i=1}^p\phi_i(x_{t-i} - \mu) - \sum_{j=1}^q\theta_j\varepsilon_{t-j}(\beta),$$
+and minimise $\sum_t\varepsilon_t(\beta)^2$ numerically. The start-up error dies out only if $\theta(L)$ is invertible: lecture 7's picture again.
+
+**Gaussian MLE** adds the density of the first observations (Kalman filter, Hamilton ch. 5). Under i.i.d. non-Gaussian errors it is a **QMLE**, still consistent and asymptotically normal.
+:::
+
+[Not in the 2016 notes: added from Hamilton (1994), ch. 5.]{.gapnote}
+
+---
+
+## 💻 Conditional Least Squares by Hand
+
+```{r}
+#| label: css-hand
+x <- 1 + arima.sim(list(ar = 0.8, ma = 0.4), n = 500)   # ARMA(1,1), mu = 1
+css <- function(b, x) {                                  # b = (mu, phi, theta)
+  e <- numeric(length(x))
+  for (t in 2:length(x)) e[t] <- (x[t] - b[1]) - b[2] * (x[t - 1] - b[1]) - b[3] * e[t - 1]
+  sum(e[-1]^2)
+}
+fit <- optim(c(mean(x), 0, 0), css, x = x, method = "BFGS")
+ref <- arima(x, order = c(1, 0, 1), method = "CSS")
+rbind(truth = c(1, 0.8, 0.4), by_hand = fit$par,
+      stats_arima = coef(ref)[c("intercept", "ar1", "ma1")]) |>
+  `colnames<-`(c("mu", "phi", "theta")) |> round(3)
+```
+
+::: {style="font-size: 28px"}
+A few lines of R reproduce the library's estimator. The library's `method = "ML"` adds the exact first-observation term.
+:::
+
+[Not in the 2016 notes: added from Hamilton (1994), ch. 5.]{.gapnote}
+
+---
+
+## 🔁 The Box–Jenkins Cycle
+
+::: {style="font-size: 28px"}
+1. **Identify.** Transform to stationarity; read tentative $(p, q)$ from the ACF and PACF; shortlist with AIC/BIC (lecture 4)
+2. **Estimate** by OLS, CSS or (Q)MLE
+3. **Check** that residuals look like white noise. The **Ljung–Box** statistic
+$$Q(m) = T(T + 2)\sum_{k=1}^m\frac{\hat\rho_k^2(\hat\varepsilon)}{T - k} \xrightarrow{d} \chi^2(m - p - q)$$
+under correct specification. If it rejects, return to step 1
+4. **Forecast**, and evaluate out of sample (lecture 5)
+
+Parsimony is the rule: an ARMA(1,1) often does what an AR(5) does, with three parameters fewer.
+:::
+
+[Not in the 2016 notes: added from Box and Jenkins (1970) and Tsay (2010), ch. 2.]{.gapnote}
+
+---
+
+## 📐 Optimal Forecasts
+
+::: {style="font-size: 28px"}
+Under squared loss the best forecast is the conditional mean; for a linear model with LS innovations it is the projection. From the Wold form, the future splits into known and unknown innovations:
+$$x_{T+h} = \mu + \underbrace{\sum_{j\ge h}\psi_j\varepsilon_{T+h-j}}_{\text{known at } T} + \underbrace{\sum_{j=0}^{h-1}\psi_j\varepsilon_{T+h-j}}_{\text{future}}$$
+
+::: {.fragment}
+$$\hat x_{T+h|T} = \mu + \sum_{j\ge h}\psi_j\varepsilon_{T+h-j}, \qquad MSE(h) = \sigma^2\sum_{j=0}^{h-1}\psi_j^2 \ \xrightarrow[h\to\infty]{}\ \gamma_0.$$
+Forecasts revert to $\mu$; the MSE rises to the unconditional variance. A 95% interval is $\hat x_{T+h|T} \pm 1.96\sqrt{MSE(h)}$ under Gaussian errors, ignoring estimation error.
+:::
+:::
+
+[Not in the 2016 notes: added from Hamilton (1994), ch. 4.]{.gapnote}
+
+---
+
+## ✏️ AR(1) Forecast of the Spread
+
+::: {style="font-size: 28px"}
+Monthly spread: $\mu = 1.5$, $\rho = 0.95$, $\sigma = 0.3$, and an inverted curve today, $x_T = -0.5$.
+
+$$\hat x_{T+h|T} = \mu + \rho^h(x_T - \mu), \qquad MSE(h) = \sigma^2\,\frac{1 - \rho^{2h}}{1 - \rho^2}.$$
+
+| $h$ | $\hat x_{T+h\mid T}$ | $\sqrt{MSE(h)}$ | 95% interval |
+|---|---|---|---|
+| 1 | $-0.40$ | $0.30$ | $[-0.99,0.19]$ |
+| 6 | $0.03$ | $0.65$ | $[-1.25,1.31]$ |
+| 12 | $0.42$ | $0.81$ | $[-1.16,2.00]$ |
+| $\infty$ | $1.50$ | $0.96$ | $[-0.38,3.38]$ |
+
+After a year less than half the gap to $\mu$ is closed; the interval is at 84% of its final width.
+:::
+
+[Not in the 2016 notes: added from Hamilton (1994), ch. 4.]{.gapnote}
+
+---
+
+## 💻 A Fan Converging to the Mean
+
+```{r}
+#| label: fan-sim
+#| echo: false
+#| fig-width: 11
+#| fig-height: 4.3
+phi <- c(1.11, -0.39); mu <- 0; s <- 1; Tn <- 120; H <- 40
+x <- mu + as.numeric(arima.sim(list(ar = phi), n = Tn, sd = s))
+psi <- c(1, ARMAtoMA(ar = phi, lag.max = H - 1))
+fc <- numeric(H); hist <- x - mu                        # iterate the AR recursion forward
+for (h in 1:H) { nxt <- sum(phi * rev(tail(hist, 2))); fc[h] <- nxt; hist <- c(hist, nxt) }
+se <- s * sqrt(cumsum(psi^2)); g0 <- s^2 * sum(ARMAtoMA(ar = phi, lag.max = 500)^2) + s^2
+fan <- data.frame(t = Tn + 1:H, m = mu + fc, lo95 = mu + fc - 1.96 * se, hi95 = mu + fc + 1.96 * se,
+                  lo80 = mu + fc - 1.28 * se, hi80 = mu + fc + 1.28 * se)
+ggplot() +
+  geom_hline(yintercept = mu + c(-1, 1) * 1.96 * sqrt(g0), linetype = "dashed", colour = "grey50") +
+  geom_ribbon(data = fan, aes(t, ymin = lo95, ymax = hi95), fill = "#8ba3c7", alpha = 0.45) +
+  geom_ribbon(data = fan, aes(t, ymin = lo80, ymax = hi80), fill = "#2f4b7c", alpha = 0.45) +
+  geom_line(data = data.frame(t = 1:Tn, x = x), aes(t, x), colour = "grey20") +
+  geom_line(data = fan, aes(t, m), colour = "#8b2635", linewidth = 1.3) +
+  labs(x = "t", y = expression(x[t])) + theme_minimal(base_size = 20)
+```
+
+::: {style="font-size: 28px"}
+The AR(2) of the worked example. The point forecast (red) oscillates back to $\mu$; the 80% and 95% bands widen to the unconditional band (dashes), $\mu \pm 1.96\sqrt{\gamma_0}$.
+:::
+
+---
+
+## 🎛️ Explore: Persistence and the Fan
+
+```{ojs}
+//| echo: false
+viewof rhoF = Inputs.range([0, 0.99], {step: 0.01, value: 0.95, label: "ρ"})
+```
+
+```{ojs}
+//| echo: false
+fanData = {
+  const mu = 1.5, s = 0.3, xT = -0.5, out = [];
+  for (let h = 0; h <= 36; h++) {
+    const m = mu + Math.pow(rhoF, h) * (xT - mu);
+    const se = h === 0 ? 0 : s * Math.sqrt((1 - Math.pow(rhoF, 2 * h)) / (1 - rhoF * rhoF));
+    out.push({h, m, lo: m - 1.96 * se, hi: m + 1.96 * se});
+  }
+  return out;
+}
+```
+
+```{ojs}
+//| echo: false
+Plot.plot({
+  width: 1100, height: 330, marginLeft: 70, marginBottom: 55, marginTop: 30,
+  style: {fontSize: "18px"},
+  x: {label: "months ahead, h"}, y: {label: "spread, pp", domain: [-2.5, 5.5]},
+  marks: [
+    Plot.areaY(fanData, {x: "h", y1: "lo", y2: "hi", fill: "#8ba3c7", fillOpacity: 0.5}),
+    Plot.ruleY([1.5], {stroke: "#888", strokeDasharray: "6,4"}),
+    Plot.ruleY([1.5 - 1.96 * 0.3 / Math.sqrt(1 - rhoF * rhoF), 1.5 + 1.96 * 0.3 / Math.sqrt(1 - rhoF * rhoF)],
+               {stroke: "#aaa", strokeDasharray: "2,4"}),
+    Plot.line(fanData, {x: "h", y: "m", stroke: "#8b2635", strokeWidth: 3})
+  ]
+})
+```
+
+::: {style="font-size: 28px"}
+AR(1) from $x_T = -0.5$, $\mu = 1.5$, $\sigma = 0.3$. Small $\rho$: the forecast snaps to the mean and the band is narrow at once. As $\rho \to 1$ both the reversion and the widening slow down, and the long-run band explodes.
+:::
+
+---
+
+## 🧠 Think-Pair-Share
+
+```{r}
+#| label: tps-timer
+#| echo: false
+countdown::countdown(minutes = 3, seconds = 0, top = 0, right = 0,
+                     font_size = "2em", warn_when = 30)
+```
+
+::: {style="font-size: 30px"}
+$x_t = 2 + \varepsilon_t + 0.6\,\varepsilon_{t-1}$, $\ \sigma^2 = 1$, and the last innovation was $\hat\varepsilon_T = 0.5$.
+
+1. Compute $\hat x_{T+1|T}$, $\hat x_{T+2|T}$ and their MSEs.
+2. Why is the two-step forecast no better than the unconditional mean?
+3. A series has PACF $0.90, -0.40, 0.02, 0.01$ and a slowly decaying, oscillating ACF. Which model would you try first?
+:::
+
+---
+
+## ✅ Think-Pair-Share: Solution
+
+::: {style="font-size: 28px"}
+1. $\hat x_{T+1|T} = 2 + 0.6 \cdot 0.5 = 2.3$, $\ MSE(1) = \sigma^2 = 1$. $\ \hat x_{T+2|T} = 2$, $\ MSE(2) = (1 + 0.6^2)\sigma^2 = 1.36$.
+
+::: {.fragment}
+2. $\psi_j = 0$ for $j \ge 2$: nothing known at $T$ affects $x_{T+2}$. The MSE has already reached $\gamma_0 = 1.36$. An MA($q$) has memory of exactly $q$ periods.
+:::
+
+::: {.fragment}
+3. PACF cuts off after lag 2 and the ACF decays: an **AR(2)**. The negative $\alpha_{22}$ with an oscillating ACF points to complex roots, as in the worked example.
+:::
+:::
+
+[Not in the 2016 notes: added from Hamilton (1994), ch. 4.]{.gapnote}
+
+---
+
+## 💰 Case Study: The Term Spread
+
+:::: columns
+::: {.column width="50%"}
+::: {.callout-note}
+## 📈 The question
+
+1. Which ARMA order do the ACF, PACF and BIC point to?
+2. Are its residuals white noise (Ljung–Box)?
+3. What is the 12-month forecast, and how wide is its 95% interval?
+:::
+:::
+
+::: {.column width="50%"}
+::: {.callout-tip}
+## 📊 The data
+
+**Series**: 10-year minus 3-month Treasury yield, FRED `T10Y3M`
+
+**Period**: Jan 1982 – Sep 2026, 537 months
+
+**Transformation**: monthly average of daily values, percentage points
+:::
+
+```{.r .display-only}
+read.csv("https://fred.stlouisfed.org/
+  graph/fredgraph.csv?id=T10Y3M")
+```
+:::
+::::
+
+---
+
+## 💰 Case Study: Identify, Estimate, Check
+
+```{r}
+#| label: case-spread
+#| code-summary: "📦 ACF/PACF, five ARMA fits, Ljung–Box, forecast"
+d <- read.csv("data/T10Y3M.csv")
+d$T10Y3M <- suppressWarnings(as.numeric(d$T10Y3M))       # FRED marks holidays with "."
+d <- na.omit(d); d$month <- substr(d$observation_date, 1, 7)
+m <- aggregate(T10Y3M ~ month, data = d, FUN = mean); x <- m$T10Y3M
+cands <- list("AR(1)" = c(1, 0, 0), "AR(2)" = c(2, 0, 0), "AR(3)" = c(3, 0, 0),
+              "ARMA(1,1)" = c(1, 0, 1), "ARMA(2,1)" = c(2, 0, 1))
+fits <- lapply(cands, function(o) arima(x, order = o, method = "ML"))
+tab  <- t(sapply(names(fits), function(k) c(BIC = BIC(fits[[k]]),
+          LjungBox_p = Box.test(resid(fits[[k]]), lag = 24, type = "Ljung-Box",
+                                fitdf = sum(cands[[k]]))$p.value)))
+best <- fits[[which.min(tab[, "BIC"])]]; fc <- predict(best, n.ahead = 24)
+f2 <- function(v) paste(sprintf("%5.2f", v), collapse = " ")
+cat("ACF,  lags 1-4:", f2(acf(x, 4, plot = FALSE)$acf[2:5]),
+    "\nPACF, lags 1-4:", f2(pacf(x, 4, plot = FALSE)$acf[1:4]), "\n\n",
+    paste(capture.output(print(round(tab, 3))), collapse = "\n"),
+    "\n\nbest:", names(fits)[which.min(tab[, "BIC"])], " coef:", f2(coef(best)),
+    "\nh = 12: forecast", f2(fc$pred[12]), " 95% interval",
+    f2(fc$pred[12] + c(-1.96, 1.96) * fc$se[12]), "\n")
+```
+
+---
+
+## 💰 Case Study: The Forecast Fan
+
+```{r}
+#| label: case-spread-fig
+#| echo: false
+#| fig-width: 10
+#| fig-height: 3.9
+dates <- as.Date(paste0(m$month, "-01"))
+fd <- seq(max(dates), by = "month", length.out = 25)[-1]
+hist_df <- data.frame(date = dates, x = x)[dates >= as.Date("2014-01-01"), ]
+fan <- data.frame(date = fd, m = as.numeric(fc$pred), se = as.numeric(fc$se))
+mu_hat <- coef(best)["intercept"]
+ggplot() +
+  geom_hline(yintercept = 0, colour = "grey70") +
+  geom_hline(aes(yintercept = mu_hat, linetype = "estimated mean"), colour = "grey40") +
+  geom_ribbon(data = fan, aes(date, ymin = m - 1.96 * se, ymax = m + 1.96 * se, fill = "95% interval"), alpha = 0.5) +
+  geom_line(data = hist_df, aes(date, x, colour = "monthly spread"), linewidth = 0.9) +
+  geom_line(data = fan, aes(date, m, colour = "ARMA(1,1) forecast"), linewidth = 1.3) +
+  scale_colour_manual(values = c("monthly spread" = "grey20", "ARMA(1,1) forecast" = "#8b2635"), name = NULL) +
+  scale_fill_manual(values = c("95% interval" = "#8ba3c7"), name = NULL) +
+  scale_linetype_manual(values = c("estimated mean" = "dashed"), name = NULL) +
+  labs(x = NULL, y = "percentage points") +
+  theme_minimal(base_size = 20) + theme(legend.position = "top")
+```
+
+::: {style="font-size: 28px"}
+**What the data say:** the PACF suggests AR(2), but AR(2) fails Ljung–Box; ARMA(1,1) has the lowest BIC and white residuals. Its forecast creeps towards the 1.53 pp mean, with a 12-month interval almost four points wide. The weak point is one constant mean for 1982–2026: the 2022–24 inversion was the longest in the sample.
+:::
+
+---
+
+## 📝 Quiz #1: Roots {.quiz-question}
+
+Which ARMA model is stationary **and** invertible?
+
+- [$(1 - 0.5L)x_t = (1 + 0.8L)\varepsilon_t$]{.correct data-explanation="✅ φ(z) = 1 − 0.5z has root 2 and θ(z) = 1 + 0.8z has root −1.25: both outside the unit circle."}
+- $(1 - 1.2L)x_t = (1 + 0.3L)\varepsilon_t$
+- $(1 - 0.5L)x_t = (1 + 1.5L)\varepsilon_t$
+- $(1 - L)x_t = \varepsilon_t$
+
+---
+
+## 📝 Quiz #2: Identification {.quiz-question}
+
+The sample ACF is significant at lags 1 and 2 and insignificant beyond; the PACF decays gradually. A first guess?
+
+- [MA(2)]{.correct data-explanation="✅ An MA(q) has ρ_j = 0 for j > q, so its ACF cuts off after q; its PACF decays because the MA is an AR(∞) once inverted."}
+- AR(2)
+- ARMA(2,2)
+- White noise
+
+---
+
+## 📝 Quiz #3: Forecast MSE {.quiz-question}
+
+For a stationary AR(1) with $\rho = 0.5$ and $\sigma^2 = 1$, what is $MSE(2)$, and its limit as $h \to \infty$?
+
+- [$1.25$ and $4/3$]{.correct data-explanation="✅ MSE(h) = σ²(1 + ρ² + … + ρ^{2(h−1)}): MSE(2) = 1 + 0.25 = 1.25, and the limit is γ0 = σ²/(1 − ρ²) = 4/3."}
+- $1.5$ and $2$
+- $1.25$ and $\infty$
+- $1$ and $1$
+
+---
+
+## 📋 Key Formulas
+
+::: {style="font-size: 28px"}
+| | |
+|---|---|
+| ARMA($p,q$) | $\phi(L)(x_t - \mu) = \theta(L)\varepsilon_t$, $\ \psi(L) = \theta(L)/\phi(L)$ |
+| Stationary / invertible | roots of $\phi(z)$ / $\theta(z)$ outside the unit circle |
+| Yule–Walker, AR($p$) | $\rho_j = \sum_{i=1}^p\phi_i\rho_{j-i}$, $\ \sigma^2 = \gamma_0(1 - \sum_i\phi_i\rho_i)$ |
+| PACF | $\alpha_{kk}$ = last coefficient of the projection on $k$ lags |
+| Ljung–Box | $Q(m) = T(T + 2)\sum_{k\le m}\hat\rho_k^2/(T - k) \sim \chi^2(m - p - q)$ |
+| Forecast | $\hat x_{T+h\mid T} = \mu + \sum_{j\ge h}\psi_j\varepsilon_{T+h-j}$ |
+| Forecast MSE | $\sigma^2\sum_{j<h}\psi_j^2 \to \gamma_0$ |
+| AR(1) | $\mu + \rho^h(x_T - \mu)$, $\ \sigma^2(1 - \rho^{2h})/(1 - \rho^2)$ |
+:::
+
+---
+
+## 📋 Summary
+
+::: {style="font-size: 30px"}
+- ARMA describes the Wold weights with two short polynomials; roots outside the unit circle give stationarity and invertibility
+- ACF cut-off → MA order; PACF cut-off → AR order; mixed decay → ARMA, shortlisted by BIC
+- AR by OLS or Yule–Walker; MA and ARMA by conditional least squares or (Q)MLE
+- Ljung–Box on residuals is the specification check
+- Forecasts revert to the mean at the speed of the $\psi_j$; the MSE rises to $\gamma_0$
+- The term spread: ARMA(1,1), slow reversion, a 12-month interval about four points wide
+:::
+
+---
+
+## 📚 Further Reading
+
+::: {style="font-size: 28px"}
+- Hamilton, J. D. (1994). *Time Series Analysis*. Princeton. Ch. 3 (ARMA processes), ch. 4 (forecasting), ch. 5 (maximum likelihood)
+- Tsay, R. S. (2010). *Analysis of Financial Time Series*, 3rd ed. Wiley. Ch. 2
+- Box, G. E. P. and Jenkins, G. M. (1970). *Time Series Analysis: Forecasting and Control*. Holden-Day
+- Ljung, G. M. and Box, G. E. P. (1978). On a measure of lack of fit in time series models. *Biometrika* 65, 297–303
+- Estrella, A. and Mishkin, F. S. (1998). Predicting U.S. recessions: financial variables as leading indicators. *Review of Economics and Statistics* 80, 45–61
+
+**Next lecture:** Trends, Unit Roots and Brownian Motion.
+:::
