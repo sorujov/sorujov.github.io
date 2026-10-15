@@ -1,0 +1,1 @@
+GDPC1 (US real GDP, quarterly, SAAR, billions of chained 2017 dollars) and USREC (NBER-based recession indicator, monthly), FRED, Federal Reserve Bank of St. Louis, https://fred.stlouisfed.org/series/GDPC1 and https://fred.stlouisfed.org/series/USREC, 1951Q3–2019Q4, downloaded 15 Oct 2026.
