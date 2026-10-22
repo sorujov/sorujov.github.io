@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Calculator Video Guide</title>
-<meta name="description" content="A six-minute video showing how to use the Math Stat I Calculator for probabilities and counting.">
+<meta name="description" content="How to use the Math Stat I Calculator for probabilities and counting, with a worked example.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,600&display=swap">
@@ -60,6 +60,10 @@ main{padding-block:24px 48px}
 .after p{margin:0; color:var(--muted); max-width:70ch}
 .chapters a{color:var(--accent); font-family:var(--f-mono); font-size:14px; text-decoration:none}
 .chapters a:hover{text-decoration:underline}
+.example{margin-top:40px; display:flex; flex-direction:column; gap:12px}
+.example h2{font:600 26px/1.2 var(--f-display); margin:0; text-wrap:balance}
+.example p{margin:0; color:var(--muted); max-width:72ch}
+.eyebrow{font:500 12px/1.2 var(--f-mono); letter-spacing:.08em; text-transform:uppercase; color:var(--accent)}
 .open{display:inline-block; font:600 15px var(--f-body); color:var(--accent-ink); background:var(--accent); padding:10px 16px; border-radius:8px; text-decoration:none}
 .open:focus-visible{outline:2px solid var(--ink); outline-offset:2px}
 </style>
@@ -70,7 +74,7 @@ main{padding-block:24px 48px}
     <div>
       <div class="course">STAT-2311 · Mathematical Statistics I · ADA University</div>
       <h1>Calculator video guide</h1>
-      <p class="lede">How to use the Math Stat I Calculator for probabilities and counting, in six minutes. Captions are part of the picture.</p>
+      <p class="lede">How to use the Math Stat I Calculator for probabilities and counting, in six minutes, followed by a worked example. Captions are part of the picture.</p>
     </div>
   </div>
 </header>
@@ -85,9 +89,20 @@ main{padding-block:24px 48px}
     <a class="open" href="./">Open the calculator</a>
     <p class="chapters">Jump to: <a href="#t=0:31" data-t="31">0:31</a> binomial, <a href="#t=1:30" data-t="90">1:30</a> the question menu, <a href="#t=1:50" data-t="110">1:50</a> negative binomial, <a href="#t=2:36" data-t="156">2:36</a> conditional probability, geometric, <a href="#t=2:57" data-t="177">2:57</a> expected payoffs and targets, <a href="#t=3:56" data-t="236">3:56</a> counting and the exact calculator, <a href="#t=5:11" data-t="311">5:11</a> the other tabs, <a href="#t=5:47" data-t="347">5:47</a> advice for the exam.</p>
   </div>
+  <section class="example" aria-labelledby="ex1">
+    <div class="eyebrow">Worked example · 2 min 43 s</div>
+    <h2 id="ex1">The IPO order book: negative binomial, r = 3, p = 0.31</h2>
+    <p>From Week 6, problem set 2. Parts (a) and (b) are read off the Distributions tab: P(Y = 9) = 0.09002 and P(Y ≤ 9) = 0.5636. Parts (c) and (d) condition on the number of commitments, so p cancels and the exact calculator in the Counting tab finishes them: C(8,2)/C(9,3) = 1/3 and C(8,1)/C(9,2) = 2/9.</p>
+    <div class="player">
+      <video controls preload="metadata" playsinline poster="example-ipo-poster.jpg">
+        <source src="example-ipo.mp4" type="video/mp4">
+        Your browser cannot play this video. <a href="example-ipo.mp4">Download it (9 MB)</a>.
+      </video>
+    </div>
+  </section>
 </main>
 <script>
-document.querySelector(".chapters").addEventListener("click", e => { const a = e.target.closest("a[data-t]"); if (!a) return; e.preventDefault(); const v = document.querySelector("video"); v.currentTime = +a.dataset.t; v.play().catch(() => {}); });
+document.querySelector(".chapters").addEventListener("click", e => { const a = e.target.closest("a[data-t]"); if (!a) return; e.preventDefault(); const v = document.querySelector(".player video"); v.currentTime = +a.dataset.t; v.play().catch(() => {}); });
 </script>
 </body>
 </html>
