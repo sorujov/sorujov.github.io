@@ -1,0 +1,1116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Math Stat I Calculator</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap">
+<style>
+/* Layout: a working calculator. Sticky tab rail, then on each tab inputs on the left and results on the right; one column on phones. */
+:root{
+  --bg:#f3f5f8; --surface:#ffffff; --sunk:#eef1f6; --ink:#18202d; --muted:#596476; --line:#d9dee7;
+  --accent:#9f2335; --accent-ink:#ffffff; --accent-soft:#f7e4e7; --bar:#a9b4c6; --bar-hi:#9f2335;
+  --good:#1c6e47; --good-soft:#e1f2e8; --bad:#a3271d; --bad-soft:#fae5e2;
+  --f-display:"Source Serif 4", "Iowan Old Style", Georgia, serif;
+  --f-body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#11151c; --surface:#181e27; --sunk:#141920; --ink:#e5e9f0; --muted:#9aa4b4; --line:#2a323e;
+  --accent:#e36d80; --accent-ink:#1a0d10; --accent-soft:#3a1f26; --bar:#4d5869; --bar-hi:#e36d80;
+  --good:#63c48f; --good-soft:#16301f; --bad:#f08a80; --bad-soft:#3a1c19; color-scheme:dark; } }
+:root[data-theme="dark"]{
+  --bg:#11151c; --surface:#181e27; --sunk:#141920; --ink:#e5e9f0; --muted:#9aa4b4; --line:#2a323e;
+  --accent:#e36d80; --accent-ink:#1a0d10; --accent-soft:#3a1f26; --bar:#4d5869; --bar-hi:#e36d80;
+  --good:#63c48f; --good-soft:#16301f; --bad:#f08a80; --bad-soft:#3a1c19; color-scheme:dark; }
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg); color:var(--ink); font:15px/1.5 var(--f-body); margin:0}
+body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px); z-index:10; background:var(--surface)}
+.wrap{max-width:1180px; margin:0 auto; padding-left:max(16px, env(safe-area-inset-left,0px)); padding-right:max(16px, env(safe-area-inset-right,0px))}
+header.top{background:var(--surface); border-bottom:1px solid var(--line)}
+header.top .wrap{padding-block:22px 16px; display:flex; flex-wrap:wrap; gap:8px 28px; align-items:flex-end; justify-content:space-between}
+.course{font:500 12px/1.2 var(--f-mono); letter-spacing:.08em; text-transform:uppercase; color:var(--accent)}
+h1{font:600 clamp(26px,3.4vw,36px)/1.1 var(--f-display); margin:6px 0 0; letter-spacing:-.01em; text-wrap:balance}
+.lede{margin:6px 0 0; color:var(--muted); max-width:62ch}
+.scope{font-size:13px; color:var(--muted); max-width:44ch}
+.scope b{color:var(--ink); font-weight:600}
+.scope a.guide-link{display:inline-block; margin-top:8px; color:var(--accent); font-weight:600; text-decoration:none}
+.scope a.guide-link:hover{text-decoration:underline}
+.scope a.guide-link:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+nav.tabs{position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:var(--surface); border-bottom:1px solid var(--line)}
+nav.tabs .wrap{display:flex; gap:2px; overflow-x:auto; scrollbar-width:thin}
+nav.tabs button{flex:none; font:500 14px var(--f-body); color:var(--muted); background:none; border:0; border-bottom:2px solid transparent; padding:12px 12px 10px; cursor:pointer; white-space:nowrap}
+nav.tabs button:hover{color:var(--ink)}
+nav.tabs button[aria-selected="true"]{color:var(--ink); border-bottom-color:var(--accent)}
+nav.tabs button:focus-visible{outline:2px solid var(--accent); outline-offset:-2px}
+
+main{padding-block:22px 48px}
+.panel-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 14px; margin-bottom:14px}
+.panel-head h2{font:600 22px/1.2 var(--f-display); margin:0}
+.panel-head p{margin:0; color:var(--muted); font-size:14px; max-width:70ch}
+.grid{display:grid; grid-template-columns:minmax(0,350px) minmax(0,1fr); gap:20px; align-items:start}
+@media (max-width:860px){ .grid{grid-template-columns:minmax(0,1fr)} }
+.card{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:16px}
+.inputs{display:flex; flex-direction:column; gap:14px}
+.out{display:flex; flex-direction:column; gap:16px; min-width:0}
+
+label.f{display:flex; flex-direction:column; gap:4px; font-size:13px; font-weight:500; color:var(--muted)}
+label.f > span.hint{font-weight:400; font-size:12px}
+.row{display:flex; gap:10px; flex-wrap:wrap}
+.row > *{flex:1 1 90px; min-width:0}
+input[type=text], input:not([type]), select, textarea{font:15px var(--f-mono); color:var(--ink); background:var(--sunk); border:1px solid var(--line); border-radius:7px; padding:8px 10px; width:100%}
+textarea{min-height:92px; resize:vertical; font-size:14px}
+select{font-family:var(--f-body)}
+input:focus, select:focus, textarea:focus{outline:2px solid var(--accent); outline-offset:0; border-color:transparent}
+input.err{border-color:var(--bad); background:var(--bad-soft)}
+.seg{display:flex; flex-wrap:wrap; gap:4px}
+.seg button{font:500 13px var(--f-body); border:1px solid var(--line); background:var(--surface); color:var(--ink); border-radius:999px; padding:6px 11px; cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink); color:var(--surface); border-color:var(--ink)}
+.seg button:focus-visible, .btn:focus-visible, .chip:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+.btn{font:500 13px var(--f-body); border:1px solid var(--line); background:var(--surface); color:var(--ink); border-radius:7px; padding:7px 11px; cursor:pointer}
+.btn:hover{border-color:var(--muted)}
+.btn.small{padding:4px 8px; font-size:12px}
+.sub{font:600 13px/1.3 var(--f-body); letter-spacing:.01em; color:var(--muted); margin:0}
+.note{font-size:13px; color:var(--muted); margin:0}
+.note code, .formula code{font-family:var(--f-mono); font-size:.95em}
+hr.sep{border:0; border-top:1px solid var(--line); margin:2px 0}
+
+.answer{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:16px 18px; display:flex; flex-direction:column; gap:6px}
+.answer .q{font:500 15px var(--f-mono); color:var(--muted)}
+.answer .v{font:600 clamp(28px,4.4vw,40px)/1.1 var(--f-mono); letter-spacing:-.01em; font-variant-numeric:tabular-nums; overflow-wrap:anywhere}
+.answer .full{font:13px var(--f-mono); color:var(--muted); display:flex; flex-wrap:wrap; gap:6px 14px; align-items:center}
+.answer.err{border-color:var(--bad); background:var(--bad-soft)}
+.answer.err .v{font:500 16px var(--f-body); color:var(--bad)}
+.stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:10px}
+.stat{background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:10px 12px; min-width:0}
+.stat .k{font-size:12px; color:var(--muted)}
+.stat .n{font:500 17px var(--f-mono); font-variant-numeric:tabular-nums; overflow-wrap:anywhere}
+.block{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:14px 16px; display:flex; flex-direction:column; gap:10px; min-width:0}
+.formula{font:14px/1.7 var(--f-mono); overflow-x:auto; white-space:pre-wrap; overflow-wrap:anywhere}
+pre.r{margin:0; background:var(--sunk); border-radius:7px; padding:10px 12px; font:13px/1.6 var(--f-mono); overflow-x:auto}
+pre.r .c{color:var(--muted)}
+.chart svg{display:block; width:100%; height:auto}
+.chart text{font:11px var(--f-mono); fill:var(--muted)}
+.tw{overflow-x:auto}
+table.t{border-collapse:collapse; width:100%; font:13px var(--f-mono); font-variant-numeric:tabular-nums}
+table.t th, table.t td{padding:5px 8px; text-align:right; border-bottom:1px solid var(--line); white-space:nowrap}
+table.t th{font:600 12px var(--f-body); color:var(--muted); text-align:right}
+table.t th:first-child, table.t td:first-child{text-align:left}
+table.t tr.hi td{background:var(--accent-soft)}
+table.t td.tot, table.t th.tot{font-weight:600}
+table.t input{padding:4px 6px; font-size:13px; min-width:64px}
+details summary{cursor:pointer; font-weight:500; font-size:14px}
+.pill{display:inline-flex; align-items:center; gap:6px; font:600 12px var(--f-body); padding:3px 9px; border-radius:999px}
+.pill.ok{background:var(--good-soft); color:var(--good)}
+.pill.no{background:var(--bad-soft); color:var(--bad)}
+.pill.tag{background:var(--sunk); color:var(--muted); font-weight:500}
+.chips{display:flex; flex-wrap:wrap; gap:6px}
+.chip{font:12px var(--f-mono); border:1px dashed var(--line); background:none; color:var(--ink); border-radius:6px; padding:4px 8px; cursor:pointer}
+.chip:hover{border-color:var(--accent)}
+.copy{font:500 12px var(--f-body); border:1px solid var(--line); background:var(--surface); color:var(--ink); border-radius:6px; padding:2px 8px; cursor:pointer}
+.kv{display:grid; grid-template-columns:minmax(0,1fr) auto; gap:4px 16px; font-size:14px}
+.kv > div:nth-child(odd){color:var(--muted)}
+.kv > div:nth-child(even){font-family:var(--f-mono); text-align:right; font-variant-numeric:tabular-nums}
+.foot{color:var(--muted); font-size:12.5px; padding-block:6px 30px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div>
+      <div class="course">STAT-2311 · Mathematical Statistics I · ADA University</div>
+      <h1>Math Stat I Calculator</h1>
+      <p class="lede">The long arithmetic from Chapters 1–3, done exactly, in the notation of Wackerly, Mendenhall &amp; Scheaffer. Every answer comes with six decimals and the R command that gives the same number.</p>
+    </div>
+    <p class="scope">Any box accepts an expression: <code>1/3</code>, <code>0.6^19</code>, <code>C(10,4)</code>, <code>5!</code>.<br>Midterm I covers Chapters 1–2 and §§3.1–3.6; <b>hypergeometric</b> and <b>Poisson</b> come after it.<br><a class="guide-link" href="guide.html">▶ Watch the 6-minute video guide</a></p>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Calculator sections">
+  <div class="wrap" role="tablist">
+    <button role="tab" data-tab="dist">Distributions</button>
+    <button role="tab" data-tab="events">Two or three events</button>
+    <button role="tab" data-tab="bayes">Bayes’ rule</button>
+    <button role="tab" data-tab="indep">Independent events</button>
+    <button role="tab" data-tab="pmf">Probability table</button>
+    <button role="tab" data-tab="count">Counting</button>
+    <button role="tab" data-tab="twoway">Two-way table</button>
+    <button role="tab" data-tab="data">Data summary</button>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- ============ DISTRIBUTIONS ============ -->
+<section id="p-dist" data-panel="dist" hidden>
+  <div class="panel-head"><h2>Discrete distributions</h2><p>Probabilities, mean and variance, the most likely value, expected payoffs, and the smallest sample size for a target.</p></div>
+  <div class="grid">
+    <form class="card inputs" id="d-form" autocomplete="off">
+      <div class="seg" id="d-fam" role="group" aria-label="Distribution">
+        <button type="button" data-v="binom">Binomial</button>
+        <button type="button" data-v="geom">Geometric</button>
+        <button type="button" data-v="nbinom">Negative binomial</button>
+        <button type="button" data-v="hyper">Hypergeometric</button>
+        <button type="button" data-v="pois">Poisson</button>
+      </div>
+      <p class="note" id="d-def"></p>
+      <div class="row">
+        <label class="f" data-show="binom"><span>n (trials)</span><input id="d-n" value="17" inputmode="decimal"></label>
+        <label class="f" data-show="nbinom"><span>r (successes wanted)</span><input id="d-r" value="5" inputmode="decimal"></label>
+        <label class="f" data-show="binom geom nbinom"><span>p (success probability)</span><input id="d-p" value="0.53" inputmode="decimal"></label>
+        <label class="f" data-show="hyper"><span>N (population)</span><input id="d-popN" value="35" inputmode="decimal"></label>
+        <label class="f" data-show="hyper"><span>r (successes in population)</span><input id="d-R" value="14" inputmode="decimal"></label>
+        <label class="f" data-show="hyper"><span>n (drawn)</span><input id="d-hn" value="10" inputmode="decimal"></label>
+        <label class="f" data-show="pois"><span>λ (mean)</span><input id="d-lam" value="2.3" inputmode="decimal"></label>
+      </div>
+      <hr class="sep">
+      <label class="f"><span>What do you want?</span>
+        <select id="d-q">
+          <option value="eq">P(Y = a)</option>
+          <option value="le" selected>P(Y ≤ a)   at most a</option>
+          <option value="lt">P(Y &lt; a)   fewer than a</option>
+          <option value="ge">P(Y ≥ a)   at least a</option>
+          <option value="gt">P(Y &gt; a)   more than a</option>
+          <option value="between">P(a ≤ Y ≤ b)</option>
+          <option value="cond">P(event A | event B)</option>
+        </select></label>
+      <div class="row" id="d-ab">
+        <label class="f"><span id="d-a-lab">a</span><input id="d-a" value="9" inputmode="decimal"></label>
+        <label class="f" id="d-b-wrap"><span>b</span><input id="d-b" value="12" inputmode="decimal"></label>
+      </div>
+      <div id="d-cond" hidden>
+        <p class="note">Leave a box empty for “no limit”. Example, memoryless property: P(Y ≥ 8 | Y ≥ 5) is A from 8 to empty, B from 5 to empty.</p>
+        <div class="row">
+          <label class="f"><span>A: from</span><input id="d-a1" value="8"></label>
+          <label class="f"><span>A: to</span><input id="d-a2" value=""></label>
+        </div>
+        <div class="row">
+          <label class="f"><span>B: from</span><input id="d-b1" value="5"></label>
+          <label class="f"><span>B: to</span><input id="d-b2" value=""></label>
+        </div>
+      </div>
+      <details id="d-more"><summary>Expected payoff, target probability, smallest n</summary><div class="inputs" style="margin-top:12px">
+      <label class="f"><span>Payoff g(y)</span><input id="d-g" placeholder="e.g. 0.55*min(max(y-1,0),2)">
+        <span class="hint">Gives E[g(Y)] and V[g(Y)]. Use y, min, max, +, −, *, /, ^. A cost of 200 per success is <code>200*y</code>.</span></label>
+      <label class="f"><span>Target probability</span><input id="d-t" placeholder="e.g. 0.93" inputmode="decimal">
+        <span class="hint">Finds the smallest y with P(Y ≤ y) ≥ target.</span></label>
+      <label class="f" data-show="binom"><span>…and the smallest n so that P(at least k successes) ≥ target</span><input id="d-k" placeholder="k, e.g. 5" inputmode="decimal"></label>
+      </div></details>
+    </form>
+    <div class="out" id="d-out" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- ============ EVENTS ============ -->
+<section id="p-events" data-panel="events" hidden>
+  <div class="panel-head"><h2>Two or three events</h2><p>Fill the 2×2 table from any three facts, test independence, and get the bounds when only P(A) and P(B) are known.</p></div>
+  <div class="seg" id="e-mode" role="group" aria-label="Number of events" style="margin-bottom:14px">
+    <button type="button" data-v="two">Two events A, B</button>
+    <button type="button" data-v="three">Three events A, B, C</button>
+  </div>
+  <div class="grid" id="e-two">
+    <form class="card inputs" autocomplete="off">
+      <div class="row">
+        <label class="f"><span>P(A)</span><input id="e-a" value="0.6"></label>
+        <label class="f"><span>P(B)</span><input id="e-b" value="0.7"></label>
+      </div>
+      <label class="f"><span>The third fact you know</span>
+        <select id="e-k">
+          <option value="inter">P(A ∩ B)</option>
+          <option value="union">P(A ∪ B)</option>
+          <option value="aGb">P(A | B)</option>
+          <option value="bGa">P(B | A)</option>
+          <option value="neither">P(neither A nor B)</option>
+          <option value="aOnly">P(A but not B)</option>
+          <option value="indep">A and B are independent</option>
+          <option value="mutex">A and B are mutually exclusive</option>
+          <option value="none" selected>Nothing else: give the bounds</option>
+        </select></label>
+      <label class="f" id="e-v-wrap"><span>Its value</span><input id="e-v" value="0.45"></label>
+      <p class="note">Bounds: max(0, P(A)+P(B)−1) ≤ P(A∩B) ≤ min(P(A), P(B)) and max(P(A), P(B)) ≤ P(A∪B) ≤ min(1, P(A)+P(B)).</p>
+    </form>
+    <div class="out" id="e-out" aria-live="polite"></div>
+  </div>
+  <div class="grid" id="e-three" hidden>
+    <form class="card inputs" autocomplete="off">
+      <div class="row">
+        <label class="f"><span>P(A)</span><input id="t-a" value="0.5"></label>
+        <label class="f"><span>P(B)</span><input id="t-b" value="0.4"></label>
+        <label class="f"><span>P(C)</span><input id="t-c" value="0.3"></label>
+      </div>
+      <label class="f" style="flex-direction:row;align-items:center;gap:8px;color:var(--ink)"><input type="checkbox" id="t-ind" style="width:auto"> The three events are mutually independent</label>
+      <div class="row">
+        <label class="f"><span>P(A∩B)</span><input id="t-ab" value="0.2"></label>
+        <label class="f"><span>P(A∩C)</span><input id="t-ac" value="0.1"></label>
+        <label class="f"><span>P(B∩C)</span><input id="t-bc" value="0.08"></label>
+      </div>
+      <label class="f"><span>P(A∩B∩C)</span><input id="t-abc" value="0.03"></label>
+      <p class="note">Inclusion–exclusion: P(A∪B∪C) = P(A)+P(B)+P(C) − P(A∩B) − P(A∩C) − P(B∩C) + P(A∩B∩C).</p>
+    </form>
+    <div class="out" id="t-out" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- ============ BAYES ============ -->
+<section id="p-bayes" data-panel="bayes" hidden>
+  <div class="panel-head"><h2>Total probability and Bayes’ rule</h2><p>Hypotheses that partition the sample space, their prior probabilities, and the probability of the observed event under each.</p></div>
+  <div class="grid">
+    <form class="card inputs" autocomplete="off">
+      <label class="f"><span>Observed event E</span><input id="b-ev" value="the loan defaults" style="font-family:var(--f-body)"></label>
+      <div class="tw"><table class="t" id="b-tab"><thead><tr><th>Hypothesis</th><th>P(H)</th><th>P(E | H)</th><th></th></tr></thead><tbody></tbody></table></div>
+      <div class="row" style="flex-wrap:nowrap"><button type="button" class="btn" id="b-add">Add hypothesis</button><button type="button" class="btn" id="b-chain">Use posteriors as new priors</button></div>
+      <p class="note">Screening test: hypotheses “ill” and “healthy”; P(E | ill) is the sensitivity, P(E | healthy) is 1 − specificity. For a second, conditionally independent signal, press “Use posteriors as new priors” and enter its likelihoods.</p>
+    </form>
+    <div class="out" id="b-out" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- ============ INDEPENDENT EVENTS ============ -->
+<section id="p-indep" data-panel="indep" hidden>
+  <div class="panel-head"><h2>Independent events with different probabilities</h2><p>How many of the events occur: none, all, exactly j, at least j. Components in series need all to work; in parallel, at least one.</p></div>
+  <div class="grid">
+    <form class="card inputs" autocomplete="off">
+      <label class="f"><span>Probabilities, one per event</span><textarea id="i-ps">0.95, 0.90, 0.85, 0.80</textarea><span class="hint">Separate by commas or new lines. Expressions such as 1-0.07 are fine.</span></label>
+    </form>
+    <div class="out" id="i-out" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- ============ PMF TABLE ============ -->
+<section id="p-pmf" data-panel="pmf" hidden>
+  <div class="panel-head"><h2>A probability table p(y)</h2><p>E(Y), E(Y²), V(Y), σ, the expected value of any function g(Y), and Tchebysheff’s check. Leave one p(y) empty and it is filled with 1 − Σ.</p></div>
+  <div class="grid">
+    <form class="card inputs" autocomplete="off">
+      <div class="tw"><table class="t" id="m-tab"><thead><tr><th>y</th><th>p(y)</th><th></th></tr></thead><tbody></tbody></table></div>
+      <div class="row" style="flex-wrap:nowrap"><button type="button" class="btn" id="m-add">Add row</button><button type="button" class="btn" id="m-paste">Paste two columns</button></div>
+      <textarea id="m-pastebox" hidden placeholder="One row per line: y  p(y)"></textarea>
+      <label class="f"><span>g(y), optional</span><input id="m-g" placeholder="e.g. max(y-75,0) or 1.1^(-y)"></label>
+      <div class="row">
+        <label class="f"><span>P(a ≤ Y ≤ b): a</span><input id="m-a" value="1"></label>
+        <label class="f"><span>b</span><input id="m-b" value="2"></label>
+      </div>
+      <div class="row">
+        <label class="f"><span>W = c + d·Y: c</span><input id="m-c" value="0"></label>
+        <label class="f"><span>d</span><input id="m-d" value="1"></label>
+        <label class="f"><span>Tchebysheff k</span><input id="m-k" value="2"></label>
+      </div>
+    </form>
+    <div class="out" id="m-out" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- ============ COUNTING ============ -->
+<section id="p-count" data-panel="count" hidden>
+  <div class="panel-head"><h2>Counting sample points</h2><p>Factorials, permutations, combinations and partitions as exact whole numbers, however large, and an exact calculator for probabilities built from them.</p></div>
+  <div class="grid">
+    <form class="card inputs" autocomplete="off">
+      <div class="row">
+        <label class="f"><span>n</span><input id="c-n" value="12"></label>
+        <label class="f"><span>r</span><input id="c-r" value="4"></label>
+      </div>
+      <label class="f"><span>Partition of n into groups of sizes</span><input id="c-parts" value="3, 4, 5"><span class="hint">Number of ways to split n distinct objects into named groups: n!/(n₁! n₂! … n_k!).</span></label>
+      <hr class="sep">
+      <label class="f"><span>Exact calculator</span><textarea id="c-expr" style="min-height:64px">C(20,3)*C(15,2)/C(35,5)</textarea>
+        <span class="hint">C(n,k), P(n,k), n!, ^, fractions. Kept as an exact fraction until the end, so 273!/257! causes no overflow.</span></label>
+      <div class="chips" id="c-ex">
+        <button type="button" class="chip">(273!/257!)/273^16</button>
+        <button type="button" class="chip">46/61*45/60*44/59</button>
+        <button type="button" class="chip">C(5600,10)/C(7000,10)</button>
+        <button type="button" class="chip">1-(0.6^19+19*0.4*0.6^18)</button>
+        <button type="button" class="chip">12!/(3!*4!*5!)</button>
+      </div>
+    </form>
+    <div class="out" id="c-out" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- ============ TWO-WAY ============ -->
+<section id="p-twoway" data-panel="twoway" hidden>
+  <div class="panel-head"><h2>Two-way table of counts</h2><p>Joint, marginal and conditional probabilities, and whether the row and column classifications are independent.</p></div>
+  <div class="grid">
+    <form class="card inputs" autocomplete="off">
+      <div class="row">
+        <label class="f"><span>Rows</span><select id="w-r"><option>2</option><option selected>3</option><option>4</option><option>5</option></select></label>
+        <label class="f"><span>Columns</span><select id="w-c"><option selected>2</option><option>3</option><option>4</option><option>5</option></select></label>
+      </div>
+      <div class="tw"><table class="t" id="w-tab"></table></div>
+      <p class="note">Edit the labels and counts in place. Probabilities are counts divided by the grand total.</p>
+    </form>
+    <div class="out" id="w-out" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- ============ DATA ============ -->
+<section id="p-data" data-panel="data" hidden>
+  <div class="panel-head"><h2>Summarising data</h2><p>Mean, variance with n − 1, standard deviation, the range/4 check, Tchebysheff’s theorem and the empirical rule (Chapter 1).</p></div>
+  <div class="grid">
+    <form class="card inputs" autocomplete="off">
+      <label class="f"><span>Values y</span><textarea id="s-y">1.25 -0.40 0.85 2.10 -1.35 0.60 1.90 -0.25 0.45 3.10 -2.05 0.95 1.40 0.15 -0.80 2.45 0.70 -0.10 1.05 0.55</textarea><span class="hint">Separate by spaces, commas or new lines.</span></label>
+      <label class="f"><span>Frequencies, optional</span><textarea id="s-w" style="min-height:52px" placeholder="Counts for grouped data, one per value"></textarea><span class="hint">For a frequency table, enter class midpoints above and their counts here.</span></label>
+      <div class="row">
+        <label class="f"><span>k for ȳ ± k·s</span><input id="s-k" value="2"></label>
+        <label class="f"><span>W = c + d·y: c</span><input id="s-c" value="0"></label>
+        <label class="f"><span>d</span><input id="s-d" value="1"></label>
+      </div>
+      <details><summary>Only n, Σy and Σy² are given</summary>
+        <div class="row" style="margin-top:10px">
+          <label class="f"><span>n</span><input id="s-n2" placeholder="10"></label>
+          <label class="f"><span>Σy</span><input id="s-sy" placeholder="52"></label>
+          <label class="f"><span>Σy²</span><input id="s-syy" placeholder="300"></label>
+        </div>
+        <div id="s-out2" class="kv" style="margin-top:10px"></div>
+      </details>
+    </form>
+    <div class="out" id="s-out" aria-live="polite"></div>
+  </div>
+</section>
+
+<p class="foot">Results are computed in your browser with exact arithmetic where possible. Notation follows Wackerly, Mendenhall &amp; Scheaffer, <i>Mathematical Statistics with Applications</i>, 7th ed. Report answers to the precision each question asks for.</p>
+</main>
+<script>
+/* ---------- numerical core (pure functions, no DOM) ---------- */
+const LF = (() => { const t = new Float64Array(5001); for (let i = 2; i <= 5000; i++) t[i] = t[i - 1] + Math.log(i); return t; })();
+function logFact(n) {
+  if (n < 0 || !Number.isFinite(n)) return NaN;
+  if (Number.isInteger(n) && n <= 5000) return LF[n];
+  const x = n + 1; // Stirling series for lgamma(x)
+  return (x - 0.5) * Math.log(x) - x + 0.5 * Math.log(2 * Math.PI) + 1 / (12 * x) - 1 / (360 * x ** 3) + 1 / (1260 * x ** 5) - 1 / (1680 * x ** 7);
+}
+function logChoose(n, k) { if (k < 0 || k > n) return -Infinity; return logFact(n) - logFact(k) - logFact(n - k); }
+function chooseF(n, k) {
+  if (!Number.isInteger(n) || !Number.isInteger(k)) return NaN;
+  if (k < 0 || k > n) return 0;
+  if (n <= 60) { let r = 1; k = Math.min(k, n - k); for (let i = 1; i <= k; i++) r = r * (n - k + i) / i; return Math.round(r); }
+  return Math.exp(logChoose(n, k));
+}
+function factF(n) { if (!Number.isInteger(n) || n < 0) return NaN; if (n > 170) return Infinity; let r = 1; for (let i = 2; i <= n; i++) r *= i; return r; }
+function permF(n, k) { if (!Number.isInteger(n) || !Number.isInteger(k) || k < 0 || k > n) return k > n ? 0 : NaN; let r = 1; for (let i = 0; i < k; i++) r *= (n - i); return r; }
+
+/* ---------- distributions in Wackerly's parameterisation ---------- */
+function makeDist(fam, P) {
+  const d = { fam, P };
+  if (fam === 'binom') {
+    const { n, p } = P; const q = 1 - p;
+    d.lo = 0; d.hi = n;
+    d.pmf = y => { if (!Number.isInteger(y) || y < 0 || y > n) return 0; if (p === 0) return y === 0 ? 1 : 0; if (p === 1) return y === n ? 1 : 0; return Math.exp(logChoose(n, y) + y * Math.log(p) + (n - y) * Math.log1p(-p)); };
+    d.mean = n * p; d.var = n * p * q;
+    d.modeGuess = Math.floor((n + 1) * p);
+  } else if (fam === 'geom') {
+    const { p } = P; const q = 1 - p;
+    d.lo = 1; d.hi = Infinity;
+    d.pmf = y => (!Number.isInteger(y) || y < 1) ? 0 : (q === 0 ? (y === 1 ? 1 : 0) : Math.exp((y - 1) * Math.log1p(-p) + Math.log(p)));
+    d.cdf = y => { y = Math.floor(y); if (y < 1) return 0; return -Math.expm1(y * Math.log1p(-p)); };      // P(Y<=y) = 1 - q^y
+    d.sf = y => { y = Math.ceil(y); if (y <= 1) return 1; return Math.exp((y - 1) * Math.log1p(-p)); };    // P(Y>=y) = q^(y-1)
+    d.mean = 1 / p; d.var = q / (p * p); d.modeGuess = 1;
+  } else if (fam === 'nbinom') {
+    const { r, p } = P; const q = 1 - p;
+    d.lo = r; d.hi = Infinity;
+    d.pmf = y => { if (!Number.isInteger(y) || y < r) return 0; if (p === 1) return y === r ? 1 : 0; return Math.exp(logChoose(y - 1, r - 1) + r * Math.log(p) + (y - r) * Math.log1p(-p)); };
+    // P(Y<=y) = P(at least r successes in y trials);  P(Y>=y) = P(at most r-1 successes in y-1 trials)
+    d.cdf = y => { y = Math.floor(y); if (y < r) return 0; const B = makeDist('binom', { n: y, p }); return sumRange(B, r, y); };
+    d.sf = y => { y = Math.ceil(y); if (y <= r) return 1; const B = makeDist('binom', { n: y - 1, p }); return sumRange(B, 0, r - 1); };
+    d.mean = r / p; d.var = r * q / (p * p); d.modeGuess = r === 1 ? 1 : 1 + Math.floor((r - 1) / p);
+  } else if (fam === 'hyper') {
+    const { N, r, n } = P;
+    d.lo = Math.max(0, n - (N - r)); d.hi = Math.min(n, r);
+    const den = logChoose(N, n);
+    d.pmf = y => (!Number.isInteger(y) || y < d.lo || y > d.hi) ? 0 : Math.exp(logChoose(r, y) + logChoose(N - r, n - y) - den);
+    d.mean = n * r / N; d.var = N > 1 ? n * (r / N) * ((N - r) / N) * ((N - n) / (N - 1)) : 0;
+    d.modeGuess = Math.floor((n + 1) * (r + 1) / (N + 2));
+  } else if (fam === 'pois') {
+    const { lam } = P;
+    d.lo = 0; d.hi = Infinity;
+    d.pmf = y => (!Number.isInteger(y) || y < 0) ? 0 : (lam === 0 ? (y === 0 ? 1 : 0) : Math.exp(y * Math.log(lam) - lam - logFact(y)));
+    d.mean = lam; d.var = lam; d.modeGuess = Math.floor(lam);
+  }
+  d.sd = Math.sqrt(d.var);
+  return d;
+}
+
+// P(a <= Y <= b) for integers a,b (b may be Infinity), by direct summation where that is most accurate
+function sumRange(d, a, b) {
+  a = Math.max(Math.ceil(a), d.lo); b = Math.min(Math.floor(b), d.hi);
+  if (b < a) return 0;
+  if (d.fam === 'geom' || d.fam === 'nbinom') {
+    if (b === Infinity) return d.sf(a);
+    if (a <= d.lo) return d.cdf(b);
+    const lower = d.cdf(a - 1);
+    return lower < 0.5 ? d.cdf(b) - lower : d.sf(a) - d.sf(b + 1);
+  }
+  if (b === Infinity) { // Poisson upper tail
+    const m = Math.floor(d.mean);
+    if (a > m) { let s = 0, y = a, t; do { t = d.pmf(y); s += t; y++; } while ((t > s * 1e-17 || y < a + 5) && y < a + 5e6); return s; }
+    return Math.max(0, 1 - sumRange(d, d.lo, a - 1));
+  }
+  let s = 0; for (let y = a; y <= b; y++) s += d.pmf(y); return Math.min(1, s);
+}
+function cdfOf(d, y) { return sumRange(d, d.lo, Math.floor(y)); }
+function sfOf(d, y) { return sumRange(d, Math.ceil(y), Infinity); }
+
+function modesOf(d) {
+  const c = new Set(); for (let k = -2; k <= 2; k++) { const y = d.modeGuess + k; if (y >= d.lo && y <= d.hi) c.add(y); }
+  const ys = [...c]; const ps = ys.map(y => d.pmf(y)); const mx = Math.max(...ps);
+  return ys.filter((y, i) => Math.abs(ps[i] - mx) <= 1e-12 * mx).sort((a, b) => a - b);
+}
+// smallest y with P(Y <= y) >= t
+function quantileOf(d, t) {
+  if (!(t > 0 && t < 1)) return NaN;
+  if (d.fam === 'geom') { const p = d.P.p; if (p === 1) return 1; return Math.max(1, Math.ceil(Math.log1p(-t) / Math.log1p(-p) - 1e-12)); }
+  let s = 0; const lim = d.hi === Infinity ? d.lo + 5e6 : d.hi;
+  if (d.fam === 'nbinom') { for (let y = d.lo; y <= lim; y++) { if (d.cdf(y) >= t - 1e-15) return y; } return NaN; }
+  for (let y = d.lo; y <= lim; y++) { s += d.pmf(y); if (s >= t - 1e-15) return y; }
+  return d.hi;
+}
+// binomial: smallest n with P(Y >= k) >= t (p fixed)
+function smallestN(p, k, t) {
+  if (!(p > 0) || !(t > 0 && t < 1) || k < 1) return NaN;
+  const nb = makeDist('nbinom', { r: k, p });
+  return quantileOf(nb, t);
+}
+// E[g(Y)] and V[g(Y)]
+function expectG(d, g) {
+  let e = 0, e2 = 0, mass = 0; const lim = d.hi === Infinity ? d.lo + 2e6 : d.hi;
+  for (let y = d.lo; y <= lim; y++) {
+    const pr = d.pmf(y); const v = g(y);
+    if (pr > 0) { if (!Number.isFinite(v)) return { e: NaN, v: NaN }; e += v * pr; e2 += v * v * pr; }
+    mass += pr;
+    if (d.hi === Infinity && y > d.mean + 10 && 1 - mass < 1e-16 && pr < 1e-18) break;
+  }
+  return { e, v: Math.max(0, e2 - e * e) };
+}
+
+/* ---------- independent events with different probabilities ---------- */
+function poissonBinomial(ps) {
+  let f = [1];
+  for (const p of ps) { const g = new Array(f.length + 1).fill(0); for (let j = 0; j < f.length; j++) { g[j] += f[j] * (1 - p); g[j + 1] += f[j] * p; } f = g; }
+  return f;
+}
+
+/* ---------- descriptive statistics ---------- */
+function describe(ys, ws) {
+  const n = ws ? ws.reduce((a, b) => a + b, 0) : ys.length;
+  let s = 0, s2 = 0; ys.forEach((y, i) => { const w = ws ? ws[i] : 1; s += w * y; s2 += w * y * y; });
+  const mean = s / n;
+  let ss = 0; ys.forEach((y, i) => { const w = ws ? ws[i] : 1; ss += w * (y - mean) ** 2; });
+  const exp = []; ys.forEach((y, i) => { const w = ws ? ws[i] : 1; if (Number.isInteger(w) && w <= 1e5) for (let k = 0; k < w; k++) exp.push(y); });
+  const sorted = exp.slice().sort((a, b) => a - b); const m = sorted.length;
+  const median = m ? (m % 2 ? sorted[(m - 1) / 2] : (sorted[m / 2 - 1] + sorted[m / 2]) / 2) : NaN;
+  const min = Math.min(...ys), max = Math.max(...ys);
+  return { n, sum: s, sumsq: s2, mean, ss, s2: n > 1 ? ss / (n - 1) : NaN, sigma2: ss / n, s: n > 1 ? Math.sqrt(ss / (n - 1)) : NaN, sigma: Math.sqrt(ss / n), median, min, max, range: max - min, sorted };
+}
+
+/* ---------- expression parser (shared by float and exact evaluators) ---------- */
+function tokenize(src) {
+  const s = String(src).replace(/[×·∙]/g, '*').replace(/[−–]/g, '-').replace(/÷/g, '/').replace(/\*\*/g, '^').replace(/π/g, 'pi');
+  const out = []; let i = 0;
+  while (i < s.length) {
+    const c = s[i];
+    if (/\s/.test(c)) { i++; continue; }
+    const m = s.slice(i).match(/^(\d+\.?\d*|\.\d+)([eE][+-]?\d+)?/);
+    if (m) { out.push({ t: 'num', v: m[0] }); i += m[0].length; continue; }
+    const id = s.slice(i).match(/^[A-Za-z_][A-Za-z_0-9]*/);
+    if (id) { out.push({ t: 'id', v: id[0] }); i += id[0].length; continue; }
+    if ('+-*/^(),!%'.includes(c)) { out.push({ t: c }); i++; continue; }
+    throw new Error('Unexpected character "' + c + '"');
+  }
+  return out;
+}
+function parseExpr(src) {
+  const T = tokenize(src); let k = 0;
+  const peek = () => T[k], eat = t => { if (T[k] && T[k].t === t) return T[k++]; throw new Error(t === ')' ? 'Missing closing bracket' : 'Expected "' + t + '"'); };
+  function expr() { let a = term(); while (peek() && (peek().t === '+' || peek().t === '-')) { const op = T[k++].t; a = { t: 'bin', op, a, b: term() }; } return a; }
+  function term() { let a = unary(); while (peek() && (peek().t === '*' || peek().t === '/' || peek().t === '(' || peek().t === 'id' || peek().t === 'num')) { let op = '*'; if (peek().t === '*' || peek().t === '/') op = T[k++].t; a = { t: 'bin', op, a, b: unary() }; } return a; }
+  function unary() { if (peek() && peek().t === '-') { k++; return { t: 'neg', a: unary() }; } if (peek() && peek().t === '+') { k++; return unary(); } return power(); }
+  function power() { const b = postfix(); if (peek() && peek().t === '^') { k++; return { t: 'bin', op: '^', a: b, b: unary() }; } return b; }
+  function postfix() { let a = primary(); while (peek() && (peek().t === '!' || peek().t === '%')) { const t = T[k++].t; a = t === '!' ? { t: 'fact', a } : { t: 'bin', op: '/', a, b: { t: 'num', v: '100' } }; } return a; }
+  function primary() {
+    const tk = peek(); if (!tk) throw new Error('The expression ends too early');
+    if (tk.t === 'num') { k++; return { t: 'num', v: tk.v }; }
+    if (tk.t === '(') { k++; const e = expr(); eat(')'); return e; }
+    if (tk.t === 'id') {
+      k++;
+      if (peek() && peek().t === '(') { k++; const args = []; if (peek() && peek().t !== ')') { args.push(expr()); while (peek() && peek().t === ',') { k++; args.push(expr()); } } eat(')'); return { t: 'call', n: tk.v, args }; }
+      return { t: 'var', n: tk.v };
+    }
+    throw new Error('Unexpected "' + tk.t + '"');
+  }
+  const e = expr(); if (k < T.length) throw new Error('Unexpected "' + (T[k].v || T[k].t) + '"'); return e;
+}
+const FN = {
+  c: (n, k) => chooseF(n, k), choose: (n, k) => chooseF(n, k), ncr: (n, k) => chooseF(n, k),
+  p: (n, k) => permF(n, k), perm: (n, k) => permF(n, k), npr: (n, k) => permF(n, k),
+  fact: n => factF(n), factorial: n => factF(n),
+  exp: Math.exp, ln: Math.log, log: Math.log, log10: Math.log10, sqrt: Math.sqrt, abs: Math.abs,
+  min: (...a) => Math.min(...a), max: (...a) => Math.max(...a), floor: Math.floor, ceil: Math.ceil, round: Math.round,
+  ind: x => (x ? 1 : 0)
+};
+function evalF(node, env = {}) {
+  switch (node.t) {
+    case 'num': return parseFloat(node.v);
+    case 'var': { const n = node.n; if (n in env) return env[n]; const l = n.toLowerCase(); if (l === 'e') return Math.E; if (l === 'pi') return Math.PI; throw new Error('Unknown name "' + n + '"'); }
+    case 'neg': return -evalF(node.a, env);
+    case 'fact': { const v = evalF(node.a, env); if (!Number.isInteger(v) || v < 0) throw new Error('Factorial needs a whole number'); return factF(v); }
+    case 'bin': { const a = evalF(node.a, env), b = evalF(node.b, env); switch (node.op) { case '+': return a + b; case '-': return a - b; case '*': return a * b; case '/': return a / b; case '^': return Math.pow(a, b); } }
+    case 'call': { const f = FN[node.n.toLowerCase()]; if (!f) throw new Error('Unknown function "' + node.n + '"'); return f(...node.args.map(x => evalF(x, env))); }
+  }
+  throw new Error('Cannot evaluate');
+}
+function compileG(src, varName = 'y') { const ast = parseExpr(src); return v => evalF(ast, { [varName]: v, Y: v }); }
+function numOf(src) { if (src == null || String(src).trim() === '') return NaN; try { return evalF(parseExpr(src)); } catch (e) { return NaN; } }
+
+/* ---------- exact rational arithmetic with BigInt ---------- */
+const big = BigInt;
+function bgcd(a, b) { a = a < 0n ? -a : a; b = b < 0n ? -b : b; while (b) { [a, b] = [b, a % b]; } return a; }
+function R(n, d = 1n) { if (d === 0n) throw new Error('Division by zero'); if (d < 0n) { n = -n; d = -d; } const g = bgcd(n, d) || 1n; return { n: n / g, d: d / g }; }
+function rDec(s) { const m = s.match(/^(\d*)\.?(\d*)(?:[eE]([+-]?\d+))?$/); let ip = m[1] || '0', fp = m[2] || '', ex = m[3] ? parseInt(m[3]) : 0; let n = big(ip + fp), d = 10n ** big(fp.length); if (ex > 0) n *= 10n ** big(ex); if (ex < 0) d *= 10n ** big(-ex); return R(n, d); }
+const LIMIT_DIGITS = 200000;
+function guard(r) { if (r.n.toString().length + r.d.toString().length > LIMIT_DIGITS) throw new Error('Number too large to keep exactly'); return r; }
+function bfact(n) { if (n > 20000) throw new Error('Factorial too large for exact arithmetic (limit 20000!)'); let r = 1n; for (let i = 2n; i <= big(n); i++) r *= i; return r; }
+function bchoose(n, k) { if (k < 0 || k > n) return 0n; k = Math.min(k, n - k); let r = 1n; for (let i = 1; i <= k; i++) r = r * big(n - k + i) / big(i); return r; }
+function bperm(n, k) { if (k < 0 || k > n) return 0n; let r = 1n; for (let i = 0; i < k; i++) r *= big(n - i); return r; }
+function asInt(r, what) { if (r.d !== 1n) throw new Error(what + ' needs whole numbers'); const v = Number(r.n); if (!Number.isSafeInteger(v) || v < 0) throw new Error(what + ' needs a non-negative whole number'); return v; }
+function evalR(node) {
+  switch (node.t) {
+    case 'num': return rDec(node.v);
+    case 'var': throw { inexact: true };
+    case 'neg': { const a = evalR(node.a); return { n: -a.n, d: a.d }; }
+    case 'fact': return R(bfact(asInt(evalR(node.a), 'Factorial')));
+    case 'bin': {
+      const a = evalR(node.a), b = evalR(node.b);
+      switch (node.op) {
+        case '+': return guard(R(a.n * b.d + b.n * a.d, a.d * b.d));
+        case '-': return guard(R(a.n * b.d - b.n * a.d, a.d * b.d));
+        case '*': return guard(R(a.n * b.n, a.d * b.d));
+        case '/': if (b.n === 0n) throw new Error('Division by zero'); return guard(R(a.n * b.d, a.d * b.n));
+        case '^': {
+          if (b.d !== 1n) throw { inexact: true };
+          const e = Number(b.n); if (Math.abs(e) > 100000) throw new Error('Exponent too large');
+          if ((a.n.toString().length + a.d.toString().length) * Math.abs(e) > LIMIT_DIGITS) throw new Error('Number too large to keep exactly');
+          const E = big(Math.abs(e)); return e >= 0 ? R(a.n ** E, a.d ** E) : R(a.d ** E, a.n ** E);
+        }
+      }
+    }
+    case 'call': {
+      const f = node.n.toLowerCase(); const A = node.args.map(evalR);
+      if (['c', 'choose', 'ncr'].includes(f)) return R(bchoose(asInt(A[0], 'C(n,k)'), asInt(A[1], 'C(n,k)')));
+      if (['p', 'perm', 'npr'].includes(f)) return R(bperm(asInt(A[0], 'P(n,k)'), asInt(A[1], 'P(n,k)')));
+      if (['fact', 'factorial'].includes(f)) return R(bfact(asInt(A[0], 'Factorial')));
+      if (f === 'abs') return { n: A[0].n < 0n ? -A[0].n : A[0].n, d: A[0].d };
+      throw { inexact: true };
+    }
+  }
+  throw new Error('Cannot evaluate');
+}
+// decimal string of a rational to `sig` significant digits; returns {txt, exp10}
+function ratToSig(r, sig = 12) {
+  if (r.n === 0n) return { txt: '0', e: 0, neg: false };
+  const neg = r.n < 0n; const a = neg ? -r.n : r.n, b = r.d;
+  let e = a.toString().length - b.toString().length; // value in [10^(e-1), 10^(e+1))
+  const scaled = (k) => (k >= 0 ? a * 10n ** big(k) / b : a / (b * 10n ** big(-k)));
+  let k = sig - e; let q = scaled(k);
+  if (q.toString().length > sig) { k -= 1; q = scaled(k); }
+  if (q.toString().length < sig) { k += 1; q = scaled(k); }
+  // round half up using one more digit
+  const q2 = k + 1 >= 0 ? a * 10n ** big(k + 1) / b : a / (b * 10n ** big(-(k + 1)));
+  if (q2 % 10n >= 5n) q += 1n;
+  let digits = q.toString(); if (digits.length > sig) { digits = digits.slice(0, sig); k -= 1; }
+  const exp10 = digits.length - 1 - k; // value = d.ddd × 10^exp10
+  return { digits, e: exp10, neg };
+}
+function fmtRat(r, sig = 12) {
+  const { digits, e, neg } = ratToSig(r, sig); if (digits === undefined) return '0';
+  const sign = neg ? '−' : '';
+  if (e >= -6 && e < 16) {
+    let s; if (e >= 0) { s = digits.length > e + 1 ? digits.slice(0, e + 1) + '.' + digits.slice(e + 1) : digits + '0'.repeat(e + 1 - digits.length); }
+    else s = '0.' + '0'.repeat(-e - 1) + digits;
+    if (s.includes('.')) s = s.replace(/0+$/, '').replace(/\.$/, '');
+    return sign + s;
+  }
+  let m = digits[0] + (digits.length > 1 ? '.' + digits.slice(1) : ''); m = m.replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
+  return sign + m + ' × 10^' + e;
+}
+function evalExact(src) {
+  const ast = parseExpr(src);
+  try { const r = evalR(ast); return { exact: true, r }; }
+  catch (e) { if (e && e.inexact) return { exact: false, v: evalF(ast) }; throw e; }
+}
+/* ---------- small helpers ---------- */
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+function val(id, { blankOk = false } = {}) {
+  const el = $(id); const s = el.value.trim();
+  if (s === '') { el.classList.toggle('err', !blankOk); return NaN; }
+  const v = numOf(s); el.classList.toggle('err', !Number.isFinite(v)); return v;
+}
+function trimZ(s) { return s.includes('e') ? s : s.replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, ''); }
+function sci(x, d = 4) { const [m, e] = x.toExponential(d).split('e'); return trimZ(m) + ' × 10^' + (+e); }
+function fP(x) { if (!Number.isFinite(x)) return '—'; if (x === 0) return '0'; if (Math.abs(x) < 1e-6) return sci(x, 5); return x.toFixed(6); }
+function fN(x, dp = 6) {
+  if (!Number.isFinite(x)) return x === Infinity ? '∞' : '—';
+  if (Number.isInteger(x) && Math.abs(x) < 1e15) return String(x);
+  const a = Math.abs(x); if (a !== 0 && (a < 1e-5 || a >= 1e12)) return sci(x, 6);
+  return trimZ(x.toFixed(dp));
+}
+function full(x) { if (!Number.isFinite(x)) return '—'; if (x === 0) return '0'; return trimZ(Number(x.toPrecision(12)).toString().includes('e') ? x.toPrecision(12) : Number(x.toPrecision(12)).toString()); }
+const copyBtn = t => `<button type="button" class="copy" data-copy="${esc(t)}">Copy</button>`;
+function answer(q, x, extra = '') {
+  return `<div class="answer"><div class="q">${q}</div><div class="v">${fP(x)}</div><div class="full"><span>12 digits: ${full(x)}</span>${copyBtn(full(x))}${extra}</div></div>`;
+}
+const errBox = msg => `<div class="answer err"><div class="v">${msg}</div></div>`;
+const stat = (k, n) => `<div class="stat"><div class="k">${k}</div><div class="n">${n}</div></div>`;
+const kv = pairs => `<div class="kv">${pairs.map(([k, v]) => `<div>${k}</div><div>${v}</div>`).join('')}</div>`;
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-copy]'); if (!b) return;
+  const t = b.getAttribute('data-copy');
+  const done = () => { const o = b.textContent; b.textContent = 'Copied'; setTimeout(() => b.textContent = o, 1200); };
+  try { navigator.clipboard.writeText(t).then(done, () => { selectNear(b); }); } catch (_) { selectNear(b); }
+});
+function selectNear(b) { const s = b.previousElementSibling; if (!s) return; const r = document.createRange(); r.selectNodeContents(s); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); b.textContent = 'Press Ctrl+C'; }
+function seg(id, onChange) {
+  const g = $(id); const set = v => { g.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === v)); g.dataset.value = v; };
+  g.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; set(b.dataset.v); onChange(b.dataset.v); });
+  return set;
+}
+const toR = s => s.replace(/\bmin\s*\(/g, 'pmin(').replace(/\bmax\s*\(/g, 'pmax(').replace(/\bC\s*\(/g, 'choose(').replace(/\bln\s*\(/g, 'log(');
+
+/* ---------- tabs ---------- */
+const TABS = ['dist', 'events', 'bayes', 'indep', 'pmf', 'count', 'twoway', 'data'];
+function showTab(t, push) {
+  if (!TABS.includes(t)) t = 'dist';
+  document.querySelectorAll('[data-panel]').forEach(p => p.hidden = p.dataset.panel !== t);
+  document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === t));
+  try { localStorage.setItem('ms1-tab', t); } catch (_) {}
+  if (push) { try { history.replaceState(null, '', '#' + t); } catch (_) {} }
+}
+document.querySelector('nav.tabs').addEventListener('click', e => { const b = e.target.closest('button[data-tab]'); if (b) showTab(b.dataset.tab, true); });
+
+/* ================= DISTRIBUTIONS ================= */
+const DEF = {
+  binom: 'Y = number of successes in n independent trials, each a success with probability p. y = 0, 1, …, n.',
+  geom: 'Y = the number of the trial on which the first success occurs, y = 1, 2, … (Wackerly). R counts failures before it, so R uses y − 1.',
+  nbinom: 'Y = the number of the trial on which the r-th success occurs, y = r, r+1, … (Wackerly). R counts failures, so R uses y − r.',
+  hyper: 'Y = number of successes in n items drawn without replacement from N items, r of which are successes. After Midterm I.',
+  pois: 'Y = number of events in a fixed interval when they occur at mean rate λ. After Midterm I.'
+};
+let fam = 'binom';
+const setFam = seg('d-fam', v => { fam = v; famUI(); calcDist(); });
+function famUI() {
+  document.querySelectorAll('#d-form [data-show]').forEach(el => el.hidden = !el.dataset.show.split(' ').includes(fam));
+  $('d-def').textContent = DEF[fam];
+}
+function readParams() {
+  const bad = m => ({ err: m });
+  if (fam === 'binom') { const n = val('d-n'), p = val('d-p'); if (!(Number.isInteger(n) && n >= 1 && n <= 1e6)) return bad('n must be a whole number between 1 and 1,000,000.'); if (!(p >= 0 && p <= 1)) return bad('p must lie between 0 and 1.'); return { n, p }; }
+  if (fam === 'geom') { const p = val('d-p'); if (!(p > 0 && p <= 1)) return bad('p must lie in (0, 1].'); return { p }; }
+  if (fam === 'nbinom') { const r = val('d-r'), p = val('d-p'); if (!(Number.isInteger(r) && r >= 1 && r <= 1e5)) return bad('r must be a whole number of at least 1.'); if (!(p > 0 && p <= 1)) return bad('p must lie in (0, 1].'); return { r, p }; }
+  if (fam === 'hyper') { const N = val('d-popN'), r = val('d-R'), n = val('d-hn'); if (!(Number.isInteger(N) && N >= 1 && N <= 1e6)) return bad('N must be a whole number.'); if (!(Number.isInteger(r) && r >= 0 && r <= N)) return bad('r must be a whole number from 0 to N.'); if (!(Number.isInteger(n) && n >= 0 && n <= N)) return bad('n must be a whole number from 0 to N.'); return { N, r, n }; }
+  if (fam === 'pois') { const lam = val('d-lam'); if (!(lam > 0 && lam <= 1e6)) return bad('λ must be positive.'); return { lam }; }
+}
+function rFns(P) {
+  const f = x => fN(x);
+  if (fam === 'binom') return { d: y => `dbinom(${y}, ${P.n}, ${f(P.p)})`, p: y => `pbinom(${y}, ${P.n}, ${f(P.p)})`, sup: [0, P.n], dy: `dbinom(y, ${P.n}, ${f(P.p)})` };
+  if (fam === 'geom') return { d: y => `dgeom(${y - 1}, ${f(P.p)})`, p: y => `pgeom(${y - 1}, ${f(P.p)})`, sup: [1, Infinity], dy: `dgeom(y - 1, ${f(P.p)})` };
+  if (fam === 'nbinom') return { d: y => `dnbinom(${y - P.r}, ${P.r}, ${f(P.p)})`, p: y => `pnbinom(${y - P.r}, ${P.r}, ${f(P.p)})`, sup: [P.r, Infinity], dy: `dnbinom(y - ${P.r}, ${P.r}, ${f(P.p)})` };
+  if (fam === 'hyper') return { d: y => `dhyper(${y}, ${P.r}, ${P.N - P.r}, ${P.n})`, p: y => `phyper(${y}, ${P.r}, ${P.N - P.r}, ${P.n})`, sup: [Math.max(0, P.n - (P.N - P.r)), Math.min(P.n, P.r)], dy: `dhyper(y, ${P.r}, ${P.N - P.r}, ${P.n})` };
+  if (fam === 'pois') return { d: y => `dpois(${y}, ${f(P.lam)})`, p: y => `ppois(${y}, ${f(P.lam)})`, sup: [0, Infinity], dy: `dpois(y, ${f(P.lam)})` };
+}
+function rInterval(R, lo, hi) {
+  lo = Math.max(lo, R.sup[0]); hi = Math.min(hi, R.sup[1]);
+  if (hi < lo) return '0';
+  if (lo === hi) return R.d(lo);
+  if (hi === Infinity || hi >= R.sup[1]) return lo <= R.sup[0] ? '1' : `1 - ${R.p(lo - 1)}`;
+  if (lo <= R.sup[0]) return R.p(hi);
+  return `${R.p(hi)} - ${R.p(lo - 1)}`;
+}
+function evStr(lo, hi) {
+  if (lo === -Infinity && hi === Infinity) return 'all y';
+  if (lo === -Infinity) return `Y ≤ ${hi}`;
+  if (hi === Infinity) return `Y ≥ ${lo}`;
+  if (lo === hi) return `Y = ${lo}`;
+  return `${lo} ≤ Y ≤ ${hi}`;
+}
+function pmfFormula(P) {
+  const f = x => fN(x), q = P.p !== undefined ? fN(1 - P.p) : '';
+  if (fam === 'binom') return `p(y) = C(n, y) pʸ qⁿ⁻ʸ = C(${P.n}, y) (${f(P.p)})ʸ (${q})^(${P.n}−y)`;
+  if (fam === 'geom') return `p(y) = q^(y−1) p = (${q})^(y−1) · ${f(P.p)}\nP(Y ≤ a) = 1 − q^a,   P(Y ≥ a) = q^(a−1),   P(Y > a) = q^a\nP(Y ≥ a + b | Y ≥ a) = q^b   (memoryless)`;
+  if (fam === 'nbinom') return `p(y) = C(y−1, r−1) pʳ q^(y−r) = C(y−1, ${P.r - 1}) (${f(P.p)})^${P.r} (${q})^(y−${P.r})\nShortcut: Y ≤ a  ⇔  at least ${P.r} successes in the first a trials.\nSo P(Y ≤ a) = P(X ≥ ${P.r}) with X ~ binomial(a, ${f(P.p)}), and P(Y ≥ a) = P(X ≤ ${P.r - 1}) with X ~ binomial(a − 1, ${f(P.p)}).\nMode: p(y)/p(y−1) = [(y−1)/(y−r)]·q > 1  ⇔  y < 1 + (r−1)/p.`;
+  if (fam === 'hyper') return `p(y) = C(r, y) C(N−r, n−y) / C(N, n) = C(${P.r}, y) C(${P.N - P.r}, ${P.n}−y) / C(${P.N}, ${P.n})`;
+  if (fam === 'pois') return `p(y) = λʸ e^(−λ) / y! = ${f(P.lam)}ʸ e^(−${f(P.lam)}) / y!`;
+}
+function meanFormula(P) {
+  if (fam === 'binom') return ['np', 'npq'];
+  if (fam === 'geom') return ['1/p', '(1−p)/p²'];
+  if (fam === 'nbinom') return ['r/p', 'r(1−p)/p²'];
+  if (fam === 'hyper') return ['nr/N', 'n(r/N)((N−r)/N)((N−n)/(N−1))'];
+  if (fam === 'pois') return ['λ', 'λ'];
+}
+function chartSVG(d, lo, hi, inA, inB) {
+  const W = 640, H = 210, L = 46, Rr = 10, T = 12, B = 28;
+  const ys = []; for (let y = lo; y <= hi; y++) ys.push(y);
+  const ps = ys.map(y => d.pmf(y)); const mx = Math.max(...ps) || 1;
+  const nice = (() => { const e = Math.pow(10, Math.floor(Math.log10(mx))); const m = mx / e; const s = m <= 1 ? 1 : m <= 2 ? 2 : m <= 5 ? 5 : 10; return s * e; })();
+  const bw = (W - L - Rr) / ys.length; const sy = v => T + (H - T - B) * (1 - v / nice);
+  let g = '';
+  [0, 0.5, 1].forEach(f => { const v = nice * f, y = sy(v); g += `<line x1="${L}" x2="${W - Rr}" y1="${y}" y2="${y}" stroke="var(--line)" stroke-width="1"/><text x="${L - 6}" y="${y + 4}" text-anchor="end">${+v.toPrecision(3)}</text>`; });
+  const step = Math.max(1, Math.ceil(ys.length / 12));
+  ys.forEach((y, i) => {
+    const x = L + i * bw, h = H - B - sy(ps[i]);
+    const a = inA(y), b = inB(y);
+    const fill = a ? 'var(--bar-hi)' : 'var(--bar)'; const op = a ? 1 : (b ? 0.55 : 1);
+    g += `<rect x="${x + bw * 0.12}" y="${sy(ps[i])}" width="${Math.max(1, bw * 0.76)}" height="${Math.max(0, h)}" fill="${fill}" opacity="${op}"><title>p(${y}) = ${fP(ps[i])}</title></rect>`;
+    if ((y - lo) % step === 0) g += `<text x="${x + bw / 2}" y="${H - 10}" text-anchor="middle">${y}</text>`;
+  });
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Probability function with the event shaded">${g}</svg>`;
+}
+function calcDist() {
+  const out = $('d-out'); const P = readParams();
+  if (P.err) { out.innerHTML = errBox(P.err); return; }
+  const d = makeDist(fam, P), Rf = rFns(P);
+  const q = $('d-q').value; const cond = q === 'cond';
+  $('d-cond').hidden = !cond; $('d-ab').hidden = cond; $('d-b-wrap').hidden = q !== 'between';
+  let lo, hi, label, prob, bLo = -Infinity, bHi = Infinity, rExpr;
+  if (!cond) {
+    const a = val('d-a'), b = q === 'between' ? val('d-b') : NaN;
+    if (!Number.isFinite(a) || (q === 'between' && !Number.isFinite(b))) { out.innerHTML = errBox('Enter the value(s) of a' + (q === 'between' ? ' and b.' : '.')); return; }
+    if (q === 'eq') { lo = hi = a; label = `P(Y = ${fN(a)})`; if (!Number.isInteger(a)) { lo = 1; hi = 0; } }
+    if (q === 'le') { lo = -Infinity; hi = Math.floor(a); label = `P(Y ≤ ${fN(a)})`; }
+    if (q === 'lt') { lo = -Infinity; hi = Math.ceil(a) - 1; label = `P(Y < ${fN(a)})`; }
+    if (q === 'ge') { lo = Math.ceil(a); hi = Infinity; label = `P(Y ≥ ${fN(a)})`; }
+    if (q === 'gt') { lo = Math.floor(a) + 1; hi = Infinity; label = `P(Y > ${fN(a)})`; }
+    if (q === 'between') { lo = Math.ceil(a); hi = Math.floor(b); label = `P(${fN(a)} ≤ Y ≤ ${fN(b)})`; }
+    prob = lo > hi ? 0 : sumRange(d, lo, hi);
+    rExpr = rInterval(Rf, lo, hi);
+  } else {
+    const g = (id, dflt) => { const s = $(id).value.trim(); if (s === '') { $(id).classList.remove('err'); return dflt; } return val(id); };
+    const a1 = g('d-a1', -Infinity), a2 = g('d-a2', Infinity), b1 = g('d-b1', -Infinity), b2 = g('d-b2', Infinity);
+    if ([a1, a2, b1, b2].some(Number.isNaN)) { out.innerHTML = errBox('Check the limits of A and B.'); return; }
+    const A = [Math.ceil(a1), Math.floor(a2)], Bv = [Math.ceil(b1), Math.floor(b2)];
+    bLo = Bv[0]; bHi = Bv[1];
+    lo = Math.max(A[0], Bv[0]); hi = Math.min(A[1], Bv[1]);
+    const pB = Bv[0] > Bv[1] ? 0 : sumRange(d, Bv[0], Bv[1]); const pAB = lo > hi ? 0 : sumRange(d, lo, hi);
+    if (pB === 0) { out.innerHTML = errBox('P(B) = 0, so the conditional probability is not defined.'); return; }
+    prob = pAB / pB; label = `P(${evStr(A[0], A[1])} | ${evStr(Bv[0], Bv[1])})`;
+    rExpr = `(${rInterval(Rf, lo, hi)}) / (${rInterval(Rf, Bv[0], Bv[1])})`;
+    var condDetail = `<span>P(A ∩ B) = ${fP(pAB)}, P(B) = ${fP(pB)}</span>`;
+  }
+  const comp = cond ? '' : `<span>complement: ${fP(1 - prob)}</span>`;
+  let html = answer(label, prob, comp + (cond ? condDetail : ''));
+  const mf = meanFormula(P); const modes = modesOf(d);
+  html += `<div class="stats">${stat('E(Y) = ' + mf[0], fN(d.mean))}${stat('V(Y) = ' + mf[1], fN(d.var))}${stat('σ', fN(d.sd))}${stat(modes.length > 1 ? 'Most likely values' : 'Most likely value', modes.join(' and '))}</div>`;
+  // chart range
+  let cLo = Math.max(d.lo, quantileOf(d, 0.0005) - 1), cHi = quantileOf(d, 0.9995) + 1; if (d.hi !== Infinity) cHi = Math.min(cHi, d.hi);
+  [lo, hi, bLo, bHi].forEach(v => { if (Number.isFinite(v) && v >= d.lo && v <= d.hi && Math.abs(v - d.mean) < 12 * d.sd + 40) { cLo = Math.min(cLo, v); cHi = Math.max(cHi, v); } });
+  if (cHi - cLo > 110) { cLo = Math.max(d.lo, Math.floor(d.mean - 4 * d.sd)); cHi = Math.min(d.hi, Math.ceil(d.mean + 4 * d.sd)); }
+  if (cHi - cLo > 110) { cHi = cLo + 110; }
+  const inA = y => y >= lo && y <= hi, inB = y => y >= bLo && y <= bHi;
+  html += `<div class="block chart"><p class="sub">p(y), the event shaded</p>${chartSVG(d, cLo, cHi, inA, cond ? inB : () => false)}</div>`;
+  // by hand + R
+  const nTerms = Number.isFinite(hi) && Number.isFinite(lo) ? Math.max(0, Math.min(hi, d.hi) - Math.max(lo, d.lo) + 1) : null;
+  let hand = pmfFormula(P);
+  if (!cond && nTerms !== null && nTerms > 1 && (fam === 'binom' || fam === 'hyper' || fam === 'pois')) hand += `\n${label} = Σ p(y) for y from ${Math.max(lo, d.lo)} to ${Math.min(hi, d.hi)}: ${nTerms} terms.`;
+  if (!cond && (q === 'ge' || q === 'gt') && fam !== 'geom' && fam !== 'nbinom') hand += `\nUsually shorter: ${label} = 1 − P(Y ≤ ${lo - 1}).`;
+  html += `<div class="block"><p class="sub">The formula</p><div class="formula">${esc(hand)}</div></div>`;
+  html += `<div class="block"><p class="sub">Same number in R</p><pre class="r">${esc(rExpr)}\n<span class="c"># mean ${esc(fN(d.mean))}, variance ${esc(fN(d.var))}</span></pre></div>`;
+  // payoff
+  const gs = $('d-g').value.trim();
+  if (gs) {
+    try {
+      const g = compileG(gs); const r = expectG(d, g); $('d-g').classList.remove('err');
+      const sup = d.hi === Infinity ? `${d.lo}:${Math.max(d.lo + 200, Math.ceil(d.mean + 40 * d.sd))}` : `${d.lo}:${d.hi}`;
+      html += `<div class="block"><p class="sub">Payoff g(Y) = ${esc(gs)}</p>${kv([['E[g(Y)] = Σ g(y) p(y)', fN(r.e)], ['V[g(Y)] = E[g(Y)²] − (E[g(Y)])²', fN(r.v)], ['σ of g(Y)', fN(Math.sqrt(r.v))]])}<pre class="r">y &lt;- ${esc(sup)}; g &lt;- function(y) ${esc(toR(gs))}\nsum(g(y) * ${esc(Rf.dy)})</pre></div>`;
+    } catch (e) { $('d-g').classList.add('err'); html += errBox('g(y): ' + esc(e.message)); }
+  } else $('d-g').classList.remove('err');
+  // solver
+  const t = val('d-t', { blankOk: true });
+  if (Number.isFinite(t)) {
+    if (!(t > 0 && t < 1)) html += errBox('The target must lie strictly between 0 and 1.');
+    else {
+      const y = quantileOf(d, t);
+      const rows = [[`Smallest y with P(Y ≤ y) ≥ ${fN(t)}`, String(y)], [`P(Y ≤ ${y - 1})`, fP(cdfOf(d, y - 1))], [`P(Y ≤ ${y})`, fP(cdfOf(d, y))]];
+      let extra = '';
+      if (fam === 'binom') {
+        const k = val('d-k', { blankOk: true });
+        if (Number.isInteger(k) && k >= 1 && P.p > 0) {
+          const n = smallestN(P.p, k, t);
+          const at = m => m < k ? 0 : sumRange(makeDist('binom', { n: m, p: P.p }), k, m);
+          extra = `<p class="sub" style="margin-top:6px">Smallest n with P(at least ${k} successes) ≥ ${fN(t)}</p>${kv([['n', String(n)], [`with n = ${n - 1}`, fP(at(n - 1))], [`with n = ${n}`, fP(at(n))]])}<p class="note">“At least ${k} successes in n trials” is the same event as “the ${k}-th success comes by trial n”, so n is the ${fN(100 * t)}% point of a negative binomial with r = ${k}, p = ${fN(P.p)}. A good first guess is r/p + 1.5·√(r q)/p = ${fN(k / P.p + 1.5 * Math.sqrt(k * (1 - P.p)) / P.p, 2)}.</p>`;
+        }
+      }
+      html += `<div class="block"><p class="sub">Reaching a target</p>${kv(rows)}${extra}</div>`;
+    }
+  }
+  // table
+  let rows = ''; let cum = cdfOf(d, cLo - 1);
+  for (let y = cLo; y <= cHi; y++) { const p = d.pmf(y); cum += p; const up = sumRange(d, y, Infinity); rows += `<tr class="${inA(y) ? 'hi' : ''}"><td>${y}</td><td>${fP(p)}</td><td>${fP(Math.min(1, fam === 'nbinom' || fam === 'geom' ? d.cdf(y) : cum))}</td><td>${fP(up)}</td></tr>`; }
+  html += `<details class="block"><summary>Table of p(y) for y = ${cLo} to ${cHi}</summary><div class="tw"><table class="t"><thead><tr><th>y</th><th>p(y)</th><th>P(Y ≤ y)</th><th>P(Y ≥ y)</th></tr></thead><tbody>${rows}</tbody></table></div></details>`;
+  out.innerHTML = html;
+}
+['d-n', 'd-p', 'd-r', 'd-popN', 'd-R', 'd-hn', 'd-lam', 'd-a', 'd-b', 'd-a1', 'd-a2', 'd-b1', 'd-b2', 'd-g', 'd-t', 'd-k'].forEach(id => $(id).addEventListener('input', calcDist));
+$('d-q').addEventListener('change', calcDist);
+$('d-form').addEventListener('submit', e => e.preventDefault());
+
+/* ================= EVENTS ================= */
+const setEMode = seg('e-mode', v => { $('e-two').hidden = v !== 'two'; $('e-three').hidden = v !== 'three'; v === 'two' ? calcTwo() : calcThree(); });
+function calcTwo() {
+  const out = $('e-out'); const a = val('e-a'), b = val('e-b'), k = $('e-k').value;
+  $('e-v-wrap').hidden = ['indep', 'mutex', 'none'].includes(k);
+  if (!(a >= 0 && a <= 1 && b >= 0 && b <= 1)) { out.innerHTML = errBox('P(A) and P(B) must lie between 0 and 1.'); return; }
+  const lo = Math.max(0, a + b - 1), hi = Math.min(a, b);
+  const bounds = `<div class="block"><p class="sub">What P(A) and P(B) alone allow</p>${kv([['P(A ∩ B)', `${fP(lo)} to ${fP(hi)}`], ['P(A ∪ B)', `${fP(Math.max(a, b))} to ${fP(Math.min(1, a + b))}`], ['P(A | B)', b > 0 ? `${fP(lo / b)} to ${fP(hi / b)}` : '—'], ['P(neither)', `${fP(1 - Math.min(1, a + b))} to ${fP(1 - Math.max(a, b))}`]])}<p class="note">The lower end of P(A ∩ B) is reached when A and B overlap as little as possible; the upper end when the smaller event sits inside the larger.</p></div>`;
+  if (k === 'none') { out.innerHTML = bounds; return; }
+  let v = NaN; if (!['indep', 'mutex'].includes(k)) { v = val('e-v'); if (!Number.isFinite(v)) { out.innerHTML = errBox('Enter the value of the third fact.') + bounds; return; } }
+  let ab;
+  switch (k) { case 'inter': ab = v; break; case 'union': ab = a + b - v; break; case 'aGb': ab = v * b; break; case 'bGa': ab = v * a; break; case 'neither': ab = v - 1 + a + b; break; case 'aOnly': ab = a - v; break; case 'indep': ab = a * b; break; case 'mutex': ab = 0; break; }
+  if (ab < lo - 1e-12 || ab > hi + 1e-12) { out.innerHTML = errBox(`These numbers are impossible: they give P(A ∩ B) = ${fN(ab)}, but with P(A) = ${fN(a)} and P(B) = ${fN(b)} it must lie between ${fN(lo)} and ${fN(hi)}.`) + bounds; return; }
+  const c = { AB: ab, ABc: a - ab, AcB: b - ab, AcBc: 1 - a - b + ab };
+  const indep = Math.abs(ab - a * b) < 1e-10;
+  const tab = `<div class="tw"><table class="t"><thead><tr><th></th><th>B</th><th>B̄</th><th class="tot">Total</th></tr></thead><tbody>
+    <tr><td>A</td><td>${fP(c.AB)}</td><td>${fP(c.ABc)}</td><td class="tot">${fP(a)}</td></tr>
+    <tr><td>Ā</td><td>${fP(c.AcB)}</td><td>${fP(c.AcBc)}</td><td class="tot">${fP(1 - a)}</td></tr>
+    <tr><td class="tot">Total</td><td class="tot">${fP(b)}</td><td class="tot">${fP(1 - b)}</td><td class="tot">1</td></tr></tbody></table></div>`;
+  const dv = (x, y) => y > 0 ? fP(x / y) : '—';
+  const list = kv([['P(A ∪ B)', fP(a + b - ab)], ['P(A ∩ B)', fP(ab)], ['P(exactly one of A, B)', fP(a + b - 2 * ab)], ['P(neither)', fP(c.AcBc)], ['P(A | B)', dv(ab, b)], ['P(B | A)', dv(ab, a)], ['P(A | B̄)', dv(c.ABc, 1 - b)], ['P(B | Ā)', dv(c.AcB, 1 - a)], ['P(Ā | B)', dv(c.AcB, b)], ['P(B̄ | A)', dv(c.ABc, a)]]);
+  const verdict = `<p>${indep ? '<span class="pill ok">Independent</span>' : '<span class="pill no">Not independent</span>'} &nbsp;P(A ∩ B) = ${fP(ab)} ${indep ? '=' : '≠'} P(A)·P(B) = ${fP(a * b)}${ab === 0 && a > 0 && b > 0 ? ' &nbsp;<span class="pill tag">Mutually exclusive, so not independent</span>' : ''}</p>`;
+  out.innerHTML = `<div class="block"><p class="sub">The table of the four cells</p>${tab}${verdict}</div><div class="block">${list}</div>` + bounds;
+}
+['e-a', 'e-b', 'e-v'].forEach(id => $(id).addEventListener('input', calcTwo)); $('e-k').addEventListener('change', calcTwo);
+function calcThree() {
+  const out = $('t-out'); const ind = $('t-ind').checked;
+  const a = val('t-a'), b = val('t-b'), c = val('t-c');
+  ['t-ab', 't-ac', 't-bc', 't-abc'].forEach(id => $(id).disabled = ind);
+  if (ind && [a, b, c].every(Number.isFinite)) { $('t-ab').value = fN(a * b, 10); $('t-ac').value = fN(a * c, 10); $('t-bc').value = fN(b * c, 10); $('t-abc').value = fN(a * b * c, 10); }
+  const ab = val('t-ab'), ac = val('t-ac'), bc = val('t-bc'), abc = val('t-abc');
+  if ([a, b, c, ab, ac, bc, abc].some(x => !Number.isFinite(x))) { out.innerHTML = errBox('Fill in all seven probabilities.'); return; }
+  const R = { 'A only': a - ab - ac + abc, 'B only': b - ab - bc + abc, 'C only': c - ac - bc + abc, 'A and B, not C': ab - abc, 'A and C, not B': ac - abc, 'B and C, not A': bc - abc, 'all three': abc };
+  const U = a + b + c - ab - ac - bc + abc; R['none'] = 1 - U;
+  const neg = Object.entries(R).filter(([, v]) => v < -1e-12);
+  if (neg.length || U > 1 + 1e-12) { out.innerHTML = errBox('These numbers are not consistent: ' + (neg.length ? neg.map(([k, v]) => `P(${k}) would be ${fN(v)}`).join('; ') : `P(A ∪ B ∪ C) would be ${fN(U)}`) + '.'); return; }
+  const one = R['A only'] + R['B only'] + R['C only'], two = R['A and B, not C'] + R['A and C, not B'] + R['B and C, not A'];
+  let html = answer('P(A ∪ B ∪ C), at least one', U, `<span>none: ${fP(1 - U)}</span>`);
+  html += `<div class="block">${kv([['P(exactly one)', fP(one)], ['P(exactly two)', fP(two)], ['P(at least two)', fP(two + abc)], ['P(all three)', fP(abc)], ['P(none)', fP(1 - U)]])}</div>`;
+  html += `<div class="block"><p class="sub">The eight regions of the Venn diagram</p><div class="tw"><table class="t"><tbody>${Object.entries(R).map(([k, v]) => `<tr><td>${k}</td><td>${fP(v)}</td></tr>`).join('')}</tbody></table></div></div>`;
+  out.innerHTML = html;
+}
+['t-a', 't-b', 't-c', 't-ab', 't-ac', 't-bc', 't-abc'].forEach(id => $(id).addEventListener('input', calcThree)); $('t-ind').addEventListener('change', calcThree);
+
+/* ================= BAYES ================= */
+let bRows = [['Rated A', '0.5', '0.01'], ['Rated B', '0.3', '0.04'], ['Rated C', '0.2', '0.10']];
+function drawBayes() {
+  $('b-tab').tBodies[0].innerHTML = bRows.map((r, i) => `<tr><td><input data-i="${i}" data-j="0" value="${esc(r[0])}" style="font-family:var(--f-body)"></td><td><input data-i="${i}" data-j="1" value="${esc(r[1])}"></td><td><input data-i="${i}" data-j="2" value="${esc(r[2])}"></td><td>${bRows.length > 2 ? `<button type="button" class="btn small" data-del="${i}" aria-label="Remove row">✕</button>` : ''}</td></tr>`).join('');
+  calcBayes();
+}
+$('b-tab').addEventListener('input', e => { const t = e.target; if (t.dataset.i == null) return; bRows[+t.dataset.i][+t.dataset.j] = t.value; calcBayes(); });
+$('b-tab').addEventListener('click', e => { const b = e.target.closest('[data-del]'); if (!b) return; bRows.splice(+b.dataset.del, 1); drawBayes(); });
+$('b-add').addEventListener('click', () => { bRows.push(['H' + (bRows.length + 1), '', '']); drawBayes(); });
+$('b-ev').addEventListener('input', calcBayes);
+let lastPost = null;
+$('b-chain').addEventListener('click', () => { if (!lastPost) return; bRows.forEach((r, i) => { r[1] = Number(lastPost[i].toPrecision(12)).toString(); r[2] = ''; }); drawBayes(); });
+function calcBayes() {
+  const out = $('b-out'); const ev = $('b-ev').value.trim() || 'E'; lastPost = null;
+  const pr = bRows.map(r => numOf(r[1])), lk = bRows.map(r => numOf(r[2]));
+  document.querySelectorAll('#b-tab input[data-j="1"], #b-tab input[data-j="2"]').forEach(inp => { const v = numOf(inp.value); inp.classList.toggle('err', inp.value.trim() !== '' && !(v >= 0 && v <= 1)); });
+  if (lk.some((v, i) => bRows[i][2].trim() === '')) { out.innerHTML = errBox('Enter P(E | H) for every hypothesis.'); return; }
+  if (pr.some(v => !(v >= 0 && v <= 1)) || lk.some(v => !(v >= 0 && v <= 1))) { out.innerHTML = errBox('Every P(H) and P(E | H) must be a probability between 0 and 1.'); return; }
+  const sp = pr.reduce((a, b) => a + b, 0);
+  if (Math.abs(sp - 1) > 1e-9) { out.innerHTML = errBox(`The priors P(H) add up to ${fN(sp)}, not 1. The hypotheses must partition the sample space.`); return; }
+  const joint = pr.map((p, i) => p * lk[i]); const pE = joint.reduce((a, b) => a + b, 0);
+  const post = joint.map(j => pE > 0 ? j / pE : NaN), postC = pr.map((p, i) => pE < 1 ? p * (1 - lk[i]) / (1 - pE) : NaN);
+  lastPost = post.every(Number.isFinite) ? post : null;
+  const best = post.indexOf(Math.max(...post));
+  let html = answer(`P(${esc(ev)}), by the law of total probability`, pE, `<span>P(not ${esc(ev)}) = ${fP(1 - pE)}</span>`);
+  html += `<div class="block"><p class="sub">Posterior probabilities</p><div class="tw"><table class="t"><thead><tr><th>H</th><th>P(H)</th><th>P(E | H)</th><th>P(H ∩ E)</th><th>P(H | E)</th><th>P(H | Ē)</th></tr></thead><tbody>${bRows.map((r, i) => `<tr class="${i === best ? 'hi' : ''}"><td>${esc(r[0])}</td><td>${fP(pr[i])}</td><td>${fP(lk[i])}</td><td>${fP(joint[i])}</td><td>${fP(post[i])}</td><td>${fP(postC[i])}</td></tr>`).join('')}<tr><td class="tot">Total</td><td class="tot">1</td><td></td><td class="tot">${fP(pE)}</td><td class="tot">1</td><td class="tot">1</td></tr></tbody></table></div>
+  <p class="note">P(H | E) = P(E | H) P(H) / Σ P(E | Hᵢ) P(Hᵢ). Given that ${esc(ev)}, the most probable hypothesis is <b>${esc(bRows[best][0])}</b>.</p></div>`;
+  html += `<div class="block"><p class="sub">Same numbers in R</p><pre class="r">prior &lt;- c(${pr.map(x => fN(x, 10)).join(', ')})\nlik &lt;- c(${lk.map(x => fN(x, 10)).join(', ')})\nsum(prior * lik)                      <span class="c"># P(E)</span>\nprior * lik / sum(prior * lik)        <span class="c"># P(H | E)</span></pre></div>`;
+  out.innerHTML = html;
+}
+
+/* ================= INDEPENDENT EVENTS ================= */
+function parseList(s) { const parts = s.includes(',') || s.includes('\n') || s.includes(';') ? s.split(/[,\n;]+/) : s.split(/\s+/); return parts.map(x => x.trim()).filter(Boolean).map(numOf); }
+function calcIndep() {
+  const out = $('i-out'); const ps = parseList($('i-ps').value);
+  if (!ps.length) { out.innerHTML = errBox('Enter at least one probability.'); return; }
+  if (ps.some(p => !(p >= 0 && p <= 1))) { out.innerHTML = errBox('Every entry must be a probability between 0 and 1.'); return; }
+  if (ps.length > 400) { out.innerHTML = errBox('Up to 400 events.'); return; }
+  const f = poissonBinomial(ps); const n = ps.length;
+  const atLeast = j => f.slice(j).reduce((a, b) => a + b, 0);
+  let html = answer('P(at least one occurs), components in parallel', atLeast(1), `<span>none: ${fP(f[0])}</span>`);
+  html += `<div class="stats">${stat('P(all occur), in series', fP(f[n]))}${stat('P(exactly one)', fP(f[1] || 0))}${stat('E(number) = Σpᵢ', fN(ps.reduce((a, b) => a + b, 0)))}${stat('V(number) = Σpᵢ(1−pᵢ)', fN(ps.reduce((a, p) => a + p * (1 - p), 0)))}</div>`;
+  let rows = ''; let cum = 0; for (let j = 0; j <= n; j++) { cum += f[j]; rows += `<tr><td>${j}</td><td>${fP(f[j])}</td><td>${fP(atLeast(j))}</td><td>${fP(Math.min(1, cum))}</td></tr>`; }
+  html += `<div class="block"><p class="sub">Number of events that occur, out of ${n}</p><div class="tw"><table class="t"><thead><tr><th>j</th><th>P(exactly j)</th><th>P(at least j)</th><th>P(at most j)</th></tr></thead><tbody>${rows}</tbody></table></div><p class="note">With equal probabilities this is the binomial distribution. P(at least one) = 1 − Π(1 − pᵢ); P(all) = Π pᵢ.</p></div>`;
+  out.innerHTML = html;
+}
+$('i-ps').addEventListener('input', calcIndep);
+
+/* ================= PROBABILITY TABLE ================= */
+let mRows = [['0', '0.10'], ['1', '0.25'], ['2', '0.40'], ['3', '0.15'], ['4', '']];
+function drawPmf() {
+  $('m-tab').tBodies[0].innerHTML = mRows.map((r, i) => `<tr><td><input data-i="${i}" data-j="0" value="${esc(r[0])}"></td><td><input data-i="${i}" data-j="1" value="${esc(r[1])}" placeholder="1 − Σ"></td><td>${mRows.length > 1 ? `<button type="button" class="btn small" data-del="${i}" aria-label="Remove row">✕</button>` : ''}</td></tr>`).join('');
+  calcPmf();
+}
+$('m-tab').addEventListener('input', e => { const t = e.target; if (t.dataset.i == null) return; mRows[+t.dataset.i][+t.dataset.j] = t.value; calcPmf(); });
+$('m-tab').addEventListener('click', e => { const b = e.target.closest('[data-del]'); if (!b) return; mRows.splice(+b.dataset.del, 1); drawPmf(); });
+$('m-add').addEventListener('click', () => { mRows.push(['', '']); drawPmf(); });
+$('m-paste').addEventListener('click', () => { const b = $('m-pastebox'); b.hidden = !b.hidden; if (!b.hidden) b.focus(); });
+$('m-pastebox').addEventListener('input', () => { const lines = $('m-pastebox').value.split('\n').map(l => l.trim()).filter(Boolean); const rows = lines.map(l => l.split(/[\s,;\t]+/)).filter(x => x.length >= 2).map(x => [x[0], x[1]]); if (rows.length) { mRows = rows; drawPmf(); } });
+['m-g', 'm-a', 'm-b', 'm-c', 'm-d', 'm-k'].forEach(id => $(id).addEventListener('input', calcPmf));
+function calcPmf() {
+  const out = $('m-out');
+  const ys = mRows.map(r => numOf(r[0])); let ps = mRows.map(r => r[1].trim() === '' ? null : numOf(r[1]));
+  const blanks = ps.filter(p => p === null).length;
+  document.querySelectorAll('#m-tab input').forEach(inp => { const v = inp.value.trim(); inp.classList.toggle('err', v !== '' && !Number.isFinite(numOf(v))); });
+  if (ys.some(y => !Number.isFinite(y))) { out.innerHTML = errBox('Every y must be a number.'); return; }
+  if (blanks > 1) { out.innerHTML = errBox('Leave at most one p(y) empty.'); return; }
+  if (ps.some(p => p !== null && !(p >= 0 && p <= 1))) { out.innerHTML = errBox('Every p(y) must lie between 0 and 1.'); return; }
+  let filled = null;
+  if (blanks === 1) { const s = ps.reduce((a, p) => a + (p || 0), 0); const i = ps.indexOf(null); filled = [i, 1 - s]; ps[i] = 1 - s; if (ps[i] < -1e-12) { out.innerHTML = errBox(`The other probabilities already add to ${fN(s)}, more than 1.`); return; } ps[i] = Math.max(0, ps[i]); }
+  const S = ps.reduce((a, b) => a + b, 0);
+  if (Math.abs(S - 1) > 1e-9) { out.innerHTML = errBox(`Σ p(y) = ${fN(S)}, not 1. Leave one p(y) empty to fill it with 1 − Σ, or correct the entries.`); return; }
+  const mu = ys.reduce((a, y, i) => a + y * ps[i], 0), m2 = ys.reduce((a, y, i) => a + y * y * ps[i], 0), v = Math.max(0, m2 - mu * mu), sd = Math.sqrt(v);
+  let html = '';
+  if (filled) html += `<p class="note">The empty p(${fN(ys[filled[0]])}) is 1 − Σ = <b>${fP(filled[1])}</b>.</p>`;
+  html += `<div class="stats">${stat('E(Y) = Σ y p(y)', fN(mu))}${stat('E(Y²) = Σ y² p(y)', fN(m2))}${stat('V(Y) = E(Y²) − μ²', fN(v))}${stat('σ', fN(sd))}</div>`;
+  const a = val('m-a', { blankOk: true }), b = val('m-b', { blankOk: true });
+  if (Number.isFinite(a) || Number.isFinite(b)) {
+    const lo = Number.isFinite(a) ? a : -Infinity, hi = Number.isFinite(b) ? b : Infinity;
+    const pr = ys.reduce((s, y, i) => s + (y >= lo - 1e-12 && y <= hi + 1e-12 ? ps[i] : 0), 0);
+    html = answer(`P(${Number.isFinite(a) ? fN(a) + ' ≤ ' : ''}Y${Number.isFinite(b) ? ' ≤ ' + fN(b) : ''})`, pr) + html;
+  }
+  const gs = $('m-g').value.trim();
+  if (gs) { try { const g = compileG(gs); const gv = ys.map(g); const eg = gv.reduce((s, x, i) => s + x * ps[i], 0), eg2 = gv.reduce((s, x, i) => s + x * x * ps[i], 0); $('m-g').classList.remove('err'); html += `<div class="block"><p class="sub">g(Y) = ${esc(gs)}</p>${kv([['E[g(Y)]', fN(eg)], ['V[g(Y)]', fN(Math.max(0, eg2 - eg * eg))], ['g(E Y), for comparison', fN(g(mu))]])}</div>`; } catch (e) { $('m-g').classList.add('err'); html += errBox('g(y): ' + esc(e.message)); } }
+  const c = val('m-c'), d = val('m-d'), k = val('m-k');
+  const rows = [];
+  if (Number.isFinite(c) && Number.isFinite(d)) rows.push([`E(W) = ${fN(c)} + ${fN(d)}·E(Y)`, fN(c + d * mu)], ['V(W) = d²·V(Y)', fN(d * d * v)], ['σ_W = |d|·σ', fN(Math.abs(d) * sd)]);
+  if (k > 0) { const inside = ys.reduce((s, y, i) => s + (Math.abs(y - mu) < k * sd - 1e-12 ? ps[i] : 0), 0); rows.push([`P(|Y − μ| < ${fN(k)}σ), actual`, fP(inside)], ['Tchebysheff: at least 1 − 1/k²', fP(Math.max(0, 1 - 1 / (k * k)))], [`Interval μ ± ${fN(k)}σ`, `(${fN(mu - k * sd)}, ${fN(mu + k * sd)})`]); }
+  if (rows.length) html += `<div class="block">${kv(rows)}</div>`;
+  html += `<div class="block"><p class="sub">Same numbers in R</p><pre class="r">y &lt;- c(${ys.map(x => fN(x, 10)).join(', ')})\np &lt;- c(${ps.map(x => fN(x, 10)).join(', ')})\nmu &lt;- sum(y * p); mu\nsum(y^2 * p) - mu^2       <span class="c"># V(Y)</span></pre></div>`;
+  out.innerHTML = html;
+}
+
+/* ================= COUNTING ================= */
+function fmtBig(b) {
+  const s = b.toString();
+  if (s.length <= 24) return s.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  return `${s[0]}.${s.slice(1, 12)} × 10^${s.length - 1} <span class="note">(${s.length} digits)</span>`;
+}
+function calcCount() {
+  const out = $('c-out'); let html = '';
+  const n = val('c-n'), r = val('c-r');
+  if (Number.isInteger(n) && n >= 0 && n <= 20000 && Number.isInteger(r) && r >= 0) {
+    const okR = r <= n;
+    const items = [
+      [`n! = ${n}!`, fmtBig(bfact(n)), `factorial(${n})`],
+      [`P(n, r) = n!/(n−r)!  ordered, no repeats`, okR ? fmtBig(bperm(n, r)) : '0', `choose(${n}, ${r}) * factorial(${r})`],
+      [`C(n, r) = n!/(r!(n−r)!)  unordered`, okR ? fmtBig(bchoose(n, r)) : '0', `choose(${n}, ${r})`],
+      [`nʳ  ordered, repeats allowed`, r * Math.log10(Math.max(n, 1)) < 200000 ? fmtBig(BigInt(n) ** BigInt(r)) : 'too large', `${n}^${r}`],
+      [`C(n+r−1, r)  unordered, repeats allowed`, fmtBig(bchoose(n + r - 1, r)), `choose(${n + r - 1}, ${r})`],
+      [`r! = ${r}!`, r <= 20000 ? fmtBig(bfact(r)) : 'too large', `factorial(${r})`]
+    ];
+    html += `<div class="block"><p class="sub">With n = ${n}, r = ${r}</p><div class="tw"><table class="t"><tbody>${items.map(([k, v, rc]) => `<tr><td style="white-space:normal">${k}</td><td>${v}</td><td style="color:var(--muted)">${esc(rc)}</td></tr>`).join('')}</tbody></table></div><p class="note">The mn rule: with m ways for one choice and n for the next, there are m·n ways in all. Type the product into the calculator, e.g. <code>4*3*5</code>.</p></div>`;
+  } else html += errBox('n and r must be whole numbers, n up to 20,000.');
+  const parts = parseList($('c-parts').value);
+  if (parts.length && parts.every(x => Number.isInteger(x) && x >= 0)) {
+    const s = parts.reduce((a, b) => a + b, 0);
+    if (Number.isInteger(n) && s !== n) html += `<div class="block"><p class="sub">Partition</p><p class="note">The group sizes add to ${s}, not n = ${n}.</p></div>`;
+    else if (s <= 20000) { let m = bfact(s); parts.forEach(x => m /= bfact(x)); html += `<div class="block"><p class="sub">Partition into groups of ${parts.join(', ')}</p>${kv([[`${s}!/(${parts.map(x => x + '!').join(' ')})`, fmtBig(m)]])}<pre class="r">factorial(${s}) / prod(factorial(c(${parts.join(', ')})))</pre></div>`; }
+  }
+  const ex = $('c-expr').value.trim();
+  if (ex) {
+    try {
+      const res = evalExact(ex); $('c-expr').classList.remove('err');
+      if (res.exact) {
+        const fr = res.r; const dec = fmtRat(fr, 12); const asNum = Number(fr.n) / Number(fr.d);
+        const fracTxt = fr.d === 1n ? '' : (fr.n.toString().length + fr.d.toString().length <= 70 ? `${fr.n} / ${fr.d}` : `a fraction with ${fr.n.toString().length}-digit numerator and ${fr.d.toString().length}-digit denominator`);
+        const six = Number.isFinite(asNum) && Math.abs(asNum) < 1e9 && Math.abs(asNum) >= 1e-6 ? asNum.toFixed(6) : dec;
+        html = `<div class="answer"><div class="q">${esc(ex)}</div><div class="v">${esc(fr.d === 1n && fr.n.toString().length <= 24 ? fr.n.toString() : six)}</div><div class="full"><span>12 digits: ${esc(dec)}</span>${copyBtn(dec.replace(' × 10^', 'e'))}${fracTxt ? `<span>exactly ${esc(fracTxt)}</span>` : ''}</div></div>` + html;
+      } else {
+        html = answer(esc(ex), res.v, '<span>decimal arithmetic (the expression uses e, exp, ln or a fractional power)</span>') + html;
+      }
+    } catch (e) { $('c-expr').classList.add('err'); html = errBox(esc(e.message || 'Cannot read that expression.')) + html; }
+  }
+  out.innerHTML = html;
+}
+['c-n', 'c-r', 'c-parts', 'c-expr'].forEach(id => $(id).addEventListener('input', calcCount));
+$('c-ex').addEventListener('click', e => { const b = e.target.closest('.chip'); if (!b) return; $('c-expr').value = b.textContent; calcCount(); });
+
+/* ================= TWO-WAY TABLE ================= */
+let W = { rl: ['Rated A', 'Rated B', 'Rated C'], cl: ['Default', 'No default'], n: [[12, 588], [30, 270], [48, 152]] };
+function drawTwo() {
+  const R = +$('w-r').value, C = +$('w-c').value;
+  while (W.rl.length < R) W.rl.push('Row ' + (W.rl.length + 1)); W.rl.length = R;
+  while (W.cl.length < C) W.cl.push('Col ' + (W.cl.length + 1)); W.cl.length = C;
+  W.n = Array.from({ length: R }, (_, i) => Array.from({ length: C }, (_, j) => (W.n[i] && W.n[i][j] != null) ? W.n[i][j] : 0));
+  let h = `<thead><tr><th></th>${W.cl.map((l, j) => `<th><input data-c="${j}" value="${esc(l)}" style="font-family:var(--f-body);font-weight:600"></th>`).join('')}</tr></thead><tbody>`;
+  W.rl.forEach((l, i) => { h += `<tr><td><input data-r="${i}" value="${esc(l)}" style="font-family:var(--f-body);font-weight:600"></td>${W.cl.map((_, j) => `<td><input data-i="${i}" data-j="${j}" value="${W.n[i][j]}" inputmode="numeric"></td>`).join('')}</tr>`; });
+  $('w-tab').innerHTML = h + '</tbody>'; calcTwoWay();
+}
+$('w-tab').addEventListener('input', e => { const t = e.target; if (t.dataset.c != null) W.cl[+t.dataset.c] = t.value; else if (t.dataset.r != null) W.rl[+t.dataset.r] = t.value; else if (t.dataset.i != null) W.n[+t.dataset.i][+t.dataset.j] = numOf(t.value); calcTwoWay(); });
+['w-r', 'w-c'].forEach(id => $(id).addEventListener('change', drawTwo));
+function calcTwoWay() {
+  const out = $('w-out'); const n = W.n;
+  if (n.flat().some(x => !(x >= 0))) { out.innerHTML = errBox('Every count must be a non-negative number.'); return; }
+  const rs = n.map(r => r.reduce((a, b) => a + b, 0)), cs = W.cl.map((_, j) => n.reduce((a, r) => a + r[j], 0)), T = rs.reduce((a, b) => a + b, 0);
+  if (T === 0) { out.innerHTML = errBox('The table is empty.'); return; }
+  const head = `<tr><th></th>${W.cl.map(l => `<th>${esc(l)}</th>`).join('')}<th class="tot">Total</th></tr>`;
+  const table = (cell, rowTot, colTot, corner) => `<div class="tw"><table class="t"><thead>${head}</thead><tbody>${W.rl.map((l, i) => `<tr><td>${esc(l)}</td>${W.cl.map((_, j) => `<td>${cell(i, j)}</td>`).join('')}<td class="tot">${rowTot(i)}</td></tr>`).join('')}${colTot ? `<tr><td class="tot">Total</td>${W.cl.map((_, j) => `<td class="tot">${colTot(j)}</td>`).join('')}<td class="tot">${corner}</td></tr>` : ''}</tbody></table></div>`;
+  let maxDiff = 0; n.forEach((r, i) => r.forEach((x, j) => { maxDiff = Math.max(maxDiff, Math.abs(x / T - (rs[i] / T) * (cs[j] / T))); }));
+  const indep = maxDiff < 1e-12;
+  let html = `<div class="block"><p class="sub">Joint probabilities P(row ∩ column), with the marginals</p>${table((i, j) => fP(n[i][j] / T), i => fP(rs[i] / T), j => fP(cs[j] / T), '1')}</div>`;
+  html += `<div class="block"><p class="sub">P(column | row): each row divided by its total</p>${table((i, j) => rs[i] ? fP(n[i][j] / rs[i]) : '—', i => rs[i] ? '1' : '—', null)}</div>`;
+  html += `<div class="block"><p class="sub">P(row | column): each column divided by its total</p>${table((i, j) => cs[j] ? fP(n[i][j] / cs[j]) : '—', () => '', j => cs[j] ? '1' : '—', '')}</div>`;
+  html += `<div class="block"><p class="sub">Independence</p><p>${indep ? '<span class="pill ok">Independent</span> every cell satisfies P(row ∩ column) = P(row)·P(column)' : `<span class="pill no">Not independent</span> the largest gap between P(row ∩ column) and P(row)·P(column) is ${fP(maxDiff)}`}</p><p class="note">Counts each cell would need for independence, (row total × column total) / grand total:</p>${table((i, j) => fN(rs[i] * cs[j] / T, 4), i => fN(rs[i]), j => fN(cs[j]), fN(T))}</div>`;
+  out.innerHTML = `<div class="stats">${stat('Grand total', fN(T))}</div>` + html;
+}
+
+/* ================= DATA SUMMARY ================= */
+function calcData() {
+  const out = $('s-out'); const raw = $('s-y').value.trim();
+  const ys = raw ? raw.split(/[\s,;]+/).filter(Boolean).map(numOf) : [];
+  const wraw = $('s-w').value.trim(); const ws = wraw ? wraw.split(/[\s,;]+/).filter(Boolean).map(numOf) : null;
+  if (!ys.length) { out.innerHTML = errBox('Enter some values.'); return; }
+  const badAt = ys.findIndex(y => !Number.isFinite(y)); if (badAt >= 0) { out.innerHTML = errBox(`Value number ${badAt + 1} is not a number.`); return; }
+  if (ws && (ws.length !== ys.length || ws.some(w => !(w >= 0)))) { out.innerHTML = errBox(`Give one non-negative frequency per value (${ys.length} values, ${ws.length} frequencies).`); return; }
+  const D = describe(ys, ws); const k = val('s-k');
+  let html = answer(`Sample mean ȳ, n = ${fN(D.n)}`, D.mean).replace(fP(D.mean), fN(D.mean, 6));
+  html += `<div class="stats">${stat('s² (divide by n − 1)', fN(D.s2))}${stat('s', fN(D.s))}${stat('Median', fN(D.median))}${stat('Range', fN(D.range))}${stat('Range / 4 (rough s)', fN(D.range / 4))}${stat('Σy', fN(D.sum))}${stat('Σy²', fN(D.sumsq))}${stat('Σ(y − ȳ)²', fN(D.ss))}${stat('σ² (divide by n)', fN(D.sigma2))}${stat('Min, max', fN(D.min) + ', ' + fN(D.max))}</div>`;
+  if (k > 0 && D.n > 1) {
+    const vals = []; ys.forEach((y, i) => vals.push([y, ws ? ws[i] : 1]));
+    const within = kk => vals.reduce((s, [y, w]) => s + (Math.abs(y - D.mean) <= kk * D.s + 1e-12 ? w : 0), 0);
+    const rows = [1, 2, 3].map(kk => { const c = within(kk); return `<tr><td>ȳ ± ${kk}s = (${fN(D.mean - kk * D.s, 4)}, ${fN(D.mean + kk * D.s, 4)})</td><td>${fN(c)}</td><td>${fN(100 * c / D.n, 2)}%</td><td>${['68%', '95%', '99.7%'][kk - 1]}</td><td>${kk === 1 ? '0%' : fN(100 * (1 - 1 / (kk * kk)), 2) + '%'}</td></tr>`; }).join('');
+    const ck = within(k);
+    html += `<div class="block"><p class="sub">Within k standard deviations of the mean</p>${kv([[`Interval ȳ ± ${fN(k)}s`, `(${fN(D.mean - k * D.s)}, ${fN(D.mean + k * D.s)})`], ['Measurements inside', `${fN(ck)} of ${fN(D.n)} = ${fN(100 * ck / D.n, 2)}%`], ['Tchebysheff guarantees at least 1 − 1/k²', fN(Math.max(0, 100 * (1 - 1 / (k * k))), 2) + '%']])}
+      <div class="tw"><table class="t"><thead><tr><th>Interval</th><th>Count</th><th>Actual</th><th>Empirical rule</th><th>Tchebysheff</th></tr></thead><tbody>${rows}</tbody></table></div><p class="note">The empirical rule is for mound-shaped data; Tchebysheff’s bound holds for any data. Endpoints count as inside.</p></div>`;
+  }
+  const c = val('s-c'), d = val('s-d');
+  if (Number.isFinite(c) && Number.isFinite(d) && !(c === 0 && d === 1)) html += `<div class="block"><p class="sub">W = ${fN(c)} + ${fN(d)}·y</p>${kv([['Mean of W = c + d·ȳ', fN(c + d * D.mean)], ['Variance of W = d²·s²', fN(d * d * D.s2)], ['s of W = |d|·s', fN(Math.abs(d) * D.s)]])}</div>`;
+  const yR = ys.map(y => fN(y, 10)).join(', ');
+  html += `<div class="block"><p class="sub">Same numbers in R</p><pre class="r">y &lt;- c(${yR})${ws ? `\nw &lt;- c(${ws.join(', ')}); y &lt;- rep(y, w)` : ''}\nmean(y); var(y); sd(y)\ndiff(range(y)) / 4\nmean(abs(y - mean(y)) &lt;= ${fN(k > 0 ? k : 2)} * sd(y))</pre></div>`;
+  out.innerHTML = html;
+}
+['s-y', 's-w', 's-k', 's-c', 's-d'].forEach(id => $(id).addEventListener('input', calcData));
+function calcSums() {
+  const n = val('s-n2', { blankOk: true }), sy = val('s-sy', { blankOk: true }), syy = val('s-syy', { blankOk: true });
+  if (!(n > 1 && Number.isFinite(sy) && Number.isFinite(syy))) { $('s-out2').innerHTML = ''; return; }
+  const ss = syy - sy * sy / n;
+  $('s-out2').innerHTML = `<div>ȳ = Σy / n</div><div>${fN(sy / n)}</div><div>s² = (Σy² − (Σy)²/n)/(n − 1)</div><div>${fN(ss / (n - 1))}</div><div>s</div><div>${fN(Math.sqrt(Math.max(0, ss / (n - 1))))}</div>`;
+}
+['s-n2', 's-sy', 's-syy'].forEach(id => $(id).addEventListener('input', calcSums));
+
+/* ---------- start ---------- */
+document.querySelectorAll('form').forEach(f => f.addEventListener('submit', e => e.preventDefault()));
+setFam('binom'); famUI(); calcDist();
+setEMode('two'); calcTwo(); calcThree();
+drawBayes(); calcIndep(); drawPmf(); calcCount(); drawTwo(); calcData();
+(function () { let t = (location.hash || '').slice(1); if (!TABS.includes(t)) { try { t = localStorage.getItem('ms1-tab') || 'dist'; } catch (_) { t = 'dist'; } } showTab(t, false); })();
+window.addEventListener('hashchange', () => showTab(location.hash.slice(1), false));
+
+</script>
+</body>
+</html>

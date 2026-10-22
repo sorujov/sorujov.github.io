@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Calculator Video Guide</title>
+<meta name="description" content="A six-minute video showing how to use the Math Stat I Calculator for probabilities and counting.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,600&display=swap">
+<style>
+
+/* Layout: a working calculator. Sticky tab rail, then on each tab inputs on the left and results on the right; one column on phones. */
+:root{
+  --bg:#f3f5f8; --surface:#ffffff; --sunk:#eef1f6; --ink:#18202d; --muted:#596476; --line:#d9dee7;
+  --accent:#9f2335; --accent-ink:#ffffff; --accent-soft:#f7e4e7; --bar:#a9b4c6; --bar-hi:#9f2335;
+  --good:#1c6e47; --good-soft:#e1f2e8; --bad:#a3271d; --bad-soft:#fae5e2;
+  --f-display:"Source Serif 4", "Iowan Old Style", Georgia, serif;
+  --f-body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#11151c; --surface:#181e27; --sunk:#141920; --ink:#e5e9f0; --muted:#9aa4b4; --line:#2a323e;
+  --accent:#e36d80; --accent-ink:#1a0d10; --accent-soft:#3a1f26; --bar:#4d5869; --bar-hi:#e36d80;
+  --good:#63c48f; --good-soft:#16301f; --bad:#f08a80; --bad-soft:#3a1c19; color-scheme:dark; } }
+:root[data-theme="dark"]{
+  --bg:#11151c; --surface:#181e27; --sunk:#141920; --ink:#e5e9f0; --muted:#9aa4b4; --line:#2a323e;
+  --accent:#e36d80; --accent-ink:#1a0d10; --accent-soft:#3a1f26; --bar:#4d5869; --bar-hi:#e36d80;
+  --good:#63c48f; --good-soft:#16301f; --bad:#f08a80; --bad-soft:#3a1c19; color-scheme:dark; }
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg); color:var(--ink); font:15px/1.5 var(--f-body); margin:0}
+body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px); z-index:10; background:var(--surface)}
+.wrap{max-width:1180px; margin:0 auto; padding-left:max(16px, env(safe-area-inset-left,0px)); padding-right:max(16px, env(safe-area-inset-right,0px))}
+header.top{background:var(--surface); border-bottom:1px solid var(--line)}
+header.top .wrap{padding-block:22px 16px; display:flex; flex-wrap:wrap; gap:8px 28px; align-items:flex-end; justify-content:space-between}
+.course{font:500 12px/1.2 var(--f-mono); letter-spacing:.08em; text-transform:uppercase; color:var(--accent)}
+h1{font:600 clamp(26px,3.4vw,36px)/1.1 var(--f-display); margin:6px 0 0; letter-spacing:-.01em; text-wrap:balance}
+.lede{margin:6px 0 0; color:var(--muted); max-width:62ch}
+.scope{font-size:13px; color:var(--muted); max-width:44ch}
+.scope b{color:var(--ink); font-weight:600}
+.scope a.guide-link{display:inline-block; margin-top:8px; color:var(--accent); font-weight:600; text-decoration:none}
+.scope a.guide-link:hover{text-decoration:underline}
+.scope a.guide-link:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+nav.tabs{position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:var(--surface); border-bottom:1px solid var(--line)}
+nav.tabs .wrap{display:flex; gap:2px; overflow-x:auto; scrollbar-width:thin}
+nav.tabs button{flex:none; font:500 14px var(--f-body); color:var(--muted); background:none; border:0; border-bottom:2px solid transparent; padding:12px 12px 10px; cursor:pointer; white-space:nowrap}
+nav.tabs button:hover{color:var(--ink)}
+nav.tabs button[aria-selected="true"]{color:var(--ink); border-bottom-color:var(--accent)}
+nav.tabs button:focus-visible{outline:2px solid var(--accent); outline-offset:-2px}
+
+
+main{padding-block:24px 48px}
+.player{background:#000; border-radius:var(--r); overflow:hidden; border:1px solid var(--line)}
+.player video{display:block; width:100%; height:auto; aspect-ratio:16/9}
+.after{display:flex; flex-wrap:wrap; gap:10px 24px; align-items:baseline; margin-top:16px}
+.after p{margin:0; color:var(--muted); max-width:70ch}
+.chapters a{color:var(--accent); font-family:var(--f-mono); font-size:14px; text-decoration:none}
+.chapters a:hover{text-decoration:underline}
+.open{display:inline-block; font:600 15px var(--f-body); color:var(--accent-ink); background:var(--accent); padding:10px 16px; border-radius:8px; text-decoration:none}
+.open:focus-visible{outline:2px solid var(--ink); outline-offset:2px}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div>
+      <div class="course">STAT-2311 · Mathematical Statistics I · ADA University</div>
+      <h1>Calculator video guide</h1>
+      <p class="lede">How to use the Math Stat I Calculator for probabilities and counting, in six minutes. Captions are part of the picture.</p>
+    </div>
+  </div>
+</header>
+<main class="wrap">
+  <div class="player">
+    <video controls preload="metadata" playsinline poster="guide-poster.jpg">
+      <source src="guide.mp4" type="video/mp4">
+      Your browser cannot play this video. <a href="guide.mp4">Download it (22 MB)</a>.
+    </video>
+  </div>
+  <div class="after">
+    <a class="open" href="./">Open the calculator</a>
+    <p class="chapters">Jump to: <a href="#t=0:31" data-t="31">0:31</a> binomial, <a href="#t=1:30" data-t="90">1:30</a> the question menu, <a href="#t=1:50" data-t="110">1:50</a> negative binomial, <a href="#t=2:36" data-t="156">2:36</a> conditional probability, geometric, <a href="#t=2:57" data-t="177">2:57</a> expected payoffs and targets, <a href="#t=3:56" data-t="236">3:56</a> counting and the exact calculator, <a href="#t=5:11" data-t="311">5:11</a> the other tabs, <a href="#t=5:47" data-t="347">5:47</a> advice for the exam.</p>
+  </div>
+</main>
+<script>
+document.querySelector(".chapters").addEventListener("click", e => { const a = e.target.closest("a[data-t]"); if (!a) return; e.preventDefault(); const v = document.querySelector("video"); v.currentTime = +a.dataset.t; v.play().catch(() => {}); });
+</script>
+</body>
+</html>

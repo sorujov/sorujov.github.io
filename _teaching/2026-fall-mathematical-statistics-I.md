@@ -137,6 +137,8 @@ description: "Probability from the axioms upward: counting, conditional probabil
   </div>
 
   <p>Every quiz and examination is written on WeBWorK during the regular class period of each section, on a laptop. Statistical tables and a formula sheet are built into each set. Problems are set in several parts and credit is awarded part by part, so intermediate quantities carry marks of their own.</p>
+
+  <p><strong>Probability calculator.</strong> Students may use the <a href="/lectures/math-stat-1-fall-2026/calculator/">Math Stat I Calculator</a> during Midterm Examination I. It does the long arithmetic of Chapters 1–3: binomial, geometric and negative binomial probabilities, events and Bayes’ rule, and exact counting, with the matching R command beside each answer. A <a href="/lectures/math-stat-1-fall-2026/calculator/guide.html">six-minute video guide</a> shows how to use it.</p>
 </div>
 
 <h2 id="problem-sets">Problem sets</h2>
