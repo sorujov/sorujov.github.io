@@ -1,0 +1,912 @@
+1
+00:00:00,000 --> 00:00:05,820
+Hello everyone. This is Wednesday's lecture, lecture fifteen, on moments and moment-generating
+
+2
+00:00:05,920 --> 00:00:10,417
+functions. It is Wackerly section three point nine. The video follows the
+
+3
+00:00:10,517 --> 00:00:14,007
+slides on the course page, so keep them open if you like,
+
+4
+00:00:14,107 --> 00:00:17,219
+and pause whenever you want to try a step yourself.
+
+5
+00:00:19,000 --> 00:00:23,708
+Think back over chapter three. For every distribution we met, the mean and
+
+6
+00:00:23,808 --> 00:00:27,736
+the variance cost us a new trick. For the binomial we used the
+
+7
+00:00:27,836 --> 00:00:33,064
+binomial theorem. For the geometric, a geometric series. For the Poisson, we first
+
+8
+00:00:33,164 --> 00:00:36,767
+had to compute the expected value of Y times Y minus one.
+
+9
+00:00:36,866 --> 00:00:39,855
+Today we build one function per distribution that
+
+10
+00:00:39,955 --> 00:00:43,196
+hands over every moment by differentiation. And, more
+
+11
+00:00:43,296 --> 00:00:46,222
+important, that function names the distribution.
+
+12
+00:00:48,000 --> 00:00:52,639
+Here is the question we started with. A bank's treasury in Baku counts
+
+13
+00:00:52,739 --> 00:00:57,582
+large corporate payments, of a million manat or more, cleared per hour at
+
+14
+00:00:57,682 --> 00:01:01,781
+two branches. At branch A the count is one or three, each with
+
+15
+00:01:01,881 --> 00:01:06,927
+probability one half. At branch B it is two with probability three quarters,
+
+16
+00:01:07,027 --> 00:01:10,313
+and zero or four with probability one eighth each.
+
+17
+00:01:10,400 --> 00:01:15,523
+Both counts have mean two and variance one. Check that yourself; it takes
+
+18
+00:01:15,623 --> 00:01:19,673
+a minute. So if two counts share a mean and a variance, is
+
+19
+00:01:19,773 --> 00:01:24,253
+the risk the same? Clearly not. Branch B can produce a four, and
+
+20
+00:01:24,353 --> 00:01:28,690
+branch A never can. Which extra numbers would tell them apart?
+
+21
+00:01:30,466 --> 00:01:35,238
+Those numbers are the moments. Definition three point twelve: the k-th
+
+22
+00:01:35,338 --> 00:01:38,928
+moment of Y about the origin is the expected value of
+
+23
+00:01:39,028 --> 00:01:41,364
+Y to the k. We write it mu prime k.
+
+24
+00:01:41,433 --> 00:01:45,864
+Definition three point thirteen: the k-th moment about the mean, the
+
+25
+00:01:45,964 --> 00:01:49,662
+k-th central moment, is the expected value of Y minus mu,
+
+26
+00:01:49,762 --> 00:01:52,461
+to the k. We write it mu k, with no prime.
+
+27
+00:01:52,533 --> 00:01:55,071
+So mu prime one is the mean, and mu two is
+
+28
+00:01:55,171 --> 00:01:58,903
+the variance. Theorem three point six, which you know as: the
+
+29
+00:01:59,003 --> 00:02:02,357
+variance is E of Y squared minus mu squared, now reads:
+
+30
+00:02:02,457 --> 00:02:06,252
+sigma squared equals mu prime two minus mu prime one, squared.
+
+31
+00:02:08,033 --> 00:02:12,658
+Let's compute the first four moments for both branches, about the origin
+
+32
+00:02:12,758 --> 00:02:16,333
+and about the mean, which is two for both. For branch A,
+
+33
+00:02:16,433 --> 00:02:20,467
+Y to the fourth is one or eighty-one, each with probability one
+
+34
+00:02:20,567 --> 00:02:24,077
+half, so mu prime four is forty-one. For branch B it is
+
+35
+00:02:24,177 --> 00:02:28,933
+zero, sixteen or two hundred and fifty-six, with weights one eighth, three
+
+36
+00:02:29,033 --> 00:02:32,018
+quarters and one eighth. That gives forty-four.
+
+37
+00:02:32,100 --> 00:02:36,558
+The two branches agree on the first three moments and separate only
+
+38
+00:02:36,658 --> 00:02:40,437
+at the fourth. The central fourth moment is one for A and
+
+39
+00:02:40,537 --> 00:02:44,111
+four for B. Branch B puts more mass far from the mean:
+
+40
+00:02:44,211 --> 00:02:47,989
+it has fatter tails. So mean and variance do not pin down
+
+41
+00:02:48,089 --> 00:02:52,140
+a distribution. The whole sequence of moments, usually, does.
+
+42
+00:02:53,933 --> 00:02:58,128
+To collect all the moments at once, we need one more definition.
+
+43
+00:02:58,228 --> 00:03:03,429
+Definition three point fourteen: the moment-generating function, m of t, is the
+
+44
+00:03:03,529 --> 00:03:06,516
+expected value of e to the t Y. We say the MGF
+
+45
+00:03:06,616 --> 00:03:10,207
+exists if there is a positive constant b such that m of
+
+46
+00:03:10,307 --> 00:03:13,294
+t is finite for every t between minus b and b.
+
+47
+00:03:13,366 --> 00:03:17,134
+For a discrete Y it is a single sum: the sum over y of
+
+48
+00:03:17,234 --> 00:03:20,787
+e to the t y times p of y. Notice two things. It is
+
+49
+00:03:20,887 --> 00:03:25,371
+a function of t, not of y, because the y's have been summed out.
+
+50
+00:03:25,471 --> 00:03:29,811
+And at t equals zero every exponential is one, so m of zero is
+
+51
+00:03:29,911 --> 00:03:35,183
+the sum of the probabilities. Every MGF passes through the point zero, one.
+
+52
+00:03:35,266 --> 00:03:39,087
+For our two branches, m A of t is one half e to the t,
+
+53
+00:03:39,187 --> 00:03:42,789
+plus one half e to the three t. And m B of t is one
+
+54
+00:03:42,889 --> 00:03:47,726
+eighth, plus three quarters e to the two t, plus one eighth e to the
+
+55
+00:03:47,826 --> 00:03:53,316
+four t. Read it like this: the numbers multiplying t in the exponents are the
+
+56
+00:03:53,416 --> 00:03:58,180
+values of Y, and the coefficients in front are their probabilities.
+
+57
+00:03:59,966 --> 00:04:04,605
+Why is it called moment-generating? Expand e to the t y as
+
+58
+00:04:04,705 --> 00:04:08,854
+a power series: one, plus t y, plus t y squared over
+
+59
+00:04:08,954 --> 00:04:13,920
+two factorial, plus t y cubed over three factorial, and so on.
+
+60
+00:04:14,000 --> 00:04:19,067
+Now take expectations term by term. The expected value of Y is mu prime
+
+61
+00:04:19,167 --> 00:04:23,724
+one, the expected value of Y squared is mu prime two, and so on.
+
+62
+00:04:23,824 --> 00:04:27,436
+So m of t is one, plus t times mu prime one, plus t
+
+63
+00:04:27,536 --> 00:04:31,584
+squared over two factorial times mu prime two, and so on.
+
+64
+00:04:32,166 --> 00:04:35,819
+The k-th moment is the coefficient of t to the k over k
+
+65
+00:04:35,919 --> 00:04:40,867
+factorial. The MGF is every moment of Y packed into one function. Swapping
+
+66
+00:04:40,967 --> 00:04:45,848
+the expectation with the infinite sum is justified whenever m of t exists
+
+67
+00:04:45,948 --> 00:04:49,464
+near zero, which is why the definition asks for that.
+
+68
+00:04:51,233 --> 00:04:56,492
+To get a moment back out, we differentiate. Theorem three point twelve:
+
+69
+00:04:56,592 --> 00:05:00,568
+if m of t exists, then for any positive integer k, the
+
+70
+00:05:00,668 --> 00:05:04,116
+k-th derivative of m at zero equals mu prime k.
+
+71
+00:05:04,200 --> 00:05:09,467
+Watch it happen. Start from the series. Differentiate once: the constant
+
+72
+00:05:09,567 --> 00:05:13,568
+one disappears, the t mu prime one term leaves mu prime
+
+73
+00:05:13,668 --> 00:05:17,519
+one, and every other term still carries a power of t.
+
+74
+00:05:17,619 --> 00:05:20,948
+Set t to zero, and only mu prime one survives.
+
+75
+00:05:21,033 --> 00:05:25,758
+Differentiate twice, and only mu prime two survives at zero. In general,
+
+76
+00:05:25,858 --> 00:05:29,912
+differentiating k times kills every term below t to the k, the
+
+77
+00:05:30,012 --> 00:05:33,330
+t to the k term leaves mu prime k, and every higher
+
+78
+00:05:33,430 --> 00:05:36,345
+term still has a t in it, so it dies at zero.
+
+79
+00:05:37,433 --> 00:05:41,146
+In practice you need only two formulas. The mean is m prime of
+
+80
+00:05:41,246 --> 00:05:45,021
+zero. And the variance is m double prime of zero, minus m prime
+
+81
+00:05:45,121 --> 00:05:50,002
+of zero squared. That is theorem three point six again, written with derivatives.
+
+82
+00:05:51,800 --> 00:05:57,007
+Now let's compute some MGFs. Example three point twenty-three. A motor insurer
+
+83
+00:05:57,107 --> 00:06:01,021
+in Baku counts its claims per day, and the count is Poisson
+
+84
+00:06:01,121 --> 00:06:04,764
+with mean lambda. By definition, m of t is the sum over
+
+85
+00:06:04,864 --> 00:06:07,962
+y, from zero to infinity, of e to the t y times
+
+86
+00:06:08,062 --> 00:06:11,840
+lambda to the y, e to the minus lambda, over y factorial.
+
+87
+00:06:11,933 --> 00:06:16,801
+Take e to the minus lambda outside the sum. Then e to the t y times
+
+88
+00:06:16,901 --> 00:06:21,028
+lambda to the y is lambda e to the t, all to the power y.
+
+89
+00:06:21,100 --> 00:06:27,076
+What remains is the Taylor series of the exponential function, evaluated at lambda e
+
+90
+00:06:27,176 --> 00:06:30,693
+to the t. So m of t is e to the minus lambda times
+
+91
+00:06:30,793 --> 00:06:34,816
+e to the lambda e to the t. Combine the exponents: m of t
+
+92
+00:06:34,916 --> 00:06:38,867
+equals e to the power lambda times e to the t minus one.
+
+93
+00:06:40,666 --> 00:06:45,469
+Example three point twenty-four. Differentiate with the chain rule: m prime
+
+94
+00:06:45,569 --> 00:06:47,953
+of t is e to the lambda times e to the
+
+95
+00:06:48,053 --> 00:06:51,679
+t minus one, times lambda e to the t. Differentiate again
+
+96
+00:06:51,779 --> 00:06:54,620
+with the product rule, and you get two terms.
+
+97
+00:06:54,700 --> 00:06:58,469
+At t equals zero, every e to the something becomes one. So
+
+98
+00:06:58,569 --> 00:07:02,405
+the mean is lambda, and mu prime two is lambda squared plus
+
+99
+00:07:02,505 --> 00:07:07,675
+lambda. The variance is lambda squared plus lambda, minus lambda squared, which
+
+100
+00:07:07,775 --> 00:07:12,278
+is lambda. That is theorem three point eleven, with no detour through
+
+101
+00:07:12,378 --> 00:07:15,080
+the expected value of Y times Y minus one.
+
+102
+00:07:15,166 --> 00:07:17,985
+With four point five claims a day, mu prime two is
+
+103
+00:07:18,085 --> 00:07:21,838
+twenty-four point seven five, the variance is four point five, and
+
+104
+00:07:21,938 --> 00:07:24,758
+the standard deviation is about two point one two.
+
+105
+00:07:26,533 --> 00:07:32,034
+Next, the binomial. An FX dealer books ten independent trades a day, and each
+
+106
+00:07:32,134 --> 00:07:38,290
+is profitable with probability point six. Y, the number of winning trades, is binomial
+
+107
+00:07:38,390 --> 00:07:41,999
+with n ten and p point six. Its MGF is the sum of n
+
+108
+00:07:42,099 --> 00:07:45,636
+choose y, times p e to the t, to the y, times q to
+
+109
+00:07:45,736 --> 00:07:49,855
+the n minus y. By the binomial theorem, that is p e to the
+
+110
+00:07:49,955 --> 00:07:54,802
+t plus q, all to the n. This is exercise three point one forty-five.
+
+111
+00:07:54,900 --> 00:08:00,333
+Differentiate once. m prime of t is n times p e to the t plus q,
+
+112
+00:08:00,433 --> 00:08:05,261
+to the n minus one, times p e to the t. At zero, p plus q
+
+113
+00:08:05,361 --> 00:08:10,708
+is one, so m prime of zero is n p, which is six winning trades.
+
+114
+00:08:10,800 --> 00:08:15,379
+Differentiate again, with the product rule. At zero, m double prime is
+
+115
+00:08:15,479 --> 00:08:18,789
+n times n minus one times p squared, plus n p. That
+
+116
+00:08:18,889 --> 00:08:23,402
+is ninety times point three six, which is thirty-two point four, plus
+
+117
+00:08:23,502 --> 00:08:28,617
+six: thirty-eight point four. So the variance is thirty-eight point four minus
+
+118
+00:08:28,717 --> 00:08:32,160
+six squared, which is two point four. And that is n p
+
+119
+00:08:32,260 --> 00:08:34,366
+q, as we found in lecture eleven.
+
+120
+00:08:36,166 --> 00:08:42,404
+Now suppose each winning trade earns two thousand manat and each losing trade costs
+
+121
+00:08:42,504 --> 00:08:47,596
+one thousand. Then the daily profit and loss is X equals two Y minus
+
+122
+00:08:47,696 --> 00:08:51,949
+ten minus Y, which is three Y minus ten. What is its MGF?
+
+123
+00:08:52,033 --> 00:08:57,310
+Exercise three point one fifty-six gives the rule. If X is a Y plus b,
+
+124
+00:08:57,410 --> 00:09:01,996
+then the expected value of e to the t times a Y plus b splits
+
+125
+00:09:02,096 --> 00:09:07,143
+into e to the b t, which is a constant, times the expected value of
+
+126
+00:09:07,243 --> 00:09:11,061
+e to the a t times Y. That is m Y evaluated at a t.
+
+127
+00:09:11,161 --> 00:09:15,286
+The shift comes out as a factor; the scale goes inside.
+
+128
+00:09:15,366 --> 00:09:19,579
+Here a is three and b is minus ten, so m X of t is e to the
+
+129
+00:09:19,679 --> 00:09:25,428
+minus ten t, times point six e to the three t plus point four, all to the tenth.
+
+130
+00:09:25,500 --> 00:09:29,971
+Differentiate with the product rule and set t to zero. You get b times
+
+131
+00:09:30,071 --> 00:09:33,367
+m Y of zero plus a times m Y prime of zero, which is
+
+132
+00:09:33,467 --> 00:09:37,742
+b plus a mu: three times six minus ten, eight thousand manat a day.
+
+133
+00:09:37,842 --> 00:09:42,640
+Do the second derivative and the shift drops out of the variance, while the
+
+134
+00:09:42,740 --> 00:09:48,061
+scale enters squared: nine times two point four, which is twenty-one point six. The
+
+135
+00:09:48,161 --> 00:09:52,175
+standard deviation is about four point six five thousand manat.
+
+136
+00:09:53,966 --> 00:09:58,425
+Here is a picture of theorem three point twelve. Take two counts with
+
+137
+00:09:58,525 --> 00:10:03,051
+the same mean, four point five: a Poisson with lambda four point five,
+
+138
+00:10:03,151 --> 00:10:06,222
+and a binomial with n ten and p point four five.
+
+139
+00:10:06,300 --> 00:10:09,900
+Both curves pass through zero, one, as every MGF must. And
+
+140
+00:10:10,000 --> 00:10:13,792
+both leave that point along the same tangent line, with slope
+
+141
+00:10:13,892 --> 00:10:17,302
+four point five, because the slope at zero is the mean.
+
+142
+00:10:17,400 --> 00:10:20,932
+They differ in curvature. The second derivative at zero is E
+
+143
+00:10:21,032 --> 00:10:25,170
+of Y squared: twenty-four point seven five for the Poisson, twenty-two
+
+144
+00:10:25,270 --> 00:10:28,984
+point seven two five for the binomial. The Poisson bends upward
+
+145
+00:10:29,084 --> 00:10:32,616
+faster, because its variance is larger. Slope at zero is the
+
+146
+00:10:32,716 --> 00:10:35,220
+mean; curvature at zero carries the spread.
+
+147
+00:10:37,000 --> 00:10:41,089
+Computing moments is useful, but it is not the main reason
+
+148
+00:10:41,189 --> 00:10:45,062
+we study MGFs. The main reason is uniqueness. If an MGF
+
+149
+00:10:45,162 --> 00:10:48,819
+exists, it is unique to its distribution. If Y and Z
+
+150
+00:10:48,919 --> 00:10:52,720
+have the same MGF on some interval around zero, then Y
+
+151
+00:10:52,820 --> 00:10:56,909
+and Z have the same distribution. An MGF is a fingerprint.
+
+152
+00:10:57,000 --> 00:11:02,299
+Example three point twenty-five, in a banking setting. A bank's monthly count of
+
+153
+00:11:02,399 --> 00:11:06,618
+operational-loss events has m of t equal to e to the three point
+
+154
+00:11:06,718 --> 00:11:10,397
+two times e to the t minus one. We recognise that: it is
+
+155
+00:11:10,497 --> 00:11:14,784
+the Poisson MGF with lambda three point two. So Y is Poisson with
+
+156
+00:11:14,884 --> 00:11:19,238
+mean and variance three point two, and a month with no loss events
+
+157
+00:11:19,338 --> 00:11:23,962
+has probability e to the minus three point two, about point zero four.
+
+158
+00:11:25,733 --> 00:11:30,529
+Here are the three MGFs to recognise on sight. Binomial: p e to the
+
+159
+00:11:30,629 --> 00:11:34,329
+t plus q, to the n. Geometric: p e to the t over one
+
+160
+00:11:34,429 --> 00:11:39,810
+minus q e to the t, which is exercise three point one forty-seven. Poisson:
+
+161
+00:11:39,910 --> 00:11:42,952
+e to the lambda times e to the t minus one.
+
+162
+00:11:43,033 --> 00:11:48,218
+For example, a bank receives twelve loan applications from small businesses, and Y,
+
+163
+00:11:48,318 --> 00:11:51,848
+the number approved, has m of t equal to point three e to
+
+164
+00:11:51,948 --> 00:11:55,987
+the t plus point seven, to the twelfth. That is the binomial with
+
+165
+00:11:56,087 --> 00:11:59,744
+n twelve and p point three. So the mean is three point six,
+
+166
+00:11:59,844 --> 00:12:03,755
+the variance is two point five two, and the chance that none is
+
+167
+00:12:03,855 --> 00:12:07,958
+approved is point seven to the twelfth, about point zero one four.
+
+168
+00:12:09,733 --> 00:12:15,043
+In class this was the think, pair, share exercise. A mobile operator's count of
+
+169
+00:12:15,143 --> 00:12:19,769
+regional network outages per day has m of t equal to point five, plus
+
+170
+00:12:19,869 --> 00:12:23,468
+point three e to the t, plus point two e to the two t.
+
+171
+00:12:23,568 --> 00:12:28,673
+First, what is the distribution of Y? Second, find the mean and the variance
+
+172
+00:12:28,773 --> 00:12:32,919
+from m of t. Third, check both directly from p of y. Pause the
+
+173
+00:12:33,019 --> 00:12:36,617
+video now and try it, then come back for the solution.
+
+174
+00:12:39,700 --> 00:12:44,554
+Here is the solution. Match the MGF term by term with the sum of e
+
+175
+00:12:44,654 --> 00:12:48,609
+to the t y times p of y. The constant is e to the zero
+
+176
+00:12:48,709 --> 00:12:53,038
+t, so p of zero is point five. Then p of one is point three
+
+177
+00:12:53,138 --> 00:12:58,068
+and p of two is point two. By uniqueness, that is the distribution.
+
+178
+00:12:58,166 --> 00:13:02,262
+m prime of t is point three e to the t plus point four e
+
+179
+00:13:02,362 --> 00:13:07,132
+to the two t, so the mean is point seven. m double prime is point
+
+180
+00:13:07,232 --> 00:13:11,178
+three e to the t plus point eight e to the two t, so E
+
+181
+00:13:11,278 --> 00:13:16,573
+of Y squared is one point one. The variance is one point one minus point
+
+182
+00:13:16,673 --> 00:13:22,042
+four nine, which is point six one. Directly from p of y: zero times point
+
+183
+00:13:22,142 --> 00:13:28,036
+five, plus one times point three, plus two times point two, is point seven. Same
+
+184
+00:13:28,136 --> 00:13:32,757
+numbers. The MGF is just a disciplined way of doing those sums.
+
+185
+00:13:34,533 --> 00:13:38,218
+Moments are not only a classroom device. Take ten years
+
+186
+00:13:38,318 --> 00:13:40,971
+of daily log returns on the S and P five
+
+187
+00:13:41,071 --> 00:13:46,202
+hundred, from FRED, September twenty sixteen to September twenty twenty-six:
+
+188
+00:13:46,302 --> 00:13:51,020
+two thousand five hundred and thirteen trading days. Standardise them,
+
+189
+00:13:51,120 --> 00:13:53,842
+so that Z has mean zero and variance one.
+
+190
+00:13:53,933 --> 00:13:58,336
+A normal distribution has third central moment zero and fourth moment three.
+
+191
+00:13:58,436 --> 00:14:01,714
+The data give minus point six eight for the third, a left
+
+192
+00:14:01,814 --> 00:14:05,980
+tail, and nineteen point seven for the fourth. Not three: nearly twenty.
+
+193
+00:14:06,066 --> 00:14:10,717
+And a day beyond three standard deviations happened on one point four
+
+194
+00:14:10,817 --> 00:14:15,468
+percent of days, against point two seven percent for the normal: more
+
+195
+00:14:15,568 --> 00:14:19,806
+than five times as often. The worst day, the sixteenth of March
+
+196
+00:14:19,906 --> 00:14:25,383
+twenty twenty, was eleven standard deviations below the mean. The histogram rises
+
+197
+00:14:25,483 --> 00:14:29,238
+above the normal curve in the middle and in the tails. A
+
+198
+00:14:29,338 --> 00:14:34,333
+model with normal moments understates both the quiet days and the crashes.
+
+199
+00:14:34,433 --> 00:14:37,156
+The fourth moment is how we measure that.
+
+200
+00:14:38,933 --> 00:14:42,879
+First. Daily chargebacks at a card acquirer have m of t equal to
+
+201
+00:14:42,979 --> 00:14:46,103
+e to the two point five times e to the t minus one.
+
+202
+00:14:46,203 --> 00:14:49,517
+What is the variance of Y? Pause if you want to think.
+
+203
+00:14:52,100 --> 00:14:55,320
+The answer is two point five. That is the Poisson MGF with
+
+204
+00:14:55,420 --> 00:14:58,870
+lambda two point five, and a Poisson variance equals its mean.
+
+205
+00:14:58,966 --> 00:15:03,537
+Second. Out of fifteen export shipments, Y are held at customs, and
+
+206
+00:15:03,637 --> 00:15:06,395
+m of t is point two e to the t plus point
+
+207
+00:15:06,495 --> 00:15:10,229
+eight, to the fifteenth. What is the distribution of Y?
+
+208
+00:15:12,800 --> 00:15:17,672
+Binomial with n fifteen and p point two. Careful: p is the number
+
+209
+00:15:17,772 --> 00:15:22,339
+multiplying e to the t, not the other one. The mean is three.
+
+210
+00:15:22,433 --> 00:15:26,003
+Third. A fee schedule charges W equals two Y
+
+211
+00:15:26,103 --> 00:15:29,255
+plus three manat. What is the MGF of W?
+
+212
+00:15:31,833 --> 00:15:34,688
+It is e to the three t times m Y of two t.
+
+213
+00:15:34,788 --> 00:15:38,838
+The shift comes out as a factor, and the scale goes inside.
+
+214
+00:15:40,633 --> 00:15:45,577
+To sum up. Mean and variance do not determine a distribution; the full
+
+215
+00:15:45,677 --> 00:15:52,205
+sequence of moments usually does. The moment-generating function packs every moment into one
+
+216
+00:15:52,305 --> 00:15:56,889
+function. Differentiate k times and set t to zero to read off the
+
+217
+00:15:56,989 --> 00:16:01,212
+k-th moment. A linear change, a Y plus b, turns the MGF into
+
+218
+00:16:01,312 --> 00:16:04,094
+e to the b t times m Y of a t. And above
+
+219
+00:16:04,194 --> 00:16:08,850
+all, uniqueness: recognise the MGF, and you know the distribution.
+
+220
+00:16:10,633 --> 00:16:14,105
+For practice, do the exercises at the end of section three
+
+221
+00:16:14,205 --> 00:16:18,294
+point nine: start with three point one forty-five and one forty-six,
+
+222
+00:16:18,394 --> 00:16:22,359
+then one forty-nine and one fifty-three to one fifty-five, and one
+
+223
+00:16:22,459 --> 00:16:26,794
+fifty-six and one fifty-seven for the linear change. Week eight, problem
+
+224
+00:16:26,894 --> 00:16:29,936
+set one is open on WeBWorK and closes on Sunday the
+
+225
+00:16:30,036 --> 00:16:34,001
+eighth of November at eleven fifty-nine at night. On Saturday, the
+
+226
+00:16:34,101 --> 00:16:40,223
+thirty-first of October, we continue with probability-generating functions and Tchebysheff's theorem.
+
+227
+00:16:40,323 --> 00:16:43,734
+If anything here is unclear, ask in our WhatsApp group or
+
+228
+00:16:43,834 --> 00:16:46,321
+come to office hours. See you on Saturday.
+
