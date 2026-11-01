@@ -24,7 +24,7 @@ research:
   - title: "Nonparametric inference"
     body: "Anti-modes, distributional gaps and the Fisher information profile: estimating where a density thins out, and testing whether the gap is real."
   - title: "Income distributions"
-    body: "Glass barriers — thresholds in earnings distributions that are crossed far less often than a smooth model would predict."
+    body: "How statutory floors shape income: the public pension and housing benefit split the income distribution of older people living alone into two modes."
   - title: "Telecom and broadband policy"
     body: "Demand elasticity, measurement bias and quality-of-service statistics built from national Speedtest data."
 ---
